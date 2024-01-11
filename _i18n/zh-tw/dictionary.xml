@@ -2652,7 +2652,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="4adf016da96258b45a1cf762298729b5" category="inline-image-macro">ONTAP 工具 vVols 儀表板、 400</block>
   <block id="73c1e14ddf3f32984f869ac3f122b2ca" category="paragraph"><block ref="73c1e14ddf3f32984f869ac3f122b2ca" category="inline-image-macro-rx" type="image"></block></block>
   <block id="cd47dd01745339787e4c7300389401f2" category="section-title">最佳實務做法</block>
-  <block id="e359caf0e19df1a0e93e8e30cbef2100" category="paragraph">本節收集與 ONTAP 搭配使用 vVols 的已知最佳實務做法、以及其他資訊。</block>
   <block id="9ae938622297e9d4b14dd0006a8f0bf4" category="paragraph">* 限制 *</block>
   <block id="b4f52a4fd0b07c9d904b95fc98a1cd45" category="inline-link">組態最大值</block>
   <block id="bc8259e306c73b2969e7ac6297000e64" category="paragraph">一般而言、 ONTAP 支援 VMware 所定義的 VVols 限制（請參閱已發佈<block ref="a6efdd9b1a19df6105024b4869e0582b" category="inline-link-rx"></block>）。下表摘要列出 VVols 大小和數量的特定 ONTAP 限制。請務必檢查<block ref="bb9c67b5a4c15a85b5e6aa6c9afd0285" category="inline-link-rx"></block> 以獲得 LUN 和檔案數量和大小的更新限制。</block>
@@ -2676,9 +2675,7 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="26890bd9dcb27c05f1ab5bcc859501b8" category="cell">12 、 000 至 ONTAP 9.3 ； 40 、 000 、含 ONTAP 9.4 及更新版本</block>
   <block id="0e38f856cb713ce9eea79fa1c6b7dc32" category="list-text">大小限制是根據執行 ONTAP 9.12.1P2 及更新版本的 ASA 系統或 AFF 和 FAS 系統而定。</block>
   <block id="d27c43bb3cdcbfa3852bb91192ffb849" category="list-text">SAN vVols （ NVMe 命名空間或 LUN ）的數量會因平台而異。請務必檢查<block ref="bb9c67b5a4c15a85b5e6aa6c9afd0285" category="inline-link-rx"></block> 以獲得 LUN 和檔案數量和大小的更新限制。</block>
-  <block id="304d5a3dcf64bf05141ead00f7ec768a" category="paragraph">* 最佳實務做法 *</block>
   <block id="72e0ee397942f7233122887584f94b8b" category="paragraph">搭配 vSphere 使用 ONTAP vVols 非常簡單、並遵循已發佈的 vSphere 方法（請參閱您的 ESXi 版本的 VMware 文件中的「在 vSphere 儲存環境下使用虛擬磁碟區」）。以下是一些與 ONTAP 一起考量的額外實務做法。</block>
-  <block id="d7c0472e9975808c3f2c3ea3a1cdd812" category="paragraph">將 vVols 與 ONTAP 搭配使用的最佳實務做法。</block>
   <block id="83583580d98b69cb8317f9b285f3c8df" category="cell">* 將 ONTAP 工具用於 VMware vSphere 的 UI 延伸或 REST API 、以佈建 vVols 資料存放區 * * 和傳輸協定端點 *</block>
   <block id="9507d4f97aceb8d05fc962dd53f082af" category="cell">雖然可以使用一般 vSphere 介面建立 vVols 資料存放區、但使用 ONTAP 工具會視需要自動建立傳輸協定端點、並使用 ONTAP 最佳實務做法並符合您定義的儲存功能設定檔來建立 FlexVol 磁碟區。只要在主機 / 叢集 / 資料中心上按一下滑鼠右鍵、然後選取 ONTAP tools_ 和 _Provision datastority_ 即可。您只需在精靈中選擇所需的 vVols 選項即可。</block>
   <block id="e8d5f9dc0bff953a9e59755813c7e8bf" category="cell">* 切勿將 ONTAP 工具應用裝置或 vCenter Server Appliance （ VCSA ）儲存在他們正在管理的 VVols 資料存放區。 *</block>
@@ -2689,36 +2686,13 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="cd7bf0e1e61341c1aa3fa23401af8a27" category="inline-image-macro">單一啟動器分區、包含四個節點、 400</block>
   <block id="51591d05b7e084ba8e5ae7f63172177e" category="inline-link">_TR-4080 現代 SAN ONTAP 9_ 的最佳實務做法</block>
   <block id="c1723e6a0e1d3dd28232b33e0cb6e61d" category="inline-link">_TR-4684 使用 NVMe 來實作和設定現代化 SAN</block>
-  <block id="9d25011ed03b51fddde47a3c3a337cc8" category="cell">ONTAP 工具 VASA 供應商負責管理 FCP 、 iSCSI 群組、以及 ONTAP 中的 NVMe 子系統、這些子系統是以受管理 ESXi 主機的探索啟動器為基礎。不過、它並未與光纖通道交換器整合以管理分區。在進行任何資源配置之前、必須根據最佳實務做法進行分區。以下是單一啟動器分區至四個 ONTAP 系統的範例：
-
-單一啟動器分區：
-
-<block ref="17ccf64e30cb518fd7ca87ce752ad738" category="inline-image-macro-rx" type="image"></block>
-
-如需更多最佳實務做法、請參閱下列文件：
-
-<block ref="fc9e4d789d968936f8ff5ae5a99847e0" category="inline-link-rx"></block>
-
-<block ref="d748a2834a7220eef4ec4775a51632f9" category="inline-link-rx"></block></block>
   <block id="9a36c8f0464a7ffce114044f1859c7ff" category="cell">* 根據您的需求規劃您的支援 FlexVols 。 *</block>
   <block id="03d2e894fa9a05efefa4e8d6b2008a19" category="cell">您可以將多個備份磁碟區新增至 vVols 資料存放區、以便在 ONTAP 叢集上分散工作負載、支援不同的原則選項、或增加允許的 LUN 或檔案數量。不過、如果需要最高的儲存效率、請將所有的備份磁碟區放在單一集合體上。或者、如果需要最大的複製效能、請考慮使用單一 FlexVol 磁碟區、並將範本或內容庫保留在相同的磁碟區中。VASA Provider 將許多 VVols 儲存作業卸載至 ONTAP 、包括移轉、複製和快照。在單一 FlexVol 磁碟區內完成此作業時、會使用節省空間的檔案複本、而且幾乎可以立即使用。當跨 FlexVol 磁碟區執行此作業時、複本會快速可用、並使用即時重複資料刪除和壓縮功能、但在背景工作使用背景重複資料刪除和壓縮在磁碟區上執行之前、最大的儲存效率可能無法恢復。視來源和目的地而定、部分效率可能會降低。</block>
   <block id="80b15469535d95a1690f308427545c7e" category="cell">* 讓儲存功能設定檔（ SCP ）保持簡單。 *</block>
   <block id="33e2905cb722c14575a9bff81ba78b39" category="cell">避免將功能設定為任何、以指定不需要的功能。這可將選擇或建立 FlexVol 磁碟區時發生的問題減至最低。例如、在 VASA Provider 7.1 及更早版本中、如果將壓縮保留在預設的 SCP 設定「否」、則會嘗試停用壓縮、即使在 AFF 系統上也一樣。</block>
   <block id="5a6d5fdddf6fbd82f1952b532b03c9ef" category="cell">* 使用預設的 SCP 做為範例範本來建立您自己的範本。 *</block>
-  <block id="9ab96500ef87d6c0457f87322f3b0d05" category="cell">隨附的 SCP 適用於大多數一般用途、但您的需求可能有所不同。
-
-* 請考慮使用最大 IOPS 來控制未知虛擬機器或測試虛擬機器。 *</block>
-  <block id="c0905f7932cce129e5491ca16a6f00a8" category="cell">VASA Provider 7.1 首度提供最大 IOPS 、可將未知工作負載的 IOPS 限制在特定的 vVol 、以避免對其他更重要的工作負載造成影響。如需效能管理的詳細資訊、請參閱表 4 。
-
-* 確保您擁有足夠的資料生命。 *</block>
-  <block id="f5a3607cd11e645cf22997a47fc7a5d5" category="cell">每個 HA 配對每個節點至少建立兩個生命期。根據您的工作負載、可能需要更多資源。</block>
   <block id="ee3cbda1c3c4a14ae024478c7ada6d11" category="cell">* 遵循所有通訊協定最佳實務做法。 *</block>
   <block id="6a2c1ac1da51eca0c1a65afffab8dfab" category="inline-image-macro">透過 NFS v3500 使用 vVols 進行網路組態</block>
-  <block id="47d7186fd54c7409af85f706bd49bb21" category="cell">請參閱 NetApp 和 VMware 針對您所選傳輸協定的其他最佳實務做法指南。一般而言、除了上述變更之外、沒有其他變更。
-[[Figure _6]]
-透過 NFS v3 使用 vVols 的網路組態範例：
-
-<block ref="c80b3cc8b5013bd4039769fb0f783e60" category="inline-image-macro-rx" type="image"></block></block>
   <block id="6cacb3f1edd09835a2ad07d72f488e2a" category="paragraph">NetApp ONTAP 軟體在過去二十多年來一直是 VMware vSphere 環境的領先儲存解決方案、並持續新增創新功能來簡化管理、同時降低成本。</block>
   <block id="918febfed3d070cf1250909e5cdcf31d" category="paragraph">本文件涵蓋適用於 VMware vSphere 虛擬磁碟區（ VVols ）的 ONTAP 功能、包括最新的產品資訊和使用案例、以及最佳實務做法和其他資訊、可簡化部署並減少錯誤。</block>
   <block id="c7448b194ba68bddce48f1d11d5d7db7" category="admonition">本文件將先前發佈的技術報告 _TR-4400: VMware vSphere 虛擬磁碟區（ vVols ）取代為 NetApp ONTAP</block>
@@ -4062,4 +4036,18 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="62a004b95946bb97541afa471dcca73a" category="sidebar">MySQL</block>
   <block id="7f1a6761f7160e33a32105202e47303b" category="sidebar">容器化</block>
   <block id="bc65796c5a1bad360243a1bbe58272c2" category="sidebar">一般儲存組態</block>
+  <block id="bd57f4f74ca087a92a48b23d45753729" category="paragraph">ONTAP 工具 VASA 供應商負責管理 FCP 、 iSCSI 群組、以及 ONTAP 中的 NVMe 子系統、這些子系統是以受管理 ESXi 主機的探索啟動器為基礎。不過、它並未與光纖通道交換器整合以管理分區。在進行任何資源配置之前、必須根據最佳實務做法進行分區。以下是單一啟動器分區至四個 ONTAP 系統的範例：</block>
+  <block id="6b14e3f4a37881185acf7a766f8f6272" category="paragraph">單一啟動器分區：</block>
+  <block id="17ccf64e30cb518fd7ca87ce752ad738" category="paragraph"><block ref="17ccf64e30cb518fd7ca87ce752ad738" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="58b5cd2a94730c2e044c14891f1e0e87" category="paragraph">如需更多最佳實務做法、請參閱下列文件：</block>
+  <block id="fc9e4d789d968936f8ff5ae5a99847e0" category="paragraph"><block ref="fc9e4d789d968936f8ff5ae5a99847e0" category="inline-link-rx"></block></block>
+  <block id="d748a2834a7220eef4ec4775a51632f9" category="paragraph"><block ref="d748a2834a7220eef4ec4775a51632f9" category="inline-link-rx"></block></block>
+  <block id="4047245d73abc6e3ae8bf58ec063e52e" category="paragraph">隨附的 SCP 適用於大多數一般用途、但您的需求可能有所不同。</block>
+  <block id="80dad10df0d1a031764e7c648c46aa23" category="paragraph">* 請考慮使用最大 IOPS 來控制未知虛擬機器或測試虛擬機器。 *</block>
+  <block id="93e4f73afe8b787b33161ec273ca087f" category="paragraph">VASA Provider 7.1 首度提供最大 IOPS 、可將未知工作負載的 IOPS 限制在特定的 vVol 、以避免對其他更重要的工作負載造成影響。如需效能管理的詳細資訊、請參閱表 4 。</block>
+  <block id="bdbd10905a1446f944699405bca52654" category="paragraph">* 確保您擁有足夠的資料生命。 *
+每個 HA 配對每個節點至少建立兩個生命期。根據您的工作負載、可能需要更多資源。</block>
+  <block id="4e0d7e0587bf99c9b7a64a84fd42f6bd" category="paragraph">請參閱 NetApp 和 VMware 針對您所選傳輸協定的其他最佳實務做法指南。一般而言、除了上述變更之外、沒有其他變更。</block>
+  <block id="97f87e9ab1d660463c63beb8745fd9e5" category="paragraph">* 使用 vVols over NFS v2* 的網路組態範例</block>
+  <block id="c80b3cc8b5013bd4039769fb0f783e60" category="paragraph"><block ref="c80b3cc8b5013bd4039769fb0f783e60" category="inline-image-macro-rx" type="image"></block></block>
 </blocks>

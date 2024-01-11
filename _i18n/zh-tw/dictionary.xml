@@ -618,7 +618,6 @@
   <block id="2c8c2171fc87c96e58fb40d8714f85cf" category="doc">PostgreSQL 架構</block>
   <block id="ee62b4420d426c21a46d892ac084872a" category="paragraph">PostgreSQL 是以用戶端和伺服器架構為基礎的 RDBMS 。PostgreSQL 執行個體稱為資料庫叢集、是資料庫的集合、而非伺服器集合。</block>
   <block id="89c30c326e106773af32af40255b92a8" category="inline-image-macro">錯誤：找不到圖形</block>
-  <block id="b481f7d5d88ac812bb1a1d3d939b593b" category="paragraph"><block ref="b481f7d5d88ac812bb1a1d3d939b593b" category="inline-image-macro-rx" type="image"></block></block>
   <block id="54c2dd41fd1ad3efa25e80bee0bae549" category="paragraph">PostgreSQL 資料庫中有三個主要元素：郵政局長、前端（用戶端）和後端用戶端會傳送要求給郵政局長、其中包含 IP 傳輸協定等資訊、以及要連線的資料庫。郵政局長會驗證連線、並將其傳送至後端程序以進行進一步的通訊。後端程序會執行查詢、並將結果直接傳送至前端（用戶端）。</block>
   <block id="9f96e07bbaf7c0237047d6d0f95301a8" category="paragraph">PostgreSQL 執行個體是以多重處理模式為基礎、而非多重執行緒模式。它會為不同的工作產生多個處理程序、而且每個處理程序都有自己的功能。主要程序包括用戶端程序、 Wal 寫入程序、背景寫入程序及檢查指標程序：</block>
   <block id="6aebf901bd4be26a765c56e4133b3798" category="list-text">當用戶端（前景）程序傳送讀取或寫入要求至 PostgreSQL 執行個體時、它不會直接讀取或寫入資料至磁碟。它首先緩衝共享緩衝區和預先寫入記錄（ Wal ）緩衝區中的資料。</block>
@@ -4050,4 +4049,5 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="4e0d7e0587bf99c9b7a64a84fd42f6bd" category="paragraph">請參閱 NetApp 和 VMware 針對您所選傳輸協定的其他最佳實務做法指南。一般而言、除了上述變更之外、沒有其他變更。</block>
   <block id="97f87e9ab1d660463c63beb8745fd9e5" category="paragraph">* 使用 vVols over NFS v2* 的網路組態範例</block>
   <block id="c80b3cc8b5013bd4039769fb0f783e60" category="paragraph"><block ref="c80b3cc8b5013bd4039769fb0f783e60" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d81c587aad705c1101db78ffea8e5bc3" category="paragraph"><block ref="d81c587aad705c1101db78ffea8e5bc3" category="inline-image-macro-rx" type="image"></block></block>
 </blocks>

@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: mssql/storage-efficiency.html 
+keywords: MS-SQL,mssql,SQL Server 
+summary: ONTAP 上的 Microsoft SQL Server 
+---
+= 使用 Microsoft SQL Server 實現 ONTAP 儲存效率
+:allow-uri-read: 
+
+
+[role="lead"]
+儲存效率是以消耗最少儲存空間的方式來儲存和管理 SQL Server 資料、對系統整體效能幾乎沒有影響或完全沒有影響。
+
+儲存效率是 RAID 、資源配置（整體配置和使用率）、鏡像和其他資料保護技術的組合。NetApp 技術（例如 Snapshot 複本、精簡配置、 FlexClone ）可最佳化基礎架構中的現有儲存設備、並延後或避免未來的儲存支出、協助創造成本效益。這些技術搭配使用越多、節省的成本就越大。如需詳細資訊、請參閱 link:../common/ontap/thin-provisioning.html["資源配置建議"]
+
+儲存壓縮、壓縮、重複資料刪除是其他儲存效率選項、可增加符合指定實體儲存量的邏輯資料量。如需詳細資訊、請參閱 link:../common/ontap/efficiency.html["效率最佳實務做法"]。
+
+SQL Server 也具備壓縮及有效管理資料的功能。SQL Server 目前支援兩種類型的資料壓縮：資料列壓縮和頁面壓縮。
+
+資料列壓縮會變更資料儲存格式。例如、它會將整數和小數位數變更為可變長度格式、而非原生固定長度格式。它也會消除空白、將固定長度字元字串變更為可變長度格式。頁面壓縮會實作列壓縮及其他兩種壓縮策略（前置壓縮和字典壓縮）。您可以在中找到有關頁面壓縮的詳細資料 link:https://learn.microsoft.com/en-us/sql/relational-databases/data-compression/page-compression-implementation?view=sql-server-ver16&redirectedfrom=MSDN["頁面壓縮實作"^]。
+
+SQL Server 2008 及更新版本的 Enterprise 、 Developer 及 Evaluation 版本目前支援資料壓縮。雖然壓縮可以由資料庫本身執行、但在 SQL Server 環境中很少會發生這種情況。
+
+以下是管理 SQL Server 資料檔案空間的建議
+
+* 在 SQL Server 環境中使用自動精簡配置、以提高空間使用率、並在使用空間保證功能時、降低整體儲存需求。
+* 對於大多數常見的部署組態、請使用自動擴充、因為儲存管理員只需要監控集合體中的空間使用量。
+* 建議不要在包含 SQL Server 資料檔案的任何磁碟區上啟用重複資料刪除功能、除非已知該磁碟區包含相同資料的多個複本、例如將資料庫從備份還原至單一磁碟區。
+
+
+
+
+== 空間回收
+
+空間回收可定期啟動、以恢復 LUN 中未使用的空間。有了 SnapCenter 、您可以使用下列 PowerShell 命令來啟動空間回收。
+
+[listing]
+----
+Invoke-SdHostVolumeSpaceReclaim -Path drive_path
+----
+如果您需要執行空間回收、則此程序應在低活動期間執行、因為它最初會在主機上使用週期。

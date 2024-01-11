@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: oracle/migration/oracle-migration-overview.html 
+keywords: oracle, ontap, migrations, TR-4534 
+summary: Oracle 儲存設備移轉簡介 
+---
+= 將 Oracle 資料庫移轉至 NetApp 儲存系統
+:allow-uri-read: 
+
+
+[role="lead"]
+利用新儲存平台的功能、有一項不可避免的需求；資料必須放在新的儲存系統上。
+
+
+NOTE: 本文件取代先前發佈的技術報告 _TR-4534 ：將 Oracle 資料庫移轉至 NetApp 儲存系統
+
+若是新的資料庫專案、這並不是問題、因為資料庫和應用程式環境都已建置就緒。然而、移轉對於業務中斷、完成移轉所需的時間、所需的技能組合、以及將風險降至最低等方面、都會帶來特殊挑戰。
+
+
+
+== 指令碼
+
+本文件提供範例指令碼。這些指令碼提供自動化移轉各個層面的範例方法、以降低使用者錯誤的機率。這些指令碼可降低 IT 人員對於移轉作業的整體需求、並加速整體程序。這些指令碼都是從 NetApp 專業服務和 NetApp 合作夥伴執行的實際移轉專案中擷取而來。本文件中會顯示使用範例。

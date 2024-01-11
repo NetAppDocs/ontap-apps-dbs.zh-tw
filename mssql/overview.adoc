@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: mssql/overview.html 
+keywords: MS-SQL,mssql,SQL Server,TR-4590 
+summary: ONTAP 上的 Microsoft SQL Server 
+---
+= Microsoft SQL Server 概述
+:allow-uri-read: 
+
+
+[role="lead"]
+SQL Server 是 Microsoft 資料平台的基礎、無論是在內部部署或雲端、都能以記憶體內建技術提供關鍵任務效能、並更快洞悉任何資料。
+
+
+NOTE: 本文件取代先前發佈的技術報告 _TR-4590 ： Microsoft SQL Server 與 ONTAP 的最佳實務指南
+
+Microsoft SQL Server 以先前版本所提供的關鍵任務功能為基礎、為關鍵任務應用程式提供突破性的效能、可用度和管理能力。儲存系統是 SQL Server 資料庫整體效能的關鍵因素。NetApp 提供數種產品、可讓您的 SQL Server 資料庫提供企業級效能、同時提供世界級的工具來管理您的環境。
+
+
+
+== 目的與範圍
+
+本節說明最佳實務做法、並深入瞭解在執行 NetApp ONTAP 軟體的 NetApp 儲存系統上部署 SQL Server 的設計考量、目標是實現有效且有效率的儲存部署、以及端點對端點資料保護與保留規劃。本指南的範圍僅限於根據 NetApp 在部署 SQL Server 時針對儲存基礎架構所建議的設計原則和偏好的標準、制定技術設計準則。端點對端點實作不在本報告的範圍之內。
+
+本指南所述的最佳實務做法與建議、可讓 SQL Server 架構設計師與 NetApp 儲存管理員規劃高可用度且易於管理的 SQL Server 環境、並符合嚴格的 SLA 。NetApp 假設讀者具備下列工作知識：
+
+* NetApp ONTAP 軟體
+* NetApp SnapCenter 做為備份軟體、包括：
++
+** 適用於Microsoft Windows的解決方案SnapCenter
+** 適用於 SQL Server 的 SnapCenter 外掛程式
+
+
+* Microsoft SQL Server 架構與管理
+
+
+如需跨 NetApp 堆疊的組態相容性、請參閱 link:http://mysupport.netapp.com/NOW/products/interoperability/["NetApp互通性對照表工具IMT （不含）"^]。

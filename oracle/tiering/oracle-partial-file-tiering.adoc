@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: oracle/tiering/oracle-partial-file-tiering.html 
+keywords: tiering, fabricpool 
+summary: 使用 FabricPool 進行部分檔案分層 
+---
+= Oracle 部分檔案分層
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+由於 FabricPool 是在區塊層級運作、因此可能變更的檔案可以部分分層化為物件儲存、而部分保留在效能層級上。
+
+這在資料庫中很常見。已知包含非作用中區塊的資料庫也可用於 FabricPool 分層。例如、供應鏈管理資料庫可能包含歷史資訊、這些資訊必須在必要時提供、但在正常作業期間無法存取。FabricPool 可用於選擇性地重新定位非使用中的區塊。
+
+例如、在 FabricPool 磁碟區上執行的資料檔案 `tiering-minimum-cooling-days` 90 天的期間會保留過去 90 天內在效能層級上存取的任何區塊。然而、 90 天內未存取的任何項目都會重新移至容量層。在其他情況下、正常的應用程式活動會將正確的區塊保留在正確的層級上。例如、如果資料庫通常用於定期處理過去 60 天的資料、則會降低許多 `tiering-minimum-cooling-days` 可以設定期間、因為應用程式的自然活動可確保區塊不會提早重新定位。
+
+。 `auto` 原則應與資料庫一起使用。許多資料庫都有定期活動、例如季末流程或重新編製索引作業。如果這些作業的期間大於 `tiering-minimum-cooling-days` 可能會發生效能問題。例如、如果季度末處理需要 1TB 的資料、而這些資料原本沒有受到影響、則該資料現在可能會出現在容量層。從容量層讀取的速度通常極快、可能不會造成效能問題、但實際結果將取決於物件儲存區組態。
+
+
+
+== 原則
+
+。 `tiering-minimum-cooling-days` 原則的設定應足夠高、以保留效能層上可能需要的檔案。例如、如果資料庫需要最新 60 天的資料、而且效能最佳、則需要設定 `tiering-minimum-cooling-days` 期間為 60 天。也可以根據檔案的存取模式來達成類似的結果。例如、如果需要最近 90 天的資料、而應用程式正在存取該 90 天的資料範圍、則資料會保留在效能層。設定 `tiering-minimum-cooling-days` 在資料變得不活躍之後、將會立即將資料分級至 2 天。
+
+。 `auto` 由於只有 `auto` 原則會影響作用中檔案系統中的區塊。
+
+
+NOTE: 任何類型的資料存取都會重設熱圖資料。因此、資料庫完整表格掃描、甚至是讀取來源檔案的備份活動、都會因為需要而防止分層 `tiering-minimum-cooling-days` 從未達到臨界值。

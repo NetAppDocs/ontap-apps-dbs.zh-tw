@@ -1,0 +1,198 @@
+---
+section: oracle
+title: Oracle資料庫
+entries:
+- title: 總覽
+  url: "/oracle/overview.html"
+- title: 組態ONTAP
+  entries:
+  - title: RAID
+    url: "/oracle/ontap-configuration/raid-oracle.html"
+  - title: 容量限制
+    url: "/oracle/ontap-configuration/oracle-capacity-limits.html"
+  - title: 儲存虛擬機器
+    url: "/oracle/ontap-configuration/oracle-svm.html"
+  - title: 服務品質（QoS）
+    url: "/oracle/ontap-configuration/oracle-qos.html"
+  - title: 效率
+    url: "/oracle/ontap-configuration/oracle-efficiency.html"
+  - title: 資源隨需配置
+    url: "/oracle/ontap-configuration/oracle-thin-provisioning.html"
+  - title: 容錯移轉與切換
+    url: "/oracle/ontap-configuration/oracle-and-ontap-failover.html"
+- title: 資料庫組態
+  entries:
+  - title: 資料檔案和重做區塊大小
+    url: "/oracle/oracle-configuration/oracle-block-sizes.html"
+  - title: DB_FILE_multimblock_read_count
+    url: "/oracle/oracle-configuration/mbr.html"
+  - title: filesystemio_options
+    url: "/oracle/oracle-configuration/filesystemio_options.html"
+  - title: Oracle RAC
+    url: "/oracle/oracle-configuration/rac.html"
+- title: 主機組態
+  entries:
+  - title: AIX
+    url: "/oracle/host-configuration/aix.html"
+  - title: HP-UX
+    url: "/oracle/host-configuration/hp-ux.html"
+  - title: Linux
+    url: "/oracle/host-configuration/linux.html"
+  - title: Linux 搭配 ASMLib 和 AFD
+    url: "/oracle/host-configuration/asmlib-afd.html"
+  - title: Microsoft Windows
+    url: "/oracle/host-configuration/windows.html"
+  - title: Solaris
+    url: "/oracle/host-configuration/solaris.html"
+- title: 網路組態
+  entries:
+  - title: 邏輯介面
+    url: "/oracle/network-configuration/oracle-lif.html"
+  - title: 乙太網路組態
+    url: "/oracle/network-configuration/oracle-ethernet.html"
+  - title: FC SAN 組態
+    url: "/oracle/network-configuration/oracle-fc.html"
+- title: 儲存組態
+  entries:
+  - title: FC SAN
+    entries:
+    - title: LUN 對齊
+      url: "/oracle/storage-configuration/oracle-lun-alignment.html"
+    - title: LUN 計數和 LUN 大小
+      url: "/oracle/storage-configuration/oracle-lun-sizing.html"
+    - title: LUN 調整大小
+      url: "/oracle/storage-configuration/oracle-lun-resizing.html"
+    - title: LVM 分拆
+      url: "/oracle/storage-configuration/oracle-lvm-striping.html"
+  - title: NFS
+    entries:
+    - title: 組態
+      url: "/oracle/storage-configuration/oracle-nfs-configuration.html"
+    - title: Oracle Direct NFS（DNFS）
+      url: "/oracle/storage-configuration/oracle-direct-nfs.html"
+    - title: NFS 會租用和鎖定
+      url: "/oracle/storage-configuration/oracle-leases-and-locks.html"
+    - title: NFS 快取
+      url: "/oracle/storage-configuration/oracle-nfs-caching.html"
+    - title: NFS 傳輸大小
+      url: "/oracle/storage-configuration/oracle-nfs-transfer-sizes.html"
+  - title: Oracle 和 NVFAIL
+    url: "/oracle/dp/oracle_and_nvfail.html"
+  - title: ASM 回收公用程式
+    url: "/oracle/storage-configuration/asmru.html"
+- title: 虛擬化
+  url: "/oracle/virtualization/intro.html"
+- title: 分層
+  entries:
+  - title: 總覽
+    url: "/oracle/tiering/oracle-tiering-overview.html"
+  - title: 分層原則
+    entries:
+    - title: 傳送資料至物件存放區
+      url: "/oracle/tiering/oracle-tiering-policies.html"
+    - title: 從物件存放區擷取資料
+      url: "/oracle/tiering/oracle-retrieval-policies.html"
+  - title: 分層策略
+    entries:
+    - title: 完整檔案
+      url: "/oracle/tiering/oracle-whole-file-tiering.html"
+    - title: 部分檔案
+      url: "/oracle/tiering/oracle-partial-file-tiering.html"
+    - title: 選取檔案
+      url: "/oracle/tiering/oracle-partial-file-tiering.html"
+    - title: 快照
+      url: "/oracle/tiering/snapshots.html"
+    - title: 備份
+      url: "/oracle/tiering/oracle-backup-tiering.html"
+  - title: 物件存放區存取中斷
+    url: "/oracle/tiering/oracle-object-store-access-interruptions.html"
+- title: Oracle 資料保護
+  entries:
+  - title: 總覽
+    url: "/oracle/dp/oracle-data-protection-introduction.html"
+  - title: RPO 、 TRO 和 SLA
+    url: "/oracle/dp/oracle-data-protection-slas.html"
+  - title: 資料可用度
+    url: "/oracle/dp/oracle-data-availability.html"
+  - title: 資料完整性
+    url: "/oracle/dp/oracle-data-integrity.html"
+  - title: 備份與恢復基礎知識
+    entries:
+    - title: 快照
+      url: "/oracle/dp/snapshots.html"
+    - title: SnapRestore
+      url: "/oracle/dp/snaprestore.html"
+    - title: 快照型線上備份
+      url: "/oracle/dp/oracle-online-backups.html"
+    - title: 儲存 Snapshot 最佳化備份
+      url: "/oracle/dp/oracle-storage-snapshot-optimized-backups.html"
+    - title: SnapCenter 和其他工具
+      url: "/oracle/dp/oracle-backup-tools.html"
+- title: Oracle 災難恢復
+  entries:
+  - title: 總覽
+    url: "/oracle/dr/oracle-dr-overview.html"
+  - title: MetroCluster
+    entries:
+    - title: 實體架構
+      url: "/oracle/dr/metrocluster/oracle-physical-metrocluster.html"
+    - title: 邏輯架構
+      url: "/oracle/dr/metrocluster/oracle-logical-metrocluster.html"
+    - title: SyncMirror
+      url: "/oracle/dr/metrocluster/oracle-and-syncmirror.html"
+    - title: Oracle 容錯移轉
+      url: "/oracle/dr/metrocluster/oracle-failover-on-metrocluster.html"
+    - title: NVFAIL
+      url: "/oracle/dr/metrocluster/oracle-nvfail.html"
+    - title: MetroCluster 上的單一執行個體
+      url: "/oracle/dr/metrocluster/mcc-si.html"
+    - title: MetroCluster 上的 Oracle RAC
+      url: "/oracle/dr/metrocluster/mcc-rac.html"
+  - title: SnapMirror營運不中斷
+    entries:
+    - title: 架構
+      url: "/oracle/dr/smbc/oracle-smbc-architecture.html"
+    - title: 容錯移轉
+      url: "/oracle/dr/smbc/oracle-smbc-failover.html"
+    - title: SM-BC 上的單一執行個體
+      url: "/oracle/dr/smbc/smbc-si.html"
+    - title: SM-BC 上的 Oracle RAC
+      url: "/oracle/dr/smbc/smbc-rac.html"
+    - title: 故障案例
+      url: "/oracle/dr/smbc/oracle-smbc-failure-scenarios.html"
+- title: Oracle 資料庫移轉
+  entries:
+  - title: 總覽
+    url: "/oracle/migration/oracle-migration-overview.html"
+  - title: 規劃
+    url: "/oracle/migration/oracle-migration-planning.html"
+  - title: 程序
+    entries:
+    - title: 總覽
+      url: "/oracle/migration/oracle-migration-procedures-overview.html"
+    - title: 資料檔案移動
+      url: "/oracle/migration/oracle-datafile-move.html"
+    - title: 記錄傳送
+      url: "/oracle/migration/oracle-log-shipping.html"
+    - title: 主機資料複本
+      url: "/oracle/migration/oracle-host-data-copy.html"
+    - title: 外部 LUN 匯入
+      entries:
+      - title: 規劃
+        url: "/oracle/migration/oracle-fli-planning.html"
+      - title: 轉換
+        url: "/oracle/migration/oracle-fli-cutover.html"
+      - title: 完成
+        url: "/oracle/migration/oracle-fli-completion.html"
+      - title: 傳輸協定轉換
+        url: "/oracle/migration/oracle-protocol-conversion.html"
+  - title: 範例指令碼
+    url: "/oracle/migration/oracle-migration-sample-scripts.html"
+- title: 其他附註
+  entries:
+  - title: 效能最佳化與基準測試
+    url: "/oracle/notes/optimization_and_benchmarking.html"
+  - title: 過時的 NFS 鎖定
+    url: "/oracle/notes/stale_nfs_locks.html"
+  - title: WAFL 對齊驗證
+    url: "/oracle/notes/wafl_alignment_verification.html"

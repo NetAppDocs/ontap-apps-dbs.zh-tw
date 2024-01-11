@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: oracle/overview.html 
+keywords: oracle, database, ontap, TR-3633 
+summary: NetApp ONTAP 是一款功能強大的資料管理平台、具備原生功能、包括即時備份、還原與複製功能、即時壓縮等效率功能、不中斷的硬體升級、以及從外部儲存陣列匯入 LUN 的能力。 
+---
+= ONTAP 上的 Oracle 資料庫
+:allow-uri-read: 
+
+
+[role="lead"]
+ONTAP 專為 Oracle 資料庫所設計。數十年來、 ONTAP 已針對關聯式資料庫 I/O 的獨特需求進行最佳化、並特別建立多項 ONTAP 功能、以滿足 Oracle 資料庫的需求、甚至是 Oracle Inc. 本身的要求。
+
+
+NOTE: 本文件取代先前發佈的技術報告 _TR-3633 ： ONTAP 上的 Oracle 資料庫； TR-4591 ： Oracle 資料保護：備份、還原、複寫； TR-4592 ： MetroCluster 上的 Oracle ；以及 TR-4534 ：將 Oracle 資料庫移轉至 NetApp 儲存系統
+
+除了 ONTAP 為您的資料庫環境帶來價值的許多可能方式之外、也有許多使用者需求、包括資料庫大小、效能需求和資料保護需求。NetApp 儲存設備的已知部署包括從虛擬化環境（約 6 、 000 個在 VMware ESX 下執行的資料庫）到目前規模為 996TB 且不斷成長的單一執行個體資料倉儲、應有盡有。因此、在 NetApp 儲存設備上設定 Oracle 資料庫的最佳實務做法很少。
+
+在 NetApp 儲存設備上操作 Oracle 資料庫的需求有兩種解決方法。首先、當有明確的最佳實務做法時、將會特別加以說明。我們將根據 Oracle 儲存解決方案架構設計師的特定業務需求、詳細說明許多設計考量。

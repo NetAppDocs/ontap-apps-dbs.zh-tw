@@ -1,0 +1,18 @@
+---
+sidebar: sidebar 
+permalink: mysql/innodb_buffer_pool_size.html 
+keywords: MySQL,MariaDB,innodb_buffer_pool_size 
+summary: ONTAP 上的 MySQL 
+---
+= InnoDB_緩 衝區 _Pool_size
+:allow-uri-read: 
+
+
+[role="lead"]
+InnoDB 緩衝資源池是任何調校活動中最重要的部分。
+
+InnoDB 在很大程度上仰賴緩衝區集區來快取索引和資料、調適性雜湊索引、插入緩衝區、以及許多內部使用的其他資料結構。緩衝區集區也會緩衝資料的變更、這樣就不需要立即對儲存設備執行寫入作業、進而改善效能。緩衝區集區是 InnoDB 的一部分、必須據此調整其大小。設定緩衝區集區大小時、請考量下列因素：
+
+* 若為僅 InnoDB 的專用機器、請將緩衝區集區大小設為 80% 以上的可用 RAM 。
+* 如果不是 MySQL 專用伺服器、請將 RAM 大小設為 50% 。
+

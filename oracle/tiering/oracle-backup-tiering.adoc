@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: oracle/tiering/oracle-backup-tiering.html 
+keywords: tiering, fabricpool 
+summary: Oracle 備份分層 
+---
+= Oracle 備份分層
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+傳統應用程式備份包括 Oracle Recovery Manager 等產品、可在原始資料庫之外建立檔案型備份。
+
+ `tiering-minimum-cooling-days` policy of a few days preserves the most recent backups, and therefore the backups most likely to be required for an urgent recovery situation, on the performance tier. The data blocks of the older files are then moved to the capacity tier.
+。 `auto` 原則是最適合備份資料的原則。如此可確保在達到冷卻臨界值時、無論主要檔案系統中的檔案是否已刪除或繼續存在、都能立即分層。將所有可能需要的檔案儲存在作用中檔案系統的單一位置、也能簡化管理。沒有理由搜尋快照以找出需要還原的檔案。
+
+。 `snapshot-only` 原則可以生效、但該原則僅適用於不在作用中檔案系統中的區塊。因此、必須先刪除 NFS 或 SMB 共用上的檔案、才能分層化資料。
+
+使用 LUN 組態時、此原則的效率會更低、因為從 LUN 刪除檔案只會從檔案系統中繼資料中移除檔案參照。LUN 上的實際區塊會一直保留到位、直到被覆寫為止。這種情況可能會造成從刪除檔案到覆寫區塊並成為分層候選項目之間的長時間延遲。移動有一些好處 `snapshot-only` 區塊到容量層、但整體而言、備份資料的 FabricPool 管理最適合搭配使用 `auto` 原則。
+
+
+NOTE: 此方法可協助使用者更有效率地管理備份所需的空間、但 FabricPool 本身並不是備份技術。將備份檔案分層至物件存放區可簡化管理、因為檔案仍可在原始儲存系統上看到、但物件存放區目的地中的資料區塊則取決於原始儲存系統。如果來源磁碟區遺失、物件儲存區資料將無法再使用。

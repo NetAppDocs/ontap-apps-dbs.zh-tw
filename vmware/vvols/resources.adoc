@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: vmware/vvols/resources.html 
+keywords: tr-4400, vvols, ontap, virtual volumes, protect 
+summary:  
+---
+= 疑難排解
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+有幾種疑難排解資源可提供額外資訊。
+
+
+
+== NetApp 支援網站
+
+除了 NetApp 虛擬化產品的各種知識庫文章之外、 NetApp 支援網站 也提供方便的登陸頁面 https://mysupport.netapp.com/site/products/all/details/otv/docs-tab["VMware vSphere適用的工具ONTAP"] 產品。此入口網站提供 NetApp 社群文章、下載、技術報告及 VMware 解決方案討論的連結。您可以在以下網址取得：
+
+https://mysupport.netapp.com/site/products/all/details/otv/docs-tab["NetApp 支援網站"]
+
+其他解決方案文件可於此處取得：
+
+https://docs.netapp.com/us-en/netapp-solutions/virtualization/index.html["_NetApp 虛擬化解決方案 _"]
+
+
+
+== 產品疑難排解
+
+ONTAP 工具的各種元件（例如 vCenter 外掛程式、 VASA Provider 和儲存複寫介面卡）都會記錄在 NetApp 文件儲存庫中。不過、每個都有一個知識庫的個別小節、可能有特定的疑難排解程序。這些解決了 VASA Provider 可能遇到的最常見問題。
+
+
+
+=== Vasa Provider UI 問題
+
+vCenter vSphere Web Client 偶爾會遇到與 Serenity 元件有關的問題、導致無法顯示 VASA Provider for ONTAP 功能表項目。請參閱部署指南或本知識庫中的解決 VASA Provider 註冊問題 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/VSC_and_VASA_Provider/How_to_resolve_display_issues_with_the_vSphere_Web_Client["文章"]。
+
+
+
+=== VVols 資料存放區資源配置失敗
+
+有時 vCenter 服務在建立 vVols 資料存放區時可能會逾時。若要修正此問題、請重新啟動 VMware-SPS 服務、然後使用 vCenter 功能表（ Storage > New Datastore ）重新掛載 vVols 資料存放區。本節內容涵蓋《管理指南》中 vCenter Server 6.5 的 VVols 資料存放區資源配置失敗。
+
+
+
+=== 升級 Unified Appliance 無法掛載 ISO
+
+由於 vCenter 發生錯誤、用於將 Unified Appliance 從一個版本升級至下一個版本的 ISO 可能無法掛載。如果 ISO 能夠附加至 vCenter 中的應用裝置、請遵循此知識庫中的程序 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/VSC_and_VASA_Provider/Virtual_Storage_Console_(VSC)%3A_Upgrading_VSC_appliance_fails_%22failed_to_mount_ISO%22["文章"] 以解決此問題。

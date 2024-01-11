@@ -1,0 +1,194 @@
+---
+sidebar: sidebar 
+permalink: vmware/vvols/overview.html 
+keywords: tr-4400, vvols, ontap, virtual volumes 
+summary:  
+---
+= 總覽
+:allow-uri-read: 
+
+
+[role="lead"]
+NetApp ONTAP 軟體在過去二十多年來一直是 VMware vSphere 環境的領先儲存解決方案、並持續新增創新功能來簡化管理、同時降低成本。
+
+本文件涵蓋適用於 VMware vSphere 虛擬磁碟區（ VVols ）的 ONTAP 功能、包括最新的產品資訊和使用案例、以及最佳實務做法和其他資訊、可簡化部署並減少錯誤。
+
+
+NOTE: 本文件將先前發佈的技術報告 _TR-4400: VMware vSphere 虛擬磁碟區（ vVols ）取代為 NetApp ONTAP
+
+最佳實務做法是輔助其他文件、例如指南和相容性清單。這些技術是根據實驗室測試和NetApp工程師與客戶廣泛的現場經驗所開發。它們可能不是唯一可行或受支援的實務做法、但通常是最簡單的解決方案、可滿足大多數客戶的需求。
+
+
+TIP: 本文件已更新、納入 vSphere 8.0 更新 1 中新增的 vVols 功能、 ONTAP 工具 9.12 版本支援這些功能。
+
+
+
+== 虛擬磁碟區（ vVols ）概觀
+
+NetApp 於 2012 年開始與 VMware 合作、為 vSphere 5 支援 vSphere API for Storage Aware （ VASA ）。此早期的 VASA Provider 允許定義設定檔中的儲存功能、以便在資源配置時用來篩選資料存放區、並在之後檢查原則是否符合規定。隨著時間演進、新增新功能以實現更多自動化資源配置、並新增虛擬磁碟區或 vVols 、其中個別的儲存物件用於虛擬機器檔案和虛擬磁碟。這些物件可以是 LUN 、檔案、現在也可以是 vSphere 8 ： NVMe namespaces.NetApp 與 VMware 密切合作、成為 2015 年 vSphere 6 隨附的 vVols 參考合作夥伴、再次成為 vSphere 8 中使用 NVMe over Fabric 的 vVols 設計合作夥伴。NetApp 持續強化 vVols 、以充分利用 ONTAP 的最新功能。
+
+有幾個元件需要注意：
+
+|===
+
+
+| * VASA Provider* 
+
+
+| 這是處理 VMware vSphere 與儲存系統之間通訊的軟體元件。對於 ONTAP 、 VASA Provider 會在名為 ONTAP tools for VMware vSphere 的應用裝置（簡稱 ONTAP 工具）中執行。ONTAP 工具也包括 vCenter 外掛程式、適用於 VMware Site Recovery Manager 的儲存複寫介面卡（ SRA ）、以及用於建置自己自動化的 REST API 伺服器。ONTAP 工具在 vCenter 中設定及登錄後、就不再需要直接與 ONTAP 系統互動、因為幾乎所有的儲存需求都可以直接從 vCenter UI 中進行管理、或透過 REST API 自動化來進行管理。 
+
+
+| * 傳輸協定端點（ PE ） * 
+
+
+| 傳輸協定端點是 ESXi 主機和 vVols 資料存放區之間 I/O 的 Proxy 。ONTAP VASA Provider 會自動建立這些 LUN 、每個 VVols 資料存放區的 FlexVol 磁碟區一個傳輸協定端點 LUN （大小為 4 MB ）、或是在資料存放區中主控 FlexVol 磁碟區的儲存節點上、每個 NFS 介面（ LIF ）一個 NFS 裝載點。ESXi 主機直接裝載這些傳輸協定端點、而非個別的 vVol LUN 和虛擬磁碟檔案。不需要管理 VASA Provider 自動建立、掛載、卸載及刪除的傳輸協定端點、以及任何必要的介面群組或匯出原則。 
+
+
+| * 虛擬傳輸協定端點（ VPE ） * 
+
+
+ a| 
+vSphere 8 的新功能是、搭配 vVols 使用 NVMe over Fabrics （ NVMe of ）時、 ONTAP 中不再有傳輸協定端點的概念。相反地、只要第一個虛擬機器開機、 ESXi 主機就會為每個 ANA 群組自動產生一個虛擬 PE 。ONTAP 會自動為資料存放區所使用的每個 FlexVol 磁碟區建立全日空群組。
+
+使用 NVMe for VVols 的另一個優點是、 VASA Provider 不需要任何繫結要求。而是由 ESXi 主機根據 VPE 在內部處理 vVol 繫結功能。這可減少 vVol 綁定風暴對服務造成影響的機會。
+
+如需詳細資訊、請參閱 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-storage/GUID-23B47AAC-6A31-466C-84F9-8CF8F1CDD149.html["NVMe 和虛擬磁碟區"^] 開啟 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-storage/GUID-23B47AAC-6A31-466C-84F9-8CF8F1CDD149.html["vmware.com"^]
+
+
+
+| * 虛擬磁碟區資料存放區 * 
+
+
+| 虛擬 Volume 資料存放區是 VVols 容器的邏輯資料存放區呈現、由 VASA Provider 建立和維護。該容器代表從 VASA Provider 管理的儲存系統所配置的儲存容量集區。ONTAP 工具支援將多個 FlexVol 磁碟區（稱為備份磁碟區）分配至單一 VVols 資料存放區、這些 VVols 資料存放區可跨越 ONTAP 叢集中的多個節點、將 Flash 和混合式系統結合在一起、提供不同的功能。管理員可以使用資源配置精靈或 REST API 來建立新的 FlexVol Volume 、或選擇預先建立的 FlexVol Volume 來備份儲存區（如果有的話）。 
+
+
+| * 虛擬磁碟區（ vVols ） * 
+
+
+| VVols 是儲存在 vVols 資料存放區中的實際虛擬機器檔案和磁碟。使用術語 vVol （奇異）是指單一特定檔案、 LUN 或命名空間。ONTAP 會根據資料存放區使用的傳輸協定、建立 NVMe 命名空間、 LUN 或檔案。有幾種不同類型的 vVols ；最常見的是組態（中繼資料檔案）、資料（虛擬磁碟或 VMDK ）和交換（在 VM 開機時建立）。受 VMware VM 加密保護的 VVols 屬於其他類型。VMware VM 加密不應與 ONTAP Volume 或 Aggregate 加密混淆。 
+|===
+
+
+== 原則型管理
+
+VMware vSphere API for Storage Aware （ VASA ）可讓 VM 管理員輕鬆使用所需的任何儲存功能來配置 VM 、而無需與儲存團隊互動。在 VASA 之前、 VM 管理員可以定義 VM 儲存原則、但必須與儲存管理員合作、以識別適當的資料存放區、通常是使用文件或命名慣例。有了 VASA 、具有適當權限的 vCenter 管理員就能定義一系列儲存功能、 vCenter 使用者隨後可以使用這些功能來配置 VM 。VM 儲存原則與資料存放區儲存功能設定檔之間的對應可讓 vCenter 顯示相容資料存放區清單以供選擇、並可啟用其他技術、例如 Aria （前身為 vRealize ） Automation 或 Tanzu Kubernetes Grid 、以自動從指派的原則中選取儲存區。這種方法稱為儲存原則型管理。雖然儲存功能設定檔和原則也可用於傳統的資料存放區、但我們的重點是 vVols 資料存放區。
+
+有兩個要素：
+
+|===
+
+
+| * 儲存功能設定檔（ SCP ） * 
+
+
+| 儲存功能設定檔（ SCP ）是一種儲存範本形式、可讓 vCenter 管理員定義所需的儲存功能、而無需實際瞭解如何在 ONTAP 中管理這些功能。採用範本樣式的方法、讓管理員能夠以一致且可預測的方式輕鬆提供儲存服務。SCP 中說明的功能包括效能、傳輸協定、儲存效率及其他功能。具體功能因版本而異。使用 vCenter UI 中的 ONTAP Tools for VMware vSphere 功能表來建立這些工具。您也可以使用 REST API 來建立 CDP 。您可以選擇個別功能來手動建立這些功能、或是從現有（傳統）資料存放區自動產生。 
+
+
+| * VM 儲存原則 * 
+
+
+| VM 儲存原則是在 vCenter 的原則和設定檔下建立。對於 vVols 、請使用 NetApp vVols 儲存類型供應商的規則來建立規則集。ONTAP 工具提供簡化的方法、讓您只需選取一個 SCP 、而非強制您指定個別規則。 
+|===
+如上所述、使用原則有助於簡化資源配置磁碟區的工作。只要選取適當的原則、 VASA Provider 就會顯示支援該原則的 VVols 資料存放區、並將 VVol 放入符合法規的個別 FlexVol 磁碟區（圖 1 ）。
+
+
+
+=== 使用儲存原則部署 VM
+
+image::vvols-image3.png[使用儲存原則部署虛擬機器,800,480]
+
+VM 佈建完成後、 VASA Provider 將繼續檢查法規遵循狀況、並在備用磁碟區不再符合原則時、在 vCenter 中警示 VM 管理員（圖 2 ）。
+
+
+
+=== VM 儲存原則法規遵循
+
+image::vvols-image4.png[虛擬機器儲存原則符合性,320,100]
+
+
+
+== NetApp VVols 支援
+
+NetApp ONTAP 自 2012 年首次推出 VASA 規格以來、就一直提供支援。雖然其他 NetApp 儲存系統可能支援 VASA 、但本文件著重於目前支援的 ONTAP 9 版本。
+
+
+
+=== NetApp ONTAP
+
+除了 AFF 、 ASA 和 FAS 系統上的 ONTAP 9 、 NetApp 還支援 ONTAP Select 上的 VMware 工作負載、採用 VMware Cloud on AWS 的 ONTAP 上的 Amazon FSX 、採用 Azure VMware 解決方案的 Azure NetApp Files 、使用 Google Cloud 的 Cloud Volumes Service VMware Engine 、以及 Equinix 中的 NetApp 私有儲存設備、 但具體功能可能會因服務供應商和可用的網路連線而異。也可從 vSphere 來賓存取儲存在這些組態中的資料、以及 Cloud Volumes ONTAP 。
+
+在發佈時、超大規模環境僅限於傳統的 NFS v3 資料存放區、因此 VVols 僅適用於內部部署 ONTAP 系統、或雲端連線系統、這些系統提供內部部署系統的完整功能、例如由全球各地的 NetApp 合作夥伴和服務供應商代管的系統。
+
+_ 如需 ONTAP 的詳細資訊、請參閱 https://docs.netapp.com/us-en/ontap-family/["產品文件ONTAP"^]_
+
+_ 如需 ONTAP 和 VMware vSphere 最佳實務做法的詳細資訊、請參閱 https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsphere_ontap_ontap_for_vsphere.html["TR-4597"^]_
+
+
+
+== 搭配 ONTAP 使用 vVols 的優點
+
+當 VMware 在 2015 年推出 VVols 支援 VASA 2.0 時、他們將其描述為「整合與管理架構、為外部儲存設備（ SAN/NAS ）提供全新的作業模式」。 此作業模式可提供多項優點、搭配 ONTAP 儲存設備使用。
+
+
+
+=== 原則型管理
+
+如第 1.2 節所述、原則型管理可讓 VM 使用預先定義的原則進行佈建及後續管理。這有助於 IT 作業的多種方式：
+
+* * 提高速度。 * ONTAP 工具不需要 vCenter 管理員與儲存團隊一起開啟儲存資源配置活動的問題單。不過、 vCenter 和 ONTAP 系統上的 ONTAP 工具 RBAC 角色仍可允許個別的團隊（例如儲存團隊）、或是由同一個團隊進行個別活動、只要有需要、就能限制特定功能的存取。
+* * 更聰明的資源配置。 * 儲存系統功能可透過 VASA API 公開、讓資源配置工作流程能夠充分利用進階功能、而無需 VM 管理員瞭解如何管理儲存系統。
+* * 更快的資源配置。 * 可在單一資料存放區中支援不同的儲存功能、並根據 VM 原則自動選擇適合的 VM 。
+* * 避免錯誤。 * 儲存和 VM 原則是事先開發的、並可視需要套用、而無需每次佈建 VM 時都自訂儲存設備。當儲存功能從定義的原則中移出時、就會發出法規遵循警報。如前所述、 SCP 可讓初始資源配置可預測且可重複執行、而 VM 儲存原則則以 SCP 為基礎、則可確保正確放置。
+* * 更好的容量管理。 * VASA 和 ONTAP 工具可讓您視需要將儲存容量向下檢視至大量的彙總層級、並在容量開始不足時提供多層警示。
+
+
+
+
+=== 現代化 SAN 上的 VM 精細管理
+
+使用光纖通道和 iSCSI 的 SAN 儲存系統是 VMware 首次支援 ESX 的系統、但它們缺乏從儲存系統管理個別 VM 檔案和磁碟的能力。而是配置 LUN 並由 VMFS 管理個別檔案。這使得儲存系統難以直接管理個別 VM 儲存效能、複製和保護。VVols 提供 ONTAP 強大、高效能的 SAN 功能、讓使用 NFS 儲存設備的客戶能夠享有更精細的儲存空間。
+
+現在、使用適用於 VMware vSphere 9.12 及更新版本的 vSphere 8 和 ONTAP 工具、 Vols 對於舊版 SCSI 型傳輸協定所使用的相同精細控制功能現在也可在採用 NVMe over Fabrics 的現代化光纖通道 SAN 中使用、以在規模上獲得更高的效能。有了 vSphere 8.0 更新 1 、現在可以使用 vVols 部署完整的端點對端 NVMe 解決方案、而無需在 Hypervisor 儲存堆疊中進行任何 I/O 轉譯。
+
+
+
+=== 更強大的儲存卸載功能
+
+雖然 VAAI 提供多種卸載至儲存設備的作業、但 VASA Provider 仍會解決一些落差。SAN VAAI 無法將 VMware 託管的快照卸載至儲存系統。NFS VAAI 可以卸載 VM 託管的快照、但儲存原生快照對 VM 有限制。由於 VVols 使用個別 LUN 、命名空間或檔案來儲存虛擬機器磁碟、因此 ONTAP 可以快速有效地複製檔案或 LUN 、以建立不再需要差異檔案的 VM 精細快照。NFS VAAI 也不支援卸載熱（開啟電源） Storage VMotion 移轉的複製作業。當使用 VAAI 搭配傳統 NFS 資料存放區時、必須關閉虛擬機器電源、以允許移轉卸載。ONTAP 工具中的 VASA Provider 可提供近乎即時且具儲存效率的複本、以進行熱移轉和冷移轉、也支援近乎即時的 vVols 跨磁碟區移轉複本。由於這些顯著的儲存效率效益、您可能可以在中充分利用 vVols 工作負載 https://www.netapp.com/pdf.html?item=/media/8207-flyer-efficiency-guaranteepdf.pdf["效率保證"] 方案。同樣地、如果使用 VAAI 的跨磁碟區複製無法滿足您的需求、您可能會因為 vVols 複製體驗的改善而解決您的業務挑戰。
+
+
+
+=== vVols 的常見使用案例
+
+除了這些優點之外、我們也會看到 vVol 儲存設備的常見使用案例：
+
+* * 隨選虛擬機器資源配置 *
++
+** 私有雲或服務供應商 IaaS 。
+** 透過 Aria （前身為 vRealize ）套件、 OpenStack 等、充分運用自動化與協調功能
+
+
+* * 一流磁碟（ FCD ） *
++
+** VMware Tanzu Kubernetes Grid [TKG] 持續磁碟區。
+** 透過與 VMDK 生命週期管理功能相隨的方式、提供 Amazon EBS 般的服務。
+
+
+* * 隨需提供暫存虛擬機器 *
++
+** 測試 / 開發實驗室
+** 訓練環境
+
+
+
+
+
+
+=== vVols 的常見優點
+
+在充分發揮其優勢時（例如在上述使用案例中）、 vVols 提供下列具體改善：
+
+* 在單一磁碟區內或 ONTAP 叢集中的多個磁碟區之間快速建立複本、相較於傳統的 VAAI 複本、這是一項優勢。而且儲存效率也很高。磁碟區內的複製作業會使用 ONTAP 檔案複製、就像 FlexClone 磁碟區一樣、而且只會儲存來源 vVol 檔案 /LUN/ 命名空間的變更。因此、為了生產或其他應用程式的目的而建立的長期虛擬機器會迅速建立、佔用最少空間、並可從虛擬機器層級保護（使用適用於 VMware vSphere 的 NetApp SnapCenter 外掛程式、 VMware 託管快照或 VADP 備份）和效能管理（搭配 ONTAP QoS ）中獲益。
+* VVols 是搭配 vSphere CSI 使用 TKG 時的理想儲存技術、可提供由 vCenter 管理員管理的獨立儲存類別和容量。
+* Amazon EBS 類似的服務可透過 FCD 提供、因為 FCD VMDK 就像名稱所示、是 vSphere 中的一流公民、生命週期可獨立管理、與可能附加的虛擬機器分開管理。
+

@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: oracle/dr/metrocluster/mc-mcc-nvfail.html 
+keywords: oracle, metrocluster, extended rac, rac, nvfail, switchover 
+summary: MetroCluster 上的 Oracle - NVFAIL 
+---
+= MetroCluster 和 NVFAIL
+:allow-uri-read: 
+
+
+[role="lead"]
+NVAFIL 是 ONTAP 中的一般資料完整性功能、對資料庫工作負載而言特別重要、我們將在中詳細討論 link:../ontap-configuration/oracle_and_nvfail.html["NVFAIL"]。NVFAIL 也有 MetroCluster 專屬的考量。
+
+
+
+== 使用手動強制 NVFAIL 的延伸 RAC
+
+強制使用擴充 RAC 叢集進行轉換的最安全選項是指定 `-force-nvfail-all` 在命令列。此選項可作為緊急措施使用、以確保所有快取資料均已清除。如果主機使用的儲存資源原本位於災難性站台上、則會收到 I/O 錯誤或過時的檔案處理 (`ESTALE`）錯誤。Oracle 資料庫當機、檔案系統可能完全離線、或切換至唯讀模式。
+
+在完成重新操作後、 `in-nvfailed-state` 需要清除旗標、且 LUN 必須置於線上。完成此活動後、即可重新啟動資料庫。這些工作可以自動化、以降低 RTO 。
+
+
+
+== 使用 dr-force-nvfail 的延伸 RAC
+
+最安全的組態是設定 `dr-force-nvfail` 在可能從遠端站台存取的所有磁碟區上標示旗標。因此、當磁碟區進入時、這些磁碟區就無法使用 `in-nvfailed-state` 在進行重新操作時。在完成重新操作後、 `in-nvfailed-state` 旗標必須清除、且 LUN 必須置於線上。完成這些活動後、即可重新啟動資料庫。這些工作可以自動化、以降低 RTO 。
+
+結果與使用類似 `-force-nvfail-all` 旗標。然而、受影響的磁碟區數量可能僅限於必須受到保護的磁碟區、不受具有過時快取的應用程式或作業系統的影響。
+
+
+
+== 不含 dr-force-nvfail 的延伸 RAC
+
+對於不使用的環境、有兩項關鍵需求 `dr-force-nvfail` 在資料庫磁碟區上：
+
+* 在主站台遺失後、強制進行的重新操作不得超過 30 秒。
+* 在維護工作期間、或是在 SyncMirror 樹版或 NVRAM 複寫不同步的任何其他情況下、切勿進行切轉。第一項需求可以透過使用已設定為在站台故障 30 秒內執行切入的 tiebreaker 軟體來達成。這並不表示切入作業必須在偵測站台故障的 30 秒內執行。這表示、如果站台確認運作已過 30 秒、就不再安全地強制進行轉換。
+
+
+第二項需求可在已知 MetroCluster 組態不同步時停用所有自動切換功能、以部分滿足。更好的選擇是擁有可監控 NVRAM 複寫和 SyncMirror 叢的健全狀況的斷路器解決方案。如果叢集未完全同步、則斷路器不應觸發切入。
+
+NetApp MCTB 軟體無法監控同步處理狀態、因此當 MetroCluster 因任何原因而未同步時、應該停用同步處理狀態。ClusterLion 確實包含 NVRAM 監控和叢監視功能、除非 MetroCluster 系統確認完全同步、否則可將其設定為不觸發切入。

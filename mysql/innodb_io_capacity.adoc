@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: mysql/innodb_io_capacity.html 
+keywords: MySQL,MariaDB,innodb_io_capacity 
+summary: ONTAP 上的 MySQL 
+---
+= InnoDB_IO_capAC
+:allow-uri-read: 
+
+
+[role="lead"]
+在 InnoDB 外掛程式中、從 MySQL 5.7 新增名為 InnoDB_IO_capACure.
+
+它可控制 InnoDB 執行的 IOPS 上限（包括髒頁的排清率、以及插入緩衝區 [ibuf] 批次大小）。InnoDB_IO_capAC容量 參數會根據 InnoDB 背景工作來設定 IOPS 上限、例如從緩衝區排清頁面、以及從變更緩衝區合併資料。
+
+將 InnoDB_IO_capAC容量 參數設定為系統每秒可執行的 I/O 作業大約數目。理想情況下、請盡可能將設定保持在低的位置、但不要太低、讓背景活動變慢。如果設定太高、資料會從緩衝區移除、並太快插入緩衝區以供快取、以提供顯著效益。
+
+
+TIP: * NetApp 建議 * 如果在 NFS 上使用此設定、請分析 IOPS （ Sys台 / Fio ）的測試結果、並據此設定參數。除非您在 InnoDB 緩衝資源池中看到比您想要的更多修改或不乾淨頁面、否則請使用最小的值來進行排清和清除。
+
+
+CAUTION: 除非您證明較低的值不足以應付工作負載、否則請勿使用極端值、例如 20,000 或更多。
+
+InnoDB_IO_capACure. 參數可規範排清率和相關 I/O
+
+
+CAUTION: 您可以將此參數或 InnoDB_IO_capACure_max 參數設定得太高、並以提早排清的方式浪費 I/O 作業、進而嚴重損害效能。

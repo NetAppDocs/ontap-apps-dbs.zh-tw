@@ -1,0 +1,255 @@
+---
+sidebar: sidebar 
+permalink: oracle/migration/oracle-fli-planning.html 
+keywords: migration, oracle, fli 
+summary: 準備 ONTAP 進行 FLI 移轉 
+---
+= FLI 規劃 - Oracle
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp 中記錄了使用 FLI 移轉 SAN 資源的程序 http://www.netapp.com/us/media/tr-4380.pdf["TR-4380 ：使用外部 LUN Import 進行 SAN 移轉"^]。
+
+從資料庫和主機的觀點來看、不需要採取任何特殊步驟。更新 FC 區域並在 ONTAP 上提供 LUN 之後、 LVM 應該能夠從 LUN 讀取 LVM 中繼資料。此外、這些磁碟區群組也可以開始使用、無需進一步的組態步驟。在極少數情況下、環境可能會包含硬編碼的組態檔案、其中包含先前儲存陣列的參考資料。例如、內含的 Linux 系統 `/etc/multipath.conf` 參考指定裝置 WWN 的規則必須更新、以反映 FLI 所做的變更。
+
+
+NOTE: 如需支援組態的相關資訊、請參閱 NetApp 相容性對照表。如果您的環境未包含在內、請聯絡 NetApp 代表以取得協助。
+
+此範例顯示 Linux 伺服器上代管的 ASM 和 LVM LUN 移轉。其他作業系統支援 FLI 、雖然主機端命令可能不同、但原則相同、 ONTAP 程序相同。
+
+
+
+== 識別 LVM LUN
+
+準備的第一步是識別要移轉的 LUN 。在此所示範例中、會在裝載兩個 SAN 型檔案系統 `/orabin` 和 `/backups`。
+
+....
+[root@host1 ~]# df -k
+Filesystem                       1K-blocks      Used Available Use% Mounted on
+/dev/mapper/rhel-root             52403200   8811464  43591736  17% /
+devtmpfs                          65882776         0  65882776   0% /dev
+...
+fas8060-nfs-public:/install      199229440 119368128  79861312  60% /install
+/dev/mapper/sanvg-lvorabin        20961280  12348476   8612804  59% /orabin
+/dev/mapper/sanvg-lvbackups       73364480  62947536  10416944  86% /backups
+....
+Volume 群組的名稱可以從裝置名稱中擷取、該名稱使用格式（ Volume 群組名稱） - （邏輯磁碟區名稱）。在這種情況下、會呼叫 Volume 群組 `sanvg`。
+
+。 `pvdisplay` 命令可用於識別支援此 Volume 群組的 LUN 、如下所示。在這種情況下、共有 10 個 LUN 組成 `sanvg` Volume 群組。
+
+....
+[root@host1 ~]# pvdisplay -C -o pv_name,pv_size,pv_fmt,vg_name
+  PV                                            PSize   VG
+  /dev/mapper/3600a0980383030445424487556574266  10.00g sanvg
+  /dev/mapper/3600a0980383030445424487556574267  10.00g sanvg
+  /dev/mapper/3600a0980383030445424487556574268  10.00g sanvg
+  /dev/mapper/3600a0980383030445424487556574269  10.00g sanvg
+  /dev/mapper/3600a098038303044542448755657426a  10.00g sanvg
+  /dev/mapper/3600a098038303044542448755657426b  10.00g sanvg
+  /dev/mapper/3600a098038303044542448755657426c  10.00g sanvg
+  /dev/mapper/3600a098038303044542448755657426d  10.00g sanvg
+  /dev/mapper/3600a098038303044542448755657426e  10.00g sanvg
+  /dev/mapper/3600a098038303044542448755657426f  10.00g sanvg
+  /dev/sda2                                     278.38g rhel
+....
+
+
+== 識別 ASM LUN
+
+ASM LUN 也必須移轉。若要以 sysasm 使用者的身分從 sqlplus 取得 LUN 和 LUN 路徑的數目、請執行下列命令：
+
+....
+SQL> select path||' '||os_mb from v$asm_disk;
+PATH||''||OS_MB
+--------------------------------------------------------------------------------
+/dev/oracleasm/disks/ASM0 10240
+/dev/oracleasm/disks/ASM9 10240
+/dev/oracleasm/disks/ASM8 10240
+/dev/oracleasm/disks/ASM7 10240
+/dev/oracleasm/disks/ASM6 10240
+/dev/oracleasm/disks/ASM5 10240
+/dev/oracleasm/disks/ASM4 10240
+/dev/oracleasm/disks/ASM1 10240
+/dev/oracleasm/disks/ASM3 10240
+/dev/oracleasm/disks/ASM2 10240
+10 rows selected.
+SQL>
+....
+
+
+== FC 網路變更
+
+目前環境包含 20 個要移轉的 LUN 。更新目前的 SAN 、讓 ONTAP 能夠存取目前的 LUN 。資料尚未移轉、但 ONTAP 必須從目前的 LUN 讀取組態資訊、才能為該資料建立新的主目錄。
+
+AFF/FAS 系統上至少必須將一個 HBA 連接埠設定為啟動器連接埠。此外、必須更新 FC 區域、讓 ONTAP 能夠存取外部儲存陣列上的 LUN 。某些儲存陣列已設定 LUN 遮罩、限制哪些 WWN 可以存取指定的 LUN 。在這種情況下、 LUN 遮罩也必須更新、才能授予 ONTAP WWN 存取權。
+
+完成此步驟後、 ONTAP 應能使用檢視外部儲存陣列 `storage array show` 命令。它傳回的關鍵欄位是用來識別系統上外部 LUN 的首碼。在以下範例中、為外部陣列上的 LUN `FOREIGN_1` 在 ONTAP 中使用前置碼顯示 `FOR-1`。
+
+
+
+== 識別外部陣列
+
+....
+Cluster01::> storage array show -fields name,prefix
+name          prefix
+------------- ------
+FOREIGN_1     FOR-1
+Cluster01::>
+....
+
+
+== 識別外部 LUN
+
+可以通過傳送來列出 LUN `array-name` 至 `storage disk show` 命令。移轉程序期間會多次參照傳回的資料。
+
+....
+Cluster01::> storage disk show -array-name FOREIGN_1 -fields disk,serial
+disk     serial-number
+-------- -------------
+FOR-1.1  800DT$HuVWBX
+FOR-1.2  800DT$HuVWBZ
+FOR-1.3  800DT$HuVWBW
+FOR-1.4  800DT$HuVWBY
+FOR-1.5  800DT$HuVWB/
+FOR-1.6  800DT$HuVWBa
+FOR-1.7  800DT$HuVWBd
+FOR-1.8  800DT$HuVWBb
+FOR-1.9  800DT$HuVWBc
+FOR-1.10 800DT$HuVWBe
+FOR-1.11 800DT$HuVWBf
+FOR-1.12 800DT$HuVWBg
+FOR-1.13 800DT$HuVWBi
+FOR-1.14 800DT$HuVWBh
+FOR-1.15 800DT$HuVWBj
+FOR-1.16 800DT$HuVWBk
+FOR-1.17 800DT$HuVWBm
+FOR-1.18 800DT$HuVWBl
+FOR-1.19 800DT$HuVWBo
+FOR-1.20 800DT$HuVWBn
+20 entries were displayed.
+Cluster01::>
+....
+
+
+== 將外部陣列 LUN 登錄為匯入候選項目
+
+外部 LUN 一開始會歸類為任何特定的 LUN 類型。在匯入資料之前、必須將 LUN 標記為外部、因此是匯入程序的候選項目。將序號傳送至即可完成此步驟 `storage disk modify` 命令、如下列範例所示。請注意、此程序只會將 LUN 標記為 ONTAP 中的外部。不會將任何資料寫入外部 LUN 本身。
+
+....
+Cluster01::*> storage disk modify {-serial-number 800DT$HuVWBW} -is-foreign true
+Cluster01::*> storage disk modify {-serial-number 800DT$HuVWBX} -is-foreign true
+...
+Cluster01::*> storage disk modify {-serial-number 800DT$HuVWBn} -is-foreign true
+Cluster01::*> storage disk modify {-serial-number 800DT$HuVWBo} -is-foreign true
+Cluster01::*>
+....
+
+
+== 建立磁碟區以裝載移轉的 LUN
+
+需要一個磁碟區來裝載移轉的 LUN 。確切的 Volume 組態取決於運用 ONTAP 功能的整體計畫。在此範例中、 ASM LUN 會放置在一個磁碟區中、而 LVM LUN 則放置在第二個磁碟區中。這樣做可讓您將 LUN 當作個別群組來管理、例如分層、建立快照或設定 QoS 控制。
+
+設定 `snapshot-policy `to `none`。移轉程序可能包括大量資料流動。因此、如果快照是意外建立的、可能會大幅增加空間使用量、因為快照中會擷取不需要的資料。
+
+....
+Cluster01::> volume create -volume new_asm -aggregate data_02 -size 120G -snapshot-policy none
+[Job 1152] Job succeeded: Successful
+Cluster01::> volume create -volume new_lvm -aggregate data_02 -size 120G -snapshot-policy none
+[Job 1153] Job succeeded: Successful
+Cluster01::>
+....
+
+
+== 建立 ONTAP LUN
+
+建立磁碟區之後、必須建立新的 LUN 。一般而言、建立 LUN 需要使用者指定 LUN 大小之類的資訊、但在此情況下、外部磁碟引數會傳遞給命令。因此、 ONTAP 會從指定的序號複寫目前的 LUN 組態資料。它也會使用 LUN 幾何資料和分割表格資料來調整 LUN 對齊、並建立最佳效能。
+
+在此步驟中、序號必須與外部陣列交叉參照、以確保正確的外部 LUN 與正確的新 LUN 相符。
+
+....
+Cluster01::*> lun create -vserver vserver1 -path /vol/new_asm/LUN0 -ostype linux -foreign-disk 800DT$HuVWBW
+Created a LUN of size 10g (10737418240)
+Cluster01::*> lun create -vserver vserver1 -path /vol/new_asm/LUN1 -ostype linux -foreign-disk 800DT$HuVWBX
+Created a LUN of size 10g (10737418240)
+...
+Created a LUN of size 10g (10737418240)
+Cluster01::*> lun create -vserver vserver1 -path /vol/new_lvm/LUN8 -ostype linux -foreign-disk 800DT$HuVWBn
+Created a LUN of size 10g (10737418240)
+Cluster01::*> lun create -vserver vserver1 -path /vol/new_lvm/LUN9 -ostype linux -foreign-disk 800DT$HuVWBo
+Created a LUN of size 10g (10737418240)
+....
+
+
+== 建立匯入關係
+
+LUN 現已建立、但尚未設定為複寫目的地。在執行此步驟之前、必須先將 LUN 離線。這項額外步驟旨在保護資料不受使用者錯誤影響。如果 ONTAP 允許在線上 LUN 上執行移轉、可能會造成打字錯誤、導致覆寫作用中資料。強制使用者先將 LUN 離線的額外步驟、有助於確認使用正確的目標 LUN 做為移轉目的地。
+
+....
+Cluster01::*> lun offline -vserver vserver1 -path /vol/new_asm/LUN0
+Warning: This command will take LUN "/vol/new_asm/LUN0" in Vserver
+         "vserver1" offline.
+Do you want to continue? {y|n}: y
+Cluster01::*> lun offline -vserver vserver1 -path /vol/new_asm/LUN1
+Warning: This command will take LUN "/vol/new_asm/LUN1" in Vserver
+         "vserver1" offline.
+Do you want to continue? {y|n}: y
+...
+Warning: This command will take LUN "/vol/new_lvm/LUN8" in Vserver
+         "vserver1" offline.
+Do you want to continue? {y|n}: y
+Cluster01::*> lun offline -vserver vserver1 -path /vol/new_lvm/LUN9
+Warning: This command will take LUN "/vol/new_lvm/LUN9" in Vserver
+         "vserver1" offline.
+Do you want to continue? {y|n}: y
+....
+LUN 離線後、您可以將外部 LUN 序號傳送至、以建立匯入關係 `lun import create` 命令。
+
+....
+Cluster01::*> lun import create -vserver vserver1 -path /vol/new_asm/LUN0 -foreign-disk 800DT$HuVWBW
+Cluster01::*> lun import create -vserver vserver1 -path /vol/new_asm/LUN1 -foreign-disk 800DT$HuVWBX
+...
+Cluster01::*> lun import create -vserver vserver1 -path /vol/new_lvm/LUN8 -foreign-disk 800DT$HuVWBn
+Cluster01::*> lun import create -vserver vserver1 -path /vol/new_lvm/LUN9 -foreign-disk 800DT$HuVWBo
+Cluster01::*>
+....
+建立所有匯入關係之後、即可將 LUN 重新上線。
+
+....
+Cluster01::*> lun online -vserver vserver1 -path /vol/new_asm/LUN0
+Cluster01::*> lun online -vserver vserver1 -path /vol/new_asm/LUN1
+...
+Cluster01::*> lun online -vserver vserver1 -path /vol/new_lvm/LUN8
+Cluster01::*> lun online -vserver vserver1 -path /vol/new_lvm/LUN9
+Cluster01::*>
+....
+
+
+== 建立啟動器群組
+
+啟動器群組（ igroup ）是 ONTAP LUN 遮罩架構的一部分。除非先授予主機存取權、否則無法存取新建立的 LUN 。這是透過建立一個 igroup 、列出應授予存取權的 FC WWN 或 iSCSI 啟動器名稱來完成。在撰寫本報告時、僅 FC LUN 支援 FLI 。不過、轉換為 iSCSI 後移轉是一項簡單的工作、如所示 link:oracle-protocol-conversion.html["傳輸協定轉換"]。
+
+在此範例中、會建立一個 igroup 、其中包含兩個 WWN 、對應於主機 HBA 上可用的兩個連接埠。
+
+....
+Cluster01::*> igroup create linuxhost -protocol fcp -ostype linux -initiator 21:00:00:0e:1e:16:63:50 21:00:00:0e:1e:16:63:51
+....
+
+
+== 將新 LUN 對應至主機
+
+在建立 igroup 之後、 LUN 會對應至定義的 igroup 。這些 LUN 僅適用於此 igroup 中包含的 WWN 。NetApp 假設移轉程序目前階段主機尚未分區至 ONTAP 。這一點很重要、因為如果主機同時分區到外部陣列和新的 ONTAP 系統、則可能會在每個陣列上發現具有相同序號的 LUN 。這種情況可能導致多重路徑故障或資料受損。
+
+....
+Cluster01::*> lun map -vserver vserver1 -path /vol/new_asm/LUN0 -igroup linuxhost
+Cluster01::*> lun map -vserver vserver1 -path /vol/new_asm/LUN1 -igroup linuxhost
+...
+Cluster01::*> lun map -vserver vserver1 -path /vol/new_lvm/LUN8 -igroup linuxhost
+Cluster01::*> lun map -vserver vserver1 -path /vol/new_lvm/LUN9 -igroup linuxhost
+Cluster01::*>
+....

@@ -1,0 +1,60 @@
+---
+section: vmware
+title: VMware
+entries:
+- title: VMware vSphere 搭配 ONTAP
+  entries:
+  - title: 總覽
+    url: "/vmware/vsphere/overview.html"
+  - title: 統一化儲存設備
+    url: "/vmware/vsphere/unified.html"
+  - title: 虛擬化工具
+    url: "/vmware/vsphere/vtools.html"
+  - title: 虛擬磁碟區和儲存原則型管理
+    url: "/vmware/vsphere/vvols_and_spbm.html"
+  - title: 資料存放區與傳輸協定
+    url: "/vmware/vsphere/datastores.html"
+  - title: 網路組態
+    url: "/vmware/vsphere/network.html"
+  - title: 複製
+    url: "/vmware/vsphere/cloning.html"
+  - title: 資料保護
+    url: "/vmware/vsphere/dp.html"
+  - title: QoS
+    url: "/vmware/vsphere/qos.html"
+  - title: 儲存原則型管理
+    url: "/vmware/vsphere/policy-and-vvols.html"
+  - title: VMware Storage Distributed Resource Scheduler
+    url: "/vmware/vsphere/sdrs.html"
+  - title: 建議設定
+    url: "/vmware/vsphere/settings.html"
+- title: 使用 ONTAP 的虛擬磁碟區（ VVols ）
+  entries:
+  - title: 總覽
+    url: "/vmware/vvols/overview.html"
+  - title: 搭配 ONTAP 使用 vVols
+    url: "/vmware/vvols/ontap.html"
+  - title: 部署 vVols 儲存設備
+    url: "/vmware/vvols/deploy.html"
+  - title: 保護 vVols
+    url: "/vmware/vvols/protect.html"
+  - title: 疑難排解
+    url: "/vmware/vvols/resources.html"
+- title: VMware Site Recovery Manager 搭配 ONTAP
+  entries:
+  - title: 總覽
+    url: "/vmware/srm/overview.html"
+  - title: 部署最佳實務做法
+    url: "/vmware/srm/deployment_best_practices.html"
+  - title: 營運最佳實務做法
+    url: "/vmware/srm/operational_best_practices.html"
+  - title: 複寫拓撲
+    url: "/vmware/srm/replication_topologies.html"
+  - title: 使用vVols複寫時疑難排解SRM
+    url: "/vmware/srm/appendix_a__troubleshooting_srm_when_using_vvols_replication.html"
+- title: 產品安全性
+  entries:
+  - title: VMware vSphere適用的工具ONTAP
+    url: "/vmware/security/tools.html"
+  - title: VMware vSphere的插件SnapCenter
+    url: "/vmware/security/snapcenter.html"

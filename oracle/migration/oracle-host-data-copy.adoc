@@ -1,0 +1,1526 @@
+---
+sidebar: sidebar 
+permalink: oracle/migration/oracle-host-data-copy.html 
+keywords: migration, oracle, data copy, lvm, rebalance, asm 
+summary: 使用主機端儲存堆疊進行 Oracle 移轉 
+---
+= Oracle 主機資料複本
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+如同資料庫層級的移轉、主機層的移轉也提供儲存設備廠商的不受侷連的方法。
+
+換句話說、有時候「只複製檔案」是最佳選擇。
+
+雖然這種低技術方法似乎過於基本、但它確實提供了顯著的效益、因為不需要特殊軟體、而且在程序期間、原始資料仍保持安全不變。主要的限制是檔案複製資料移轉是一項破壞性程序、因為必須在複製作業開始之前關閉資料庫。沒有適當的方法可以同步處理檔案中的變更、因此檔案必須在開始複製之前完全處於禁用狀態。
+
+如果複製作業所需的關機不理想、則下一個最佳的主機型選項是使用邏輯 Volume Manager （ LVM ）。包括 Oracle ASM 在內的許多 LVM 選項都具有類似的功能、但也有一些必須考量的限制。在大多數情況下、可在不中斷或停機的情況下完成移轉。
+
+
+
+== 檔案系統複製到檔案系統
+
+不應低估簡單複製作業的效用。這項作業需要在複製程序期間停機、但這是一個非常可靠的程序、不需要操作系統、資料庫或儲存系統的專門知識。此外、它也非常安全、因為它不會影響原始資料。通常、系統管理員會將來源檔案系統變更為唯讀安裝、然後重新啟動伺服器、以保證沒有任何東西會損壞目前的資料。複製程序可以撰寫指令碼、確保能以最快的速度執行、而不會發生使用者錯誤的風險。由於 I/O 類型是簡單的資料循序傳輸、因此具有極高的頻寬效率。
+
+下列範例示範安全快速移轉的一個選項。
+
+
+
+=== 環境
+
+要移轉的環境如下：
+
+* 目前的檔案系統
++
+....
+ontap-nfs1:/host1_oradata       52428800  16196928  36231872  31% /oradata
+ontap-nfs1:/host1_logs          49807360    548032  49259328   2% /logs
+....
+* 新檔案系統
++
+....
+ontap-nfs1:/host1_logs_new      49807360       128  49807232   1% /new/logs
+ontap-nfs1:/host1_oradata_new   49807360       128  49807232   1% /new/oradata
+....
+
+
+
+
+==== 總覽
+
+資料庫可由 DBA 移轉、只需關閉資料庫並複製檔案即可、但如果必須移轉許多資料庫、或是將停機時間降至最低、則此程序很容易撰寫指令碼。使用指令碼也能降低使用者錯誤的機率。
+
+所示範例指令碼可自動化下列作業：
+
+* 關閉資料庫
+* 將現有檔案系統轉換為唯讀狀態
+* 將所有資料從來源複製到目標檔案系統、以保留所有檔案權限
+* 卸載舊的和新的檔案系統
+* 將新檔案系統重新掛載到與先前檔案系統相同的路徑
+
+
+
+
+=== 程序
+
+. 關閉資料庫。
++
+....
+[root@host1 current]# ./dbshut.pl NTAP
+ORACLE_SID = [oracle] ? The Oracle base has been set to /orabin
+SQL*Plus: Release 12.1.0.2.0 Production on Thu Dec 3 15:58:48 2015
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+SQL> Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+NTAP shut down
+....
+. 將檔案系統轉換為唯讀。如所示、使用指令碼可以更快完成這項工作 link:oracle-migration-sample-scripts.html#convert-file-system-to-read-only["將檔案系統轉換為唯讀"]。
++
+....
+[root@host1 current]# ./mk.fs.readonly.pl /oradata
+/oradata unmounted
+/oradata mounted read-only
+[root@host1 current]# ./mk.fs.readonly.pl /logs
+/logs unmounted
+/logs mounted read-only
+....
+. 確認檔案系統現在為唯讀。
++
+....
+ontap-nfs1:/host1_oradata on /oradata type nfs (ro,bg,vers=3,rsize=65536,wsize=65536,addr=172.20.101.10)
+ontap-nfs1:/host1_logs on /logs type nfs (ro,bg,vers=3,rsize=65536,wsize=65536,addr=172.20.101.10)
+....
+. 將檔案系統內容與同步 `rsync` 命令。
++
+....
+[root@host1 current]# rsync -rlpogt --stats --progress --exclude=.snapshot /oradata/ /new/oradata/
+sending incremental file list
+./
+NTAP/
+NTAP/IOPS.dbf
+ 10737426432 100%  153.50MB/s    0:01:06 (xfer#1, to-check=10/13)
+NTAP/iops.dbf.zip
+    22823573 100%   12.09MB/s    0:00:01 (xfer#2, to-check=9/13)
+...
+NTAP/undotbs02.dbf
+  1073750016 100%  131.60MB/s    0:00:07 (xfer#10, to-check=1/13)
+NTAP/users01.dbf
+     5251072 100%    3.95MB/s    0:00:01 (xfer#11, to-check=0/13)
+Number of files: 13
+Number of files transferred: 11
+Total file size: 18570092218 bytes
+Total transferred file size: 18570092218 bytes
+Literal data: 18570092218 bytes
+Matched data: 0 bytes
+File list size: 277
+File list generation time: 0.001 seconds
+File list transfer time: 0.000 seconds
+Total bytes sent: 18572359828
+Total bytes received: 228
+sent 18572359828 bytes  received 228 bytes  162204017.96 bytes/sec
+total size is 18570092218  speedup is 1.00
+[root@host1 current]# rsync -rlpogt --stats --progress --exclude=.snapshot /logs/ /new/logs/
+sending incremental file list
+./
+NTAP/
+NTAP/1_22_897068759.dbf
+    45523968 100%   95.98MB/s    0:00:00 (xfer#1, to-check=15/18)
+NTAP/1_23_897068759.dbf
+    40601088 100%   49.45MB/s    0:00:00 (xfer#2, to-check=14/18)
+...
+NTAP/redo/redo02.log
+    52429312 100%   44.68MB/s    0:00:01 (xfer#12, to-check=1/18)
+NTAP/redo/redo03.log
+    52429312 100%   68.03MB/s    0:00:00 (xfer#13, to-check=0/18)
+Number of files: 18
+Number of files transferred: 13
+Total file size: 527032832 bytes
+Total transferred file size: 527032832 bytes
+Literal data: 527032832 bytes
+Matched data: 0 bytes
+File list size: 413
+File list generation time: 0.001 seconds
+File list transfer time: 0.000 seconds
+Total bytes sent: 527098156
+Total bytes received: 278
+sent 527098156 bytes  received 278 bytes  95836078.91 bytes/sec
+total size is 527032832  speedup is 1.00
+....
+. 卸載舊檔案系統、並重新放置複製的資料。如所示、使用指令碼可以更快完成這項工作 link:oracle-migration-sample-scripts.html#replace-file-system["取代檔案系統"]。
++
+....
+[root@host1 current]# ./swap.fs.pl /logs,/new/logs
+/new/logs unmounted
+/logs unmounted
+Updated /logs mounted
+[root@host1 current]# ./swap.fs.pl /oradata,/new/oradata
+/new/oradata unmounted
+/oradata unmounted
+Updated /oradata mounted
+....
+. 確認新檔案系統已就位。
++
+....
+ontap-nfs1:/host1_logs_new on /logs type nfs (rw,bg,vers=3,rsize=65536,wsize=65536,addr=172.20.101.10)
+ontap-nfs1:/host1_oradata_new on /oradata type nfs (rw,bg,vers=3,rsize=65536,wsize=65536,addr=172.20.101.10)
+....
+. 啟動資料庫。
++
+....
+[root@host1 current]# ./dbstart.pl NTAP
+ORACLE_SID = [oracle] ? The Oracle base has been set to /orabin
+SQL*Plus: Release 12.1.0.2.0 Production on Thu Dec 3 16:10:07 2015
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+Connected to an idle instance.
+SQL> ORACLE instance started.
+Total System Global Area  805306368 bytes
+Fixed Size                  2929552 bytes
+Variable Size             390073456 bytes
+Database Buffers          406847488 bytes
+Redo Buffers                5455872 bytes
+Database mounted.
+Database opened.
+SQL> Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+NTAP started
+....
+
+
+
+
+=== 全自動轉換
+
+此範例指令碼接受資料庫 SID 的引數、後面接著通用分隔的檔案系統配對。如前所示、命令發出方式如下：
+
+....
+[root@host1 current]# ./migrate.oracle.fs.pl NTAP /logs,/new/logs /oradata,/new/oradata
+....
+執行時、範例指令碼會嘗試執行下列順序。如果在任何步驟中遇到錯誤、它都會終止：
+
+. 關閉資料庫。
+. 將目前的檔案系統轉換為唯讀狀態。
+. 使用每個以逗號分隔的檔案系統引數配對、並將第一個檔案系統同步到第二個檔案系統。
+. 卸除先前的檔案系統。
+. 更新 `/etc/fstab` 檔案如下：
++
+.. 請在下列位置建立備份 `/etc/fstab.bak`。
+.. 註解先前和新檔案系統的先前項目。
+.. 為使用舊掛載點的新檔案系統建立新項目。
+
+
+. 掛載檔案系統。
+. 啟動資料庫。
+
+
+下列文字提供此指令碼的執行範例：
+
+....
+[root@host1 current]# ./migrate.oracle.fs.pl NTAP /logs,/new/logs /oradata,/new/oradata
+ORACLE_SID = [oracle] ? The Oracle base has been set to /orabin
+SQL*Plus: Release 12.1.0.2.0 Production on Thu Dec 3 17:05:50 2015
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+SQL> Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+NTAP shut down
+sending incremental file list
+./
+NTAP/
+NTAP/1_22_897068759.dbf
+    45523968 100%  185.40MB/s    0:00:00 (xfer#1, to-check=15/18)
+NTAP/1_23_897068759.dbf
+    40601088 100%   81.34MB/s    0:00:00 (xfer#2, to-check=14/18)
+...
+NTAP/redo/redo02.log
+    52429312 100%   70.42MB/s    0:00:00 (xfer#12, to-check=1/18)
+NTAP/redo/redo03.log
+    52429312 100%   47.08MB/s    0:00:01 (xfer#13, to-check=0/18)
+Number of files: 18
+Number of files transferred: 13
+Total file size: 527032832 bytes
+Total transferred file size: 527032832 bytes
+Literal data: 527032832 bytes
+Matched data: 0 bytes
+File list size: 413
+File list generation time: 0.001 seconds
+File list transfer time: 0.000 seconds
+Total bytes sent: 527098156
+Total bytes received: 278
+sent 527098156 bytes  received 278 bytes  150599552.57 bytes/sec
+total size is 527032832  speedup is 1.00
+Succesfully replicated filesystem /logs to /new/logs
+sending incremental file list
+./
+NTAP/
+NTAP/IOPS.dbf
+ 10737426432 100%  176.55MB/s    0:00:58 (xfer#1, to-check=10/13)
+NTAP/iops.dbf.zip
+    22823573 100%    9.48MB/s    0:00:02 (xfer#2, to-check=9/13)
+... NTAP/undotbs01.dbf
+   309338112 100%   70.76MB/s    0:00:04 (xfer#9, to-check=2/13)
+NTAP/undotbs02.dbf
+  1073750016 100%  187.65MB/s    0:00:05 (xfer#10, to-check=1/13)
+NTAP/users01.dbf
+     5251072 100%    5.09MB/s    0:00:00 (xfer#11, to-check=0/13)
+Number of files: 13
+Number of files transferred: 11
+Total file size: 18570092218 bytes
+Total transferred file size: 18570092218 bytes
+Literal data: 18570092218 bytes
+Matched data: 0 bytes
+File list size: 277
+File list generation time: 0.001 seconds
+File list transfer time: 0.000 seconds
+Total bytes sent: 18572359828
+Total bytes received: 228
+sent 18572359828 bytes  received 228 bytes  177725933.55 bytes/sec
+total size is 18570092218  speedup is 1.00
+Succesfully replicated filesystem /oradata to /new/oradata
+swap 0 /logs /new/logs
+/new/logs unmounted
+/logs unmounted
+Mounted updated /logs
+Swapped filesystem /logs for /new/logs
+swap 1 /oradata /new/oradata
+/new/oradata unmounted
+/oradata unmounted
+Mounted updated /oradata
+Swapped filesystem /oradata for /new/oradata
+ORACLE_SID = [oracle] ? The Oracle base has been set to /orabin
+SQL*Plus: Release 12.1.0.2.0 Production on Thu Dec 3 17:08:59 2015
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+Connected to an idle instance.
+SQL> ORACLE instance started.
+Total System Global Area  805306368 bytes
+Fixed Size                  2929552 bytes
+Variable Size             390073456 bytes
+Database Buffers          406847488 bytes
+Redo Buffers                5455872 bytes
+Database mounted.
+Database opened.
+SQL> Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+NTAP started
+[root@host1 current]#
+....
+
+
+== Oracle ASM spfile 和 passwd 移轉
+
+在完成涉及 ASM 的移轉時、有一個困難是 ASM 專屬的 spfile 和密碼檔案。根據預設、這些關鍵中繼資料檔案會建立在定義的第一個 ASM 磁碟群組上。如果必須撤出和移除特定的 ASM 磁碟群組、則必須重新放置管理該 ASM 執行個體的 spfile 和密碼檔案。
+
+另一個需要重新放置這些檔案的使用案例是在部署資料庫管理軟體時、例如 SnapManager for Oracle 或 SnapCenter Oracle 外掛程式。這些產品的其中一項功能是透過還原代管資料檔案的 ASM LUN 狀態、快速還原資料庫。這樣做需要在執行還原之前將 ASM 磁碟群組離線。只要指定資料庫的資料檔案隔離在專用的 ASM 磁碟群組中、這不是問題。
+
+當該磁碟群組也包含 ASM spfile/passwd 檔案時、唯一可以將磁碟群組離線的方法是關閉整個 ASM 執行個體。這是一項破壞性程序、也就是說、 spfile/passwd 檔案必須重新放置。
+
+
+
+=== 環境
+
+. 資料庫 SID = Toast
+. 目前的資料檔案位於 `+DATA`
+. 上目前的記錄檔和控制檔 `+LOGS`
+. 建立為的新 ASM 磁碟群組 `+NEWDATA` 和 `+NEWLOGS`
+
+
+
+
+=== ASM spfile/passwd 檔案位置
+
+您可以不中斷地重新放置這些檔案。不過、為了安全起見、 NetApp 建議您關閉資料庫環境、以便確定檔案已重新放置、且組態已正確更新。如果伺服器上有多個 ASM 執行個體、則必須重複此程序。
+
+
+
+==== 識別 ASM 執行個體
+
+根據中記錄的資料來識別 ASM 執行個體 `oratab` 檔案：ASM 執行個體以 + 符號表示。
+
+....
+-bash-4.1$ cat /etc/oratab | grep '^+'
++ASM:/orabin/grid:N             # line added by Agent
+....
+此伺服器上有一個稱為 +ASM 的 ASM 執行個體。
+
+
+
+==== 確定所有資料庫都已關閉
+
+唯一可見的 SMON 程序應該是使用中 ASM 執行個體的 SMON 。另一個 SMON 程序的存在表示資料庫仍在執行中。
+
+....
+-bash-4.1$ ps -ef | grep smon
+oracle     857     1  0 18:26 ?        00:00:00 asm_smon_+ASM
+....
+唯一的 SMON 程序是 ASM 執行個體本身。這表示沒有其他資料庫正在執行中、而且在不中斷資料庫作業的風險下繼續作業是安全的。
+
+
+
+==== 尋找檔案
+
+使用識別 ASM spfile 和密碼檔案的目前位置 `spget` 和 `pwget` 命令。
+
+....
+bash-4.1$ asmcmd
+ASMCMD> spget
++DATA/spfile.ora
+....
+....
+ASMCMD> pwget --asm
++DATA/orapwasm
+....
+這些檔案都位於的基礎上 `+DATA` 磁碟群組。
+
+
+
+=== 複製檔案
+
+使用將檔案複製到新的 ASM 磁碟群組 `spcopy` 和 `pwcopy` 命令。如果新磁碟群組是最近建立的、而且目前是空的、則可能需要先掛載。
+
+....
+ASMCMD> mount NEWDATA
+....
+....
+ASMCMD> spcopy +DATA/spfile.ora +NEWDATA/spfile.ora
+copying +DATA/spfile.ora -> +NEWDATA/spfilea.ora
+....
+....
+ASMCMD> pwcopy +DATA/orapwasm +NEWDATA/orapwasm
+copying +DATA/orapwasm -> +NEWDATA/orapwasm
+....
+檔案現已從複製 `+DATA` 至 `+NEWDATA`。
+
+
+
+==== 更新 ASM 執行個體
+
+現在必須更新 ASM 執行個體、以反映位置變更。。 `spset` 和 `pwset` 命令會更新啟動 ASM 磁碟群組所需的 ASM 中繼資料。
+
+....
+ASMCMD> spset +NEWDATA/spfile.ora
+ASMCMD> pwset --asm +NEWDATA/orapwasm
+....
+
+
+==== 使用更新的檔案啟動 ASM
+
+此時、 ASM 執行個體仍會使用這些檔案的先前位置。必須重新啟動執行個體、以強制重新讀取新位置的檔案、並釋放先前檔案上的鎖定。
+
+....
+-bash-4.1$ sqlplus / as sysasm
+SQL> shutdown immediate;
+ASM diskgroups volume disabled
+ASM diskgroups dismounted
+ASM instance shutdown
+....
+....
+SQL> startup
+ASM instance started
+Total System Global Area 1140850688 bytes
+Fixed Size                  2933400 bytes
+Variable Size            1112751464 bytes
+ASM Cache                  25165824 bytes
+ORA-15032: not all alterations performed
+ORA-15017: diskgroup "NEWDATA" cannot be mounted
+ORA-15013: diskgroup "NEWDATA" is already mounted
+....
+
+
+==== 移除舊的 spfile 和密碼檔案
+
+如果程序已成功執行、先前的檔案將不再鎖定、現在可以移除。
+
+....
+-bash-4.1$ asmcmd
+ASMCMD> rm +DATA/spfile.ora
+ASMCMD> rm +DATA/orapwasm
+....
+
+
+== Oracle ASM 至 ASM 複本
+
+Oracle ASM 本質上是輕量的組合 Volume Manager 和檔案系統。由於檔案系統並不容易看到、因此 RMAN 必須用於執行複製作業。雖然複製型移轉程序既安全又簡單、但會造成部分中斷。可以將中斷降至最低、但不能完全消除。
+
+如果您想要不中斷地移轉 ASM 型資料庫、最好的方法是利用 ASM 的功能、在移轉舊 LUN 的同時、重新平衡 ASM 擴充至新 LUN 的平衡。這樣做通常是安全且不中斷營運的、但它不提供回溯路徑。如果遇到功能或效能問題、唯一的選項是將資料移回來源。
+
+您可以將資料庫複製到新位置而非移動資料、以避免此風險、避免原始資料受到影響。資料庫可以在新位置進行完整測試後再上線運作、如果發現問題、原始資料庫則可作為回復選項使用。
+
+此程序是 RMAN 的眾多選項之一。其設計允許建立初始備份的兩個步驟程序、然後透過記錄重播進行同步處理。這項程序最適合將停機時間降至最低、因為它可讓資料庫在初始基準複本期間維持運作並提供資料。
+
+
+
+=== 複製資料庫
+
+Oracle RMAN 會建立目前位於 ASM 磁碟群組的來源資料庫層級 0 （完整）複本 `+DATA` 移至新位置 `+NEWDATA`。
+
+....
+-bash-4.1$ rman target /
+Recovery Manager: Release 12.1.0.2.0 - Production on Sun Dec 6 17:40:03 2015
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+connected to target database: TOAST (DBID=2084313411)
+RMAN> backup as copy incremental level 0 database format '+NEWDATA' tag 'ONTAP_MIGRATION';
+Starting backup at 06-DEC-15
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=302 device type=DISK
+channel ORA_DISK_1: starting datafile copy
+input datafile file number=00001 name=+DATA/TOAST/DATAFILE/system.262.897683141
+...
+input datafile file number=00004 name=+DATA/TOAST/DATAFILE/users.264.897683151
+output file name=+NEWDATA/TOAST/DATAFILE/users.258.897759623 tag=ONTAP_MIGRATION RECID=5 STAMP=897759622
+channel ORA_DISK_1: datafile copy complete, elapsed time: 00:00:01
+channel ORA_DISK_1: starting incremental level 0 datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+including current SPFILE in backup set
+channel ORA_DISK_1: starting piece 1 at 06-DEC-15
+channel ORA_DISK_1: finished piece 1 at 06-DEC-15
+piece handle=+NEWDATA/TOAST/BACKUPSET/2015_12_06/nnsnn0_ontap_migration_0.262.897759623 tag=ONTAP_MIGRATION comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 06-DEC-15
+....
+
+
+=== 強制歸檔記錄切換
+
+您必須強制使用歸檔記錄切換、以確保歸檔記錄包含所有必要資料、使複本完全一致。如果沒有此命令、重做記錄檔中可能仍會有關鍵資料。
+
+....
+RMAN> sql 'alter system archive log current';
+sql statement: alter system archive log current
+....
+
+
+=== 關閉來源資料庫
+
+由於資料庫已關機、並處於有限存取、唯讀模式、因此在此步驟中就會開始中斷。若要關閉來源資料庫、請執行下列命令：
+
+....
+RMAN> shutdown immediate;
+using target database control file instead of recovery catalog
+database closed
+database dismounted
+Oracle instance shut down
+RMAN> startup mount;
+connected to target database (not started)
+Oracle instance started
+database mounted
+Total System Global Area     805306368 bytes
+Fixed Size                     2929552 bytes
+Variable Size                390073456 bytes
+Database Buffers             406847488 bytes
+Redo Buffers                   5455872 bytes
+....
+
+
+=== 控制檔備份
+
+您必須備份控制檔、以防您必須中止移轉並還原至原始儲存位置。備份控制檔的複本並非 100% 必要、但它確實讓將資料庫檔案位置重設回原始位置的程序變得更簡單。
+
+....
+RMAN> backup as copy current controlfile format '/tmp/TOAST.ctrl';
+Starting backup at 06-DEC-15
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=358 device type=DISK
+channel ORA_DISK_1: starting datafile copy
+copying current control file
+output file name=/tmp/TOAST.ctrl tag=TAG20151206T174753 RECID=6 STAMP=897760073
+channel ORA_DISK_1: datafile copy complete, elapsed time: 00:00:01
+Finished backup at 06-DEC-15
+....
+
+
+=== 參數更新
+
+目前的 spfile 包含對舊 ASM 磁碟群組內控制檔目前位置的參照。您必須編輯此檔案、只要編輯中繼 pfile 版本即可輕鬆完成。
+
+....
+RMAN> create pfile='/tmp/pfile' from spfile;
+Statement processed
+....
+
+
+==== 更新 pfile
+
+更新任何參照舊 ASM 磁碟群組的參數、以反映新的 ASM 磁碟群組名稱。然後儲存更新的 pfile 。請確定 `db_create` 有參數存在。
+
+在以下範例中、請參考 `+DATA` 變更為 `+NEWDATA` 以黃色反白顯示。兩個主要參數是 `db_create` 在正確位置建立任何新檔案的參數。
+
+....
+*.compatible='12.1.0.2.0'
+*.control_files='+NEWLOGS/TOAST/CONTROLFILE/current.258.897683139'
+*.db_block_size=8192
+*. db_create_file_dest='+NEWDATA'
+*. db_create_online_log_dest_1='+NEWLOGS'
+*.db_domain=''
+*.db_name='TOAST'
+*.diagnostic_dest='/orabin'
+*.dispatchers='(PROTOCOL=TCP) (SERVICE=TOASTXDB)'
+*.log_archive_dest_1='LOCATION=+NEWLOGS'
+*.log_archive_format='%t_%s_%r.dbf'
+....
+
+
+==== 更新 init.ora 檔案
+
+大多數以 ASM 為基礎的資料庫都使用 `init.ora` 檔案位於 `$ORACLE_HOME/dbs` 目錄、指向 ASM 磁碟群組上的 spfile 。此檔案必須重新導向至新 ASM 磁碟群組上的位置。
+
+....
+-bash-4.1$ cd $ORACLE_HOME/dbs
+-bash-4.1$ cat initTOAST.ora
+SPFILE='+DATA/TOAST/spfileTOAST.ora'
+....
+變更此檔案的方式如下：
+
+....
+SPFILE=+NEWLOGS/TOAST/spfileTOAST.ora
+....
+
+
+==== 參數檔案重新建立
+
+spfile 現在已準備好由編輯的 pfile 中的資料填入。
+
+....
+RMAN> create spfile from pfile='/tmp/pfile';
+Statement processed
+....
+
+
+==== 啟動資料庫以開始使用新的 spfile
+
+啟動資料庫以確保它現在使用新建立的 spfile 、並正確記錄對系統參數的任何進一步變更。
+
+....
+RMAN> startup nomount;
+connected to target database (not started)
+Oracle instance started
+Total System Global Area     805306368 bytes
+Fixed Size                     2929552 bytes
+Variable Size                373296240 bytes
+Database Buffers             423624704 bytes
+Redo Buffers                   5455872 bytes
+....
+
+
+=== 還原控制檔
+
+RMAN 所建立的備份控制檔也可直接還原至新 spfile 中指定的位置。
+
+....
+RMAN> restore controlfile from '+DATA/TOAST/CONTROLFILE/current.258.897683139';
+Starting restore at 06-DEC-15
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=417 device type=DISK
+channel ORA_DISK_1: copied control file copy
+output file name=+NEWLOGS/TOAST/CONTROLFILE/current.273.897761061
+Finished restore at 06-DEC-15
+....
+裝入資料庫並驗證新控制檔的使用。
+
+....
+RMAN> alter database mount;
+using target database control file instead of recovery catalog
+Statement processed
+....
+....
+SQL> show parameter control_files;
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+control_files                        string      +NEWLOGS/TOAST/CONTROLFILE/cur
+                                                 rent.273.897761061
+....
+
+
+=== 記錄重新播放
+
+資料庫目前使用舊位置的資料檔案。在使用複本之前、必須先進行同步處理。初始複製程序已經過時間、變更主要記錄在歸檔記錄中。這些變更會複寫如下：
+
+. 執行包含歸檔記錄的 RMAN 遞增備份。
++
+....
+RMAN> backup incremental level 1 format '+NEWLOGS' for recover of copy with tag 'ONTAP_MIGRATION' database;
+Starting backup at 06-DEC-15
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=62 device type=DISK
+channel ORA_DISK_1: starting incremental level 1 datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00001 name=+DATA/TOAST/DATAFILE/system.262.897683141
+input datafile file number=00002 name=+DATA/TOAST/DATAFILE/sysaux.260.897683143
+input datafile file number=00003 name=+DATA/TOAST/DATAFILE/undotbs1.257.897683145
+input datafile file number=00004 name=+DATA/TOAST/DATAFILE/users.264.897683151
+channel ORA_DISK_1: starting piece 1 at 06-DEC-15
+channel ORA_DISK_1: finished piece 1 at 06-DEC-15
+piece handle=+NEWLOGS/TOAST/BACKUPSET/2015_12_06/nnndn1_ontap_migration_0.268.897762693 tag=ONTAP_MIGRATION comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+channel ORA_DISK_1: starting incremental level 1 datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+including current control file in backup set
+including current SPFILE in backup set
+channel ORA_DISK_1: starting piece 1 at 06-DEC-15
+channel ORA_DISK_1: finished piece 1 at 06-DEC-15
+piece handle=+NEWLOGS/TOAST/BACKUPSET/2015_12_06/ncsnn1_ontap_migration_0.267.897762697 tag=ONTAP_MIGRATION comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 06-DEC-15
+....
+. 重新播放記錄。
++
+....
+RMAN> recover copy of database with tag 'ONTAP_MIGRATION';
+Starting recover at 06-DEC-15
+using channel ORA_DISK_1
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: specifying datafile copies to recover
+recovering datafile copy file number=00001 name=+NEWDATA/TOAST/DATAFILE/system.259.897759609
+recovering datafile copy file number=00002 name=+NEWDATA/TOAST/DATAFILE/sysaux.263.897759615
+recovering datafile copy file number=00003 name=+NEWDATA/TOAST/DATAFILE/undotbs1.264.897759619
+recovering datafile copy file number=00004 name=+NEWDATA/TOAST/DATAFILE/users.258.897759623
+channel ORA_DISK_1: reading from backup piece +NEWLOGS/TOAST/BACKUPSET/2015_12_06/nnndn1_ontap_migration_0.268.897762693
+channel ORA_DISK_1: piece handle=+NEWLOGS/TOAST/BACKUPSET/2015_12_06/nnndn1_ontap_migration_0.268.897762693 tag=ONTAP_MIGRATION
+channel ORA_DISK_1: restored backup piece 1
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:01
+Finished recover at 06-DEC-15
+....
+
+
+
+
+=== 啟動
+
+還原的控制檔仍會參照原始位置的資料檔案、也會包含複製資料檔案的路徑資訊。
+
+. 若要變更使用中的資料檔案、請執行 `switch database to copy` 命令。
++
+....
+RMAN> switch database to copy;
+datafile 1 switched to datafile copy "+NEWDATA/TOAST/DATAFILE/system.259.897759609"
+datafile 2 switched to datafile copy "+NEWDATA/TOAST/DATAFILE/sysaux.263.897759615"
+datafile 3 switched to datafile copy "+NEWDATA/TOAST/DATAFILE/undotbs1.264.897759619"
+datafile 4 switched to datafile copy "+NEWDATA/TOAST/DATAFILE/users.258.897759623"
+....
++
+使用中的資料檔案現在是複製的資料檔案、但最終的重做記錄檔中可能仍有變更。
+
+. 若要重播所有剩餘記錄、請執行 `recover database` 命令。如果出現此訊息 `media recovery complete` 出現時、程序成功。
++
+....
+RMAN> recover database;
+Starting recover at 06-DEC-15
+using channel ORA_DISK_1
+starting media recovery
+media recovery complete, elapsed time: 00:00:01
+Finished recover at 06-DEC-15
+....
++
+此程序只會變更一般資料檔案的位置。必須重新命名暫存資料檔案、但不需要複製、因為它們只是暫時性的。資料庫目前關閉、因此暫存資料檔案中沒有作用中的資料。
+
+. 若要重新放置暫存資料檔案、請先識別其位置。
++
+....
+RMAN> select file#||' '||name from v$tempfile;
+FILE#||''||NAME
+--------------------------------------------------------------------------------
+1 +DATA/TOAST/TEMPFILE/temp.263.897683145
+....
+. 使用 RMAN 命令重新定位暫存資料檔案、為每個資料檔案設定新名稱。使用 Oracle 託管檔案（ OMF ）時、不需要完整名稱； ASM 磁碟群組已足夠。開啟資料庫時、 OMF 會連結至 ASM 磁碟群組上的適當位置。若要重新定位檔案、請執行下列命令：
++
+....
+run {
+set newname for tempfile 1 to '+NEWDATA';
+switch tempfile all;
+}
+....
++
+....
+RMAN> run {
+2> set newname for tempfile 1 to '+NEWDATA';
+3> switch tempfile all;
+4> }
+executing command: SET NEWNAME
+renamed tempfile 1 to +NEWDATA in control file
+....
+
+
+
+
+=== 重做記錄移轉
+
+移轉程序即將完成、但重做記錄仍位於原始 ASM 磁碟群組中。重作記錄無法直接重新定位。而是會建立新的重做記錄集、並將其新增至組態、然後刪除舊的記錄。
+
+. 識別重做記錄群組的數目及其各自的群組編號。
++
+....
+RMAN> select group#||' '||member from v$logfile;
+GROUP#||''||MEMBER
+--------------------------------------------------------------------------------
+1 +DATA/TOAST/ONLINELOG/group_1.261.897683139
+2 +DATA/TOAST/ONLINELOG/group_2.259.897683139
+3 +DATA/TOAST/ONLINELOG/group_3.256.897683139
+....
+. 輸入重做記錄檔的大小。
++
+....
+RMAN> select group#||' '||bytes from v$log;
+GROUP#||''||BYTES
+--------------------------------------------------------------------------------
+1 52428800
+2 52428800
+3 52428800
+....
+. 針對每個重做記錄、建立具有相符組態的新群組。如果您未使用 OMF 、則必須指定完整路徑。這也是使用的範例 `db_create_online_log` 參數。如先前所示、此參數設為 +NEWLOGS 。此組態可讓您使用下列命令來建立新的線上記錄檔、而無需指定檔案位置、甚至是特定的 ASM 磁碟群組。
++
+....
+RMAN> alter database add logfile size 52428800;
+Statement processed
+RMAN> alter database add logfile size 52428800;
+Statement processed
+RMAN> alter database add logfile size 52428800;
+Statement processed
+....
+. 開啟資料庫。
++
+....
+SQL> alter database open;
+Database altered.
+....
+. 刪除舊記錄。
++
+....
+RMAN> alter database drop logfile group 1;
+Statement processed
+....
+. 如果您遇到錯誤、導致無法刪除作用中記錄、請強制切換至下一個記錄檔、以釋放鎖定並強制建立全域檢查點。範例如下所示。嘗試丟棄位於舊位置的記錄檔群組 3 、因為此記錄檔中仍有作用中資料、因此遭到拒絕。檢查點之後的記錄封存可讓您刪除記錄檔。
++
+....
+RMAN> alter database drop logfile group 3;
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03002: failure of sql statement command at 12/08/2015 20:23:51
+ORA-01623: log 3 is current log for instance TOAST (thread 4) - cannot drop
+ORA-00312: online log 3 thread 1: '+LOGS/TOAST/ONLINELOG/group_3.259.897563549'
+RMAN> alter system switch logfile;
+Statement processed
+RMAN> alter system checkpoint;
+Statement processed
+RMAN> alter database drop logfile group 3;
+Statement processed
+....
+. 檢閱環境、確定所有位置型參數都已更新。
++
+....
+SQL> select name from v$datafile;
+SQL> select member from v$logfile;
+SQL> select name from v$tempfile;
+SQL> show parameter spfile;
+SQL> select name, value from v$parameter where value is not null;
+....
+. 下列指令碼示範如何簡化此程序：
++
+....
+[root@host1 current]# ./checkdbdata.pl TOAST
+TOAST datafiles:
++NEWDATA/TOAST/DATAFILE/system.259.897759609
++NEWDATA/TOAST/DATAFILE/sysaux.263.897759615
++NEWDATA/TOAST/DATAFILE/undotbs1.264.897759619
++NEWDATA/TOAST/DATAFILE/users.258.897759623
+TOAST redo logs:
++NEWLOGS/TOAST/ONLINELOG/group_4.266.897763123
++NEWLOGS/TOAST/ONLINELOG/group_5.265.897763125
++NEWLOGS/TOAST/ONLINELOG/group_6.264.897763125
+TOAST temp datafiles:
++NEWDATA/TOAST/TEMPFILE/temp.260.897763165
+TOAST spfile
+spfile                               string      +NEWDATA/spfiletoast.ora
+TOAST key parameters
+control_files +NEWLOGS/TOAST/CONTROLFILE/current.273.897761061
+log_archive_dest_1 LOCATION=+NEWLOGS
+db_create_file_dest +NEWDATA
+db_create_online_log_dest_1 +NEWLOGS
+....
+. 如果 ASM 磁碟群組已完全撤出、現在可以使用卸載 `asmcmd`。不過、在許多情況下、屬於其他資料庫或 ASM spfile/passwd 檔案的檔案可能仍存在。
++
+....
+-bash-4.1$ . oraenv
+ORACLE_SID = [TOAST] ? +ASM
+The Oracle base remains unchanged with value /orabin
+-bash-4.1$ asmcmd
+ASMCMD> umount DATA
+ASMCMD>
+....
+
+
+
+
+== Oracle ASM 至檔案系統複本
+
+Oracle ASM 至檔案系統複製程序與 ASM 至 ASM 複製程序非常類似、具有類似的優點和限制。主要差異在於使用可見檔案系統時、不同命令和組態參數的語法、而非使用 ASM 磁碟群組。
+
+
+
+=== 複製資料庫
+
+Oracle RMAN 用於建立目前位於 ASM 磁碟群組的來源資料庫層級 0 （完整）複本 `+DATA` 移至新位置 `/oradata`。
+
+....
+RMAN> backup as copy incremental level 0 database format '/oradata/TOAST/%U' tag 'ONTAP_MIGRATION';
+Starting backup at 13-MAY-16
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=377 device type=DISK
+channel ORA_DISK_1: starting datafile copy
+input datafile file number=00001 name=+ASM0/TOAST/system01.dbf
+output file name=/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSTEM_FNO-1_01r5fhjg tag=ONTAP_MIGRATION RECID=1 STAMP=911722099
+channel ORA_DISK_1: datafile copy complete, elapsed time: 00:00:07
+channel ORA_DISK_1: starting datafile copy
+input datafile file number=00002 name=+ASM0/TOAST/sysaux01.dbf
+output file name=/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSAUX_FNO-2_02r5fhjo tag=ONTAP_MIGRATION RECID=2 STAMP=911722106
+channel ORA_DISK_1: datafile copy complete, elapsed time: 00:00:07
+channel ORA_DISK_1: starting datafile copy
+input datafile file number=00003 name=+ASM0/TOAST/undotbs101.dbf
+output file name=/oradata/TOAST/data_D-TOAST_I-2098173325_TS-UNDOTBS1_FNO-3_03r5fhjt tag=ONTAP_MIGRATION RECID=3 STAMP=911722113
+channel ORA_DISK_1: datafile copy complete, elapsed time: 00:00:07
+channel ORA_DISK_1: starting datafile copy
+copying current control file
+output file name=/oradata/TOAST/cf_D-TOAST_id-2098173325_04r5fhk5 tag=ONTAP_MIGRATION RECID=4 STAMP=911722118
+channel ORA_DISK_1: datafile copy complete, elapsed time: 00:00:01
+channel ORA_DISK_1: starting datafile copy
+input datafile file number=00004 name=+ASM0/TOAST/users01.dbf
+output file name=/oradata/TOAST/data_D-TOAST_I-2098173325_TS-USERS_FNO-4_05r5fhk6 tag=ONTAP_MIGRATION RECID=5 STAMP=911722118
+channel ORA_DISK_1: datafile copy complete, elapsed time: 00:00:01
+channel ORA_DISK_1: starting incremental level 0 datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+including current SPFILE in backup set
+channel ORA_DISK_1: starting piece 1 at 13-MAY-16
+channel ORA_DISK_1: finished piece 1 at 13-MAY-16
+piece handle=/oradata/TOAST/06r5fhk7_1_1 tag=ONTAP_MIGRATION comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 13-MAY-16
+....
+
+
+=== 強制歸檔記錄切換
+
+必須強制使用歸檔記錄交換器、才能確保歸檔記錄包含所有必要資料、使複本完全一致。如果沒有此命令、重做記錄檔中可能仍會有關鍵資料。若要強制使用歸檔記錄交換器、請執行下列命令：
+
+....
+RMAN> sql 'alter system archive log current';
+sql statement: alter system archive log current
+....
+
+
+=== 關閉來源資料庫
+
+由於資料庫已關機、並處於有限存取的唯讀模式、因此此步驟開始造成中斷。若要關閉來源資料庫、請執行下列命令：
+
+....
+RMAN> shutdown immediate;
+using target database control file instead of recovery catalog
+database closed
+database dismounted
+Oracle instance shut down
+RMAN> startup mount;
+connected to target database (not started)
+Oracle instance started
+database mounted
+Total System Global Area     805306368 bytes
+Fixed Size                  2929552 bytes
+Variable Size             331353200 bytes
+Database Buffers          465567744 bytes
+Redo Buffers                5455872 bytes
+....
+
+
+=== 控制檔備份
+
+備份控制檔、以防您必須中止移轉並還原至原始儲存位置。備份控制檔的複本並非 100% 必要、但它確實讓將資料庫檔案位置重設回原始位置的程序變得更簡單。
+
+....
+RMAN> backup as copy current controlfile format '/tmp/TOAST.ctrl';
+Starting backup at 08-DEC-15
+using channel ORA_DISK_1
+channel ORA_DISK_1: starting datafile copy
+copying current control file
+output file name=/tmp/TOAST.ctrl tag=TAG20151208T194540 RECID=30 STAMP=897939940
+channel ORA_DISK_1: datafile copy complete, elapsed time: 00:00:01
+Finished backup at 08-DEC-15
+....
+
+
+=== 參數更新
+
+....
+RMAN> create pfile='/tmp/pfile' from spfile;
+Statement processed
+....
+
+
+==== 更新 pfile
+
+任何參照舊 ASM 磁碟群組的參數都應該更新、在某些情況下、當不再相關時、就會刪除。更新它們以反映新的檔案系統路徑、並儲存更新的 pfile 。請確定已列出完整的目標路徑。若要更新這些參數、請執行下列命令：
+
+....
+*.audit_file_dest='/orabin/admin/TOAST/adump'
+*.audit_trail='db'
+*.compatible='12.1.0.2.0'
+*.control_files='/logs/TOAST/arch/control01.ctl','/logs/TOAST/redo/control02.ctl'
+*.db_block_size=8192
+*.db_domain=''
+*.db_name='TOAST'
+*.diagnostic_dest='/orabin'
+*.dispatchers='(PROTOCOL=TCP) (SERVICE=TOASTXDB)'
+*.log_archive_dest_1='LOCATION=/logs/TOAST/arch'
+*.log_archive_format='%t_%s_%r.dbf'
+*.open_cursors=300
+*.pga_aggregate_target=256m
+*.processes=300
+*.remote_login_passwordfile='EXCLUSIVE'
+*.sga_target=768m
+*.undo_tablespace='UNDOTBS1'
+....
+
+
+==== 停用原始的 init.ora 檔案
+
+此檔案位於 `$ORACLE_HOME/dbs` 目錄和通常位於 pfile 中、作為指向 ASM 磁碟群組上 spfile 的指標。若要確定不再使用原始 spfile 、請重新命名。不過、請勿刪除它、因為如果必須中止移轉、就需要此檔案。
+
+....
+[oracle@jfsc1 ~]$ cd $ORACLE_HOME/dbs
+[oracle@jfsc1 dbs]$ cat initTOAST.ora
+SPFILE='+ASM0/TOAST/spfileTOAST.ora'
+[oracle@jfsc1 dbs]$ mv initTOAST.ora initTOAST.ora.prev
+[oracle@jfsc1 dbs]$
+....
+
+
+==== 參數檔案重新建立
+
+這是重新定位 spfile 的最後一步。原始 spfile 不再使用、而且資料庫目前是使用中繼檔案啟動（但未掛載）。此檔案的內容可以寫入新的 spfile 位置、如下所示：
+
+....
+RMAN> create spfile from pfile='/tmp/pfile';
+Statement processed
+....
+
+
+==== 啟動資料庫以開始使用新的 spfile
+
+您必須啟動資料庫以釋放中繼檔案上的鎖定、並只使用新的 spfile 檔案來啟動資料庫。啟動資料庫也能證明新的 spfile 位置正確、而且其資料有效。
+
+....
+RMAN> shutdown immediate;
+Oracle instance shut down
+RMAN> startup nomount;
+connected to target database (not started)
+Oracle instance started
+Total System Global Area     805306368 bytes
+Fixed Size                     2929552 bytes
+Variable Size                331353200 bytes
+Database Buffers             465567744 bytes
+Redo Buffers                   5455872 bytes
+....
+
+
+=== 還原控制檔
+
+已在路徑上建立備份控制檔 `/tmp/TOAST.ctrl` 請稍早在程序中進行。新的 spfile 將控制檔位置定義為 /`logfs/TOAST/ctrl/ctrlfile1.ctrl` 和 `/logfs/TOAST/redo/ctrlfile2.ctrl`。不過、這些檔案尚不存在。
+
+. 此命令會將控制檔資料還原至 spfile 中定義的路徑。
++
+....
+RMAN> restore controlfile from '/tmp/TOAST.ctrl';
+Starting restore at 13-MAY-16
+using channel ORA_DISK_1
+channel ORA_DISK_1: copied control file copy
+output file name=/logs/TOAST/arch/control01.ctl
+output file name=/logs/TOAST/redo/control02.ctl
+Finished restore at 13-MAY-16
+....
+. 發出 mount 命令、以便正確探索控制檔並包含有效資料。
++
+....
+RMAN> alter database mount;
+Statement processed
+released channel: ORA_DISK_1
+....
++
+驗證 `control_files` 參數、請執行下列命令：
+
++
+....
+SQL> show parameter control_files;
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+control_files                        string      /logs/TOAST/arch/control01.ctl
+                                                 , /logs/TOAST/redo/control02.c
+                                                 tl
+....
+
+
+
+
+=== 記錄重新播放
+
+資料庫目前正在使用舊位置的資料檔案。在使用複本之前、必須先同步資料檔案。在初始複製程序期間已經過時間、變更主要記錄在歸檔記錄中。以下兩個步驟會複寫這些變更。
+
+. 執行包含歸檔記錄的 RMAN 遞增備份。
++
+....
+RMAN>  backup incremental level 1 format '/logs/TOAST/arch/%U' for recover of copy with tag 'ONTAP_MIGRATION' database;
+Starting backup at 13-MAY-16
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=124 device type=DISK
+channel ORA_DISK_1: starting incremental level 1 datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00001 name=+ASM0/TOAST/system01.dbf
+input datafile file number=00002 name=+ASM0/TOAST/sysaux01.dbf
+input datafile file number=00003 name=+ASM0/TOAST/undotbs101.dbf
+input datafile file number=00004 name=+ASM0/TOAST/users01.dbf
+channel ORA_DISK_1: starting piece 1 at 13-MAY-16
+channel ORA_DISK_1: finished piece 1 at 13-MAY-16
+piece handle=/logs/TOAST/arch/09r5fj8i_1_1 tag=ONTAP_MIGRATION comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 13-MAY-16
+RMAN-06497: WARNING: control file is not current, control file AUTOBACKUP skipped
+....
+. 重播記錄。
++
+....
+RMAN> recover copy of database with tag 'ONTAP_MIGRATION';
+Starting recover at 13-MAY-16
+using channel ORA_DISK_1
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: specifying datafile copies to recover
+recovering datafile copy file number=00001 name=/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSTEM_FNO-1_01r5fhjg
+recovering datafile copy file number=00002 name=/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSAUX_FNO-2_02r5fhjo
+recovering datafile copy file number=00003 name=/oradata/TOAST/data_D-TOAST_I-2098173325_TS-UNDOTBS1_FNO-3_03r5fhjt
+recovering datafile copy file number=00004 name=/oradata/TOAST/data_D-TOAST_I-2098173325_TS-USERS_FNO-4_05r5fhk6
+channel ORA_DISK_1: reading from backup piece /logs/TOAST/arch/09r5fj8i_1_1
+channel ORA_DISK_1: piece handle=/logs/TOAST/arch/09r5fj8i_1_1 tag=ONTAP_MIGRATION
+channel ORA_DISK_1: restored backup piece 1
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:01
+Finished recover at 13-MAY-16
+RMAN-06497: WARNING: control file is not current, control file AUTOBACKUP skipped
+....
+
+
+
+
+=== 啟動
+
+還原的控制檔仍會參照原始位置的資料檔案、也會包含複製資料檔案的路徑資訊。
+
+. 若要變更使用中的資料檔案、請執行 `switch database to copy` 命令：
++
+....
+RMAN> switch database to copy;
+datafile 1 switched to datafile copy "/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSTEM_FNO-1_01r5fhjg"
+datafile 2 switched to datafile copy "/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSAUX_FNO-2_02r5fhjo"
+datafile 3 switched to datafile copy "/oradata/TOAST/data_D-TOAST_I-2098173325_TS-UNDOTBS1_FNO-3_03r5fhjt"
+datafile 4 switched to datafile copy "/oradata/TOAST/data_D-TOAST_I-2098173325_TS-USERS_FNO-4_05r5fhk6"
+....
+. 雖然資料檔案應完全一致、但仍需最後一步才能重播線上重作記錄中記錄的其餘變更。使用 `recover database` 命令重播這些變更、並使複本 100% 與原始版本相同。不過、複本尚未開啟。
++
+....
+RMAN> recover database;
+Starting recover at 13-MAY-16
+using channel ORA_DISK_1
+starting media recovery
+archived log for thread 1 with sequence 28 is already on disk as file +ASM0/TOAST/redo01.log
+archived log file name=+ASM0/TOAST/redo01.log thread=1 sequence=28
+media recovery complete, elapsed time: 00:00:00
+Finished recover at 13-MAY-16
+....
+
+
+
+
+==== 重新部署暫存資料檔案
+
+. 識別仍在原始磁碟群組中使用的暫存資料檔案位置。
++
+....
+RMAN> select file#||' '||name from v$tempfile;
+FILE#||''||NAME
+--------------------------------------------------------------------------------
+1 +ASM0/TOAST/temp01.dbf
+....
+. 若要重新放置資料檔案、請執行下列命令。如果有許多 tempfiles 、請使用文字編輯器建立 RMAN 命令、然後剪下並貼上。
++
+....
+RMAN> run {
+2> set newname for tempfile 1 to '/oradata/TOAST/temp01.dbf';
+3> switch tempfile all;
+4> }
+executing command: SET NEWNAME
+renamed tempfile 1 to /oradata/TOAST/temp01.dbf in control file
+....
+
+
+
+
+=== 重做記錄移轉
+
+移轉程序即將完成、但重做記錄仍位於原始 ASM 磁碟群組中。重作記錄無法直接重新定位。而是建立新的重做記錄集、並在刪除舊記錄之後新增至組態。
+
+. 識別重做記錄群組的數目及其各自的群組編號。
++
+....
+RMAN> select group#||' '||member from v$logfile;
+GROUP#||''||MEMBER
+--------------------------------------------------------------------------------
+1 +ASM0/TOAST/redo01.log
+2 +ASM0/TOAST/redo02.log
+3 +ASM0/TOAST/redo03.log
+....
+. 輸入重做記錄檔的大小。
++
+....
+RMAN> select group#||' '||bytes from v$log;
+GROUP#||''||BYTES
+--------------------------------------------------------------------------------
+1 52428800
+2 52428800
+3 52428800
+....
+. 對於每個重做記錄、請使用與目前重做記錄群組相同的大小、使用新的檔案系統位置來建立新群組。
++
+....
+RMAN> alter database add logfile '/logs/TOAST/redo/log00.rdo' size 52428800;
+Statement processed
+RMAN> alter database add logfile '/logs/TOAST/redo/log01.rdo' size 52428800;
+Statement processed
+RMAN> alter database add logfile '/logs/TOAST/redo/log02.rdo' size 52428800;
+Statement processed
+....
+. 移除仍位於先前儲存設備上的舊記錄檔群組。
++
+....
+RMAN> alter database drop logfile group 4;
+Statement processed
+RMAN> alter database drop logfile group 5;
+Statement processed
+RMAN> alter database drop logfile group 6;
+Statement processed
+....
+. 如果遇到阻止刪除作用中記錄的錯誤、請強制切換至下一個記錄檔、以釋放鎖定並強制建立全域檢查點。範例如下所示。嘗試丟棄位於舊位置的記錄檔群組 3 、因為此記錄檔中仍有作用中資料、因此遭到拒絕。記錄歸檔之後再加上檢查點、即可刪除記錄檔。
++
+....
+RMAN> alter database drop logfile group 4;
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03002: failure of sql statement command at 12/08/2015 20:23:51
+ORA-01623: log 4 is current log for instance TOAST (thread 4) - cannot drop
+ORA-00312: online log 4 thread 1: '+NEWLOGS/TOAST/ONLINELOG/group_4.266.897763123'
+RMAN> alter system switch logfile;
+Statement processed
+RMAN> alter system checkpoint;
+Statement processed
+RMAN> alter database drop logfile group 4;
+Statement processed
+....
+. 檢閱環境、確定所有位置型參數都已更新。
++
+....
+SQL> select name from v$datafile;
+SQL> select member from v$logfile;
+SQL> select name from v$tempfile;
+SQL> show parameter spfile;
+SQL> select name, value from v$parameter where value is not null;
+....
+. 下列指令碼示範如何簡化此程序。
++
+....
+[root@jfsc1 current]# ./checkdbdata.pl TOAST
+TOAST datafiles:
+/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSTEM_FNO-1_01r5fhjg
+/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSAUX_FNO-2_02r5fhjo
+/oradata/TOAST/data_D-TOAST_I-2098173325_TS-UNDOTBS1_FNO-3_03r5fhjt
+/oradata/TOAST/data_D-TOAST_I-2098173325_TS-USERS_FNO-4_05r5fhk6
+TOAST redo logs:
+/logs/TOAST/redo/log00.rdo
+/logs/TOAST/redo/log01.rdo
+/logs/TOAST/redo/log02.rdo
+TOAST temp datafiles:
+/oradata/TOAST/temp01.dbf
+TOAST spfile
+spfile                               string      /orabin/product/12.1.0/dbhome_
+                                                 1/dbs/spfileTOAST.ora
+TOAST key parameters
+control_files /logs/TOAST/arch/control01.ctl, /logs/TOAST/redo/control02.ctl
+log_archive_dest_1 LOCATION=/logs/TOAST/arch
+....
+. 如果 ASM 磁碟群組已完全撤出、現在可以使用卸載 `asmcmd`。在許多情況下、屬於其他資料庫或 ASM spfile/passwd 檔案的檔案仍會存在。
++
+....
+-bash-4.1$ . oraenv
+ORACLE_SID = [TOAST] ? +ASM
+The Oracle base remains unchanged with value /orabin
+-bash-4.1$ asmcmd
+ASMCMD> umount DATA
+ASMCMD>
+....
+
+
+
+
+=== 資料檔案清理程序
+
+根據 Oracle RMAN 的使用方式而定、移轉程序可能會導致資料檔案的語法較長或較隱密。在此所示範例中、備份是以的檔案格式執行 `/oradata/TOAST/%U`。 `%U` 表示 RMAN 應為每個資料檔案建立預設的唯一名稱。結果與下列文字所示類似。資料檔案的傳統名稱會內嵌在名稱中。您可以使用中所示的指令碼方法來清除此問題 link:oracle-migration-sample-scripts.html#asm-migration-cleanup["ASM 移轉清理"]。
+
+....
+[root@jfsc1 current]# ./fixuniquenames.pl TOAST
+#sqlplus Commands
+shutdown immediate;
+startup mount;
+host mv /oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSTEM_FNO-1_01r5fhjg /oradata/TOAST/system.dbf
+host mv /oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSAUX_FNO-2_02r5fhjo /oradata/TOAST/sysaux.dbf
+host mv /oradata/TOAST/data_D-TOAST_I-2098173325_TS-UNDOTBS1_FNO-3_03r5fhjt /oradata/TOAST/undotbs1.dbf
+host mv /oradata/TOAST/data_D-TOAST_I-2098173325_TS-USERS_FNO-4_05r5fhk6 /oradata/TOAST/users.dbf
+alter database rename file '/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSTEM_FNO-1_01r5fhjg' to '/oradata/TOAST/system.dbf';
+alter database rename file '/oradata/TOAST/data_D-TOAST_I-2098173325_TS-SYSAUX_FNO-2_02r5fhjo' to '/oradata/TOAST/sysaux.dbf';
+alter database rename file '/oradata/TOAST/data_D-TOAST_I-2098173325_TS-UNDOTBS1_FNO-3_03r5fhjt' to '/oradata/TOAST/undotbs1.dbf';
+alter database rename file '/oradata/TOAST/data_D-TOAST_I-2098173325_TS-USERS_FNO-4_05r5fhk6' to '/oradata/TOAST/users.dbf';
+alter database open;
+....
+
+
+== Oracle ASM 重新平衡
+
+如前所述、 Oracle ASM 磁碟群組可透過重新平衡程序、以透明方式移轉至新的儲存系統。總而言之、重新平衡程序需要在現有的 LUN 群組中新增大小相同的 LUN 、然後再中斷先前 LUN 的作業。Oracle ASM 會以最佳配置自動將基礎資料重新定位至新儲存設備、然後在完成時釋出舊的 LUN 。
+
+移轉程序使用高效率的循序 I/O 、通常不會造成任何效能中斷、但可視需要調整移轉率。
+
+
+
+=== 識別要移轉的資料
+
+....
+SQL> select name||' '||group_number||' '||total_mb||' '||path||' '||header_status from v$asm_disk;
+NEWDATA_0003 1 10240 /dev/mapper/3600a098038303537762b47594c315864 MEMBER
+NEWDATA_0002 1 10240 /dev/mapper/3600a098038303537762b47594c315863 MEMBER
+NEWDATA_0000 1 10240 /dev/mapper/3600a098038303537762b47594c315861 MEMBER
+NEWDATA_0001 1 10240 /dev/mapper/3600a098038303537762b47594c315862 MEMBER
+SQL> select group_number||' '||name from v$asm_diskgroup;
+1 NEWDATA
+....
+
+
+=== 建立新的 LUN
+
+建立大小相同的新 LUN 、並視需要設定使用者和群組成員資格。LUN 應顯示為 `CANDIDATE` 磁碟。
+
+....
+SQL> select name||' '||group_number||' '||total_mb||' '||path||' '||header_status from v$asm_disk;
+ 0 0 /dev/mapper/3600a098038303537762b47594c31586b CANDIDATE
+ 0 0 /dev/mapper/3600a098038303537762b47594c315869 CANDIDATE
+ 0 0 /dev/mapper/3600a098038303537762b47594c315858 CANDIDATE
+ 0 0 /dev/mapper/3600a098038303537762b47594c31586a CANDIDATE
+NEWDATA_0003 1 10240 /dev/mapper/3600a098038303537762b47594c315864 MEMBER
+NEWDATA_0002 1 10240 /dev/mapper/3600a098038303537762b47594c315863 MEMBER
+NEWDATA_0000 1 10240 /dev/mapper/3600a098038303537762b47594c315861 MEMBER
+NEWDATA_0001 1 10240 /dev/mapper/3600a098038303537762b47594c315862 MEMBER
+....
+
+
+=== 新增 LUN
+
+雖然可以同時執行新增和刪除作業、但通常只需兩個步驟即可輕鬆新增 LUN 。首先、將新 LUN 新增至磁碟群組。此步驟會將一半的擴充從目前的 ASM LUN 移轉至新的 LUN 。
+
+重新平衡的力量代表資料傳輸的速度。資料傳輸的平行度越高、資料傳輸的數量就越多。執行移轉時、必須執行有效率的連續 I/O 作業、而這些作業不太可能造成效能問題。不過、若有需要、可利用調整進行中移轉的重新平衡能力 `alter diskgroup [name] rebalance power [level]` 命令。典型移轉使用 5 個值。
+
+....
+SQL> alter diskgroup NEWDATA add disk '/dev/mapper/3600a098038303537762b47594c31586b' rebalance power 5;
+Diskgroup altered.
+SQL> alter diskgroup NEWDATA add disk '/dev/mapper/3600a098038303537762b47594c315869' rebalance power 5;
+Diskgroup altered.
+SQL> alter diskgroup NEWDATA add disk '/dev/mapper/3600a098038303537762b47594c315858' rebalance power 5;
+Diskgroup altered.
+SQL> alter diskgroup NEWDATA add disk '/dev/mapper/3600a098038303537762b47594c31586a' rebalance power 5;
+Diskgroup altered.
+....
+
+
+=== 監控作業
+
+可透過多種方式監控和管理重新平衡作業。在此範例中、我們使用下列命令。
+
+....
+SQL> select group_number,operation,state from v$asm_operation;
+GROUP_NUMBER OPERA STAT
+------------ ----- ----
+           1 REBAL RUN
+           1 REBAL WAIT
+....
+移轉完成時、不會回報任何重新平衡作業。
+
+....
+SQL> select group_number,operation,state from v$asm_operation;
+no rows selected
+....
+
+
+=== 丟棄舊的 LUN
+
+移轉作業現在已完成一半。您可能需要執行一些基本效能測試、以確保環境健全。確認之後、可藉由丟棄舊的 LUN 來重新放置其餘的資料。請注意、這不會導致 LUN 立即發行。此中斷作業會先發出 Oracle ASM 重新定位延伸、然後再釋放 LUN 。
+
+....
+sqlplus / as sysasm
+SQL> alter diskgroup NEWDATA drop disk NEWDATA_0000 rebalance power 5;
+Diskgroup altered.
+SQL> alter diskgroup NEWDATA drop disk NEWDATA_0001 rebalance power 5;
+Diskgroup altered.
+SQL> alter diskgroup newdata drop disk NEWDATA_0002 rebalance power 5;
+Diskgroup altered.
+SQL> alter diskgroup newdata drop disk NEWDATA_0003 rebalance power 5;
+Diskgroup altered.
+....
+
+
+=== 監控作業
+
+可透過多種方式監控和管理重新平衡作業。在此範例中、我們使用下列命令：
+
+....
+SQL> select group_number,operation,state from v$asm_operation;
+GROUP_NUMBER OPERA STAT
+------------ ----- ----
+           1 REBAL RUN
+           1 REBAL WAIT
+....
+移轉完成時、不會回報任何重新平衡作業。
+
+....
+SQL> select group_number,operation,state from v$asm_operation;
+no rows selected
+....
+
+
+=== 移除舊的 LUN
+
+從磁碟群組移除舊 LUN 之前、您應該先對標頭狀態執行一次最後檢查。從 ASM 發佈 LUN 後、它不再列出名稱、而且標頭狀態會列為 `FORMER`。這表示這些 LUN 可以安全地從系統中移除。
+
+....
+SQL> select name||' '||group_number||' '||total_mb||' '||path||' '||header_status from v$asm_disk;
+NAME||''||GROUP_NUMBER||''||TOTAL_MB||''||PATH||''||HEADER_STATUS
+--------------------------------------------------------------------------------
+ 0 0 /dev/mapper/3600a098038303537762b47594c315863 FORMER
+ 0 0 /dev/mapper/3600a098038303537762b47594c315864 FORMER
+ 0 0 /dev/mapper/3600a098038303537762b47594c315861 FORMER
+ 0 0 /dev/mapper/3600a098038303537762b47594c315862 FORMER
+NEWDATA_0005 1 10240 /dev/mapper/3600a098038303537762b47594c315869 MEMBER
+NEWDATA_0007 1 10240 /dev/mapper/3600a098038303537762b47594c31586a MEMBER
+NEWDATA_0004 1 10240 /dev/mapper/3600a098038303537762b47594c31586b MEMBER
+NEWDATA_0006 1 10240 /dev/mapper/3600a098038303537762b47594c315858 MEMBER
+8 rows selected.
+....
+
+
+== LVM 移轉
+
+此處介紹的程序顯示了以 LVM 為基礎的磁碟區群組移轉原則、稱為 `datavg`。這些範例來自 Linux LVM 、但這些原則同樣適用於 AIX 、 HP-UX 和 VxVM 。精確命令可能會有所不同。
+
+. 識別目前在中的 LUN `datavg` Volume 群組。
++
+....
+[root@host1 ~]# pvdisplay -C | grep datavg
+  /dev/mapper/3600a098038303537762b47594c31582f datavg lvm2 a--  10.00g 10.00g
+  /dev/mapper/3600a098038303537762b47594c31585a datavg lvm2 a--  10.00g 10.00g
+  /dev/mapper/3600a098038303537762b47594c315859 datavg lvm2 a--  10.00g 10.00g
+  /dev/mapper/3600a098038303537762b47594c31586c datavg lvm2 a--  10.00g 10.00g
+....
+. 建立相同或稍大實體大小的新 LUN 、並將其定義為實體磁碟區。
++
+....
+[root@host1 ~]# pvcreate /dev/mapper/3600a098038303537762b47594c315864
+  Physical volume "/dev/mapper/3600a098038303537762b47594c315864" successfully created
+[root@host1 ~]# pvcreate /dev/mapper/3600a098038303537762b47594c315863
+  Physical volume "/dev/mapper/3600a098038303537762b47594c315863" successfully created
+[root@host1 ~]# pvcreate /dev/mapper/3600a098038303537762b47594c315862
+  Physical volume "/dev/mapper/3600a098038303537762b47594c315862" successfully created
+[root@host1 ~]# pvcreate /dev/mapper/3600a098038303537762b47594c315861
+  Physical volume "/dev/mapper/3600a098038303537762b47594c315861" successfully created
+....
+. 將新的磁碟區新增至磁碟區群組。
++
+....
+[root@host1 tmp]# vgextend datavg /dev/mapper/3600a098038303537762b47594c315864
+  Volume group "datavg" successfully extended
+[root@host1 tmp]# vgextend datavg /dev/mapper/3600a098038303537762b47594c315863
+  Volume group "datavg" successfully extended
+[root@host1 tmp]# vgextend datavg /dev/mapper/3600a098038303537762b47594c315862
+  Volume group "datavg" successfully extended
+[root@host1 tmp]# vgextend datavg /dev/mapper/3600a098038303537762b47594c315861
+  Volume group "datavg" successfully extended
+....
+. 發行 `pvmove` 命令將每個目前 LUN 的範圍重新放置到新 LUN 。。 `- i [seconds]` 引數會監控作業的進度。
++
+....
+[root@host1 tmp]# pvmove -i 10 /dev/mapper/3600a098038303537762b47594c31582f /dev/mapper/3600a098038303537762b47594c315864
+  /dev/mapper/3600a098038303537762b47594c31582f: Moved: 0.0%
+  /dev/mapper/3600a098038303537762b47594c31582f: Moved: 14.2%
+  /dev/mapper/3600a098038303537762b47594c31582f: Moved: 28.4%
+  /dev/mapper/3600a098038303537762b47594c31582f: Moved: 42.5%
+  /dev/mapper/3600a098038303537762b47594c31582f: Moved: 57.1%
+  /dev/mapper/3600a098038303537762b47594c31582f: Moved: 72.3%
+  /dev/mapper/3600a098038303537762b47594c31582f: Moved: 87.3%
+  /dev/mapper/3600a098038303537762b47594c31582f: Moved: 100.0%
+[root@host1 tmp]# pvmove -i 10 /dev/mapper/3600a098038303537762b47594c31585a /dev/mapper/3600a098038303537762b47594c315863
+  /dev/mapper/3600a098038303537762b47594c31585a: Moved: 0.0%
+  /dev/mapper/3600a098038303537762b47594c31585a: Moved: 14.9%
+  /dev/mapper/3600a098038303537762b47594c31585a: Moved: 29.9%
+  /dev/mapper/3600a098038303537762b47594c31585a: Moved: 44.8%
+  /dev/mapper/3600a098038303537762b47594c31585a: Moved: 60.1%
+  /dev/mapper/3600a098038303537762b47594c31585a: Moved: 75.8%
+  /dev/mapper/3600a098038303537762b47594c31585a: Moved: 90.9%
+  /dev/mapper/3600a098038303537762b47594c31585a: Moved: 100.0%
+[root@host1 tmp]# pvmove -i 10 /dev/mapper/3600a098038303537762b47594c315859 /dev/mapper/3600a098038303537762b47594c315862
+  /dev/mapper/3600a098038303537762b47594c315859: Moved: 0.0%
+  /dev/mapper/3600a098038303537762b47594c315859: Moved: 14.8%
+  /dev/mapper/3600a098038303537762b47594c315859: Moved: 29.8%
+  /dev/mapper/3600a098038303537762b47594c315859: Moved: 45.5%
+  /dev/mapper/3600a098038303537762b47594c315859: Moved: 61.1%
+  /dev/mapper/3600a098038303537762b47594c315859: Moved: 76.6%
+  /dev/mapper/3600a098038303537762b47594c315859: Moved: 91.7%
+  /dev/mapper/3600a098038303537762b47594c315859: Moved: 100.0%
+[root@host1 tmp]# pvmove -i 10 /dev/mapper/3600a098038303537762b47594c31586c /dev/mapper/3600a098038303537762b47594c315861
+  /dev/mapper/3600a098038303537762b47594c31586c: Moved: 0.0%
+  /dev/mapper/3600a098038303537762b47594c31586c: Moved: 15.0%
+  /dev/mapper/3600a098038303537762b47594c31586c: Moved: 30.4%
+  /dev/mapper/3600a098038303537762b47594c31586c: Moved: 46.0%
+  /dev/mapper/3600a098038303537762b47594c31586c: Moved: 61.4%
+  /dev/mapper/3600a098038303537762b47594c31586c: Moved: 77.2%
+  /dev/mapper/3600a098038303537762b47594c31586c: Moved: 92.3%
+  /dev/mapper/3600a098038303537762b47594c31586c: Moved: 100.0%
+....
+. 完成此程序後、請使用從磁碟區群組中刪除舊的 LUN `vgreduce` 命令。如果成功、現在即可安全地從系統移除 LUN 。
++
+....
+[root@host1 tmp]# vgreduce datavg /dev/mapper/3600a098038303537762b47594c31582f
+Removed "/dev/mapper/3600a098038303537762b47594c31582f" from volume group "datavg"
+[root@host1 tmp]# vgreduce datavg /dev/mapper/3600a098038303537762b47594c31585a
+  Removed "/dev/mapper/3600a098038303537762b47594c31585a" from volume group "datavg"
+[root@host1 tmp]# vgreduce datavg /dev/mapper/3600a098038303537762b47594c315859
+  Removed "/dev/mapper/3600a098038303537762b47594c315859" from volume group "datavg"
+[root@host1 tmp]# vgreduce datavg /dev/mapper/3600a098038303537762b47594c31586c
+  Removed "/dev/mapper/3600a098038303537762b47594c31586c" from volume group "datavg"
+....
+

@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: mysql/innodb_flush_log_at_trx_commit.html 
+keywords: MySQL,MariaDB,innodb_doublewrite 
+summary: ONTAP 上的 MySQL 
+---
+= InnoDB_Flush 記錄 _AT_TRx_Commit
+:allow-uri-read: 
+
+
+[role="lead"]
+當資料發生變更時、變更不會立即寫入儲存設備。
+
+而是記錄在記錄緩衝區中、這是 InnoDB 分配給記錄在記錄檔中的緩衝區變更的記憶體部分。InnoDB 會在交易提交、緩衝區滿時、或每秒一次（以先發生的事件為準）、將緩衝區排清至記錄檔。控制此程序的組態變數是 InnoDB_Flush 記錄 _AT_TRx_Commit 。價值選項包括：
+
+* 當您設定時 `innodb_flush_log_trx_at_commit=0`、 InnoDB 會將修改過的資料（在 InnoDB 緩衝區集區中）寫入記錄檔（ IB_logfile ）、並每秒清除記錄檔（寫入儲存區）。不過、提交交易時、它不會執行任何動作。如果發生電源故障或系統當機、則沒有任何未排清的資料可恢復、因為它不會寫入記錄檔或磁碟機。
+* 當您設定時 `innodb_flush_log_trx_commit=1`、 InnoDB 會將記錄緩衝區寫入交易記錄檔、並在每筆交易中將記錄檔排清至持久儲存區。例如、對於所有交易認可、 InnoDB 會寫入記錄、然後寫入儲存設備。儲存速度變慢會對效能造成負面影響、例如每秒 InnoDB 交易數會減少。
+* 當您設定時 `innodb_flush_log_trx_commit=2`、 InnoDB 會在每次提交時將記錄緩衝區寫入記錄檔、但不會將資料寫入儲存區。InnoDB 每秒會清除一次資料。即使發生電源故障或系統當機、記錄檔中也有選項 2 資料可供使用、而且可恢復。
+
+
+如果效能是主要目標、請將值設為 2 。由於 InnoDB 每秒一次寫入磁碟機、而非每次提交交易時、效能大幅提升。如果發生停電或當機、可從交易記錄中恢復資料。
+
+如果資料安全是主要目標、請將值設為 1 、以便每次提交交易時、 InnoDB 都會將資料清出磁碟機。不過、效能可能會受到影響。
+
+
+TIP: * NetApp 建議 * 將 InnoDB_Flush 日誌 _TRx_Commit 值設為 2 、以獲得更好的效能。

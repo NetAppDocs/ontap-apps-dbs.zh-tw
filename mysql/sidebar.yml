@@ -1,0 +1,50 @@
+---
+section: mysql
+title: MySQL
+entries:
+- title: 總覽
+  url: "/mysql/overview.html"
+- title: 組態ONTAP
+  url: "/mysql/ontap.html"
+- title: 資料庫組態
+  entries:
+  - title: 檔案結構
+    url: "/mysql/file-structure.html"
+  - title: 組態總覽
+    url: "/mysql/configuration.html"
+  - title: InnoDB_log_file_size
+    url: "/mysql/innodb_log_file_size.html"
+  - title: InnoDB_Flush 記錄 _AT_TRx_Commit
+    url: "/mysql/innodb_flush_log_at_trx_commit.html"
+  - title: InnoDB_doublewrite
+    url: "/mysql/innodb_doublewrite.html"
+  - title: InnoDB_緩 衝區 _Pool_size
+    url: "/mysql/innodb_buffer_pool_size.html"
+  - title: InnoDB_Flush 方法
+    url: "/mysql/innodb_flush_method.html"
+  - title: InnoDB_IO_capAC
+    url: "/mysql/innodb_io_capacity.html"
+  - title: InnoDB_LRU_SCAN_depth
+    url: "/mysql/innodb_lru_scan_depth.html"
+  - title: open_file_limits
+    url: "/mysql/open_file_limits.html"
+- title: 主機組態
+  entries:
+  - title: 容器化
+    url: "/mysql/containers.html"
+  - title: 插槽表格
+    url: "/mysql/slot-tables.html"
+  - title: I/O 排程器
+    url: "/mysql/schedulers.html"
+  - title: 檔案描述元
+    url: "/mysql/file-descriptors.html"
+- title: 儲存組態
+  entries:
+  - title: 一般儲存組態
+    url: "/mysql/storage.html"
+  - title: MySQL over NFS
+    url: "/mysql/mysql-over-nfs.html"
+  - title: MySQL over SAN
+    url: "/mysql/mysql-over-san.html"
+  - title: 使用 FabricPool 分層管理 MySQL
+    url: "/mysql/tiering.html"

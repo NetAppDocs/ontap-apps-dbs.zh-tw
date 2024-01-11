@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: vmware/vsphere/overview.html 
+keywords: introduction, unified storage, virtual volumes, storage efficiency, hybrid cloud 
+summary: NetApp ONTAP 解決方案是VMware vSphere環境的領導級儲存解決方案、已有將近二十年的歷史、持續增加創新功能來簡化管理、同時降低成本。本文件介紹ONTAP vSphere的解決方案、包括最新的產品資訊和最佳實務做法、以簡化部署、降低風險及簡化管理。 
+---
+= VMware vSphere 搭配 ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+[role="lead"]
+NetApp ONTAP 解決方案是VMware vSphere環境的領導級儲存解決方案、已有將近二十年的歷史、持續增加創新功能來簡化管理、同時降低成本。本文件介紹ONTAP vSphere的解決方案、包括最新的產品資訊和最佳實務做法、以簡化部署、降低風險及簡化管理。
+
+
+NOTE: 本文件取代先前發佈的技術報告 _TR-4597 ： VMware vSphere for ONTAP _
+
+最佳實務做法是輔助其他文件、例如指南和相容性清單。這些技術是根據實驗室測試和NetApp工程師與客戶廣泛的現場經驗所開發。它們可能不是每個環境中唯一能運作的支援實務做法、但通常是最簡單的解決方案、能滿足大多數客戶的需求。
+
+本文件著重於在 vSphere 7.0 或更新版本上執行的 ONTAP （ 9.x ）最新版本中的功能。請參閱 https://imt.netapp.com/matrix/#search["NetApp 互通性對照表工具"^] 和 https://www.vmware.com/resources/compatibility/search.php?deviceCategory=san["VMware相容性指南"^] 以取得與特定版本相關的詳細資料。
+
+
+
+== 為何ONTAP 選擇適用於vSphere的呢？
+
+有許多理由讓成千上萬的客戶選擇 ONTAP 作為 vSphere 的儲存解決方案、例如支援 SAN 和 NAS 傳輸協定的統一儲存系統、使用節省空間的快照功能提供強大的資料保護功能、以及豐富的工具來協助您管理應用程式資料。使用與Hypervisor分開的儲存系統、您可以卸載許多功能、並將vSphere主機系統的投資效益最大化。這種方法不僅能確保主機資源專注於應用程式工作負載、也能避免儲存作業對應用程式造成隨機效能影響。
+
+搭配vSphere使用VMware是一項絕佳組合、可降低主機硬體與VMware軟體的費用。ONTAP您也可以透過一致的高效能、以較低的成本保護資料。由於虛擬化工作負載是行動工作負載、因此您可以使用Storage VMotion、在VMFS、NFS或vVols資料存放區之間移動VM、探索不同的方法、所有這些都在同一個儲存系統上。
+
+以下是客戶今日重視的關鍵因素：
+
+* *統一化儲存設備。*執行ONTAP 此功能的系統以多種重要方式統一化。這種方法原本是指NAS和SAN兩種傳輸協定、ONTAP 而除了NAS的原始優勢之外、它仍是SAN的領導平台。在vSphere環境中、這種方法也可能代表虛擬桌面基礎架構（VDI）的統一化系統、以及虛擬伺服器基礎架構（VSI）。執行ONTAP VMware軟體的系統通常比傳統企業陣列便宜、但在同一個系統中擁有進階的儲存效率功能來處理VDI。此外、從SSD到SATA、還能統一化各種儲存媒體、並將這些媒體輕鬆延伸到雲端。ONTAP無需購買單一 Flash 陣列即可獲得效能、 SATA 陣列可用於歸檔、而獨立的系統則可用於雲端。將它們緊密連結在一起。ONTAP
+* * 虛擬磁碟區和儲存原則型管理。 * NetApp 是 VMware 早期開發 vSphere 虛擬磁碟區（ VVols ）的設計合作夥伴、為 vVols 和 VMware vSphere API for Storage Aware （ VASA ）提供架構輸入和早期支援。這種方法不僅能為 VMFS 帶來精細的 VM 儲存管理、也支援透過儲存原則型管理來自動化儲存資源配置。此方法可讓儲存架構設計師設計具有不同功能的儲存資源池、讓VM管理員輕鬆使用。這個解決方案是VVol擴充儲存產業的領導廠商、可在單一叢集內支援數十萬個vVols、而企業陣列和小型Flash陣列廠商則可支援每個陣列數千個vVols。ONTAPNetApp也透過即將推出的VVols 3.0支援功能、推動精細VM管理的演進。
+* * 儲存效率。 * 雖然 NetApp 是第一批為正式作業工作負載提供重複資料刪除技術的公司、但這項創新技術並不是這方面的第一項或最後一項。它從快照開始、這是一種不具效能影響的空間效率資料保護機制、搭配 FlexClone 技術、可立即製作 VM 的讀取 / 寫入複本、以供正式作業和備份使用。NetApp繼續提供內嵌功能、包括重複資料刪除、壓縮及零區塊重複資料刪除、讓昂貴的SSD發揮最大的儲存容量。最近、利用壓縮技術、將較小的I/O作業和檔案封裝到磁碟區塊中的功能更為豐富。ONTAP這些功能的結合、讓客戶看到VSI的節約效益高達5：1、VDI的節約效益高達30：1。
+* *混合雲*無論是用於內部部署的私有雲、公有雲基礎架構、或是結合兩者最佳功能的混合雲、ONTAP 均可利用此解決方案協助您打造資料架構、以簡化及最佳化資料管理。從高效能All Flash系統開始著手、然後將它們與磁碟或雲端儲存系統結合、以提供資料保護和雲端運算。您可以選擇Azure、AWS、IBM或Google雲端、以最佳化成本並避免受限。視需要運用OpenStack和Container技術的進階支援。NetApp也提供雲端型備份（SnapMirror Cloud、Cloud Backup Service VMware及Cloud Sync VMware）、以及FabricPool 適用於VMware的儲存分層與歸檔工具（VMware®）ONTAP 、協助降低營運成本、並充分運用雲端的廣泛應用。
+* *及更多資訊。*善用NetApp AFF Sa系列陣列的極致效能、加速虛擬化基礎架構、同時管理成本。使用橫向擴充ONTAP 的叢集、享受完全不中斷營運的體驗、從維護到升級、到儲存系統的完整更換。使用NetApp加密功能保護閒置資料、無需額外成本。透過精細的服務品質功能、確保效能符合業務服務層級。它們都是業界領先的企業資料管理軟體 ONTAP 所提供的各種功能的一部分。
+

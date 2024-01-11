@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: mssql/shared-vs-dedicated.html 
+keywords: MS-SQL,mssql,SQL Server 
+summary: ONTAP 上的 Microsoft SQL Server 
+---
+= Microsoft SQL Server 共用執行個體與專用執行個體的比較
+:allow-uri-read: 
+
+
+[role="lead"]
+如果應用程式有許多架構和儲存程序、可能會影響其他共用 SQL Server 執行個體的應用程式。
+
+執行個體資源可能會被分割或鎖定、進而導致在共用 SQL Server 執行個體上主控資料庫的其他應用程式發生效能問題。
+
+疑難排解效能問題可能很複雜、因為您必須找出哪個執行個體是根本原因。此問題與作業系統授權和 SQL Server 授權的成本相比較。如果應用程式效能至關重要、則強烈建議使用專用執行個體。
+
+Microsoft 在伺服器層級的每個核心授權 SQL Server 、而非每個執行個體授權。因此、資料庫管理員想要安裝伺服器能處理的 SQL Server 執行個體數量、以節省授權成本、這可能會導致日後發生重大效能問題。
+
+
+TIP: * NetApp 建議 * 盡可能選擇專屬的 SQL Server 執行個體、以獲得最佳效能。

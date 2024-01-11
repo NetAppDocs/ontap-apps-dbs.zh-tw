@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: oracle/dp/overview-dr.html 
+keywords: oracle, database, ontap 
+summary: NetApp ONTAP 是一款功能強大的資料管理平台、具備原生功能、包括即時備份、還原與複製功能、即時壓縮等效率功能、不中斷的硬體升級、以及從外部儲存陣列匯入 LUN 的能力。 
+---
+= Oracle 災難恢復
+:allow-uri-read: 
+
+
+[role="lead"]
+NetApp MetroCluster 為關鍵任務 Oracle 工作負載提供高可用度、零資料遺失的解決方案。
+
+此外、 MetroCluster 等整合式解決方案可簡化現今複雜的橫向擴充 Oracle 資料庫、應用程式及虛擬化基礎架構。MetroCluster 以單一簡單的中央儲存陣列取代多項外部資料保護產品和策略。它可在單一叢集式儲存系統中提供整合式備份、還原、災難恢復和高可用度（ HA ）。
+
+
+NOTE: 本文件取代先前發佈的技術報告 _TR-4592 ： Oracle on MetroCluster 。 _

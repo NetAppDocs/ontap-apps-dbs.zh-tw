@@ -1,0 +1,99 @@
+---
+sidebar: sidebar 
+permalink: mssql/CPUConfiguration.html 
+keywords: MS-SQL,mssql,SQL Server 
+summary: ONTAP 上的 Microsoft SQL Server 
+---
+= CPU 組態
+:allow-uri-read: 
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revdate: Modifying server and database settings can help achieve better and more efficient database performance.
+
+
+
+
+== 超執行緒
+
+超執行緒是 Intel 專屬的同步多執行緒（ SMT ）實作、可改善在 x86 微處理器上執行的運算（多工）平行化。
+
+使用超執行緒的硬體可讓邏輯超執行緒 CPU 在作業系統中顯示為實體 CPU 。SQL Server 接著會看到作業系統所呈現的實體 CPU 、因此可以使用超執行緒處理器。
+
+此處的注意點是、每個 SQL Server 版本都有自己的運算能力限制。如需詳細資訊、請參閱依 SQL Server 版本計算容量限制。
+
+授權 SQL Server 時有兩大主要考量。第一個稱為伺服器 + 用戶端存取授權（ CAL ）模式、第二個是每個處理器核心模式。雖然您可以使用伺服器 + CAL 策略存取 SQL Server 中所有可用的產品功能、但每個插槽的硬體限制為 20 個 CPU 核心。即使您的伺服器的 SQL Server Enterprise Edition + CAL 每個插槽有超過 20 個 CPU 核心、應用程式也無法在該執行個體上同時使用所有這些核心。圖顯示啟動後的 SQL Server 記錄訊息、指出核心限制的強制執行。
+
+
+
+=== 記錄項目指出 SQL Server 啟動後所使用的核心數。
+
+image:./media/hyperthreading.png["錯誤：缺少圖形影像"]
+
+因此、若要使用所有 CPU 、您應該使用每個處理器核心授權。如需 SQL Server 授權的詳細資訊、請參閱 link:https://www.microsoft.com/en-us/sql-server/sql-server-2022-comparison["SQL Server 2022 ：現代化的資料平台"^]。
+
+
+
+== CPU 親和性
+
+除非您遇到效能問題、否則您不太可能需要變更處理器親和性預設值、但仍值得您瞭解它們是什麼、以及它們的運作方式。
+
+SQL Server 可透過兩個選項來支援處理器關聯性：
+
+* CPU 親和性遮罩
+* 關聯性 I/O 遮罩
+
+
+SQL Server 會使用作業系統提供的所有 CPU （如果選擇了每個處理器核心授權）。它會在所有 CPU 上建立排程器、以便為任何指定的工作負載充分利用資源。當多工處理時、伺服器上的作業系統或其他應用程式可以將處理執行緒從一個處理器切換至另一個處理器。SQL Server 是一種資源密集的應用程式、因此發生這種情況時、效能可能會受到影響。若要將影響降至最低、您可以設定處理器、使所有 SQL Server 負載都導向預先選取的處理器群組。這是透過使用 CPU 關聯性遮罩來達成的。
+
+關聯性 I/O 遮罩選項會將 SQL Server 磁碟 I/O 繫結至 CPU 子集。在 SQL Server OLTP 環境中、此延伸功能可提升 SQL Server 執行緒的效能、以執行 I/O 作業。
+
+
+
+== 平行度上限（ MAXDOP ）
+
+根據預設、 SQL Server 會在查詢執行期間使用所有可用的 CPU （如果選擇了個別處理器核心授權）。
+
+雖然這對大型查詢來說很好、但可能會造成效能問題、並限制並行處理。更好的方法是將平行度限制在單一 CPU 插槽中的實體核心數量。例如、在具有兩個實體 CPU 插槽、每個插槽有 12 個核心的伺服器上、無論超執行緒為何、 MAXDOP 都應設為 12 。MAXDOP 無法限制或規定要使用的 CPU 。而是限制單一批次查詢可以使用的 CPU 數量。
+
+
+TIP: * NetApp 建議 * 使用 DSS （例如資料倉儲）、從這項設定開始於 50 左右、並視情況調校或調校。請務必測量應用程式中的關鍵查詢、並視需要進行調整。
+
+
+
+== 最大工作執行緒數
+
+當大量用戶端連線至 SQL Server 時、最大工作執行緒選項可協助最佳化效能。
+
+通常會為每個查詢要求建立個別的作業系統執行緒。如果數百個同時連線到 SQL Server 、則每個查詢要求一個執行緒會消耗大量的系統資源。「最大工作執行緒」選項可讓 SQL Server 建立工作執行緒集區、以服務更多查詢要求、進而協助改善效能。
+
+預設值為 0 、可讓 SQL Server 在啟動時自動設定工作執行緒數量。這適用於大多數系統。Max Worker 執行緒是進階選項、如果沒有經驗豐富的資料庫管理員（ DBA ）的協助、就不應變更。
+
+何時應設定 SQL Server 使用更多工作執行緒？如果每個排程器的平均工作佇列長度超過 1 、您可能會因為在系統中新增更多執行緒而受益、但前提是負載未受 CPU 限制或遇到任何其他繁重的等待。如果發生上述任一種情況、新增更多執行緒並不會有幫助、因為它們最終會等待其他系統瓶頸。如需工作者執行緒上限的詳細資訊、請參閱 link:https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-the-max-worker-threads-server-configuration-option?view=sql-server-ver16&redirectedfrom=MSDN["設定最大工作執行緒伺服器組態選項"^]。
+
+image:./media/max-worker-threads.png["錯誤：缺少圖形影像"]
+
+
+
+=== 使用 SQL Server Management Studio 設定最大工作執行緒。
+
+....
+The following example shows how to configure the max work threads option using T-SQL.
+
+EXEC sp_configure 'show advanced options', 1;
+
+GO
+
+RECONFIGURE ;
+
+GO
+
+EXEC sp_configure 'max worker threads', 900 ;
+
+GO
+
+RECONFIGURE;
+
+GO
+....

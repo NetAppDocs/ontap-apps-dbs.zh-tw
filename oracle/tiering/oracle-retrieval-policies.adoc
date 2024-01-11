@@ -1,0 +1,55 @@
+---
+sidebar: sidebar 
+permalink: oracle/tiering/oracle-retrieval-policies.html 
+keywords: tiering, FabricPool 
+summary: 高效能分層擷取原則 
+---
+= 擷取原則
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+分層原則可控制哪些 Oracle 資料庫區塊從效能層分層分層到容量層。擷取原則可控制已階層的區塊讀取時所發生的情況。
+
+
+
+== 預設
+
+所有 FabricPool 磁碟區的初始設定為 `default`這表示行為是由「雲端擷取原則」所控制。「確切的行為取決於所使用的分層原則。
+
+* `auto`–僅擷取隨機讀取的資料
+* `snapshot-only`–擷取所有依序或隨機讀取的資料
+* `none`–擷取所有依序或隨機讀取的資料
+* `all`–請勿從容量層擷取資料
+
+
+
+
+== 讀取中
+
+設定 `cloud-retrieval-policy` 對讀取會覆寫預設行為、因此讀取任何階層資料會導致資料傳回效能層。
+
+例如、在的下、一個 Volume 可能已被輕度使用了很長時間 `auto` 分層原則和大多數區塊現在都是分層的。
+
+如果業務發生非預期的變更、需要重複掃描部分資料以準備特定報告、則可能需要變更 `cloud-retrieval-policy` 至 `on-read` 確保讀取的所有資料都會傳回效能層、包括依序和隨機讀取資料。這將改善連續 I/O 相對於磁碟區的效能。
+
+
+
+== 推廣
+
+升級原則的行為取決於分層原則。如果分層原則是 `auto`、然後設定 `cloud-retrieval-policy `to `promote` 在下一次分層掃描時、從容量層移回所有區塊。
+
+如果分層原則是 `snapshot-only`，則只會傳回與作用中檔案系統相關聯的區塊。通常這不會有任何影響、因為唯一的區塊會在底下分層 `snapshot-only` 原則將是與快照完全相關的區塊。作用中檔案系統中不會有階層式區塊。
+
+然而、如果磁碟區上的資料是由 Volume SnapRestore 或快照的檔案複製作業還原、則目前使用中檔案系統可能需要一些因為只與快照相關而分層的區塊。您可能需要暫時變更 `cloud-retrieval-policy` 原則目標 `promote` 快速擷取所有本機需要的區塊。
+
+
+
+== 永不
+
+請勿從容量層擷取區塊。

@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: mysql/mysql-over-nfs.html 
+keywords: MySQL,MariaDB,NFS 
+summary: ONTAP 上的 MySQL 
+---
+= MySQL over NFS
+:allow-uri-read: 
+
+
+[role="lead"]
+MySQL 文件建議您將 NFSv4 用於 NAS 部署。
+
+
+
+== ONTAP NFS 傳輸大小
+
+根據預設、 ONTAP 將 NFS IO 大小限制為 64K 。使用 MySQL 資料庫的隨機 IO 使用的區塊大小要小得多、遠低於 64K 上限。大型區塊 IO 通常是平行處理的、因此 64K 最大值也不是限制。
+
+有些工作負載的上限為 64K 、因此會造成限制。尤其是、如果資料庫執行的 IO 數量較少、但容量較大、例如完整表格掃描備份作業等單執行緒作業、將會更快、更有效率地執行。ONTAP 搭配資料庫工作負載的最佳 IO 處理大小為 256k 。針對下列特定作業系統所列出的 NFS 裝載選項已相應從 64K 更新至 256k 。
+
+指定 ONTAP SVM 的最大傳輸大小可變更如下：
+
+[listing]
+----
+Cluster01::> set advanced
+
+Warning: These advanced commands are potentially dangerous; use them only when directed to do so by NetApp personnel.
+
+Do you want to continue? {y|n}: y
+
+Cluster01::*> nfs server modify -vserver vserver1 -tcp-max-xfer-size 262144
+----
+
+CAUTION: 切勿將 ONTAP 上允許的傳輸大小上限降至低於目前掛載之 NFS 檔案系統的 rsize/wsize 值。這可能會在某些作業系統中造成當機或甚至資料毀損。例如、如果 NFS 用戶端目前設定為 rsize/wsize 65536 、則 ONTAP 最大傳輸大小可在 65536 到 1048576 之間調整、因為用戶端本身受到限制、因此沒有任何影響。將傳輸大小上限降至 65536 以下可能會損害可用度或資料。
+
+[TIP]
+====
+* NetApp 推薦 *
+
+設定下列 NFSv4 Fstab （ /etc/fstab ）設定：
+
+`nfs4 rw, hard,nointr,bg,vers=4,proto=tcp,noatime,rsize=262144,wsize=262144`
+
+====
+
+NOTE: NFSv3 的常見問題是停電後鎖定的 InnoDB 記錄檔。使用時間或切換記錄檔可解決此問題。不過、 NFSv4 有鎖定作業、並追蹤開啟的檔案和委派。

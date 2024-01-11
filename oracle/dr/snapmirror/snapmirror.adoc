@@ -1,0 +1,95 @@
+---
+sidebar: sidebar 
+permalink: oracle/dr/snapmirror/snapmirror.html 
+keywords: ontap, snapmirror 
+summary: SnapMirror 和 SyncMirror 
+---
+= SnapMirror 和 SyncMirror
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+幾乎每個應用程式都需要資料複寫。
+
+在最基本的層級上、複寫可能是指將儲存在異地磁帶上的複本、或是將應用程式層級複寫到待命位置。災難恢復是指在發生災難性服務中斷時、使用這些複本複本將服務上線。
+
+ONTAP 提供多種複寫選項、可因應儲存陣列本身的各種需求、滿足各種需求。這些選項包括簡單地將備份複寫到遠端站台、直到在同一個平台上同時提供災難恢復和高可用度的同步全自動化解決方案。
+
+適用於應用程式的主要 ONTAP 複寫技術是 NetApp SnapMirror 和 NetApp SyncMirror 技術。這些不是附加產品、而是完全整合至 ONTAP 、只要簡單新增授權金鑰就能啟動。儲存層級複寫也不是唯一的選項。應用程式層級的複寫、例如搭配 Oracle DataGuard 、也能整合至以 ONTAP 為基礎的資料保護策略。
+
+正確的選擇取決於特定的複寫、恢復和保留需求。
+
+
+
+== ONTAP SnapMirror
+
+SnapMirror 是 NetApp 非同步複寫解決方案、非常適合用來保護大型、複雜且動態的資料集、例如資料庫及其相關應用程式。其主要值如下：
+
+* * 管理能力。 * SnapMirror 易於設定及管理、因為它是儲存軟體的原生部分。不需要附加產品。複寫關係可在幾分鐘內建立、並可直接在儲存系統上管理。
+* * 簡易性。 * 複寫是以 FlexVol 磁碟區為基礎、這些磁碟區是 LUN 或檔案的容器、會以單一一致群組的形式複寫。
+* * 效率。 * 建立初始複寫關係後、只會複寫變更。此外、還會保留重複資料刪除和壓縮等效率功能、進一步減少必須傳輸至遠端站台的資料量。
+* * 靈活度。 * 鏡像可以暫時中斷、以便測試災難恢復程序、然後輕鬆地重新建立鏡像、而不需要進行完整的重新鏡像。只有變更的資料必須套用、才能使鏡射恢復同步。鏡像也可以還原、以便在災難結束後、原始站台恢復運作後、能夠快速重新同步。最後、複寫資料的讀寫複本可供測試與開發。
+
+
+ONTAP 提供數種不同的複寫技術、但最靈活的是 SnapMirror 、這是一個 Volume 對 Volume 的非同步鏡射選項。
+
+如前所述、 FlexVol Volume 是管理 Snapshot 型備份和 SnapRestore 型還原的基本單位。FlexVol Volume 也是 SnapMirror 型複寫的基本單元。第一步是建立來源 Volume 到目的地 Volume 的基準鏡射。初始化此鏡射關係之後、所有後續作業都會以複寫變更的資料為基礎。
+
+從恢復的角度來看、 SnapMirror 的主要價值如下：
+
+* SnapMirror 作業很容易理解、而且可以輕鬆自動化。
+* SnapMirror 複本的簡單更新只需要複寫差異變更、減少頻寬需求、並允許更頻繁的更新。
+* SnapMirror 非常精細。它是以簡單的磁碟區對磁碟區關係為基礎、可建立數百個分別管理的複本和複寫間隔。複寫不一定是一體適用的。
+* 鏡射方向可以輕鬆反轉、同時保留僅根據變更更新關係的能力。這可在主站台在發生停電等災難後恢復服務後、提供快速的容錯回復功能。只有變更必須同步回來源。
+* 鏡像可以輕鬆中斷並有效地重新同步、以便進行災難恢復程序的排練。
+* SnapMirror 以完整區塊層級複寫模式運作、不僅能複寫磁碟區中的資料、也能複寫快照。此功能可在災難恢復站點上提供資料複本和完整的備份集。
+
+
+SnapMirror 以版本彈性模式運作、可複寫特定快照、讓主要和次要站台的保留時間不同。
+
+
+
+== SnapMirror同步
+
+SnapMirror Synchronous （ SM-S ）是 SnapMirror 的增強功能、可提供 RPO = 0 同步複寫。它最常用於儲存架構、只有資料的子集需要同步鏡射。
+
+SM-S 可在兩種稍微不同的模式下運作： Sync 和 StrictSync 。
+
+在「同步」模式中、變更會先複寫、然後才會被確認。只要複寫作業正常、就能保證 RPO 為零。如果無法複寫變更、則 SM-S 可以結束同步模式、並允許作業繼續。這允許在正常情況下使用 RPO=0 、但如果複寫目的地無法使用、資料處理程序不會完全停止。
+
+StrictSync 保證 RPO=0 。複寫變更失敗會導致 I/O 錯誤、這通常會導致應用程式關機。
+
+如需 SM-S 的完整說明、請參閱 https://www.netapp.com/media/17174-tr4733.pdf?v=1221202075448P["TR-4733"^] 以及正式的 ONTAP 文件。新版 ONTAP 會持續新增功能。
+
+
+
+== 一致性群組
+
+ONTAP 可建立一致性群組快照、從 9.13.1 開始、 ONTAP 可複寫磁碟區群組（請記住、 ONTAP 術語中的磁碟區不是 LUN 、而是由一或多個檔案或 LUN 組成的管理容器）、作為一致的群組。
+
+SnapMirror 複寫和中斷 CG SnapMirror 關係可維持各磁碟區之間的一致性、 SnapMirror Synchronous 和 SnapMirror Business Continuity 則可維持各組成磁碟區之間的一致性。
+
+因此、您可以複寫多個 Volume 資料集、並確保所有磁碟區都一致。除此之外、這還能「中斷鏡射並移轉」災難恢復作業、而不需要額外的應用程式或資料庫還原步驟。
+
+
+
+== MetroCluster 與 SyncMirror
+
+MetroCluster 也是同步複寫解決方案、適用於大規模的關鍵任務工作負載。複寫是以 SyncMirror 為基礎。在最簡單的層面、 SyncMirror 會在兩個不同位置建立兩組完整的 RAID 保護資料。它們可能位於資料中心內的鄰近房間、也可能位於相距數公里的地方。
+
+SyncMirror 與 ONTAP 完全整合、運作速度剛剛高於 RAID 層級。因此、所有常見的 ONTAP 功能、例如 Snapshot 複本、 SnapRestore 和 NetApp FlexClone 、都能順暢運作。它仍是 ONTAP 、只是包含額外的同步資料鏡射層。
+
+管理 SyncMirror 資料的 ONTAP 控制器集合稱為 NetApp MetroCluster 組態。MetroCluster 的主要用途是在各種典型和災難恢復故障情況下、提供對同步鏡射資料的高可用度存取。
+
+MetroCluster 和 SyncMirror 的資料保護主要價值如下：
+
+* 在正常作業中、 SyncMirror 可在不同位置提供保證同步鏡射。寫入作業在兩個站台的非揮發性媒體上都存在之前、才會被確認。
+* 如果站台之間的連線失敗、 SyncMirror 會自動切換至非同步模式、以保留主要站台提供資料、直到連線恢復為止。還原後、它會有效率地更新主要站台上累積的變更、以提供快速重新同步。不需要完全重新初始化。
+
+
+SnapMirror 也與以 SyncMirror 為基礎的系統完全相容。例如、主要資料庫可能是在分散在兩個地理站台的 MetroCluster 叢集上執行。此資料庫也可以將備份複寫到第三個站台、做為長期歸檔、或是在 DevOps 環境中建立複本。

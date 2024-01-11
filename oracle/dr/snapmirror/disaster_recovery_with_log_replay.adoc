@@ -1,0 +1,357 @@
+---
+sidebar: sidebar 
+permalink: oracle/dr/snapmirror/disaster_recovery_with_log_replay.html 
+keywords: oracle, ontap, disaster recovery, log reply, log shipping 
+summary: Oracle on ONTAP DR 程序、含記錄傳送 
+---
+= 以記錄重新執行進行災難恢復
+:allow-uri-read: 
+
+
+[role="lead"]
+Oracle 資料庫的複寫程序基本上與備份程序相同。主要需求是、構成可恢復備份的快照必須複寫到遠端儲存系統。
+
+如先前在本機資料保護文件中所述、可利用熱備份程序或快照最佳化備份來建立可恢復的備份。
+
+最重要的需求是將資料檔案隔離到一個或多個專用磁碟區。它們必須不受任何其他檔案類型的污染。原因在於確保資料檔案複寫完全不受其他資料類型複寫的影響、例如歸檔記錄。如需檔案配置的其他資訊、以及確保儲存配置適合快照的重要詳細資料、請參閱  link:../../dp/oracle-online-backup.html#data-layout["資料配置"]。
+
+假設資料檔案封裝在專用磁碟區中、下一個問題是如何管理重做記錄檔、歸檔記錄檔和控制檔。最簡單的方法是將所有這些資料類型放入單一磁碟區。其優點是複寫的重做記錄檔、歸檔記錄檔和控制檔都能完全同步。不需要進行不完整的還原或使用備份控制檔、不過也可以針對其他可能的還原案例、建立備份控制檔指令碼。
+
+
+
+== 兩個 Volume 配置
+
+下圖顯示最簡單的配置。
+
+這是最常見的方法。從 DBA 的觀點來看、在同一個磁碟區上共同找出所有重做記錄和歸檔記錄複本似乎不太常見。但是、當檔案和 LUN 仍位於相同的基礎磁碟機集上時、分離功能並不會提供更多額外的保護。
+
+
+
+== 三個 Volume 配置
+
+有時候、由於資料保護考量或需要在控制器之間散佈重做記錄 I/O 、因此需要分離重做記錄。如果是這樣、則下圖所示的三個磁碟區配置將用於複寫、同時仍可避免執行不完整還原或依賴備份控制檔的任何需求。
+
+如此一來、重做記錄和控制檔就能在來源上的各組磁碟軸和控制器之間串列。不過、歸檔記錄和一組控制檔和重做記錄檔仍可在與歸檔記錄同步的狀態下複寫。
+
+在此模型中、重做記錄 B 磁碟區不會複寫。
+
+
+
+== 災難恢復程序—熱備份
+
+若要使用熱備份來執行災難恢復、請使用下列基本程序：
+
+
+
+=== 先決條件
+
+. Oracle 二進位檔安裝在災難恢復伺服器上。
+. 中列出資料庫執行個體 `/etc/oratab`。
+. 。 `passwd` 和 `pfile` 或 `spfile` 例如、執行個體必須在中 `$ORACLE_HOME/dbs` 目錄。。
+
+
+
+
+=== 災難恢復
+
+. 中斷資料檔案和一般記錄磁碟區的鏡射。
+. 將資料檔案磁碟區還原為資料檔案的最新熱備份快照。
+. 如果使用 SAN 、請啟動 Volume 群組和 / 或掛載檔案系統。
+. 將歸檔記錄重播至所需的點。
+. 如果需要完整還原、請重新播放目前的重做記錄。
+
+
+使用 NFS 可大幅簡化程序、因為可隨時將資料檔案和記錄檔的 NFS 檔案系統掛載到災難恢復伺服器上。當鏡射中斷時、它會變成讀取 / 寫入。
+
+
+
+== 災難恢復程序：快照最佳化備份
+
+從快照最佳化備份中還原、幾乎與熱備份還原程序完全相同、變更如下：
+
+. 中斷資料檔案和一般記錄磁碟區的鏡射。
+. 將資料檔案磁碟區還原至目前記錄磁碟區複本之前建立的快照。
+. 如果使用 SAN 、請啟動 Volume 群組和 / 或掛載檔案系統。
+. 將歸檔記錄重播至所需的點。
+. 如果需要完整還原、請重新播放目前的重做記錄。
+
+
+這些差異可簡化整體還原程序、因為當資料庫處於熱備份模式時、不需要確定已在來源上正確建立快照。災難恢復程序是以災難恢復站台上快照的時間戳記為基礎。建立快照時的資料庫狀態並不重要。
+
+
+
+== 使用熱備份快照進行災難恢復
+
+這是以熱備份快照複寫為基礎的災難恢復策略範例。它也可作為簡單且可擴充的本機備份策略範例。
+
+範例資料庫位於基本的雙磁碟區架構上。 `/oradata` 包含資料檔案和 `/oralogs` 用於組合的重做記錄檔、歸檔記錄檔和控制檔。
+
+....
+[root@host1 ~]# ls /ora*
+/oradata:
+dbf
+/oralogs:
+arch  ctrl  redo
+....
+需要兩個排程、一個用於夜間資料檔案備份、另一個用於記錄檔備份。這些時間分別稱為午夜和 15 分鐘。
+
+....
+Cluster01::> job schedule cron show -name midnight|15minutes
+Name                Description
+----------------    -----------------------------------------------------
+15minutes           @:00,:15,:30,:45
+midnight            @0:00
+2 entries were displayed.
+....
+然後在快照原則中使用這些排程 `NTAP-datafile-backups` 和 `NTAP-log-backups`，如下所示：
+
+....
+Cluster01::> snapshot policy show -vserver vserver1 -policy NTAP-* -fields schedules,counts
+vserver   policy                schedules                    counts
+--------- --------------------- ---------------------------- ------
+vserver1  NTAP-datafile-backups midnight                     60
+vserver1  NTAP-log-backups      15minutes                    72
+2 entries were displayed.
+....
+最後、這些快照原則會套用至磁碟區。
+
+....
+Cluster01::> volume show -vserver vserver1 -volume vol_oracle* -fields snapshot-policy
+vserver   volume                 snapshot-policy
+--------- ---------------------- ---------------------
+vserver1  vol_oracle_datafiles   NTAP-datafile-backups
+vserver1  vol_oracle_logs        NTAP-log-backups
+....
+這會定義磁碟區的備份排程。資料檔案快照會在午夜建立、並保留 60 天。記錄磁碟區包含以 15 分鐘為間隔建立的 72 個快照、可增加長達 18 小時的涵蓋範圍。
+
+然後、確定資料庫在建立資料檔案快照時處於熱備份模式。這是使用一個小型指令碼來完成的、該指令碼會接受一些在指定的 SID 上啟動和停止備份模式的基本引數。
+
+....
+58 * * * * /snapomatic/current/smatic.db.ctrl --sid NTAP --startbackup
+02 * * * * /snapomatic/current/smatic.db.ctrl --sid NTAP --stopbackup
+....
+此步驟可確保資料庫在午夜快照周圍的四分鐘時間內處於熱備份模式。
+
+複寫到災難恢復站台的設定如下：
+
+....
+Cluster01::> snapmirror show -destination-path drvserver1:dr_oracle* -fields source-path,destination-path,schedule
+source-path                      destination-path                   schedule
+-------------------------------- ---------------------------------- --------
+vserver1:vol_oracle_datafiles    drvserver1:dr_oracle_datafiles     6hours
+vserver1:vol_oracle_logs         drvserver1:dr_oracle_logs          15minutes
+2 entries were displayed.
+....
+記錄 Volume 目的地每 15 分鐘更新一次。這可提供約 15 分鐘的 RPO 。確切的更新時間間隔會因更新期間必須傳輸的資料總量而稍有不同。
+
+datafile Volume 目的地每六小時更新一次。這不會影響 RPO 或 RTO 。如果需要災難恢復、則第一步是將資料檔案磁碟區還原回熱備份快照。更新時間間隔越頻繁的目的、是要讓此磁碟區的傳輸率更順暢。如果每天排程更新一次、則必須一次傳輸當天累積的所有變更。隨著更新次數增加、變更會在一天內逐步複寫。
+
+如果發生災難、第一步是中斷兩個磁碟區的鏡射：
+
+....
+Cluster01::> snapmirror break -destination-path drvserver1:dr_oracle_datafiles -force
+Operation succeeded: snapmirror break for destination "drvserver1:dr_oracle_datafiles".
+Cluster01::> snapmirror break -destination-path drvserver1:dr_oracle_logs -force
+Operation succeeded: snapmirror break for destination "drvserver1:dr_oracle_logs".
+Cluster01::>
+....
+複本現在是讀寫的。下一步是驗證記錄磁碟區的時間戳記。
+
+....
+Cluster01::> snapmirror show -destination-path drvserver1:dr_oracle_logs -field newest-snapshot-timestamp
+source-path                destination-path             newest-snapshot-timestamp
+-------------------------- ---------------------------- -------------------------
+vserver1:vol_oracle_logs   drvserver1:dr_oracle_logs    03/14 13:30:00
+....
+最新的記錄磁碟區複本是 3 月 14 日 13:30 。
+
+接著、識別在記錄磁碟區狀態之前立即建立的熱備份快照。這是必要的、因為記錄重新執行程序需要在熱備份模式中建立的所有歸檔記錄。因此、記錄磁碟區複本必須比熱備份映像舊、否則它不會包含所需的記錄。
+
+....
+Cluster01::> snapshot list -vserver drvserver1 -volume dr_oracle_datafiles -fields create-time -snapshot midnight*
+vserver   volume                    snapshot                   create-time
+--------- ------------------------  -------------------------- ------------------------
+drvserver1 dr_oracle_datafiles      midnight.2017-01-14_0000   Sat Jan 14 00:00:00 2017
+drvserver1 dr_oracle_datafiles      midnight.2017-01-15_0000   Sun Jan 15 00:00:00 2017
+...
+
+drvserver1 dr_oracle_datafiles      midnight.2017-03-12_0000   Sun Mar 12 00:00:00 2017
+drvserver1 dr_oracle_datafiles      midnight.2017-03-13_0000   Mon Mar 13 00:00:00 2017
+drvserver1 dr_oracle_datafiles      midnight.2017-03-14_0000   Tue Mar 14 00:00:00 2017
+60 entries were displayed.
+Cluster01::>
+....
+最近建立的快照是 `midnight.2017-03-14_0000`。這是資料檔案的最新熱備份映像、然後還原如下所示：
+
+....
+Cluster01::> snapshot restore -vserver drvserver1 -volume dr_oracle_datafiles -snapshot midnight.2017-03-14_0000
+Cluster01::>
+....
+在這個階段、資料庫現在已準備好進行還原。如果這是 SAN 環境、下一步將包括啟動 Volume 群組和掛載檔案系統、這是一項輕鬆自動化的程序。由於此範例使用 NFS 、檔案系統已掛載並變成讀寫、因此在鏡射中斷時無需再掛載或啟動。
+
+現在可以將資料庫還原到所需的時間點、或是針對複寫的重做記錄複本進行完整還原。此範例說明歸檔記錄、控制檔和重做記錄 Volume 的組合值。由於不需要仰賴備份控制檔或重設記錄檔、因此恢復程序會大幅簡化。
+
+....
+[oracle@drhost1 ~]$ sqlplus / as sysdba
+Connected to an idle instance.
+SQL> startup mount;
+ORACLE instance started.
+Total System Global Area 1610612736 bytes
+Fixed Size                  2924928 bytes
+Variable Size            1090522752 bytes
+Database Buffers          503316480 bytes
+Redo Buffers               13848576 bytes
+Database mounted.
+SQL> recover database until cancel;
+ORA-00279: change 1291884 generated at 03/14/2017 12:58:01 needed for thread 1
+ORA-00289: suggestion : /oralogs_nfs/arch/1_34_938169986.dbf
+ORA-00280: change 1291884 for thread 1 is in sequence #34
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+auto
+ORA-00279: change 1296077 generated at 03/14/2017 15:00:44 needed for thread 1
+ORA-00289: suggestion : /oralogs_nfs/arch/1_35_938169986.dbf
+ORA-00280: change 1296077 for thread 1 is in sequence #35
+ORA-00278: log file '/oralogs_nfs/arch/1_34_938169986.dbf' no longer needed for
+this recovery
+...
+ORA-00279: change 1301407 generated at 03/14/2017 15:01:04 needed for thread 1
+ORA-00289: suggestion : /oralogs_nfs/arch/1_40_938169986.dbf
+ORA-00280: change 1301407 for thread 1 is in sequence #40
+ORA-00278: log file '/oralogs_nfs/arch/1_39_938169986.dbf' no longer needed for
+this recovery
+ORA-00279: change 1301418 generated at 03/14/2017 15:01:19 needed for thread 1
+ORA-00289: suggestion : /oralogs_nfs/arch/1_41_938169986.dbf
+ORA-00280: change 1301418 for thread 1 is in sequence #41
+ORA-00278: log file '/oralogs_nfs/arch/1_40_938169986.dbf' no longer needed for
+this recovery
+ORA-00308: cannot open archived log '/oralogs_nfs/arch/1_41_938169986.dbf'
+ORA-17503: ksfdopn:4 Failed to open file /oralogs_nfs/arch/1_41_938169986.dbf
+ORA-17500: ODM err:File does not exist
+SQL> recover database;
+Media recovery complete.
+SQL> alter database open;
+Database altered.
+SQL>
+....
+
+
+== 利用快照最佳化備份進行災難恢復
+
+使用快照最佳化備份的災難恢復程序與熱備份災難恢復程序幾乎相同。與熱備份快照程序一樣、它基本上也是本機備份架構的延伸、其中的備份會複寫以用於災難恢復。以下範例顯示詳細的組態和還原程序。此範例也指出熱備份與快照最佳化備份之間的主要差異。
+
+範例資料庫位於基本的雙磁碟區架構上。 `/oradata` 包含資料檔案、和 `/oralogs` 用於組合的重做記錄檔、歸檔記錄檔和控制檔。
+
+....
+ [root@host2 ~]# ls /ora*
+/oradata:
+dbf
+/oralogs:
+arch  ctrl  redo
+....
+需要兩個排程：一個用於夜間資料檔案備份、另一個用於記錄檔備份。這些時間分別稱為午夜和 15 分鐘。
+
+....
+Cluster01::> job schedule cron show -name midnight|15minutes
+Name                Description
+----------------    -----------------------------------------------------
+15minutes           @:00,:15,:30,:45
+midnight            @0:00
+2 entries were displayed.
+....
+然後在快照原則中使用這些排程 `NTAP-datafile-backups` 和 `NTAP-log-backups`，如下所示：
+
+....
+Cluster01::> snapshot policy show -vserver vserver2  -policy NTAP-* -fields schedules,counts
+vserver   policy                schedules                    counts
+--------- --------------------- ---------------------------- ------
+vserver2  NTAP-datafile-backups midnight                     60
+vserver2  NTAP-log-backups      15minutes                    72
+2 entries were displayed.
+....
+最後、這些快照原則會套用至磁碟區。
+
+....
+Cluster01::> volume show -vserver vserver2  -volume vol_oracle* -fields snapshot-policy
+vserver   volume                 snapshot-policy
+--------- ---------------------- ---------------------
+vserver2  vol_oracle_datafiles   NTAP-datafile-backups
+vserver2  vol_oracle_logs        NTAP-log-backups
+....
+這可控制磁碟區的最終備份排程。快照會在午夜建立並保留 60 天。記錄磁碟區包含以 15 分鐘為間隔建立的 72 個快照、最多可增加 18 小時的涵蓋範圍。
+
+複寫到災難恢復站台的設定如下：
+
+....
+Cluster01::> snapmirror show -destination-path drvserver2:dr_oracle* -fields source-path,destination-path,schedule
+source-path                      destination-path                   schedule
+-------------------------------- ---------------------------------- --------
+vserver2:vol_oracle_datafiles    drvserver2:dr_oracle_datafiles     6hours
+vserver2:vol_oracle_logs         drvserver2:dr_oracle_logs          15minutes
+2 entries were displayed.
+....
+記錄 Volume 目的地每 15 分鐘更新一次。這會提供約 15 分鐘的 RPO 、而精確的更新間隔會因更新期間必須傳輸的資料總量而稍有不同。
+
+datafile Volume 目的地每 6 小時更新一次。這不會影響 RPO 或 RTO 。如果需要災難恢復、您必須先將資料檔案磁碟區還原回熱備份快照。更新時間間隔越頻繁的目的、是要讓此磁碟區的傳輸率更順暢。如果每天排程一次更新、則必須一次傳輸當天累積的所有變更。隨著更新次數增加、變更會在一天內逐步複寫。
+
+如果發生災難、第一步是中斷所有磁碟區的鏡射：
+
+....
+Cluster01::> snapmirror break -destination-path drvserver2:dr_oracle_datafiles -force
+Operation succeeded: snapmirror break for destination "drvserver2:dr_oracle_datafiles".
+Cluster01::> snapmirror break -destination-path drvserver2:dr_oracle_logs -force
+Operation succeeded: snapmirror break for destination "drvserver2:dr_oracle_logs".
+Cluster01::>
+....
+複本現在是讀寫的。下一步是驗證記錄磁碟區的時間戳記。
+
+....
+Cluster01::> snapmirror show -destination-path drvserver2:dr_oracle_logs -field newest-snapshot-timestamp
+source-path                destination-path             newest-snapshot-timestamp
+-------------------------- ---------------------------- -------------------------
+vserver2:vol_oracle_logs   drvserver2:dr_oracle_logs    03/14 13:30:00
+....
+最新的記錄磁碟區複本是 3 月 14 日 13 ： 30 。接著、識別在記錄磁碟區狀態之前立即建立的資料檔案快照。這是必要的、因為記錄重新執行程序需要從快照之前的所有歸檔記錄檔到所需的還原點。
+
+....
+Cluster01::> snapshot list -vserver drvserver2 -volume dr_oracle_datafiles -fields create-time -snapshot midnight*
+vserver   volume                    snapshot                   create-time
+--------- ------------------------  -------------------------- ------------------------
+drvserver2 dr_oracle_datafiles      midnight.2017-01-14_0000   Sat Jan 14 00:00:00 2017
+drvserver2 dr_oracle_datafiles      midnight.2017-01-15_0000   Sun Jan 15 00:00:00 2017
+...
+
+drvserver2 dr_oracle_datafiles      midnight.2017-03-12_0000   Sun Mar 12 00:00:00 2017
+drvserver2 dr_oracle_datafiles      midnight.2017-03-13_0000   Mon Mar 13 00:00:00 2017
+drvserver2 dr_oracle_datafiles      midnight.2017-03-14_0000   Tue Mar 14 00:00:00 2017
+60 entries were displayed.
+Cluster01::>
+....
+最近建立的快照是 `midnight.2017-03-14_0000`。還原此快照。
+
+....
+Cluster01::> snapshot restore -vserver drvserver2 -volume dr_oracle_datafiles -snapshot midnight.2017-03-14_0000
+Cluster01::>
+....
+資料庫現在已準備就緒、可進行還原。如果這是 SAN 環境、您就可以啟動 Volume 群組並掛載檔案系統、這是一項輕鬆自動化的程序。不過、本範例使用 NFS 、因此檔案系統已掛載、並變成讀寫、因此在鏡像毀損時無需再掛載或啟動。
+
+現在可以將資料庫還原到所需的時間點、或是針對複寫的重做記錄複本進行完整還原。此範例說明歸檔記錄、控制檔和重做記錄 Volume 的組合值。恢復程序大幅簡化、因為不需要仰賴備份控制檔或重設記錄檔。
+
+....
+[oracle@drhost2 ~]$ sqlplus / as sysdba
+SQL*Plus: Release 12.1.0.2.0 Production on Wed Mar 15 12:26:51 2017
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+Connected to an idle instance.
+SQL> startup mount;
+ORACLE instance started.
+Total System Global Area 1610612736 bytes
+Fixed Size                  2924928 bytes
+Variable Size            1073745536 bytes
+Database Buffers          520093696 bytes
+Redo Buffers               13848576 bytes
+Database mounted.
+SQL> recover automatic;
+Media recovery complete.
+SQL> alter database open;
+Database altered.
+SQL>
+....

@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: sap-solutions.html 
+keywords: sap,hana,anydb 
+summary: 適用於 SAP HANA 和 AnyDB 的解決方案 
+---
+= SAP HANA 與 SAP 搭配 AnyDB
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+設定、管理及自動化 SAP 解決方案的最佳實務做法、請參閱 NetApp SAP 解決方案頁面。
+
+請按一下 link:https://docs.netapp.com/us-en/netapp-solutions-sap/["請按這裡"] 以取得更多資訊。

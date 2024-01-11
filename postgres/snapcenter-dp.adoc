@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: postgres/snapcenter-dp.html 
+keywords: PostgreSQL,database,postgres 
+summary: ONTAP 上的 PostgreSQL 資料庫 
+---
+= 資料保護軟體
+:allow-uri-read: 
+
+
+[role="lead"]
+適用於 PostgreSQL 資料庫的 NetApp SnapCenter 外掛程式、結合 Snapshot 和 NetApp FlexClone 技術、可為您提供下列優點：
+
+* 快速備份與還原。
+* 節省空間的複本。
+* 能夠建置快速有效的災難恢復系統。
+
+
+[NOTE]
+====
+在下列情況下、您可能偏好選擇 NetApp 的優質備份合作夥伴、例如 Veeam Software 和 CommVault ：
+
+* 在異質環境中管理工作負載
+* 將備份儲存至雲端或磁帶、以供長期保留
+* 支援多種作業系統版本和類型
+
+
+====
+適用於 PostgreSQL 的 SnapCenter 外掛程式是社群支援的外掛程式、可在 NetApp Automation Store 取得設定與文件。透過 SnapCenter 、使用者可以遠端備份資料庫、複製及還原資料。

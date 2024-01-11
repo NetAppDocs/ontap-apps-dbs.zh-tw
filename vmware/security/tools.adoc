@@ -1,0 +1,111 @@
+---
+sidebar: sidebar 
+permalink: vmware/security/tools.html 
+keywords: wp-7353, wp7353, 7353, security, vmware, vsphere, Tools 
+summary: 本文件討論ONTAP VMware vSphere的產品安全性功能。 
+---
+= VMware vSphere適用的工具ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./../media/
+
+
+
+
+== 安全的開發活動
+
+使用適用於ONTAP VMware vSphere的NetApp支援軟體工程技術、採用下列安全開發活動：
+
+* *威脅建模。*威脅建模的目的是在軟體開發生命週期初期、發現某項功能、元件或產品的安全性瑕疵。威脅模式是對影響應用程式安全性的所有資訊的結構化呈現。基本上、它是透過安全性觀點來檢視應用程式及其環境。
+* *動態應用程式安全性測試（dast）。*這項技術的設計、是為了偵測應用程式在執行狀態下的易受影響狀況。Dast會測試開放Web應用程式的公開HTTP和HTML介面。
+* *協力廠商程式碼貨幣。*在開放原始碼軟體（開放原始碼軟體）的軟體開發過程中、您必須解決與產品內建的任何開放原始碼軟體相關的安全性弱點。這是一項持續努力、因為新的開放源碼版本可能隨時都有新發現的弱點報告。
+* *弱點掃描。*弱點掃描的目的是在NetApp產品中發現常見且已知的安全性弱點之後、再將弱點發佈給客戶。
+* *滲透測試。*滲透測試是評估系統、Web應用程式或網路以找出攻擊者可能利用的安全性弱點的程序。NetApp的滲透測試（筆測試）是由一群獲核准且值得信賴的第三方公司進行。其測試範圍包括利用精密的利用方法或工具、對類似於惡意入侵者或駭客的應用程式或軟體發動攻擊。
+
+
+
+
+== 產品安全功能
+
+適用於VMware vSphere的NetApp ONTAP 產品組合工具在每個版本中均包含下列安全功能。
+
+* *登入橫幅。* SSH預設為停用、如果從VM主控台啟用、則僅允許一次性登入。使用者在登入提示中輸入使用者名稱後、會顯示下列登入橫幅：
++
+*警告：*禁止未經授權存取本系統、並依法律予以起訴。存取本系統即表示您同意、若懷疑有未獲授權的使用情形、您的行動可能受到監控。
+
++
+使用者透過 SSH 通道完成登入後、會顯示下列文字：
+
+
+
+....
+Linux vsc1 4.19.0-12-amd64 #1 SMP Debian 4.19.152-1 (2020-10-18) x86_64
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+....
+* *角色型存取控制（RBAC）。* ONTAP 有兩種RBAC控制項與VMware Tools相關聯：
++
+** 原生vCenter Server權限
+** vCenter外掛程式特定權限。如需詳細資訊、請參閱 https://docs.netapp.com/vapp-98/topic/com.netapp.doc.vsc-dsg/GUID-4DCAD72F-34C9-4345-A7AB-A118F4DB9D4D.html["此連結"^]。
+
+
+* *加密的通訊通道。*所有外部通訊都是透過使用TLS 1.2版的HTTPS進行。
+* *最小的連接埠曝光。*只有必要的連接埠會在防火牆上開啟。
++
+下表說明開放連接埠的詳細資料。
+
+
+
+|===
+| TCP v4/v6連接埠# | 方向 | 功能 
+
+
+| 8143. | 傳入 | 用於REST API的HTTPS連線 
+
+
+| 8043. | 傳入 | HTTPS連線 
+
+
+| 9060 | 傳入 | HTTPS連線
+用於透過 https 連線的 SOAP
+此連接埠必須開啟、才能讓用戶端連線至 ONTAP 工具 API 伺服器。 
+
+
+| 22 | 傳入 | SSH（預設為停用） 
+
+
+| 9080 | 傳入 | HTTPS連線- VP和SRA -僅從回送進行內部連線 
+
+
+| 9083. | 傳入 | HTTPS 連線： VP 與 SRA
+用於透過 https 連線的 SOAP 
+
+
+| 1162 | 傳入 | VP SNMP設陷封包 
+
+
+| 1527. | 僅限內部使用 | 僅在此電腦與本身之間的外部連線不接受（僅限內部連線） 
+
+
+| 443.. | 雙向 | 用於連線ONTAP 至叢集 
+|===
+* *支援憑證授權單位（CA）簽署的憑證。* ONTAP VMware vSphere的各種工具支援CA簽署的憑證。請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/VSC_and_VASA_Provider/Virtual_Storage_Console%3A_Implementing_CA_signed_certificates["知識庫文章"^] 以取得更多資訊。
+* *稽核記錄。*您可以下載支援套裝組合、而且內容極為詳細。使用者登入和登出活動會記錄在個別的記錄檔中。ONTAPVASA API呼叫會記錄在專屬的VASA稽核記錄（本機CXF.log）中。
+* *密碼原則。*遵循下列密碼原則：
++
+** 密碼不會記錄在任何記錄檔中。
+** 密碼不會以純文字形式傳達。
+** 密碼是在安裝程序本身期間設定的。
+** 密碼歷程記錄是可設定的參數。
+** 密碼最短使用期限設為24小時。
+** 密碼欄位的自動完成功能已停用。
+** 利用SHA256雜湊功能、將所有儲存的認證資訊加密。ONTAP
+
+
+

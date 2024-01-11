@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: mysql/configuration.html 
+keywords: MySQL,MariaDB 
+summary: MySQL 組態 
+---
+= 組態總覽
+:allow-uri-read: 
+
+
+[role="lead"]
+NetApp 建議使用一些重要的 MySQL 組態參數（列於表 1 ）、以獲得最佳效能。
+
+[cols="1,1"]
+|===
+
+
+| 參數 | 價值 
+
+
+| InnoDB_log_file_size | 256M 
+
+
+| InnoDB_Flush 記錄 _AT_TRx_Commit | 2. 
+
+
+| InnoDB_doublewrite | 0% 
+
+
+| InnoDB_Flush 方法 | fsync 
+
+
+| InnoDB_緩 衝區 _Pool_size | 11g 
+
+
+| InnoDB_IO_capAC | 8192 
+
+
+| InnoDB_緩 衝區集區執行個體 | 8. 
+
+
+| InnoDB_LRU_SCAN_depth | 8192 
+
+
+| open_file_limit | 65535 
+|===
+若要設定本節所述的參數、您必須在 MySQL 組態檔（ my.cnf ）中變更這些參數。NetApp 最佳實務做法是在內部執行測試的結果。

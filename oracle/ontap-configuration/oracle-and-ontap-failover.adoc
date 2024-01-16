@@ -10,7 +10,7 @@ summary: 需要瞭解儲存設備接管和切入功能、才能確保 Oracle 資
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

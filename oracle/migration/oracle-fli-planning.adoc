@@ -10,7 +10,7 @@ summary: 準備 ONTAP 進行 FLI 移轉
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

@@ -10,7 +10,7 @@ summary: 使用 ONTAP 進行 Oracle 災難恢復
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

@@ -10,7 +10,7 @@ summary: LUN 與 Oracle 資料庫一致
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]
@@ -22,7 +22,7 @@ LUN 對齊是指針對基礎檔案系統配置最佳化 I/O 。
 
 在 Linux 環境中、在整個磁碟機裝置上建立邏輯磁碟區群組。當需要磁碟分割時、請執行檢查對齊 `fdisk –u` 並驗證每個分割區的開始時間為八個之倍數。這表示分割區從八個 512 位元組磁區的倍數開始、即 4KB 。
 
-另請參閱一節中有關壓縮區塊對齊的討論 link:/oracle/ontap-configuration/oracle-efficiency.html["效率"]。任何與 8KB 壓縮區塊邊界對齊的配置、也會與 4KB 邊界對齊。
+另請參閱一節中有關壓縮區塊對齊的討論 link:../ontap-configuration/oracle-efficiency.html["效率"]。任何與 8KB 壓縮區塊邊界對齊的配置、也會與 4KB 邊界對齊。
 
 
 

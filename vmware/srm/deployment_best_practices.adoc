@@ -10,7 +10,7 @@ summary: 利用NetApp技術、儲存虛擬機器（SVM）的概念可在安全�
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
 
 
 

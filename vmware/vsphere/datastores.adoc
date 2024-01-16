@@ -10,12 +10,13 @@ summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revdate: == vSphere datastore and protocol features
 
-
-
-
-== vSphere資料存放區與傳輸協定功能
 
 使用七種傳輸協定將VMware vSphere連接至執行ONTAP VMware軟體的系統上的資料存放區：
 

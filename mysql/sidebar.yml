@@ -4,8 +4,6 @@ title: MySQL
 entries:
 - title: 總覽
   url: "/mysql/overview.html"
-- title: 組態ONTAP
-  url: "/mysql/ontap.html"
 - title: 資料庫組態
   entries:
   - title: 檔案結構
@@ -40,8 +38,6 @@ entries:
     url: "/mysql/file-descriptors.html"
 - title: 儲存組態
   entries:
-  - title: 一般儲存組態
-    url: "/mysql/storage.html"
   - title: MySQL over NFS
     url: "/mysql/mysql-over-nfs.html"
   - title: MySQL over SAN

@@ -6,12 +6,11 @@ summary: ONTAP 上的 Microsoft SQL Server
 ---
 = CPU 組態
 :allow-uri-read: 
-:firstname: [.lead]
-:author: [.lead]
-:authorinitials: [
-:authors: [.lead]
-:revdate: Modifying server and database settings can help achieve better and more efficient database performance.
+:imagesdir: ../media/
 
+
+[role="lead"]
+修改伺服器和資料庫設定有助於提升資料庫效能和效率。
 
 
 
@@ -29,7 +28,7 @@ summary: ONTAP 上的 Microsoft SQL Server
 
 === 記錄項目指出 SQL Server 啟動後所使用的核心數。
 
-image:./media/hyperthreading.png["錯誤：缺少圖形影像"]
+image:mssql-hyperthreading.png["錯誤：缺少圖形影像"]
 
 因此、若要使用所有 CPU 、您應該使用每個處理器核心授權。如需 SQL Server 授權的詳細資訊、請參閱 link:https://www.microsoft.com/en-us/sql-server/sql-server-2022-comparison["SQL Server 2022 ：現代化的資料平台"^]。
 
@@ -72,7 +71,7 @@ TIP: * NetApp 建議 * 使用 DSS （例如資料倉儲）、從這項設定開�
 
 何時應設定 SQL Server 使用更多工作執行緒？如果每個排程器的平均工作佇列長度超過 1 、您可能會因為在系統中新增更多執行緒而受益、但前提是負載未受 CPU 限制或遇到任何其他繁重的等待。如果發生上述任一種情況、新增更多執行緒並不會有幫助、因為它們最終會等待其他系統瓶頸。如需工作者執行緒上限的詳細資訊、請參閱 link:https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-the-max-worker-threads-server-configuration-option?view=sql-server-ver16&redirectedfrom=MSDN["設定最大工作執行緒伺服器組態選項"^]。
 
-image:./media/max-worker-threads.png["錯誤：缺少圖形影像"]
+image:mssql-max-worker-threads.png["錯誤：缺少圖形影像"]
 
 
 

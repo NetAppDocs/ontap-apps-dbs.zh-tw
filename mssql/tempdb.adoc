@@ -6,6 +6,7 @@ summary: ONTAP 上的 Microsoft SQL Server
 ---
 = Microsoft SQL Server tempdb 檔案
 :allow-uri-read: 
+:imagesdir: ../media/
 
 
 [role="lead"]

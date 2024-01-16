@@ -10,11 +10,14 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revnumber: 
+:revdate: and it is easy to manage this ability inside vCenter with the SnapCenter Plug-In for VMware vSphere.
 
-
-[role="lead"]
-備份虛擬機器並快速恢復這些虛擬機器、是ONTAP vSphere的絕佳優勢之一、SnapCenter 而使用VMware vSphere的VMware vCenter外掛程式、可輕鬆管理vCenter內部的這項功能。
 
 使用快照快速複製 VM 或資料存放區、而不會影響效能、然後使用 SnapMirror 將其傳送至次要系統、以提供長期的異地資料保護。這種方法只儲存變更的資訊、可將儲存空間和網路頻寬減至最低。
 

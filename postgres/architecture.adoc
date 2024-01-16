@@ -11,7 +11,7 @@ summary: ONTAP 上的 PostgreSQL 資料庫
 [role="lead"]
 PostgreSQL 是以用戶端和伺服器架構為基礎的 RDBMS 。PostgreSQL 執行個體稱為資料庫叢集、是資料庫的集合、而非伺服器集合。
 
-image:architecture.png["錯誤：找不到圖形"]
+image:postgresql-architecture.png["錯誤：找不到圖形"]
 
 PostgreSQL 資料庫中有三個主要元素：郵政局長、前端（用戶端）和後端用戶端會傳送要求給郵政局長、其中包含 IP 傳輸協定等資訊、以及要連線的資料庫。郵政局長會驗證連線、並將其傳送至後端程序以進行進一步的通訊。後端程序會執行查詢、並將結果直接傳送至前端（用戶端）。
 

@@ -10,7 +10,7 @@ summary: Oracle 和 NetApp 備份工具
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

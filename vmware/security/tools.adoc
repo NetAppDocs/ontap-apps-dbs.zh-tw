@@ -10,7 +10,7 @@ summary: 本文件討論ONTAP VMware vSphere的產品安全性功能。
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
 
 
 

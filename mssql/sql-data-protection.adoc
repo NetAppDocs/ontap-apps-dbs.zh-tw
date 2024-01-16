@@ -1,17 +1,18 @@
 ---
 sidebar: sidebar 
-permalink: mssql/Data-protection.html 
+permalink: mssql/sql-data-protection.html 
 keywords: MS-SQL,mssql,SQL Server, SnapCenter, data protection 
 summary: 使用 ONTAP 保護 Microsoft SQL Server 資料 
 ---
 = 使用 ONTAP 保護 Microsoft SQL Server 資料
 :allow-uri-read: 
+:imagesdir: ../media/
 
 
 [role="lead"]
 保護資料庫對任何組織都至關重要。隨著資料庫的資料大小和數量增加、維持恢復時間目標（ RTO ）和恢復點目標（ RPO ）非常重要。
 
-資料庫備份的主要考量是運用 NetApp Snapshot 技術。我們將討論 ONTAP 上的資料保護規劃 link:../common/dp/overview.html["請按這裡"]。應用程式一致的備份和資料庫配置是達成 NetApp SnapCenter 可協調的 RTO 和 RPO 的另一個重要考量。
+資料庫備份的主要考量是運用 NetApp Snapshot 技術。應用程式一致的備份和資料庫配置是達成 NetApp SnapCenter 可協調的 RTO 和 RPO 的另一個重要考量。
 
 
 

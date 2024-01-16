@@ -10,12 +10,13 @@ summary: 自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直�
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revdate: == ONTAP for vSphere
 
-
-
-
-== vSphere適用的ONTAP
 
 
 NOTE: 本文件取代先前發佈的技術報告 _TR-4900: VMware Site Recovery Manager with ONTAP

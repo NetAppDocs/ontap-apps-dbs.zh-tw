@@ -10,7 +10,7 @@ summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
 
 
 

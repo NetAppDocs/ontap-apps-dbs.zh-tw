@@ -10,7 +10,7 @@ summary: 使用 Oracle 的 NFS 傳輸大小
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

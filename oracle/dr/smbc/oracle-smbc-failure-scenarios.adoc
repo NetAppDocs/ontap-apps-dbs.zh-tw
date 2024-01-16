@@ -10,7 +10,7 @@ summary: Oracle SM-BC 故障案例
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../../media/
 
 
 [role="lead"]

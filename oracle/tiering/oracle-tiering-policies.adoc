@@ -10,7 +10,7 @@ summary: Oracle 分層原則
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

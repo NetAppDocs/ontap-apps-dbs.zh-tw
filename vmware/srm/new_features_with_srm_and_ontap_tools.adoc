@@ -10,7 +10,7 @@ summary: 隨著舊有虛擬應用裝置的移轉、ONTAP VMware的功能豐富�
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

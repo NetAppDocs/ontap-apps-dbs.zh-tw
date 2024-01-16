@@ -10,7 +10,7 @@ summary: RAID 和 Oracle 資料庫
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

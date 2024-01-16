@@ -10,7 +10,7 @@ summary: 高效能分層擷取原則
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

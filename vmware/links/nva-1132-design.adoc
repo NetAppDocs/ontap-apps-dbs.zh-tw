@@ -10,14 +10,13 @@ summary: 使用 NetApp HCI 的 VMware 終端使用者運算是經過預先驗證
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
-:firstname: d
-:authorinitials: d
-:author: d
-:authors: d
-:revdate: [.lead]
+:imagesdir: ../../media/d
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revnumber: 
+:revdate: best-practice data center architecture for deploying virtual desktop workloads at an enterprise scale. This document describes the architectural design and best practices for deploying the solution at production scale in a reliable and risk-free manner.
 
-
-使用 NetApp HCI 的 VMware 終端使用者運算是經過預先驗證的最佳實務資料中心架構、可在企業規模部署虛擬桌面工作負載。本文件說明以可靠且無風險的方式、在線上規模部署解決方案的架構設計和最佳實務做法。
 
 link:https://www.netapp.com/pdf.html?item=/media/7121-nva1132designpdf.pdf["NVA-1132-design ：採用 NetApp HCI 的 VMware 終端使用者運算"^]

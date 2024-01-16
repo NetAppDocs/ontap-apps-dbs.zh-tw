@@ -4,8 +4,6 @@ title: PostgreSQL
 entries:
 - title: 總覽
   url: "/postgres/overview.html"
-- title: 組態ONTAP
-  url: "/postgres/ontap.html"
 - title: 資料庫組態
   entries:
   - title: 架構

@@ -10,7 +10,7 @@ summary: Oracle 效能管理與 QoS
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

@@ -10,11 +10,14 @@ summary: NetApp ONTAP 解決方案是VMware vSphere環境的領導級儲存解�
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revnumber: 
+:revdate: and simplify management.
 
-
-[role="lead"]
-NetApp ONTAP 解決方案是VMware vSphere環境的領導級儲存解決方案、已有將近二十年的歷史、持續增加創新功能來簡化管理、同時降低成本。本文件介紹ONTAP vSphere的解決方案、包括最新的產品資訊和最佳實務做法、以簡化部署、降低風險及簡化管理。
 
 
 NOTE: 本文件取代先前發佈的技術報告 _TR-4597 ： VMware vSphere for ONTAP _

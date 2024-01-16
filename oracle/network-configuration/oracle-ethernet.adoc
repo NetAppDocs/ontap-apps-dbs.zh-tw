@@ -10,7 +10,7 @@ summary: Oracle 和 TCP/IP 及乙太網路組態。
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

@@ -10,7 +10,7 @@ summary: Oracle 資料庫的 SVM 資源配置
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

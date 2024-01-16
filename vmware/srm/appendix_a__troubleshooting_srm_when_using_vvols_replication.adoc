@@ -10,7 +10,7 @@ summary: 使用vVols複寫時、SRM內部的工作流程與SRA和傳統資料存
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

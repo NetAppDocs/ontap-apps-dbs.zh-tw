@@ -18,5 +18,3 @@ NVFAIL 是 ONTAP 中的一項功能、可確保災難性容錯移轉案例期間
 較不明顯的快取用途是在作業系統檔案系統層。來自掛載 NFS 檔案系統的區塊可能會快取到作業系統中。或者、以位於主要站台上的 LUN 為基礎的叢集式檔案系統、可以掛載到遠端站台的伺服器上、然後再次快取資料。在這些情況下、 NVRAM 故障或強制接管或強制性的作業系統、可能會導致檔案系統毀損。
 
 ONTAP 使用 NVFAIL 及其相關設定、保護資料庫和作業系統不受此案例影響。
-
-如需其他重要資訊、請參閱 link:../../common/dp/integrity.html#hardware-failure-protection-nvfail["NVFAIL 與 HA 配對"] 和 link:../../common/metrocluster/nvfail.html["NVFAIL 搭配 MetroCluster"]

@@ -10,7 +10,7 @@ summary: Oracle 資料庫的 FC 網路組態
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

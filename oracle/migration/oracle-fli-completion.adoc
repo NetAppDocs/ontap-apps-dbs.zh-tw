@@ -10,7 +10,7 @@ summary: 完成 FLI 轉換 - Oracle
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

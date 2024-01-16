@@ -10,7 +10,7 @@ summary: 透過記錄傳送進行 Oracle 移轉
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

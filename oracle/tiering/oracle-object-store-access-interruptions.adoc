@@ -10,7 +10,7 @@ summary: 物件存放區存取中斷期間的資料庫存取
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

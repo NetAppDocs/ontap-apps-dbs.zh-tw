@@ -6,6 +6,7 @@ summary: ONTAP 上的 Microsoft SQL Server
 ---
 = 資料庫安全性
 :allow-uri-read: 
+:imagesdir: ../media/
 
 
 [role="lead"]
@@ -16,7 +17,7 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。
 
 ONTAP 可將彈性磁碟區備份至 SnapLock Enterprise 或 SnapLock Compliance Volume 、方法是在 FlexVol 磁碟區作為來源磁碟區和 SnapLock 磁碟區做為目的地之間建立 SnapMirror 關係。備份至次要儲存區的 Snapshot 複本可在使用 SnapLock 技術保留之前、受到保護、不受修改或刪除。這是根據 在 SnapMirror 原則上、與關係相關、其中定義了目的地 SnapLock 磁碟區上保留的特定 SnapMirror 標籤的 Snapshot 複本數量。若要還原包含 LUN 資料的快照、可透過 SnapMirror 還原作業、在非 SnapLock 磁碟區上完成。在 ONTAP 9.13.1 中、可將 SnapLock 類型指定為非 SnapLock 來建立 FlexClone 複本。如需SnapLock 更多關於功能的資訊、請參閱 link:https://docs.netapp.com/us-en/ontap/snaplock/["請按這裡"]。
 
-image:./media/snap_snaplock.png["錯誤：缺少圖形影像"]
+image:mssql-snap_snaplock.png["錯誤：缺少圖形影像"]
 
 防竄改 Snapshot 複本或快照複本鎖定： Snapshot 複本是保護及還原資料庫的快速方法。攻擊者可能會刪除 Snapshot 複本、而 Snapshot 複本可能是在資料毀損時還原資料庫的最後一個選項。啟用防竄改快照複本會鎖定主要或次要 ONTAP 系統上的快照複本、以防止停格管理員或不受信任的系統管理員在指定期間內刪除快照。防竄改 Snapshot 複本功能可從 ONTAP 9.12.1 取得、需要 SnapLock 授權和法規遵循時鐘的初始化。
 

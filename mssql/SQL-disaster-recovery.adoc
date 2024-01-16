@@ -6,12 +6,11 @@ summary: ONTAP 上的 Microsoft SQL Server
 ---
 = Microsoft SQL Server 災難恢復
 :allow-uri-read: 
+:imagesdir: ../media/
 
 
 [role="lead"]
 NetApp 提供各種方法、可在發生硬體、軟體或站台故障時提高資料可用度。
-
-NetApp 提供 MetroCluster 、 SnapMirror 業務連續性（ SM-BC ）、 SnapMirror 等技術。您可以找到這些功能的描述性說明 link:../common/overview-dr.html["請按這裡"]。
 
 
 

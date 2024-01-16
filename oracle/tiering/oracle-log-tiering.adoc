@@ -9,7 +9,7 @@ summary: Oracle 歸檔記錄分層
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

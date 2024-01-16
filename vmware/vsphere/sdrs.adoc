@@ -10,7 +10,7 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

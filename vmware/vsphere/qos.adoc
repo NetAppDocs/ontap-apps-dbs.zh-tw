@@ -10,11 +10,14 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revnumber: 
+:revdate: or entire SVMs.
 
-
-[role="lead"]
-執行ONTAP 支援功能的系統可使用ONTAP 「支援服務品質」功能、限制檔案、LUN、磁碟區或整個SVM等不同儲存物件的每秒處理量（以Mbps和/或I/O（IOPS）為單位）。
 
 處理量限制可在部署前控制未知工作負載或測試工作負載、以確保不會影響其他工作負載。它們也可用於在識別出高效能工作負載之後加以限制。也支援以IOPS為基礎的最低服務層級、以提供一致的效能、適用於ONTAP VMware的SAN物件、以及ONTAP 支援VMware的NAS物件。
 

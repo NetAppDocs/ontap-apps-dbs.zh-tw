@@ -10,7 +10,7 @@ summary: 支援所有用於虛擬化的主要儲存傳輸協定、例如適用�
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

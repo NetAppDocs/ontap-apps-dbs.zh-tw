@@ -525,12 +525,8 @@
   <block id="804d5b1f06570b4d242be0c2f0c3392c" category="paragraph">等量分配組態的主要目標是確保單一檔案 I/O 可作為單一單元執行、而多區塊 I/O 的大小應為 1MB 、可在等量磁碟區中的所有 LUN 之間平均平行處理。這表示等量磁碟區大小不得小於資料庫區塊大小、且等量磁碟區大小乘以 LUN 數量應為 1MB 。</block>
   <block id="0598f393baefd05d48b48076cc7df606" category="paragraph">下圖顯示等量磁碟區大小和寬度調校的三個可能選項。選擇 LUN 數量以滿足上述效能需求、但在所有情況下、單一等量磁碟區內的總資料為 1MB 。</block>
   <block id="9ca503fae9ccd4d6d8e67806b23adfa0" category="paragraph"><block ref="9ca503fae9ccd4d6d8e67806b23adfa0" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="d36647d06b353fcd6fedc60898e43187" category="summary">ONTAP 組態</block>
   <block id="0353522b39b87d54d40d3f09ec668851" category="doc">組態ONTAP</block>
-  <block id="ccaea53c3be76af327e8e6f9c496a3ac" category="paragraph">ONTAP 提供許多專為應用程式和資料庫工作負載所設計的功能。</block>
   <block id="8e52de0d4b03d5fe87dc88da09616c7f" category="inline-link-macro">請按這裡。</block>
-  <block id="0940bb4f1fb97b40821b7a3be456f149" category="paragraph">您可以找到重要 ONTAP 功能的總覽、包括資料保護功能、儲存效率建議和災難恢復選項等所有功能 <block ref="f7503abce54bbe0e3218519d659c8356" category="inline-link-macro-rx"></block></block>
-  <block id="99e4610a4e3d81b01970dbfd92973f0a" category="paragraph">此資訊對於在 ONTAP 儲存系統上正確架構及管理應用程式環境至關重要。</block>
   <block id="9fe343788d08130f46e418bb81928479" category="summary">概述FabricPool</block>
   <block id="337c62c6b6eb7319bae58701105e889c" category="doc">分層</block>
   <block id="cec4b296aaf93974a98a5d3b3f27ff9e" category="paragraph">瞭解 FabricPool 分層對應用程式和資料庫的影響、需要瞭解低階 FabricPool 架構。</block>
@@ -612,9 +608,7 @@
   <block id="789a6c7dd865d16eb1df122bcc5c9a3a" category="admonition">* 如果需要 NFSv4 功能、 NetApp 建議 * 使用 NFSv4.1 。NFSv4.1 中的 NFSv4 傳輸協定有一些功能性增強功能、可改善某些邊緣情況的恢復能力。</block>
   <block id="36772d6dfc6e102eff552ffad6b98690" category="paragraph">掛載 NFS 檔案系統時、請使用下列掛載選項：</block>
   <block id="8e86e0aee135afb67c6a1d3d6e0f3306" category="inline-link-macro">NFS 傳輸大小</block>
-  <block id="8952190775a545f4f8fdf241a9359455" category="paragraph">若要改善 NFS 效能、請參閱 <block ref="4e8f03f35a599a194f36d03d2b8495dd" category="inline-link-macro-rx"></block>。</block>
   <block id="d84b41126744795c4ee82f7b256e7234" category="inline-link-macro">FC SAN</block>
-  <block id="b69b3938a2935a6c5ad8e3f696efd637" category="paragraph">如需 SAN 組態的指引、以及有關 LVM 分拆和 LUN 計數的重要詳細資料、請參閱 <block ref="588ec6ef762c46d35337665cf518bf6a" category="inline-link-macro-rx"></block>。</block>
   <block id="2c8c2171fc87c96e58fb40d8714f85cf" category="doc">PostgreSQL 架構</block>
   <block id="ee62b4420d426c21a46d892ac084872a" category="paragraph">PostgreSQL 是以用戶端和伺服器架構為基礎的 RDBMS 。PostgreSQL 執行個體稱為資料庫叢集、是資料庫的集合、而非伺服器集合。</block>
   <block id="89c30c326e106773af32af40255b92a8" category="inline-image-macro">錯誤：找不到圖形</block>
@@ -642,7 +636,6 @@
   <block id="beb3ca55ed0a53a38a2b97540b05d6e4" category="summary">ONTAP 上的 Microsoft SQL Server</block>
   <block id="7636ae91f443b605f05bed59d7d57a02" category="doc">Microsoft SQL Server 災難恢復</block>
   <block id="810304d54e0a61663cfc457b0894037b" category="paragraph">NetApp 提供各種方法、可在發生硬體、軟體或站台故障時提高資料可用度。</block>
-  <block id="44665451998410d7d5e3e61e1785d112" category="paragraph">NetApp 提供 MetroCluster 、 SnapMirror 業務連續性（ SM-BC ）、 SnapMirror 等技術。您可以找到這些功能的描述性說明 <block ref="08de3f734af11bdee4de0329d4acad67" category="inline-link-macro-rx"></block>。</block>
   <block id="9c1e9d82d3220658621f72dca978adb0" category="section-title">NetApp SnapMirror</block>
   <block id="46983273062fdc8ce8561a9ce89cdc5b" category="paragraph">NetApp SnapMirror 技術提供快速靈活的企業解決方案、可透過 LAN 和 WAN 來鏡射或複寫資料。SnapMirror 技術在初始基礎傳輸之後、只會將經過修改的 4KB 資料區塊傳輸到目的地、大幅降低網路頻寬需求。SnapMirror 可根據設定的複寫更新間隔、提供非同步的磁碟區層級複寫。
 以下是 SnapMirror for SQL Server 的建議：</block>
@@ -657,7 +650,6 @@
   <block id="3f0ff45bcce968caef3a216a79681533" category="paragraph">隨著勒索軟體或內部威脅的案例增加、企業資料和備份必須受到保護、而且必須能夠以一致的順序快速恢復、避免惡意攻擊。攻擊者仍可能找到劫持資料的方法。
 ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="8b64c006213e96766bdb598b57396083" category="paragraph">ONTAP 可將彈性磁碟區備份至 SnapLock Enterprise 或 SnapLock Compliance Volume 、方法是在 FlexVol 磁碟區作為來源磁碟區和 SnapLock 磁碟區做為目的地之間建立 SnapMirror 關係。備份至次要儲存區的 Snapshot 複本可在使用 SnapLock 技術保留之前、受到保護、不受修改或刪除。這是根據 在 SnapMirror 原則上、與關係相關、其中定義了目的地 SnapLock 磁碟區上保留的特定 SnapMirror 標籤的 Snapshot 複本數量。若要還原包含 LUN 資料的快照、可透過 SnapMirror 還原作業、在非 SnapLock 磁碟區上完成。在 ONTAP 9.13.1 中、可將 SnapLock 類型指定為非 SnapLock 來建立 FlexClone 複本。如需SnapLock 更多關於功能的資訊、請參閱 <block ref="ef172f6fa5e7e0d1ce81bd97ee5f82e3" category="inline-link-macro-rx"></block>。</block>
-  <block id="ccad2a7107c9ef5d1565c269187f32ef" category="paragraph"><block ref="ccad2a7107c9ef5d1565c269187f32ef" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0b6dbdd1b25ffa8aa9efcccb98bb3fbe" category="paragraph">防竄改 Snapshot 複本或快照複本鎖定： Snapshot 複本是保護及還原資料庫的快速方法。攻擊者可能會刪除 Snapshot 複本、而 Snapshot 複本可能是在資料毀損時還原資料庫的最後一個選項。啟用防竄改快照複本會鎖定主要或次要 ONTAP 系統上的快照複本、以防止停格管理員或不受信任的系統管理員在指定期間內刪除快照。防竄改 Snapshot 複本功能可從 ONTAP 9.12.1 取得、需要 SnapLock 授權和法規遵循時鐘的初始化。</block>
   <block id="310ba850db6109a11c606bdc5224be97" category="paragraph">ONTAP 具有多重管理驗證（ MAV ）功能、這表示沒有單一管理員擁有刪除 Snapshot 複本或修改 Volume 的完整權限。這可作為額外的安全性、避免磁碟區或 Snapshot 複本再次遭到不受信任的系統管理員竄改。</block>
   <block id="77641f4a3e4406855e878235cbd89b87" category="doc">CPU 組態</block>
@@ -667,7 +659,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="673c216e20d1cf8827f347c01dace664" category="paragraph">此處的注意點是、每個 SQL Server 版本都有自己的運算能力限制。如需詳細資訊、請參閱依 SQL Server 版本計算容量限制。</block>
   <block id="932a9271c08db114962ce3791480f371" category="paragraph">授權 SQL Server 時有兩大主要考量。第一個稱為伺服器 + 用戶端存取授權（ CAL ）模式、第二個是每個處理器核心模式。雖然您可以使用伺服器 + CAL 策略存取 SQL Server 中所有可用的產品功能、但每個插槽的硬體限制為 20 個 CPU 核心。即使您的伺服器的 SQL Server Enterprise Edition + CAL 每個插槽有超過 20 個 CPU 核心、應用程式也無法在該執行個體上同時使用所有這些核心。圖顯示啟動後的 SQL Server 記錄訊息、指出核心限制的強制執行。</block>
   <block id="d06fce44fdcf20791141e7585205a477" category="section-title">記錄項目指出 SQL Server 啟動後所使用的核心數。</block>
-  <block id="f172c98eb1173f29e1d98efffb0e63f9" category="paragraph"><block ref="f172c98eb1173f29e1d98efffb0e63f9" category="inline-image-macro-rx" type="image"></block></block>
   <block id="cf0e2551e639758cc3c4d82df655eccd" category="inline-link-macro">SQL Server 2022 ：現代化的資料平台</block>
   <block id="809c9e1f6ce0bc82bf42fae361c6f43e" category="paragraph">因此、若要使用所有 CPU 、您應該使用每個處理器核心授權。如需 SQL Server 授權的詳細資訊、請參閱 <block ref="457abfaf1083b1cbfc49f2783069c6cd" category="inline-link-macro-rx"></block>。</block>
   <block id="cb8d56a3511d402b7355db8502a54c5a" category="section-title">CPU 親和性</block>
@@ -687,7 +678,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="decd79137325e1efbc7b994f946ea24f" category="paragraph">預設值為 0 、可讓 SQL Server 在啟動時自動設定工作執行緒數量。這適用於大多數系統。Max Worker 執行緒是進階選項、如果沒有經驗豐富的資料庫管理員（ DBA ）的協助、就不應變更。</block>
   <block id="030a270970f70c1bd91d3689b6f95f3f" category="inline-link-macro">設定最大工作執行緒伺服器組態選項</block>
   <block id="2a0c648df721b9bc2643d59c4a3a310a" category="paragraph">何時應設定 SQL Server 使用更多工作執行緒？如果每個排程器的平均工作佇列長度超過 1 、您可能會因為在系統中新增更多執行緒而受益、但前提是負載未受 CPU 限制或遇到任何其他繁重的等待。如果發生上述任一種情況、新增更多執行緒並不會有幫助、因為它們最終會等待其他系統瓶頸。如需工作者執行緒上限的詳細資訊、請參閱 <block ref="77c391df5f9f06cdf367c2a7314ce351" category="inline-link-macro-rx"></block>。</block>
-  <block id="67028b81f2fa3e41f3a791718fec0fc7" category="paragraph"><block ref="67028b81f2fa3e41f3a791718fec0fc7" category="inline-image-macro-rx" type="image"></block></block>
   <block id="29d04e616d2293c4c7538dd6226feac5" category="section-title">使用 SQL Server Management Studio 設定最大工作執行緒。</block>
   <block id="5962130d833e0408cf58a87e342bc1f9" category="doc">Microsoft SQL Server tempdb 檔案</block>
   <block id="625156cc6cef9a3c56b1b535579bd2c9" category="paragraph">NetApp 建議主動將 tempdb 檔案充氣至其完整大小、以避免磁碟分割。</block>
@@ -764,7 +754,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="1ceeb5f5f18aefbc39e34d0d3c7b7e1c" category="paragraph">有些應用程式只會在啟動時使用任何可用的記憶體、即使需要也不會要求更多。這就是最大伺服器記憶體設定的作用所在。</block>
   <block id="6e345f11e9b2856a7ac40d6cf283606b" category="paragraph">在具有多個 SQL Server 執行個體的 SQL Server 叢集上、每個執行個體可能會爭用資源。為每個 SQL Server 執行個體設定記憶體限制、有助於保證每個執行個體的最佳效能。</block>
   <block id="318b34a3511a1be6d179a73303da2077" category="admonition">* NetApp 建議 * 為作業系統保留至少 4GB 至 6GB 的 RAM 、以避免效能問題。</block>
-  <block id="bc34e8cb14e602c11eab57e5d4131989" category="paragraph"><block ref="bc34e8cb14e602c11eab57e5d4131989" category="inline-image-macro-rx" type="image"></block></block>
   <block id="cd151dbdf946ad6bd27e1d55ea1cd029" category="section-title">使用 SQL Server Management Studio 調整最小和最大伺服器記憶體。</block>
   <block id="2e0d4de7d927936246f5537ba48015d2" category="paragraph">若要使用 SQL Server Management Studio 調整最小或最大伺服器記憶體、必須重新啟動 SQL Server 服務。您可以使用以下代碼、使用 TransAct SQL （ T-SQL ）來調整伺服器記憶體：</block>
   <block id="998c5e632fa0f987c20c182fc9322f67" category="section-title">不一致的記憶體存取</block>
@@ -776,7 +765,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="8c91aa3f5264c57bd2d2e66bd70f2ad1" category="section-title">每個查詢的最小記憶體</block>
   <block id="027d5a3eabe88aa0ab705b9c4a2fe096" category="paragraph">執行查詢時、 SQL Server 會嘗試分配最適當的記憶體量、讓它能夠有效率地執行。</block>
   <block id="4c7836a7e63c3ecb3f6860ec19643561" category="paragraph">根據預設， [ 每個查詢的最小記憶體 ] 設定會為每個要執行的查詢分配 &gt; 或 = 至 1024KB 。最佳做法是將此設定保留為預設值 0 、以允許 SQL Server 動態管理分配給索引建立作業的記憶體量。不過、如果 SQL Server 的 RAM 超過有效執行所需的容量、則如果您增加此設定、某些查詢的效能可能會大幅提升。因此、只要 SQL Server 、任何其他應用程式或作業系統未使用的伺服器上有可用的記憶體、則提升此設定有助於整體 SQL Server 效能。如果沒有可用的可用記憶體、增加此設定可能會影響整體效能。</block>
-  <block id="280cb8402bda4f652caf7bab6f9d2c6d" category="paragraph"><block ref="280cb8402bda4f652caf7bab6f9d2c6d" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d2a88da9a0fcc96168f8f051909d5599" category="section-title">緩衝區集區副檔名</block>
   <block id="11a3fdcfeb0715eaf26e855034f6ab9a" category="paragraph">緩衝區集區擴充可將 NVRAM 擴充與資料庫引擎緩衝區集區無縫整合、大幅改善 I/O 處理量。</block>
   <block id="c722da593d2f37b2c1ffc91a10c03dad" category="paragraph">並非每個 SQL Server 版本都提供緩衝區集區擴充功能。僅適用於 64 位元 SQL Server Standard 、 Business Intelligence 和 Enterprise 版本。</block>
@@ -793,10 +781,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="c7e0d87e723625072015431887edf349" category="paragraph">下列範例顯示 T-SQL 命令、可設定 32GB 的緩衝區集區擴充。</block>
   <block id="7ef20d2374bc8b734222e4ec2f0f3643" category="doc">使用 Microsoft SQL Server 實現 ONTAP 儲存效率</block>
   <block id="e5bc122522e9ae1409590d9944ec4421" category="paragraph">儲存效率是以消耗最少儲存空間的方式來儲存和管理 SQL Server 資料、對系統整體效能幾乎沒有影響或完全沒有影響。</block>
-  <block id="c2a147b6be5d033c4eb55813488dbcc1" category="inline-link-macro">資源配置建議</block>
-  <block id="ff824cee2c3b7ec7f7581d5dc93d1444" category="paragraph">儲存效率是 RAID 、資源配置（整體配置和使用率）、鏡像和其他資料保護技術的組合。NetApp 技術（例如 Snapshot 複本、精簡配置、 FlexClone ）可最佳化基礎架構中的現有儲存設備、並延後或避免未來的儲存支出、協助創造成本效益。這些技術搭配使用越多、節省的成本就越大。如需詳細資訊、請參閱 <block ref="b5384d52b6e3305a2c57340dbe087476" category="inline-link-macro-rx"></block></block>
-  <block id="6a10562f7a321860904cbd17167319df" category="inline-link-macro">效率最佳實務做法</block>
-  <block id="5c7e263278e678895b97dc11f2a3cc36" category="paragraph">儲存壓縮、壓縮、重複資料刪除是其他儲存效率選項、可增加符合指定實體儲存量的邏輯資料量。如需詳細資訊、請參閱 <block ref="2f4d6c4cfae5ce39369594d1e1758c5d" category="inline-link-macro-rx"></block>。</block>
   <block id="2d3c9d6f03cd640c224f5daf9c2352b0" category="paragraph">SQL Server 也具備壓縮及有效管理資料的功能。SQL Server 目前支援兩種類型的資料壓縮：資料列壓縮和頁面壓縮。</block>
   <block id="181341700086c5e2f2259774b2aaa59c" category="inline-link-macro">頁面壓縮實作</block>
   <block id="46c6aaf21d639d23d4f297a1f6922d9a" category="paragraph">資料列壓縮會變更資料儲存格式。例如、它會將整數和小數位數變更為可變長度格式、而非原生固定長度格式。它也會消除空白、將固定長度字元字串變更為可變長度格式。頁面壓縮會實作列壓縮及其他兩種壓縮策略（前置壓縮和字典壓縮）。您可以在中找到有關頁面壓縮的詳細資料 <block ref="88eab602b149fe360da37498ad5cdeae" category="inline-link-macro-rx"></block>。</block>
@@ -810,7 +794,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="aa864feb1e600aa376e91ac119da387b" category="paragraph">如果您需要執行空間回收、則此程序應在低活動期間執行、因為它最初會在主機上使用週期。</block>
   <block id="a356c94dff23a233551ff221e74a144d" category="summary">使用 ONTAP 保護 Microsoft SQL Server 資料</block>
   <block id="731c00fe6475fb22aece82ffa9d74ef3" category="paragraph">保護資料庫對任何組織都至關重要。隨著資料庫的資料大小和數量增加、維持恢復時間目標（ RTO ）和恢復點目標（ RPO ）非常重要。</block>
-  <block id="5cf56e0e8b1ff5cffb383d58615265e0" category="paragraph">資料庫備份的主要考量是運用 NetApp Snapshot 技術。我們將討論 ONTAP 上的資料保護規劃 <block ref="8f339e5651f846037d94f72580710268" category="inline-link-macro-rx"></block>。應用程式一致的備份和資料庫配置是達成 NetApp SnapCenter 可協調的 RTO 和 RPO 的另一個重要考量。</block>
   <block id="5c014f8939a89da0166a347a0237cf4f" category="section-title">SnapCenter</block>
   <block id="2ddb1872f6c378e74cb7269e9de4c4e5" category="paragraph">SnapCenter 是適用於企業應用程式的 NetApp 資料保護軟體。使用 NetApp SnapCenter 軟體搭配適用於 SQL Server 的外掛程式和適用於 Microsoft Windows 的外掛程式、即可快速輕鬆地保護 SQL Server 資料庫。</block>
   <block id="bdc6c0cf646d837838203c2980eba84a" category="paragraph">此產品可讓 SQL Server 資料庫、執行個體或可用度群組進行應用程式一致的備份、自動複製、還原及還原。</block>
@@ -852,7 +835,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="9a3f42cec243006996ab4580d3ce5d56" category="paragraph">每個資料庫都包含一或多個資料檔案、以及一或多個交易記錄檔。交易記錄會儲存資料庫交易的相關資訊、以及每個工作階段所做的所有資料修改。每次修改資料時、 SQL Server 都會在交易記錄中儲存足夠的資訊、以復原（復原）或重做（重新執行）動作。SQL Server 交易記錄是 SQL Server 在資料完整性和健全性方面聲譽的重要一環。交易記錄對於 SQL Server 的原子性、一致性、隔離和耐用性（ ACID ）功能至關重要。一旦資料頁發生任何變更、 SQL Server 就會立即寫入交易記錄檔。每個 Data 操縱語言（ DML ）陳述式（例如、 SELECT 、 INSERT 、 UPDATE 或 DELETE ）都是完整的交易、而且交易記錄會確保整個以 Set 為基礎的作業都能進行、確保交易的完整性。</block>
   <block id="cbe6958e46fbab53cdbdb9deb2d75938" category="paragraph">每個資料庫都有一個主要資料檔案、預設會有 .mdf 副檔名。此外、每個資料庫都可以有次要資料庫檔案。根據預設、這些檔案的副檔名為 .NDF 。</block>
   <block id="811b578b6dfbb4a4ca16ba0c0911e3df" category="paragraph">所有資料庫檔案都會分組為檔案群組。檔案群組是邏輯單元、可簡化資料庫管理。它們允許在邏輯物件放置和實體資料庫檔案之間進行分隔。當您建立資料庫物件表格時、您可以在檔案群組中指定它們應該放置的位置、而無需擔心基礎資料檔案組態。</block>
-  <block id="cd2f60511a1a153b21b89b7c5c3ca326" category="paragraph"><block ref="cd2f60511a1a153b21b89b7c5c3ca326" category="inline-image-macro-rx" type="image"></block></block>
   <block id="3717596742d438a1c8e77b0aeb58fcec" category="paragraph">將多個資料檔案放入檔案群組的能力、可讓您將負載分散到不同的儲存裝置、有助於改善系統的 I/O 效能。與此相反的是、由於 SQL Server 會循序寫入交易記錄檔、因此無法從多個檔案中獲益。</block>
   <block id="c136ffb510a6a465d338ab0affc16641" category="paragraph">檔案群組中的邏輯物件放置與實體資料庫檔案之間的分隔、可讓您微調資料庫檔案配置、充分發揮儲存子系統的效益。例如、將產品部署給不同客戶的獨立軟體廠商（ ISV ）、可以根據基礎 I/O 組態和部署階段的預期資料量、調整資料庫檔案數量。這些變更對應用程式開發人員來說是透明的、他們將資料庫物件放置在檔案群組中、而非資料庫檔案中。</block>
   <block id="3ac46c2f04dec9d215efbe44d307a020" category="admonition">* NetApp 建議 * 避免將主要檔案群組用於系統物件以外的任何項目。為使用者物件建立個別的檔案群組或一組檔案群組、可簡化資料庫管理和災難恢復、尤其是大型資料庫。</block>
@@ -862,12 +844,9 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="54db492ee9e4d356cc8722d1f4126f77" category="paragraph">SQL Server 一律會將交易記錄檔歸零、而且該行為無法變更。不過、您可以啟用或停用即時檔案初始化來控制資料檔案是否正在歸零。啟用即時檔案初始化有助於加速資料檔案成長、並縮短建立或還原資料庫所需的時間。</block>
   <block id="92208bd4d9c6fec3f7c1dedeca62e135" category="paragraph">與即時檔案初始化有關的安全風險較小。啟用此選項時、資料檔案的未分配部分可能會包含先前刪除的作業系統檔案資訊。資料庫管理員可以檢查這類資料。</block>
   <block id="2b222ad4000e6e966783fd7bc480180e" category="paragraph">您可以將 SA_SA_SAM_VOLUM_NAME 權限（也稱為「執行 Volume 維護工作」）新增至 SQL Server 啟動帳戶、以啟用即時檔案初始化。您可以在本機安全性原則管理應用程式（ secpol.msc ）下執行此動作、如下圖所示。開啟「執行 Volume 維護工作」權限的內容、並將 SQL Server 啟動帳戶新增至該處的使用者清單。</block>
-  <block id="f5127c997811da26d32c454a19000117" category="paragraph"><block ref="f5127c997811da26d32c454a19000117" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c622e0142ed854a10f98fcaa8b3487f8" category="paragraph">若要檢查權限是否已啟用、您可以使用下列範例中的程式碼。此程式碼會設定兩個追蹤旗標、強制 SQL Server 將其他資訊寫入錯誤記錄檔、建立小型資料庫、以及讀取記錄內容。</block>
   <block id="eba8c32bde087b29aaa1fe0d3bb32ef3" category="paragraph">如果未啟用即時檔案初始化、 SQL Server 錯誤記錄會顯示 SQL Server 除了將 ldf 記錄檔歸零之外、還會將 MDF 資料檔案歸零、如下例所示。當啟用即時檔案初始化時、它只會顯示記錄檔的零位。</block>
-  <block id="b38fa7baf9ceb53ef15ca3677d3cdfa5" category="paragraph"><block ref="b38fa7baf9ceb53ef15ca3677d3cdfa5" category="inline-image-macro-rx" type="image"></block></block>
   <block id="cf346325be0652c6b6e9a04b9352bda3" category="paragraph">執行 Volume 維護工作在 SQL Server 2016 中已簡化、稍後會在安裝過程中提供選項。此圖顯示選項、可授予 SQL Server 資料庫引擎服務執行 Volume 維護工作的權限。</block>
-  <block id="aea48caa289e2e488286fae0515eb9d9" category="paragraph"><block ref="aea48caa289e2e488286fae0515eb9d9" category="inline-image-macro-rx" type="image"></block></block>
   <block id="638b283700120d26a838f9cb56fca59d" category="paragraph">控制資料庫檔案大小的另一個重要資料庫選項是自動壓縮。啟用此選項時、 SQL Server 會定期縮減資料庫檔案、減少檔案大小、並釋出空間給作業系統。這項作業需要大量資源、而且很少有用、因為當新資料進入系統時、資料庫檔案會在一段時間後再次增加。永遠不要在資料庫上啟用自動壓縮。</block>
   <block id="3b6c913908f5844ccb31a4d3775cb34e" category="doc">Microsoft SQL Server 共用執行個體與專用執行個體的比較</block>
   <block id="8b58192b54b5dc25444ace0536a34893" category="paragraph">如果應用程式有許多架構和儲存程序、可能會影響其他共用 SQL Server 執行個體的應用程式。</block>
@@ -1029,7 +1008,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="edc9f0a5a5d57797bf68e37364743831" category="doc">Linux</block>
   <block id="dfc95ed5e895617bbd0d4b1a8bfba8ca" category="paragraph">Linux 作業系統專屬的組態主題。</block>
   <block id="5ecd4a6f4aedfdd45cce80a18b1a7942" category="section-title">插槽表格</block>
-  <block id="cb0b01337e8f6bf9d06b70a95f74501e" category="paragraph">Linux 上的 NFS 效能取決於稱為的參數<block ref="453f2cc2326f82af1053f4aa4b75400b" prefix=" " category="inline-code"></block>。請參閱 <block ref="77039a327377cbf65e33c7c5d3766672" category="inline-link-macro-rx"></block> 以取得重要資訊。</block>
   <block id="2518e65e64213437c921c39a097db167" category="section-title">Linux NFS 裝載選項</block>
   <block id="29cd2e6d4fc96e749c4a0e622cad7f50" category="paragraph">下表列出單一執行個體的 Linux NFS 掛載選項。</block>
   <block id="9fafd031075cede0e8a5a796ec45fbff" category="paragraph">下表列出 RAC 的 Linux NFS 掛載選項。</block>
@@ -2100,7 +2078,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="c4cb2c6af5d7b6c38cd7e588d846e8b4" category="doc">Oracle I/O 的 LUN 對齊</block>
   <block id="3e00e4d28b17eedd6f6c2c38233e06a8" category="paragraph">LUN 對齊是指針對基礎檔案系統配置最佳化 I/O 。</block>
   <block id="a6c7e85d51ae3b98197ceb3eafa3686a" category="inline-link-macro">效率</block>
-  <block id="8b91f52c07f84050ec607efaba519342" category="paragraph">另請參閱一節中有關壓縮區塊對齊的討論 <block ref="507b43f44c8d150acacbc8cc7264d717" category="inline-link-macro-rx"></block>。任何與 8KB 壓縮區塊邊界對齊的配置、也會與 4KB 邊界對齊。</block>
   <block id="6e2524d5663b2bdc0c7985fa3e57cc55" category="section-title">錯誤對齊警告</block>
   <block id="79e721357e358d77c4700c25c863fc37" category="inline-link">SAN主機組態ONTAP</block>
   <block id="268b1da3f1ff11d32e385d0223101718" category="paragraph">在 Solaris 環境中進行對齊更為複雜。請參閱<block ref="2d33e0364c07dc165b4079892340d4fe" category="inline-link-rx"></block> 以取得更多資訊。</block>
@@ -2131,9 +2108,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="68114defc717054e7e3b02df438cdbe1" category="paragraph">快取可能發生在應用程式或伺服器層。例如、 Oracle Real Application Cluster （ RAC ）組態、主站台和遠端站台上的伺服器都處於作用中狀態、可在 Oracle SGA 中快取資料。強制切入作業會導致資料遺失、因此資料庫可能會發生毀損、因為儲存在 SGA 中的區塊可能與磁碟上的區塊不符。</block>
   <block id="162de6d405c04ce8f152f1d246ed9187" category="paragraph">較不明顯的快取用途是在作業系統檔案系統層。來自掛載 NFS 檔案系統的區塊可能會快取到作業系統中。或者、以位於主要站台上的 LUN 為基礎的叢集式檔案系統、可以掛載到遠端站台的伺服器上、然後再次快取資料。在這些情況下、 NVRAM 故障或強制接管或強制性的作業系統、可能會導致檔案系統毀損。</block>
   <block id="04ca8d9ad570a3bdf1d76e23bc108ae5" category="paragraph">ONTAP 使用 NVFAIL 及其相關設定、保護資料庫和作業系統不受此案例影響。</block>
-  <block id="41392c0810a247913390639ac55b02f3" category="inline-link-macro">NVFAIL 與 HA 配對</block>
-  <block id="c85e3cf60aca3604436a612414b4862b" category="inline-link-macro">NVFAIL 搭配 MetroCluster</block>
-  <block id="4c81a151f262848af64b7c3617f2957f" category="paragraph">如需其他重要資訊、請參閱 <block ref="7dd171303802b4fd88eb6286775f7e90" category="inline-link-macro-rx"></block> 和 <block ref="d70bba050e7743789ce865415fea7eaf" category="inline-link-macro-rx"></block></block>
   <block id="45293b650c7dacd88d269bebf219b8ef" category="summary">ONTAP 中的快速 Oracle 資料庫從 Snapshot 複本還原是由 NetApp SnapRestore 技術提供。</block>
   <block id="82ef718f4ebe0c276814ee3d51e33361" category="doc">SnapRestore</block>
   <block id="863696626734d6591db8be57b41c7eec" category="paragraph">NetApp SnapRestore 技術可從快照快速還原 ONTAP 中的資料。</block>
@@ -2831,7 +2805,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="04e7bb0411c1c8f56ca4fc8000c62ad8" category="inline-link">部署SnapCenter VMware vSphere的VMware vCenter外掛程式</block>
   <block id="d4ba0aa084ae1145248006481c881d29" category="paragraph"><block ref="d4ba0aa084ae1145248006481c881d29" category="inline-link-rx"></block></block>
   <block id="231cf4c70d866b616c21baddaeed0696" category="doc">疑難排解</block>
-  <block id="87e6f97c8ec2f31df616ef84401ffaf4" category="paragraph">有幾種疑難排解資源可提供額外資訊。</block>
   <block id="9d2169c1c2855b78a7aeaa4f42d27dc7" category="section-title">NetApp 支援網站</block>
   <block id="ed9018b2e8611a3d2c03bb6a205b9715" category="inline-link">VMware vSphere適用的工具ONTAP</block>
   <block id="890eb741924c425abbb11e4618560181" category="paragraph">除了 NetApp 虛擬化產品的各種知識庫文章之外、 NetApp 支援網站 也提供方便的登陸頁面<block ref="6e90053136fd326e5d581844ca21966d" category="inline-link-rx"></block> 產品。此入口網站提供 NetApp 社群文章、下載、技術報告及 VMware 解決方案討論的連結。您可以在以下網址取得：</block>
@@ -2850,7 +2823,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="3152add163cd8aaf116a259d85ebf8fb" category="section-title">升級 Unified Appliance 無法掛載 ISO</block>
   <block id="ffaa56a3f5a1157f2eb3955773bb41da" category="paragraph">由於 vCenter 發生錯誤、用於將 Unified Appliance 從一個版本升級至下一個版本的 ISO 可能無法掛載。如果 ISO 能夠附加至 vCenter 中的應用裝置、請遵循此知識庫中的程序<block ref="9839383ed04f777c0132b57ad0cb14ac" category="inline-link-rx"></block> 以解決此問題。</block>
   <block id="cacba1b456347ce8f32c7f5ed0d81e64" category="doc">部署 VVols Storage</block>
-  <block id="4adcd8d9323839ff088dc4f8f0bdcce2" category="paragraph">建立 VM 的 vVols 儲存設備有幾個步驟。</block>
   <block id="2a5f3dc8d46246216b293c9e41979269" category="paragraph">對於使用 ONTAP 用於傳統資料存放區的現有 vSphere 環境、可能不需要前兩個步驟。您可能已經使用 ONTAP 工具來管理、自動化及報告 VMFS 或傳統 NFS 型儲存設備。以下章節將詳細說明這些步驟。</block>
   <block id="841db3655338a0c3dc36cf2761bfdafd" category="list-text">建立儲存虛擬機器（ SVM ）及其傳輸協定組態。您將選擇 NVMe / FC 、 NFSv3 、 NFSv4.1 、 iSCSI 、 FCP 、 或是混合使用這些選項。您可以使用 ONTAP 系統管理員精靈或叢集 Shell 命令列。</block>
   <block id="10818a8ad4f650a48d78d728278d4cb3" category="list-text">每個節點至少有一個 LIF 用於每個交換器 / 架構連線。最佳做法是為 FCP 、 iSCSI 或 NVMe 型傳輸協定、每個節點建立兩個以上的資料傳輸協定。</block>
@@ -2978,7 +2950,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="2902acda09b9786460c2dd928a2d8f1a" category="paragraph">這個解決方案是VVols擴充儲存產業的領導廠商、可在單一叢集內支援數十萬個vVols、而企業陣列和小型Flash陣列廠商則支援每個陣列數千個vVols。ONTAPNetApp也透過即將推出的VVols 3.0支援功能、推動VM精細管理的演進。</block>
   <block id="fda9c21a4aefd4a1f42ad0b195e6ef0a" category="inline-link">TR-4400: VMware vSphere虛擬Volume ONTAP with VMware</block>
   <block id="69173613658292fc2adeb513b12f29ca" category="admonition">如需VMware vSphere虛擬磁碟區、SPBM及ONTAP VMware的詳細資訊、請參閱<block ref="354226c2546b1aed39f1c0c484e6a98a" category="inline-link-rx"></block>。</block>
-  <block id="4f46fffb0ac7017fd2b42c10d6aa03fc" category="paragraph">備份虛擬機器並快速恢復這些虛擬機器、是ONTAP vSphere的絕佳優勢之一、SnapCenter 而使用VMware vSphere的VMware vCenter外掛程式、可輕鬆管理vCenter內部的這項功能。</block>
   <block id="61823c0f572643e0ce2e4edcb74cae51" category="paragraph">使用快照快速複製 VM 或資料存放區、而不會影響效能、然後使用 SnapMirror 將其傳送至次要系統、以提供長期的異地資料保護。這種方法只儲存變更的資訊、可將儲存空間和網路頻寬減至最低。</block>
   <block id="0aef2da721f0ab14676f8d6ffb9e7e8c" category="inline-link">建議</block>
   <block id="022e604112aa3d1870f0da5e7806f48b" category="paragraph">利用此功能、您可以建立可套用至多個工作的備份原則。SnapCenter這些原則可定義排程、保留、複寫及其他功能。它們持續允許選用 VM 一致的快照、利用 Hypervisor 的能力來在拍攝 VMware 快照之前、先關閉 I/O 。不過、由於VMware快照的效能影響、除非您需要靜止客體檔案系統、否則一般不建議使用這些快照。請改用快照來提供一般保護、並使用 SnapCenter 外掛程式等應用程式工具來保護交易資料、例如 SQL Server 或 Oracle 。這些快照與 VMware （一致性）快照不同、適合長期保護。  VMware快照僅供參考<block ref="75f5ad475d959e2ecb55267e1a9a54f1" category="inline-link-rx"></block> 因效能和其他影響而短期使用。</block>
@@ -3118,7 +3089,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
 如需使用 vSphere 7 的 NVMe 、請參閱<block ref="6c040a6e611e78bb9d0ad92946e613ea" category="inline-link-rx"></block>
 如需使用 vSphere 8 的 NVMe 、請參閱<block ref="030788e4c7bbe3137759b534ea62d7d9" category="inline-link-rx"></block></block>
   <block id="99a66df20e19a8e18fae37a7f714750a" category="doc">虛擬機器與資料存放區複製</block>
-  <block id="2438f6a80b933cf058ad052d26ac0703" category="paragraph">複製儲存物件可讓您快速建立複本以供進一步使用、例如配置額外的VM、備份/還原作業等。</block>
   <block id="fe12a277656562082ad50b980c227a84" category="paragraph">在vSphere中、您可以複製VM、虛擬磁碟、vVol或資料存放區。複製之後、通常可透過自動化程序、進一步自訂物件。vSphere同時支援完整複本複本複本複本、以及連結的複本、可在其中分別追蹤原始物件的變更。</block>
   <block id="883a97a36ab0c59ec785b03161a1cc32" category="paragraph">連結的複本非常適合用來節省空間、但會增加vSphere處理VM的I/O量、進而影響該VM的效能、甚至可能影響整個主機的效能。這就是 NetApp 客戶經常使用儲存系統型複本來充分發揮兩者優勢的原因：有效使用儲存設備並提高效能。</block>
   <block id="17e1a153b5d05c5a642c93ba9ce3c6de" category="paragraph">下圖說明ONTAP 了還原複製。</block>
@@ -3132,7 +3102,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="f3968368501d882b3969da59138db6e2" category="paragraph">您也可以直接複製ONTAP 實體內部的磁碟區或LUN、以複製資料存放區。有了NFS資料存放區、FlexClone技術就能複製整個Volume、而且可從ONTAP VMware匯出該實體複本、並由ESXi作為另一個資料存放區來掛載。對於VMFS資料存放區、ONTAP VMware可以複製一個或整個Volume內的LUN、包括其中的一個或多個LUN。包含VMFS的LUN必須對應至ESXi啟動器群組（igroup）、然後由ESXi重新簽名、才能掛載並作為一般資料存放區使用。在某些臨時使用案例中、可以掛載複製的VMFS、而無需重新簽名。複製資料存放區之後、就可以登錄、重新設定及自訂其中的VM、就像是個別複製的VM一樣。</block>
   <block id="2d506b6088a383ccf08479b0f80c0ff4" category="paragraph">在某些情況下、您可以使用額外的授權功能來強化複製功能、例如SnapRestore 針對備份或FlexClone的功能。這些授權通常包含在授權套裝組合中、不需額外付費。vVol 複製作業需要 FlexClone 授權、也必須支援 vVol 的託管快照（從 Hypervisor 卸載至 ONTAP ）。FlexClone授權也能在資料存放區/磁碟區內使用時、改善特定的VAAI型複本（建立即時、節省空間的複本、而非區塊複本）。  SRA也會在測試災難恢復複本的恢復時使用此複本、SnapCenter 而使用此複本來執行複製作業、並瀏覽備份複本來還原個別檔案。</block>
   <block id="5dd57c2a315d3af44c2eb40eefc47111" category="doc">網路組態</block>
-  <block id="2b6203f34def274ff7424bf1d64a9bca" category="paragraph">使用vSphere搭配執行ONTAP VMware軟體的系統時、設定網路設定很簡單、而且類似於其他網路組態。</block>
   <block id="66507f357c74ee12194270cfe053b98d" category="paragraph">以下是幾點需要考量的事項：</block>
   <block id="b3752ab8dec37db2e30f4bf37fbdc112" category="list-text">將儲存網路流量與其他網路區隔。使用專屬的VLAN或獨立的交換器來儲存、即可建立獨立的網路。如果儲存網路共用實體路徑（例如上行鏈路）、您可能需要QoS或額外的上行鏈路連接埠、以確保有足夠的頻寬。請勿將主機直接連線至儲存設備；請使用交換器來建立備援路徑、並讓 VMware HA 在不需介入的情況下運作。</block>
   <block id="7c4904daaa282388097ad83bf382e1a5" category="list-text">如果您的網路需要並支援巨型框架、尤其是使用iSCSI時、可以使用巨型框架。如果使用、請確定在儲存設備和ESXi主機之間的路徑中、所有網路裝置、VLAN等上的設定都相同。否則、您可能會看到效能或連線問題。MTU也必須在ESXi虛擬交換器、VMkernel連接埠、以及每ONTAP 個節點的實體連接埠或介面群組上設定相同。</block>
@@ -3240,7 +3209,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="45701e6ef9bc09dca07f8f4abe661dc6" category="cell">是（vSphere 6.5及更新版本增強支援AES、krb5i）</block>
   <block id="76969a36155d2f41fc6cc3bd3faff244" category="cell">多重路徑支援</block>
   <block id="8a18e0a50dc5755c294477cb16507a6c" category="doc">FlexGroups</block>
-  <block id="b6cd969550b5501b0f62a149fb7964ce" category="paragraph">支援vSphere中的VMware vSphere資料存放區、以及VMware vSphere 9.8版的VMware vCenter工具。ONTAP FlexGroup ONTAP</block>
   <block id="f9ac230f370c7937167d25093c4ce9b9" category="paragraph">此功能可簡化大型資料存放區的建立作業、並自動建立多個組成磁碟區、以發揮整個系統的最大效能。FlexGroup ONTAP利用vSphere的功能將VMware支援功能用於單一、可擴充的vSphere資料存放區、並具備完整的VMware叢集功能。FlexGroup ONTAP</block>
   <block id="6829bc8d3038be0130fd2b409ad5e560" category="paragraph">除了針對vSphere工作負載進行廣泛的系統測試之外、ONTAP 還為FlexGroup VMware資料存放區新增了複本卸載機制。這會使用改良的複製引擎、在背景中的成員之間複製檔案、同時允許存取來源和目的地。根據規模、當需要時、多個複本會使用可立即使用且節省空間的檔案複本。</block>
   <block id="760383437e8e5cbe4a2560753da783fb" category="paragraph">此外、針對VMware vSphere儀表板和VM報告、還新增檔案型效能指標（IOPS、處理量和延遲）、這些指標可在VMware vSphere儀表板和VM報告的「參考」工具中檢視。ONTAP FlexGroup ONTAPVMware vSphere外掛程式的支援功能也可讓您使用最大和/或最小IOPS的組合來設定服務品質（QoS）規則。ONTAP這些設定可以跨資料存放區中的所有VM進行設定、也可以針對特定VM個別設定。</block>
@@ -3255,7 +3223,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="ad971da24ec0a38449ebf31e4e2c9332" category="list-text">QoS（最大/最小IOPS）可在個別VM或資料存放區中的所有VM上設定。在所有VM上設定QoS會取代任何個別VM設定。設定未來不會延伸至新的或移轉的VM；您可以在新的VM上設定QoS、或是將QoS重新套用至資料存放區中的所有VM。</block>
   <block id="3c9d41390700cbdfb2c273f00df0d6fd" category="list-text">VMware vSphere 4.4版的支援VMware vSphere的子外掛程式、可在主儲存系統的VMware資料存放區中備份及還原VM。SnapCenter FlexGroup雖然SnapMirror可手動用於將FlexGroup 某個不間斷資料複製到二線系統、但4號選擇控制閥並不會管理二線複本。</block>
   <block id="be0ec3d9251292dd856ea0924ecc6873" category="doc">服務品質（QoS）</block>
-  <block id="f437881fa7e42bf0e4563bbec8176f81" category="paragraph">執行ONTAP 支援功能的系統可使用ONTAP 「支援服務品質」功能、限制檔案、LUN、磁碟區或整個SVM等不同儲存物件的每秒處理量（以Mbps和/或I/O（IOPS）為單位）。</block>
   <block id="8fdd6138f63aa45f1c51b48d9a01b19d" category="paragraph">處理量限制可在部署前控制未知工作負載或測試工作負載、以確保不會影響其他工作負載。它們也可用於在識別出高效能工作負載之後加以限制。也支援以IOPS為基礎的最低服務層級、以提供一致的效能、適用於ONTAP VMware的SAN物件、以及ONTAP 支援VMware的NAS物件。</block>
   <block id="3e4a2dc31acddb628ba286d25b1bd36e" category="paragraph">有了NFS資料存放區、QoS原則可套用至FlexVol 整個VMware磁碟區或其中的個別VMDK檔案。使用ONTAP 使用VMware LUN的VMFS資料存放區時、QoS原則可套用至FlexVol 包含LUN或個別LUN的VMware磁碟區、但不能套用個別VMDK檔案、因為ONTAP VMware對VMFS檔案系統沒有任何認知。使用vVols時、可使用儲存功能設定檔和VM儲存原則、在個別VM上設定最低和/或最高QoS。</block>
   <block id="534ecd446aac2f9c809eef9064f44aab" category="paragraph">物件的QoS最大處理量限制可設定為Mbps和/或IOPS。如果兩者皆使用、ONTAP 則由支援執行第一個上限。工作負載可以包含多個物件、QoS原則也可以套用至一或多個工作負載。當原則套用至多個工作負載時、工作負載會共用原則的總限制。不支援巢狀物件（例如、磁碟區內的檔案無法各自擁有自己的原則）。QoS最低值只能以IOPS設定。</block>
@@ -3328,7 +3295,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="d8a78b994fcd4e04901203a2e7bc6414" category="paragraph">下列螢幕快照顯示AIQUM擴充拓撲。</block>
   <block id="e9659be2b7d3d69eccdb443ed2acec75" category="paragraph"><block ref="e9659be2b7d3d69eccdb443ed2acec75" category="inline-image-macro-rx" type="image"></block></block>
   <block id="f02207fb26160d7e47cf5ea35d07df03" category="doc">資料存放區與傳輸協定</block>
-  <block id="ff53ee8001042abcefe5c912d0b5012f" category="section-title">vSphere資料存放區與傳輸協定功能</block>
   <block id="af8dcb8c7a1e8b7e614e570806d8dcee" category="paragraph">使用七種傳輸協定將VMware vSphere連接至執行ONTAP VMware軟體的系統上的資料存放區：</block>
   <block id="a7c815fafe60ae637d38216fa6300395" category="list-text">FCP</block>
   <block id="14eae6ee278098bfad4f8a10fd6c1195" category="list-text">FCoE</block>
@@ -3497,7 +3463,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="0065ce57adc813187a8e9c640ba6223a" category="paragraph">SRA伺服器組態現在可由REST API管理。我們新增了 Swagger UI 來協助您建置自動化工作流程、您可以在 ONTAP 工具應用裝置上找到<block ref="579ce3ee0a7c1521f3dce6a507ea64a0" prefix=" " category="inline-code"></block>。</block>
   <block id="dcaf091737df278b1b4bdd2e37c10a75" category="summary">自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。</block>
   <block id="0a0e655ee9ba6467857ebf014a268f29" category="doc">VMware Site Recovery Manager 搭配 NetApp ONTAP</block>
-  <block id="60398bdc931fc67a9b6d781434c3a15a" category="section-title">vSphere適用的ONTAP</block>
   <block id="5bdb12cbb14efa98a61e7c5e3b4de108" category="admonition">本文件取代先前發佈的技術報告 _TR-4900: VMware Site Recovery Manager with ONTAP</block>
   <block id="7659430738ccf1c5b8c8084a4003c709" category="paragraph">自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。本文件介紹 VMware 領先業界的災難恢復（ DR ）軟體 VMware Site Recovery Manager （ SRM ） ONTAP 解決方案、包括最新的產品資訊和最佳實務做法、可簡化部署、降低風險並簡化後續管理。</block>
   <block id="e3445c3aa798f5ad98665e33d34dd952" category="paragraph">最佳實務做法是輔助其他文件、例如指南和相容性工具。這些技術是根據實驗室測試和NetApp工程師與客戶廣泛的現場經驗所開發。在某些情況下、建議的最佳實務做法可能不適合您的環境；不過、它們通常是最簡單的解決方案、能滿足大多數客戶的需求。</block>
@@ -3778,7 +3743,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="2c87609dbbc3630573c64e271de8207d" category="list-text">所有認證資訊均使用SHA256雜湊來儲存。</block>
   <block id="0f1a6fa0a65f9d5c3c4a16b070104d7a" category="list-text">*基本作業系統映像*。*本產品隨附適用於OVA的Debian基礎作業系統、存取受限且停用Shell存取。如此可減少攻擊佔用空間。每SnapCenter 個發行版基礎作業系統都會更新最新的安全修補程式、以達到最大的安全覆蓋範圍。</block>
   <block id="83cd5867ba912e517fa1100299fd1cf3" category="paragraph">NetApp針對SnapCenter VMware vSphere應用裝置開發有關VMware vSphere外掛程式的軟體功能與安全性修補程式、然後將其作為套裝軟體平台發佈給客戶。由於這些應用裝置包括特定的Linux子作業系統相依性、以及我們的專屬軟體、因此NetApp建議您不要變更子作業系統、因為這會對NetApp應用裝置造成重大影響。這可能會影響NetApp支援應用裝置的能力。NetApp建議測試及部署我們最新的應用裝置程式碼版本、因為這些版本已發行以修補任何與安全性相關的問題。</block>
-  <block id="5afeee4e3c6d47363e83195b12c74872" category="paragraph">您可以找到重要 ONTAP 功能的總覽、包括從資料保護功能、儲存效率建議、到災難恢復選項等所有功能 <block ref="f7503abce54bbe0e3218519d659c8356" category="inline-link-macro-rx"></block> 此資訊對於在 ONTAP 儲存系統上正確架構及管理應用程式環境至關重要。</block>
   <block id="c7eca250a9863785d63364853c46c00d" category="doc">使用 FabricPool 分層管理 MySQL</block>
   <block id="1bc6cee680286aae1b12889369b7f18a" category="summary">ONTAP 上的 MySQL</block>
   <block id="dac8ea4fbfd87a535663c227b91f50e3" category="doc">I/O 排程器</block>
@@ -3787,8 +3751,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="6def78482bd1915cb81f0f5c19ee8fe6" category="paragraph">MySQL 的 InnoDB 儲存引擎使用 Linux 上的非同步 I/O 子系統（原生 AIO ）來執行預先讀取和寫入資料檔案頁面的要求。此行為由控制<block ref="2c03186a22d036ce7dad84be5de2f2ce" prefix=" " category="inline-code"></block> 組態選項、預設為啟用。有了原生的整合式全功能電腦、 I/O 排程器的類型對 I/O 效能有更大的影響。執行效能標竿、判斷哪一個 I/O 排程器可為您的工作負載和環境提供最佳結果。</block>
   <block id="e7b09beaf26efc7d8bee91786cf794b5" category="paragraph">如需設定 I/O 排程器的指示、請參閱相關的 Linux 和 MySQL 文件。</block>
   <block id="6e8775bd755a8835ce86806d669677ea" category="doc">儲存組態</block>
-  <block id="f2d5298faec5552ae38d966f7d72f836" category="inline-link-macro">ONTAP 儲存組態上的企業應用程式</block>
-  <block id="7ed6bedda4cf07c9134434f7ec06939a" category="paragraph">如需設定 MySQL 資料庫所用儲存設備的詳細資訊、請參閱 <block ref="43de4a40eabec5647493f6e009ce9cb1" category="inline-link-macro-rx"></block></block>
   <block id="2f09ac000b4a1808cb795b7bdbb20ecc" category="doc">InnoDB_log_file_size</block>
   <block id="b8674b2897b288ca55b74328df4780b3" category="paragraph">為 InnoDB 記錄檔大小選取適當的大小、對於寫入作業以及在伺服器當機後擁有適當的還原時間都很重要。</block>
   <block id="b61bad6f7bf48bf9abda0c86c9beed79" category="paragraph">由於有這麼多交易登入檔案、因此記錄檔大小對於寫入作業非常重要。修改記錄時、變更不會立即回寫到表格區。相反地、變更會記錄在記錄檔的結尾、而且頁面會標示為「髒污」。InnoDB 使用其記錄檔將隨機 I/O 轉換成連續 I/O</block>
@@ -3907,11 +3869,9 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="5713a921d815fd7d19875846450f8ea8" category="doc">檔案結構</block>
   <block id="4955922857da5499a2f1be602a96b0ff" category="paragraph">InnoDB 是儲存設備和 MySQL 伺服器之間的中間層、可將資料儲存到磁碟機中。</block>
   <block id="8a6fab0b8bb36427eda4071adfd7780b" category="inline-image-macro">錯誤：找不到圖形影像</block>
-  <block id="ca9f55f63ab99a97723ebf2d32c2516c" category="paragraph"><block ref="ca9f55f63ab99a97723ebf2d32c2516c" category="inline-image-macro-rx" type="image"></block></block>
   <block id="5d416cf65dd1e2c908bf430f957c89f8" category="paragraph">MySQL I/O 分為兩種類型：</block>
   <block id="e8a320970c929abda9ae744b0b9e8f5f" category="list-text">隨機檔案 I/O</block>
   <block id="85430c0aa096ec282f2a14156baa312e" category="list-text">連續檔案 I/O</block>
-  <block id="9251924a311c0050a0cc5b44a82c2b29" category="paragraph"><block ref="9251924a311c0050a0cc5b44a82c2b29" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b7b9a4c6983139a2673988826094a3cf" category="paragraph">資料檔案會隨機讀取及覆寫、因此 IOPS 較高。因此、建議使用 SSD 儲存設備。</block>
   <block id="322f79fd77365edecd173807cb429ca2" category="paragraph">重做記錄檔和二進位記錄檔是交易記錄檔。它們會依序寫入、因此您可以在 HDD 上使用寫入快取獲得良好效能。恢復時會進行連續讀取、但很少會造成效能問題、因為記錄檔大小通常比資料檔案小、而連續讀取比隨機讀取快（發生在資料檔案上）。</block>
   <block id="a898d206a27508975fea2e241af2f04e" category="paragraph">雙寫入緩衝區是 InnoDB 的一項特殊功能。InnoDB 會先將排清的頁面寫入雙寫入緩衝區、然後將頁面寫入資料檔案的正確位置。此程序可防止頁面毀損。如果沒有雙寫入緩衝區、如果在寫入磁碟機程序期間發生電源故障、頁面可能會毀損。由於寫入雙寫入緩衝區是循序的、因此對 HDD 進行了高度最佳化。恢復時會進行連續讀取。</block>
@@ -3923,11 +3883,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="7fd750411093ebd1faa0d99dd2608514" category="list-text">另一個用於儲存 MySQL 純粹循序 I/O 導向檔案的磁碟區</block>
   <block id="0561a3b014eef0e5125fa63e1626cf57" category="paragraph">此配置也能協助您設計資料保護原則與策略。</block>
   <block id="a53db665fd1a9734a7a0e119671a0cd0" category="paragraph">Linux 上的 NFS 效能取決於稱為的參數<block ref="453f2cc2326f82af1053f4aa4b75400b" prefix=" " category="inline-code"></block>。</block>
-  <block id="ffb6da058affe733896beb9aa49ecac8" category="paragraph">此參數可控制 Linux 作業系統上允許的未完成 NFS 作業數。</block>
-  <block id="61b7a3955d9b57d4216605991a54fb5b" category="paragraph">大多數 2.6 衍生核心（包括 RH5 和 OL5 ）的預設值為 16 。不過、此預設值通常會導致效能問題。在較新的核心上會發生相反的問題<block ref="453f2cc2326f82af1053f4aa4b75400b" prefix=" " category="inline-code"></block> 此值預設為 65536 、可能會因要求過多而使系統泛洪而導致儲存問題。RHEL 7 和 RHEL 8 的預設值為 65536 。解決方案是靜態設定此值。對於使用 NetApp NFS 儲存設備和 MySQL 資料庫的任何 Linux 作業系統、請使用 128 的值。若要在 Red Hat Enterprise Linux 中設定此值、請將下列項目放入 /etc/sysctl.conf ：</block>
-  <block id="0dc9054baf963698b15466653cd51cae" category="paragraph">設定<block ref="453f2cc2326f82af1053f4aa4b75400b" prefix=" " category="inline-code"></block>：</block>
-  <block id="2e7b2d8e38618228d5ef0f9f8709c045" category="paragraph">確認已設定值：</block>
-  <block id="1fabb1810f890946d2e0967a8f855598" category="admonition">另有一個參數名稱非常相似<block ref="9efd3427cde637b95ad2d74946670fee" prefix=" " category="inline-code"></block>。此值會定義第一次建立 TCP 工作階段時、指派給 TCP 工作階段的插槽數。您不需要修改此值。</block>
   <block id="9166d970028a28a614af39e6286371b7" category="paragraph">您可以使用關閉此參數<block ref="8cafbd8d9096941261e87f4f9152ab92" prefix=" " category="inline-code"></block> 針對效能標竿、或是當您比較在意最高效能、而非資料完整性或可能的故障時。InnoDB 使用稱為雙寫入的檔案清除技術。InnoDB 在將頁面寫入資料檔案之前、會將其寫入稱為雙寫入緩衝區的鄰近區域。寫入和清除雙寫入緩衝區完成後、 InnoDB 會將頁面寫入資料檔案中的適當位置。如果作業系統或 mysqld 程序在頁面寫入期間當機、 InnoDB 之後可以在當機恢復期間、從雙寫入緩衝區找到良好的頁面複本。</block>
   <block id="3dfd4b9a526f8a8cf17021e34638b375" category="admonition">* NetApp 建議 * 停用雙寫入緩衝區。ONTAP NVRAM 的功能相同。雙重緩衝會不必要地損害效能。</block>
   <block id="dd5a2a602f713562e0f9f0fd8385660e" category="doc">MySQL over NFS</block>
@@ -4034,7 +3989,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="3390e3575b3e341afa2b7172ff5b33a7" category="sidebar">VMware vSphere的插件SnapCenter</block>
   <block id="62a004b95946bb97541afa471dcca73a" category="sidebar">MySQL</block>
   <block id="7f1a6761f7160e33a32105202e47303b" category="sidebar">容器化</block>
-  <block id="bc65796c5a1bad360243a1bbe58272c2" category="sidebar">一般儲存組態</block>
   <block id="bd57f4f74ca087a92a48b23d45753729" category="paragraph">ONTAP 工具 VASA 供應商負責管理 FCP 、 iSCSI 群組、以及 ONTAP 中的 NVMe 子系統、這些子系統是以受管理 ESXi 主機的探索啟動器為基礎。不過、它並未與光纖通道交換器整合以管理分區。在進行任何資源配置之前、必須根據最佳實務做法進行分區。以下是單一啟動器分區至四個 ONTAP 系統的範例：</block>
   <block id="6b14e3f4a37881185acf7a766f8f6272" category="paragraph">單一啟動器分區：</block>
   <block id="17ccf64e30cb518fd7ca87ce752ad738" category="paragraph"><block ref="17ccf64e30cb518fd7ca87ce752ad738" category="inline-image-macro-rx" type="image"></block></block>
@@ -4049,5 +4003,23 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="4e0d7e0587bf99c9b7a64a84fd42f6bd" category="paragraph">請參閱 NetApp 和 VMware 針對您所選傳輸協定的其他最佳實務做法指南。一般而言、除了上述變更之外、沒有其他變更。</block>
   <block id="97f87e9ab1d660463c63beb8745fd9e5" category="paragraph">* 使用 vVols over NFS v2* 的網路組態範例</block>
   <block id="c80b3cc8b5013bd4039769fb0f783e60" category="paragraph"><block ref="c80b3cc8b5013bd4039769fb0f783e60" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="d81c587aad705c1101db78ffea8e5bc3" category="paragraph"><block ref="d81c587aad705c1101db78ffea8e5bc3" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="dee28dd6d1a9ef7bf399f642fd9d588f" category="section-title">NFS 傳輸大小</block>
+  <block id="d8299d00f914e35b80644e5781e47a77" category="paragraph"><block ref="d8299d00f914e35b80644e5781e47a77" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="14ce62ac76fa34a51093e6bcf11a2fd1" category="paragraph">資料庫備份的主要考量是運用 NetApp Snapshot 技術。應用程式一致的備份和資料庫配置是達成 NetApp SnapCenter 可協調的 RTO 和 RPO 的另一個重要考量。</block>
+  <block id="08ec4f226440b636860c1faf0bd1b98c" category="paragraph"><block ref="08ec4f226440b636860c1faf0bd1b98c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2c024bdc7d0e87e8ba0f473024d45a4e" category="paragraph">修改伺服器和資料庫設定有助於提升資料庫效能和效率。</block>
+  <block id="861f074a1ecd9d1cc088d2fe81903565" category="paragraph"><block ref="861f074a1ecd9d1cc088d2fe81903565" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="710e9cd79e3865d47122a799f425b31f" category="paragraph"><block ref="710e9cd79e3865d47122a799f425b31f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="5a656ddcc72bacc3a5900c23edf7a08e" category="paragraph"><block ref="5a656ddcc72bacc3a5900c23edf7a08e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="073ce0a0568adc64d52dd9b1d8c02c54" category="paragraph"><block ref="073ce0a0568adc64d52dd9b1d8c02c54" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d5e31e9b7075c2926dba10053509346b" category="paragraph">儲存效率是 RAID 、資源配置（整體配置和使用率）、鏡像和其他資料保護技術的組合。NetApp 技術（例如 Snapshot 複本、精簡配置、 FlexClone ）可最佳化基礎架構中的現有儲存設備、並延後或避免未來的儲存支出、協助創造成本效益。這些技術搭配使用越多、節省的成本就越大。</block>
+  <block id="3401a9880dfc322da8a56c4d632361f6" category="paragraph"><block ref="3401a9880dfc322da8a56c4d632361f6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="87f823f4f3b4258445d5af029afe5ad9" category="paragraph"><block ref="87f823f4f3b4258445d5af029afe5ad9" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9213fe9d391179276ff6c03552486255" category="paragraph"><block ref="9213fe9d391179276ff6c03552486255" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3105b4c0642b9710179c18edcf8e8718" category="paragraph"><block ref="3105b4c0642b9710179c18edcf8e8718" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1a43000eb9893bff7ab7b1ce1d3fd6a8" category="paragraph"><block ref="1a43000eb9893bff7ab7b1ce1d3fd6a8" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4b7a8562c98b8c652bdfb6aa79788222" category="paragraph"><block ref="4b7a8562c98b8c652bdfb6aa79788222" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="25cec91f17a8619119f76c8adbace583" category="paragraph">另請參閱一節中有關壓縮區塊對齊的討論 <block ref="0faffd62be034c86d531acfee84d252e" category="inline-link-macro-rx"></block>。任何與 8KB 壓縮區塊邊界對齊的配置、也會與 4KB 邊界對齊。</block>
+  <block id="38ac6f4e1538397bd4f659237ec03ebf" category="paragraph"><block ref="38ac6f4e1538397bd4f659237ec03ebf" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f01518e5f3b18a9ea241bc63a3475dbd" category="paragraph"><block ref="f01518e5f3b18a9ea241bc63a3475dbd" category="inline-image-macro-rx" type="image"></block></block>
 </blocks>

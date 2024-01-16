@@ -10,6 +10,7 @@ summary: ONTAP 上的 Microsoft SQL Server
 :author: [.lead]
 :authorinitials: [
 :authors: [.lead]
+:imagesdir: ../media/
 
 
 
@@ -27,7 +28,7 @@ summary: ONTAP 上的 Microsoft SQL Server
 
 TIP: * NetApp 建議 * 為作業系統保留至少 4GB 至 6GB 的 RAM 、以避免效能問題。
 
-image:./media/max-server-memory.png["錯誤：缺少圖形影像"]
+image:mssql-max-server-memory.png["錯誤：缺少圖形影像"]
 
 
 
@@ -74,7 +75,7 @@ RECONFIGURE WITH OVERRIDE
 
 根據預設， [ 每個查詢的最小記憶體 ] 設定會為每個要執行的查詢分配 > 或 = 至 1024KB 。最佳做法是將此設定保留為預設值 0 、以允許 SQL Server 動態管理分配給索引建立作業的記憶體量。不過、如果 SQL Server 的 RAM 超過有效執行所需的容量、則如果您增加此設定、某些查詢的效能可能會大幅提升。因此、只要 SQL Server 、任何其他應用程式或作業系統未使用的伺服器上有可用的記憶體、則提升此設定有助於整體 SQL Server 效能。如果沒有可用的可用記憶體、增加此設定可能會影響整體效能。
 
-image:./media/min-memory-per-query.png["錯誤：缺少圖形影像"]
+image:mssql-min-memory-per-query.png["錯誤：缺少圖形影像"]
 
 
 

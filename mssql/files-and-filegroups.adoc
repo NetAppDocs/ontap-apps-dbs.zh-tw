@@ -6,6 +6,7 @@ summary: ONTAP 上的 Microsoft SQL Server
 ---
 = Microsoft SQL Server 資料庫檔案和檔案群組
 :allow-uri-read: 
+:imagesdir: ../media/
 
 
 [role="lead"]
@@ -19,7 +20,7 @@ SQL Server 資料庫是物件的集合、可讓您儲存及處理資料。
 
 所有資料庫檔案都會分組為檔案群組。檔案群組是邏輯單元、可簡化資料庫管理。它們允許在邏輯物件放置和實體資料庫檔案之間進行分隔。當您建立資料庫物件表格時、您可以在檔案群組中指定它們應該放置的位置、而無需擔心基礎資料檔案組態。
 
-image:./media/filegroups.png["錯誤：缺少圖形影像"]
+image:mssql-filegroups.png["錯誤：缺少圖形影像"]
 
 將多個資料檔案放入檔案群組的能力、可讓您將負載分散到不同的儲存裝置、有助於改善系統的 I/O 效能。與此相反的是、由於 SQL Server 會循序寫入交易記錄檔、因此無法從多個檔案中獲益。
 
@@ -41,7 +42,7 @@ SQL Server 一律會將交易記錄檔歸零、而且該行為無法變更。不
 
 您可以將 SA_SA_SAM_VOLUM_NAME 權限（也稱為「執行 Volume 維護工作」）新增至 SQL Server 啟動帳戶、以啟用即時檔案初始化。您可以在本機安全性原則管理應用程式（ secpol.msc ）下執行此動作、如下圖所示。開啟「執行 Volume 維護工作」權限的內容、並將 SQL Server 啟動帳戶新增至該處的使用者清單。
 
-image:./media/security-policy.png["錯誤：缺少圖形影像"]
+image:mssql-security-policy.png["錯誤：缺少圖形影像"]
 
 若要檢查權限是否已啟用、您可以使用下列範例中的程式碼。此程式碼會設定兩個追蹤旗標、強制 SQL Server 將其他資訊寫入錯誤記錄檔、建立小型資料庫、以及讀取記錄內容。
 
@@ -68,10 +69,10 @@ GO
 ....
 如果未啟用即時檔案初始化、 SQL Server 錯誤記錄會顯示 SQL Server 除了將 ldf 記錄檔歸零之外、還會將 MDF 資料檔案歸零、如下例所示。當啟用即時檔案初始化時、它只會顯示記錄檔的零位。
 
-image:./media/zeroing.png["錯誤：缺少圖形影像"]
+image:mssql-zeroing.png["錯誤：缺少圖形影像"]
 
 執行 Volume 維護工作在 SQL Server 2016 中已簡化、稍後會在安裝過程中提供選項。此圖顯示選項、可授予 SQL Server 資料庫引擎服務執行 Volume 維護工作的權限。
 
-image:./media/maintenance.png["錯誤：缺少圖形影像"]
+image:mssql-maintenance.png["錯誤：缺少圖形影像"]
 
 控制資料庫檔案大小的另一個重要資料庫選項是自動壓縮。啟用此選項時、 SQL Server 會定期縮減資料庫檔案、減少檔案大小、並釋出空間給作業系統。這項作業需要大量資源、而且很少有用、因為當新資料進入系統時、資料庫檔案會在一段時間後再次增加。永遠不要在資料庫上啟用自動壓縮。

@@ -10,7 +10,7 @@ summary: NFS 屬性快取資料庫
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

@@ -6,6 +6,7 @@ summary: ONTAP 上的 Microsoft SQL Server
 ---
 = Microsoft SQL Server 共用執行個體與專用執行個體的比較
 :allow-uri-read: 
+:imagesdir: ../media/
 
 
 [role="lead"]

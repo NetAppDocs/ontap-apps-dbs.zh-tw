@@ -10,7 +10,7 @@ summary: ONTAP 中的快速 Oracle 資料庫從 Snapshot 複本還原是由 NetA
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

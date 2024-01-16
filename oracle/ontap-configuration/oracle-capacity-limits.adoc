@@ -10,7 +10,7 @@ summary: 資料庫與 ONTAP 儲存容量與可用空間
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

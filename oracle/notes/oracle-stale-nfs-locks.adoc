@@ -10,7 +10,7 @@ summary: Oracle 和過時的 NFSv3 鎖定
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./media/
+:imagesdir: ../../media/
 
 
 [role="lead"]

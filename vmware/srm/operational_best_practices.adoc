@@ -10,12 +10,13 @@ summary: 如有可能、請務必使用ONTAP 「資訊工具」來配置資料�
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ./../media/
+:imagesdir: ../../media/
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revdate: == Datastores and protocols
 
-
-
-
-== 資料存放區與傳輸協定
 
 如有可能、請務必使用ONTAP 「資訊工具」來配置資料存放區和磁碟區。這可確保磁碟區、交會路徑、LUN、igroup、匯出原則、 和其他設定均以相容的方式進行設定。
 

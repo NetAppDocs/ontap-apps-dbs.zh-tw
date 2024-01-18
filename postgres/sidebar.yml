@@ -18,8 +18,10 @@ entries:
 - title: 儲存組態
   pdf-filename: PostgreSQL 的儲存組態
   entries:
-  - title: 檔案系統組態
-    url: "/postgres/postgres-filesystems.html"
+  - title: NFS
+    url: "/postgres/postgres-nfs-filesystems.html"
+  - title: SAN
+    url: "/postgres/postgres-san-filesystems.html"
 - title: 資料保護
   pdf-filename: PostgreSQL 的資料保護
   entries:

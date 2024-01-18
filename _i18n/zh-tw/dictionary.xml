@@ -602,10 +602,7 @@
   <block id="8fcd14822a5b94d212898fe3e006526e" category="paragraph">PostgreSQL 中的所有資料庫物件都是由各自的 OID 在內部管理。表格和索引也由個別的 OID 管理。資料庫物件與其各自的 OID 之間的關係會儲存在適當的系統目錄表格中、視物件類型而定。例如、資料庫和堆積表格的 OID 會儲存在中<block ref="d0fcebb608269edbd5d67486884ebed7" prefix=" " category="inline-code"></block> 和 "pg_class" 。您可以在 PostgreSQL 用戶端上發佈查詢來判斷 OID 。</block>
   <block id="d0e97e34fe92edd2facd0f7377b6340b" category="paragraph">每個資料庫都有自己的個別資料表和索引檔案、限制為 1GB 。每個表格都有兩個相關的檔案、分別以後綴表示<block ref="7b9b00c45b01f7b7c6d3a3c8ba2e9275" prefix=" " category="inline-code"></block> 和<block ref="a1d869a79e2f43693a6a416fcbdc2724" prefix=" " category="inline-code"></block>。它們稱為可用空間地圖和可見度地圖。這些檔案會儲存可用空間容量的相關資訊、並在表格檔案中的每個頁面上都有可見度。索引只有個別的可用空間地圖、而且沒有可見度地圖。</block>
   <block id="048a7ed79caf84bb5c725efc5f474911" category="paragraph">。<block ref="c28f4f32219f5ff99fb4b116980b8549" prefix=" " category="inline-code"></block> 目錄包含預先寫入記錄。預先寫入記錄可用來改善資料庫的可靠性和效能。每當您更新表格中的列時、 PostgreSQL 會先將變更寫入預先寫入記錄、然後將修改寫入實際的資料頁面到磁碟。。<block ref="f7223cfaa9416056a91e259e326ac5cf" prefix=" " category="inline-code"></block> 目錄通常包含數個檔案、但 initdb 只會建立第一個檔案。視需要新增額外檔案。每個 xlog 檔案長度為 16MB 。</block>
-  <block id="2bd2440a8b5fed6660918b5f10f685bb" category="doc">檔案系統</block>
-  <block id="81d00501c34ba5f161f685a99dce0d13" category="paragraph">PostgreSQL 可以裝載在 NFS 或 SAN 檔案系統上。</block>
   <block id="789a6c7dd865d16eb1df122bcc5c9a3a" category="admonition">* 如果需要 NFSv4 功能、 NetApp 建議 * 使用 NFSv4.1 。NFSv4.1 中的 NFSv4 傳輸協定有一些功能性增強功能、可改善某些邊緣情況的恢復能力。</block>
-  <block id="36772d6dfc6e102eff552ffad6b98690" category="paragraph">掛載 NFS 檔案系統時、請使用下列掛載選項：</block>
   <block id="8e86e0aee135afb67c6a1d3d6e0f3306" category="inline-link-macro">NFS 傳輸大小</block>
   <block id="d84b41126744795c4ee82f7b256e7234" category="inline-link-macro">FC SAN</block>
   <block id="2c8c2171fc87c96e58fb40d8714f85cf" category="doc">PostgreSQL 架構</block>
@@ -3889,7 +3886,6 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="2d2eef88dbdd0c34bde24e2632d9944f" category="sidebar">SAP HANA 與 AnyDB</block>
   <block id="399bd1ee587245ecac6f39beaa99886f" category="sidebar">PostgreSQL</block>
   <block id="f4f70727dc34561dfde1a3c529b6205c" category="sidebar">設定</block>
-  <block id="3dd7c32443d5846be0a8fd75cb08b70e" category="sidebar">檔案系統組態</block>
   <block id="c476a4701643b158f9f5d57bcc91951d" category="sidebar">Snapshot 技術</block>
   <block id="35084d885dea7b061e6894c1cf3036d9" category="sidebar">工作負載</block>
   <block id="7d219314ccabde6609510141bb175a6c" category="sidebar">共享執行個體與專用執行個體</block>
@@ -4020,4 +4016,19 @@ ONTAP 提供各種功能、可保護 NAS 和 SAN 上的資料。</block>
   <block id="ea9cdfcbfcf1906c15b6779f0f327028" category="sidebar">MySQL 的資料庫組態</block>
   <block id="308f8f580d0248ac023557cfd4b10d83" category="sidebar">MySQL 的主機組態</block>
   <block id="830f353b3e6055499fac447b16b0c935" category="sidebar">MySQL 的儲存組態</block>
+  <block id="3106f8f17f2974fe05da16fb0cc50505" category="summary">ONTAP 上具有 SAN 的 PostgreSQL 資料庫</block>
+  <block id="74cacb0c34a37e2859e3b054938a344d" category="doc">具有 SAN 檔案系統的 PostgreSQL</block>
+  <block id="1758f5c81d60f1a0ac8600fddc99a919" category="paragraph">具有 SAN 的 PostgreSQL 資料庫通常裝載在 xfs 檔案系統上、但如果作業系統廠商支援、也可以使用其他資料庫</block>
+  <block id="d73e7b56b7baa813a32c521ca074e7c4" category="paragraph">雖然單一 LUN 通常可支援高達十萬 IOPS 、但 IO 密集的資料庫通常需要使用含分段的 LVM 。</block>
+  <block id="5c24f0d1d447c2dfc01f2f2641e1d56c" category="summary">PostgreSQL 使用 ONTAP 來資料庫 NFS</block>
+  <block id="3532099588a13fbccb2af22a75936454" category="doc">PostgreSQL 搭配 NFS 檔案系統</block>
+  <block id="f7cc8c4234952826818ad4d0c2050ac9" category="paragraph">PostgreSQL 資料庫可以裝載在 NFSv3 或 NFSv4 檔案系統上。最佳選項取決於資料庫以外的因素。</block>
+  <block id="1482c42acc1dd31ee8496c71a805e73c" category="paragraph">例如、在某些叢集式環境中、 NFSv4 鎖定行為可能較為理想。（請參閱 <block ref="bc3a7e667477b8b3590fa1451dcb924c" category="inline-link-macro-rx"></block> 如需其他詳細資料）</block>
+  <block id="9674525687765646f35916d0e569eda9" category="paragraph">否則、資料庫功能應接近相同、包括效能。唯一的要求是使用<block ref="d64a84456adc959f56de6af685d0dadd" prefix=" " category="inline-code"></block> 掛載選項。這是為了確保軟性逾時不會產生無法恢復的 IO 錯誤。</block>
+  <block id="0c6430fad6c643c444b5d6d52b18edb4" category="paragraph">如果選擇 NFSv4 作為傳輸協定、 NetApp 建議使用 NFSv4.1 。NFSv4.1 中的 NFSv4 傳輸協定有一些功能性增強功能、可改善 NFSv4.0 的恢復能力。</block>
+  <block id="248212b04c23627e2719e106224d2eb3" category="paragraph">針對一般資料庫工作負載、請使用下列掛載選項：</block>
+  <block id="6daf9da65c1180ae710d4f437b5e4edc" category="paragraph">如果需要大量的連續 IO 、 NFS 傳輸大小可以增加。</block>
+  <block id="9efbdff43e91279291e95690414bec95" category="paragraph">在 ONTAP 層級增加傳輸大小後、將會使用下列掛載選項：</block>
+  <block id="395201f6a339cc4cf6b345e0c259f383" category="section-title">NFSv3 TCP 插槽表</block>
+  <block id="1f8260aa2c5a5b35bf771c26828d2096" category="paragraph">如果 NFSv3 與 Linux 搭配使用、則正確設定 TCP 插槽表至關重要。</block>
 </blocks>

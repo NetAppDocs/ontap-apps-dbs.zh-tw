@@ -1,0 +1,133 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-srm-replication_topologies.html 
+keywords: vmware, site, recovery manager, vsrm, replication, technologies, snapmirror layouts, array manager, snapvault, qtress, fc, iscsi, supported 
+summary: 在流程9中ONTAP 、叢集管理員可以看到叢集的實體元件、但使用叢集的應用程式和主機無法直接看到這些元件。 
+---
+= 複寫拓撲
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在流程9中ONTAP 、叢集管理員可以看到叢集的實體元件、但使用叢集的應用程式和主機無法直接看到這些元件。實體元件提供一個共享資源集區、用於建構邏輯叢集資源。應用程式和主機只能透過含有磁碟區和LIF的SVM存取資料。
+
+在VMware vCenter Site Recovery Manager中、每個NetApp SVM都被視為陣列。SRM支援特定的陣列對陣列（或SVM對SVM）複寫配置。
+
+單一VM無法在多個SRM陣列上擁有資料（虛擬機器磁碟（VMDK）或RDM）、原因如下：
+
+* SRM只能看到SVM、而非個別的實體控制器。
+* SVM可控制橫跨叢集中多個節點的LUN和磁碟區。
+
+
+|===
+| 最佳實務做法 
+
+
+| 若要判斷可支援性、請謹記此規則：若要使用SRM和NetApp SRA來保護VM、VM的所有部分都必須只存在於一個SVM上。此規則同時適用於受保護的站台和恢復站台。 
+|===
+
+
+== 支援的SnapMirror配置
+
+下圖顯示了SRM和SRA支援的SnapMirror關係配置案例。複寫磁碟區中的每個VM在每個站台只擁有一個SRM陣列（SVM）上的資料。
+
+image:vsrm-ontap9_image7.png["錯誤：缺少圖形影像"]
+
+image:vsrm-ontap9_image8.png["錯誤：缺少圖形影像"]
+
+image:vsrm-ontap9_image9.png["錯誤：缺少圖形影像"]
+
+image:vsrm-ontap9_image10.png["錯誤：缺少圖形影像"]
+
+
+
+== 支援的Array Manager配置
+
+當您在SRM中使用陣列型複寫（ABR）時、保護群組會隔離為單一陣列配對、如下面的快照所示。在此案例中、 `SVM1` 和 `SVM2` 與我們合作 `SVM3` 和 `SVM4` 在恢復站點上。不過、您只能在建立保護群組時、從兩個陣列配對中選取一個。
+
+image:vsrm-ontap9_image11.png["錯誤：缺少圖形影像"]
+
+
+
+== 不支援的配置
+
+不受支援的組態在個別VM擁有的多個SVM上有資料（VMDK或RDM）。在下列圖中所示的範例中、 `VM1` 無法使用 SRM 進行保護設定、原因是 `VM1` 在兩個 SVM 上有資料。
+
+image:vsrm-ontap9_image12.png["錯誤：缺少圖形影像"]
+
+image:vsrm-ontap9_image13.png["錯誤：缺少圖形影像"]
+
+任何將個別NetApp磁碟區從一個來源SVM複寫到同一個SVM或不同SVM中的多個目的地的複寫關係、都稱為SnapMirror連出。SRM不支援連出。在下圖所示範例中、 `VM1` 無法在 SRM 中進行保護設定、因為它會與 SnapMirror 一起複寫到兩個不同的位置。
+
+image:vsrm-ontap9_image14.png["錯誤：缺少圖形影像"]
+
+
+
+== SnapMirror串聯
+
+SRM不支援SnapMirror關係的串聯、在這種關係中、來源磁碟區會複寫到目的地磁碟區、而目的地磁碟區也會使用SnapMirror複寫到另一個目的地磁碟區。在下圖所示的案例中、SRM無法用於任何站台之間的容錯移轉。
+
+image:vsrm-ontap9_image15.png["錯誤：缺少圖形影像"]
+
+
+
+== SnapMirror與SnapVault
+
+NetApp SnapVault 解決方案軟體可在NetApp儲存系統之間、以磁碟形式備份企業資料。可在同一個環境中共存的VMware vCenter和SnapMirror、不過SRM僅支援SnapMirror關係的容錯移轉。SnapVault
+
+
+NOTE: NetApp 支援 `mirror-vault` 原則類型。
+
+為了執行效能提升8.2、從一開始就重建了這個系統。SnapVault ONTAP儘管以前Data ONTAP 的使用者應該會發現相似點、SnapVault 但本版的VMware已經做出重大的改善。其中一項重大進展是SnapVault 、能夠在傳輸過程中維持主要資料的儲存效率。
+
+架構上的一項重要變更是SnapVault 、在ONTAP Volume層級進行的不只是qtree層級的不完整複寫、7-Mode SnapVault 的情況就是如此。這項設定表示SnapVault 、來源的不景點必須是一個Volume、而且該Volume必須複寫到SnapVault 自己的Volume上的不二系統。
+
+在使用 SnapVault 的環境中、會在主要儲存系統上建立特別命名的快照。根據實作的組態而定、命名快照可由 SnapVault 排程或 NetApp Active IQ Unified Manager 等應用程式在主要系統上建立。然後，在主系統上創建的命名快照將被複制到 SnapMirror 目標，並從該目的地將其保存到 SnapVault 目的地。
+
+您可以在串聯組態中建立來源Volume、將磁碟區複寫到DR站台的SnapMirror目的地、然後從該磁碟區保存到SnapVault 一個目的地。來源Volume也可建立在連出關係中、其中一個目的地是SnapMirror目的地、另一個目的地SnapVault 是一個目的地。不過、SRA不會在SnapVault 發生SRM容錯移轉或複寫反轉時、自動重新設定「還原」關係、以使用SnapMirror目的地Volume作為資料庫的來源。
+
+如需SnapMirror和SnapVault 適用於ONTAP SnapMirror的更新資訊、請參閱 https://www.netapp.com/media/17229-tr4015.pdf?v=127202175503P["TR-4015《SnapMirror組態最佳實務指南ONTAP 》（英文）。"^]
+
+|===
+| 最佳實務做法 
+
+
+| 如果SnapVault 在同一個環境中使用了VMware vCenter和SRM、NetApp建議使用SnapMirror SnapVault 來進行還原串聯組態、SnapVault 以便從DR站台的SnapMirror目的地執行還原備份。發生災難時、此組態會使主要站台無法存取。將SnapVault 還原目的地保留在恢復站台、可在SnapVault 容錯移轉後重新設定還原功能、SnapVault 以便在恢復站台上操作時繼續執行還原備份。 
+|===
+在VMware環境中、每個資料存放區都有通用唯一識別碼（UUID）、而且每個VM都有唯一的託管物件ID（MOID）。在容錯移轉或容錯回復期間、SRM不會維護這些ID。由於SRM在容錯移轉期間不會維護資料存放區UUID和VM MOID、因此在SRM容錯移轉之後、任何依賴這些ID的應用程式都必須重新設定。例如NetApp Active IQ Unified Manager 解決方案就是應用程式、它可協調SnapVault vSphere環境中的功能複寫。
+
+下圖說明SnapMirror至SnapVault SnapMirror串聯組態。如果該站台位於DR站台或第三站台、但不受主站台中斷影響、則可重新設定環境、以便在容錯移轉後繼續備份。SnapVault
+
+image:vsrm-ontap9_image16.png["錯誤：缺少圖形影像"]
+
+下圖說明使用SRM將SnapMirror複寫還原回主要站台之後的組態。環境也經過重新設定、SnapVault 使目前的SnapMirror來源產生了不支援的資料。此設定為SnapMirror SnapVault 的橫向風扇組態。
+
+image:vsrm-ontap9_image17.png["錯誤：缺少圖形影像"]
+
+在SRM執行容錯回復並第二次反轉SnapMirror關係之後、正式作業資料就會回到主要站台。此資料現在的保護方式與容錯移轉至DR站台之前相同、透過SnapMirror和SnapVault 還原備份。
+
+
+
+== 在Site Recovery Manager環境中使用qtree
+
+qtree是允許應用NAS檔案系統配額的特殊目錄。利用SnapMirror複寫的磁碟區中、能夠建立qtree和qtree。ONTAP不過、SnapMirror不允許複寫個別qtree或qtree層級的複寫。所有SnapMirror複寫僅位於磁碟區層級。因此、NetApp不建議搭配SRM使用qtree。
+
+
+
+== 混合式FC與iSCSI環境
+
+藉由支援的SAN傳輸協定（FC、FCoE和iSCSI）ONTAP 、支援的LUN服務、也就是能夠建立LUN並將其對應至連接的主機。由於叢集由多個控制器組成、因此有多個邏輯路徑是由多重路徑I/O管理、可通往任何個別LUN。主機上使用非對稱邏輯單元存取（ALUA）、以便選取LUN的最佳化路徑、並使其成為資料傳輸的作用中路徑。如果任何LUN的最佳化路徑有所變更（例如、因為包含的磁碟區已移動）、ONTAP 則針對此變更、支援不中斷地自動辨識及調整。如果最佳化路徑無法使用、ONTAP 則不中斷營運地切換至任何其他可用路徑。
+
+VMware SRM和NetApp SRA支援在一個站台使用FC傳輸協定、在另一個站台使用iSCSI傳輸協定。不過、它不支援在同一個ESXi主機或同一個叢集中的不同主機上混合使用FC附加資料存放區和iSCSI附加資料存放區。SRM不支援此組態、因為在SRM容錯移轉或測試容錯移轉期間、SRM會在要求中包含ESXi主機中的所有FC和iSCSI啟動器。
+
+|===
+| 最佳實務做法 
+
+
+| SRM和SRA支援受保護站台與恢復站台之間的混合FC和iSCSI傳輸協定。不過、每個站台只能設定一個FC或iSCSI傳輸協定、而非在同一個站台設定兩個傳輸協定。如果要求在同一個站台同時設定FC和iSCSI傳輸協定、NetApp建議某些主機使用iSCSI、而其他主機則使用FC。在此情況下、NetApp也建議設定SRM資源對應、以便將VM設定為容錯移轉至一組主機或另一組主機。 
+|===

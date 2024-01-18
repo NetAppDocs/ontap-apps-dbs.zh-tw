@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-vsphere-policy-and-vvols.html 
+keywords: Data protection, Space reclamation, VM and datastore cloning, Storage efficiency, thin provisioning, QoS, SIOC, Storage Distributed Resource Scheduler, DRS, Active IQ Unified Manager, Encryption 
+summary: 利用此功能、您可以建立可套用至多個工作的備份原則。SnapCenter這些原則可定義排程、保留、複寫及其他功能。它們持續允許選用 VM 一致的快照、利用 Hypervisor 的能力來在拍攝 VMware 快照之前、先關閉 I/O 。 
+---
+= 儲存原則型管理和 vVols
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware vSphere API for Storage感知（VASA）可讓儲存管理員輕鬆設定具有明確定義功能的資料存放區、並讓VM管理員在需要時使用這些功能來配置VM、而不需要彼此互動。
+
+請看一下這種方法、瞭解它如何簡化虛擬化儲存作業、並避免許多瑣碎的工作。
+
+在VASA之前、VM管理員可以定義VM儲存原則、但他們必須與儲存管理員合作、以識別適當的資料存放區、通常是使用文件或命名慣例。有了VASA、儲存管理員可以定義一系列的儲存功能、包括效能、分層、加密及複寫。一組磁碟區或一組磁碟區的功能稱為儲存功能設定檔（scp）。
+
+SCP 支援虛擬機器資料 VVols 的最低和 / 或最高 QoS 。只AFF 有在不支援的系統上才支援最低QoS。VMware vSphere的VMware vSphere工具包含儀表板、可顯示VM精細的效能、以及在VMware系統上用於vVols的邏輯容量。ONTAP ONTAP
+
+下圖說明ONTAP VMware vSphere 9.8 vVols儀表板的各項功能。
+
+image:vsphere_ontap_image7.png["錯誤：缺少圖形影像"]
+
+定義儲存功能設定檔之後、就可以使用識別其需求的儲存原則來配置VM。VM儲存原則與資料存放區儲存功能設定檔之間的對應、可讓vCenter顯示相容資料存放區清單以供選擇。這種方法稱為儲存原則型管理。
+
+VASA提供查詢儲存設備的技術、並將一組儲存功能傳回vCenter。VASA廠商供應商會提供儲存系統API與架構之間的轉譯、以及vCenter所瞭解的VMware API。NetApp 的 VASA Provider for ONTAP 是 ONTAP 工具的一部分、適用於 VMware vSphere 應用裝置 VM 、 vCenter 外掛程式則提供介面、可配置及管理 vVol 資料存放區、並可定義儲存功能設定檔（ CDP ）。
+
+支援VMFS和NFS vVol資料存放區。ONTAP將vVols與SAN資料存放區搭配使用、可帶來NFS的部分效益、例如VM層級的精細度。以下是一些最佳實務做法、您可以在中找到更多資訊 http://www.netapp.com/us/media/tr-4400.pdf["TR-4400"^]：
+
+* VVol資料存放區可由FlexVol 多個叢集節點上的多個支援功能區所組成。最簡單的方法是單一資料存放區、即使磁碟區具有不同的功能也一樣。SPBM可確保VM使用相容的Volume。然而、這些磁碟區必須全部屬於ONTAP 單一的一套功能、並使用單一傳輸協定來存取。每個節點的每個傳輸協定只需一個LIF就足夠了。避免在ONTAP 單一VVol資料存放區中使用多個版本的支援、因為儲存功能可能因版本而異。
+* 使用ONTAP VMware vSphere外掛程式的VMware vCenter工具來建立及管理VVol資料存放區。除了管理資料存放區及其設定檔之外、它還會自動建立傳輸協定端點、以便在需要時存取vVols。如果使用LUN、請注意LUN PE是使用LUN ID 300以上的LUN來對應。確認 ESXi 主機進階系統設定 `Disk.MaxLUN` 允許大於 300 的 LUN ID 號碼（預設值為 1,024 ）。若要執行此步驟、請在 vCenter 中選取 ESXi 主機、然後選取「設定」索引標籤、再選取「尋找」 `Disk.MaxLUN` 在進階系統設定清單中。
+* 請勿安裝或移轉VASA Provider、vCenter Server（應用裝置或Windows）或ONTAP VMware vSphere的各種支援工具到vVols資料存放區、因為這些工具彼此相依、因此在停電或其他資料中心中斷時、您無法管理這些工具。
+* 定期備份VASA Provider VM。至少要為包含 VASA Provider 的傳統資料存放區建立每小時快照。如需保護及恢復VASA Provider的詳細資訊、請參閱此 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/Virtual_Storage_Console_for_VMware_vSphere/Virtual_volumes%3A_Protecting_and_Recovering_the_NetApp_VASA_Provider["知識庫文章"^]。
+
+
+下圖顯示vVols元件。
+
+image:vsphere_ontap_image8.png["錯誤：缺少圖形影像"]

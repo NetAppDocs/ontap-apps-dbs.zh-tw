@@ -3,28 +3,29 @@ section: postgres
 title: PostgreSQL
 entries:
 - title: 總覽
-  url: "/postgres/overview.html"
+  url: "/postgres/postgres-overview.html"
 - title: 資料庫組態
+  pdf-filename: PostgreSQL 的主機組態
   entries:
   - title: 架構
-    url: "/postgres/architecture.html"
+    url: "/postgres/postgres-architecture.html"
   - title: 初始化
-    url: "/postgres/initialization.html"
+    url: "/postgres/postgres-initialization.html"
   - title: 設定
-    url: "/postgres/db-config.html"
+    url: "/postgres/postgres-db-config.html"
   - title: 表格空間
-    url: "/postgres/tablespaces.html"
+    url: "/postgres/postgres-tablespaces.html"
 - title: 儲存組態
+  pdf-filename: PostgreSQL 的儲存組態
   entries:
   - title: 檔案系統組態
-    url: "/postgres/filesystems.html"
-  - title: 分層
-    url: "/postgres/tiering.html"
+    url: "/postgres/postgres-filesystems.html"
 - title: 資料保護
+  pdf-filename: PostgreSQL 的資料保護
   entries:
   - title: 原生資料保護
-    url: "/postgres/native-dp.html"
+    url: "/postgres/postgres-native-dp.html"
   - title: Snapshot 技術
-    url: "/postgres/snapshot-dp.html"
+    url: "/postgres/postgres-snapshot-dp.html"
   - title: 資料保護軟體
-    url: "/postgres/snapcenter-dp.html"
+    url: "/postgres/postgres-snapcenter-dp.html"

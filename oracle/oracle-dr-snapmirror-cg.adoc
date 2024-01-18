@@ -1,0 +1,16 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-snapmirror-cg.html 
+keywords: oracle, data protection, DR, CG 
+summary: Oracle 資料庫的一致性群組複寫 
+---
+= 一致性群組災難恢復
+:allow-uri-read: 
+
+
+[role="lead"]
+一致性群組複寫可以簡單地透過 SnapMirror 排程單一磁碟區的複寫。這包括資料檔案、控制檔、歸檔記錄檔和重做記錄檔。每次 SnapMirror 更新都會在目的地站台上建立新的資料庫複本、並透過中斷鏡射來保持一致並準備好啟動。
+
+如果資料庫必須橫跨多個磁碟區、則需要一致性群組快照（ CG-snapshot ）。
+
+在區塊層級複寫模式中搭配 SnapMirror 使用時、這項策略的另一個優點是完整複寫來源儲存系統上的所有快照。除了災難恢復複本之外、還會複寫完整的備份補充。

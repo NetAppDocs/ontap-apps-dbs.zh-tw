@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: mysql/mysql-innodb_flush_method.html 
+keywords: MySQL,MariaDB,innodb_flush_method 
+summary: ONTAP 上的 MySQL 
+---
+= InnoDB_Flush 方法
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+InnoDB_flush_method 參數指定 InnoDB 如何開啟及排清記錄檔和資料檔。
+
+
+
+== 最佳化
+
+在 InnoDB 最佳化中、如果適用、設定此參數會調整資料庫效能。
+
+下列選項用於透過 InnoDB 排清檔案：
+
+* `fsync`。InnoDB 使用 `fsync()` 系統呼叫以清除資料和記錄檔。此選項為預設設定。
+*  `O_DSYNC`。InnoDB 使用 `O_DSYNC` 用於打開和刷新日誌文件和 fsync （）以刷新數據文件的選項。InnoDB 不使用 `O_DSYNC` 直接來說、因為 UNIX 的許多種類都有問題。
+*  `O_DIRECT`。InnoDB 使用 `O_DIRECT` 選項（或 `directio()` 在 Solaris 上）開啟資料檔案及使用 `fsync()` 清除資料和記錄檔。此選項可在某些版本的 GNU/Linux 、 FreeBSD 和 Solaris 上使用。
+* `O_DIRECT_NO_FSYNC`。InnoDB 使用 `O_DIRECT` 排清 I/O 時的選項；不過、它會跳過 `fsync()` 之後進行系統通話。此選項不適用於某些類型的檔案系統（例如 XFS ）。如果您不確定檔案系統是否需要 `fsync()` 系統呼叫（例如為了保留所有檔案中繼資料）使用 `O_DIRECT` 選項。
+
+
+
+
+== 觀察
+
+在 NetApp 實驗室測試中、 `fsync` 預設選項用於 NFS 和 SAN 、與相較之下、這是一項很棒的效能改進工具 `O_DIRECT`。使用「齊平」方法時為 `O_DIRECT` 使用 ONTAP 時、我們觀察到用戶端會以序列方式、在 4096 區塊的邊界寫入大量的單位位元組寫入資料。這些寫入會增加網路延遲並降低效能。

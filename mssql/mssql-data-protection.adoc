@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: mssql/mssql-data-protection.html 
+keywords: MS-SQL,mssql,SQL Server, SnapCenter, data protection 
+summary: 使用 ONTAP 保護 Microsoft SQL Server 資料 
+---
+= 使用 ONTAP 保護 Microsoft SQL Server 資料
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+保護資料庫對任何組織都至關重要。隨著資料庫的資料大小和數量增加、維持恢復時間目標（ RTO ）和恢復點目標（ RPO ）非常重要。
+
+資料庫備份的主要考量是運用 NetApp Snapshot 技術。應用程式一致的備份和資料庫配置是達成 NetApp SnapCenter 可協調的 RTO 和 RPO 的另一個重要考量。
+
+
+
+== SnapCenter
+
+SnapCenter 是適用於企業應用程式的 NetApp 資料保護軟體。使用 NetApp SnapCenter 軟體搭配適用於 SQL Server 的外掛程式和適用於 Microsoft Windows 的外掛程式、即可快速輕鬆地保護 SQL Server 資料庫。
+
+此產品可讓 SQL Server 資料庫、執行個體或可用度群組進行應用程式一致的備份、自動複製、還原及還原。
+
+
+TIP: * NetApp 建議 * 使用 SnapCenter 來建立 Snapshot 複本。
+
+如需適用於 SnapCenter 的 SQL Server 外掛程式的詳細資訊、請參閱 link:https://www.netapp.com/pdf.html?item=/media/12400-tr4714.pdf["TR-4714 ：使用 NetApp SnapCenter 的 SQL Server 最佳實務指南"^]。
+
+
+
+== 使用 T-SQL 快照保護資料庫
+
+在 SQL Server 2022 中、 Microsoft 推出了 T-SQL 快照、相較於資料庫管理員不容易使用的傳統方法、它具有內建的優勢。利用 ONTAP REST API 、您可以呼叫命令來建立磁碟區快照。
+
+以下是備份工作流程範例：
+
+. 使用 ALTER 命令凍結資料庫 - 提供機會在基礎儲存設備上執行一致的快照。之後、您可以使用備份命令來解凍資料庫並記錄快照。
+. 使用新的備份群組和備份伺服器命令、同時在儲存磁碟區上執行多個資料庫的快照。
+. 執行完整備份或僅複製完整備份。這些備份也會記錄在 msdb 中。
+. 使用快照完整備份後以正常串流方式進行的記錄備份、執行時間點還原。如果需要、也支援串流差異備份。
+
+
+若要深入瞭解、請參閱 link:https://learn.microsoft.com/en-us/sql/relational-databases/databases/create-a-database-snapshot-transact-sql?view=sql-server-ver16["瞭解 T-SQL 快照的 Microsoft 文件"^]。

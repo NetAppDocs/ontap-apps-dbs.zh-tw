@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: postgres/postgres-overview.html 
+keywords: PostgreSQL,database,postgres 
+summary: ONTAP 上的 PostgreSQL 資料庫 
+---
+= ONTAP 上的 PostgreSQL 資料庫
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+PostgreSQL 隨附的變種包括 PostgreSQL 、 PostgreSQL Plus 和 EDBS PostgreSQL 進階伺服器（ EPAS ）。PostgreSQL 通常部署為多層應用程式的後端資料庫。它受一般中介軟體套件的支援（例如 PHP 、 Java 、 Python 、 Tcl/Tk 、 ODBC 、 和 JDBC) ，過去一直是開放原始碼資料庫管理系統的熱門選擇。NetApp ONTAP 是執行 PostgreSQL 資料庫的絕佳選擇、可確保其可靠性、高效能及高效率的資料管理功能。
+
+
+NOTE: ONTAP 和 PostgreSQL 資料庫上的這份文件取代先前發佈的 _TR-4770 ： ONTAP 最佳實務做法的 PostgreSQL 資料庫。 _
+
+隨著資料呈指數成長、企業的資料管理變得更加複雜。這種複雜性會增加授權、營運、支援和維護成本。若要降低整體 TCO 、請考慮使用可靠、高效能的後端儲存設備、從商業資料庫切換為開放原始碼資料庫。PostgreSQL 是一種先進的開放原始碼資料庫、廣泛用於學術、商業和大型企業。它隨附一組新功能、可解決其他關聯式資料庫管理系統（ RDBMSs ）中的落差。
+
+
+NOTE: 在實體或虛擬化環境中使用 PostgreSQL 資料庫的 NetApp 客戶、可從瞭解在 ONTAP 上成功部署及管理 PostgreSQL 資料庫的最佳實務做法中獲益。這些建議是通用的、因此並非任何組態的專屬建議。根據您的業務需求、有些建議可能需要變更。您必須根據 PostgreSQL 、 Hypervisor 、作業系統和 ONTAP 儲存設備的正式文件來評估您的環境。

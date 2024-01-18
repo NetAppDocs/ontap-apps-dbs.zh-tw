@@ -1,0 +1,156 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dp-storage-snapshot-optimized-backups.html 
+keywords: oracle, data protection, snapshot-optimized, crash-consistent 
+summary: 快照最佳化備份 
+---
+= Oracle Storage Snapshot 最佳化備份
+:allow-uri-read: 
+
+
+[role="lead"]
+使用 Oracle 12c 、快照型備份與還原變得更簡單、因為不需要將資料庫置於熱備份模式。結果是能夠直接在儲存系統上排程快照式備份、同時仍保留執行完整或時間點還原的能力。
+
+雖然 DBA 較熟悉熱備份還原程序、但很長一段時間以來、它仍能使用資料庫處於熱備份模式時未建立的快照。恢復期間、 Oracle 10g 和 11g 需要額外的手動步驟、才能使資料庫保持一致。使用 Oracle 12c 、 `sqlplus` 和 `rman` 包含額外的邏輯、可在非熱備份模式的資料檔案備份上重播歸檔記錄。
+
+如前所述、復原快照型熱備份需要兩組資料：
+
+* 在備份模式下建立的資料檔案快照
+* 資料檔案處於熱備份模式時所產生的歸檔記錄
+
+
+在還原期間、資料庫會從資料檔案讀取中繼資料、以選取所需的歸檔記錄進行還原。
+
+儲存快照最佳化的還原需要稍微不同的資料集、才能達到相同的結果：
+
+* 資料檔案的快照、加上一種識別快照建立時間的方法
+* 從最新資料檔案檢查點的時間到快照的確切時間、都會歸檔記錄檔
+
+
+在還原期間、資料庫會從資料檔案讀取中繼資料、以識別所需的最早歸檔記錄。可以執行完整或時間點恢復。執行時間點還原時、必須知道資料檔案快照的時間。指定的恢復點必須在快照建立時間之後。NetApp 建議您在快照時間中加入至少幾分鐘、以因應時鐘變化。
+
+如需完整的詳細資料、請參閱 Oracle 各版本的 Oracle 12c 說明文件中有關「使用儲存 Snapshot 最佳化進行恢復」主題的 Oracle 文件。此外、請參閱 Oracle 文件 ID 文件 ID 604683.1 、瞭解 Oracle 協力廠商快照支援。
+
+
+
+== 資料配置
+
+最簡單的配置是將資料檔案隔離為一個或多個專用磁碟區。它們必須不受任何其他檔案類型的污染。這是為了確保資料檔案磁碟區可以透過 SnapRestore 作業快速還原、而不會破壞重要的重做記錄檔、控制檔或歸檔記錄檔。
+
+SAN 對專用磁碟區內的資料檔案隔離有類似的需求。在 Microsoft Windows 等作業系統中、單一磁碟區可能包含多個資料檔案 LUN 、每個 LUN 都有 NTFS 檔案系統。在其他作業系統中、通常也會有邏輯 Volume Manager 。例如、使用 Oracle ASM 時、最簡單的選項是將磁碟群組限制在單一磁碟區、以便作為一個單元進行備份和還原。如果基於效能或容量管理的理由而需要額外的磁碟區、則在新磁碟區上建立額外的磁碟群組、將可更輕鬆地進行管理。
+
+如果遵循這些準則、則可直接在 ONTAP 上排程快照、而無需執行一致性群組快照。原因是快照最佳化備份不需要同時備份資料檔案。
+
+在 ASM 磁碟群組等情況下、會發生複雜的情況、而 ASM 磁碟群組會分散在不同的磁碟區中。在這種情況下、必須執行 CG 快照、以確保 ASM 中繼資料在所有組成磁碟區之間一致。
+
+[ 注意 ] 確認 ASM spfile 和 passwd 檔案不在主控資料檔案的磁碟群組中。這會影響選擇性還原資料檔案和僅還原資料檔案的能力。
+
+
+
+== 本機恢復程序— NFS
+
+此程序可以手動或透過 SnapCenter 等應用程式來驅動。基本程序如下：
+
+. 關閉資料庫。
+. 在所需還原點之前、立即將資料檔案磁碟區復原至快照。
+. 將歸檔記錄重播至所需的點。
+
+
+此程序假設所需的歸檔記錄檔仍存在於作用中的檔案系統中。如果沒有、則必須還原歸檔記錄、或 `rman` 或 `sqlplus` 可導向至中的資料 `.snapshot` 目錄。
+
+此外、對於較小的資料庫、終端使用者可以直接從中復原資料檔案 `.snapshot` 無需自動化工具或儲存管理員協助執行 SnapRestore 命令的目錄。
+
+
+
+== 本機恢復程序— SAN
+
+此程序可以手動或透過 SnapCenter 等應用程式來驅動。基本程序如下：
+
+. 關閉資料庫。
+. 將託管資料檔案的磁碟群組置於系統中。此程序會因所選的邏輯磁碟區管理程式而異。使用 ASM 時、此程序需要卸除磁碟群組。在 Linux 中、必須卸除檔案系統、並停用邏輯磁碟區和磁碟區群組。目標是停止要還原之目標 Volume 群組上的所有更新。
+. 在所需還原點之前、立即將資料檔案磁碟群組還原至快照。
+. 重新啟動新還原的磁碟群組。
+. 將歸檔記錄重播至所需的點。
+
+
+此程序假設所需的歸檔記錄檔仍存在於作用中的檔案系統中。如果沒有、則必須將歸檔記錄 LUN 離線並執行還原、以還原歸檔記錄。這也是將歸檔記錄分割成專用磁碟區的範例。如果歸檔記錄與重做記錄共用磁碟區群組、則必須在還原整體 LUN 組之前、將重做記錄複製到其他位置、以免遺失最終記錄的交易。
+
+
+
+== 完整恢復範例
+
+假設資料檔案已毀損或毀損、且需要完整還原。執行程序如下：
+
+....
+[oracle@host1 ~]$ sqlplus / as sysdba
+Connected to an idle instance.
+SQL> startup mount;
+ORACLE instance started.
+Total System Global Area 1610612736 bytes
+Fixed Size                  2924928 bytes
+Variable Size            1040191104 bytes
+Database Buffers          553648128 bytes
+Redo Buffers               13848576 bytes
+Database mounted.
+SQL> recover automatic;
+Media recovery complete.
+SQL> alter database open;
+Database altered.
+SQL>
+....
+
+
+== 時間點恢復範例
+
+整個恢復過程只需一個命令： `recover automatic`。
+
+如果需要時間點恢復、則必須知道快照的時間戳記、並可識別如下：
+
+....
+Cluster01::> snapshot show -vserver vserver1 -volume NTAP_oradata -fields create-time
+vserver   volume        snapshot   create-time
+--------  ------------  ---------  ------------------------
+vserver1  NTAP_oradata  my-backup  Thu Mar 09 10:10:06 2017
+....
+快照建立時間列於 3 月 9 日和 10 ： 10 ： 06 。為了安全起見、快照時間會增加一分鐘：
+
+....
+[oracle@host1 ~]$ sqlplus / as sysdba
+Connected to an idle instance.
+SQL> startup mount;
+ORACLE instance started.
+Total System Global Area 1610612736 bytes
+Fixed Size                  2924928 bytes
+Variable Size            1040191104 bytes
+Database Buffers          553648128 bytes
+Redo Buffers               13848576 bytes
+Database mounted.
+SQL> recover database until time '09-MAR-2017 10:44:15' snapshot time '09-MAR-2017 10:11:00';
+....
+恢復作業現在已啟動。它指定的快照時間為 10 ： 11 ： 00 、記錄時間後一分鐘、以計算可能的時鐘差異、目標恢復時間為 10 ： 44 。接下來、 sqlplus 會要求所需的歸檔記錄檔、以達到所需的 10 ： 44 恢復時間。
+
+....
+ORA-00279: change 551760 generated at 03/09/2017 05:06:07 needed for thread 1
+ORA-00289: suggestion : /oralogs_nfs/arch/1_31_930813377.dbf
+ORA-00280: change 551760 for thread 1 is in sequence #31
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+ORA-00279: change 552566 generated at 03/09/2017 05:08:09 needed for thread 1
+ORA-00289: suggestion : /oralogs_nfs/arch/1_32_930813377.dbf
+ORA-00280: change 552566 for thread 1 is in sequence #32
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+ORA-00279: change 553045 generated at 03/09/2017 05:10:12 needed for thread 1
+ORA-00289: suggestion : /oralogs_nfs/arch/1_33_930813377.dbf
+ORA-00280: change 553045 for thread 1 is in sequence #33
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+ORA-00279: change 753229 generated at 03/09/2017 05:15:58 needed for thread 1
+ORA-00289: suggestion : /oralogs_nfs/arch/1_34_930813377.dbf
+ORA-00280: change 753229 for thread 1 is in sequence #34
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+Log applied.
+Media recovery complete.
+SQL> alter database open resetlogs;
+Database altered.
+SQL>
+....
+
+NOTE: 使用來完成資料庫的快照還原 `recover automatic` 命令不需要特定授權、而是使用時間點還原 `snapshot time` 需要 Oracle 進階壓縮授權。

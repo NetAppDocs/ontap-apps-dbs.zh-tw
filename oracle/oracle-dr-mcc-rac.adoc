@@ -1,0 +1,127 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-mcc-rac.html 
+keywords: oracle, metrocluster, extended rac, RAC 
+summary: Oracle Extended RAC with MetroCluster 
+---
+= MetroCluster 上的延伸 Oracle RAC
+:allow-uri-read: 
+
+
+[role="lead"]
+許多客戶透過在各個站台之間延伸 Oracle RAC 叢集來最佳化 RTO 、進而實現完全主動式的組態。整體設計變得更複雜、因為它必須包含 Oracle RAC 的仲裁管理。此外、從兩個站台存取資料、這表示強制轉換可能會導致使用過時的資料複本。
+
+雖然兩個站台上都有資料複本、但只有目前擁有 Aggregate 的控制器才能提供資料。因此、使用擴充的 RAC 叢集時、遠端節點必須透過站台對站台連線來執行 I/O 。結果會增加 I/O 延遲、但這種延遲通常不是問題。RAC 互連網路也必須延伸至站台、這表示無論如何都需要高速、低延遲的網路。如果增加的延遲確實造成問題、則叢集可以主動被動方式運作。接著、需要將 I/O 密集作業導向至擁有該集合體的控制器本機的 RAC 節點。然後、遠端節點會執行較輕的 I/O 作業、或純粹作為暖待機伺服器使用。
+
+如果需要雙主動式擴充 RAC 、則應考慮使用 ASM 鏡像來取代 MetroCluster 。ASM 鏡像可讓您偏好資料的特定複本。因此、可以內建擴充 RAC 叢集、讓所有讀取作業都在本機進行。讀取 I/O 永遠不會跨越網站、因此可提供最低的延遲。所有寫入活動仍必須傳輸站台間連線、但任何同步鏡射解決方案都無法避免此類流量。
+
+
+NOTE: 如果開機 LUN （包括虛擬化開機磁碟）與 Oracle RAC 搭配使用、請使用 `misscount` 可能需要變更參數。如需 RAC 逾時參數的詳細資訊、請參閱 link:../oracle-configuration/rac.html["Oracle RAC 搭配 ONTAP"]。
+
+
+
+== 雙站台組態
+
+雙站台擴充 RAC 組態可提供雙主動式資料庫服務、可在不中斷營運的情況下、在許多（但並非全部）災難案例中順利運作。
+
+
+
+=== RAC 投票檔案
+
+在 MetroCluster 上部署擴充 RAC 時、首先應考慮仲裁管理。Oracle RAC 有兩種機制可管理仲裁：磁碟心跳和網路心跳。磁碟心跳會使用投票檔案來監控儲存設備存取。只要基礎儲存系統提供 HA 功能、單一投票資源就足以搭配單一站台 RAC 組態。
+
+在早期版本的 Oracle 中、投票檔案會放置在實體儲存裝置上、但在目前版本的 Oracle 中、投票檔案會儲存在 ASM 磁碟群組中。
+
+
+NOTE: NFS 支援 Oracle RAC 。在網格安裝程序期間、會建立一組 ASM 程序、將用於網格檔案的 NFS 位置顯示為 ASM 磁碟群組。此程序對終端使用者來說幾乎透明、安裝完成後不需要持續進行 ASM 管理。
+
+雙站台組態的第一項需求是確保每個站台都能以保證不中斷災難恢復程序的方式存取超過半數的投票檔案。這項工作在投票檔案儲存在 ASM 磁碟群組之前很簡單、但現在管理員必須瞭解 ASM 備援的基本原則。
+
+ASM 磁碟群組有三種備援選項 `external`、 `normal`和 `high`。換句話說、非鏡射、鏡射和 3 向鏡射。名為的較新選項 `Flex` 也可以使用、但很少使用。備援裝置的備援層級和放置位置可控制故障情況發生的情況。例如：
+
+* 將投票檔案放在上 `diskgroup` 與 `external` 如果站台間連線中斷、備援資源保證可收回一個站台。
+* 將投票檔案放在上 `diskgroup` 與 `normal` 如果站台間連線中斷、每個站台只有一個 ASM 磁碟的備援功能可確保兩個站台的節點遷離、因為兩個站台都不會有大部分的仲裁。
+* 將投票檔案放在上 `diskgroup` 與 `high` 當兩個站台都可以運作且彼此可連線時、一個站台上有兩個磁碟和另一個站台上的單一磁碟的備援功能可讓雙主動式作業運作。但是、如果單一磁碟站台與網路隔離、則該站台會被逐出。
+
+
+
+
+=== RAC 網路心跳
+
+Oracle RAC 網路活動訊號可監控叢集互連中的節點可連性。若要保留在叢集中、節點必須能夠連絡其他節點的一半以上。在雙站台架構中、此需求會為 RAC 節點數建立下列選項：
+
+* 如果每個站台放置相同數量的節點、則會在網路連線中斷時、在某個站台上造成遷離。
+* 在另一個站台上放置 N 個節點、在另一個站台上放置 N+1 個節點、可確保站台之間的連線中斷、導致站台的網路仲裁中剩餘節點數量較多、而節點移出數量較少的站台。
+
+
+在 Oracle 12cR2 之前、無法控制哪一方在站台遺失時會發生遷離。當每個站台的節點數量相等時、會由主要節點控制遷離、這通常是第一個要開機的 RAC 節點。
+
+Oracle 12cR2 引進節點加權功能。這項功能可讓管理員更有效地控制 Oracle 如何解決大腦分裂狀況。例如、下列命令可設定 RAC 中特定節點的偏好設定：
+
+....
+[root@host-a ~]# /grid/bin/crsctl set server css_critical yes
+CRS-4416: Server attribute 'CSS_CRITICAL' successfully changed. Restart Oracle High Availability Services for new value to take effect.
+....
+重新啟動 Oracle 高可用度服務後、組態如下所示：
+
+....
+[root@host-a lib]# /grid/bin/crsctl status server -f | egrep '^NAME|CSS_CRITICAL='
+NAME=host-a
+CSS_CRITICAL=yes
+NAME=host-b
+CSS_CRITICAL=no
+....
+節點 `host-a` 現已指定為關鍵伺服器。如果兩個 RAC 節點是隔離的、 `host-a` 生存、和 `host-b` 被逐出。
+
+
+NOTE: 如需完整詳細資料、請參閱 Oracle 白皮書《 Oracle Clusterware 12c Release 2 Technical Overview 》。」
+
+對於 12cR2 之前的 Oracle RAC 版本、可透過檢查 CRS 記錄來識別主節點、如下所示：
+
+....
+[root@host-a ~]# /grid/bin/crsctl status server -f | egrep '^NAME|CSS_CRITICAL='
+NAME=host-a
+CSS_CRITICAL=yes
+NAME=host-b
+CSS_CRITICAL=no
+ [root@host-a ~]# grep -i 'master node' /grid/diag/crs/host-a/crs/trace/crsd.trc
+2017-05-04 04:46:12.261525 :   CRSSE:2130671360: {1:16377:2} Master Change Event; New Master Node ID:1 This Node's ID:1
+2017-05-04 05:01:24.979716 :   CRSSE:2031576832: {1:13237:2} Master Change Event; New Master Node ID:2 This Node's ID:1
+2017-05-04 05:11:22.995707 :   CRSSE:2031576832: {1:13237:221} Master Change Event; New Master Node ID:1 This Node's ID:1
+2017-05-04 05:28:25.797860 :   CRSSE:3336529664: {1:8557:2} Master Change Event; New Master Node ID:2 This Node's ID:1
+....
+此記錄表示主節點為 `2` 和節點 `host-a` ID 為 `1`。這意味著 `host-a` 不是主節點。您可以使用命令確認主節點的身分識別 `olsnodes -n`。
+
+....
+[root@host-a ~]# /grid/bin/olsnodes -n
+host-a  1
+host-b  2
+....
+識別碼為的節點 `2` 是 `host-b`，這是主節點。在每個站台上節點數量相等的組態中、站台為 `host-b` 如果這兩組因為任何原因而失去網路連線、則該站台仍可生存。
+
+識別主節點的記錄項目可能會超出系統的使用期限。在這種情況下、可以使用 Oracle 叢集登錄（ OCR ）備份的時間戳記。
+
+....
+[root@host-a ~]#  /grid/bin/ocrconfig -showbackup
+host-b     2017/05/05 05:39:53     /grid/cdata/host-cluster/backup00.ocr     0
+host-b     2017/05/05 01:39:53     /grid/cdata/host-cluster/backup01.ocr     0
+host-b     2017/05/04 21:39:52     /grid/cdata/host-cluster/backup02.ocr     0
+host-a     2017/05/04 02:05:36     /grid/cdata/host-cluster/day.ocr     0
+host-a     2017/04/22 02:05:17     /grid/cdata/host-cluster/week.ocr     0
+....
+此範例顯示主節點是 `host-b`。它也表示主節點的變更來源 `host-a` 至 `host-b` 5 月 4 日下午 2 ： 05 至 21 ： 39 之間。這種識別主節點的方法只有在也檢查了 CRS 記錄檔時才安全使用、因為主節點可能自上一次的 OCR 備份後變更。如果發生此變更、則應可在 OCR 記錄中看到。
+
+大多數客戶選擇單一投票磁碟群組來服務整個環境、以及每個站台上相同數量的 RAC 節點。磁碟群組應放置在包含資料庫的網站上。結果是連線中斷會導致遠端站台被逐出。遠端站台將不再擁有仲裁、也無法存取資料庫檔案、但本機站台會繼續如常運作。連線恢復後、遠端執行個體即可重新上線。
+
+發生災難時、需要進行轉換、才能讓資料庫檔案和投票磁碟群組在正常運作的網站上線。如果災難允許 AUSO 觸發切換、則不會觸發 NVFAIL 、因為已知叢集處於同步狀態、且儲存資源正常上線。AUSO 是一項非常快速的作業、應在完成之前完成 `disktimeout` 期間過期。
+
+由於只有兩個站台、因此無法使用任何類型的自動外部中斷軟體、這表示強制切換必須是手動操作。
+
+
+
+== 三站台組態
+
+擴充的 RAC 叢集可更輕鬆地建構三個站台。裝載 MetroCluster 系統每一半的兩個站台也支援資料庫工作負載、而第三個站台則是資料庫和 MetroCluster 系統的斷路器。Oracle tiebreaker 組態可能只需在第三站台上放置用於投票的 ASM 磁碟群組成員、也可能在第三站台上加入作業執行個體、以確保 RAC 叢集中有奇數個節點。
+
+
+NOTE: 有關在擴展 RAC 配置中使用 NFS 的重要信息，請參閱 Oracle 文檔中的“ quorum failure group （仲裁故障組）”。總而言之、 NFS 掛載選項可能需要修改以包含軟選項、以確保主仲裁資源所在的第三站台連線中斷、不會使主 Oracle 伺服器或 Oracle RAC 程序掛起。

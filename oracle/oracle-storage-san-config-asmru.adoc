@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-storage-san-config-asmru.html 
+keywords: ontap, thin provisioning 
+summary: 使用 ONTAP 的 ASM 回收公用程式 
+---
+= ASM 回收公用程式與零區塊偵測
+:allow-uri-read: 
+
+
+[role="lead"]
+啟用即時壓縮時、 ONTAP 可有效移除寫入檔案或 LUN 的歸零區塊。Oracle ASM 回收公用程式（ ASRU ）等公用程式的運作方式是將零寫入未使用的 ASM 範圍。
+
+這可讓 DBA 在資料刪除後回收儲存陣列上的空間。ONTAP 會攔截零並取消分配 LUN 的空間。回收程序非常快速、因為儲存系統中沒有寫入資料。
+
+從資料庫的角度來看、 ASM 磁碟群組包含零、讀取 LUN 的這些區域會產生零串流、但 ONTAP 不會將零儲存在磁碟機上。而是進行簡單的中繼資料變更、在內部將 LUN 的歸零區域標記為任何資料的空白。
+
+由於類似的原因、涉及零位資料的效能測試無效、因為零區塊實際上並未在儲存陣列內以寫入方式處理。
+
+
+NOTE: 使用 ASRU 時、請確定已安裝所有 Oracle 建議的修補程式。

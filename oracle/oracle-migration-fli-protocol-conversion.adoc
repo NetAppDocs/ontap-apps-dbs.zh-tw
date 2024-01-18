@@ -1,0 +1,167 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-migration-fli-protocol-conversion.html 
+keywords: migration, oracle, FLI 
+summary: 在 FLI 移轉之後變更 SAN 傳輸協定 
+---
+= FLI 傳輸協定轉換 - Oracle
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+變更用於存取 LUN 的傳輸協定是常見的需求。
+
+在某些情況下、它是將資料移轉至雲端的整體策略的一部分。TCP/IP 是雲端的傳輸協定、從 FC 變更為 iSCSI 可讓您更輕鬆地移轉至各種雲端環境。在其他情況下、 iSCSI 可能需要善用 IP SAN 降低的成本。有時候、移轉可能會使用不同的傳輸協定作為臨時措施。例如、如果外部陣列和 ONTAP 型 LUN 無法共存於同一個 HBA 上、您可以使用足夠長的 iSCSI LUN 、從舊陣列複製資料。然後、您可以在從系統移除舊 LUN 之後、將其轉換回 FC 。
+
+下列程序示範從 FC 轉換至 iSCSI 的過程、但整體原則適用於從 iSCSI 轉換至 FC 的反轉過程。
+
+
+
+== 安裝 iSCSI 啟動器
+
+大多數作業系統預設都包含軟體 iSCSI 啟動器、但如果不包含軟體 iSCSI 啟動器、則可輕鬆安裝。
+
+....
+[root@host1 /]# yum install -y iscsi-initiator-utils
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-
+              : manager
+Resolving Dependencies
+--> Running transaction check
+---> Package iscsi-initiator-utils.x86_64 0:6.2.0.873-32.el7 will be updated
+--> Processing Dependency: iscsi-initiator-utils = 6.2.0.873-32.el7 for package: iscsi-initiator-utils-iscsiuio-6.2.0.873-32.el7.x86_64
+---> Package iscsi-initiator-utils.x86_64 0:6.2.0.873-32.0.2.el7 will be an update
+--> Running transaction check
+---> Package iscsi-initiator-utils-iscsiuio.x86_64 0:6.2.0.873-32.el7 will be updated
+---> Package iscsi-initiator-utils-iscsiuio.x86_64 0:6.2.0.873-32.0.2.el7 will be an update
+--> Finished Dependency Resolution
+Dependencies Resolved
+=============================================================================
+ Package                        Arch   Version              Repository  Size
+=============================================================================
+Updating:
+ iscsi-initiator-utils          x86_64 6.2.0.873-32.0.2.el7 ol7_latest 416 k
+Updating for dependencies:
+ iscsi-initiator-utils-iscsiuio x86_64 6.2.0.873-32.0.2.el7 ol7_latest  84 k
+Transaction Summary
+=============================================================================
+Upgrade  1 Package (+1 Dependent package)
+Total download size: 501 k
+Downloading packages:
+No Presto metadata available for ol7_latest
+(1/2): iscsi-initiator-utils-6.2.0.873-32.0.2.el7.x86_6 | 416 kB   00:00
+(2/2): iscsi-initiator-utils-iscsiuio-6.2.0.873-32.0.2. |  84 kB   00:00
+-----------------------------------------------------------------------------
+Total                                           2.8 MB/s | 501 kB  00:00Cluster01
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Updating   : iscsi-initiator-utils-iscsiuio-6.2.0.873-32.0.2.el7.x86   1/4
+  Updating   : iscsi-initiator-utils-6.2.0.873-32.0.2.el7.x86_64         2/4
+  Cleanup    : iscsi-initiator-utils-iscsiuio-6.2.0.873-32.el7.x86_64    3/4
+  Cleanup    : iscsi-initiator-utils-6.2.0.873-32.el7.x86_64             4/4
+rhel-7-server-eus-rpms/7Server/x86_64/productid       | 1.7 kB     00:00
+rhel-7-server-rpms/7Server/x86_64/productid           | 1.7 kB     00:00
+  Verifying  : iscsi-initiator-utils-6.2.0.873-32.0.2.el7.x86_64         1/4
+  Verifying  : iscsi-initiator-utils-iscsiuio-6.2.0.873-32.0.2.el7.x86   2/4
+  Verifying  : iscsi-initiator-utils-iscsiuio-6.2.0.873-32.el7.x86_64    3/4
+  Verifying  : iscsi-initiator-utils-6.2.0.873-32.el7.x86_64             4/4
+Updated:
+  iscsi-initiator-utils.x86_64 0:6.2.0.873-32.0.2.el7
+Dependency Updated:
+  iscsi-initiator-utils-iscsiuio.x86_64 0:6.2.0.873-32.0.2.el7
+Complete!
+[root@host1 /]#
+....
+
+
+== 識別 iSCSI 啟動器名稱
+
+在安裝過程中會產生唯一的 iSCSI 啟動器名稱。在 Linux 上、它位於 `/etc/iscsi/initiatorname.iscsi` 檔案：此名稱用於識別 IP SAN 上的主機。
+
+....
+[root@host1 /]# cat /etc/iscsi/initiatorname.iscsi
+InitiatorName=iqn.1992-05.com.redhat:497bd66ca0
+....
+
+
+== 建立新的啟動器群組
+
+啟動器群組（ igroup ）是 ONTAP LUN 遮罩架構的一部分。除非先授予主機存取權、否則無法存取新建立的 LUN 。此步驟的完成方法是建立一個 igroup 、列出需要存取的 FC WWN 或 iSCSI 啟動器名稱。
+
+在此範例中、會建立包含 Linux 主機 iSCSI 啟動器的 igroup 。
+
+....
+Cluster01::*> igroup create -igroup linuxiscsi -protocol iscsi -ostype linux -initiator iqn.1994-05.com.redhat:497bd66ca0
+....
+
+
+== 關閉環境
+
+變更 LUN 傳輸協定之前、必須完全禁用 LUN 。任何要轉換的 LUN 上的資料庫都必須關機、檔案系統必須卸載、而且必須停用磁碟區群組。使用 ASM 時、請確定已卸除 ASM 磁碟群組、並關閉所有網格服務。
+
+
+
+== 從 FC 網路取消對應 LUN
+
+LUN 完全禁用後、請從原始 FC igroup 移除對應。
+
+....
+Cluster01::*> lun unmap -vserver vserver1 -path /vol/new_asm/LUN0 -igroup linuxhost
+Cluster01::*> lun unmap -vserver vserver1 -path /vol/new_asm/LUN1 -igroup linuxhost
+...
+Cluster01::*> lun unmap -vserver vserver1 -path /vol/new_lvm/LUN8 -igroup linuxhost
+Cluster01::*> lun unmap -vserver vserver1 -path /vol/new_lvm/LUN9 -igroup linuxhost
+....
+
+
+== 將 LUN 重新對應至 IP 網路
+
+將每個 LUN 的存取權授予新的 iSCSI 型啟動器群組。
+
+....
+Cluster01::*> lun map -vserver vserver1 -path /vol/new_asm/LUN0 -igroup linuxiscsi
+Cluster01::*> lun map -vserver vserver1 -path /vol/new_asm/LUN1 -igroup linuxiscsi
+...
+Cluster01::*> lun map -vserver vserver1 -path /vol/new_lvm/LUN8 -igroup linuxiscsi
+Cluster01::*> lun map -vserver vserver1 -path /vol/new_lvm/LUN9 -igroup linuxiscsi
+Cluster01::*>
+....
+
+
+== 探索 iSCSI 目標
+
+iSCSI 探索分為兩個階段。第一是探索目標、這與探索 LUN 不同。。 `iscsiadm` 下列命令會探查指定的入口網站群組 `-p argument` 並儲存提供 iSCSI 服務的所有 IP 位址和連接埠清單。在這種情況下、預設連接埠 3260 上有四個 iSCSI 服務的 IP 位址。
+
+
+NOTE: 如果無法到達任何目標 IP 位址、此命令可能需要幾分鐘的時間才能完成。
+
+....
+[root@host1 ~]# iscsiadm -m discovery -t st -p fas8060-iscsi-public1
+10.63.147.197:3260,1033 iqn.1992-08.com.netapp:sn.807615e9ef6111e5a5ae90e2ba5b9464:vs.3
+10.63.147.198:3260,1034 iqn.1992-08.com.netapp:sn.807615e9ef6111e5a5ae90e2ba5b9464:vs.3
+172.20.108.203:3260,1030 iqn.1992-08.com.netapp:sn.807615e9ef6111e5a5ae90e2ba5b9464:vs.3
+172.20.108.202:3260,1029 iqn.1992-08.com.netapp:sn.807615e9ef6111e5a5ae90e2ba5b9464:vs.3
+....
+
+
+== 探索 iSCSI LUN
+
+發現 iSCSI 目標後、請重新啟動 iSCSI 服務以探索可用的 iSCSI LUN 、並建置相關裝置、例如多重路徑或 ASMLib 裝置。
+
+....
+[root@host1 ~]# service iscsi restart
+Redirecting to /bin/systemctl restart  iscsi.service
+....
+
+
+== 重新啟動環境
+
+重新啟動 Volume 群組、重新掛載檔案系統、重新啟動 RAC 服務等、以重新啟動環境。為了預防這種情況、 NetApp 建議您在轉換程序完成後重新啟動伺服器、以確保所有組態檔案都正確無誤、並移除所有過時的裝置。
+
+注意：在重新啟動主機之前、請確定中的所有項目都已存在 `/etc/fstab` 這項參照移轉的 SAN 資源會被註解出來。如果未執行此步驟、且 LUN 存取有問題、則可能是無法開機的作業系統。此問題不會損壞資料。不過、開機進入救援模式或類似模式進行修正可能會非常不方便 `/etc/fstab` 這樣就能啟動作業系統、開始進行疑難排解工作。

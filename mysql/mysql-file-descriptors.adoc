@@ -1,0 +1,30 @@
+---
+sidebar: sidebar 
+permalink: mysql/mysql-file-descriptors.html 
+keywords: MySQL,MariaDB,TR-4722 
+summary: ONTAP 上的 MySQL 
+---
+= 檔案描述元
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+若要執行、 MySQL 伺服器需要檔案描述元。
+
+它會使用它們來開啟新的連線、將資料表儲存在快取中、建立暫時資料表來解決複雜的查詢、以及存取持續性的查詢。如果 mysqld 在需要時無法開啟新檔案、它就能停止正常運作。此問題的常見症狀是錯誤 24 「開啟的檔案太多」。 mysqld 可以同時開啟的檔案描述元數量是由定義的 `open_files_limit` 設定在組態檔案中的選項 (`/etc/my.cnf`）。但是 `open_files_limit` 也取決於作業系統的限制。這種相依性會使設定變數變得更複雜。
+
+MySQL 無法設定 `open_files_limit` 選項高於下所指定的選項 `ulimit 'open files'`。因此、您必須在作業系統層級明確設定這些限制、才能讓 MySQL 視需要開啟檔案。檢查 Linux 檔案限制的方法有兩種：
+
+* 。 `ulimit` 命令會快速為您提供所允許或鎖定參數的詳細說明。執行此命令所做的變更並非永久性變更、將會在系統重新開機後清除。
+* 變更為 `/etc/security/limit.conf` 檔案是永久性的、不受系統重新開機影響。
+
+
+請務必同時變更使用者 mysql 的硬限制和軟限制。以下摘錄來自組態：
+
+....
+mysql hard nofile 65535
+mysql soft nofile 65353
+....
+同時、請在中更新相同的組態 `my.cnf` 以完全使用開放式檔案限制。

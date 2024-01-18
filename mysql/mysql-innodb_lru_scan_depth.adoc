@@ -1,0 +1,20 @@
+---
+sidebar: sidebar 
+permalink: mysql/mysql-innodb_lru_scan_depth.html 
+keywords: MySQL,MariaDB,innodb_lru_scan_depth 
+summary: ONTAP 上的 MySQL 
+---
+= InnoDB_LRU_SCAN_depth
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+。 `innodb_lru_scan_depth` 參數會影響 InnoDB 緩衝區集區之排清作業的演算法和啟發性。
+
+此參數主要是效能專家調校 I/O 密集工作負載的興趣所在。對於每個緩衝區集區執行個體、此參數會指定最少使用（ LRU ）頁面清單中、頁面清理程式執行緒應繼續掃描的程度、以尋找要清除的髒頁面。此背景作業每秒執行一次。
+
+您可以上下調整值、將可用頁數降至最低。請勿將此值設定得比所需值高得多、因為掃描可能會產生重大的效能成本。此外、請考慮在變更緩衝區集區執行個體數目時調整此參數、因為 `innodb_lru_scan_depth * innodb_buffer_pool_instances` 定義頁面清理程式執行緒每秒執行的工作量。
+
+小於預設值的設定適用於大部分的工作負載。只有在典型工作負載下有備用 I/O 容量時、才考慮增加此值。相反地、如果寫入密集的工作負載使 I/O 容量飽和、請降低該值、尤其是當您擁有大型緩衝區集區時。

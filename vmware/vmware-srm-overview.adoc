@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-srm-overview.html 
+keywords: ontap, vsphere, srm, srm, hybrid, cloud, migration, vmware, site, recovery manager, vsrm 
+summary: 自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。 
+---
+= VMware Site Recovery Manager 搭配 NetApp ONTAP
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revdate: == ONTAP for vSphere
+
+
+
+NOTE: 本文件取代先前發佈的技術報告 _TR-4900: VMware Site Recovery Manager with ONTAP
+
+自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。本文件介紹 VMware 領先業界的災難恢復（ DR ）軟體 VMware Site Recovery Manager （ SRM ） ONTAP 解決方案、包括最新的產品資訊和最佳實務做法、可簡化部署、降低風險並簡化後續管理。
+
+最佳實務做法是輔助其他文件、例如指南和相容性工具。這些技術是根據實驗室測試和NetApp工程師與客戶廣泛的現場經驗所開發。在某些情況下、建議的最佳實務做法可能不適合您的環境；不過、它們通常是最簡單的解決方案、能滿足大多數客戶的需求。
+
+本文件著重於最新版 ONTAP 9 的功能、這些功能搭配適用於 VMware vSphere 9.12 的 ONTAP 工具（包括 NetApp 儲存複寫介面卡 [SRA] 和 VASA Provider [VP] ）、以及 VMware Site Recovery Manager 8.7 。
+
+
+
+== 為何ONTAP 要搭配SRM使用此功能？
+
+NetApp資料管理平台採用ONTAP VMware軟體、是SRM最廣泛採用的儲存解決方案之一。理由十分豐富：安全、高效能、統一化的傳輸協定（ NAS 與 SAN 一起）資料管理平台、提供業界定義的儲存效率、多租戶、服務控制品質、節省空間的快照資料保護、以及使用 SnapMirror 進行複寫。所有這些工具都能運用原生混合式多雲端整合技術來保護VMware工作負載、並在彈指之間提供大量的自動化與協調工具。
+
+當您使用 SnapMirror 進行陣列型複寫時、您將會充分利用 ONTAP 最成熟的技術之一。SnapMirror可讓您享有安全且高效率的資料傳輸優勢、只複製變更的檔案系統區塊、而非複製整個VM或資料存放區。即使是這些區塊、也能善用空間節約效益、例如重複資料刪除、壓縮及壓縮等。現代化ONTAP 的支援系統現在使用獨立於版本的SnapMirror、讓您能夠靈活選擇來源和目的地叢集。SnapMirror已真正成為最強大的災難恢復工具之一。
+
+無論您使用傳統NFS、iSCSI或光纖通道附加資料存放區（現在支援vVols資料存放區）、SRM都能提供強大的第一方產品、充分發揮ONTAP 災難恢復或資料中心移轉規劃與協調的最佳功能。
+
+
+
+== SRM如何運用ONTAP VMware®
+
+SRM利用ONTAP VMware ONTAP vSphere的進階資料管理技術與VMware vSphere的VMware vSphere工具整合、此虛擬應用裝置包含三個主要元件：
+
+* vCenter外掛程式先前稱為虛擬儲存主控台（VSC）、可簡化儲存管理與效率功能、增強可用度、並降低儲存成本與營運成本、無論您使用SAN或NAS。它採用最佳實務做法來配置資料存放區、並針對NFS和區塊儲存環境最佳化ESXi主機設定。為獲得所有這些好處、NetApp建議您在使用vSphere搭配執行ONTAP VMware軟體的系統時、使用此外掛程式。
+* VASA Provider for ONTAP VMware vStorage API for Storage感知（VASA）架構。VASA Provider將vCenter Server與ONTAP VMware連線、以協助資源配置及監控VM儲存設備。它可支援VMware虛擬磁碟區（vVols）、並管理儲存功能設定檔（包括vVols複寫功能）和個別VM vVols效能。它也提供監控容量和設定檔法規遵循的警示。搭配SRM使用時、VASA Provider ONTAP for VMware可支援vVols型虛擬機器、而不需要在SRM伺服器上安裝SRA介面卡。
+* SRA與SRM搭配使用、可管理傳統VMFS與NFS資料存放區的正式作業與災難恢復站台之間的VM資料複寫、也可用於災難恢復複本的不中斷測試。它有助於自動化探索、還原及重新保護等工作。其中包括適用於Windows SRM伺服器和SRM應用裝置的SRA伺服器應用裝置和SRA介面卡。
+
+
+在SRM伺服器上安裝並設定SRA介面卡、以保護VASA Provider設定中的非vVols資料存放區和/或啟用vVols複寫之後、即可開始設定vSphere環境進行災難恢復。
+
+SRA與VASA Provider提供SRM伺服器的命令與控制介面、可管理ONTAP 包含VMware虛擬機器（VM）的VMware FlexVols、以及保護它們的SnapMirror複寫。
+
+從SRM 8.3開始、SRM伺服器引進新的SRM vVols Provider控制路徑、讓它能與vCenter伺服器通訊、並透過該路徑與VASA Provider通訊、而不需要SRA。如此一來、SRM伺服器就能比ONTAP 以往更深入地控制這個叢集、因為VASA提供完整的API來進行緊密耦合的整合。
+
+SRM 可以使用 NetApp 專屬的 FlexClone 技術、在不中斷營運的情況下測試您的災難恢復計畫、在災難恢復站台上為受保護的資料存放區建立近乎即時的複本。SRM會建立沙箱以安全地進行測試、讓組織和客戶在發生真正災難時受到保護、讓您對組織在災難期間執行容錯移轉的能力充滿信心。
+
+如果發生真正的災難、甚至是計畫性的移轉、SRM可讓您透過最終的SnapMirror更新（如果您選擇這樣做）、將任何最後一分鐘的變更傳送至資料集。然後中斷鏡射、並將資料存放區掛載至DR主機。此時、您的VM可以根據預先規劃的策略、以任何順序自動開機。
+
+
+
+== SRM搭配ONTAP 功能完善和其他使用案例：混合雲和移轉
+
+與ONTAP 本地儲存選項相比、將SRM部署與豐富的資料管理功能整合、可大幅提升擴充性與效能。除此之外、它還能帶來混合雲的靈活度。混合雲可將未使用的資料區塊從高效能陣列分層、到您偏好的超大規模擴充系統（FabricPool 例如NetApp Sirse-）、藉此節省成本StorageGRID 。您也可以使用ONTAP Select SnapMirror來搭配使用Cloud Volumes ONTAP 以軟體定義的功能、或是使用功能（CVO）或雲端型DR的邊緣型系統 https://www.equinix.com/partners/netapp["Equinix的NetApp私有儲存設備"^] 適用於Amazon Web Services（AWS）、Microsoft Azure和Google Cloud Platform（GCP）、可在雲端中建立完全整合的儲存設備、網路和運算服務堆疊。
+
+接著、您可以在雲端服務供應商的資料中心內執行測試容錯移轉、因為 FlexClone 的儲存佔用空間接近零。保護組織的成本現在比以往更低。
+
+SRM也可利用SnapMirror、將VM從一個資料中心有效地傳輸到另一個資料中心、甚至是同一個資料中心內、無論您是自己、或是透過任何數量的NetApp合作夥伴服務供應商、來執行計畫性的移轉作業。

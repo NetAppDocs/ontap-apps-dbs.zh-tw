@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-vsphere-unified.html 
+keywords: introduction, unified storage, virtual volumes, storage efficiency, hybrid cloud 
+summary: NetApp ONTAP 解決方案是VMware vSphere環境的領導級儲存解決方案、已有將近二十年的歷史、持續增加創新功能來簡化管理、同時降低成本。本文件介紹ONTAP vSphere的解決方案、包括最新的產品資訊和最佳實務做法、以簡化部署、降低風險及簡化管理。 
+---
+= 統一化儲存設備
+:allow-uri-read: 
+
+
+
+
+== 統一化儲存設備
+
+[role="lead"]
+執行ONTAP 此軟體的系統以多種重要方式統一化。
+
+這種方法原本是指在單一儲存系統上同時支援NAS和SAN傳輸協定、ONTAP 而除了在NAS中的原始優勢、它仍是SAN的領導平台。
+
+儲存虛擬機器（SVM）是一種邏輯架構、可讓用戶端存取執行ONTAP 此軟體的系統。SVM可透過邏輯介面（LIF）、透過多種資料存取傳輸協定同時提供資料。SVM透過NAS傳輸協定（例如CIFS和NFS）提供檔案層級的資料存取、並透過SAN傳輸協定（例如iSCSI、FC/FCoE和NVMe）提供區塊層級的資料存取。SVM可同時為SAN和NAS用戶端獨立提供資料。
+
+image:vsphere_admin_unified_storage.png["統一化儲存設備"]
+
+在vSphere環境中、這種方法也可能代表虛擬桌面基礎架構（VDI）的統一化系統、以及虛擬伺服器基礎架構（VSI）。執行ONTAP VMware軟體的系統通常比傳統企業陣列便宜、但在同一個系統中擁有進階的儲存效率功能來處理VDI。此外、從SSD到SATA、還能統一化各種儲存媒體、並將這些媒體輕鬆延伸到雲端。ONTAP無需購買單一 Flash 陣列即可獲得效能、 SATA 陣列可用於歸檔、而獨立的系統則可用於雲端。將它們緊密連結在一起。ONTAP
+
+
+NOTE: 如需有關SVM、統一化儲存設備和用戶端存取的詳細資訊、請參閱 https://docs.netapp.com/ontap-9/index.jsp?lang=en["儲存虛擬化"^] 在VMware的VMware®文件中心。ONTAP

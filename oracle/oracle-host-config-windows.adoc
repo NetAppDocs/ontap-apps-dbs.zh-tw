@@ -1,0 +1,24 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-host-config-windows.html 
+keywords: oracle, database, ontap, windows 
+summary: 使用 Microsoft Windows 的 ONTAP 上的 Oracle 
+---
+= Microsoft Windows
+:allow-uri-read: 
+
+
+[role="lead"]
+Microsoft Windows 作業系統專屬的組態主題。
+
+
+
+== NFS
+
+Oracle 支援搭配直接 NFS 用戶端使用 Microsoft Windows 。這項功能提供 NFS 管理效益的途徑、包括跨環境檢視檔案、動態調整磁碟區大小、以及使用較便宜的 IP 傳輸協定。如需在 Microsoft Windows 上使用 DNFS 安裝及設定資料庫的詳細資訊、請參閱正式的 Oracle 文件。不存在任何特殊的最佳實務做法。
+
+
+
+== SAN
+
+為達到最佳壓縮效率、請確保 NTFS 檔案系統使用 8K 或更大的分配單元。使用 4K 分配單元（通常是預設）會對壓縮效率造成負面影響。

@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-tiering-snapshots.html 
+keywords: tiering, fabricpool 
+summary: Oracle 快照分層 
+---
+= Oracle 快照分層
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+FabricPool 的初始版本以備份使用案例為目標。唯一可以分層的區塊類型是不再與作用中檔案系統中的資料相關聯的區塊。因此、只能將快照資料區塊移至容量層。當您需要確保效能不受影響時、這仍然是最安全的分層選項之一。
+
+
+
+== 原則 - 本機快照
+
+有兩個選項可將非作用中的快照區塊分層到容量層。首先 `snapshot-only` 原則僅針對快照區塊。儘管如此 `auto` 原則包括 `snapshot-only` 區塊、也會將區塊分層、從作用中的檔案系統中移出。這可能不理想。
+
+。 `tiering-minimum-cooling-days` 值應設為時間週期、以便在效能層上提供還原期間所需的資料。例如、重要正式作業資料庫的大多數還原案例、都會在過去幾天的某個時間加入還原點。設定 A `tiering-minimum-cooling-days` 值 3 可確保檔案的任何還原都會產生可立即提供最大效能的檔案。作用中檔案中的所有區塊仍會顯示在快速儲存設備上、而無需從容量層恢復。
+
+
+
+== 原則 - 複寫的快照
+
+使用 SnapMirror 或 SnapVault 複寫的僅用於恢復的快照通常應使用 FabricPool `all` 原則。使用此原則、會複寫中繼資料、但所有資料區塊都會立即傳送至容量層、以獲得最大效能。大部分的恢復程序都涉及循序 I/O 、這是固有的效率。應該評估物件存放區目的地的恢復時間、但在設計完善的架構中、此恢復程序不需要比從本機資料恢復慢很多。
+
+如果複製的資料也要用於複製、則會使用 `auto` 原則比較適當、請使用 `tiering-minimum-cooling-days` 包含預期在複製環境中經常使用的資料的值。例如、資料庫的作用中工作集可能包含前三天讀取或寫入的資料、但也可能包含另外 6 個月的歷史資料。如果是、則是 `auto` SnapMirror 目的地的原則可讓工作集在效能層上使用。

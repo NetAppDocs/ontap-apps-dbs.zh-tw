@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-storage-san-config-lun-sizing.html 
+keywords: SAN, ASM, LVM 
+summary: Oracle 資料庫 LUN 規模調整和 LUN 數量準則 
+---
+= Oracle LUN 規模調整和 LUN 數量
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+選擇最佳 LUN 大小和要使用的 LUN 數量、對於 Oracle 資料庫的最佳效能和管理性至關重要。
+
+LUN 是 ONTAP 上的虛擬化物件、存在於託管集合體中的所有磁碟機中。因此、 LUN 的效能不受其大小影響、因為無論選擇何種大小、 LUN 都會充分發揮彙總的效能潛力。
+
+為了方便起見、客戶可能想要使用特定大小的 LUN 。例如、如果資料庫建置在由兩個 LUN 組成的 LVM 或 Oracle ASM 磁碟群組上、每個 LUN 均為 1TB 、則該磁碟群組必須以 1TB 為增量來擴充。最好是從八個 LUN （每個 LUN 爲 500GB ）構建磁盤組，以便可以以更小的增量來增加磁盤組。
+
+我們不鼓勵建立通用標準 LUN 大小的做法、因為這樣做可能會使管理變得複雜。例如、當資料庫或資料存放區的範圍介於 1TB 到 2TB 時、 100GB 的標準 LUN 大小可能運作良好、但大小為 20TB 的資料庫或資料存放區需要 200 個 LUN 。這表示伺服器重新開機時間較長、不同 UI 中需要管理的物件較多、而 SnapCenter 等產品必須在許多物件上執行探索。使用較少、較大的 LUN 可避免此類問題。
+
+* LUN 數量比 LUN 大小更重要。
+* LUN 大小大多由 LUN 數需求控制。
+* 避免建立超過所需數量的 LUN 。
+
+
+
+
+== LUN 計數
+
+與 LUN 大小不同、 LUN 數量確實會影響效能。應用程式效能通常取決於透過 SCSI 層執行平行 I/O 的能力。因此、兩個 LUN 的效能優於單一 LUN 。使用 LVM （例如 Veritas VxVM 、 Linux LVM2 或 Oracle ASM ）是提高平行度的最簡單方法。
+
+NetApp 客戶通常從 LUN 數量增加到 16 個以上獲得最小的效益、不過測試 100% SSD 環境時、隨機 I/O 非常繁重、這已證實可進一步改善至 64 個 LUN 。
+
+[TIP]
+====
+* NetApp 建議 * 下列事項：
+
+一般而言、四到十六個 LUN 足以支援任何特定資料庫工作負載的 I/O 需求。由於主機 SCSI 實作的限制、少於四個 LUN 可能會造成效能限制。
+
+====

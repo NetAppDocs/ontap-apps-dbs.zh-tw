@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-vsphere-cloning.html 
+keywords: Data protection, Space reclamation, VM and datastore cloning, Storage efficiency, thin provisioning, QoS, SIOC, Storage Distributed Resource Scheduler, DRS, Active IQ Unified Manager, Encryption 
+summary: 利用此功能、您可以建立可套用至多個工作的備份原則。SnapCenter這些原則可定義排程、保留、複寫及其他功能。它們持續允許選用 VM 一致的快照、利用 Hypervisor 的能力來在拍攝 VMware 快照之前、先關閉 I/O 。 
+---
+= 虛擬機器與資料存放區複製
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revnumber: 
+:revdate: and so on.
+
+
+在vSphere中、您可以複製VM、虛擬磁碟、vVol或資料存放區。複製之後、通常可透過自動化程序、進一步自訂物件。vSphere同時支援完整複本複本複本複本、以及連結的複本、可在其中分別追蹤原始物件的變更。
+
+連結的複本非常適合用來節省空間、但會增加vSphere處理VM的I/O量、進而影響該VM的效能、甚至可能影響整個主機的效能。這就是 NetApp 客戶經常使用儲存系統型複本來充分發揮兩者優勢的原因：有效使用儲存設備並提高效能。
+
+下圖說明ONTAP 了還原複製。
+
+image:vsphere_ontap_image5.png["錯誤：缺少圖形影像"]
+
+複製可ONTAP 透過多種機制卸載至執行支援軟體的系統、通常是VM、vVol或資料存放區層級。其中包括：
+
+* VVols使用NetApp vSphere API for Storage Aware（VASA）Provider。  ONTAP 複本可用於支援 vCenter 管理的 vVol 快照、這些快照的空間效率極低、而且 I/O 效果極低、可用來建立和刪除這些快照。  也可以使用vCenter複製VM、這些VM也會卸載到ONTAP VMware、無論是在單一資料存放區/ Volume內、或是在資料存放區/磁碟區之間。
+* 使用vSphere API進行vSphere複製與移轉–陣列整合（VAAI）。VM複製作業可在ONTAP SAN和NAS環境中卸載至VMware（NetApp提供ESXi外掛程式來啟用VAAI for NFS）。  vSphere僅卸載NAS資料存放區中的冷（關機）VM作業、而熱VM（複製與儲存vMotion）上的作業也會卸載用於SAN。根據來源、目的地及安裝的產品授權、使用最有效率的方法。ONTAPVMware Horizon View也會使用此功能。
+* SRA（與VMware Site Recovery Manager搭配使用）。在此、複本可用來在不中斷營運的情況下測試災難恢復複本的還原。
+* 使用SnapCenter NetApp工具（如VMware）進行備份與恢復。VM複製可用來驗證備份作業、以及掛載VM備份、以便複製個別檔案。
+
+
+VMware、NetApp及協力廠商工具可叫用不需載入的複製。ONTAP卸載至ONTAP 不完整的複本有多項優點。在大多數情況下、它們都能節省空間、只需要儲存設備來變更物件；讀取和寫入時不會產生額外的效能影響、在某些情況下、透過在高速快取中共用區塊來改善效能。此外、也會從ESXi伺服器卸載CPU週期和網路I/O。使用FlexClone授權、在傳統資料存放區內使用FlexVol 實體磁碟區的複本卸載作業既快速又有效率、但FlexVol 在各個實體磁碟區之間的複本可能會較慢。如果您將VM範本保留為複製來源、請考慮將其放在資料存放區磁碟區內（使用資料夾或內容程式庫來組織它們）、以獲得快速且具空間效益的複本。
+
+您也可以直接複製ONTAP 實體內部的磁碟區或LUN、以複製資料存放區。有了NFS資料存放區、FlexClone技術就能複製整個Volume、而且可從ONTAP VMware匯出該實體複本、並由ESXi作為另一個資料存放區來掛載。對於VMFS資料存放區、ONTAP VMware可以複製一個或整個Volume內的LUN、包括其中的一個或多個LUN。包含VMFS的LUN必須對應至ESXi啟動器群組（igroup）、然後由ESXi重新簽名、才能掛載並作為一般資料存放區使用。在某些臨時使用案例中、可以掛載複製的VMFS、而無需重新簽名。複製資料存放區之後、就可以登錄、重新設定及自訂其中的VM、就像是個別複製的VM一樣。
+
+在某些情況下、您可以使用額外的授權功能來強化複製功能、例如SnapRestore 針對備份或FlexClone的功能。這些授權通常包含在授權套裝組合中、不需額外付費。vVol 複製作業需要 FlexClone 授權、也必須支援 vVol 的託管快照（從 Hypervisor 卸載至 ONTAP ）。FlexClone授權也能在資料存放區/磁碟區內使用時、改善特定的VAAI型複本（建立即時、節省空間的複本、而非區塊複本）。  SRA也會在測試災難恢復複本的恢復時使用此複本、SnapCenter 而使用此複本來執行複製作業、並瀏覽備份複本來還原個別檔案。

@@ -1,0 +1,16 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-smbc-rac.html 
+keywords: oracle, smbc, sm-bc, RAC 
+summary: ONTAP 上的 Oracle RAC 搭配 SM-BC 
+---
+= Oracle RAC 搭配 SM-BC
+:allow-uri-read: 
+
+
+[role="lead"]
+SM-BC 可針對資料集複寫提供精細的控制、例如負載平衡或個別應用程式容錯移轉。整體架構看起來像延伸 RAC 叢集、但有些資料庫是專供特定站台使用、整體負載則分散。
+
+例如、您可以建置一個 Oracle RAC 叢集、主控六個個別資料庫。其中三個資料庫的儲存設備主要託管於站台 A 、其他三個資料庫的儲存設備則裝載於站台 B此組態可將跨網站流量降至最低、以確保最佳效能。此外、應用程式也會設定為使用儲存系統本機的資料庫執行個體、並使用作用中路徑。如此可將 RAC 互連流量降至最低。最後、這項整體設計可確保所有運算資源均能平均使用。隨著工作負載改變、資料庫可以在站台之間選擇性地來回容錯、以確保負載均勻。
+
+除了精細度之外、使用 SM-BC 的 Oracle RAC 的基本原則和選項與相同 link:../metrocluster/mcc-rac.html["MetroCluster 上的 Oracle RAC"]

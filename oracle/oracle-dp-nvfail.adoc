@@ -1,0 +1,20 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dp-nvfail.html 
+keywords: oracle, metrocluster, nvfail 
+summary: 設定 NVFAIL 以保護 Oracle 資料庫 
+---
+= Oracle 和 NVFAIL
+:allow-uri-read: 
+
+
+[role="lead"]
+NVFAIL 是 ONTAP 中的一項功能、可確保災難性容錯移轉案例期間的完整性。
+
+資料庫在儲存設備容錯移轉事件期間容易受損、因為它們會維持大型內部快取。如果災難性事件需要強制 ONTAP 容錯移轉或強制 MetroCluster 切換、無論整體組態的健全狀況為何、都可能會有效捨棄先前確認的變更。儲存陣列的內容會及時向後跳轉、而且資料庫快取的狀態不再反映磁碟上資料的狀態。這種不一致會導致資料毀損。
+
+快取可能發生在應用程式或伺服器層。例如、 Oracle Real Application Cluster （ RAC ）組態、主站台和遠端站台上的伺服器都處於作用中狀態、可在 Oracle SGA 中快取資料。強制切入作業會導致資料遺失、因此資料庫可能會發生毀損、因為儲存在 SGA 中的區塊可能與磁碟上的區塊不符。
+
+較不明顯的快取用途是在作業系統檔案系統層。來自掛載 NFS 檔案系統的區塊可能會快取到作業系統中。或者、以位於主要站台上的 LUN 為基礎的叢集式檔案系統、可以掛載到遠端站台的伺服器上、然後再次快取資料。在這些情況下、 NVRAM 故障或強制接管或強制性的作業系統、可能會導致檔案系統毀損。
+
+ONTAP 使用 NVFAIL 及其相關設定、保護資料庫和作業系統不受此案例影響。

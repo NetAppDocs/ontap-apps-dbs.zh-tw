@@ -1,0 +1,168 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-storage-nfs-config-overview.html 
+keywords: NFS 
+summary: Oracle 資料庫的 NFS 組態 
+---
+= Oracle 資料庫的 NFS 組態
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp 已提供企業級 NFS 儲存設備超過 30 年、由於其簡易性、隨著雲端型基礎架構的推向、其使用量也不斷增加。
+
+NFS 傳輸協定包含多個不同需求的版本。如需 ONTAP 的 NFS 組態完整說明、請參閱 link:https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["TR-4067 NetApp ONTAP 最佳實務做法上的 NFS"^]。下列各節涵蓋一些較重要的需求和一般使用者錯誤。
+
+
+
+== NFS 版本
+
+NetApp 必須支援作業系統 NFS 用戶端。
+
+* NFSv3 支援符合 NFSv3 標準的作業系統。
+* Oracle DNFS 用戶端支援 NFSv3 。
+* 所有遵循 NFSv4 標準的作業系統都支援 NFSv4 。
+* NFSv4.1 和 NFSv4.2 需要特定的作業系統支援。請參閱 link:https://imt.netapp.com/matrix/#search["NetApp IMT"^] 適用於支援的作業系統。
+* Oracle DNFS 支援 NFSv4.1 需要 Oracle 12.2.0.2 或更高版本。
+
+
+
+NOTE: 。 link:https://imt.netapp.com/matrix/#search["NetApp 支援對照表"] 對於 NFSv3 和 NFSv4 、不包含特定的作業系統。一般支援所有遵守 RFC 的作業系統。搜尋線上 IMT 以取得 NFSv3 或 NFSv4 支援時、請勿選取特定的作業系統、因為不會顯示任何相符項目。一般原則隱含支援所有作業系統。
+
+
+
+== Linux NFSv3 TCP 插槽表
+
+TCP 插槽表是與主機匯流排介面卡（ HBA ）佇列深度相當的 NFSv3 。這些表格可控制任何時間都可以處理的NFS作業數量。預設值通常為16、這對於最佳效能而言太低。相反的問題發生在較新的Linux核心上、這會自動將TCP插槽表格限制增加到要求使NFS伺服器飽和的層級。
+
+為了達到最佳效能並避免效能問題、請調整控制 TCP 插槽表的核心參數。
+
+執行 `sysctl -a | grep tcp.*.slot_table` 並觀察下列參數：
+
+....
+# sysctl -a | grep tcp.*.slot_table
+sunrpc.tcp_max_slot_table_entries = 128
+sunrpc.tcp_slot_table_entries = 128
+....
+所有 Linux 系統都應該包括在內 `sunrpc.tcp_slot_table_entries`但只有部分包含在內 `sunrpc.tcp_max_slot_table_entries`。兩者都應設為 128 。
+
+|===
+| 注意 
+
+
+| 若未設定這些參數、可能會對效能造成重大影響。在某些情況下、效能會受到限制、因為 Linux 作業系統沒有發出足夠的 I/O在其他情況下、隨著 Linux 作業系統嘗試發出的 I/O 數量超過可服務的數量、 I/O 延遲也會增加。 
+|===
+
+
+== ADR 和 NFS
+
+部分客戶回報的效能問題是由於中的資料 I/O 過多所造成 `ADR` 位置。問題通常不會在累積許多效能資料之前發生。I/O 過多的原因不明、但此問題似乎是 Oracle 處理程序重複掃描目標目錄以進行變更所致。
+
+移除 `noac` 和/或 `actimeo=0` 掛載選項可執行主機作業系統快取、並降低儲存 I/O 層級。
+
+
+TIP: * NetApp 建議 * 不要放置 `ADR` 檔案系統上的資料 `noac` 或 `actimeo=0` 因為效能問題很可能會發生。獨立 `ADR` 如有必要、請將資料移至不同的掛載點。
+
+
+
+== NFS-rootonly 和 mount-rootonly
+
+ONTAP 包含一個稱為的 NFS 選項 `nfs-rootonly` 控制伺服器是否接受來自高連接埠的 NFS 流量連線。為了安全起見、只有 root 使用者可以使用低於 1024 的來源連接埠來開啟 TCP/IP 連線、因為這類連接埠通常是保留給作業系統使用、而非使用者處理程序。此限制有助於確保 NFS 流量來自實際的作業系統 NFS 用戶端、而非模擬 NFS 用戶端的惡意程序。Oracle DNFS 用戶端是 userspace 驅動程式、但程序是以 root 執行、因此通常不需要變更的值 `nfs-rootonly`。連線是從低連接埠建立。
+
+。 `mount-rootonly` 選項僅適用於 NFSv3 。它控制是否從大於 1024 的連接埠接受 RPC 掛載呼叫。使用 DNFS 時、用戶端會再次以 root 執行、因此能夠開啟低於 1024 的連接埠。此參數無效。
+
+透過 NFS 4.0 及更高版本開啟與 DNFS 連線的程序不會以 root 執行、因此需要 1024 以上的連接埠。。 `nfs-rootonly` 參數必須設為停用、 DNFS 才能完成連線。
+
+如果 `nfs-rootonly` 啟用時、結果會在掛載階段開啟 DNFS 連線時暫停。sqlplus 輸出類似於以下內容：
+
+....
+SQL>startup
+ORACLE instance started.
+Total System Global Area 4294963272 bytes
+Fixed Size                  8904776 bytes
+Variable Size             822083584 bytes
+Database Buffers         3456106496 bytes
+Redo Buffers                7868416 bytes
+....
+參數可變更如下：
+
+....
+Cluster01::> nfs server modify -nfs-rootonly disabled
+....
+
+NOTE: 在極少數情況下、您可能需要將 NFS-rootonly 和 mount-rootonly 都變更為停用。如果伺服器正在管理大量的 TCP 連線、則可能沒有低於 1024 的連接埠可用、而且作業系統必須使用較高的連接埠。需要變更這兩個 ONTAP 參數、才能完成連線。
+
+
+
+== NFS 匯出原則：超級使用者和 setuid
+
+如果 Oracle 二進位檔位於 NFS 共用區、則匯出原則必須包含超級使用者和 setuid 權限。
+
+用於一般檔案服務（例如使用者主目錄）的共享 NFS 匯出通常會佔用 root 使用者。這表示已掛載檔案系統的主機上 root 使用者的要求、會重新對應為具有較低權限的不同使用者。這有助於防止特定伺服器上的根使用者存取共用伺服器上的資料、進而保護資料安全。在共享環境中， setuid 位元也可能是安全性風險。setuid 位元可讓處理程序以不同於使用者的身分執行、而非以使用者的身分執行指令。例如、 root 擁有的 Shell 指令碼搭配 setuid 位元、會以 root 執行。如果其他使用者可以變更該 Shell 指令碼、任何非 root 使用者都可以透過更新指令碼、以 root 身分發出命令。
+
+Oracle 二進位檔包含 root 擁有的檔案、並使用 setuid 位元。如果在 NFS 共用上安裝 Oracle 二進位檔、匯出原則必須包含適當的超級使用者和 setuid 權限。在以下範例中、這兩項規則都包含在內 `allow-suid` 及許可 `superuser` （ root ）使用系統驗證來存取 NFS 用戶端。
+
+....
+Cluster01::> export-policy rule show -vserver vserver1 -policyname orabin -fields allow-suid,superuser
+vserver   policyname ruleindex superuser allow-suid
+--------- ---------- --------- --------- ----------
+vserver1  orabin     1         sys       true
+....
+
+
+== NFSv4/4.1 組態
+
+對於大多數應用程式、 NFSv3 和 NFSv4 之間的差異很小。應用程式 I/O 通常是非常簡單的 I/O 、而且不會從 NFSv4 中提供的某些進階功能中獲得顯著效益。較高版本的 NFS 不應從資料庫儲存的角度視為「升級」、而應視為包含其他功能的 NFS 版本。例如、如果需要 Kerberos 隱私模式（ krb5p ）的端點對端安全性、則需要 NFSv4 。
+
+
+TIP: * 如果需要 NFSv4 功能、 NetApp 建議 * 使用 NFSv4.1 。NFSv4.1 中的 NFSv4 傳輸協定有一些功能性增強功能、可改善某些邊緣情況的恢復能力。
+
+切換至 NFSv4 比單純將掛載選項從 ves=3 變更為 ves=4.1 更複雜。如需更完整的 NFSv4 組態與 ONTAP 說明、包括作業系統設定指南、請參閱 https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["TR-4067 NetApp ONTAP 最佳實務做法上的 NFS"^]。本 TR 的下列各節說明使用 NFSv4 的一些基本要求。
+
+
+
+=== NFSv4 網域
+
+NFSv4/4.1 組態的完整說明已超出本文件的範圍、但常見的問題之一是網域對應不相符。從系統管理員的角度來看、 NFS 檔案系統的行為似乎正常、但應用程式會報告某些檔案的權限和 / 或 setuid 錯誤。在某些情況下、系統管理員不正確地判斷應用程式二進位檔的權限已受損、並在實際問題是網域名稱時執行 chown 或 chmod 命令。
+
+NFSv4 網域名稱是在 ONTAP SVM 上設定：
+
+....
+Cluster01::> nfs server show -fields v4-id-domain
+vserver   v4-id-domain
+--------- ------------
+vserver1  my.lab
+....
+主機上的 NFSv4 網域名稱是在中設定 `/etc/idmap.cfg`
+
+....
+[root@host1 etc]# head /etc/idmapd.conf
+[General]
+#Verbosity = 0
+# The following should be set to the local NFSv4 domain name
+# The default is the host's DNS domain name.
+Domain = my.lab
+....
+網域名稱必須相符。如果沒有、則會在中顯示類似下列的對應錯誤 `/var/log/messages`：
+
+....
+Apr 12 11:43:08 host1 nfsidmap[16298]: nss_getpwnam: name 'root@my.lab' does not map into domain 'default.com'
+....
+應用程式二進位檔（例如 Oracle 資料庫二進位檔）包含 root 擁有的具有 setuid 位元的檔案、這表示 NFSv4 網域名稱不相符會導致 Oracle 啟動失敗、並會發出呼叫檔案擁有權或權限的警告 `oradism`、位於 `$ORACLE_HOME/bin` 目錄。其內容應如下所示：
+
+....
+[root@host1 etc]# ls -l /orabin/product/19.3.0.0/dbhome_1/bin/oradism
+-rwsr-x--- 1 root oinstall 147848 Apr 17  2019 /orabin/product/19.3.0.0/dbhome_1/bin/oradism
+....
+如果此檔案的擁有權為 nobody 、則可能是 NFSv4 網域對應問題。
+
+....
+[root@host1 bin]# ls -l oradism
+-rwsr-x--- 1 nobody oinstall 147848 Apr 17  2019 oradism
+....
+若要修正此問題、請參閱 `/etc/idmap.cfg` 根據 ONTAP 上的 vv4 識別碼網域設定來建立檔案、並確保檔案一致。如果沒有、請進行必要的變更、然後執行 `nfsidmap -c`，然後等待一段時間讓變更傳播。接著、檔案擁有權應正確辨識為 root 。如果使用者嘗試執行 `chown root` 在 NFS 網域設定修正之前、可能需要在這個檔案上執行 `chown root` 再一次。

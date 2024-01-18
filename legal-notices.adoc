@@ -16,9 +16,6 @@ summary:
 [role="lead"]
 法律聲明提供版權聲明、商標、專利等存取權限。
 
-[role="lead"]
-法律聲明提供版權聲明、商標、專利等存取權限。
-
 
 
 == 版權
@@ -55,7 +52,7 @@ link:https://www.netapp.com/company/legal/privacy-policy/["https://www.netapp.co
 
 
 
-=== ONTAP
+== ONTAP
 
 link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2885801["ONTAP 9.13.1 注意事項"^]
 link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2884813["關於此功能的注意事項ONTAP 9.12.1.1"^]
@@ -75,7 +72,7 @@ link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2516795["關於此產
 
 
 
-=== 適用於 MCC IP 的 ONTAP Mediator
+== 適用於 MCC IP 的 ONTAP Mediator
 
 link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2870521["9.9.1 ONTAP Mediator for MCC IP 通知"^]
 link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2870521["9.8 ONTAP Mediator for MCC IP 通知"^]

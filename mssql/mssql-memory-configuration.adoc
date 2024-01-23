@@ -6,12 +6,11 @@ summary: ONTAP 上的 Microsoft SQL Server
 ---
 = Microsoft SQL Server 記憶體組態
 :allow-uri-read: 
-:firstname: [.lead]
-:author: [.lead]
-:authorinitials: [
-:authors: [.lead]
 :imagesdir: ../media/
 
+
+[role="lead"]
+下列各節將說明一些重要的記憶體組態設定。
 
 
 

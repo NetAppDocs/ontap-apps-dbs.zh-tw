@@ -153,10 +153,6 @@ ONTAP Mediator 可搭配 MetroCluster IP 和某些其他 ONTAP 解決方案使�
 
 
 
-=== 中介自動無人蔘與切換（ MAUSO ）
-
-
-
 === 使用 ClusterLion 的虛擬第三站點
 
 ClusterLion 是一款先進的 MetroCluster 監控設備、可作為虛擬第三站點使用。此方法可讓 MetroCluster 安全部署在雙站台組態中、並具備全自動的轉換功能。此外、 ClusterLion 還能執行額外的網路層級監控、並執行後置作業。完整文件可從 ProLion 取得。

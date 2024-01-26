@@ -2523,15 +2523,6 @@
   <block id="ff1d278a485c443dc5d8fc9f10f1a702" category="doc">NetApp HCI for virtual desktop Infrastructure with VMware Horizon 7 - 利用 3D 圖形為進階使用者提供強大功能</block>
   <block id="e3162938e0d7b1bbc74111cc5b5871c5" category="paragraph">TR-4792 提供在採用 NVIDIA 圖形處理單元（ GPU ）和虛擬化軟體的 VMware Horizon 環境中、使用 NetApp H615C 運算節點來處理 3D 圖形工作負載的指引。它也提供 H615C 的 SPECviewperf 13 初步測試結果。</block>
   <block id="1de37c09602b46db5de57a946efe2768" category="paragraph"><block ref="1de37c09602b46db5de57a946efe2768" category="inline-link-macro-rx"></block></block>
-  <block id="5ed492cbbbf7e6d167035a7c10478daa" category="summary">使用 NetApp HCI 的 VMware 終端使用者運算是經過預先驗證的最佳實務資料中心架構、可在企業規模部署虛擬桌面工作負載。</block>
-  <block id="36f00397200c227ebfe56599e7bafcd5" category="doc">NVA-1129-design ：採用 NetApp HCI 和 NVIDIA GPU 的 VMware 終端使用者運算</block>
-  <block id="52940073ac3f539b3c6d9ac1e41d5f06" category="paragraph">使用 NetApp HCI 的 VMware 終端使用者運算是經過預先驗證的最佳實務資料中心架構、可在企業規模部署虛擬桌面工作負載。本文件說明以可靠且無風險的方式、在線上規模部署解決方案的架構設計和最佳實務做法。</block>
-  <block id="8a36e2f35bf4a10959caf61f15d8df63" category="paragraph"><block ref="8a36e2f35bf4a10959caf61f15d8df63" category="inline-link-macro-rx"></block></block>
-  <block id="b4a3c2c985fcfc0d0e59c8d9c3259eb0" category="doc">NVA-1129-Deploy ：採用 NetApp HCI 和 NVIDIA GPU 的 VMware 終端使用者運算</block>
-  <block id="8b3f1e47da9509d2edf2f21012c6ec7e" category="paragraph">採用 NetApp HCI 的 VMware 終端使用者運算是經過預先驗證的最佳實務資料中心架構、可在企業規模部署虛擬桌面工作負載。本文件說明如何以可靠且無風險的方式、在線上規模部署解決方案</block>
-  <block id="ba999af3664a8f6c5b43a92bc11de64a" category="paragraph"><block ref="ba999af3664a8f6c5b43a92bc11de64a" category="inline-link-macro-rx"></block></block>
-  <block id="85864e2699dfaceb7f8d1f85448939fe" category="doc">NVA-1132-design ：採用 NetApp HCI 的 VMware 終端使用者運算</block>
-  <block id="8c40c45c2332a47a83ae257f42af2331" category="paragraph"><block ref="8c40c45c2332a47a83ae257f42af2331" category="inline-link-macro-rx"></block></block>
   <block id="93b94e62ad8cb02a1d1a7b0944a5445d" category="summary">本文件討論ONTAP VMware vSphere的產品安全性功能。</block>
   <block id="57a033c33a8be6110be46b2914cc4989" category="doc">搭配 ONTAP 使用 vVols</block>
   <block id="69556d50c944e0a07ade0bea62f078a3" category="paragraph">將 VVols 搭配 ONTAP 使用的關鍵在於 VASA Provider 軟體、此軟體是 VMware vSphere 虛擬應用裝置 ONTAP 工具的一部分。</block>
@@ -3869,7 +3860,6 @@
   <block id="35084d885dea7b061e6894c1cf3036d9" category="sidebar">工作負載</block>
   <block id="7d219314ccabde6609510141bb175a6c" category="sidebar">共享執行個體與專用執行個體</block>
   <block id="d5363ae19ecaede49e2ced297df7737a" category="sidebar">記憶體組態</block>
-  <block id="459f656cac9c4d74b9f3f16ebb2a76c8" category="sidebar">資料庫檔案和檔案群組</block>
   <block id="500c09aa1bb9af431f2c18348e69bfd0" category="sidebar">tempdb 檔案</block>
   <block id="6fb6843bd9a214011969c02729c7d671" category="sidebar">儲存考量</block>
   <block id="4c5d94eb4dc4bff93f6a96a08ab7b244" category="sidebar">資料安全</block>
@@ -3885,9 +3875,6 @@
   <block id="619615da0f93507e22a6054ef2aea4f1" category="sidebar">邏輯介面</block>
   <block id="aca8e861c6f30fe2d42d0310a387312b" category="sidebar">乙太網路組態</block>
   <block id="63a5b8bd41978e8124f9ccdfa9063e9e" category="sidebar">FC SAN 組態</block>
-  <block id="d63f66214ae30c5b9b10653f1e503492" category="sidebar">LUN 對齊</block>
-  <block id="f6556bc360e8c25d9e29515d2d52cd66" category="sidebar">LUN 計數和 LUN 大小</block>
-  <block id="d552d63771786b001d365cf747f74f6a" category="sidebar">LUN 調整大小</block>
   <block id="c3f378ef942f6bf228a43aaacc628fea" category="sidebar">LVM 分拆</block>
   <block id="254f642527b45bc260048e30704edb39" category="sidebar">組態</block>
   <block id="f3a78e25ce9f95fc3c61ccc39f32fb4d" category="sidebar">Oracle Direct NFS（DNFS）</block>
@@ -3901,10 +3888,8 @@
   <block id="7fbd108e1fc6910c941094e95a677878" category="sidebar">完整檔案</block>
   <block id="eb43c2427eb06b9f561363863b4a4f0b" category="sidebar">部分檔案</block>
   <block id="1afe200fa26ba361f59b603b22ad6392" category="sidebar">選取檔案</block>
-  <block id="46880cc1d7a1624f1d6fa77e7ee02fb7" category="sidebar">RPO 、 TRO 和 SLA</block>
   <block id="448d15345bb99c834095da225c529b8a" category="sidebar">資料可用度</block>
   <block id="5869e10a9dea6d88d61bb10040557f35" category="sidebar">資料完整性</block>
-  <block id="e2ac7be9b8940191426986b2ca575aa2" category="sidebar">備份與恢復基礎知識</block>
   <block id="7b68149402c05a52968bda6af0435c8a" category="sidebar">快照型線上備份</block>
   <block id="49ba0ee205d016d8236db9c1e8c130e5" category="sidebar">儲存 Snapshot 最佳化備份</block>
   <block id="2c6d98297c340e390e0783220b038545" category="sidebar">實體架構</block>
@@ -4056,4 +4041,11 @@
   <block id="512ee19e5020f3ee80a9e25f3f5a6468" category="paragraph">最佳實務做法是、只要對受保護的VM儲存設備組態進行變更、就必須執行測試容錯移轉。如此可確保在發生災難時、 Site Recovery Manager 能夠在預期的 RTO 目標內還原服務。</block>
   <block id="4da3f855cd505741909cfd49d743e68e" category="paragraph">SRM也可讓您在VM恢復時變更其網路組態。此重新設定包括 IP 位址、閘道位址和 DNS 伺服器設定等設定。不同的網路設定會在個別 VM 恢復時套用到它們、您可以在恢復計畫中的 VM 內容設定中指定。</block>
   <block id="e409450ce49f3558b068c69a77a9623a" category="paragraph">在容錯回復之後、您應該向所有相關人員確認他們的服務已恢復正常、然後再重新執行「重新保護」、</block>
+  <block id="a42cf9beb4788dddb7d317e05cc08e23" category="sidebar">資料庫檔案和檔案群組</block>
+  <block id="8858bb6564a2efc189c9183c495ce545" category="sidebar">LUN 對齊</block>
+  <block id="02bc4ad8a694d41c8b598dfbcb12f069" category="sidebar">LUN 數量和 LUN 大小</block>
+  <block id="066f208a93617bd82090d42624ce63cc" category="sidebar">LUN 調整大小</block>
+  <block id="9eeba6fd02cf3b6d8aee35e0ce9bf8fe" category="sidebar">LVM 分拆</block>
+  <block id="183bdb28f19bee640319f68825827aea" category="sidebar">RPO 、 RTO 和 SLA</block>
+  <block id="2172b5d51273924b537842b0db78bfd4" category="sidebar">備份與還原基礎知識</block>
 </blocks>

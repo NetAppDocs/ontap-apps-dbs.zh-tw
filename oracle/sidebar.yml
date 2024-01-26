@@ -62,7 +62,7 @@ entries:
     entries:
     - title: LUN 對齊
       url: "/oracle/oracle-storage-san-config-lun-alignment.html"
-    - title: LUN 計數和 LUN 大小
+    - title: LUN 數量和 LUN 大小
       url: "/oracle/oracle-storage-san-config-lun-sizing.html"
     - title: LUN 調整大小
       url: "/oracle/oracle-storage-san-config-lun-resizing.html"
@@ -114,13 +114,13 @@ entries:
   entries:
   - title: 總覽
     url: "/oracle/oracle-dp-overview.html"
-  - title: RPO 、 TRO 和 SLA
+  - title: RPO 、 RTO 和 SLA
     url: "/oracle/oracle-dp-slas.html"
   - title: 資料可用度
     url: "/oracle/oracle-dp-data-availability.html"
   - title: 資料完整性
     url: "/oracle/oracle-dp-data-integrity.html"
-  - title: 備份與恢復基礎知識
+  - title: 備份與還原基礎知識
     entries:
     - title: 快照
       url: "/oracle/oracle-dp-snapshots.html"

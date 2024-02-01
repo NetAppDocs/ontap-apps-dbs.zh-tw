@@ -2,16 +2,16 @@
 sidebar: sidebar 
 permalink: mysql/mysql-configuration.html 
 keywords: MySQL,MariaDB 
-summary: MySQL 組態 
+summary: MySQL 組態參數 
 ---
-= 組態總覽
+= MySQL 組態參數
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
 
 
 [role="lead"]
-NetApp 建議使用一些重要的 MySQL 組態參數（列於表 1 ）、以獲得最佳效能。
+NetApp 建議使用一些重要的 MySQL 組態參數、以獲得最佳效能。
 
 [cols="1,1"]
 |===

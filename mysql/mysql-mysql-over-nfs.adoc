@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: mysql/mysql-mysql-over-nfs.html 
 keywords: MySQL,MariaDB,NFS 
-summary: ONTAP 上的 MySQL 
+summary: 使用 NFS 的 MySQL 
 ---
-= MySQL over NFS
+= 使用 NFS 的 MySQL
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

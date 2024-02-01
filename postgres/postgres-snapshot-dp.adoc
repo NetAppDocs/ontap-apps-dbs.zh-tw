@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: postgres/postgres-snapshot-dp.html 
 keywords: PostgreSQL,database,postgres 
-summary: ONTAP 上的 PostgreSQL 資料庫 
+summary: PostgreSQL 資料庫和儲存快照 
 ---
-= 快照
+= PostgreSQL 資料庫和儲存快照
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

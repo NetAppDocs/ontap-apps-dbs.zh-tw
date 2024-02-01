@@ -1,17 +1,17 @@
 ---
 sidebar: sidebar 
 permalink: mysql/mysql-file-descriptors.html 
-keywords: MySQL,MariaDB,TR-4722 
-summary: ONTAP 上的 MySQL 
+keywords: MySQL,MariaDB,file descriptors 
+summary: MySQL 檔案說明 
 ---
-= 檔案描述元
+= MySQL 檔案描述元
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
 
 
 [role="lead"]
-若要執行、 MySQL 伺服器需要檔案描述元。
+若要執行、 MySQL 伺服器需要檔案描述元、而且預設值不足。
 
 它會使用它們來開啟新的連線、將資料表儲存在快取中、建立暫時資料表來解決複雜的查詢、以及存取持續性的查詢。如果 mysqld 在需要時無法開啟新檔案、它就能停止正常運作。此問題的常見症狀是錯誤 24 「開啟的檔案太多」。 mysqld 可以同時開啟的檔案描述元數量是由定義的 `open_files_limit` 設定在組態檔案中的選項 (`/etc/my.cnf`）。但是 `open_files_limit` 也取決於作業系統的限制。這種相依性會使設定變數變得更複雜。
 

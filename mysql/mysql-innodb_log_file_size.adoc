@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: mysql/mysql-innodb_log_file_size.html 
 keywords: MySQL,MariaDB,innodb_log_file_size 
-summary: ONTAP 上的 MySQL 
+summary: MySQL 和 InnoDB_log_file_size 
 ---
 = InnoDB_log_file_size
 :allow-uri-read: 

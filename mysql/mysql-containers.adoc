@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: mysql/mysql-containers.html 
-keywords: MySQL,MariaDB,containers 
-summary: ONTAP 上的 MySQL 
+keywords: MySQL,MariaDB,containers,trident 
+summary: MySQL 容器化 
 ---
-= 容器
+= MySQL 容器化
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: postgres/postgres-db-config.html 
 keywords: PostgreSQL,database,postgres 
-summary: ONTAP 上的 PostgreSQL 資料庫 
+summary: ONTAP 的 PostgreSQL 資料庫組態 
 ---
-= 資料庫組態
+= ONTAP 的 PostgreSQL 資料庫組態
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

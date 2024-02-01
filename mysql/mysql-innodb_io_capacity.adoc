@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: mysql/mysql-innodb_io_capacity.html 
 keywords: MySQL,MariaDB,innodb_io_capacity 
-summary: ONTAP 上的 MySQL 
+summary: MySQL 和 InnoDB_IO_capACure 
 ---
 = InnoDB_IO_capAC
 :allow-uri-read: 

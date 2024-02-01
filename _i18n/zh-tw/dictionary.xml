@@ -526,9 +526,7 @@
   <block id="9ca503fae9ccd4d6d8e67806b23adfa0" category="paragraph"><block ref="9ca503fae9ccd4d6d8e67806b23adfa0" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0353522b39b87d54d40d3f09ec668851" category="doc">組態ONTAP</block>
   <block id="8e52de0d4b03d5fe87dc88da09616c7f" category="inline-link-macro">請按這裡。</block>
-  <block id="9fe343788d08130f46e418bb81928479" category="summary">概述FabricPool</block>
   <block id="337c62c6b6eb7319bae58701105e889c" category="doc">分層</block>
-  <block id="cec4b296aaf93974a98a5d3b3f27ff9e" category="paragraph">瞭解 FabricPool 分層對應用程式和資料庫的影響、需要瞭解低階 FabricPool 架構。</block>
   <block id="3493794b3ccb587f71a663f51f4484ef" category="summary">ONTAP 上的 PostgreSQL 資料庫</block>
   <block id="2d3298c651b356a82db5d664ce68e65e" category="doc">原生資料保護</block>
   <block id="31c6611c8e0bd237a3ee51db1728a440" category="paragraph">儲存設計的主要層面之一、是為 PostgreSQL Volume 提供保護。客戶可以使用傾印方法或使用檔案系統備份來保護 PostgreSQL 資料庫。本節說明備份個別資料庫或整個叢集的不同方法。</block>
@@ -541,19 +539,6 @@
   <block id="10907e7ac5ab6e5235a23898a2331b31" category="doc">ONTAP 上的 PostgreSQL 資料庫</block>
   <block id="b5f477e959f26421a80e1eebdadbdd71" category="paragraph">PostgreSQL 隨附的變種包括 PostgreSQL 、 PostgreSQL Plus 和 EDBS PostgreSQL 進階伺服器（ EPAS ）。PostgreSQL 通常部署為多層應用程式的後端資料庫。它受一般中介軟體套件的支援（例如 PHP 、 Java 、 Python 、 Tcl/Tk 、 ODBC 、 和 JDBC) ，過去一直是開放原始碼資料庫管理系統的熱門選擇。NetApp ONTAP 是執行 PostgreSQL 資料庫的絕佳選擇、可確保其可靠性、高效能及高效率的資料管理功能。</block>
   <block id="841a21e58e7c22a71c07b89a4362d2b6" category="admonition">ONTAP 和 PostgreSQL 資料庫上的這份文件取代先前發佈的 _TR-4770 ： ONTAP 最佳實務做法的 PostgreSQL 資料庫。 _</block>
-  <block id="23dc28a190980aa339329235e8b66434" category="paragraph">隨著資料呈指數成長、企業的資料管理變得更加複雜。這種複雜性會增加授權、營運、支援和維護成本。若要降低整體 TCO 、請考慮使用可靠、高效能的後端儲存設備、從商業資料庫切換為開放原始碼資料庫。PostgreSQL 是一種先進的開放原始碼資料庫、廣泛用於學術、商業和大型企業。它隨附一組新功能、可解決其他關聯式資料庫管理系統（ RDBMSs ）中的落差。</block>
-  <block id="595e7195ec732ff0042e8b03492176cc" category="admonition">在實體或虛擬化環境中使用 PostgreSQL 資料庫的 NetApp 客戶、可從瞭解在 ONTAP 上成功部署及管理 PostgreSQL 資料庫的最佳實務做法中獲益。這些建議是通用的、因此並非任何組態的專屬建議。根據您的業務需求、有些建議可能需要變更。您必須根據 PostgreSQL 、 Hypervisor 、作業系統和 ONTAP 儲存設備的正式文件來評估您的環境。</block>
-  <block id="6c1ea8a6f96c812bdbee4a788f8282dc" category="doc">附錄 A ：主機組態</block>
-  <block id="c3ef6436e8acdba8ced1def7d29a99b8" category="paragraph">附錄內容：</block>
-  <block id="873bf9c2fc74dd3fc39aa67a16b51d6a" category="list-text">驗證 ESX 主機中的 FC 主機匯流排介面卡（ HBA ）是否正在執行更新的驅動程式、韌體和正確的 BIOS 版本。</block>
-  <block id="b6d348f60c7c0e3bb221591b67518d1c" category="list-text">在主機上安裝 NetApp 主機公用程式、以檢視指定 LUN 的直接和間接路徑。此套件也提供有關 LUN SVM 資訊的延伸資訊。</block>
-  <block id="4a1afd4a3d39c7e385017e01816d721f" category="list-text">請務必使用主機上的重新掃描 SCSI 匯流排指令碼來：</block>
-  <block id="6d1436a6f6bda3b3ce87df91aaf6fb56" category="list-text">尋找新的 LUN</block>
-  <block id="897dc659ee2dd9f0dd17af82c47259bd" category="list-text">捨棄過時的 LUN</block>
-  <block id="ecef9cf88b8cf100d1a489f3acdd4732" category="list-text">更新 LUN 的新路徑</block>
-  <block id="c7b133bd977e02fc973a2df60786e7a8" category="list-text">若要在路徑故障時建立多條儲存路由、請在主機作業系統上安裝及設定多重路徑軟體。</block>
-  <block id="3617da17b3368e5730bf10cdacf54a18" category="list-text">如果您不使用多重路徑軟體、則應將每個 LUN 限制為單一路徑。</block>
-  <block id="6dff2f8361cdca0bbb6cfa1d162de499" category="list-text">Linux 核心可讓您對 I/O 排程進行低階控制、以封鎖裝置。Linux 版本的預設值可能會有很大的差異。一般而言、 NetApp 客戶和內部測試都能透過資料庫的 NoOps 排程器、獲得更好的結果。您應該執行基準測試、以判斷哪些 I/O 排程器最適合您的使用案例。</block>
   <block id="9147e5e61a7b9260dec09f3a6eb3e5be" category="doc">快照</block>
   <block id="0b9d99167191c5d9ad23ca07bc6a9b38" category="paragraph">PostgreSQL 的 Snapshot 型備份需要為資料檔案、 Wal 檔案和歸檔的 Wal 檔案組態快照、才能提供完整或時間點還原。</block>
   <block id="8c6a53edc4449a4cc3983d47ecffa851" category="paragraph">對於 PostgreSQL 資料庫而言、快照的平均備份時間介於數秒到數分鐘之間。此備份速度比快 60 至 100 倍<block ref="35679fc424d9eec0c30f38459fd9b322" prefix=" " category="inline-code"></block> 以及其他檔案系統備份方法。</block>
@@ -566,7 +551,6 @@
   <block id="55ca4b30c6f7c3ef975a6d1e1fb222a2" category="inline-link-macro">NetApp 一致性群組總覽</block>
   <block id="69dd5879aee425e37fdd5796a8e06a56" category="paragraph">如需一致性群組的詳細資訊、請參閱 <block ref="112c5744a39904facdbc5fab385d9fe1" category="inline-link-macro-rx"></block>。</block>
   <block id="7e7397a7b79323762c61941fc0e6b5f9" category="doc">資料保護</block>
-  <block id="90b0d8da95f7f5935481bc7e648c111e" category="summary">PostgreSQL 表格空間</block>
   <block id="16a49d0bc0249ef3dd42949589a0ed4e" category="doc">表格空間</block>
   <block id="d6d544de56c329d9f68bb176c6245e7c" category="paragraph">初始化資料庫叢集時會自動建立兩個資料表空間。</block>
   <block id="6df924905e21856e4e8b8f936767cdd6" category="paragraph">。<block ref="bd676cbef0d168a62a062c8709af1824" prefix=" " category="inline-code"></block> 表空間用於共享系統目錄。。<block ref="3224684b8e7208962a73daeb0bb24110" prefix=" " category="inline-code"></block> 表空間是 template1 和 template0 資料庫的預設資料表空間。如果初始化叢集的磁碟分割或磁碟區空間不足且無法擴充、則可在不同的磁碟分割上建立資料表空間、並在重新設定系統之前使用。</block>
@@ -594,7 +578,6 @@
   <block id="385e23b8ebe64dfd0005f6846cc8e85e" category="paragraph">在正常的 PostgreSQL 作業中、因為更新而刪除或過時的 Tuple 不會從其表格中實際移除、直到執行真空為止。因此、您必須定期執行吸氣、尤其是在經常更新的表格上。接著必須回收它所佔用的空間、以便新列重複使用、以避免磁碟空間中斷。不過、它不會將空間傳回作業系統。</block>
   <block id="db81319c35b48ed94867775a9a1ce1d7" category="paragraph">頁面內的可用空間不會分散。真空會重新寫入整個區塊、有效地將剩餘的資料列封裝起來、並在頁面中留下一個連續的可用空間區塊。</block>
   <block id="8a5c17164c9920590fc057ee01f2fcb3" category="paragraph">相反地、使用「完全真空」技術、可以撰寫完全新版的表格檔案、而不會有任何空間。此動作可將表格大小減至最小、但可能需要很長時間。在作業完成之前、它也需要額外的磁碟空間來容納表格的新複本。例行真空的目標是避免完全真空。此程序不僅能將資料表保持在最小大小、還能維持磁碟空間的穩定狀態使用量。</block>
-  <block id="d3213224909897cac25fe1359e587293" category="summary">PostgreSQL 初始化</block>
   <block id="61bcd96a2c1f8026527cbf2019d6e9a4" category="doc">初始化</block>
   <block id="f4f9dac58f7c47e819293af5f2dd1177" category="paragraph">您可以使用建立新的資料庫叢集<block ref="abc91e782cd3950bfa31202aff74ca69" prefix=" " category="inline-code"></block> 方案。一<block ref="abc91e782cd3950bfa31202aff74ca69" prefix=" " category="inline-code"></block> 指令碼會建立定義叢集的資料檔案、系統表格和範本資料庫（ template0 和 template1 ）。</block>
   <block id="b668460552732302350bbb840d57931c" category="paragraph">範本資料庫代表常用資料庫。其中包含系統表格、標準檢視、功能和資料類型的定義。<block ref="3865cf98fe802a965570b4a10a1d894b" prefix=" " category="inline-code"></block> 做為的引數<block ref="abc91e782cd3950bfa31202aff74ca69" prefix=" " category="inline-code"></block> 指定資料庫叢集位置的指令碼。</block>
@@ -2411,15 +2394,12 @@
   <block id="3d601b26d05eac41fc6a7eba92fdc8b9" category="admonition">本文件取代先前發佈的技術報告 _TR-4591 ： Oracle 資料保護：備份、還原及複寫。 _</block>
   <block id="21d28aa03f67eb242b1c95a6a0594ff5" category="section-title">規劃</block>
   <block id="0bf5784d6c307e4ee0371d46053937c0" category="summary">Oracle 效能測試</block>
-  <block id="3993fbf2fe01237c798f68ece0b84724" category="doc">Oracle 效能最佳化與基準測試</block>
   <block id="355ba59494fea8b20be391a73cc755eb" category="paragraph">準確測試資料庫儲存效能是極為複雜的主題。需要瞭解下列問題：</block>
   <block id="b57041cc3b57577b5c21eff44739e3f9" category="list-text">IOPS 與處理量</block>
   <block id="236e7fd957ada95e8094e302623980d3" category="list-text">前景與背景 I/O 作業之間的差異</block>
   <block id="902f90cc4ab59808cac5606f767f61c4" category="list-text">延遲對資料庫的影響</block>
   <block id="196198dbaa1d1ea17cfc478fbb2f419f" category="list-text">許多作業系統和網路設定也會影響儲存效能</block>
   <block id="5ff18eadb2ef3fc20e13bed3e5b61d79" category="paragraph">此外、還有非儲存資料庫工作要考量。最佳化儲存效能並不會帶來實用效益、因為儲存效能不再是效能的限制因素。</block>
-  <block id="92d509b1796c0ac8e185dc559cb7e294" category="paragraph">大多數資料庫客戶現在都選擇 All Flash Array 、這會造成一些額外考量。例如、請考慮在雙節點 AFF8080 系統上進行效能測試：</block>
-  <block id="4eb08b8b1c39980bb639a6e5890ec0de" category="list-text">有了 75/25 讀寫比率、兩個 AFF8080 節點可在延遲甚至超過 1 毫秒標記之前、提供超過 300K 的隨機資料庫 IOPS 。這遠遠超出了大多數資料庫目前的效能需求、很難預測預期的改善。儲存設備將會大幅清除、成為瓶頸。</block>
   <block id="32a993d3f497a6dd4392d3348b05ebc3" category="list-text">網路頻寬是效能限制的常見來源。例如、旋轉式磁碟解決方案通常是資料庫效能的瓶頸、因為 I/O 延遲非常高。當 All Flash 陣列移除延遲限制時、障礙會頻繁移轉至網路。在虛擬化環境和刀鋒系統中、這一點尤其顯著、因為這些環境和刀鋒系統的真正網路連線能力難以視覺化。如果由於頻寬限制而無法充分利用儲存系統本身、這可能會使效能測試變得複雜。</block>
   <block id="8caa382fb0f5f7a8279424d306dd003d" category="list-text">由於 All Flash 陣列的延遲大幅改善、因此一般無法將 All Flash 陣列與含有旋轉磁碟的陣列進行效能比較。測試結果通常沒有意義。</block>
   <block id="bc2b8b37bdda467f2ce639ab28bf4646" category="list-text">將尖峰 IOPS 效能與 All Flash 陣列進行比較通常並不實用、因為資料庫不受儲存 I/O 限制例如、假設一個陣列可維持 500K 的隨機 IOPS 、而另一個陣列則可維持 300K 。如果資料庫花費 99% 的時間處理 CPU 、這種差異在現實世界中是不相關的。工作負載永遠不會使用儲存陣列的完整功能。相反地、尖峰 IOPS 功能在整合平台中可能非常重要、而在整合平台中、儲存陣列預期會載入至尖峰容量。</block>
@@ -3682,7 +3662,6 @@
   <block id="2c87609dbbc3630573c64e271de8207d" category="list-text">所有認證資訊均使用SHA256雜湊來儲存。</block>
   <block id="0f1a6fa0a65f9d5c3c4a16b070104d7a" category="list-text">*基本作業系統映像*。*本產品隨附適用於OVA的Debian基礎作業系統、存取受限且停用Shell存取。如此可減少攻擊佔用空間。每SnapCenter 個發行版基礎作業系統都會更新最新的安全修補程式、以達到最大的安全覆蓋範圍。</block>
   <block id="83cd5867ba912e517fa1100299fd1cf3" category="paragraph">NetApp針對SnapCenter VMware vSphere應用裝置開發有關VMware vSphere外掛程式的軟體功能與安全性修補程式、然後將其作為套裝軟體平台發佈給客戶。由於這些應用裝置包括特定的Linux子作業系統相依性、以及我們的專屬軟體、因此NetApp建議您不要變更子作業系統、因為這會對NetApp應用裝置造成重大影響。這可能會影響NetApp支援應用裝置的能力。NetApp建議測試及部署我們最新的應用裝置程式碼版本、因為這些版本已發行以修補任何與安全性相關的問題。</block>
-  <block id="c7eca250a9863785d63364853c46c00d" category="doc">使用 FabricPool 分層管理 MySQL</block>
   <block id="1bc6cee680286aae1b12889369b7f18a" category="summary">ONTAP 上的 MySQL</block>
   <block id="dac8ea4fbfd87a535663c227b91f50e3" category="doc">I/O 排程器</block>
   <block id="215dca219378b291ae287eb076489fdd" category="paragraph">Linux 核心可讓您以低層級控制 I/O 排程封鎖裝置的方式。</block>
@@ -3698,14 +3677,6 @@
   <block id="d4ae77cd65c244ceb4277b27553d6931" category="doc">ONTAP 上的 MySQL 資料庫</block>
   <block id="598132a821e8cc696fbbae934047d991" category="paragraph">MySQL 及其變種、包括 MariaDB 和 Percona MySQL 、是全球最受歡迎的資料庫。</block>
   <block id="478f00c3805e92ad9e8a7cd4f335a020" category="admonition">ONTAP 和 MySQL 資料庫上的本文件取代先前發佈的 _TR-4722 ： NetApp ONTAP 最佳實務做法的 MySQL 資料庫。 _</block>
-  <block id="9793e07572d1520fdffd0e4db62df588" category="paragraph">MySQL 的功能包括：</block>
-  <block id="04b90043b7bbdc843dd2b77f2014f14f" category="list-text">* 降低 TCO 。 * MySQL 是一款功能強大、免費的開放原始碼資料庫管理系統、已推出多年。非常穩定。它擁有社群支援、可協助維護、除錯及新增功能。如果 Web 應用程式需要的不只是資料庫、或是需要負載平衡或分區、您可以輕鬆設定資料庫執行個體、只需花費硬體成本、而非每個執行個體都需要單一授權的商業資料庫。</block>
-  <block id="ae129f31dc6bc29ee6e28e9dbd8bd904" category="list-text">* 可靠性、效能和易用性。 * MySQL 的標誌之一是卓越的效能和擴充性、這也是許多網路型企業使用它的原因。MySQL 運用多項關鍵優勢來提供快速效能。因為競爭總是只要按一下滑鼠（或觸控螢幕）、所以快速回應客戶的詢問和活動是最重要的。服務網路型應用程式的資料庫、需要為讀取（簡單和複雜的查詢）和寫入作業提供極高的效能。</block>
-  <block id="ce921a1775ad78848c0ef06b4c2aaff3" category="list-text">* 資料庫開發、設計與管理。 * MySQL Workbench 提供整合式開發、設計與管理環境、讓開發人員與 DBA 更具生產力。不同的開發人員會在資料庫中尋找不同的功能、而 MySQL 則提供多種功能。它可以在筆記型電腦和桌上型電腦上充分執行。它可以輕鬆適應環境、確保不會與現有的 Web 伺服器或應用程式發生衝突。</block>
-  <block id="26ab39333494c60fdfe1fbf67fcb9c4a" category="list-text">* 全面的交易支援。 * MySQL 是市面上最強大的交易資料庫引擎之一。這是完整資料完整性的解決方案、提供完整的原子、一致、隔離、持久的交易支援、多重版本交易支援等功能； 以及不受限制的列層鎖定。它透過伺服器強制的參考完整性、提供即時死鎖識別功能。</block>
-  <block id="f9ab99873ba8416ec0975ef4f4fb655a" category="list-text">* 資料安全。 * MySQL 以最安全可靠的資料庫管理系統聞名全球、適用於熱門的網路應用程式、例如 WordPress 、 Drupal 、 Joomla 、 Facebook 、 Google 、 和 Twitter 。最新版 MySQL 所隨附的交易處理資料安全性與支援、可讓任何企業受益、尤其是經常轉帳的電子商務企業。</block>
-  <block id="2cb5bda4a8945e058ff550f4991ba8b6" category="list-text">* 可插拔架構 * 。 * MySQL 可插拔儲存引擎架構可讓資料庫專業人員針對特定應用程式需求選擇專用的儲存引擎、而無需管理應用程式編碼需求。MySQL 伺服器架構可將應用程式設計人員和 DBA 與儲存層級的所有低層實作詳細資料隔離、提供一致且簡單的應用程式模型和 API 。雖然不同的儲存引擎有不同的功能、但應用程式卻能避免這些差異。</block>
-  <block id="e0780e103bd4ebcb0ee7f25b644eca40" category="paragraph">如果您想要鎖定特定應用程式需求（例如資料倉儲、交易處理或 HA 情況）、同時使用獨立於任何一種儲存引擎的介面和服務、 MySQL 的高效率模組化架構可帶來巨大效益。</block>
   <block id="35701e1bcd40c8e1a520fc33d0e14842" category="doc">InnoDB_Flush 方法</block>
   <block id="138738e11d5fda5c496edaa92e32e158" category="paragraph">InnoDB_flush_method 參數指定 InnoDB 如何開啟及排清記錄檔和資料檔。</block>
   <block id="c262c8cd82b96f69fbbc058d7a35683b" category="section-title">最佳化</block>
@@ -3736,7 +3707,6 @@
   <block id="03f07291794c3b9cb00d04cb9f30be81" category="list-text">若為僅 InnoDB 的專用機器、請將緩衝區集區大小設為 80% 以上的可用 RAM 。</block>
   <block id="7b0119b7fa59f87d23d5c65da456b226" category="list-text">如果不是 MySQL 專用伺服器、請將 RAM 大小設為 50% 。</block>
   <block id="a6a9695e1464f5554c0006c55facfadf" category="doc">檔案描述元</block>
-  <block id="5ef6471f819ed2d47303473cc87d9305" category="paragraph">若要執行、 MySQL 伺服器需要檔案描述元。</block>
   <block id="8e222c68dd214db9f8a1b5b572ee6267" category="paragraph">它會使用它們來開啟新的連線、將資料表儲存在快取中、建立暫時資料表來解決複雜的查詢、以及存取持續性的查詢。如果 mysqld 在需要時無法開啟新檔案、它就能停止正常運作。此問題的常見症狀是錯誤 24 「開啟的檔案太多」。 mysqld 可以同時開啟的檔案描述元數量是由定義的<block ref="3d39e9c5aa2f78830dd6993cec18e93e" prefix=" " category="inline-code"></block> 設定在組態檔案中的選項 <block ref="86d0d007043d911697753b35e2c18f35" prefix="(" category="inline-code"></block>）。但是<block ref="3d39e9c5aa2f78830dd6993cec18e93e" prefix=" " category="inline-code"></block> 也取決於作業系統的限制。這種相依性會使設定變數變得更複雜。</block>
   <block id="07561a91f81dfe3c8e4364aac8bdbea4" category="paragraph">MySQL 無法設定<block ref="3d39e9c5aa2f78830dd6993cec18e93e" prefix=" " category="inline-code"></block> 選項高於下所指定的選項<block ref="dd1c6d8164dfd1cee0afa39b177e843b" prefix=" " category="inline-code"></block>。因此、您必須在作業系統層級明確設定這些限制、才能讓 MySQL 視需要開啟檔案。檢查 Linux 檔案限制的方法有兩種：</block>
   <block id="84e705ac120a887df441f4161dc29409" category="list-text">。<block ref="2eabb4efed7dffb32ea1170eab71b798" prefix=" " category="inline-code"></block> 命令會快速為您提供所允許或鎖定參數的詳細說明。執行此命令所做的變更並非永久性變更、將會在系統重新開機後清除。</block>
@@ -3783,9 +3753,7 @@
   <block id="86fc8cb3bf2cae621315896a94b35f67" category="paragraph">NetApp LUN 以 4KB 實體區塊儲存資料、產生八個 512 位元組的邏輯區塊。</block>
   <block id="5f441ceabc94de2a9cced94d9f53a2d0" category="paragraph">如果您未設定相同的區塊大小、 I/O 將無法正確對齊實體區塊、而且可能會在 RAID 群組中的兩個不同磁碟機中寫入、導致延遲。</block>
   <block id="236ac851d05b8822524001920948f23d" category="admonition">請務必調整 I/O 、以順利進行讀寫作業。但是、當 I/O 從不在實體區塊開頭的邏輯區塊開始時、 I/O 會未對齊。I/O 作業只有在邏輯區塊（實體區塊中的第一個邏輯區塊）開始時才會對齊。</block>
-  <block id="e6cf2549be4da18bf404cacc6100516a" category="summary">MySQL 組態</block>
   <block id="282155126a94a0702cfd80daf38d4362" category="doc">組態總覽</block>
-  <block id="13b506e9cda8a01b4cd60e08f3f1faf6" category="paragraph">NetApp 建議使用一些重要的 MySQL 組態參數（列於表 1 ）、以獲得最佳效能。</block>
   <block id="3225a10b07f1580f10dee4abc3779e6c" category="cell">參數</block>
   <block id="c82a6100dace2b41087ba6cf99a5976a" category="cell">價值</block>
   <block id="b10db909b8fda84e70bf9b308d0938d9" category="cell">256M</block>
@@ -3799,7 +3767,6 @@
   <block id="1006f82d8df7d2325439b28ea691737c" category="cell">open_file_limit</block>
   <block id="3c9b5f1cd6a030bcb7bed9eac80589fb" category="cell">65535</block>
   <block id="c9f5a4d3ede4d084dda0a788ed06783c" category="paragraph">若要設定本節所述的參數、您必須在 MySQL 組態檔（ my.cnf ）中變更這些參數。NetApp 最佳實務做法是在內部執行測試的結果。</block>
-  <block id="5382aaf8b3d2fdeb6717f9805b0dd511" category="doc">容器</block>
   <block id="6a554ff1dc93539a626e576bf0d28a02" category="paragraph">MySQL 資料庫的容器化日漸普及。</block>
   <block id="bcc002a9f2e2ade112438f50a6630498" category="paragraph">低層級的容器管理幾乎總是透過 Docker 來執行。OpenShift 和 Kubernetes 等容器管理平台讓大型容器環境的管理變得更簡單。容器化的優點包括成本較低、因為不需要授權 Hypervisor 。此外、容器可讓多個資料庫彼此隔離執行、同時共用相同的基礎核心和作業系統。容器可在微秒內完成佈建。</block>
   <block id="14d9b10c6196045941347a9e85704b50" category="inline-link-macro">Astra Trident文件</block>
@@ -3821,7 +3788,6 @@
   <block id="defc1bfda928f419df5e4af79c98343e" category="list-text">一個用於儲存 MySQL 的隨機和連續 I/O 導向檔案的磁碟區</block>
   <block id="7fd750411093ebd1faa0d99dd2608514" category="list-text">另一個用於儲存 MySQL 純粹循序 I/O 導向檔案的磁碟區</block>
   <block id="0561a3b014eef0e5125fa63e1626cf57" category="paragraph">此配置也能協助您設計資料保護原則與策略。</block>
-  <block id="a53db665fd1a9734a7a0e119671a0cd0" category="paragraph">Linux 上的 NFS 效能取決於稱為的參數<block ref="453f2cc2326f82af1053f4aa4b75400b" prefix=" " category="inline-code"></block>。</block>
   <block id="9166d970028a28a614af39e6286371b7" category="paragraph">您可以使用關閉此參數<block ref="8cafbd8d9096941261e87f4f9152ab92" prefix=" " category="inline-code"></block> 針對效能標竿、或是當您比較在意最高效能、而非資料完整性或可能的故障時。InnoDB 使用稱為雙寫入的檔案清除技術。InnoDB 在將頁面寫入資料檔案之前、會將其寫入稱為雙寫入緩衝區的鄰近區域。寫入和清除雙寫入緩衝區完成後、 InnoDB 會將頁面寫入資料檔案中的適當位置。如果作業系統或 mysqld 程序在頁面寫入期間當機、 InnoDB 之後可以在當機恢復期間、從雙寫入緩衝區找到良好的頁面複本。</block>
   <block id="3dfd4b9a526f8a8cf17021e34638b375" category="admonition">* NetApp 建議 * 停用雙寫入緩衝區。ONTAP NVRAM 的功能相同。雙重緩衝會不必要地損害效能。</block>
   <block id="dd5a2a602f713562e0f9f0fd8385660e" category="doc">MySQL over NFS</block>
@@ -3983,8 +3949,6 @@
   <block id="74cacb0c34a37e2859e3b054938a344d" category="doc">具有 SAN 檔案系統的 PostgreSQL</block>
   <block id="1758f5c81d60f1a0ac8600fddc99a919" category="paragraph">具有 SAN 的 PostgreSQL 資料庫通常裝載在 xfs 檔案系統上、但如果作業系統廠商支援、也可以使用其他資料庫</block>
   <block id="d73e7b56b7baa813a32c521ca074e7c4" category="paragraph">雖然單一 LUN 通常可支援高達十萬 IOPS 、但 IO 密集的資料庫通常需要使用含分段的 LVM 。</block>
-  <block id="5c24f0d1d447c2dfc01f2f2641e1d56c" category="summary">PostgreSQL 使用 ONTAP 來資料庫 NFS</block>
-  <block id="3532099588a13fbccb2af22a75936454" category="doc">PostgreSQL 搭配 NFS 檔案系統</block>
   <block id="f7cc8c4234952826818ad4d0c2050ac9" category="paragraph">PostgreSQL 資料庫可以裝載在 NFSv3 或 NFSv4 檔案系統上。最佳選項取決於資料庫以外的因素。</block>
   <block id="1482c42acc1dd31ee8496c71a805e73c" category="paragraph">例如、在某些叢集式環境中、 NFSv4 鎖定行為可能較為理想。（請參閱 <block ref="bc3a7e667477b8b3590fa1451dcb924c" category="inline-link-macro-rx"></block> 如需其他詳細資料）</block>
   <block id="9674525687765646f35916d0e569eda9" category="paragraph">否則、資料庫功能應接近相同、包括效能。唯一的要求是使用<block ref="d64a84456adc959f56de6af685d0dadd" prefix=" " category="inline-code"></block> 掛載選項。這是為了確保軟性逾時不會產生無法恢復的 IO 錯誤。</block>
@@ -4048,4 +4012,44 @@
   <block id="9eeba6fd02cf3b6d8aee35e0ce9bf8fe" category="sidebar">LVM 分拆</block>
   <block id="183bdb28f19bee640319f68825827aea" category="sidebar">RPO 、 RTO 和 SLA</block>
   <block id="2172b5d51273924b537842b0db78bfd4" category="sidebar">備份與還原基礎知識</block>
+  <block id="3403aac944f3cb6e2d2c7f7d52bc44b9" category="paragraph">隨著資料呈指數成長、企業的資料管理變得更加複雜。這種複雜性會增加授權、營運、支援和維護成本。若要降低整體 TCO 、請考慮使用可靠、高效能的後端儲存設備、從商業資料庫切換為開放原始碼資料庫。</block>
+  <block id="dcac08882e3396bd30210108baa1641d" category="paragraph">ONTAP 是理想的平台、因為 ONTAP 是專為資料庫所設計。為了滿足資料庫工作負載的需求、我們特別建立了許多功能、例如隨機 IO 延遲最佳化、以提供進階服務品質（ QoS ）到基本 FlexClone 功能。</block>
+  <block id="1429a98a71e16287326edd7fc1f999fd" category="paragraph">其他功能（例如不中斷升級）（包括儲存設備更換）、可確保關鍵資料庫仍可使用。您也可以透過 MetroCluster 為大型環境進行即時災難恢復、或是使用 SnapMirror 主動式同步來選擇資料庫。</block>
+  <block id="8df3fb35ff15e02683bfb1bc7f852c93" category="paragraph">最重要的是、 ONTAP 提供無與倫比的效能、並能根據您的獨特需求調整解決方案的規模。我們的高階系統可提供超過 1M IOPS 、延遲時間以微秒為測量單位、但如果您只需要 10 萬次 IOPS 、您可以使用仍執行相同儲存作業系統的較小控制器來調整儲存解決方案的大小。</block>
+  <block id="97b4cda00dd31f5be69440f48c4da149" category="summary">ONTAP 的 PostgreSQL 資料庫組態</block>
+  <block id="c4f52498c0db572381512887d7584e53" category="summary">PostgreSQL 資料庫和儲存快照</block>
+  <block id="b0792163c858a7c221b236d84619b5ef" category="summary">PostgreSQL 使用 ONTAP 來資料庫 NFS</block>
+  <block id="189950ed46e5e8b7e92941531a5bb88b" category="doc">具有 NFS 檔案系統的 PostgreSQL 資料庫</block>
+  <block id="504cd1fb60a8eb7918484270e743ae3a" category="summary">PostgreSQL 資料保護 P</block>
+  <block id="6cabd4dcf3582d38c441228705da3bda" category="doc">PostgreSQL 資料保護</block>
+  <block id="383a6a5241ecfc558b9fec1d7cff5239" category="summary">PostgreSQL 表格空間</block>
+  <block id="20d0e2519b3555a0a2927c8914c17280" category="summary">PostgreSQL 資料保護軟體</block>
+  <block id="29e2aec511a8e307ecceacbd86c22f14" category="summary">PostgreSQL 初始化參數</block>
+  <block id="55e3f073b1864d9281d074e5b23effca" category="doc">Oracle 效能最佳化與基準測試程序</block>
+  <block id="035ecd1be6cacde993302b440e396bc2" category="paragraph">大多數資料庫客戶現在都選擇 All Flash Array 、這會造成一些額外考量。例如、請考慮在雙節點 AFF A900 系統上進行效能測試：</block>
+  <block id="33f545d041b93838074263c0efd2e9da" category="list-text">有了 80/20 讀取 / 寫入比率、兩個 A900 節點可在延遲甚至超過 150 μ s 標記之前、提供超過 1M 的隨機資料庫 IOPS 。這遠遠超出了大多數資料庫目前的效能需求、很難預測預期的改善。儲存設備將會大幅清除、成為瓶頸。</block>
+  <block id="0445195555faac96ebff962dbff126ea" category="summary">MySQL 組態參數</block>
+  <block id="c0b7708ffcd66fd65a9d2a4801091563" category="paragraph">NetApp 建議使用一些重要的 MySQL 組態參數、以獲得最佳效能。</block>
+  <block id="10eb8b7e75da1815860da31490513841" category="summary">使用 NFS 的 MySQL</block>
+  <block id="5249e05857621fbfae51371a73006c44" category="summary">MySQL 和 NFSv3 插槽表</block>
+  <block id="d058f95e3a8d4b7b46802139d6b95982" category="paragraph">Linux 上的 NFSv3 效能取決於所呼叫的參數<block ref="453f2cc2326f82af1053f4aa4b75400b" prefix=" " category="inline-code"></block>。</block>
+  <block id="bf2bdc980948fb9084a63963398846b2" category="paragraph">ONTAP 是適用於 MySQL 資料庫的理想平台、因為 ONTAP 確實是專為資料庫所設計。為了滿足資料庫工作負載的需求、我們特別建立了許多功能、例如隨機 IO 延遲最佳化、以提供進階服務品質（ QoS ）到基本 FlexClone 功能。</block>
+  <block id="1b3804b7e2292e18f5e66d54f7a9fafc" category="paragraph">最重要的是、 ONTAP 提供無與倫比的效能、並能根據您的獨特需求調整解決方案的規模。我們的高階系統可提供超過 1M IOPS 、延遲時間以微秒為測量單位、但如果您只需要 10 萬次 IOPS 、您可以使用更小的控制器來調整儲存解決方案的大小、而該控制器仍可執行完全相同的儲存作業系統。</block>
+  <block id="1339877637a3f7f59745a00e04f304fd" category="summary">MySQL 和 InnoDB_log_file_size</block>
+  <block id="c1c4e722764621d56a075e42ce48d0c0" category="summary">MySQL 和 InnoDB_緩 衝區 Pool 大小</block>
+  <block id="ae14ab6d1e5edd0e782d8897d1721eb4" category="summary">MySQL 和 InnoDB_doublewrite</block>
+  <block id="689c52e3f5db5d2dafccd7d93cf1abc4" category="summary">MySQL 和 InnoDB_Fling_log_AT_TRx_commi</block>
+  <block id="639600080c225673dfdfa012fdbd6146" category="summary">MySQL 和 IO 排程器</block>
+  <block id="32e3724e2b54692cbef969373fbfe040" category="doc">I/O 排程器和 MySQL</block>
+  <block id="72985ac51e91797345b2437088a4362e" category="summary">MySQL 搭配 SAN</block>
+  <block id="d5ef0a45fe252b03f538bfd134b168db" category="summary">MySQL 和 InnoDB_LRU_SCAN_depth</block>
+  <block id="df657260453f6ef228ee0ca22dd7a415" category="summary">MySQL 容器化</block>
+  <block id="885b1b5a90f898c89b664ec58a42121c" category="doc">MySQL 容器化</block>
+  <block id="2cbac38815d492c0afc5e7d7229601df" category="doc">MySQL 和 InnoDB</block>
+  <block id="1115aaa86f0065e0a105795d33ef4731" category="summary">MySQL 檔案說明</block>
+  <block id="2828450fc6669c8df75f937e227996f1" category="doc">MySQL 檔案描述元</block>
+  <block id="9420010a756fb6d3ddeadfa63d2170f6" category="paragraph">若要執行、 MySQL 伺服器需要檔案描述元、而且預設值不足。</block>
+  <block id="62414a5a9c0e2fc12a8d028ad29164b8" category="summary">MySQL 和 InnoDB_IO_capACure</block>
+  <block id="6219c45bc8c26437c0b7e1a69d4cbe58" category="summary">MySQL 和 InnoDB_Flush 方法</block>
+  <block id="35d1a5d7b12999ec27f5233dccba043f" category="summary">MySQL 和 open_file_limits</block>
 </blocks>

@@ -4,7 +4,7 @@ permalink: postgres/postgres-nfs-filesystems.html
 keywords: PostgreSQL,database,postgres 
 summary: PostgreSQL 使用 ONTAP 來資料庫 NFS 
 ---
-= PostgreSQL 搭配 NFS 檔案系統
+= 具有 NFS 檔案系統的 PostgreSQL 資料庫
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

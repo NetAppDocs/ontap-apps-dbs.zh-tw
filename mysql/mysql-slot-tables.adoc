@@ -2,16 +2,16 @@
 sidebar: sidebar 
 permalink: mysql/mysql-slot-tables.html 
 keywords: MySQL,MariaDB,TR-4722 
-summary: ONTAP 上的 MySQL 
+summary: MySQL 和 NFSv3 插槽表 
 ---
-= 插槽表格
+= MySQL 和 NFSv3 插槽表
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
 
 
 [role="lead"]
-Linux 上的 NFS 效能取決於稱為的參數 `tcp_max_slot_table_entries`。
+Linux 上的 NFSv3 效能取決於所呼叫的參數 `tcp_max_slot_table_entries`。
 
 TCP 插槽表是與主機匯流排介面卡（ HBA ）佇列深度相當的 NFSv3 。這些表格可控制任何時間都可以處理的NFS作業數量。預設值通常為16、這對於最佳效能而言太低。相反的問題發生在較新的Linux核心上、這會自動將TCP插槽表格限制增加到要求使NFS伺服器飽和的層級。
 

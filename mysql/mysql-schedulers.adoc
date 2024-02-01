@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: mysql/mysql-schedulers.html 
 keywords: MySQL,MariaDB,schedulers 
-summary: ONTAP 上的 MySQL 
+summary: MySQL 和 IO 排程器 
 ---
-= I/O 排程器
+= I/O 排程器和 MySQL
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

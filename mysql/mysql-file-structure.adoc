@@ -4,7 +4,7 @@ permalink: mysql/mysql-file-structure.html
 keywords: MySQL,MariaDB 
 summary: MySQL 檔案結構 
 ---
-= 檔案結構
+= MySQL 和 InnoDB
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

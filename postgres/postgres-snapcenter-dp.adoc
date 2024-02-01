@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: postgres/postgres-snapcenter-dp.html 
 keywords: PostgreSQL,database,postgres 
-summary: ONTAP 上的 PostgreSQL 資料庫 
+summary: PostgreSQL 資料保護軟體 
 ---
-= 資料保護軟體
+= PostgreSQL 資料保護軟體
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

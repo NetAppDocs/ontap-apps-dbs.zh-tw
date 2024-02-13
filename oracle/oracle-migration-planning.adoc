@@ -4,7 +4,7 @@ permalink: oracle/oracle-migration-planning.html
 keywords: migration, oracle 
 summary: Oracle 移轉規劃 
 ---
-= 令人無法圓奇的移轉規劃
+= Oracle 移轉規劃
 :allow-uri-read: 
 
 

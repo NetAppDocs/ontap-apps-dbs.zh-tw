@@ -1212,7 +1212,6 @@
   <block id="5d49a93437a42d2926c8be7eb3c7a56f" category="list-text">記錄歸檔之後再加上檢查點、可讓您捨棄記錄檔。</block>
   <block id="e3898c187d7edf64fc8e4d4e409fd244" category="list-text">然後從檔案系統刪除記錄。您應該非常小心地執行此程序。</block>
   <block id="eb290dfcb2d35cffcb49a22fd05168b5" category="summary">Oracle 移轉規劃</block>
-  <block id="4e0761b3f22b38640f0d2291420d26f6" category="doc">令人無法圓奇的移轉規劃</block>
   <block id="dacc2a633e9981c9f91e43ac6b59e889" category="paragraph">Oracle 資料移轉可在下列三個層級中進行：資料庫、主機或儲存陣列。</block>
   <block id="5153193d50d4c628312db2d5bc0132ed" category="paragraph">不同之處在於整體解決方案的哪個元件負責移動資料：資料庫、主機作業系統或儲存系統。</block>
   <block id="cc3e73ae592a355b9beb405232d08fe2" category="paragraph">下圖顯示移轉層級和資料流的範例。在資料庫層級移轉的情況下、資料會從原始儲存系統透過主機和資料庫層移至新環境。主機層級移轉類似、但資料不會通過應用程式層、而是使用主機程序寫入新位置。最後、隨著儲存層級移轉、 NetApp FAS 系統等陣列也會負責資料移動。</block>
@@ -3035,7 +3034,6 @@
   <block id="2d506b6088a383ccf08479b0f80c0ff4" category="paragraph">在某些情況下、您可以使用額外的授權功能來強化複製功能、例如SnapRestore 針對備份或FlexClone的功能。這些授權通常包含在授權套裝組合中、不需額外付費。vVol 複製作業需要 FlexClone 授權、也必須支援 vVol 的託管快照（從 Hypervisor 卸載至 ONTAP ）。FlexClone授權也能在資料存放區/磁碟區內使用時、改善特定的VAAI型複本（建立即時、節省空間的複本、而非區塊複本）。  SRA也會在測試災難恢復複本的恢復時使用此複本、SnapCenter 而使用此複本來執行複製作業、並瀏覽備份複本來還原個別檔案。</block>
   <block id="5dd57c2a315d3af44c2eb40eefc47111" category="doc">網路組態</block>
   <block id="66507f357c74ee12194270cfe053b98d" category="paragraph">以下是幾點需要考量的事項：</block>
-  <block id="b3752ab8dec37db2e30f4bf37fbdc112" category="list-text">將儲存網路流量與其他網路區隔。使用專屬的VLAN或獨立的交換器來儲存、即可建立獨立的網路。如果儲存網路共用實體路徑（例如上行鏈路）、您可能需要QoS或額外的上行鏈路連接埠、以確保有足夠的頻寬。請勿將主機直接連線至儲存設備；請使用交換器來建立備援路徑、並讓 VMware HA 在不需介入的情況下運作。</block>
   <block id="7c4904daaa282388097ad83bf382e1a5" category="list-text">如果您的網路需要並支援巨型框架、尤其是使用iSCSI時、可以使用巨型框架。如果使用、請確定在儲存設備和ESXi主機之間的路徑中、所有網路裝置、VLAN等上的設定都相同。否則、您可能會看到效能或連線問題。MTU也必須在ESXi虛擬交換器、VMkernel連接埠、以及每ONTAP 個節點的實體連接埠或介面群組上設定相同。</block>
   <block id="8b6e7f43d1d697e8f99164f0aa2ab1b6" category="inline-link">TR-4182</block>
   <block id="3745abd352adaa2cdec42c798060eef6" category="list-text">NetApp僅建議停用ONTAP 叢集內叢集網路連接埠上的網路流量控制。對於用於資料流量的其餘網路連接埠、NetApp並未提出其他最佳實務做法建議。您應視需要啟用或停用。請參閱<block ref="bdfb81665a0ef86d871a52c0e6ebc591" category="inline-link-rx"></block> 以取得流程控制的更多背景資訊。</block>
@@ -4052,4 +4050,18 @@
   <block id="62414a5a9c0e2fc12a8d028ad29164b8" category="summary">MySQL 和 InnoDB_IO_capACure</block>
   <block id="6219c45bc8c26437c0b7e1a69d4cbe58" category="summary">MySQL 和 InnoDB_Flush 方法</block>
   <block id="35d1a5d7b12999ec27f5233dccba043f" category="summary">MySQL 和 open_file_limits</block>
+  <block id="c031febc35017c70bf3b526723756b2a" category="doc">iSCSI 和 NVMe / TCP</block>
+  <block id="4da35d461815e71b97bda03476e89b7b" category="paragraph">使用 iSCSI 或 NVMe / TCP 的主機可以直接連線至儲存系統、並正常運作。原因是路徑。直接連線至兩個不同的儲存控制器、會產生兩個不同的資料流路徑。遺失路徑、連接埠或控制器並不會妨礙其他路徑的使用。</block>
+  <block id="40715d81cea527f13cdf470773fc3a65" category="paragraph">可以使用直接連線的 NFS 儲存設備、但有很大的限制：如果沒有大量的指令碼工作、容錯移轉將無法運作、這是客戶的責任。</block>
+  <block id="d0b13bfd23c05f64222869de30f81000" category="paragraph">直接連線的 NFS 儲存設備會造成不中斷的容錯移轉複雜化、這是因為本機作業系統上會發生路由。例如、假設主機的 IP 位址為 192.168.1.1/24 、並直接連線至 IP 位址為 192.168.1.50/24 的 ONTAP 控制器。在容錯移轉期間、該位址 192.168.1.50 可以容錯移轉至其他控制器、而且主機可以使用該位址、但主機如何偵測其存在？原來的 192.168.1.1 位址仍然存在於不再連線至作業系統的主機 NIC 上。目的地為 192.168.1.5 的流量將繼續傳送至無法運作的網路連接埠。</block>
+  <block id="288a0a5ebbc70fb3b968ec58d36d71ab" category="paragraph">第二個 OS NIC 可設定為 19 可以與故障的 over 192.168.1.50 位址進行通訊、但本機路由表預設會使用一個 * 且只有一個 * 位址來與 192.168.1.0/24 子網路通訊。系統管理員可以建立指令碼架構、以偵測失敗的網路連線、並變更本機路由表或使介面正常運作。具體程序取決於所使用的作業系統。</block>
+  <block id="d6ce8522932df7ae76aa0b963ad9ef7d" category="paragraph">實際上、 NetApp 客戶確實有直接連線的 NFS 、但通常僅適用於容錯移轉期間 IO 暫停的工作負載。使用硬掛載時、在這類暫停期間不應有任何 IO 錯誤。IO 應該會暫停運作、直到服務還原為止、無論是透過容錯回復或手動介入、在主機上的 NIC 之間移動 IP 位址。</block>
+  <block id="3436a7073ac9f4071820b6720a7789fc" category="section-title">FC Direct Connect</block>
+  <block id="b7981516813a09695906aa429b07f48f" category="paragraph">無法使用 FC 傳輸協定將主機直接連接至 ONTAP 儲存系統。原因是使用 NPIV 。用於識別 FC 網路的 ONTAP FC 連接埠的 WWN 使用稱為 NPIV 的虛擬化類型。任何連接至 ONTAP 系統的裝置都必須能夠辨識 NPIV WWN 。目前沒有任何 HBA 廠商提供可安裝在能夠支援 NPIV 目標的主機上的 HBA 。</block>
+  <block id="97db606ac6781989ea3b189d7be28bf2" category="inline-link-macro">直接連線網路</block>
+  <block id="abf5ca60591addc6b98fa0f5479fdd67" category="list-text">將儲存網路流量與其他網路區隔。使用專屬的VLAN或獨立的交換器來儲存、即可建立獨立的網路。如果儲存網路共用實體路徑（例如上行鏈路）、您可能需要QoS或額外的上行鏈路連接埠、以確保有足夠的頻寬。請勿將主機直接連線至儲存設備；請使用交換器來建立備援路徑、並讓 VMware HA 在不需介入的情況下運作。請參閱 <block ref="afd3cc0da7d20400afc9250e88156a0f" category="inline-link-macro-rx"></block> 以取得更多資訊。</block>
+  <block id="e817ecc2f82a2b78d828ec8704031da3" category="section-title">直接連線網路</block>
+  <block id="d078ae9a339971900f939db9e82f253d" category="paragraph">儲存管理員有時偏好從組態中移除網路交換器、以簡化其基礎架構。在某些情況下可能會支援這項功能。</block>
+  <block id="14a07a9c146c886f1cf8b6ebd4b2b418" category="summary">直接與 ONTAP 連線</block>
+  <block id="a4e0be5abb980518338c55619fbfa4df" category="doc">與 TCP/IP 和 FC 網路直接連線</block>
 </blocks>

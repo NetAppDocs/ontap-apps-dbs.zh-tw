@@ -55,6 +55,8 @@ entries:
     url: "/oracle/oracle-network-config-ethernet.html"
   - title: FC SAN 組態
     url: "/oracle/oracle-network-config-fc.html"
+  - title: 直接連線網路
+    url: "/oracle/oracle-network-config-direct-connect.html"
 - title: 儲存組態
   pdf-filename: Oracle 資料庫的儲存組態
   entries:

@@ -10,11 +10,10 @@ summary:
 :icons: font
 :linkattrs: 
 :imagesdir: ../media/
-:firstname: [.lead]
-:author: [.lead]
-:authorinitials: [
-:authors: [.lead]
 
+
+[role="lead"]
+以下各節概述將 VMware vVols 與 ONTAP 儲存設備搭配使用的程序和最佳實務做法。
 
 
 

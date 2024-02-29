@@ -11,17 +11,15 @@ summary: 自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直�
 :icons: font
 :linkattrs: 
 :imagesdir: ../media/
-:firstname: [.lead]
-:author: [.lead]
-:authorinitials: [
-:authors: [.lead]
-:revdate: == ONTAP for vSphere
 
+
+[role="lead"]
+自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。
+
+本文件介紹 VMware 領先業界的災難恢復（ DR ）軟體 VMware Site Recovery Manager （ SRM ） ONTAP 解決方案、包括最新的產品資訊和最佳實務做法、可簡化部署、降低風險並簡化後續管理。
 
 
 NOTE: 本文件取代先前發佈的技術報告 _TR-4900: VMware Site Recovery Manager with ONTAP
-
-自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。本文件介紹 VMware 領先業界的災難恢復（ DR ）軟體 VMware Site Recovery Manager （ SRM ） ONTAP 解決方案、包括最新的產品資訊和最佳實務做法、可簡化部署、降低風險並簡化後續管理。
 
 最佳實務做法是輔助其他文件、例如指南和相容性工具。這些技術是根據實驗室測試和NetApp工程師與客戶廣泛的現場經驗所開發。在某些情況下、建議的最佳實務做法可能不適合您的環境；不過、它們通常是最簡單的解決方案、能滿足大多數客戶的需求。
 

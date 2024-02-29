@@ -13,10 +13,7 @@ summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的
 :imagesdir: ../media/
 
 
-
-
-== 關於vVols和SPBM
-
+[role="lead"]
 NetApp是VMware在開發vSphere虛擬磁碟區（vVols）方面的早期設計合作夥伴、為vVols和VMware vSphere API提供架構輸入和早期支援、以提高儲存感知（VASA）的能力。這種方法不僅將 VM 精細儲存管理帶入 VMFS 、也支援透過儲存原則型管理（ SPBM ）來自動化儲存資源配置。
 
 SPBM提供一個架構、可在虛擬化環境可用的儲存服務與透過原則配置的儲存元素之間、做為抽象層。此方法可讓儲存架構設計師設計具有不同功能的儲存資源池、讓VM管理員輕鬆使用。接著系統管理員可以根據已配置的儲存資源池來比對虛擬機器工作負載需求、以便精細控制每個VM或虛擬磁碟層級的各種設定。

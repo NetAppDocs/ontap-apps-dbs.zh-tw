@@ -52,6 +52,18 @@ entries:
     url: "/vmware/vmware-srm-replication_topologies.html"
   - title: 使用vVols複寫時疑難排解SRM
     url: "/vmware/vmware-srm-vvol-troubleshooting.html"
+- title: vSphere Metro Storage 叢集搭配 ONTAP
+  entries:
+  - title: VMSC 概述
+    url: "/vmware/vmware_vmsc_overview.html"
+  - title: vSphere HA 解決方案
+    url: "/vmware/vmware_vmsc_solution.html"
+  - title: VMSC 設計
+    url: "/vmware/vmware_vmsc_design.html"
+  - title: VMSC 恢復能力
+    url: "/vmware/vmware_vmsc_resiliency.html"
+  - title: 使用 MCC 的 VMSC 案例
+    url: "/vmware/vmware_vmsc_scen_mcc.html"
 - title: 產品安全性
   entries:
   - title: VMware vSphere適用的工具ONTAP

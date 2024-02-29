@@ -11,12 +11,14 @@ summary: 如有可能、請務必使用ONTAP 「資訊工具」來配置資料�
 :icons: font
 :linkattrs: 
 :imagesdir: ../media/
-:firstname: [.lead]
-:author: [.lead]
-:authorinitials: [
-:authors: [.lead]
-:revdate: == Datastores and protocols
 
+
+[role="lead"]
+以下各節概述 VMware SRM 和 ONTAP 儲存設備的最佳作業實務做法。
+
+
+
+== 資料存放區與傳輸協定
 
 * 如有可能、請務必使用ONTAP 「資訊工具」來配置資料存放區和磁碟區。這可確保磁碟區、交會路徑、LUN、igroup、匯出原則、 和其他設定均以相容的方式進行設定。
 * 當ONTAP 透過SRA使用陣列型複寫時、SRM支援iSCSI、Fibre Channel及NFS版本3 with VMware®9。SRM不支援使用傳統或vVols資料存放區的NFS 4.1版陣列型複寫。

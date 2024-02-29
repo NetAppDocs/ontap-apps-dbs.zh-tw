@@ -11,13 +11,10 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 :icons: font
 :linkattrs: 
 :imagesdir: ../media/
-:firstname: [.lead]
-:author: [.lead]
-:authorinitials: [
-:authors: [.lead]
-:revnumber: 
-:revdate: and so on.
 
+
+[role="lead"]
+複製儲存物件可讓您快速建立複本以供進一步使用、例如配置額外的VM、備份/還原作業等。
 
 在vSphere中、您可以複製VM、虛擬磁碟、vVol或資料存放區。複製之後、通常可透過自動化程序、進一步自訂物件。vSphere同時支援完整複本複本複本複本、以及連結的複本、可在其中分別追蹤原始物件的變更。
 

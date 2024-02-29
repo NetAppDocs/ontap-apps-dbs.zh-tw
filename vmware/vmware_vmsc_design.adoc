@@ -1,0 +1,264 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware_vmsc_design.html 
+keywords: VMware, Data protection, MetroCluster, SMBC, SnapMirror active sync, vMSC 
+summary: VMSC 設計與實作準則。 
+---
+= VMSC 設計與實作準則
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本文件概述 VMSC 搭配 ONTAP 儲存系統的設計與實作準則。
+
+
+
+== NetApp 儲存組態
+
+NetApp MetroCluster 的設定指示（稱為 MCC 組態）可在以下網址取得： https://docs.netapp.com/us-en/ontap-metrocluster/["資訊文件MetroCluster"]。SnapMirror 主動同步的說明也可在以下網址取得： https://docs.netapp.com/us-en/ontap/smbc/index.html["SnapMirror營運不中斷總覽"]。
+
+設定 MetroCluster 之後、管理就像管理傳統的 ONTAP 環境一樣。您可以使用命令列介面（ CLI ）、系統管理員或 Ansible 等各種工具來設定儲存虛擬機器（ SVM ）。設定 SVM 後、在叢集上建立邏輯介面（生命體）、磁碟區和邏輯單元編號（ LUN ）、以用於正常作業。這些物件將會使用叢集對等網路自動複寫到其他叢集。
+
+如果不使用 MetroCluster 、您可以使用 SnapMirror 主動式同步功能、在不同故障網域中的多個 ONTAP 叢集之間提供資料存放區精細保護和主動式存取。SnapMirror 主動式同步會使用一致性群組、確保一或多個資料存放區之間的寫入順序一致性、您可以根據應用程式和資料存放區需求、建立多個一致性群組。一致性群組對於需要在多個資料存放區之間進行資料同步的應用程式特別有用。SnapMirror 主動式同步也支援原始裝置對應（ RDM ）和來賓 iSCSI 啟動器的來賓連線儲存設備。如需更多關於一致性群組的資訊、請參閱 https://docs.netapp.com/us-en/ontap/consistency-groups/index.html["一致性群組總覽"]。
+
+與 MetroCluster 相比、使用 SnapMirror 主動式同步管理 VMSC 組態有一些差異。首先、這是僅限 SAN 的組態、沒有 NFS 資料存放區可以使用 SnapMirror 主動式同步進行保護。其次、您必須將兩個 LUN 複本對應到 ESXi 主機、以便它們存取兩個故障網域中的複寫資料存放區。
+
+
+
+== VMware vSphere HA
+
+
+
+=== 建立 vSphere HA 叢集
+
+建立 vSphere HA 叢集是一個多步驟程序、完整記錄於 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-F7818000-26E3-4E2A-93D2-FCDCE7114508.html["如何在 docs.vmware.com 上的 vSphere Client 中建立和設定叢集"]。簡言之、您必須先建立空叢集、然後使用 vCenter 新增主機、並指定叢集的 vSphere HA 和其他設定。
+
+* 附註： * 本文件並無取代之處 https://core.vmware.com/resource/vmware-vsphere-metro-storage-cluster-recommended-practices["VMware vSphere Metro儲存叢集建議實務做法"]
+
+若要設定 HA 叢集、請完成下列步驟：
+
+. 連線至 vCenter UI 。
+. 在主機和叢集中、瀏覽至您要建立 HA 叢集的資料中心。
+. 以滑鼠右鍵按一下資料中心物件、然後選取新叢集。在基礎知識之下、確保您已啟用 vSphere DRS 和 vSphere HA 。完成精靈。
+
+
+image::../media/vmsc_3_1.png[自動產生電腦說明的螢幕擷取畫面,624,302]
+
+. 選取叢集、然後移至「組態」標籤。選取 vSphere HA 、然後按一下編輯。
+. 在 [ 主機監控 ] 下，選取 [ 啟用主機監控 ] 選項。
+
+
+image::../media/vmsc_3_2.png[自動產生電腦說明的螢幕擷取畫面,624,475]
+
+. 在「故障與回應」標籤上、於「 VM 監控」下、選取「僅限 VM 監控」選項或「 VM 與應用程式監控」選項。
+
+
+image::../media/vmsc_3_3.png[自動產生電腦說明的螢幕擷取畫面,624,480]
+
+. 在 [ 許可控制 ] 下，將 HA 接入控制選項設定為叢集資源保留；使用 50% 的 CPU/ MEM 。
+
+
+image::../media/vmsc_3_4.png[自動產生電腦說明的螢幕擷取畫面,624,479]
+
+. 按一下「確定」。
+. 選取 DRS 、然後按一下編輯。
+. 除非應用程式要求、否則請將自動化層級設為手動。
+
+
+image::../media/vmsc_3_5.png[VMSC 3 5.,624,336]
+
+. 啟用 VM 元件保護、請參閱 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-availability/GUID-F01F7EB8-FF9D-45E2-A093-5F56A788D027.html["docs.vmware.com"]。
+. 建議使用 MCC 的 VMSC 使用下列其他 vSphere HA 設定：
+
+
+[cols="50%,50%"]
+|===
+| 故障 | 回應 
+
+
+| 主機故障 | 重新啟動 VM 
+
+
+| 主機隔離 | 已停用 
+
+
+| 永久裝置遺失（ PDL ）的資料存放區 | 關閉並重新啟動 VM 
+
+
+| All Paths Down （ APD ）資料存放區 | 關閉並重新啟動 VM 
+
+
+| 客人不會心碎 | 重設 VM 
+
+
+| VM 重新啟動原則 | 由虛擬機器的重要性決定 
+
+
+| 主機隔離的回應 | 關閉並重新啟動 VM 
+
+
+| 使用 PDL 的資料存放區回應 | 關閉並重新啟動 VM 
+
+
+| 對具有 APD 的資料存放區的回應 | 關閉並重新啟動 VM （保守） 
+
+
+| APD 的 VM 容錯移轉延遲 | 3 分鐘 
+
+
+| APD 逾時的 APD 恢復回應 | 已停用 
+
+
+| VM 監控靈敏度 | 預設為高 
+|===
+
+
+=== 設定資料存放區以進行心跳
+
+當管理網路故障時、 vSphere HA 會使用資料存放區來監控主機和虛擬機器。您可以設定 vCenter 如何選取心跳資料存放區。若要設定資料存放區以進行心跳、請完成下列步驟：
+
+. 在資料存放區心跳區段中、從指定清單中選取使用資料存放區、並在需要時自動補充資料。
+. 選取您要 vCenter 從兩個站台使用的資料存放區、然後按下 OK 。
+
+
+image::../media/vmsc_3_6.png[自動產生電腦說明的螢幕擷取畫面,624,540]
+
+
+
+=== 設定進階選項
+
+* 主機故障偵測 *
+
+當 HA 叢集內的主機無法連線至網路或叢集中的其他主機時、就會發生隔離事件。根據預設、 vSphere HA 會使用其管理網路的預設閘道做為預設隔離位址。不過、您可以為主機指定其他隔離位址來執行 ping 、以判斷是否應該觸發隔離回應。新增兩個可 ping 的隔離 IP 、每個站台一個。請勿使用閘道 IP 。使用的 vSphere HA 進階設定為 das.isolationaddress 。您可以將 ONTAP 或 Mediator IP 位址用於此用途。
+
+請參閱 https://core.vmware.com/resource/vmware-vsphere-metro-storage-cluster-recommended-practices#sec2-sub5["core.vmware.com"] 以取得更多資訊
+
+image::../media/vmsc_3_7.png[自動產生電腦說明的螢幕擷取畫面,624,545]
+
+新增稱為 das.心跳 DsPerHost 的進階設定、可能會增加心跳資料存放區的數量。使用四個心跳資料存放區（ HB DSS ）、每個站台兩個。使用「從清單中選取但輔助」選項。這是必要的、因為如果某個站台發生故障、您仍需要兩個 HB DSS 。但是、這些不需要透過 MCC 或 SnapMirror 主動同步來保護。
+
+請參閱 https://core.vmware.com/resource/vmware-vsphere-metro-storage-cluster-recommended-practices#sec2-sub5["core.vmware.com"] 以取得更多資訊
+
+適用於 NetApp MetroCluster 的 VMware DRS 關聯性
+
+在本節中、我們會為 MetroCluster 環境中的每個站台 \ 叢集、建立 VM 和主機的 DRS 群組。然後我們設定 VM\Host 規則、使 VM 主機與本機儲存資源的關聯性一致。例如、站台 A VM 屬於 VM 群組 sitea_vms 、站台 A 主機屬於主機群組 sitea_hosts 。接下來、在 VM\Host 規則中、我們指出 sitea_vms 應該在 sitea_hosts 中的主機上執行。
+
+
+
+=== 最佳實務做法 _
+
+* NetApp 強烈建議在組 * 中的主機上運行規範 * ，而不是規範 * 必須在組 * 中的主機上運行。萬一站台 A 主機故障、站台 A 的 VM 需要透過 vSphere HA 在站台 B 的主機上重新啟動、但後者的規格不允許 HA 在站台 B 上重新啟動 VM 、因為這是硬規則。以前的規格是軟性規則、在 HA 發生時會違反、因此可提供可用度而非效能。
+
+
+* 附註： * 您可以建立事件型警示、在虛擬機器違反 VM-Host 關聯性規則時觸發。在 vSphere Client 中、新增虛擬機器的警示、並選取「 VM 正在違反 VM-Host Affinity Rule 」作為事件觸發程序。如需建立及編輯警示的詳細資訊、請參閱 http://pubs.vmware.com/vsphere-51/topic/com.vmware.ICbase/PDF/vsphere-esxi-vcenter-server-51-monitoring-performance-guide.pdf["vSphere 監控與效能"] 文件。
+
+
+
+=== 建立 DRS 主機群組
+
+若要建立站台 A 和站台 B 專屬的 DRS 主機群組、請完成下列步驟：
+
+. 在 vSphere Web Client 中、以滑鼠右鍵按一下資源清冊中的叢集、然後選取「設定」。
+. 按一下 VM\Host Groups 。
+. 按一下「新增」
+. 輸入群組的名稱（例如、 sitea_hosts ）。
+. 從「類型」功能表中、選取「主機群組」。
+. 按一下「新增」、然後從站台 A 選取所需的主機、再按一下「確定」。
+. 重複這些步驟、為站台 B 新增另一個主機群組
+. 按一下「確定」。
+
+
+
+
+=== 建立 DRS VM 群組
+
+若要建立站台 A 和站台 B 專屬的 DRS VM 群組、請完成下列步驟：
+
+. 在 vSphere Web Client 中、以滑鼠右鍵按一下資源清冊中的叢集、然後選取「設定」。
+
+
+. 按一下 VM\Host Groups 。
+. 按一下「新增」
+. 輸入群組的名稱（例如、 sitea_vms ）。
+. 從 Type （類型）功能表中、選取 VM Group （ VM 群組）。
+. 按一下「新增」、然後從站台 A 選取所需的 VM 、再按一下「確定」。
+. 重複這些步驟、為站台 B 新增另一個主機群組
+. 按一下「確定」。
+
+
+
+
+=== 建立 VM Host 規則
+
+若要建立站台 A 和站台 B 特有的 DRS 關聯性規則、請完成下列步驟：
+
+. 在 vSphere Web Client 中、以滑鼠右鍵按一下資源清冊中的叢集、然後選取「設定」。
+
+
+. 按一下 VM\Host Rules 。
+. 按一下「新增」
+. 輸入規則的名稱（例如、 sitea_fit射 ）。
+. 確認已核取「啟用規則」選項。
+. 從 Type （類型）功能表中、選取 Virtual Machines to Hosts （虛擬機器至主機）。
+. 選取 VM 群組（例如、 sitea_vms ）。
+. 選取主機群組（例如、 sitea_hosts ）。
+. 重複這些步驟、為站台 B 新增另一個 VM\ 主機規則
+. 按一下「確定」。
+
+
+image::../media/vmsc_3_8.png[自動產生電腦說明的螢幕擷取畫面,474,364]
+
+
+
+== VMware vSphere Storage DRS for NetApp MetroCluster
+
+
+
+=== 建立資料存放區叢集
+
+若要為每個站台設定資料存放區叢集、請完成下列步驟：
+
+. 使用 vSphere Web 用戶端、瀏覽至 HA 叢集位於 Storage 下的資料中心。
+. 以滑鼠右鍵按一下資料中心物件、然後選取儲存 > 新資料存放區叢集。
+. 選取「開啟 Storage DRS 」選項、然後按一下「下一步」。
+. 將所有選項設定為「無自動化（手動模式）」、然後按一下「下一步」。
+
+
+
+
+==== 最佳實務做法 _
+
+* NetApp 建議您將儲存 DRS 設定為手動模式、以便系統管理員決定並控制何時需要移轉。
+
+
+image::../media/vmsc_3_9.png[自動產生文字說明的特寫,528,94]
+
+. 確認已核取「啟用 SDR 建議的 I/O 度量」核取方塊；度量設定可以保留預設值。
+
+
+image::../media/vmsc_3_10.png[自動產生電腦說明的螢幕擷取畫面,624,241]
+
+. 選取 HA 叢集、然後按一下「下一步」。
+
+
+image::../media/vmsc_3_11.png[自動產生電腦說明的螢幕擷取畫面,624,149]
+
+. 選取屬於站台 A 的資料存放區、然後按一下「下一步」。
+
+
+image::../media/vmsc_3_12.png[自動產生電腦說明的螢幕擷取畫面,624,134]
+
+. 檢閱選項、然後按一下「完成」。
+. 重複這些步驟以建立站台 B 資料存放區叢集、並確認只選取站台 B 的資料存放區。
+
+
+
+
+=== vCenter Server 可用度
+
+您的 vCenter Server 應用裝置（ VCSA ）應使用 vCenter HA 加以保護。vCenter HA 可讓您在主動式被動式 HA 配對中部署兩個 VCSA 。每個故障網域各有一個。您可以在上閱讀更多有關 vCenter HA 的資訊 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-availability/GUID-4A626993-A829-495C-9659-F64BA8B560BD.html["docs.vmware.com"]。

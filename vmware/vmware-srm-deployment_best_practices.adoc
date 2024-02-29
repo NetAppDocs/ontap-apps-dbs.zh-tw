@@ -13,6 +13,9 @@ summary: 利用NetApp技術、儲存虛擬機器（SVM）的概念可在安全�
 :imagesdir: ../media/
 
 
+[role="lead"]
+以下各節將超越 VMware 和 ONTAP SRM 的部署最佳實務做法。
+
 
 
 == 適用於SMT的SVM配置與區隔

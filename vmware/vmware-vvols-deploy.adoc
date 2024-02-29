@@ -10,12 +10,10 @@ summary:
 :icons: font
 :linkattrs: 
 :imagesdir: ../media/
-:firstname: [.lead]
-:author: [.lead]
-:authorinitials: [
-:authors: [.lead]
-:revdate: There are several steps to creating vVols storage for your VMs.
 
+
+[role="lead"]
+建立 VM 的 vVols 儲存設備有幾個步驟。
 
 對於使用 ONTAP 用於傳統資料存放區的現有 vSphere 環境、可能不需要前兩個步驟。您可能已經使用 ONTAP 工具來管理、自動化及報告 VMFS 或傳統 NFS 型儲存設備。以下章節將詳細說明這些步驟。
 

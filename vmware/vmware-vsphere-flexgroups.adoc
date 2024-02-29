@@ -11,13 +11,10 @@ summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的
 :icons: font
 :linkattrs: 
 :imagesdir: ../media/
-:firstname: [.lead]
-:author: [.lead]
-:authorinitials: [
-:authors: [.lead]
-:revnumber: 9.8 adds support for FlexGroup datastores in vSphere
-:revdate: along with the ONTAP tools for VMware vSphere 9.8 release.
 
+
+[role="lead"]
+支援vSphere中的VMware vSphere資料存放區、以及VMware vSphere 9.8版的VMware vCenter工具。ONTAP FlexGroup ONTAP
 
 此功能可簡化大型資料存放區的建立作業、並自動建立多個組成磁碟區、以發揮整個系統的最大效能。FlexGroup ONTAP利用vSphere的功能將VMware支援功能用於單一、可擴充的vSphere資料存放區、並具備完整的VMware叢集功能。FlexGroup ONTAP
 

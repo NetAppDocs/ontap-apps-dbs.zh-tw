@@ -2875,7 +2875,6 @@
   <block id="6aadcb77504dae1dbfed2e4d1c969158" category="paragraph"><block ref="6aadcb77504dae1dbfed2e4d1c969158" category="inline-image-macro-rx" type="image"></block></block>
   <block id="7be2e69e5d19c282db8d81c60a51c862" category="summary">本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的最佳實務做法。</block>
   <block id="d3ba101543fc97ba1dd9272c87bf65da" category="doc">虛擬磁碟區（vVols）與儲存原則型管理（SPBM）</block>
-  <block id="25e09c324ad3c89ee3aa01454fce14cd" category="section-title">關於vVols和SPBM</block>
   <block id="a42f13867ea459821488608dc4d1b7c4" category="paragraph">NetApp是VMware在開發vSphere虛擬磁碟區（vVols）方面的早期設計合作夥伴、為vVols和VMware vSphere API提供架構輸入和早期支援、以提高儲存感知（VASA）的能力。這種方法不僅將 VM 精細儲存管理帶入 VMFS 、也支援透過儲存原則型管理（ SPBM ）來自動化儲存資源配置。</block>
   <block id="ce09fc365ce48a9d89c0fdb5222c3909" category="paragraph">SPBM提供一個架構、可在虛擬化環境可用的儲存服務與透過原則配置的儲存元素之間、做為抽象層。此方法可讓儲存架構設計師設計具有不同功能的儲存資源池、讓VM管理員輕鬆使用。接著系統管理員可以根據已配置的儲存資源池來比對虛擬機器工作負載需求、以便精細控制每個VM或虛擬磁碟層級的各種設定。</block>
   <block id="2902acda09b9786460c2dd928a2d8f1a" category="paragraph">這個解決方案是VVols擴充儲存產業的領導廠商、可在單一叢集內支援數十萬個vVols、而企業陣列和小型Flash陣列廠商則支援每個陣列數千個vVols。ONTAPNetApp也透過即將推出的VVols 3.0支援功能、推動VM精細管理的演進。</block>
@@ -3331,7 +3330,6 @@
   <block id="096f2185af16e07c387a7fbe50df957a" category="list-text">需要更謹慎移轉的虛擬機器包括使用附加儲存設備的資料庫和應用程式。一般而言、請考慮使用應用程式的工具來管理移轉。對於Oracle、請考慮使用Oracle工具（例如RMAN或ASM）來移轉資料庫檔案。請參閱<block ref="6b3f565e7a7ce633fa62f4114c295216" category="inline-link-rx"></block> 以取得更多資訊。同樣地、對於SQL Server、請考慮使用SQL Server Management Studio或NetApp工具、例如SnapManager 適用於SQL Server或SnapCenter VMware。</block>
   <block id="09485b54473eee31422696bf0217d714" category="paragraph">搭配執行ONTAP VMware vCenter軟體的系統使用vSphere時、最重要的最佳實務做法是安裝及使用ONTAP VMware vSphere外掛程式（前身為虛擬儲存主控台）的VMware VMware vSphere資訊工具。無論使用SAN或NAS、此vCenter外掛程式都能簡化儲存管理、提升可用度、並降低儲存成本和營運成本。它採用最佳實務做法來配置資料存放區、並針對多重路徑和HBA逾時最佳化ESXi主機設定（如附錄B所述）。由於它是 vCenter 外掛程式、因此可用於所有連線至 vCenter 伺服器的 vSphere Web 用戶端。</block>
   <block id="9fb2cc2ced88ce872ef16c37d8284360" category="paragraph">外掛程式也能協助您在ONTAP vSphere環境中使用其他的功能。它可讓您安裝適用於 VMware VAAI 的 NFS 外掛程式、以便將複本卸載至 ONTAP 進行虛擬機器複製作業、保留大型虛擬磁碟檔案的空間、以及 ONTAP 快照卸載。</block>
-  <block id="2e0fa230911ceec131e12fe7c87fc01e" category="paragraph">外掛程式也是 VASA Provider for ONTAP 許多功能的管理介面、可支援以 vVols 為基礎的儲存原則管理。在登錄VMware vSphere的VMware vSphere基礎架構工具之後ONTAP 、請使用它來建立儲存功能設定檔、將其對應至儲存設備、並確保資料存放區在一段時間內符合設定檔的要求。VASA Provider也提供一個介面、可用來建立及管理VVol資料存放區。</block>
   <block id="9baea886f208a41896164d4ade5b3fde" category="paragraph">一般而言、NetApp建議在ONTAP vCenter內使用VMware vSphere的VMware vCenter功能的VMware vCenter功能、來配置傳統和vVols資料存放區、以確保遵循最佳實務做法。</block>
   <block id="6161d374e9022f89382fd63b4be15aa1" category="section-title">一般網路</block>
   <block id="f0cd6847f2a7a0773ad0b58d0f9dc67d" category="paragraph">使用vSphere搭配執行ONTAP VMware軟體的系統時、設定網路設定很簡單、而且類似於其他網路組態。以下是幾點需要考量的事項：</block>
@@ -3353,7 +3351,6 @@
   <block id="eafcbe529f542610c50d02e4a2fffcd6" category="paragraph">ONTAP 9.8 也為 FlexGroup Volume 檔案新增檔案型效能指標（ IOPS 、處理量和延遲）、這些指標可在 ONTAP 工具中檢視、以取得 VMware vSphere 儀表板和 VM 報告。VMware vSphere外掛程式的支援功能也可讓您使用最大和/或最小IOPS的組合來設定服務品質（QoS）規則。ONTAP這些設定可以跨資料存放區中的所有VM進行設定、也可以針對特定VM個別設定。</block>
   <block id="b8c631b88d7be5f1105be2f8c7ff3213" category="list-text">使用 FlexGroup Volume 資源配置預設值。建議使用VMware vSphere的VMware vSphere功能、因為它能在vSphere中建立及掛載功能、但可能會使用VMware System Manager或命令列來滿足特殊需求。ONTAP FlexGroup ONTAP即使如此、也請使用預設值、例如每個節點的組成成員數目、因為這是 vSphere 最徹底的測試結果。也就是說、非預設的設定、例如變更成分的數量或位置、仍受到完整支援。</block>
   <block id="301593c45668093a7eb242d138c597a3" category="list-text">調整 FlexGroup 型資料存放區的規模時、請記住、 FlexGroup 包含多個較小的 FlexVol 磁碟區、可建立較大的命名空間。因此、當使用八個組成要素的 FlexGroup 時、請確定資料存放區大小至少是最大虛擬機器的 8 倍。例如、如果您的環境中有6TB的VM、FlexGroup 請將該資料存放區的大小調整至不小於48TB。</block>
-  <block id="6d9993f47e7802210a05453f494513bf" category="list-text">VMware與NetApp目前不支援通用的多重路徑網路方法。對於NFSv4.1、NetApp支援pNFS、而VMware則支援工作階段主幹連線。NFSv3不支援多個實體路徑通往磁碟區。對於採用 ONTAP 9.8 的 FlexGroup 、我們建議的最佳實務做法是讓適用於 VMware vSphere 的 ONTAP 工具建立 FlexGroup 、然後您應該將其卸載、並使用循環 DNS 重新掛載、以便在叢集之間分散負載。ONTAP 工具只會在裝載資料存放區時使用一個 LIF 。重新掛載資料存放區之後、可使用 ONTAP 工具來監控及管理資料存放區。</block>
   <block id="04cc9e0b9478cc704d42735886027630" category="list-text">使用適用於VMware VAAI的NFS外掛程式進行複本卸載。請注意、雖然如前所述、在 FlexGroup 資料存放區內增強複製功能、但在 FlexVol 和 / 或 FlexGroup 磁碟區之間複製 VM 時、 ONTAP 並未提供與 ESXi 主機複本相比的顯著效能優勢。因此、在決定使用 VAAI 或 FlexGroups 時、請考慮您的複製工作負載。修改組成磁碟區的數量是最佳化 FlexGroup 型複製的一種方法。如同調整快取逾時。</block>
   <block id="b9e0a0134c0815e50bb71d8dd7e367b6" category="list-text">QoS（最大/最小IOPS）可在個別VM或資料存放區中的所有VM上設定。在所有VM上設定QoS會取代任何個別VM設定。設定未來不會延伸至新的或移轉的VM；您可以在新的VM上設定QoS、或是將QoS重新套用至資料存放區中的所有VM。如果 VM 移轉至另一個資料存放區、則 FlexGroup QoS 原則也不會遵循該 VM 。這與 vVols 形成對照、 vVols 可在移轉至其他資料存放區時、維持其 QoS 原則設定。</block>
   <block id="1133ff8355478000111c8b1969e32770" category="list-text">SnapCenter Plug-in for VMware vSphere 4.4 版及更新版本支援在主要儲存系統上的 FlexGroup 資料存放區中備份及還原 VM 。4.6 號選擇控制閥增加了對 FlexGroup 型資料存放區的 SnapMirror 支援。</block>
@@ -3392,7 +3389,6 @@
   <block id="dcaf091737df278b1b4bdd2e37c10a75" category="summary">自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。</block>
   <block id="0a0e655ee9ba6467857ebf014a268f29" category="doc">VMware Site Recovery Manager 搭配 NetApp ONTAP</block>
   <block id="5bdb12cbb14efa98a61e7c5e3b4de108" category="admonition">本文件取代先前發佈的技術報告 _TR-4900: VMware Site Recovery Manager with ONTAP</block>
-  <block id="7659430738ccf1c5b8c8084a4003c709" category="paragraph">自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。本文件介紹 VMware 領先業界的災難恢復（ DR ）軟體 VMware Site Recovery Manager （ SRM ） ONTAP 解決方案、包括最新的產品資訊和最佳實務做法、可簡化部署、降低風險並簡化後續管理。</block>
   <block id="e3445c3aa798f5ad98665e33d34dd952" category="paragraph">最佳實務做法是輔助其他文件、例如指南和相容性工具。這些技術是根據實驗室測試和NetApp工程師與客戶廣泛的現場經驗所開發。在某些情況下、建議的最佳實務做法可能不適合您的環境；不過、它們通常是最簡單的解決方案、能滿足大多數客戶的需求。</block>
   <block id="10b8f80c23f8a44dfa6b10ae56d7dbe9" category="paragraph">本文件著重於最新版 ONTAP 9 的功能、這些功能搭配適用於 VMware vSphere 9.12 的 ONTAP 工具（包括 NetApp 儲存複寫介面卡 [SRA] 和 VASA Provider [VP] ）、以及 VMware Site Recovery Manager 8.7 。</block>
   <block id="c40f8c2af56356193284f6b46865d954" category="section-title">為何ONTAP 要搭配SRM使用此功能？</block>
@@ -3573,7 +3569,6 @@
   <block id="cb03753531bad31391d7156433b98ae6" category="paragraph">另一個容錯回復最佳做法是在完成重新保護後、在執行最終容錯回復之前、一律執行測試容錯移轉。如此可驗證原始站台上的系統是否能夠完成作業。</block>
   <block id="900a3b65ea54b6dcff72ed0d6ac66fdf" category="section-title">重新保護原始網站</block>
   <block id="12d059a2c7519f2e3497b30a71121503" category="paragraph">在容錯回復後執行重新保護、基本上會使環境回到最初的狀態、並再次從正式作業站台執行SnapMirror複寫至還原站台。</block>
-  <block id="7ab9df3e4e38ca227c1b48b0f6740675" category="section-title">安全的開發活動</block>
   <block id="1a79eb278bc02ebdbd2ab32925e316f6" category="paragraph">使用適用於ONTAP VMware vSphere的NetApp支援軟體工程技術、採用下列安全開發活動：</block>
   <block id="39e5fc9eb192f011ab14dae6c2974c4e" category="list-text">*威脅建模。*威脅建模的目的是在軟體開發生命週期初期、發現某項功能、元件或產品的安全性瑕疵。威脅模式是對影響應用程式安全性的所有資訊的結構化呈現。基本上、它是透過安全性觀點來檢視應用程式及其環境。</block>
   <block id="9f16ab3a50bca32d19c4729319035c8d" category="list-text">*動態應用程式安全性測試（dast）。*這項技術的設計、是為了偵測應用程式在執行狀態下的易受影響狀況。Dast會測試開放Web應用程式的公開HTTP和HTML介面。</block>
@@ -4059,9 +4054,322 @@
   <block id="3436a7073ac9f4071820b6720a7789fc" category="section-title">FC Direct Connect</block>
   <block id="b7981516813a09695906aa429b07f48f" category="paragraph">無法使用 FC 傳輸協定將主機直接連接至 ONTAP 儲存系統。原因是使用 NPIV 。用於識別 FC 網路的 ONTAP FC 連接埠的 WWN 使用稱為 NPIV 的虛擬化類型。任何連接至 ONTAP 系統的裝置都必須能夠辨識 NPIV WWN 。目前沒有任何 HBA 廠商提供可安裝在能夠支援 NPIV 目標的主機上的 HBA 。</block>
   <block id="97db606ac6781989ea3b189d7be28bf2" category="inline-link-macro">直接連線網路</block>
-  <block id="abf5ca60591addc6b98fa0f5479fdd67" category="list-text">將儲存網路流量與其他網路區隔。使用專屬的VLAN或獨立的交換器來儲存、即可建立獨立的網路。如果儲存網路共用實體路徑（例如上行鏈路）、您可能需要QoS或額外的上行鏈路連接埠、以確保有足夠的頻寬。請勿將主機直接連線至儲存設備；請使用交換器來建立備援路徑、並讓 VMware HA 在不需介入的情況下運作。請參閱 <block ref="afd3cc0da7d20400afc9250e88156a0f" category="inline-link-macro-rx"></block> 以取得更多資訊。</block>
   <block id="e817ecc2f82a2b78d828ec8704031da3" category="section-title">直接連線網路</block>
   <block id="d078ae9a339971900f939db9e82f253d" category="paragraph">儲存管理員有時偏好從組態中移除網路交換器、以簡化其基礎架構。在某些情況下可能會支援這項功能。</block>
   <block id="14a07a9c146c886f1cf8b6ebd4b2b418" category="summary">直接與 ONTAP 連線</block>
   <block id="a4e0be5abb980518338c55619fbfa4df" category="doc">與 TCP/IP 和 FC 網路直接連線</block>
+  <block id="f437881fa7e42bf0e4563bbec8176f81" category="paragraph">執行ONTAP 支援功能的系統可使用ONTAP 「支援服務品質」功能、限制檔案、LUN、磁碟區或整個SVM等不同儲存物件的每秒處理量（以Mbps和/或I/O（IOPS）為單位）。</block>
+  <block id="87e6f97c8ec2f31df616ef84401ffaf4" category="paragraph">有幾種疑難排解資源可提供額外資訊。</block>
+  <block id="52d04863ac62a6fa67e1b49a31086928" category="paragraph">以下各節概述 VMware SRM 和 ONTAP 儲存設備的最佳作業實務做法。</block>
+  <block id="30b34ee8f62b7bf57684faae3645acc4" category="summary">瞭解 vSphere Metro Storage Cluster with NetApp ONTAP</block>
+  <block id="f24ef4a42850a2b3e3d77e610ae46fee" category="doc">計畫性和非計畫性事件的恢復能力</block>
+  <block id="4bce11924453ef2ee7e40109f79dc66d" category="paragraph">NetApp MetroCluster 和 SnapMirror 主動同步是強大的工具、可增強 NetApp 硬體和 ONTAP ® 軟體的高可用度和不中斷營運。</block>
+  <block id="52f49b6400100ac4558d31582b90ca4e" category="paragraph">這些工具可為整個儲存環境提供全站台保護、確保資料永遠可用。無論您是使用獨立式伺服器、高可用度伺服器叢集、 Docker 容器或虛擬化伺服器、 NetApp 技術都能在電力中斷、冷卻或網路連線中斷、儲存陣列關機或作業錯誤等情況下、無縫維持儲存可用度。</block>
+  <block id="d267775072875ddbb24c16a41c22d8a2" category="paragraph">MetroCluster 和 SnapMirror 主動式同步提供三種基本方法、可在發生計畫性或非計畫性事件時維持資料連續性：</block>
+  <block id="1d3027d09fc1db3087f05f2163af2cb7" category="list-text">備援元件、可防止單一元件故障</block>
+  <block id="f3b83f3b77289efe3b53cf537b7b77f5" category="list-text">本機 HA 接管、用於影響單一控制器的事件</block>
+  <block id="b6ed0cba165f6f9664dc1e57ac3419ec" category="list-text">完整的站台保護：將儲存設備和用戶端存取從來源叢集移至目的地叢集、以快速恢復服務</block>
+  <block id="16afcbe8821dfa582521cd62c1ec130d" category="paragraph">這表示在單一元件故障時、作業會順暢地繼續、並在更換故障元件時自動恢復至備援作業。</block>
+  <block id="8fab78e8b214cad43d962b802bf568f8" category="paragraph">除了單節點叢集（例如 ONTAP Select 等軟體定義版本）之外、所有 ONTAP 叢集都具有稱為接管和恢復的內建 HA 功能。叢集中的每個控制器都會與另一個控制器配對、形成 HA 配對。這些配對可確保每個節點都在本機上連線至儲存設備。</block>
+  <block id="83e1749664841043ce8b1e894769a201" category="paragraph">接管是一種自動化程序、其中一個節點會接管另一個節點的儲存設備、以維護資料服務。GiveBack 是還原正常作業的反向程序。可以規劃接管、例如執行硬體維護或 ONTAP 升級、或是因節點緊急或硬體故障而非計畫性地進行。</block>
+  <block id="834d83f4ff04b7e3948831f336559b7c" category="paragraph">在接管期間、 MetroCluster 組態中的網路附加儲存邏輯介面（ NAS 生命期）會自動容錯移轉。但是、儲存區域網路生命（ SAN 生命）不會容錯移轉；它們會繼續使用邏輯單元編號（ LUN ）的直接路徑。</block>
+  <block id="0b0403a9258293da1f6a5fc84d24a18e" category="inline-link">HA配對管理總覽</block>
+  <block id="df5ca9bc3ee60e70aa9fd870a1ce1065" category="paragraph">如需 HA 接管與恢復的詳細資訊、請參閱<block ref="5a72801b431f75b7489a0e7de50680bf" category="inline-link-rx"></block>。值得一提的是、這項功能並非 MetroCluster 或 SnapMirror 主動式同步的專屬功能。</block>
+  <block id="cf654073ce9eb8f38d3f05292ed83cc5" category="paragraph">當某個站台離線、或是作為整個站台維護的計畫活動時、就會使用 MetroCluster 進行站台切換。其餘站台則假設擁有離線叢集的儲存資源（磁碟和集合體）、而故障站台上的 SVM 則會在災難站台上線並重新啟動、保留其完整身分以供用戶端和主機存取。</block>
+  <block id="4dd2305dcb9d7412784238dd42dcdc21" category="paragraph">有了 SnapMirror 主動式同步、由於兩個複本都是同時使用的、因此您現有的主機將繼續運作。NetApp Mediator 是確保站台容錯移轉正確進行所需的工具。</block>
+  <block id="823bd5c6c005e340599d915e134d851c" category="summary">VMware vSphere 解決方案概觀</block>
+  <block id="be26d39d86de44047c65c1fed157d529" category="paragraph">vCenter Server Appliance （ VCSA ）是強大的集中式管理系統、也是 vSphere 的單一窗口、可讓管理員有效操作 ESXi 叢集。它有助於執行重要功能、例如 VM 資源配置、 VMotion 作業、高可用度（ HA ）、分散式資源排程器（ DRS ）、 Tanzu Kubernetes Grid 等。它是 VMware 雲端環境中的重要元件、設計時應考慮到服務可用度。</block>
+  <block id="8ba8694e23f6560a60d85c4de549122b" category="section-title">vSphere 高可用度</block>
+  <block id="4b5543b81af03f01e26fcb74614f7062" category="paragraph">VMware 的叢集技術可將 ESXi 伺服器分組到虛擬機器的共用資源集區中、並提供 vSphere High Availability （ HA ）。vSphere HA 可為在虛擬機器中執行的應用程式提供易於使用的高可用度。當叢集上啟用 HA 功能時、每部 ESXi 伺服器都會與其他主機保持通訊、以便在任何 ESXi 主機無回應或隔離時、 HA 叢集可在叢集中的未運作主機之間、協調在該 ESXi 主機上執行的虛擬機器的還原作業。萬一來賓作業系統發生故障、 vSphere HA 會在同一部實體伺服器上重新啟動受影響的虛擬機器。vSphere HA 可減少計畫性停機、避免非計畫性停機、並快速從停機中恢復。</block>
+  <block id="01036edb3159652090a3f7149fe1ce2f" category="paragraph">vSphere HA 叢集可從故障伺服器還原 VM 。</block>
+  <block id="15496c3917565cea1f21bbc7e6eba996" category="image-alt">VMSC 圖表</block>
+  <block id="c1bb7aa3a002a819d935439c7e347826" category="paragraph">請務必瞭解 VMware vSphere 不知道 NetApp MetroCluster 或 SnapMirror 主動同步、並視主機和 VM 群組關聯性組態而定、將 vSphere 叢集中的所有 ESXi 主機視為 HA 叢集作業的合格主機。</block>
+  <block id="dcff37ab37f2cb6a72aeb3c30e3ed5aa" category="section-title">主機故障偵測</block>
+  <block id="7069d861b63dd4095cfb7b2ee30587f5" category="paragraph">建立 HA 叢集之後、叢集中的所有主機都會參與選舉、其中一部主機即成為主主機。每個從屬設備都會對主主機執行網路活動訊號、而主設備則會在所有從屬主機上執行網路活動訊號。vSphere HA 叢集的主要主機負責偵測從屬主機的故障。</block>
+  <block id="73b629afd8ef39d8d0147696412538c8" category="paragraph">視偵測到的故障類型而定、在主機上執行的虛擬機器可能需要容錯移轉。</block>
+  <block id="e12cf4015a45ff29f1f84ae1a3ee0390" category="paragraph">在 vSphere HA 叢集中、偵測到三種類型的主機故障：</block>
+  <block id="4eac346eb6cdd3a1a98ee9bc71ebccaa" category="list-text">故障：主機停止運作。</block>
+  <block id="3875a4c584a7715edf4a221ce53d45fc" category="list-text">隔離：主機會變成網路隔離。</block>
+  <block id="82fba11358d642111efbcf36273159f2" category="list-text">分割區 - 主機失去與主主機的網路連線。</block>
+  <block id="5f72ceebd161159fe623ff01ac0cf1b4" category="paragraph">主主機會監控叢集中的從屬主機。這種通訊是透過每秒交換網路訊號來完成。當主主機停止從從屬主機接收這些心跳時、它會在宣告主機故障之前先檢查主機的活動性。主要主機執行的活性檢查是判斷從屬主機是否與其中一個資料存放區交換活動訊號。此外、主主機會檢查主機是否回應傳送至其管理 IP 位址的 ICMP Ping 、以偵測其是否只是與主節點隔離、或完全與網路隔離。它會透過 ping 預設閘道來執行此作業。您可以手動指定一或多個隔離位址、以增強隔離驗證的可靠性。</block>
+  <block id="5546466ab10e5cbfbc4b286cd60b8b4a" category="section-title">最佳實務做法 _</block>
+  <block id="0456a7ce7bf92fb68980571fdd2defa1" category="paragraph">NetApp 建議指定至少兩個額外的隔離位址、而且每個位址都是站台本機位址。這將提高隔離驗證的可靠性。</block>
+  <block id="19c262cd1e1bb07c491e359333f04a29" category="section-title">主機隔離回應</block>
+  <block id="7a2723aad08de3c674693adf221e4a48" category="paragraph">隔離回應是 vSphere HA 中的一項設定、可決定當 vSphere HA 叢集中的主機失去管理網路連線但仍繼續執行時、在虛擬機器上觸發的動作。此設定有三個選項：「已停用」、「關機並重新啟動 VM 」和「關機並重新啟動 VM 」。</block>
+  <block id="715e310d886b45856c3ab0f69b06241b" category="paragraph">「關機」比「關機」好、因為「關機」無法清除磁碟或認可交易的最新變更。如果虛擬機器在 300 秒內未關機、則會關閉電源。若要變更等待時間、請使用進階選項 das.isolationshutdowntimeout 。</block>
+  <block id="620b4ae663a26c98656d1c81bec1a6c2" category="paragraph">在 HA 起始隔離回應之前、會先檢查 vSphere HA 主要代理程式是否擁有包含 VM 組態檔案的資料存放區。如果沒有、則主機不會觸發隔離回應、因為沒有主節點可重新啟動 VM 。主機會定期檢查資料存放區狀態、以判斷是否由擁有主角色的 vSphere HA 代理程式宣告。</block>
+  <block id="6824ef1b1c5e58e8ea5ebc8b2cf94be2" category="paragraph">NetApp 建議將「主機隔離回應」設定為「已停用」。</block>
+  <block id="6bd7b146f345eefac88b336a89aa3754" category="paragraph">如果主機與 vSphere HA 主主機隔離或分割、而主主機無法透過心跳資料存放區或 ping 進行通訊、就可能發生分割腦部狀況。主機會宣告隔離的主機當機、並在叢集中的其他主機上重新啟動 VM 。現在存在分割腦狀況、因為有兩個執行中的虛擬機器執行個體、只有其中一個執行個體可以讀取或寫入虛擬磁碟。現在可以透過設定 VM 元件保護（ VMCP ）來避免發生大腦分裂的情況。</block>
+  <block id="df05a421ed8ba49f97f18dc085495ee4" category="section-title">VM 元件保護（ VMCP ）</block>
+  <block id="1418d127ee81cc7f3e114029e9ba6856" category="paragraph">與 HA 相關的 vSphere 6 功能增強功能之一是 VMCP 。VMCP 針對區塊（ FC 、 iSCSI 、 FCoE ）和檔案儲存（ NFS ）、提供增強的保護、防止所有路徑中斷（ APD ）和永久裝置遺失（ PDL ）情況。</block>
+  <block id="fc35e15d00ef5b037a1a56c77ef3e17c" category="section-title">永久裝置遺失（ PDL ）</block>
+  <block id="967b20f28092443585be2b9649d0ba93" category="paragraph">當儲存設備永久故障或被管理性移除、且不預期返回時、會發生 PDL 狀況。NetApp 儲存陣列會向 ESXi 發出 SCSI Sense 程式碼、聲明該裝置已永久遺失。在 vSphere HA 的「故障條件和 VM 回應」區段中、您可以設定在偵測到 PDL 條件後應回應的內容。</block>
+  <block id="7cf4fdbfc8e1deb9f567848f2df19e91" category="paragraph">NetApp 建議將「使用 PDL 的資料存放區回應」設定為「 * 關閉並重新啟動 VM* 」。偵測到這種情況時、將會在 vSphere HA 叢集中的健全主機上立即重新啟動 VM 。</block>
+  <block id="6d623de2ea8c5007def6f2349d9ad8b9" category="section-title">所有下行路徑（ APD ）</block>
+  <block id="15d2d9b1f25022e7080482582e155265" category="paragraph">當主機無法存取儲存裝置、且沒有通往陣列的路徑可用時、便會發生 APD 狀況。ESXi 認為這是裝置的暫時性問題、因此預期裝置會再次出現。</block>
+  <block id="f89caca297ba86d190d90ef30c409ccf" category="paragraph">偵測到 APD 狀況時、會啟動定時器。140 秒後、 APD 條件會正式宣告、且裝置會標示為 APD 逾時。140 秒過後、 HA 會開始計算 VM 容錯移轉 APD 延遲中指定的分鐘數。指定時間過後、 HA 會重新啟動受影響的虛擬機器。您可以設定 VMCP 在需要時以不同的方式回應（停用、問題事件、或關機和重新啟動 VM ）。</block>
+  <block id="8f179a61d789dab9b994ecd0ca8c53cb" category="paragraph">NetApp 建議將「使用 APD 的資料存放區回應」設定為「 * 關閉並重新啟動 VM （保守） * 」。</block>
+  <block id="76d29c3c5f57a16a7f080459356c3793" category="paragraph">保守是指 HA 能夠重新啟動 VM 的可能性。如果設為保守、 HA 只會重新啟動受 APD 影響的 VM 、前提是它知道其他主機可以重新啟動。在積極的情況下、 HA 會嘗試重新啟動 VM 、即使它不知道其他主機的狀態。如果沒有可存取其所在資料存放區的主機、這可能導致 VM 無法重新啟動。</block>
+  <block id="c64ef72a18526e28efe7c08b3ff3889a" category="paragraph">如果 APD 狀態已解決、且在逾時之前已還原對儲存設備的存取、則 HA 不會不必要地重新啟動虛擬機器、除非您明確將其設定為如此。如果即使環境已從 APD 條件恢復、仍需要回應、則 APD 逾時後的 APD 恢復回應應設定為重設虛擬機器。</block>
+  <block id="580bc3953adcf3e3a20c5497f67f8b2c" category="paragraph">NetApp 建議將 APD 逾時後的 APD 恢復回應設定為停用。</block>
+  <block id="a067a9a0e98c97f62fba4698bde30edc" category="section-title">適用於 NetApp MetroCluster 的 VMware DRS 實作</block>
+  <block id="3bf3e67966e8b0e07b0812dae7b86ce7" category="paragraph">VMware DRS 是一項功能、可將叢集中的主機資源集合在一起、主要用於在虛擬基礎架構中的叢集內進行負載平衡。VMware DRS 主要會計算 CPU 和記憶體資源、以便在叢集中執行負載平衡。由於 vSphere 不知道延伸叢集、因此在負載平衡時會考慮兩個站台中的所有主機。為了避免跨站台流量、 NetApp 建議您設定 DRS 關聯性規則、以管理虛擬機器的邏輯分隔。這可確保除非發生完整的站台故障、否則 HA 和 DRS 只會使用本機主機。</block>
+  <block id="b9e04f46a88c8139fbb91780a2ff9064" category="paragraph">如果您為叢集建立 DRS 關聯性規則、您可以指定 vSphere 如何在虛擬機器容錯移轉期間套用該規則。</block>
+  <block id="f903d43a0acb7412db93e8201ab12be3" category="paragraph">您可以指定 vSphere HA 容錯移轉行為的規則有兩種類型：</block>
+  <block id="a96c8bab3a450bb828e3093d16f7e32c" category="list-text">VM 反關聯性規則會強制指定的虛擬機器在容錯移轉動作期間保持分離。</block>
+  <block id="1fa3a04279011cbc6001c96c0f6f27fb" category="list-text">VM 主機關聯性規則會在容錯移轉動作期間、將指定的虛擬機器放置在特定主機或已定義主機群組的成員上。</block>
+  <block id="225e3f7204b6e5bf6cd388af7bb16eb4" category="paragraph">使用 VMware DRS 中的 VM 主機關聯性規則、可以在站台 A 和站台 B 之間有邏輯分隔、以便 VM 在主機上執行、而該主機與陣列是設定為指定資料存放區的主要讀取 / 寫入控制器。此外、 VM 主機關聯性規則可讓虛擬機器保持儲存設備的本機狀態、進而在站台之間發生網路故障時確定虛擬機器連線。</block>
+  <block id="db03e2255e35df6fa9719c800850c397" category="paragraph">以下是 VM 主機群組和關聯規則的範例。</block>
+  <block id="6c9bd967c46984c9e5e0d8a6e5ec81a0" category="image-alt">自動產生的電腦伺服器說明圖表</block>
+  <block id="d400b2cf908bc5f979847146ff8ac816" category="paragraph">NetApp 建議實作「應該」規則、而非「必須」規則、因為在發生故障時、 vSphere HA 會違反這些規則。使用「必須」規則可能導致服務中斷。</block>
+  <block id="e9503bc9ad84f6517ddc938c85541dd5" category="paragraph">服務的可用度應永遠高於效能。在完整資料中心故障的情況下、「必須」規則必須從 VM 主機關聯群組中選擇主機、而當資料中心無法使用時、虛擬機器將不會重新啟動。</block>
+  <block id="b3c45603f3738ac1e1f8e1e87569c00c" category="section-title">使用 NetApp MetroCluster 實作 VMware Storage DRS</block>
+  <block id="b273633ed947791e90b7b83ad1bb2021" category="paragraph">VMware Storage DRS 功能可將資料存放區集合至單一單元、並在超過儲存 I/O 控制臨界值時平衡虛擬機器磁碟。</block>
+  <block id="4669dbcf4d42583b3fae1c79fa228078" category="paragraph">依預設、啟用 Storage DRS 的 DRS 叢集會啟用儲存 I/O 控制。儲存 I/O 控制功能可讓管理員控制 I/O 壅塞期間分配給虛擬機器的儲存 I/O 數量、讓更重要的虛擬機器能夠優先選擇較不重要的虛擬機器來分配 I/O 資源。</block>
+  <block id="f06483bf36a941eebbb2f78a89b6bf68" category="paragraph">Storage DRS 使用 Storage VMotion 將虛擬機器移轉至資料存放區叢集中的不同資料存放區。在 NetApp MetroCluster 環境中、必須在該站台的資料存放區內控制虛擬機器移轉。例如、在站台 A 的主機上執行的虛擬機器 A 、最好能在站台 A 的 SVM 資料存放區內移轉如果無法這麼做、虛擬機器將繼續運作、但效能降低、因為虛擬磁碟讀取 / 寫入將透過站台間連結來自站台 B 。</block>
+  <block id="e607d8c3dc392e521065e5494d8c85c6" category="paragraph">NetApp 建議針對儲存站台親和性建立資料存放區叢集、也就是說、站台 A 的站台親和性資料存放區不應與站台 B 具有站台親和性的資料存放區叢集混合使用</block>
+  <block id="63fe88e257ae2d072b6920d6dbcf0818" category="paragraph">每當使用 Storage VMotion 新佈建或移轉虛擬機器時、 NetApp 建議手動更新這些虛擬機器的所有 VMware DRS 規則。這將確定主機和資料存放區在站台層級的虛擬機器關聯性、進而降低網路和儲存負荷。</block>
+  <block id="b6cd969550b5501b0f62a149fb7964ce" category="paragraph">支援vSphere中的VMware vSphere資料存放區、以及VMware vSphere 9.8版的VMware vCenter工具。ONTAP FlexGroup ONTAP</block>
+  <block id="4adcd8d9323839ff088dc4f8f0bdcce2" category="paragraph">建立 VM 的 vVols 儲存設備有幾個步驟。</block>
+  <block id="2438f6a80b933cf058ad052d26ac0703" category="paragraph">複製儲存物件可讓您快速建立複本以供進一步使用、例如配置額外的VM、備份/還原作業等。</block>
+  <block id="1a795345e422d7dbcca8fe38671a9371" category="summary">VMSC 設計與實作準則。</block>
+  <block id="b73deaadc37ea1c7a13ad17af6730c42" category="doc">VMSC 設計與實作準則</block>
+  <block id="3512760e2d3fc1a9dd2116e83bb0cada" category="paragraph">本文件概述 VMSC 搭配 ONTAP 儲存系統的設計與實作準則。</block>
+  <block id="556669df5b5073ab3d2ddcf638e942d9" category="section-title">NetApp 儲存組態</block>
+  <block id="7f4d4fbe08a8a895671d05c4a82b0c85" category="inline-link">資訊文件MetroCluster</block>
+  <block id="002eb41870df47521a2b59424d251f60" category="inline-link">SnapMirror營運不中斷總覽</block>
+  <block id="008c17a2bb74d3d9706c0f2c88499240" category="paragraph">NetApp MetroCluster 的設定指示（稱為 MCC 組態）可在以下網址取得：<block ref="2c736bccede87dae47dcf61108f083c4" category="inline-link-rx"></block>。SnapMirror 主動同步的說明也可在以下網址取得：<block ref="14203840309dd1b6e13f73373477bb9d" category="inline-link-rx"></block>。</block>
+  <block id="447566f62201eb825a1f6fb7a570873f" category="paragraph">設定 MetroCluster 之後、管理就像管理傳統的 ONTAP 環境一樣。您可以使用命令列介面（ CLI ）、系統管理員或 Ansible 等各種工具來設定儲存虛擬機器（ SVM ）。設定 SVM 後、在叢集上建立邏輯介面（生命體）、磁碟區和邏輯單元編號（ LUN ）、以用於正常作業。這些物件將會使用叢集對等網路自動複寫到其他叢集。</block>
+  <block id="b5486be95ed9ae2e4681a39cf8fe8041" category="inline-link">一致性群組總覽</block>
+  <block id="5440d8600dfca322be65444d14c4566f" category="paragraph">如果不使用 MetroCluster 、您可以使用 SnapMirror 主動式同步功能、在不同故障網域中的多個 ONTAP 叢集之間提供資料存放區精細保護和主動式存取。SnapMirror 主動式同步會使用一致性群組、確保一或多個資料存放區之間的寫入順序一致性、您可以根據應用程式和資料存放區需求、建立多個一致性群組。一致性群組對於需要在多個資料存放區之間進行資料同步的應用程式特別有用。SnapMirror 主動式同步也支援原始裝置對應（ RDM ）和來賓 iSCSI 啟動器的來賓連線儲存設備。如需更多關於一致性群組的資訊、請參閱<block ref="8bba9b5b97dba092834d7a48a07f102d" category="inline-link-rx"></block>。</block>
+  <block id="f9ac6f5e1bf01f1df914b714d5e6cb02" category="paragraph">與 MetroCluster 相比、使用 SnapMirror 主動式同步管理 VMSC 組態有一些差異。首先、這是僅限 SAN 的組態、沒有 NFS 資料存放區可以使用 SnapMirror 主動式同步進行保護。其次、您必須將兩個 LUN 複本對應到 ESXi 主機、以便它們存取兩個故障網域中的複寫資料存放區。</block>
+  <block id="c972b11c861e42787c05a2ee24828e3a" category="section-title">VMware vSphere HA</block>
+  <block id="57166da54d8751e1ed084f00b3f169e3" category="section-title">建立 vSphere HA 叢集</block>
+  <block id="829006223e7bdcfd478d2261f1d5ac40" category="inline-link">如何在 docs.vmware.com 上的 vSphere Client 中建立和設定叢集</block>
+  <block id="2bbae4763835d2e2dd123c1b4b0ae73d" category="paragraph">建立 vSphere HA 叢集是一個多步驟程序、完整記錄於<block ref="dd51ccd863dd3c9fbca770681f8e68a9" category="inline-link-rx"></block>。簡言之、您必須先建立空叢集、然後使用 vCenter 新增主機、並指定叢集的 vSphere HA 和其他設定。</block>
+  <block id="d50e63b9f70efedde8dc093be8ec12b2" category="inline-link">VMware vSphere Metro儲存叢集建議實務做法</block>
+  <block id="33d532b774d7b67104f4749e25ba03ef" category="paragraph">* 附註： * 本文件並無取代之處<block ref="3a8301f60ad04eb873ae8dea15ee0495" category="inline-link-rx"></block></block>
+  <block id="950954623b197b80e3ebb95b0adcc3de" category="paragraph">若要設定 HA 叢集、請完成下列步驟：</block>
+  <block id="1073102bd8c6cbd17340f2a19043583f" category="list-text">連線至 vCenter UI 。</block>
+  <block id="ebf69ea3a3e34739bde13d589e85ef10" category="list-text">在主機和叢集中、瀏覽至您要建立 HA 叢集的資料中心。</block>
+  <block id="d8fd85bbc0cd4746e5d80e291696b86c" category="list-text">以滑鼠右鍵按一下資料中心物件、然後選取新叢集。在基礎知識之下、確保您已啟用 vSphere DRS 和 vSphere HA 。完成精靈。</block>
+  <block id="f2c634ca704e26f96be1723db6dda32a" category="image-alt">自動產生電腦說明的螢幕擷取畫面</block>
+  <block id="f4f59bf1e324854573172ca2b5070d45" category="list-text">選取叢集、然後移至「組態」標籤。選取 vSphere HA 、然後按一下編輯。</block>
+  <block id="329c69e52a7de6215aa4dbfa19940f2d" category="list-text">在 [ 主機監控 ] 下，選取 [ 啟用主機監控 ] 選項。</block>
+  <block id="9fc231ac455a53f2fabc59f29ab537ad" category="list-text">在「故障與回應」標籤上、於「 VM 監控」下、選取「僅限 VM 監控」選項或「 VM 與應用程式監控」選項。</block>
+  <block id="58aea8c81a7e8b8160584574af309fbb" category="list-text">在 [ 許可控制 ] 下，將 HA 接入控制選項設定為叢集資源保留；使用 50% 的 CPU/ MEM 。</block>
+  <block id="d94a9f01bee7dcc2643864bf92ab4e59" category="list-text">按一下「確定」。</block>
+  <block id="3f059eee365aa5c64c0be1d6dba81d69" category="list-text">選取 DRS 、然後按一下編輯。</block>
+  <block id="7b5f9be03fd1421a9da56c2c7677ad69" category="list-text">除非應用程式要求、否則請將自動化層級設為手動。</block>
+  <block id="a8ee10582e28e3623629963a88ff5ec9" category="image-alt">VMSC 3 5.</block>
+  <block id="256164bb48582e5267e408f2e67e1939" category="inline-link">docs.vmware.com</block>
+  <block id="91fb89f03b846483f7108d3f1bfb0156" category="list-text">啟用 VM 元件保護、請參閱<block ref="fc88c93ad20ad804a211f4e6fea63e56" category="inline-link-rx"></block>。</block>
+  <block id="918c2d8e02dbd2c1f4cc3a0062690387" category="list-text">建議使用 MCC 的 VMSC 使用下列其他 vSphere HA 設定：</block>
+  <block id="d64ed3e9c10229648e069f56e32f4c8e" category="cell">回應</block>
+  <block id="f3c1d0e4118d5d9501e1a7aeed19d224" category="cell">主機故障</block>
+  <block id="45d583cd5692c76d45e96536edce2a0e" category="cell">重新啟動 VM</block>
+  <block id="1c3a7ae924920b573baede481becd22f" category="cell">主機隔離</block>
+  <block id="2e011e74abc75a2823c627b7ee9e22a7" category="cell">永久裝置遺失（ PDL ）的資料存放區</block>
+  <block id="49476a1ad365d5f8deb36464de7fe33b" category="cell">關閉並重新啟動 VM</block>
+  <block id="e7bbd35db169028c75e7c8ae655bf6ae" category="cell">All Paths Down （ APD ）資料存放區</block>
+  <block id="e7480b00a5e3efd904a08ca88804de45" category="cell">客人不會心碎</block>
+  <block id="e8896c595f3effde37ef29d7c6233703" category="cell">重設 VM</block>
+  <block id="59695df3d45a3a21b8ff0bf57fda6a2b" category="cell">VM 重新啟動原則</block>
+  <block id="a150f56b87fd99bf9bf019f8447ba68b" category="cell">由虛擬機器的重要性決定</block>
+  <block id="370a480458a8c63a838940f1241e14ee" category="cell">主機隔離的回應</block>
+  <block id="11f30f9be08cd4f9e500290222ddc552" category="cell">關閉並重新啟動 VM</block>
+  <block id="fb53fafa45c0de9bd41d368c7455c9f1" category="cell">使用 PDL 的資料存放區回應</block>
+  <block id="d7c3b9f5568eb60f08076b29490afcaf" category="cell">對具有 APD 的資料存放區的回應</block>
+  <block id="423b2d98eae113ae3391aa0b12f11935" category="cell">關閉並重新啟動 VM （保守）</block>
+  <block id="132bbe6dbceb01227dba5ab04db7202b" category="cell">APD 的 VM 容錯移轉延遲</block>
+  <block id="8d15ed7d27d83ed6229a66b1f44b7696" category="cell">3 分鐘</block>
+  <block id="8c7b0644547f0ee3fe537e8ba441566d" category="cell">APD 逾時的 APD 恢復回應</block>
+  <block id="4dea08318b2824f845e9b889a6e17778" category="cell">VM 監控靈敏度</block>
+  <block id="f535a28adc173e28610c129d0dc578ae" category="cell">預設為高</block>
+  <block id="83164803a765d1ea1f10d50dfdd26130" category="section-title">設定資料存放區以進行心跳</block>
+  <block id="22c81b09ec3086b2dce8f68867a221e0" category="paragraph">當管理網路故障時、 vSphere HA 會使用資料存放區來監控主機和虛擬機器。您可以設定 vCenter 如何選取心跳資料存放區。若要設定資料存放區以進行心跳、請完成下列步驟：</block>
+  <block id="64809e5386c9dc53f894f772f27d1b44" category="list-text">在資料存放區心跳區段中、從指定清單中選取使用資料存放區、並在需要時自動補充資料。</block>
+  <block id="fc66ba7317ceb4220dc88aa267db085d" category="list-text">選取您要 vCenter 從兩個站台使用的資料存放區、然後按下 OK 。</block>
+  <block id="1d2b14769d080b9214d9e407dfc92a64" category="section-title">設定進階選項</block>
+  <block id="a22b9827e1a78c5fb9c939a78c116a05" category="paragraph">* 主機故障偵測 *</block>
+  <block id="a9316d69e5abcfaffc56fc8f5e645412" category="paragraph">當 HA 叢集內的主機無法連線至網路或叢集中的其他主機時、就會發生隔離事件。根據預設、 vSphere HA 會使用其管理網路的預設閘道做為預設隔離位址。不過、您可以為主機指定其他隔離位址來執行 ping 、以判斷是否應該觸發隔離回應。新增兩個可 ping 的隔離 IP 、每個站台一個。請勿使用閘道 IP 。使用的 vSphere HA 進階設定為 das.isolationaddress 。您可以將 ONTAP 或 Mediator IP 位址用於此用途。</block>
+  <block id="102d7879ceca393c309ef492c958e19d" category="inline-link">core.vmware.com</block>
+  <block id="27e2292ff6db48ed2e6d50b256eae43e" category="paragraph">請參閱<block ref="43057df4f3a6b5f2fffe8b7c5a490646" category="inline-link-rx"></block> 以取得更多資訊</block>
+  <block id="3f44bb4a3b9420d495e400b9afbda2c7" category="paragraph">新增稱為 das.心跳 DsPerHost 的進階設定、可能會增加心跳資料存放區的數量。使用四個心跳資料存放區（ HB DSS ）、每個站台兩個。使用「從清單中選取但輔助」選項。這是必要的、因為如果某個站台發生故障、您仍需要兩個 HB DSS 。但是、這些不需要透過 MCC 或 SnapMirror 主動同步來保護。</block>
+  <block id="eaa1dfe3982e06655ce64e240c139b81" category="paragraph">適用於 NetApp MetroCluster 的 VMware DRS 關聯性</block>
+  <block id="e32221c52eb3b0bbeb3ca79aad6c90f6" category="paragraph">在本節中、我們會為 MetroCluster 環境中的每個站台 \ 叢集、建立 VM 和主機的 DRS 群組。然後我們設定 VM\Host 規則、使 VM 主機與本機儲存資源的關聯性一致。例如、站台 A VM 屬於 VM 群組 sitea_vms 、站台 A 主機屬於主機群組 sitea_hosts 。接下來、在 VM\Host 規則中、我們指出 sitea_vms 應該在 sitea_hosts 中的主機上執行。</block>
+  <block id="5bfa0d712f66aef47f8a2ea582bc0b72" category="list-text">NetApp 強烈建議在組 * 中的主機上運行規範 * ，而不是規範 * 必須在組 * 中的主機上運行。萬一站台 A 主機故障、站台 A 的 VM 需要透過 vSphere HA 在站台 B 的主機上重新啟動、但後者的規格不允許 HA 在站台 B 上重新啟動 VM 、因為這是硬規則。以前的規格是軟性規則、在 HA 發生時會違反、因此可提供可用度而非效能。</block>
+  <block id="cc6a363013bd2a8c1e05304f1c6abd79" category="inline-link">vSphere 監控與效能</block>
+  <block id="db9540392e62211ad47ebec39232329e" category="paragraph">* 附註： * 您可以建立事件型警示、在虛擬機器違反 VM-Host 關聯性規則時觸發。在 vSphere Client 中、新增虛擬機器的警示、並選取「 VM 正在違反 VM-Host Affinity Rule 」作為事件觸發程序。如需建立及編輯警示的詳細資訊、請參閱<block ref="d28eed239632aed40803fe0ed2311ba6" category="inline-link-rx"></block> 文件。</block>
+  <block id="124de7d2bc72d75be9e481c1cc56ada2" category="section-title">建立 DRS 主機群組</block>
+  <block id="0759e9476d3bf1868f88356025adafb2" category="paragraph">若要建立站台 A 和站台 B 專屬的 DRS 主機群組、請完成下列步驟：</block>
+  <block id="a69dff3dd4b284f60243dfd62fa4e57f" category="list-text">在 vSphere Web Client 中、以滑鼠右鍵按一下資源清冊中的叢集、然後選取「設定」。</block>
+  <block id="a130b4af254ead99e9ea83044e54ea1d" category="list-text">按一下 VM\Host Groups 。</block>
+  <block id="1bb250fbf1946dd1bd7ad228032f8803" category="list-text">按一下「新增」</block>
+  <block id="62c4d1538f957af2951f2c93ee191d0b" category="list-text">輸入群組的名稱（例如、 sitea_hosts ）。</block>
+  <block id="df22605898fc890edbcb2a126aa202ce" category="list-text">從「類型」功能表中、選取「主機群組」。</block>
+  <block id="57c0028584902f6cee210dcc13bc9745" category="list-text">按一下「新增」、然後從站台 A 選取所需的主機、再按一下「確定」。</block>
+  <block id="583e6d8c3b1006b0561d4b360e58994f" category="list-text">重複這些步驟、為站台 B 新增另一個主機群組</block>
+  <block id="18d0ad44a1e563aaf9f5871e32535a6c" category="list-text">按一下「確定」。</block>
+  <block id="154964ee7fc6d3261ec55811b0ff9972" category="section-title">建立 DRS VM 群組</block>
+  <block id="40c1eaba5f178f243c57b595b6af4d5e" category="paragraph">若要建立站台 A 和站台 B 專屬的 DRS VM 群組、請完成下列步驟：</block>
+  <block id="9a209a741c26968fc13ed8192523df15" category="list-text">輸入群組的名稱（例如、 sitea_vms ）。</block>
+  <block id="f947c7c9f173289b1c2565b3297095f0" category="list-text">從 Type （類型）功能表中、選取 VM Group （ VM 群組）。</block>
+  <block id="40a2a21a084c8d16395113cb79a19ebb" category="list-text">按一下「新增」、然後從站台 A 選取所需的 VM 、再按一下「確定」。</block>
+  <block id="e2e7af699096077fe178ebf021fb2273" category="section-title">建立 VM Host 規則</block>
+  <block id="0a6075f3d3fdbe7c133268face0f5c82" category="paragraph">若要建立站台 A 和站台 B 特有的 DRS 關聯性規則、請完成下列步驟：</block>
+  <block id="df4f9bcca0ceb7a67ba25d886a18743b" category="list-text">按一下 VM\Host Rules 。</block>
+  <block id="876a25c102b5c301814921d1a9c0e625" category="list-text">輸入規則的名稱（例如、 sitea_fit射 ）。</block>
+  <block id="d4b5f57f4e2bd5c357ad9b1fbdc2cf8e" category="list-text">確認已核取「啟用規則」選項。</block>
+  <block id="d1169f525bd934df7f1a7e3bcf401997" category="list-text">從 Type （類型）功能表中、選取 Virtual Machines to Hosts （虛擬機器至主機）。</block>
+  <block id="77328c16c697ce1d6c036c3f950e7542" category="list-text">選取 VM 群組（例如、 sitea_vms ）。</block>
+  <block id="b36943ce975d4c5c6e9481a4ca396270" category="list-text">選取主機群組（例如、 sitea_hosts ）。</block>
+  <block id="32fbcb32cfae9a0656233943c28f7c94" category="list-text">重複這些步驟、為站台 B 新增另一個 VM\ 主機規則</block>
+  <block id="ff0ded925b170243e5154c9a687bb925" category="section-title">VMware vSphere Storage DRS for NetApp MetroCluster</block>
+  <block id="b0cb5ad168b84040eff8132c70e41fdb" category="section-title">建立資料存放區叢集</block>
+  <block id="488f70e76f3c9ddf155b693e31c5a1e1" category="paragraph">若要為每個站台設定資料存放區叢集、請完成下列步驟：</block>
+  <block id="1dfbc2b980c0b56a5d9889c6d9a25460" category="list-text">使用 vSphere Web 用戶端、瀏覽至 HA 叢集位於 Storage 下的資料中心。</block>
+  <block id="dfc332b252ad3de167b6a336d7e70d46" category="list-text">以滑鼠右鍵按一下資料中心物件、然後選取儲存 &gt; 新資料存放區叢集。</block>
+  <block id="7ce7f4ad7022187801efdf33d1fab92d" category="list-text">選取「開啟 Storage DRS 」選項、然後按一下「下一步」。</block>
+  <block id="6196801f8f77bab7132531adbb268512" category="list-text">將所有選項設定為「無自動化（手動模式）」、然後按一下「下一步」。</block>
+  <block id="cfcdd0a8a765af314fb460ad445fb375" category="list-text">NetApp 建議您將儲存 DRS 設定為手動模式、以便系統管理員決定並控制何時需要移轉。</block>
+  <block id="dfffe1ce0daeb61f9fbc153ae4945fd4" category="image-alt">自動產生文字說明的特寫</block>
+  <block id="51a3bc726f294f3376fcaa12ccdf8b3b" category="list-text">確認已核取「啟用 SDR 建議的 I/O 度量」核取方塊；度量設定可以保留預設值。</block>
+  <block id="829b62dbd6a4923b66591b2bff38ed5b" category="list-text">選取 HA 叢集、然後按一下「下一步」。</block>
+  <block id="30fe6cfa0a4c5fb23fccfe149cefc006" category="list-text">選取屬於站台 A 的資料存放區、然後按一下「下一步」。</block>
+  <block id="4ea461b22638db4c94aa076d62a2065f" category="list-text">檢閱選項、然後按一下「完成」。</block>
+  <block id="7b79e97caff76847cf350f1197c49953" category="list-text">重複這些步驟以建立站台 B 資料存放區叢集、並確認只選取站台 B 的資料存放區。</block>
+  <block id="d8f83b09bd6b864f22076c109cfaae66" category="section-title">vCenter Server 可用度</block>
+  <block id="605b8c1efcf2de9164e5d5425c67bdcd" category="paragraph">您的 vCenter Server 應用裝置（ VCSA ）應使用 vCenter HA 加以保護。vCenter HA 可讓您在主動式被動式 HA 配對中部署兩個 VCSA 。每個故障網域各有一個。您可以在上閱讀更多有關 vCenter HA 的資訊<block ref="173ca8434bdf39dd0a60efe576d066cd" category="inline-link-rx"></block>。</block>
+  <block id="2b6203f34def274ff7424bf1d64a9bca" category="paragraph">使用vSphere搭配執行ONTAP VMware軟體的系統時、設定網路設定很簡單、而且類似於其他網路組態。</block>
+  <block id="70901a02a148fd2dfc1ff5736f4f5336" category="list-text">將儲存網路流量與其他網路區隔。使用專屬的VLAN或獨立的交換器來儲存、即可建立獨立的網路。如果儲存網路共用實體路徑（例如上行鏈路）、您可能需要QoS或額外的上行鏈路連接埠、以確保有足夠的頻寬。請勿將主機直接連線至儲存設備；請使用交換器來建立備援路徑、並讓 VMware HA 在不需介入的情況下運作。請參閱 <block ref="2d54da766c3f840b00eab5923273fca5" category="inline-link-macro-rx"></block> 以取得更多資訊。</block>
+  <block id="ed895c1c16c46a33c1fb8d980afb4d4b" category="list-text">目前支援的所有 VMware vSphere 版本均可使用 NFS v3 和 v4.1 。正式支援 nconnect 已新增至 vSphere 8.0 更新 2 for NFS v3 。對於 NFS v4.1 、 vSphere 持續支援工作階段主幹、 Kerberos 驗證及完整性 Kerberos 驗證。請務必注意、工作階段主幹需要 ONTAP 9.14.1 或更新版本。</block>
+  <block id="83d007e105712dc05dcf363c7151dba1" category="paragraph">值得注意的是、 NFSv3 和 NFSv4.1 使用不同的鎖定機制。NFSv3 使用用戶端端鎖定、而 NFSv4.1 則使用伺服器端鎖定。雖然 ONTAP 磁碟區可以透過兩種傳輸協定匯出、但 ESXi 只能透過一種傳輸協定掛載資料存放區。不過、這並不表示其他 ESXi 主機無法透過不同版本掛載相同的資料存放區。為了避免任何問題、請務必指定要在掛載時使用的通訊協定版本、確保所有主機都使用相同版本、因此使用相同的鎖定樣式。避免在主機之間混合使用 NFS 版本是非常重要的。如有可能、請使用主機設定檔來檢查法規遵循狀況。
+** 由於 NFSv3 和 NFSv4.1 之間沒有自動資料存放區轉換、因此請建立新的 NFSv4.1 資料存放區、並使用 Storage VMotion 將 VM 移轉至新的資料存放區。
+** 請參閱中的 NFS v4.1 互通性表附註<block ref="8813559f5b95abb5411182be29200aff" category="inline-link-rx"></block> 支援所需的特定ESXi修補程式層級。
+* NFS 匯出原則用於控制 vSphere 主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用NFSv3時、ESXi會使用sys（UNIX）安全樣式、並需要root掛載選項來執行VM。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意、匯出具有不同值的原則規則<block ref="ea72d12ecaa06afdb0c8a3b15e485e95" prefix=" " category="inline-code"></block> 和<block ref="df809a941c1287d18c08bb5927b639dc" prefix=" " category="inline-code"></block> 可能會導致SVM發現ONTAP 問題、因為使用這些功能。以下是範例原則：
+** 存取傳輸協定： nfs3.
+** 用戶端比對規格： 192.168.42.21
+** RO 存取規則：系統
+** RW 存取規則：系統
+** 匿名 UID
+** 超級用戶： sys
+* 如果使用 NetApp NFS 外掛程式 for VMware VAAI 、則通訊協定應設為<block ref="2521ef5d58fc027d3121662b7d8f9ac2" prefix=" " category="inline-code"></block> 匯出原則規則建立或修改時。需要 NFSv4 傳輸協定、 VAAI 複本卸載才能運作、並將傳輸協定指定為<block ref="2521ef5d58fc027d3121662b7d8f9ac2" prefix=" " category="inline-code"></block> 自動同時包含 NFSv3 和 NFSv4 版本。
+* NFS 資料存放區磁碟區是從 SVM 的根磁碟區連接而成、因此 ESXi 也必須擁有根磁碟區的存取權、才能瀏覽及裝載資料存放區磁碟區。根 Volume 和資料存放區磁碟區交會嵌套的任何其他磁碟區的匯出原則、都必須包含 ESXi 伺服器授予其唯讀存取權的規則或規則。以下是根 Volume 的範例原則、也使用 VAAI 外掛程式：
+** 存取傳輸協定： NFS （包括 nfs3 和 nfs4 ）
+** 用戶端比對規格： 192.168.42.21
+** RO 存取規則：系統
+** RW 存取規則：永不（ root Volume 的最佳安全性）
+** 匿名 UID
+** 超級用戶： sys （ VAAI 的 root Volume 也需要）
+* 使用適用於 VMware vSphere 的 ONTAP 工具（最重要的最佳實務做法）：
+** 使用適用於 VMware vSphere 的 ONTAP 工具來配置資料存放區、因為它能自動簡化匯出原則的管理。
+** 使用外掛程式為 VMware 叢集建立資料存放區時、請選取叢集、而非單一 ESX 伺服器。此選項會觸發IT自動將資料存放區掛載至叢集中的所有主機。
+** 使用外掛裝載功能將現有的資料存放區套用至新伺服器。
+** 如果不使用 ONTAP 工具來執行 VMware vSphere 、請針對所有伺服器或需要額外存取控制的每個伺服器叢集、使用單一匯出原則。
+* 雖然 ONTAP 提供彈性的 Volume 命名空間結構、可利用交叉路口在樹狀結構中排列磁碟區、但這種方法對 vSphere 沒有價值。無論儲存設備的命名空間階層為何、它都會在資料存放區根目錄中為每個VM建立一個目錄。因此、最佳實務做法是將vSphere磁碟區的交會路徑掛載到SVM的根磁碟區、這就是ONTAP VMware vSphere的VMware vSphere功能如何配置資料存放區。沒有巢狀結點路徑也表示除了根磁碟區之外、沒有任何磁碟區相依於任何磁碟區、即使是刻意將磁碟區離線或銷毀、也不會影響其他磁碟區的路徑。
+* 對於 NFS 資料存放區上的 NTFS 分割區、 4K 區塊大小是很好的。下圖說明從vSphere主機連線至ONTAP VMware NFS資料存放區的能力。</block>
+  <block id="59cfc5aaa0678bcb883492b4397c71b8" category="cell">有（ ONTAP 9.14.1 ）</block>
+  <block id="f37fed71aa90eb80f77d4f14b0ee295b" category="summary">vSphere Metro Storage 叢集搭配 NetApp ONTAP</block>
+  <block id="a58c81d13cac4e9b37bba2bd7fc3a93d" category="paragraph">VMware 領先業界的 vSphere Hypervisor 可部署為稱為 vSphere Metro Storage Cluster （ VMSC ）的延伸叢集。</block>
+  <block id="e5239709587bb3ebb34629be6c41ac7b" category="paragraph">NetApp ® MetroCluster ™和 SnapMirror 主動同步（以前稱爲 SnapMirror 業務連續性或 SMBC ）均支持 VMSC 解決方案，如果一個或多個故障域發生整體中斷，則可提供高級業務連續性。不同故障模式的恢復能力取決於您選擇的組態選項。</block>
+  <block id="e3224e391e08365c1593c07b9fe99cfa" category="section-title">適用於 vSphere 環境的持續可用度解決方案</block>
+  <block id="e724bf1a385b292b55017a9963682b40" category="paragraph">NetApp ONTAP 架構是靈活且可擴充的儲存平台、可為資料存放區提供 SAN （ FCP 、 iSCSI 和 NVMe of ）和 NAS （ NFS v3 和 v4.1 ）服務。NetApp AFF 、 ASA 和 FAS 儲存系統使用 ONTAP 作業系統來提供額外的通訊協定、以供 S3 和 SMB/CIFS 等來賓儲存設備存取。</block>
+  <block id="ffa76ec5527e36c51f49fe091541cca6" category="paragraph">NetApp MetroCluster 使用 NetApp 的 HA （控制器容錯移轉或 CFO ）功能來防範控制器故障。它還包括本機 SyncMirror 技術、災難時的叢集容錯移轉（隨需控制器容錯移轉或 CFOD ）、硬體備援、以及地理區隔、以達到高可用度。SyncMirror 會將資料寫入兩個叢中、以同步鏡射 MetroCluster 組態的兩個部份資料：本機叢（位於本機櫃上）主動提供資料、而遠端叢（位於遠端機櫃上）通常不會提供資料。所有 MetroCluster 元件（例如控制器、儲存設備、纜線、交換器（與 Fabric MetroCluster 搭配使用）和介面卡）均具備硬體備援功能。</block>
+  <block id="54823008c0a63d8491d2c84e13356f84" category="paragraph">NetApp SnapMirror 主動式同步可透過 FCP 和 iSCSI SAN 傳輸協定提供資料存放區精細保護、讓您只能選擇性地保護高優先順序的工作負載。它提供對本機和遠端站台的主動式存取、而 NetApp MetroCluster 則是主動式待命解決方案。目前、主動式同步是一種非對稱式解決方案、其中一端較另一端更偏好、提供更好的效能。這是使用 ALUA （非對稱邏輯單元存取）功能來達成的、此功能會自動通知 ESXi 主機偏好的控制器。不過、 NetApp 已宣佈啟用主動式同步功能、即將啟用完全對稱的存取。</block>
+  <block id="d3e911c902a6b066f9c31d471d16fb21" category="paragraph">若要跨兩個站台建立 VMware HA/DRS 叢集、 ESXi 主機會由 vCenter Server Appliance （ VCSA ）使用和管理。vSphere 管理、 VMotion ® 和虛擬機器網路是透過兩個站台之間的備援網路連線。管理 HA/DRS 叢集的 vCenter Server 可連線至兩個站台的 ESXi 主機、並應使用 vCenter HA 進行設定。</block>
+  <block id="da76be2bc20d4e043d9a2019b817214f" category="inline-link">如何在 vSphere Client 中建立和設定叢集</block>
+  <block id="e02f3e9258a23204655bd512ec53911d" category="paragraph">請參閱<block ref="c06ae090600e7aa086edfa28514435e7" category="inline-link-rx"></block> 設定 vCenter HA 。</block>
+  <block id="bdd88c75f085534f6e2cdc7726cf1dd6" category="paragraph">您也應該參閱<block ref="3a8301f60ad04eb873ae8dea15ee0495" category="inline-link-rx"></block>。</block>
+  <block id="7ed2d453d67762a9f20ad13c2f472fcb" category="section-title">什麼是 vSphere Metro Storage Cluster ？</block>
+  <block id="38910d3dab2318849fd5f1a1dfbe0152" category="inline-link">VMware 儲存相容性指南</block>
+  <block id="eab65c9bc6c74eff9aee0d7f0c44276d" category="paragraph">vSphere Metro Storage Cluster （ VMSC ）是經過認證的組態、可保護虛擬機器（ VM ）和容器免於故障。這是透過使用延伸儲存概念和 ESXi 主機叢集來達成的、這些主機分佈在不同的故障網域、例如機架、建築物、校園或甚至城市。NetApp MetroCluster 和 SnapMirror 主動同步儲存技術可分別為主機叢集提供 RPO = 0 或近乎 RPO = 0 的保護。VMSC 組態的設計是為了確保即使完整的實體或邏輯「站台」故障、資料仍可隨時使用。在成功通過 VMSC 認證程序之後、必須通過 VMSC 組態一部分的儲存裝置認證。所有支援的儲存裝置都可以在中找到<block ref="293ceee3268d7991d7fe245e02c1c5c9" category="inline-link-rx"></block>。</block>
+  <block id="838b66b875df1b432ac420a98cba3db6" category="paragraph">如果您想要更多有關 vSphere Metro Storage 叢集設計準則的資訊、請參閱下列文件：</block>
+  <block id="07aaf2aebfd07b8763284018d1ebbf57" category="inline-link">VMware vSphere 支援 NetApp MetroCluster</block>
+  <block id="a4a5fd5b00daf98bd381d80257378acd" category="list-text"><block ref="a4a5fd5b00daf98bd381d80257378acd" category="inline-link-rx"></block></block>
+  <block id="c3dc11e39d996a00b095022f4e56583d" category="inline-link">VMware vSphere 支援 NetApp SnapMirror 業務持續運作</block>
+  <block id="8f675397d9c0ef95aa8b3f0ada9d601a" category="list-text"><block ref="f53214cfd764fa0267c92323be0d7337" category="inline-link-rx"></block> （現在稱為 SnapMirror 主動同步）</block>
+  <block id="ee0a206d2287c89b2a7b780e07929b81" category="paragraph">視延遲考量因素而定、 NetApp MetroCluster 可部署在兩種不同的組態中、以搭配 vSphere 使用：</block>
+  <block id="b553530def78406c0977f70d5e90b9e8" category="list-text">Stretch MetroCluster</block>
+  <block id="2d90abe978ed8084d304295ad0a8c8fd" category="list-text">Fabric MetroCluster</block>
+  <block id="b03023e82bda6a71adc49c4834e3b6ab" category="paragraph">以下說明 Stretch MetroCluster 的高階拓撲圖。</block>
+  <block id="b0c20dc8226bb49f35f0f68f7ef77bba" category="image-alt">使用 MCC 的 VMSC 圖表</block>
+  <block id="119be031ef4485d20c7683d291d0e9f6" category="inline-link">本文檔MetroCluster</block>
+  <block id="ad9122c6d75ebaa024669fde1c0bdfb8" category="paragraph">請參閱<block ref="d8a206747dbcec13122724b2aee18957" category="inline-link-rx"></block> 取得 MetroCluster 的特定設計與部署資訊。</block>
+  <block id="b47354fcd7d17ab4fbb3283f71677efe" category="paragraph">SnapMirror 主動式同步也可透過兩種不同方式部署。</block>
+  <block id="314084a577b998d8089dff72c98c58b0" category="list-text">非對稱</block>
+  <block id="40e2e641bad11918585c3dd4f76c2716" category="list-text">對稱（ ONTAP 9.14.1 中的私有預覽）</block>
+  <block id="b9ca5ba97cf75d3dafb51f78e073770a" category="inline-link">NetApp文件</block>
+  <block id="1c71125ba0668792e46d93c17dc6c428" category="paragraph">請參閱<block ref="9ace5d3ebe2fe57037322de54ac9a869" category="inline-link-rx"></block> 取得 SnapMirror 主動同步的特定設計與部署資訊。</block>
+  <block id="bca8b52c503406abc3e9e50c5352d0a2" category="paragraph">本文件介紹 VMware 領先業界的災難恢復（ DR ）軟體 VMware Site Recovery Manager （ SRM ） ONTAP 解決方案、包括最新的產品資訊和最佳實務做法、可簡化部署、降低風險並簡化後續管理。</block>
+  <block id="4f46fffb0ac7017fd2b42c10d6aa03fc" category="paragraph">備份虛擬機器並快速恢復這些虛擬機器、是ONTAP vSphere的絕佳優勢之一、SnapCenter 而使用VMware vSphere的VMware vCenter外掛程式、可輕鬆管理vCenter內部的這項功能。</block>
+  <block id="3a021eaaeb6692340890af4de2f7514a" category="paragraph">以下各節將超越 VMware 和 ONTAP SRM 的部署最佳實務做法。</block>
+  <block id="ff53ee8001042abcefe5c912d0b5012f" category="doc">vSphere資料存放區與傳輸協定功能</block>
+  <block id="b69cd5a82aaf0c524a71d46ec6fdd29c" category="cell">NFS v4.1 工作階段主幹需要 ONTAP 9.14.1 及更新版本</block>
+  <block id="80303385ad0f7147caa1af6d2162852b" category="paragraph">外掛程式也是VASA Provider許多功能的管理介面、ONTAP 可支援vVols的儲存原則型管理。在登錄VMware vSphere的VMware vSphere基礎架構工具之後ONTAP 、請使用它來建立儲存功能設定檔、將其對應至儲存設備、並確保資料存放區在一段時間內符合設定檔的要求。VASA Provider也提供一個介面、可用來建立及管理VVol資料存放區。</block>
+  <block id="83fe2b10c55a47a84465ff5a93a3feda" category="list-text">VMware 和 NetApp 目前支援從 ONTAP 9.14.1 開始的 NFSv4.1 工作階段主幹。如需特定版本詳細資料、請參閱 NetApp NFS 4.1 互通性對照表附註。NFSv3 不支援多個實體路徑到一個 Volume 、但支援從 vSphere 8.0U2 開始的 nconnect 。對於採用 ONTAP 9.8 的 FlexGroup 、我們建議的最佳實務做法是讓適用於 VMware vSphere 的 ONTAP 工具建立 FlexGroup 、然後您應該將其卸載、並使用循環 DNS 重新掛載、以便在叢集之間分散負載。ONTAP 工具只會在裝載資料存放區時使用一個 LIF 。重新掛載資料存放區之後、可使用 ONTAP 工具來監控及管理資料存放區。</block>
+  <block id="d9c9eb44a58ee1ce90daa68527aa8930" category="summary">使用 MCC 的 VMSC 的失敗案例</block>
+  <block id="e7c7574b0826c9074f480de76c889ba8" category="paragraph">以下各節概述 VMSC 和 NetApp MetroCluster 系統各種故障情況的預期結果。</block>
+  <block id="c8a2eebb480fef69e6ed917ea7f7a9d3" category="section-title">單一儲存路徑故障</block>
+  <block id="b99e8e694b032f593bbd01f6205b4a98" category="paragraph">在這種情況下、如果 HBA 連接埠、網路連接埠、前端資料交換器連接埠或 FC 或乙太網路纜線等元件故障、 ESXi 主機會將該儲存裝置的特定路徑標記為已停用。如果在 HBA/ 網路 / 交換器連接埠上提供恢復功能、就能為儲存裝置設定多個路徑、 ESXi 理想情況下會執行路徑切換。在這段期間內、虛擬機器會持續執行而不會受到影響、因為提供多條路徑可通往儲存設備、因此可確保儲存設備的可用度。</block>
+  <block id="1fff6650ef9c430da0f875c203d5dab0" category="paragraph">* 附註： * 在此案例中、 MetroCluster 行為並無變更、所有資料存放區仍會保留在各自站台內。</block>
+  <block id="80fc15dd1deb985234440745e8a78d4c" category="paragraph">在使用 NFS/iSCSI 磁碟區的環境中、 NetApp 建議在標準 vSwitch 中、至少為 NFS vmkernel 連接埠設定兩個網路上行鏈路、而在對應 NFS vmkernel 介面的連接埠群組中、則必須設定相同的上行鏈路。NIC 群組可在雙主動式或雙主動式待命模式中進行設定。</block>
+  <block id="0c8694e8ef7f8935edbfac605753bc95" category="paragraph">此外、對於 iSCSI LUN 、必須將 vmkernel 介面繫結至 iSCSI 網路介面卡、以設定多重路徑。如需詳細資訊、請參閱 vSphere 儲存文件。</block>
+  <block id="0fc808fdb968eb089fbc5124c0a8e15a" category="paragraph">在使用光纖通道 LUN 的環境中、 NetApp 建議至少有兩個 HBA 、以保證 HBA/ 連接埠層級的恢復能力。NetApp 也建議將單一啟動器分區至單一目標分區、以做為設定分區的最佳實務做法。</block>
+  <block id="238c3d1c7bf8b5b42237392383a4c7ab" category="paragraph">應使用虛擬儲存主控台（ VSC ）來設定多重路徑原則、因為它會為所有新的和現有的 NetApp 儲存裝置設定原則。</block>
+  <block id="217811709dfb096c78e73934de01271c" category="section-title">單一 ESXi 主機故障</block>
+  <block id="93bc89a0478478dd84d8159a18f6c1a2" category="image-alt">單一主機故障。</block>
+  <block id="15023af3b440b4004f509e961bfe1e30" category="paragraph">在這種情況下、如果 ESXi 主機發生故障、 VMware HA 叢集中的主節點會偵測主機故障、因為主機不再接收到網路心跳。若要判斷主機是否真的停機或只是網路分割區、主節點會監控資料存放區的訊次、如果沒有、則會 ping 失敗主機的管理 IP 位址、以執行最終檢查。如果所有這些檢查都是負數、則主節點會將此主機宣告為故障主機、而在該故障主機上執行的所有虛擬機器都會在叢集中的正常主機上重新開機。</block>
+  <block id="9a11158d52f71012ae8722b09bf8bf29" category="paragraph">如果已設定 DRS VM 和主機關聯性規則（ VM 群組 sitea_vms 中的 VM 應在主機群組 sitea_hosts 中執行主機）、則 HA 主機會先檢查站台 A 的可用資源如果站台 A 沒有可用的主機、則主主機會嘗試在站台 B 的主機上重新啟動 VM</block>
+  <block id="7922c92ff860eb0508dc8cc8aae3ffdd" category="paragraph">如果本機站台有資源限制、則可能會在其他站台的 ESXi 主機上啟動虛擬機器。不過、如果將虛擬機器移轉回本機站台中任何仍在運作的 ESXi 主機、而違反任何規則、則定義的 DRS VM 和主機關聯性規則將會修正。如果 DRS 設定為手動、 NetApp 建議您啟動 DRS 、並套用建議來修正虛擬機器的放置位置。</block>
+  <block id="387b5a49326be3a47e081682e75e19b4" category="paragraph">在此案例中、 MetroCluster 行為並無任何變更、所有資料存放區仍會保持不變、不受其個別站台影響。</block>
+  <block id="a11ffa7d20dab792fe5aa9c27017493e" category="section-title">ESXi 主機隔離</block>
+  <block id="17e01652089acd413e26ea89cf98a2b8" category="image-alt">ESXi 主機隔離</block>
+  <block id="8a4b746274e9d7129602d54434624806" category="paragraph">在此案例中、如果 ESXi 主機的管理網路中斷、 HA 叢集中的主節點將不會接收任何訊息、因此此主機會在網路中隔離。若要判斷它是否發生故障或只是隔離、主節點會開始監控資料存放區心跳。如果主機存在、則主機會由主節點宣告為隔離。根據設定的隔離回應、主機可能會選擇關閉、關閉虛擬機器、甚至讓虛擬機器保持開機。隔離回應的預設時間間隔為 30 秒。</block>
+  <block id="a070f7923919fed39772c5d3f91bf482" category="section-title">磁碟機櫃故障</block>
+  <block id="e8acf0e4f25cdd641c9a047482d56ba5" category="paragraph">在此案例中、有兩個以上的磁碟或整個機櫃發生故障。資料是從仍在運作的複合環境提供、不會中斷資料服務。磁碟故障可能會影響本機或遠端叢。由於只有一個叢處於作用中狀態、因此集合體會顯示為降級模式。更換故障磁碟後、受影響的集合體將自動重新同步以重建資料。重新同步後、集合體將自動返回正常的鏡射模式。如果單一 RAID 群組中有兩個以上的磁碟發生故障、則必須從頭重建叢。</block>
+  <block id="4f90d34a41c7ebc83024a5e3ca35ff3a" category="image-alt">單一磁碟櫃故障。</block>
+  <block id="8af0b36d49baf198133a234e76b06445" category="paragraph">* 注意： * 在此期間、虛擬機器 I/O 作業不會受到影響、但效能會降低、因為資料是透過 ISL 連結從遠端磁碟機櫃存取。</block>
+  <block id="1c872dcd4bcebb1d7567f383901dfc0d" category="section-title">單一儲存控制器故障</block>
+  <block id="68badb604dbd29653979fdc7083cbffe" category="paragraph">在這種情況下、兩個儲存控制器中的其中一個會在一個站台發生故障。由於每個站台都有 HA 配對、因此一個節點的故障會以透明方式自動觸發容錯移轉至另一個節點。例如、如果節點 A1 故障、其儲存設備和工作負載會自動傳輸至節點 A2 。虛擬機器將不會受到影響、因為所有的叢集都仍然可用。第二個站台節點（ B1 和 B2 ）不受影響。此外、 vSphere HA 將不會採取任何行動、因為叢集中的主節點仍會接收到網路心跳。</block>
+  <block id="0ac25682ea568511724f2e0819127d89" category="image-alt">單一節點故障</block>
+  <block id="e7b4c0523308b3fd46189b6ab4867fe5" category="paragraph">如果容錯移轉是循環災難的一部分（節點 A1 容錯移轉至 A2 ）、而且之後發生 A2 故障、或是站台 A 完全故障、則災難後的切換可能會發生在站台 B</block>
+  <block id="7b590b52d9f3d4d40cda67758ff92ba1" category="section-title">交換器間連結故障</block>
+  <block id="9df08f82abe35d87c6f7c96b18dab755" category="section-title">管理網路的交換器間連結故障</block>
+  <block id="ed0711cbc7a050952e0e370bab079bff" category="image-alt">管理網路上的交換器間連結故障</block>
+  <block id="a32c6c77bb8d407cf5825aec175bab4b" category="paragraph">在此案例中、如果前端主機管理網路的 ISL 連結失敗、站台 A 的 ESXi 主機將無法與站台 B 的 ESXi 主機通訊這會導致網路分割區、因為特定站台的 ESXi 主機將無法將網路心跳傳送至 HA 叢集中的主節點。因此、由於分割區的緣故、將會有兩個網路區段、每個區段中都會有一個主節點、可保護 VM 免於特定站台內的主機故障。</block>
+  <block id="36974534f1a2014a3e7e229d795ef51b" category="paragraph">* 附註： * 在此期間、虛擬機器仍在執行中、在此案例中、 MetroCluster 行為並無變更。所有的資料存放區都會繼續保持不變、不受其個別站台影響。</block>
+  <block id="628309883a8d1307131d205b200c56ae" category="section-title">儲存網路的交換器間連結故障</block>
+  <block id="a9da7e2a43bcea673a22b949355e619d" category="image-alt">儲存網路的交換器間連結故障</block>
+  <block id="625db96c5ee1e9b5197b6cb3c1715021" category="paragraph">在此案例中、如果後端儲存網路的 ISL 連結故障、站台 A 的主機將無法存取站台 B 的儲存磁碟區或叢集 B 的 LUN 、反之亦然。VMware DRS 規則的定義、是為了讓主機儲存站台的關聯性能讓虛擬機器在不影響站台的情況下執行。</block>
+  <block id="8d9609f32cbee8fa5080f95d71a2a142" category="paragraph">在此期間、虛擬機器會繼續在各自的站台上執行、在此案例中、 MetroCluster 行為不會有任何變更。所有的資料存放區都會繼續保持不變、不受其個別站台影響。</block>
+  <block id="719831bfdda20be14c04e2b165cce85e" category="paragraph">如果因為某種原因違反關聯規則（例如、 VM1 原本應從站台 A 執行、其磁碟位於本機叢集 A 節點上、而 VM1 則是在站台 B 的主機上執行）、則虛擬機器的磁碟將透過 ISL 連結遠端存取。由於 ISL 連結故障、在站台 B 執行的 VM1 將無法寫入其磁碟、因為通往儲存磁碟區的路徑已關閉、且該特定虛擬機器已關閉。在這些情況下、 VMware HA 不會採取任何行動、因為主機正在主動傳送心跳。這些虛擬機器必須在各自的站台手動關閉並開啟電源。下圖說明違反 DRS 關聯性規則的虛擬機器。</block>
+  <block id="09ba89b1ea49214c15fbf8ea6f129cb0" category="image-alt">發生 ISL 故障後、違反 DRS 關聯性規則的虛擬機器無法寫入磁碟</block>
+  <block id="49f26967af2ad76cacf7888cbeeb0590" category="section-title">所有交換器間故障或完整資料中心分割區</block>
+  <block id="bc331d84348670dff6731555166fa378" category="paragraph">在這種情況下、站台之間的所有 ISL 連結都會中斷、而且兩個站台彼此之間會隔離。如先前的案例所述、例如管理網路和儲存網路的 ISL 故障、虛擬機器在完全 ISL 故障時不會受到影響。</block>
+  <block id="a40e8cf2a5b5b1e22fec9f26cce85b9d" category="paragraph">在站台之間分割 ESXi 主機之後、 vSphere HA 代理程式會檢查資料存放區心跳、而且在每個站台中、本機 ESXi 主機將能夠將資料存放區心跳更新至各自的讀寫磁碟區 /LUN 。站台 A 中的主機會假設站台 B 中的其他 ESXi 主機故障、因為沒有網路 / 資料存放區檢測信號。站台 A 的 vSphere HA 會嘗試重新啟動站台 B 的虛擬機器、最終會失敗、因為站台 B 的資料存放區因為儲存 ISL 故障而無法存取。站台 B 也會再次出現類似的情況</block>
+  <block id="3543d47d1f3a8dc6989a32f62ce3ea77" category="image-alt">所有 ISL 故障或完整的資料中心分割區</block>
+  <block id="3a096ef571101010add81b37081d3276" category="paragraph">NetApp 建議判斷是否有任何虛擬機器違反 DRS 規則。從遠端站台執行的任何虛擬機器都會停機、因為它們將無法存取資料存放區、 vSphere HA 會在本機站台上重新啟動該虛擬機器。當 ISL 連結恢復上線後、在遠端站台上執行的虛擬機器將會停止運作、因為無法有兩個執行個體使用相同的 MAC 位址執行虛擬機器。</block>
+  <block id="87e9384cb464ff9a4ce385fc59a178a2" category="image-alt">VM1 違反 DRS 關聯規則的資料中心分割區</block>
+  <block id="0951e388ebea20c49e71af25ef84947d" category="section-title">NetApp MetroCluster 中兩個 Fabric 上的交換器間連結故障</block>
+  <block id="1e9be78885a356d1a2ec0ab0d4a4cecb" category="paragraph">在一個或多個 ISL 故障的情況下、流量會繼續流經其餘的連結。如果兩個架構上的所有 ISL 都發生故障、使得儲存和 NVRAM 複寫站台之間沒有連結、則每個控制器都會繼續提供其本機資料。還原至少一個 ISL 時、所有的叢會自動重新同步。</block>
+  <block id="715cbc6f6bcf5da6b73f10233847d3a1" category="paragraph">在所有 ISL 停機之後所發生的任何寫入動作、都不會鏡射到另一個站台。當組態處於此狀態時、發生災難時的切入將會遺失尚未同步的資料。在這種情況下、需要手動介入才能在進行重新操作後恢復。如果很可能在較長的時間內沒有可用的 ISL 、系統管理員可以選擇關閉所有資料服務、以避免在發生災難時發生資料遺失的風險。在至少有一個 ISL 可供使用之前、應將執行此動作的可能性與需要進行重新操作的災難可能性進行權衡。或者、如果 ISL 在串聯案例中發生故障、系統管理員可能會在所有連結失敗之前、觸發已規劃的切換至其中一個站台。</block>
+  <block id="89f375bfe8be0893bf175b89ce754b8e" category="image-alt">NetApp MetroCluster 中兩個 Fabric 的交換器間連結故障。</block>
+  <block id="bc813a6fdbbeebf4d230b7e33d8c3a76" category="section-title">已消除叢集連結故障</block>
+  <block id="1919456d1613248a128c65a84b235fe5" category="paragraph">在對等叢集連結故障案例中、由於 Fabric ISL 仍處於作用中狀態、因此兩個站台的資料服務（讀取和寫入）都會繼續存在於兩個叢集。任何叢集組態變更（例如、新增 SVM 、在現有 SVM 中配置 Volume 或 LUN ）都無法傳播到其他站台。這些資料會保留在本機 CRS 中繼資料磁碟區中、並在還原對等叢集連結時自動傳播到其他叢集。如果必須強制切換才能還原對等叢集連結、則在切換程序中、仍在運作中的站台上、中繼資料磁碟區的遠端複寫複本會自動重新播放未完成的叢集組態變更。</block>
+  <block id="77130a0b52e4379c6b6667cf7f8e155c" category="image-alt">已對等叢集連結故障</block>
+  <block id="9dc32d7afddc9a265c5c2713db55fc70" category="section-title">完成站台故障</block>
+  <block id="d0d6a03c382bc5412f1822e5c97d5142" category="paragraph">在完整站台 A 故障案例中、站台 B 的 ESXi 主機因為故障而無法從站台 A 的 ESXi 主機取得網路心跳。站台 B 的 HA 主機會驗證資料存放區心跳不存在、宣告站台 A 的主機故障、並嘗試重新啟動站台 B 中的站台 A 虛擬機器在此期間、儲存管理員會執行一次轉換、以恢復仍在運作的站台上故障節點的服務、該站台將還原站台 B 上站台 A 的所有儲存服務站台 A 磁碟區或 LUN 在站台 B 上可用後、 HA 主代理程式會嘗試重新啟動站台 B 中的站台 A 虛擬機器</block>
+  <block id="23e5761401326cc21bcf9d108b9e3e7f" category="paragraph">如果 vSphere HA 主要代理程式嘗試重新啟動虛擬機器（包括登錄及開機）失敗、則會在延遲後重試重新啟動。重新啟動之間的延遲時間最多可設定為 30 分鐘。vSphere HA 會嘗試重新啟動這些項目、最多嘗試次數（預設為六次）。</block>
+  <block id="641031c1f370e06434afd215f8610dae" category="paragraph">* 附註： * 在放置管理程式找到適當的儲存設備之前、 HA 主機不會開始重新啟動嘗試、因此在整個站台發生故障的情況下、這將是在執行切入之後。</block>
+  <block id="085a4a3eba6c30fa589bfee20eb0c294" category="paragraph">如果站台 A 已切換、則可透過容錯移轉至正常運作的節點、無縫地處理其中一個仍在運作的站台 B 節點的後續故障。在這種情況下、四個節點的工作現在僅由一個節點執行。在這種情況下、恢復將包括執行恢復到本機節點的贈品。然後、當站台 A 還原時、會執行切換作業、以還原組態的穩定狀態作業。</block>
+  <block id="2b9b713afb0d80ef371a0b55e58366b6" category="image-alt">完成站台故障</block>
+  <block id="e6364c2f5314a32cd95be04b4c2112e6" category="paragraph">以下各節概述將 VMware vVols 與 ONTAP 儲存設備搭配使用的程序和最佳實務做法。</block>
+  <block id="a9da618400fb93b20c20f5343efaefa7" category="sidebar">VMware vSphere Metro Storage Cluster with ONTAP</block>
+  <block id="2f58fa882a22b5af5f0741f03abaf611" category="sidebar">vSphere Metro Storage 叢集搭配 ONTAP</block>
+  <block id="4ed162a87c3bbcd728e66cd9365c7660" category="sidebar">VMSC 概述</block>
+  <block id="111464465e5bb57958d189842ad5e093" category="sidebar">vSphere HA 解決方案</block>
+  <block id="422fa84cbd2dc1a741d30fa40ad8284d" category="sidebar">VMSC 設計</block>
+  <block id="f6aef7af169e3878f32a39224e7a6cb8" category="sidebar">VMSC 恢復能力</block>
+  <block id="dfcccfecca566c55bd84119f294cde76" category="sidebar">使用 MCC 的 VMSC 案例</block>
 </blocks>

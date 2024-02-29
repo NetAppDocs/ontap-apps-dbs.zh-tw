@@ -11,16 +11,14 @@ summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的
 :icons: font
 :linkattrs: 
 :imagesdir: ../media/
-:firstname: [.lead]
-:author: [.lead]
-:authorinitials: [
-:authors: [.lead]
-:revdate: Configuring network settings when using vSphere with systems running ONTAP software is straightforward and similar to other network configuration.
 
+
+[role="lead"]
+使用vSphere搭配執行ONTAP VMware軟體的系統時、設定網路設定很簡單、而且類似於其他網路組態。
 
 以下是幾點需要考量的事項：
 
-* 將儲存網路流量與其他網路區隔。使用專屬的VLAN或獨立的交換器來儲存、即可建立獨立的網路。如果儲存網路共用實體路徑（例如上行鏈路）、您可能需要QoS或額外的上行鏈路連接埠、以確保有足夠的頻寬。請勿將主機直接連線至儲存設備；請使用交換器來建立備援路徑、並讓 VMware HA 在不需介入的情況下運作。請參閱 link:vmware-vsphere-network.html#direct-connect-networking["直接連線網路"] 以取得更多資訊。
+* 將儲存網路流量與其他網路區隔。使用專屬的VLAN或獨立的交換器來儲存、即可建立獨立的網路。如果儲存網路共用實體路徑（例如上行鏈路）、您可能需要QoS或額外的上行鏈路連接埠、以確保有足夠的頻寬。請勿將主機直接連線至儲存設備；請使用交換器來建立備援路徑、並讓 VMware HA 在不需介入的情況下運作。請參閱 link:vmware-vsphere-network.html["直接連線網路"] 以取得更多資訊。
 * 如果您的網路需要並支援巨型框架、尤其是使用iSCSI時、可以使用巨型框架。如果使用、請確定在儲存設備和ESXi主機之間的路徑中、所有網路裝置、VLAN等上的設定都相同。否則、您可能會看到效能或連線問題。MTU也必須在ESXi虛擬交換器、VMkernel連接埠、以及每ONTAP 個節點的實體連接埠或介面群組上設定相同。
 * NetApp僅建議停用ONTAP 叢集內叢集網路連接埠上的網路流量控制。對於用於資料流量的其餘網路連接埠、NetApp並未提出其他最佳實務做法建議。您應視需要啟用或停用。請參閱 http://www.netapp.com/us/media/tr-4182.pdf["TR-4182"^] 以取得流程控制的更多背景資訊。
 * 當ESXi和ONTAP VMware ESXi儲存陣列連接至乙太網路儲存網路時、NetApp建議將這些系統連接的乙太網路連接埠設定為快速擴充樹狀傳輸協定（RSTP）邊緣連接埠、或使用Cisco PortFast功能。NetApp建議在使用Cisco PortFast功能的環境中、啟用跨距樹狀結構PortFast主幹功能、並在ESXi伺服器或ONTAP VMware®儲存陣列上啟用802.1Q VLAN主幹連線。
@@ -112,44 +110,34 @@ vSphere可讓客戶使用企業級NFS陣列、同時存取ESXi叢集中所有節
 搭配ONTAP vSphere使用VMware NFS時、建議採用下列最佳實務做法：
 
 * 在叢集中的每個節點上、為每個SVM使用單一邏輯介面（LIF）ONTAP 。不再需要過去針對每個資料存放區的LIF建議。雖然直接存取（同一個節點上的 LIF 和資料存放區）是最佳的選擇、但別擔心間接存取、因為效能影響通常很小（微秒）。
-* VMware自VMware Infrastructure 3以來就一直支援NFSv3。vSphere 6.0新增對NFSv4.1的支援、可啟用某些進階功能、例如Kerberos安全性。NFSv3使用用戶端鎖定功能時、NFSv4.1會使用伺服器端鎖定功能。雖然可以透過這兩種傳輸協定匯出一個資料區、但ESXi只能透過一個傳輸協定掛載。ONTAP此單一傳輸協定掛載並不排除其他ESXi主機透過不同版本掛載相同的資料存放區。請務必指定要在掛載時使用的傳輸協定版本、以便所有主機使用相同版本、因此鎖定樣式相同。請勿在主機之間混合使用NFS版本。如有可能、請使用主機設定檔檢查是否符合規定。
-+
-** 由於NFSv3與NFSv4.1之間沒有自動資料存放區轉換、因此請建立新的NFSv4.1資料存放區、並使用Storage VMotion將VM移轉至新的資料存放區。
-** 請參閱中的NFS v4.1互通性表附註 https://mysupport.netapp.com/matrix/["NetApp互通性對照表工具"^] 支援所需的特定ESXi修補程式層級。
+* 目前支援的所有 VMware vSphere 版本均可使用 NFS v3 和 v4.1 。正式支援 nconnect 已新增至 vSphere 8.0 更新 2 for NFS v3 。對於 NFS v4.1 、 vSphere 持續支援工作階段主幹、 Kerberos 驗證及完整性 Kerberos 驗證。請務必注意、工作階段主幹需要 ONTAP 9.14.1 或更新版本。
 
 
-* NFS匯出原則用於控制vSphere主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用NFSv3時、ESXi會使用sys（UNIX）安全樣式、並需要root掛載選項來執行VM。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意、匯出具有不同值的原則規則 `-anon` 和 `-allow-suid` 可能會導致SVM發現ONTAP 問題、因為使用這些功能。以下是範例原則：
-+
-** 存取傳輸協定：nfs3
-** 用戶端配對規格：192．168．42．21
-** RO存取規則：系統
-** RW 存取規則
+值得注意的是、 NFSv3 和 NFSv4.1 使用不同的鎖定機制。NFSv3 使用用戶端端鎖定、而 NFSv4.1 則使用伺服器端鎖定。雖然 ONTAP 磁碟區可以透過兩種傳輸協定匯出、但 ESXi 只能透過一種傳輸協定掛載資料存放區。不過、這並不表示其他 ESXi 主機無法透過不同版本掛載相同的資料存放區。為了避免任何問題、請務必指定要在掛載時使用的通訊協定版本、確保所有主機都使用相同版本、因此使用相同的鎖定樣式。避免在主機之間混合使用 NFS 版本是非常重要的。如有可能、請使用主機設定檔來檢查法規遵循狀況。
+** 由於 NFSv3 和 NFSv4.1 之間沒有自動資料存放區轉換、因此請建立新的 NFSv4.1 資料存放區、並使用 Storage VMotion 將 VM 移轉至新的資料存放區。
+** 請參閱中的 NFS v4.1 互通性表附註 https://mysupport.netapp.com/matrix/["NetApp互通性對照表工具"^] 支援所需的特定ESXi修補程式層級。
+* NFS 匯出原則用於控制 vSphere 主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用NFSv3時、ESXi會使用sys（UNIX）安全樣式、並需要root掛載選項來執行VM。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意、匯出具有不同值的原則規則 `-anon` 和 `-allow-suid` 可能會導致SVM發現ONTAP 問題、因為使用這些功能。以下是範例原則：
+** 存取傳輸協定： nfs3.
+** 用戶端比對規格： 192.168.42.21
+** RO 存取規則：系統
+** RW 存取規則：系統
 ** 匿名 UID
-** 超級使用者：sys
-
-
+** 超級用戶： sys
 * 如果使用 NetApp NFS 外掛程式 for VMware VAAI 、則通訊協定應設為 `nfs` 匯出原則規則建立或修改時。需要 NFSv4 傳輸協定、 VAAI 複本卸載才能運作、並將傳輸協定指定為 `nfs` 自動同時包含 NFSv3 和 NFSv4 版本。
-* NFS資料存放區磁碟區是從SVM的根磁碟區連結而來、因此ESXi也必須能夠存取根磁碟區、才能瀏覽及掛載資料存放區磁碟區。根 Volume 和資料存放區磁碟區交會嵌套的任何其他磁碟區的匯出原則、都必須包含 ESXi 伺服器授予其唯讀存取權的規則或規則。以下是根 Volume 的範例原則、也使用 VAAI 外掛程式：
-+
-** 存取傳輸協定：NFS（包括nfs3和nfs4）
-** 用戶端配對規格：192．168．42．21
-** RO存取規則：系統
-** RW存取規則：Never（root Volume的最佳安全性）
+* NFS 資料存放區磁碟區是從 SVM 的根磁碟區連接而成、因此 ESXi 也必須擁有根磁碟區的存取權、才能瀏覽及裝載資料存放區磁碟區。根 Volume 和資料存放區磁碟區交會嵌套的任何其他磁碟區的匯出原則、都必須包含 ESXi 伺服器授予其唯讀存取權的規則或規則。以下是根 Volume 的範例原則、也使用 VAAI 外掛程式：
+** 存取傳輸協定： NFS （包括 nfs3 和 nfs4 ）
+** 用戶端比對規格： 192.168.42.21
+** RO 存取規則：系統
+** RW 存取規則：永不（ root Volume 的最佳安全性）
 ** 匿名 UID
-** 超級使用者：sys（也適用於採用VAAI的根Volume）
-
-
-* 使用ONTAP VMware vSphere的VMware Infrastructure（最重要的最佳實務做法）：
-+
-** 使用VMware vSphere的VMware VMware VMware vSphere功能來配置資料存放區、因為它能自動簡化匯出原則的管理。ONTAP
-** 使用外掛程式為VMware叢集建立資料存放區時、請選取叢集而非單一ESX伺服器。此選項會觸發IT自動將資料存放區掛載至叢集中的所有主機。
-** 使用外掛程式掛載功能、將現有的資料存放區套用至新的伺服器。
-** 如果不使用ONTAP VMware vSphere的VMware vSphere功能、請針對所有伺服器或需要額外存取控制的每個伺服器叢集、使用單一匯出原則。
-
-
-* 雖然供應彈性的Volume命名空間結構、可利用交會在樹狀結構中排列磁碟區、但這種方法對vSphere沒有任何價值。ONTAP無論儲存設備的命名空間階層為何、它都會在資料存放區根目錄中為每個VM建立一個目錄。因此、最佳實務做法是將vSphere磁碟區的交會路徑掛載到SVM的根磁碟區、這就是ONTAP VMware vSphere的VMware vSphere功能如何配置資料存放區。沒有巢狀結點路徑也表示除了根磁碟區之外、沒有任何磁碟區相依於任何磁碟區、即使是刻意將磁碟區離線或銷毀、也不會影響其他磁碟區的路徑。
-* 對於NFS資料存放區上的NTFS分割區、4K區塊大小是可以的。下圖說明從vSphere主機連線至ONTAP VMware NFS資料存放區的能力。
-
+** 超級用戶： sys （ VAAI 的 root Volume 也需要）
+* 使用適用於 VMware vSphere 的 ONTAP 工具（最重要的最佳實務做法）：
+** 使用適用於 VMware vSphere 的 ONTAP 工具來配置資料存放區、因為它能自動簡化匯出原則的管理。
+** 使用外掛程式為 VMware 叢集建立資料存放區時、請選取叢集、而非單一 ESX 伺服器。此選項會觸發IT自動將資料存放區掛載至叢集中的所有主機。
+** 使用外掛裝載功能將現有的資料存放區套用至新伺服器。
+** 如果不使用 ONTAP 工具來執行 VMware vSphere 、請針對所有伺服器或需要額外存取控制的每個伺服器叢集、使用單一匯出原則。
+* 雖然 ONTAP 提供彈性的 Volume 命名空間結構、可利用交叉路口在樹狀結構中排列磁碟區、但這種方法對 vSphere 沒有價值。無論儲存設備的命名空間階層為何、它都會在資料存放區根目錄中為每個VM建立一個目錄。因此、最佳實務做法是將vSphere磁碟區的交會路徑掛載到SVM的根磁碟區、這就是ONTAP VMware vSphere的VMware vSphere功能如何配置資料存放區。沒有巢狀結點路徑也表示除了根磁碟區之外、沒有任何磁碟區相依於任何磁碟區、即使是刻意將磁碟區離線或銷毀、也不會影響其他磁碟區的路徑。
+* 對於 NFS 資料存放區上的 NTFS 分割區、 4K 區塊大小是很好的。下圖說明從vSphere主機連線至ONTAP VMware NFS資料存放區的能力。
 
 image:vsphere_ontap_image3.png["錯誤：缺少圖形影像"]
 
@@ -192,7 +180,7 @@ image:vsphere_ontap_image3.png["錯誤：缺少圖形影像"]
 | Kerberos驗證 | 否 | 是（vSphere 6.5及更新版本增強支援AES、krb5i） 
 
 
-| 多重路徑支援 | 否 | 否 
+| 多重路徑支援 | 否 | 有（ ONTAP 9.14.1 ） 
 |===
 
 

@@ -1,0 +1,48 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-vsphere-datastores-fg.html 
+keywords: vSphere, datastore, VMFS, FC, FCoE, NVMe/FC, iSCSI, NFS, vVols 
+summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的最佳實務做法。 
+---
+= 資料量FlexGroup
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+ONTAP 9.8 在 vSphere 中新增對 FlexGroup Volume 資料存放區的支援、並支援適用於 VMware vSphere 的 ONTAP 工具和適用於 VMware vSphere 的 SnapCenter 外掛程式。此功能可簡化大型資料存放區的建立作業、並自動建立多個組成磁碟區、以發揮整個系統的最大效能。FlexGroup ONTAP如果您需要具備完整 ONTAP 叢集功能的單一可擴充 vSphere 資料存放區、或是擁有可從全新 FlexGroup 複製機制獲益的大型複製工作負載、請將 FlexGroup 與 vSphere 搭配使用。
+
+除了針對vSphere工作負載進行廣泛的系統測試之外、ONTAP 還為FlexGroup VMware資料存放區新增了複本卸載機制。這會使用更新的複本引擎、使用前幾個複本在每個組成 Volume 中填入本機快取。然後使用此本機快取、根據需要快速產生 VM 複本。
+
+請考慮下列案例：
+
+* 您已經建立了 8 個組成要素的新 FlexGroup
+* 新 FlexGroup 的快取逾時設定為 160 分鐘
+
+
+在此案例中、要完成的前 8 個複本將為完整複本、而非本機檔案複本。在 160 秒逾時過期之前、對該 VM 進行任何額外的複製、都會以循環方式使用每個組成要素內部的檔案複製引擎、以建立幾乎立即的複本、並在組成的磁碟區之間平均分配。
+
+Volume 接收的每個新複製工作都會重設逾時。如果範例 FlexGroup 中的組成磁碟區在逾時之前未收到複製要求、則會清除該特定 VM 的快取、而且需要再次填入該磁碟區。此外、如果原始複本的來源變更（例如、您已更新範本）、則每個成分的本機快取都會失效、以避免任何衝突。快取是可調整的、可設定以符合您環境的需求。
+
+在無法充分利用 FlexGroup 快取、但仍需要快速跨磁碟區複製的環境中、請考慮使用 vVols 。使用 vVols 進行跨磁碟區複製的速度比使用傳統資料存放區快得多、而且不依賴快取。
+
+如需搭配 VAAI 使用 FlexGroups 的詳細資訊、請參閱知識庫文章： https://kb.netapp.com/?title=onprem%2Fontap%2Fdm%2FVAAI%2FVAAI%3A_How_does_caching_work_with_FlexGroups%253F["VAAI ：快取如何與 FlexGroup 磁碟區搭配運作？"^]
+
+ONTAP 9.8 也為 FlexGroup Volume 檔案新增檔案型效能指標（ IOPS 、處理量和延遲）、這些指標可在 ONTAP 工具中檢視、以取得 VMware vSphere 儀表板和 VM 報告。VMware vSphere外掛程式的支援功能也可讓您使用最大和/或最小IOPS的組合來設定服務品質（QoS）規則。ONTAP這些設定可以跨資料存放區中的所有VM進行設定、也可以針對特定VM個別設定。
+
+以下是NetApp開發的其他一些最佳實務做法：
+
+* 使用 FlexGroup Volume 資源配置預設值。建議使用VMware vSphere的VMware vSphere功能、因為它能在vSphere中建立及掛載功能、但可能會使用VMware System Manager或命令列來滿足特殊需求。ONTAP FlexGroup ONTAP即使如此、也請使用預設值、例如每個節點的組成成員數目、因為這是 vSphere 最徹底的測試結果。也就是說、非預設的設定、例如變更成分的數量或位置、仍受到完整支援。
+* 調整 FlexGroup 型資料存放區的規模時、請記住、 FlexGroup 包含多個較小的 FlexVol 磁碟區、可建立較大的命名空間。因此、當使用八個組成要素的 FlexGroup 時、請確定資料存放區大小至少是最大虛擬機器的 8 倍。例如、如果您的環境中有6TB的VM、FlexGroup 請將該資料存放區的大小調整至不小於48TB。
+* 允許FlexGroup 執行功能以管理資料存放區空間。vSphere資料存放區已測試過自動調整規模與彈性調整。如果資料存放區接近完整容量、請使用ONTAP VMware vSphere的VMware vCenter功能或其他工具來調整FlexGroup VMware Volume的大小。如果容量允許、則可將資料夾（VM）內的檔案優先順序設定為相同的組成要素、藉此平衡各成員的容量和inode。FlexGroup
+* VMware 和 NetApp 目前支援從 ONTAP 9.14.1 開始的 NFSv4.1 工作階段主幹。如需特定版本詳細資料、請參閱 NetApp NFS 4.1 互通性對照表附註。NFSv3 不支援多個實體路徑到一個 Volume 、但支援從 vSphere 8.0U2 開始的 nconnect 。如需 nconnect 的詳細資訊、請參閱 https://docs.netapp.com/us-en/netapp-solutions_nconnect/virtualization/vmware-vsphere8-nfsv3-nconnect.html["NFSv3 nConnect 功能搭配 NetApp 和 VMware"]。對於採用 ONTAP 9.8 的 FlexGroup 、我們建議的最佳實務做法是讓適用於 VMware vSphere 的 ONTAP 工具建立 FlexGroup 、然後您應該將其卸載、並使用循環 DNS 重新掛載、以便在叢集之間分散負載。ONTAP 工具只會在裝載資料存放區時使用一個 LIF 。重新掛載資料存放區之後、可使用 ONTAP 工具來監控及管理資料存放區。
+* vSphere資料存放區支援已在9.8版中測試高達1500部VM。FlexGroup
+* 使用適用於VMware VAAI的NFS外掛程式進行複本卸載。請注意、雖然如前所述、在 FlexGroup 資料存放區內增強複製功能、但在 FlexVol 和 / 或 FlexGroup 磁碟區之間複製 VM 時、 ONTAP 並未提供與 ESXi 主機複本相比的顯著效能優勢。因此、在決定使用 VAAI 或 FlexGroups 時、請考慮您的複製工作負載。修改組成磁碟區的數量是最佳化 FlexGroup 型複製的一種方法。如同調整快取逾時。
+* 使用VMware vSphere 9.8的支援功能、使用VMware vSphere 9.8的支援指標（儀表板和VM報告）來監控各個VM的效能、以及管理個別VM上的QoS。ONTAP FlexGroup ONTAP目前無法透過ONTAP REST指令或API取得這些指標。
+* QoS（最大/最小IOPS）可在個別VM或資料存放區中的所有VM上設定。在所有VM上設定QoS會取代任何個別VM設定。設定未來不會延伸至新的或移轉的VM；您可以在新的VM上設定QoS、或是將QoS重新套用至資料存放區中的所有VM。如果 VM 移轉至另一個資料存放區、則 FlexGroup QoS 原則也不會遵循該 VM 。這與 vVols 形成對照、 vVols 可在移轉至其他資料存放區時、維持其 QoS 原則設定。
+* SnapCenter Plug-in for VMware vSphere 4.4 版及更新版本支援在主要儲存系統上的 FlexGroup 資料存放區中備份及還原 VM 。4.6 號選擇控制閥增加了對 FlexGroup 型資料存放區的 SnapMirror 支援。
+

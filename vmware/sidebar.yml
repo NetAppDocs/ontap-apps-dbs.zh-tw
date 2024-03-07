@@ -13,7 +13,15 @@ entries:
   - title: 虛擬磁碟區和儲存原則型管理
     url: "/vmware/vmware-vsphere-vvols_and_spbm.html"
   - title: 資料存放區與傳輸協定
-    url: "/vmware/vmware-vsphere-datastores.html"
+    entries:
+    - title: 總覽
+      url: "/vmware/vmware-vsphere-datastores-top.html"
+    - title: SAN
+      url: "/vmware/vmware-vsphere-datastores-san.html"
+    - title: NFS
+      url: "/vmware/vmware-vsphere-datastores-nfs.html"
+    - title: 資料量FlexGroup
+      url: "/vmware/vmware-vsphere-datastores-fg.html"
   - title: 網路組態
     url: "/vmware/vmware-vsphere-network.html"
   - title: 複製

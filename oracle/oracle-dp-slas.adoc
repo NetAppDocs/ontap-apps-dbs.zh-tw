@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dp-slas.html 
 keywords: SLA, data protection, RPO, RTO 
-summary: Oracle 資料保護 SLA 
+summary: Oracle 資料庫資料保護 SLA 
 ---
-= 恢復時間目標、恢復點目標和服務層級協議
+= Oracle 資料庫 RTO 、 RPO 和 SLA 規劃
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: Oracle 資料保護 SLA
 
 
 [role="lead"]
-資料保護策略應根據業務需求來定義。
+ONTAP 可讓您輕鬆根據業務需求量身打造 Oracle 資料庫資料保護策略。
 
 這些需求包括恢復速度、最大允許資料遺失量、以及備份保留需求等因素。資料保護計畫也必須考量資料保留與還原的各種法規要求。最後、必須考量不同的資料恢復情境、從使用者或應用程式錯誤所造成的典型和可預見的恢復、到包括站點完全遺失的災難恢復情境。
 

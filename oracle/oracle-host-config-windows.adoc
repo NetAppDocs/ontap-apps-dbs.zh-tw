@@ -2,14 +2,14 @@
 sidebar: sidebar 
 permalink: oracle/oracle-host-config-windows.html 
 keywords: oracle, database, ontap, windows 
-summary: 使用 Microsoft Windows 的 ONTAP 上的 Oracle 
+summary: 使用 Microsoft Windows 的 Oracle 資料庫 
 ---
-= Microsoft Windows
+= 使用 Microsoft Windows 的 Oracle 資料庫
 :allow-uri-read: 
 
 
 [role="lead"]
-Microsoft Windows 作業系統專屬的組態主題。
+Microsoft Windows with ONTAP 上 Oracle 資料庫的組態主題。
 
 
 

@@ -2,14 +2,14 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dp-snapshots.html 
 keywords: oracle, database, ontap, snapshots 
-summary: ONTAP 上的 Oracle 和快照的角色 
+summary: ONTAP 上的 Oracle 資料庫和快照的角色 
 ---
-= 快照型備份
+= Oracle 資料庫和快照型備份
 :allow-uri-read: 
 
 
 [role="lead"]
-ONTAP 上的 Oracle 資料保護基礎是 NetApp Snapshot 技術。
+NetApp Snapshot 技術是 ONTAP 上 Oracle 資料庫資料保護的基礎。
 
 關鍵值如下：
 

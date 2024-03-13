@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-tiering-partial-file.html 
 keywords: tiering, fabricpool 
-summary: 使用 FabricPool 進行部分檔案分層 
+summary: Oracle 部分檔案 FabricPool 分層 
 ---
-= Oracle 部分檔案分層
+= Oracle 部分檔案 FabricPool 分層
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

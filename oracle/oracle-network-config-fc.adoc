@@ -4,7 +4,7 @@ permalink: oracle/oracle-network-config-fc.html
 keywords: SAN, zoning 
 summary: Oracle 資料庫的 FC 網路組態 
 ---
-= Oracle 的 FC 組態
+= Oracle 資料庫的 FC 組態
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

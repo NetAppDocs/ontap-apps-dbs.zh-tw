@@ -4,7 +4,7 @@ permalink: oracle/oracle-storage-san-config-lun-resizing.html
 keywords: SAN, ASM, LVM 
 summary: 使用 Oracle 資料庫調整 LUN 和 LVM 大小 
 ---
-= LUN 調整大小和 LVM 型調整大小
+= Oracle 資料庫 LUN 調整大小和以 LVM 為基礎的調整大小
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

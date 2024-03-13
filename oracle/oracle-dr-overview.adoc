@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dr-overview.html 
 keywords: metrocluster, syncmirror, oracle 
-summary: 使用 ONTAP 進行 Oracle 災難恢復 
+summary: 使用 ONTAP 進行 Oracle 資料庫災難恢復 
 ---
-= 使用 ONTAP 進行災難恢復
+= 使用 ONTAP 進行 Oracle 資料庫災難恢復
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -21,10 +21,10 @@ NOTE: 本文件取代先前發佈的技術報告 _TR-4591 ： Oracle Data Protec
 
 當然、災難恢復可以透過使用 SnapMirror 簡單複寫資料來完成、許多客戶會在每小時更新鏡射複本。
 
-對於大多數客戶而言、 DR 不只需要擁有遠端資料複本、還需要能夠快速使用該資料。NetApp 提供兩種技術來滿足這種需求： MetroCluster 和 SnapMirror 業務連續性（ SM-BC ）
+對於大多數客戶而言、 DR 不只需要擁有遠端資料複本、還需要能夠快速使用該資料。NetApp 提供兩種技術來滿足這種需求： MetroCluster 和 SnapMirror 主動同步
 
 MetroCluster 指的是硬體組態中的 ONTAP 、其中包括低階同步鏡射儲存設備和許多其他功能。MetroCluster 等整合式解決方案可簡化現今複雜的橫向擴充資料庫、應用程式及虛擬化基礎架構。它以一個簡單的中央儲存陣列取代多種外部資料保護產品和策略。它也能在單一叢集式儲存系統中提供整合式備份、還原、災難恢復和高可用度（ HA ）。
 
-SnapMirror Business Continuity （ SM-BC ）是以 SnapMirror Synchronous 為基礎。使用 MetroCluster 、每個 ONTAP 控制器都負責將其磁碟機資料複寫到遠端位置。有了 SM-BC 、您基本上擁有兩個不同的 ONTAP 系統、可維護獨立的 LUN 資料複本、但可以合作呈現該 LUN 的單一執行個體。從主機的角度來看、這是單一 LUN 實體。
+SnapMirror 主動同步是以 SnapMirror Synchronous 為基礎。使用 MetroCluster 、每個 ONTAP 控制器都負責將其磁碟機資料複寫到遠端位置。有了 SnapMirror 主動式同步、您基本上擁有兩個不同的 ONTAP 系統、可維護 LUN 資料的獨立複本、但可以合作呈現該 LUN 的單一執行個體。從主機的角度來看、這是單一 LUN 實體。
 
-雖然 SMBC 和 MetroCluster 在內部的運作方式非常不同、但對於主機而言、結果卻非常相似。主要差異在於精細度。如果您只需要選取要同步複寫的工作負載、則 SMBC 是更好的選擇。如果您需要複寫整個環境、甚至是資料中心、 MetroCluster 是更好的選擇。此外、 SMBC 目前僅限 SAN 、而 MetroCluster 則是多重傳輸協定、包括 SAN 、 NFS 和 SMB 。
+雖然 SnapMirror 主動式同步和 MetroCluster 在內部的運作方式截然不同、但對於主機而言、結果卻非常相似。主要差異在於精細度。如果您只需要選取要同步複寫的工作負載、 SnapMirror 主動同步是更好的選擇。如果您需要複寫整個環境、甚至是資料中心、 MetroCluster 是更好的選擇。此外、 SnapMirror 主動式同步目前僅適用於 SAN 、而 MetroCluster 則是多重傳輸協定、包括 SAN 、 NFS 和 SMB 。

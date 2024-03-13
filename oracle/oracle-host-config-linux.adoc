@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-host-config-linux.html 
 keywords: oracle, database, ontap, linux, nfs, xfs, ext4, slot tables 
-summary: 使用 Linux 的 ONTAP 上的 Oracle 
+summary: 使用 Linux 的 Oracle 資料庫 
 ---
-= Linux
+= 使用 Linux 的 Oracle 資料庫
 :allow-uri-read: 
 
 

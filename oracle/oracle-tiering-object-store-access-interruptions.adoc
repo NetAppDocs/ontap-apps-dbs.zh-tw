@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-tiering-object-store-access-interruptions.html 
 keywords: tiering, fabricpool, interruption 
-summary: 物件存放區存取中斷期間的資料庫存取 
+summary: Oracle 資料庫和物件儲存區存取中斷 
 ---
-= 物件存放區存取中斷
+= Oracle 資料庫和物件儲存區存取中斷
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

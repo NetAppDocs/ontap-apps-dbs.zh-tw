@@ -4,7 +4,7 @@ permalink: oracle/oracle-migration-log-shipping.html
 keywords: migration, oracle, log shipping 
 summary: 透過記錄傳送進行 Oracle 移轉 
 ---
-= Oracle 記錄傳送
+= 透過記錄傳送進行 Oracle 資料庫移轉
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -79,7 +79,7 @@ Cluster01::*>
 Cluster01::*> snapmirror show -destination-path vserver1:vol_oradata -fields state
 source-path             destination-path        state
 ----------------------- ----------------------- ------------
-vserver1:jfsc1_oradata vserver1:vol_oradata Snapmirrored
+vserver1:jfsc1_oradata vserver1:vol_oradata SnapMirrored
 ....
 +
 ....

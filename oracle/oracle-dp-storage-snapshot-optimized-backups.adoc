@@ -2,14 +2,14 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dp-storage-snapshot-optimized-backups.html 
 keywords: oracle, data protection, snapshot-optimized, crash-consistent 
-summary: 快照最佳化備份 
+summary: Oracle Storage Snapshot 最佳化備份 
 ---
-= Oracle Storage Snapshot 最佳化備份
+= Oracle 資料庫儲存快照最佳化備份
 :allow-uri-read: 
 
 
 [role="lead"]
-使用 Oracle 12c 、快照型備份與還原變得更簡單、因為不需要將資料庫置於熱備份模式。結果是能夠直接在儲存系統上排程快照式備份、同時仍保留執行完整或時間點還原的能力。
+當 Oracle 12c 發行時、快照型備份與還原變得更簡單、因為不需要將資料庫置於熱備份模式。結果是能夠直接在儲存系統上排程快照式備份、同時仍保留執行完整或時間點還原的能力。
 
 雖然 DBA 較熟悉熱備份還原程序、但很長一段時間以來、它仍能使用資料庫處於熱備份模式時未建立的快照。恢復期間、 Oracle 10g 和 11g 需要額外的手動步驟、才能使資料庫保持一致。使用 Oracle 12c 、 `sqlplus` 和 `rman` 包含額外的邏輯、可在非熱備份模式的資料檔案備份上重播歸檔記錄。
 

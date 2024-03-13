@@ -4,7 +4,7 @@ permalink: oracle/oracle-dp-nvfail.html
 keywords: oracle, metrocluster, nvfail 
 summary: 設定 NVFAIL 以保護 Oracle 資料庫 
 ---
-= Oracle 和 NVFAIL
+= Oracle 資料庫與 NVFAIL
 :allow-uri-read: 
 
 

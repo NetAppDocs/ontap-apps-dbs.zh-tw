@@ -4,7 +4,7 @@ permalink: oracle/oracle-tiering-logs.html
 keywords: tiering, fabricpool 
 summary: Oracle 歸檔記錄分層 
 ---
-= Oracle 記錄分層
+= Oracle 資料庫歸檔記錄分層
 :allow-uri-read: 
 :nofooter: 
 :icons: font

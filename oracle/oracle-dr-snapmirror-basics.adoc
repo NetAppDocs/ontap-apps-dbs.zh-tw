@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dr-snapmirror-basics.html 
 keywords: ontap, snapmirror 
-summary: SnapMirror 和 SyncMirror 
+summary: 採用 SnapMirror 和 SyncMirror 的 Oracle 資料庫 
 ---
-= SnapMirror 和 SyncMirror
+= 採用 SnapMirror 和 SyncMirror 的 Oracle 資料庫
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -72,7 +72,7 @@ StrictSync 保證 RPO=0 。複寫變更失敗會導致 I/O 錯誤、這通常會
 
 ONTAP 可建立一致性群組快照、從 9.13.1 開始、 ONTAP 可複寫磁碟區群組（請記住、 ONTAP 術語中的磁碟區不是 LUN 、而是由一或多個檔案或 LUN 組成的管理容器）、作為一致的群組。
 
-SnapMirror 複寫和中斷 CG SnapMirror 關係可維持各磁碟區之間的一致性、 SnapMirror Synchronous 和 SnapMirror Business Continuity 則可維持各組成磁碟區之間的一致性。
+SnapMirror 複寫和中斷 CG SnapMirror 關係可維持各磁碟區之間的一致性、 SnapMirror 同步和 SnapMirror 主動同步則可維持各組成磁碟區之間的一致性。
 
 因此、您可以複寫多個 Volume 資料集、並確保所有磁碟區都一致。除此之外、這還能「中斷鏡射並移轉」災難恢復作業、而不需要額外的應用程式或資料庫還原步驟。
 

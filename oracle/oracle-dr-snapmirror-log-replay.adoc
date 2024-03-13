@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dr-snapmirror-log-replay.html 
 keywords: oracle, ontap, disaster recovery, log reply, log shipping 
-summary: Oracle on ONTAP DR 程序、含記錄傳送 
+summary: 透過記錄傳送的 Oracle 資料庫 DR 
 ---
-= 以記錄重新執行進行災難恢復
+= 透過記錄傳送的 Oracle 資料庫 DR
 :allow-uri-read: 
 
 

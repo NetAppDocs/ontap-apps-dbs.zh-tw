@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dp-snaprestore.html 
 keywords: ontap, snaprestore 
-summary: ONTAP 中的快速 Oracle 資料庫從 Snapshot 複本還原是由 NetApp SnapRestore 技術提供。 
+summary: 使用 SnapRestore 快速恢復 Oracle 資料庫 
 ---
-= SnapRestore
+= 使用 SnapRestore 快速恢復 Oracle 資料庫
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

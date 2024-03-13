@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-host-config-asmlib-afd.html 
 keywords: oracle, database, ontap, asmlib, block size, oracleasm, multipath, afd 
-summary: 使用 Linux 和 ASMlib/ASM 篩選器驅動程式的 ONTAP 上的 Oracle 
+summary: 使用 Linux 和 ASMlib/ASM 篩選器驅動程式的 Oracle 資料庫 
 ---
-= ASMLib 和 ASM 篩選器驅動程式
+= 使用 ASMLib/AFD 的 Oracle 資料庫（ ASM 篩選器驅動程式）
 :allow-uri-read: 
 
 

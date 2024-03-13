@@ -76,7 +76,7 @@ ONTAP 和其他某些 NetApp 產品現在支援使用各種方法的多因素驗
 
 自動化需要 API 呼叫、但並非所有工具都需要完整的管理存取權。為了協助保護自動化系統的安全、 API 層級也提供 RBAC 。您可以將自動化使用者帳戶限制為所需的 API 呼叫。例如、監控軟體不需要變更存取權、只需要讀取存取權。配置儲存設備的工作流程不需要刪除儲存設備的能力。
 
-若要深入瞭解、請開始 link:https://docs.netapp.com/us-en/ontap-automation/rest/rbac_overview.html["請按這裡。"]
+若要深入瞭解、請啟動 https://docs.netapp.com/us-en/ontap-automation/rest/rbac_overview.html[here.]
 
 
 

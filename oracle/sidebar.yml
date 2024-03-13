@@ -150,19 +150,19 @@ entries:
       url: "/oracle/oracle-dr-mcc-failover.html"
     - title: NVFAIL
       url: "/oracle/oracle-dr-mcc-nvfail.html"
-    - title: MetroCluster 上的單一執行個體
+    - title: MetroCluster 上的 Oracle SI
       url: "/oracle/oracle-dr-mcc-si.html"
     - title: MetroCluster 上的 Oracle RAC
       url: "/oracle/oracle-dr-mcc-rac.html"
-  - title: SnapMirror營運不中斷
+  - title: SnapMirror 主動同步
     entries:
     - title: 架構
       url: "/oracle/oracle-dr-smbc-architecture.html"
     - title: 容錯移轉
       url: "/oracle/oracle-dr-smbc-failover.html"
-    - title: SM-BC 上的單一執行個體
+    - title: Oracle SI 搭配 SnapMirror 主動式同步
       url: "/oracle/oracle-dr-smbc-si.html"
-    - title: SM-BC 上的 Oracle RAC
+    - title: Oracle RAC 搭配 SnapMirror 主動式同步
       url: "/oracle/oracle-dr-smbc-rac.html"
     - title: 故障案例
       url: "/oracle/oracle-dr-smbc-failure-scenarios.html"

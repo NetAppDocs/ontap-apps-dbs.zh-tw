@@ -2,9 +2,9 @@
 permalink: oracle/oracle-app-config-mbr.html 
 sidebar: sidebar 
 keywords: oracle, database, ontap, db_file_multiblock_read_count, multiblock 
-summary: Oracle 多區塊讀取參數 
+summary: Oracle 資料庫參數 - db_file_multimblock_read_count 
 ---
-= DB_FILE_multimblock_read_count
+= Oracle 資料庫參數： DB_FILE_Multifblock_read_count
 :allow-uri-read: 
 
 

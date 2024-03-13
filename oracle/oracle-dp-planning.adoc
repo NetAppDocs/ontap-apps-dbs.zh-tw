@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dp-planning.html 
 keywords: data protection, DR, snapshots, CG 
-summary: ONTAP 資料保護策略 
+summary: Oracle 資料庫的資料保護規劃 
 ---
-= 資料保護規劃
+= Oracle 資料庫的資料保護規劃
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: ONTAP 資料保護策略
 
 
 [role="lead"]
-正確的企業資料保護架構、取決於資料保留、可恢復性、以及各種事件中斷的容忍度等業務需求。
+正確的 Oracle 資料庫資料保護架構取決於資料保留、可恢復性、以及各種事件中斷的容錯能力等業務需求。
 
 例如、請考慮範圍內的應用程式、資料庫和重要資料集數量。為單一資料集建立備份策略、以確保符合典型 SLA 的要求相當簡單、因為沒有太多物件需要管理。隨著資料集數量增加、監控作業變得更複雜、系統管理員可能不得不花費更多時間來解決備份故障。當環境達到雲端與服務供應商的規模時、需要完全不同的方法。
 
@@ -52,7 +52,7 @@ RTO 通常可在數秒內測量。應用程式會關閉、磁碟區會還原、�
 
 == 複寫與災難恢復架構
 
-本節說明遠端資料保護、將資料複寫到遠端站台、以保護異地儲存和災難恢復的安全。請注意、這些表格並未解決同步鏡射資料保護問題。如需此需求、請參閱 NetApp MetroCluster 文件、包括 link:../metrocluster/overview.html["MetroCluster"] 和 link:../smbc/overview.html["SnapMirror營運不中斷"]
+本節說明遠端資料保護、將資料複寫到遠端站台、以保護異地儲存和災難恢復的安全。請注意、這些表格並未解決同步鏡射資料保護問題。如需此需求、請參閱 NetApp MetroCluster 文件、包括 link:../metrocluster/overview.html["MetroCluster"] 和 link:../smbc/overview.html["SnapMirror 主動同步"]
 
 災難恢復 RPO 受限於可用的網路頻寬和受保護資料的總大小。建立初始基準傳輸之後、更新僅以變更的資料為基礎、這通常是資料佔用空間總量的低百分比、但確實存在例外情況。
 

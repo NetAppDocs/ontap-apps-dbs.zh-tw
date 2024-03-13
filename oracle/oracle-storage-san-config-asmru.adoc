@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-storage-san-config-asmru.html 
 keywords: ontap, thin provisioning 
-summary: 使用 ONTAP 的 ASM 回收公用程式 
+summary: 具備 ONTAP 零區塊偵測功能的 ASM 回收公用程式 
 ---
-= ASM 回收公用程式與零區塊偵測
+= ASM 回收公用程式和 ONTAP 零區塊偵測
 :allow-uri-read: 
 
 

@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-network-config-direct-connect.html 
 keywords: direct-connect, oracle 
-summary: 直接與 ONTAP 連線 
+summary: Oracle 資料庫與直接連線 ONTAP 連線 
 ---
-= 與 TCP/IP 和 FC 網路直接連線
+= Oracle 資料庫與直接連線 ONTAP 連線
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

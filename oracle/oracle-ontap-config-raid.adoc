@@ -4,13 +4,8 @@ permalink: oracle/oracle-ontap-config-raid.html
 keywords: oracle,raid,mirroring 
 summary: RAID 和 Oracle 資料庫 
 ---
-= Oracle RAID 需求
-:hardbreaks:
+= RAID 和 Oracle 資料庫
 :allow-uri-read: 
-:nofooter: 
-:icons: font
-:linkattrs: 
-:imagesdir: ../media/
 
 
 [role="lead"]

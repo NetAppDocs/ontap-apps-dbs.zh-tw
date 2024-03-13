@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-host-config-solaris.html 
 keywords: oracle, database, ontap, solaris, zfs 
-summary: 使用 Solaris 的 ONTAP 上的 Oracle 
+summary: Oracle 資料庫與 Solaris 
 ---
-= Solaris
+= Oracle 資料庫與 Solaris
 :allow-uri-read: 
 
 

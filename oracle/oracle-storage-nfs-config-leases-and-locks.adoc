@@ -4,7 +4,7 @@ permalink: oracle/oracle-storage-nfs-config-leases-and-locks.html
 keywords: NFS, lease 
 summary: Oracle 資料庫和 NFS 會租用和鎖定 
 ---
-= NFS 租賃與鎖定 - Oracle
+= Oracle 資料庫和 NFS 會租用和鎖定
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

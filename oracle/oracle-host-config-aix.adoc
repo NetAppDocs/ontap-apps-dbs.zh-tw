@@ -2,14 +2,14 @@
 sidebar: sidebar 
 permalink: oracle/oracle-host-config-aix.html 
 keywords: oracle, database, ontap, aix, cio 
-summary: 使用 AIX 的 ONTAP 上的 Oracle 
+summary: Oracle 資料庫與 AIX 
 ---
-= IBM AIX
+= 使用 IBM AIX 的 Oracle 資料庫
 :allow-uri-read: 
 
 
 [role="lead"]
-特定於 IBM AIX 作業系統的組態主題。
+IBM AIX 與 ONTAP 上 Oracle 資料庫的組態主題。
 
 
 

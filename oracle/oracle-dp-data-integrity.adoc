@@ -2,14 +2,14 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dp-data-integrity.html 
 keywords: checksums, data integrity 
-summary: Checksum 與 Oracle 資料保護 
+summary: Checksum 與 Oracle 資料庫完整性 
 ---
-= Checksum 與 Oracle 資料完整性
+= Checksum 與 Oracle 資料庫完整性
 :allow-uri-read: 
 
 
 [role="lead"]
-NetApp 常問的一個問題是如何保護 Oracle 資料庫的資料完整性。
+ONTAP 及其支援的通訊協定包含多項保護 Oracle 資料庫完整性的功能、包括靜態資料和透過網路傳輸的資料。
 
 ONTAP 內的邏輯資料保護包含三項關鍵需求：
 

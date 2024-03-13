@@ -4,12 +4,12 @@ permalink: oracle/oracle-migration-overview.html
 keywords: oracle, ontap, migrations, TR-4534 
 summary: Oracle 儲存設備移轉簡介 
 ---
-= 將 Oracle 資料庫移轉至 NetApp 儲存系統
+= 將 Oracle 資料庫移轉至 ONTAP 儲存系統
 :allow-uri-read: 
 
 
 [role="lead"]
-利用新儲存平台的功能、有一項不可避免的需求；資料必須放在新的儲存系統上。
+利用新儲存平台的功能、有一項不可避免的需求；資料必須放在新的儲存系統上。ONTAP 讓移轉程序變得簡單、包括 ONTAP 到 ONTAP 的移轉與升級、外部 LUN 匯入、以及直接使用主機作業系統或 Oracle 資料庫軟體的程序。
 
 
 NOTE: 本文件取代先前發佈的技術報告 _TR-4534 ：將 Oracle 資料庫移轉至 NetApp 儲存系統

@@ -2,14 +2,14 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dp-consistency-group-backup.html 
 keywords: oracle, data, protection, consistency, group, backup, volume, archive, log, redo, controlfiles 
-summary: ONTAP 上 Oracle 的一致性群組備份 
+summary: ONTAP 上 Oracle 資料庫的一致性群組備份 
 ---
-= Oracle 一致性群組備份
+= Oracle 資料庫一致性群組備份
 :allow-uri-read: 
 
 
 [role="lead"]
-若要進行最簡單的備份、只要將整個 Oracle 資料庫放在單一磁碟區即可。
+若要進行最簡單的備份、只要將整個 Oracle 資料庫放在單一 ONTAP 磁碟區即可
 
 使用單一快照來保護資料檔案、歸檔記錄檔、重做記錄檔和控制檔是一種有效的備份、還原和複寫方法。  不過、 RPO 僅限於備份本身的點。適用於一小時或更長的 RPO 。如果資料庫跨越磁碟區、則需要使用先前討論的工具之一來建立 CG 快照。
 

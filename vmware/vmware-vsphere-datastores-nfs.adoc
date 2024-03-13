@@ -23,7 +23,7 @@ vSphere可讓客戶使用企業級NFS陣列、同時存取ESXi叢集中所有節
 +
 ** 由於NFSv3與NFSv4.1之間沒有自動資料存放區轉換、因此請建立新的NFSv4.1資料存放區、並使用Storage VMotion將VM移轉至新的資料存放區。
 ** 請參閱中的NFS v4.1互通性表附註 https://mysupport.netapp.com/matrix/["NetApp互通性對照表工具"^] 支援所需的特定ESXi修補程式層級。
-** VMware 支援從 vSphere 8.0U2 開始與 NFSv3 進行 nconnect 。如需 nconnect 的詳細資訊、請參閱 https://docs.netapp.com/us-en/netapp-solutions_nconnect/virtualization/vmware-vsphere8-nfsv3-nconnect.html["NFSv3 nConnect 功能搭配 NetApp 和 VMware"]
+** VMware 支援從 vSphere 8.0U2 開始與 NFSv3 進行 nconnect 。如需 nconnect 的詳細資訊、請參閱 link:vmware-vsphere-network.html#nfs["請按這裡"]。
 
 
 * NFS匯出原則用於控制vSphere主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用NFSv3時、ESXi會使用sys（UNIX）安全樣式、並需要root掛載選項來執行VM。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意、匯出具有不同值的原則規則 `-anon` 和 `-allow-suid` 可能會導致SVM發現ONTAP 問題、因為使用這些功能。以下是範例原則：

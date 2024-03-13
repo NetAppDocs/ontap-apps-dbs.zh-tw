@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-storage-nfs-config-caching.html 
 keywords: NFS 
-summary: NFS 屬性快取資料庫 
+summary: 使用 Oracle 資料庫進行 NFS 快取 
 ---
-= 使用資料庫進行 NFS 快取
+= 使用 Oracle 資料庫進行 NFS 快取
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

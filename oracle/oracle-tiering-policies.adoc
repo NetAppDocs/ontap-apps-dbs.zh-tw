@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-tiering-policies.html 
 keywords: tiering, fabricpool 
-summary: Oracle 分層原則 
+summary: Oracle 資料庫 FabricPool 分層原則 
 ---
-= Oracle 資料庫分層原則
+= Oracle 資料庫 FabricPool 分層原則
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dr-smbc-si.html 
 keywords: TR-4899, oracle, smbc, sm-bc 
-summary: ONTAP 上的 Oracle 單一執行個體、搭配 SM-BC 
+summary: 單一執行個體 Oracle 資料庫搭配 SnapMirror 主動式同步 
 ---
-= 單一執行個體 Oracle 搭配 SM-BC
+= 單一執行個體 Oracle 資料庫搭配 SnapMirror 主動式同步
 :allow-uri-read: 
 
 
@@ -13,6 +13,6 @@ summary: ONTAP 上的 Oracle 單一執行個體、搭配 SM-BC
 
 Oracle 僅在主要系統上設定。此模式可因應儲存端災難時的無縫儲存容錯移轉、在沒有任何應用程式停機的情況下、不會造成資料遺失。然而、此模型無法在站台故障期間提供資料庫環境的高可用度。這類架構對於想要尋找零資料遺失解決方案、且儲存服務可用度高的客戶而言非常實用、但請接受、資料庫叢集的整體遺失需要手動作業。
 
-image:smbc-si.png["錯誤：缺少圖形影像"]
+image:smas-si.png["錯誤：缺少圖形影像"]
 
 這種方法也能節省 Oracle 授權成本。在遠端站台上預先設定 Oracle 資料庫節點時、所有核心都必須根據大多數 Oracle 授權合約獲得授權。如果安裝 Oracle 資料庫伺服器和掛載仍在運作的資料複本所需的時間所造成的延遲是可以接受的、則此設計可能非常具成本效益。

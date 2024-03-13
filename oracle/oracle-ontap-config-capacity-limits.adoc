@@ -4,7 +4,7 @@ permalink: oracle/oracle-ontap-config-capacity-limits.html
 keywords: capacity 
 summary: 資料庫與 ONTAP 儲存容量與可用空間 
 ---
-= Oracle 和儲存容量管理
+= Oracle 資料庫與儲存容量管理
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

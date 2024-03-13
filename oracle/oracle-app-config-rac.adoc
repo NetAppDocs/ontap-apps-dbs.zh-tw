@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: oracle/oracle-app-config-rac.html 
 keywords: oracle, database, ontap, rac, disktimeout, misscount 
-summary: 使用網路儲存設備的 Oracle RAC 設定 
+summary: Oracle RAC 逾時 
 ---
-= Oracle Real Application叢集（RAC）
+= Oracle Real Application Clusters （ RAC ）逾時
 :allow-uri-read: 
 
 

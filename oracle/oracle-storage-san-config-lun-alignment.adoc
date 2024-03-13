@@ -4,7 +4,7 @@ permalink: oracle/oracle-storage-san-config-lun-alignment.html
 keywords: SAN, ASM, LVM 
 summary: LUN 與 Oracle 資料庫一致 
 ---
-= Oracle I/O 的 LUN 對齊
+= Oracle 資料庫 I/O 的 LUN 對齊
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

@@ -4,7 +4,7 @@ permalink: oracle/oracle-storage-san-config-lvm-striping.html
 keywords: SAN, ASM, LVM 
 summary: 適用於 Oracle 資料庫的 LVM 等量磁碟區組態 
 ---
-= 使用 Oracle 資料庫進行 LVM 分拆
+= 使用 Oracle 資料庫的 LVM 分拆
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

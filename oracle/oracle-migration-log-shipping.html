@@ -1,0 +1,5378 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+  <head class="at-element-marker">
+  <title>透過記錄傳送進行 Oracle 資料庫移轉</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta http-equiv="language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="透過記錄傳送進行 Oracle 資料庫移轉" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://docs.netapp.com/zh-tw/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+	<meta property="og:description" content="透過記錄傳送進行 Oracle 移轉" />
+  <meta property="og:image" content="https://docs.netapp.com/zh-tw/ontap-apps-dbs/images/logo-tophat-social.png" />
+  <meta property="og:image:alt" content="NetApp Logo" />
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="encoding" content="utf-8">
+  <meta http-equiv="nss-type" content="Product Documentation"/>
+  <meta http-equiv="nss-subtype" content="User Guide"/><meta name="description" content="透過記錄傳送進行 Oracle 移轉">
+  <meta name="keywords" content=" migration, oracle, log shipping"><!-- Icons -->
+  <link rel="icon" href="/zh-tw/ontap-apps-dbs/images/favicon.ico" type="image/x-icon">
+
+  <!-- RSS Feed --><!-- CSS Definitions: NetApp CSS should be defined after generic css -->
+
+
+  <!-- Combined CSS -->
+  <link rel="stylesheet" type="text/css" href="/zh-tw/ontap-apps-dbs/css/ie-netappdocs.css">
+
+  
+  <link rel="stylesheet" href="/zh-tw/ontap-apps-dbs/css/ie-landing-page.css" type="text/css">
+  <link rel="stylesheet" href="/zh-tw/ontap-apps-dbs/css/ie-tabbed-blocks.css" type="text/css">
+  <!-- Canonical url -->
+  <link rel="canonical" href="https://docs.netapp.com/zh-tw/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="x-default" href="https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="zh-Hant" href="https://docs.netapp.com/zh-tw/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="en" href="https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="ja" href="https://docs.netapp.com/ja-jp/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="ko" href="https://docs.netapp.com/ko-kr/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="zh-Hans" href="https://docs.netapp.com/zh-cn/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="de" href="https://docs.netapp.com/de-de/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="es" href="https://docs.netapp.com/es-es/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="fr" href="https://docs.netapp.com/fr-fr/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <link rel="alternate" hreflang="it" href="https://docs.netapp.com/it-it/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html" />
+  <!-- Top level site integrations -->
+<script type="text/javascript" src="https://cdn.cookielaw.org/consent/72570c5c-fe30-465f-b0e0-b77f7fb4ae34/OtAutoBlock.js"></script>
+    <script type="text/javascript" src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" charset="UTF-8" data-document-language="true" data-domain-script="72570c5c-fe30-465f-b0e0-b77f7fb4ae34"></script>
+    <script type="text/javascript">function OptanonWrapper() { }</script>
+    <script type="text/plain" class="optanon-category-C0002" src="https://assets.adobedtm.com/60287eadf1ee/c284da483c83/launch-e9ff3acac59f.min.js"></script>
+    <script class="optanon-category-C0001">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.setAttributeNode(d.createAttribute('data-ot-ignore'));j.setAttribute('class','optanon-category-C0001');j.async=true;
+        j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl+'';f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MD73T9M');</script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+      const MASTHEAD_OFFSET = 65;
+      const SECTIONS = $("main h2, main h3");
+      // PAGE NAV - Init
+      if (SECTIONS.length == 0) {
+        // remove if there is no elements
+        /*
+        $("#ie-right-navbar").remove();
+        $("#ie-right-navbar-collapse").remove();
+        */
+      } else {
+        $(".page-nav-title").css('display', 'block');
+        for (var i = 0; i < SECTIONS.length; i++) {
+          var sectionId = $(SECTIONS[i]).attr('id');
+          var sectionName = $(SECTIONS[i]).text();
+          var subClass = $(SECTIONS[i]).is("h3") ? ' page-nav__sublink' : '';
+          $("#page-menu").append('<li class="page-nav-item"><a href="#' + sectionId + '" class="page-nav__link' + subClass + '">' + sectionName + '</a></li>');
+        }
+      }
+    });
+  </script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <!-- Used for Product Family Page Sidebar Visibility --><!-- Used to import Promise for IE. Required for SearchKit -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script><script src='/zh-tw/ontap-apps-dbs/js/na-search.js'></script><script src='/zh-tw/ontap-apps-dbs/js/ie-clouddocs.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><script>
+    /*
+      $(document).ready(function() {
+          $("#tg-sb-link").click(function() {
+              $("#tg-sb-sidebar").toggle();
+              $("#tg-sb-content").toggleClass('col-md-9');
+              $("#tg-sb-content").toggleClass('col-md-12');
+              $("#tg-sb-icon").toggleClass('fa-toggle-on');
+              $("#tg-sb-icon").toggleClass('fa-toggle-off');
+          });
+      });
+      */
+  </script>
+  <script src='/zh-tw/ontap-apps-dbs/js/custom-dropdown.js'></script>
+  <script src='/zh-tw/ontap-apps-dbs/js/FileSaver.min.js'></script>
+  <script src='/zh-tw/ontap-apps-dbs/js/jszip-utils.min.js'></script>
+  <script src='/zh-tw/ontap-apps-dbs/js/jszip.min.js'></script><script src='/zh-tw/ontap-apps-dbs/js/ie-pdf-ux.js'></script></head>
+
+
+  <body class role="document" data-flavor="">
+    <div class="skip-to-main">
+      <a href="#main" >Skip to main content</a>
+    </div><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MD73T9M"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="page" class="">
+      <div id="ie-phone-menu" class=""></div>
+      <div id="ie-content-wrap" class="">
+        <nav id="ie-new-header">
+    <ul>
+        <li id="ie-phone-menu-button">
+            <a href="#">
+                <image id="" src="/zh-tw/ontap-apps-dbs/images/hamburger.svg" alt="menu" />
+            </a>
+        </li>
+
+        <li>
+            <a href="https://www.netapp.com/tw">
+                <image id="ie-header-logo" src="/zh-tw/ontap-apps-dbs/images/netapp_logo.svg" alt="netapp" />
+            </a>
+        </li>
+        <li id="ie-header-docs">
+            <a href="https://www.netapp.com/support-and-training/documentation/">文件</a>
+        </li>
+
+        <!-- Empty container to push header left with or without lang selector -->
+        <li id="empty-container" style="margin-left: auto">
+        </li>
+        <!-- Start Language Selector --><li id="ie-language-dropdown">
+            <div id="language-dropdown" class="custom-dropdown custom-dropdown-lang">
+                <div class="custom-dropdown-select custom-dropdown-select-lang">
+                    <img src="/zh-tw/ontap-apps-dbs/images/language_white_24dp.svg" class="n-globe__icon" />
+                    <span class="lang-name">繁體中文</span>
+                    <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevrondown header invisible" />
+                    <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevronup header" />
+                    </button>
+                </div>
+
+                <ul class="custom-dropdown-menu"><li>
+                        <a href="https://docs.netapp.com/zh-tw/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html"
+                            target="_self"><span translate="no" class="notranslate">繁體中文</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html"
+                            target="_self"><span translate="no" class="notranslate">English</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/ja-jp/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html"
+                            target="_self"><span translate="no" class="notranslate">日本語</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/ko-kr/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html"
+                            target="_self"><span translate="no" class="notranslate">한국어</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/zh-cn/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html"
+                            target="_self"><span translate="no" class="notranslate">简体中文</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/de-de/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html"
+                            target="_self"><span translate="no" class="notranslate">Deutsch</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/es-es/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html"
+                            target="_self"><span translate="no" class="notranslate">Español</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/fr-fr/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html"
+                            target="_self"><span translate="no" class="notranslate">Français</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/it-it/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html"
+                            target="_self"><span translate="no" class="notranslate">Italiano</span></a>
+                    </li></ul>
+            </div>
+            </li>
+        <!-- End Language Selector -->
+
+
+        <li id="ie-allnetapp">
+            <div id="allnetapp-dropdown" class="custom-dropdown custom-dropdown-allnetapp">
+                <div class="custom-dropdown-select custom-dropdown-select-allnetapp">
+                    <img src="/zh-tw/ontap-apps-dbs/images/apps_white_24dp.svg" alt="" class="allnetapp-icon" />
+                    <span class="allnetapp-name">所有 NetApp</span>
+                    <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevrondown header invisible" />
+                    <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevronup header" />
+                    </button>
+                </div>
+
+                <ul class="custom-dropdown-menu allnetapp-dropdown">
+                    <li>
+                        <a href="https://bluexp.netapp.com/"
+                            target="_self"><span translate="no" class="notranslate">BlueXP</span></a>
+                    </li>
+                    <li>
+                        <a href="https://mysupport.netapp.com/site/"
+                            target="_self"><span translate="no" class="notranslate">支援</span></a>
+                    </li>
+                    <li>
+                        <a href="https://kb.netapp.com/"
+                            target="_self"><span translate="no" class="notranslate">知識庫</span></a>
+                    </li>
+                    <li>
+                        <a href="https://www.netapp.com/support-and-training/netapp-learning-services/"
+                            target="_self"><span translate="no" class="notranslate">訓練</span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </li>
+
+    </ul>
+</nav>
+
+        <main id="n-main-content" class="n-main-content">
+          <!-- Start Documentation Content -->
+<div class="ie-main">
+
+<div id="ie-new-sidebar-collapse" style="display: none">
+    <img id="sidebar-expand" class="ie-searchbox-icon" src="/zh-tw/ontap-apps-dbs/images/double_arrow.svg" alt="" />
+</div>
+<div id="ie-new-sidebar">
+    <div id="ie-product-identity-lockup">
+        <div id="sidebar-collapse" class="">
+            <img src="/zh-tw/ontap-apps-dbs/images/double_arrow.svg" alt="" />
+        </div>
+        <div id="ie-breadcrumb" class="">
+  <ul class="ie-breadcrumb">
+    <li class="">
+      <a href="https://docs.netapp.com">所有文件</a>
+    </li>
+    
+    
+
+    
+  </ul>
+  
+  <div class="ie-product-name" >
+    <!--<a href="/zh-tw/ontap-apps-dbs/">-->
+      Enterprise applications
+    <!--</a>-->
+  </div>
+</div>
+
+            
+
+        
+        
+
+<div id="ie-searchbox" class="ie-searchbox-sidebar ">
+    <img class="ie-searchbox-icon" src="/zh-tw/ontap-apps-dbs/images/loupe.svg" alt=""/>
+    <div id="react-search" 
+        data-search-html="/zh-tw/ontap-apps-dbs/search.html" 
+        data-type="widget"
+        data-placeholder="搜尋說明文件"
+        data-no-results-found="找不到 {query} 的結果"
+        data-did-you-mean="搜尋 {suggestion}。"
+        data-no-results-found-did-you-mean="找不到 {query} 的結果。您的意思是 {suggestion} 嗎？"
+        data-results-found="找到 {hitCount} 個結果"
+        data-error-message="發生錯誤。請再試一次。"
+        data-error-reset="重設搜尋"
+        data-sk-es-pf-indexes="" 
+        data-flavor="">
+    </div>
+</div>
+        
+    </div>
+    <div id="ie-new-toc"><script>
+  let sidebarAccordion = true;
+
+  /* specific css rules for Mac */
+  if(navigator.platform.match('Mac') !== null) {
+    document.body.setAttribute('class', 'OSX');
+  }
+
+</script>
+
+<div id="ie-sidebar-container">
+  <ul id="ie-sidebar-list" ><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="企業應用程式"
+      data-li-level="1#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/index.html" 
+    ><a class="ie-sidebar-menuitem-1 " href="/zh-tw/ontap-apps-dbs/index.html">
+        企業應用程式
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Microsoft SQL Server"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Microsoft SQL Server</div>-->
+         Microsoft SQL Server
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-overview.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="工作負載"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-workloads.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-workloads.html">
+        工作負載
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Microsoft SQL Server 的資料庫組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料庫組態</div>-->
+         資料庫組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="共享執行個體與專用執行個體"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-shared-vs-dedicated.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-shared-vs-dedicated.html">
+        共享執行個體與專用執行個體
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="CPU 組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-cpu-configuration.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-cpu-configuration.html">
+        CPU 組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="記憶體組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-memory-configuration.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-memory-configuration.html">
+        記憶體組態
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Microsoft SQL Server 的儲存組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 儲存組態</div>-->
+         儲存組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料庫檔案和檔案群組"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-files-and-filegroups.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-files-and-filegroups.html">
+        資料庫檔案和檔案群組
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="tempdb 檔案"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-tempdb.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-tempdb.html">
+        tempdb 檔案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存考量"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-storage-considerations.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-storage-considerations.html">
+        儲存考量
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存效率"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-storage-efficiency.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-storage-efficiency.html">
+        儲存效率
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料保護"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-data-protection.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-data-protection.html">
+        資料保護
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="災難恢復"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-disaster-recovery.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-disaster-recovery.html">
+        災難恢復
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料安全"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mssql/mssql-data-security.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-data-security.html">
+        資料安全
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> MySQL</div>-->
+         MySQL
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-overview.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL 的資料庫組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料庫組態</div>-->
+         資料庫組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="檔案結構"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-file-structure.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-file-structure.html">
+        檔案結構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="組態總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-configuration.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-configuration.html">
+        組態總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_log_file_size"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-innodb_log_file_size.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_log_file_size.html">
+        InnoDB_log_file_size
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_Flush 記錄 _AT_TRx_Commit"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-innodb_flush_log_at_trx_commit.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_flush_log_at_trx_commit.html">
+        InnoDB_Flush 記錄 _AT_TRx_Commit
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_doublewrite"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-innodb_doublewrite.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_doublewrite.html">
+        InnoDB_doublewrite
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_緩 衝區 _Pool_size"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-innodb_buffer_pool_size.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_buffer_pool_size.html">
+        InnoDB_緩 衝區 _Pool_size
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_Flush 方法"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-innodb_flush_method.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_flush_method.html">
+        InnoDB_Flush 方法
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_IO_capAC"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-innodb_io_capacity.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_io_capacity.html">
+        InnoDB_IO_capAC
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_LRU_SCAN_depth"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-innodb_lru_scan_depth.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_lru_scan_depth.html">
+        InnoDB_LRU_SCAN_depth
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="open_file_limits"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-open_file_limits.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-open_file_limits.html">
+        open_file_limits
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL 的主機組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 主機組態</div>-->
+         主機組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="容器化"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-containers.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-containers.html">
+        容器化
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="插槽表格"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-slot-tables.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-slot-tables.html">
+        插槽表格
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="I/O 排程器"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-schedulers.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-schedulers.html">
+        I/O 排程器
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="檔案描述元"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-file-descriptors.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-file-descriptors.html">
+        檔案描述元
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL 的儲存組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 儲存組態</div>-->
+         儲存組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL over NFS"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-mysql-over-nfs.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-mysql-over-nfs.html">
+        MySQL over NFS
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL over SAN"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/mysql/mysql-mysql-over-san.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-mysql-over-san.html">
+        MySQL over SAN
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle資料庫"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Oracle資料庫</div>-->
+         Oracle資料庫
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-overview.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="組態ONTAP"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 組態ONTAP</div>-->
+         組態ONTAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="RAID"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-raid.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-raid.html">
+        RAID
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="容量限制"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-capacity-limits.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-capacity-limits.html">
+        容量限制
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存虛擬機器"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-svm.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-svm.html">
+        儲存虛擬機器
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="服務品質（QoS）"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-qos.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-qos.html">
+        服務品質（QoS）
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="效率"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-efficiency.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-efficiency.html">
+        效率
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資源隨需配置"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-thin-provisioning.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-thin-provisioning.html">
+        資源隨需配置
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="容錯移轉與切換"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-failover.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-failover.html">
+        容錯移轉與切換
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫的資料庫組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料庫組態</div>-->
+         資料庫組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料檔案和重做區塊大小"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-app-config-block-sizes.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-app-config-block-sizes.html">
+        資料檔案和重做區塊大小
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="DB_FILE_multimblock_read_count"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-app-config-mbr.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-app-config-mbr.html">
+        DB_FILE_multimblock_read_count
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="filesystemio_options"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-app-config-filesystemio_options.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-app-config-filesystemio_options.html">
+        filesystemio_options
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle RAC"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-app-config-rac.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-app-config-rac.html">
+        Oracle RAC
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫的主機組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 主機組態</div>-->
+         主機組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="AIX"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-host-config-aix.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-aix.html">
+        AIX
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="HP-UX"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-host-config-hp-ux.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-hp-ux.html">
+        HP-UX
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Linux"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-host-config-linux.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-linux.html">
+        Linux
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Linux 搭配 ASMLib 和 AFD"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-host-config-asmlib-afd.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-asmlib-afd.html">
+        Linux 搭配 ASMLib 和 AFD
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Microsoft Windows"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-host-config-windows.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-windows.html">
+        Microsoft Windows
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Solaris"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-host-config-solaris.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-solaris.html">
+        Solaris
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫的網路組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 網路組態</div>-->
+         網路組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="邏輯介面"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-network-config-lifs.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-network-config-lifs.html">
+        邏輯介面
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="乙太網路組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-network-config-ethernet.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-network-config-ethernet.html">
+        乙太網路組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="FC SAN 組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-network-config-fc.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-network-config-fc.html">
+        FC SAN 組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="直接連線網路"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-network-config-direct-connect.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-network-config-direct-connect.html">
+        直接連線網路
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫的儲存組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 儲存組態</div>-->
+         儲存組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="FC SAN"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> FC SAN</div>-->
+         FC SAN
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="LUN 對齊"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-lun-alignment.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-lun-alignment.html">
+        LUN 對齊
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="LUN 數量和 LUN 大小"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-lun-sizing.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-lun-sizing.html">
+        LUN 數量和 LUN 大小
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="LUN 調整大小"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-lun-resizing.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-lun-resizing.html">
+        LUN 調整大小
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="LVM 分拆"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-lvm-striping.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-lvm-striping.html">
+        LVM 分拆
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> NFS</div>-->
+         NFS
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="組態"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-overview.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-overview.html">
+        組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle Direct NFS（DNFS）"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-dnfs.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-dnfs.html">
+        Oracle Direct NFS（DNFS）
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS 會租用和鎖定"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-leases-and-locks.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-leases-and-locks.html">
+        NFS 會租用和鎖定
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS 快取"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-caching.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-caching.html">
+        NFS 快取
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS 傳輸大小"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-transfer-sizes.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-transfer-sizes.html">
+        NFS 傳輸大小
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 和 NVFAIL"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-nvfail.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-nvfail.html">
+        Oracle 和 NVFAIL
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="ASM 回收公用程式"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-asmru.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-asmru.html">
+        ASM 回收公用程式
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="虛擬化"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-virtualization-introduction.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-virtualization-introduction.html">
+        虛擬化
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="分層"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 分層</div>-->
+         分層
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-tiering-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="分層原則"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 分層原則</div>-->
+         分層原則
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="傳送資料至物件存放區"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-tiering-policies.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-policies.html">
+        傳送資料至物件存放區
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="從物件存放區擷取資料"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-tiering-retrieval-policies.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-retrieval-policies.html">
+        從物件存放區擷取資料
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="分層策略"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 分層策略</div>-->
+         分層策略
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="完整檔案"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-tiering-whole-file.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-whole-file.html">
+        完整檔案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="部分檔案"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-tiering-partial-file.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-partial-file.html">
+        部分檔案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="選取檔案"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-tiering-logs.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-logs.html">
+        選取檔案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="快照"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-tiering-snapshots.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-snapshots.html">
+        快照
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="備份"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-tiering-backups.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-backups.html">
+        備份
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="物件存放區存取中斷"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-tiering-object-store-access-interruptions.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-object-store-access-interruptions.html">
+        物件存放區存取中斷
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料保護"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Oracle 資料保護</div>-->
+         Oracle 資料保護
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="RPO 、 RTO 和 SLA"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-slas.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-slas.html">
+        RPO 、 RTO 和 SLA
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料可用度"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-data-availability.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-data-availability.html">
+        資料可用度
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料完整性"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-data-integrity.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-data-integrity.html">
+        資料完整性
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="備份與還原基礎知識"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 備份與還原基礎知識</div>-->
+         備份與還原基礎知識
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="快照"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-snapshots.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-snapshots.html">
+        快照
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SnapRestore"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-snaprestore.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-snaprestore.html">
+        SnapRestore
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="快照型線上備份"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-online-backup.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-online-backup.html">
+        快照型線上備份
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存 Snapshot 最佳化備份"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-storage-snapshot-optimized-backups.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-storage-snapshot-optimized-backups.html">
+        儲存 Snapshot 最佳化備份
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SnapCenter 和其他工具"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dp-backup-tools.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-backup-tools.html">
+        SnapCenter 和其他工具
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 災難恢復"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Oracle 災難恢復</div>-->
+         Oracle 災難恢復
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MetroCluster"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> MetroCluster</div>-->
+         MetroCluster
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="實體架構"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-physical.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-physical.html">
+        實體架構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="邏輯架構"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-logical.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-logical.html">
+        邏輯架構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SyncMirror"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-syncmirror.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-syncmirror.html">
+        SyncMirror
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 容錯移轉"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-failover.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-failover.html">
+        Oracle 容錯移轉
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NVFAIL"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-nvfail.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-nvfail.html">
+        NVFAIL
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MetroCluster 上的 Oracle SI"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-si.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-si.html">
+        MetroCluster 上的 Oracle SI
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MetroCluster 上的 Oracle RAC"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-rac.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-rac.html">
+        MetroCluster 上的 Oracle RAC
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SnapMirror 主動同步"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> SnapMirror 主動同步</div>-->
+         SnapMirror 主動同步
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="架構"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-architecture.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-architecture.html">
+        架構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="容錯移轉"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-failover.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-failover.html">
+        容錯移轉
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle SI 搭配 SnapMirror 主動式同步"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-si.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-si.html">
+        Oracle SI 搭配 SnapMirror 主動式同步
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle RAC 搭配 SnapMirror 主動式同步"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-rac.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-rac.html">
+        Oracle RAC 搭配 SnapMirror 主動式同步
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="故障案例"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-failure-scenarios.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-failure-scenarios.html">
+        故障案例
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫移轉"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Oracle 資料庫移轉</div>-->
+         Oracle 資料庫移轉
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="規劃"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-planning.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-planning.html">
+        規劃
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="程序"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 程序</div>-->
+         程序
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-procedures-overview.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-procedures-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料檔案移動"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-datafile-move.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-datafile-move.html">
+        資料檔案移動
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="記錄傳送"
+      data-li-level="4#" 
+      class="  ie-sidebar-selected    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-log-shipping.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html">
+        記錄傳送
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="主機資料複本"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-host-data-copy.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-host-data-copy.html">
+        主機資料複本
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="外部 LUN 匯入"
+      data-li-level="4" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-4  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 外部 LUN 匯入</div>-->
+         外部 LUN 匯入
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="規劃"
+      data-li-level="5#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-fli-planning.html" 
+    ><a class="ie-sidebar-menuitem-5 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-fli-planning.html">
+        規劃
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="轉換"
+      data-li-level="5#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-fli-cutover.html" 
+    ><a class="ie-sidebar-menuitem-5 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-fli-cutover.html">
+        轉換
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="完成"
+      data-li-level="5#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-fli-completion.html" 
+    ><a class="ie-sidebar-menuitem-5 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-fli-completion.html">
+        完成
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="傳輸協定轉換"
+      data-li-level="5#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-fli-protocol-conversion.html" 
+    ><a class="ie-sidebar-menuitem-5 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-fli-protocol-conversion.html">
+        傳輸協定轉換
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="範例指令碼"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-migration-sample-scripts.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-sample-scripts.html">
+        範例指令碼
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="其他附註"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 其他附註</div>-->
+         其他附註
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="效能最佳化與基準測試"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-notes-optimization-and-benchmarking.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-notes-optimization-and-benchmarking.html">
+        效能最佳化與基準測試
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="過時的 NFS 鎖定"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-notes-stale-nfs-locks.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-notes-stale-nfs-locks.html">
+        過時的 NFS 鎖定
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="WAFL 對齊驗證"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/oracle/oracle-notes-wafl-alignment-verification.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-notes-wafl-alignment-verification.html">
+        WAFL 對齊驗證
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="PostgreSQL"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> PostgreSQL</div>-->
+         PostgreSQL
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-overview.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="PostgreSQL 的主機組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料庫組態</div>-->
+         資料庫組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="架構"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-architecture.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-architecture.html">
+        架構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="初始化"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-initialization.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-initialization.html">
+        初始化
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="設定"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-db-config.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-db-config.html">
+        設定
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="表格空間"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-tablespaces.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-tablespaces.html">
+        表格空間
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="PostgreSQL 的儲存組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 儲存組態</div>-->
+         儲存組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-nfs-filesystems.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-nfs-filesystems.html">
+        NFS
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SAN"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-san-filesystems.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-san-filesystems.html">
+        SAN
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="PostgreSQL 的資料保護"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料保護</div>-->
+         資料保護
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="原生資料保護"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-native-dp.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-native-dp.html">
+        原生資料保護
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Snapshot 技術"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-snapshot-dp.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-snapshot-dp.html">
+        Snapshot 技術
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料保護軟體"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/postgres/postgres-snapcenter-dp.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-snapcenter-dp.html">
+        資料保護軟體
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SAP"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> SAP</div>-->
+         SAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SAP HANA 與 AnyDB"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="sap-solutions.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/sap-solutions.html">
+        SAP HANA 與 AnyDB
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> VMware</div>-->
+         VMware
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware vSphere 搭配 ONTAP"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> VMware vSphere 搭配 ONTAP</div>-->
+         VMware vSphere 搭配 ONTAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="統一化儲存設備"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-unified.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-unified.html">
+        統一化儲存設備
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="虛擬化工具"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-vtools.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-vtools.html">
+        虛擬化工具
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="虛擬磁碟區和儲存原則型管理"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-vvols_and_spbm.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-vvols_and_spbm.html">
+        虛擬磁碟區和儲存原則型管理
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料存放區與傳輸協定"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料存放區與傳輸協定</div>-->
+         資料存放區與傳輸協定
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-datastores-top.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SAN"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-datastores-san.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-san.html">
+        SAN
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-datastores-nfs.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-nfs.html">
+        NFS
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料量FlexGroup"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-datastores-fg.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-fg.html">
+        資料量FlexGroup
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="網路組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-network.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-network.html">
+        網路組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="複製"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-cloning.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-cloning.html">
+        複製
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料保護"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-dp.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-dp.html">
+        資料保護
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="QoS"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-qos.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-qos.html">
+        QoS
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存原則型管理"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-policy-and-vvols.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-policy-and-vvols.html">
+        儲存原則型管理
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware Storage Distributed Resource Scheduler"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-sdrs.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-sdrs.html">
+        VMware Storage Distributed Resource Scheduler
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="建議設定"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vsphere-settings.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-settings.html">
+        建議設定
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="使用 ONTAP 的虛擬磁碟區（ VVols ）"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 使用 ONTAP 的虛擬磁碟區（ VVols ）</div>-->
+         使用 ONTAP 的虛擬磁碟區（ VVols ）
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vvols-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="搭配 ONTAP 使用 vVols"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vvols-ontap.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-ontap.html">
+        搭配 ONTAP 使用 vVols
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="部署 vVols 儲存設備"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vvols-deploy.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-deploy.html">
+        部署 vVols 儲存設備
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="保護 vVols"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vvols-protect.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-protect.html">
+        保護 vVols
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="疑難排解"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-vvols-resources.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-resources.html">
+        疑難排解
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware Site Recovery Manager 搭配 ONTAP"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> VMware Site Recovery Manager 搭配 ONTAP</div>-->
+         VMware Site Recovery Manager 搭配 ONTAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-srm-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="部署最佳實務做法"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-srm-deployment_best_practices.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-deployment_best_practices.html">
+        部署最佳實務做法
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="營運最佳實務做法"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-srm-operational_best_practices.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-operational_best_practices.html">
+        營運最佳實務做法
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="複寫拓撲"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-srm-replication_topologies.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-replication_topologies.html">
+        複寫拓撲
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="使用vVols複寫時疑難排解SRM"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-srm-vvol-troubleshooting.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-vvol-troubleshooting.html">
+        使用vVols複寫時疑難排解SRM
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="vSphere Metro Storage 叢集搭配 ONTAP"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> vSphere Metro Storage 叢集搭配 ONTAP</div>-->
+         vSphere Metro Storage 叢集搭配 ONTAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMSC 概述"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware_vmsc_overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_overview.html">
+        VMSC 概述
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="vSphere HA 解決方案"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware_vmsc_solution.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_solution.html">
+        vSphere HA 解決方案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMSC 設計"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware_vmsc_design.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_design.html">
+        VMSC 設計
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMSC 恢復能力"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware_vmsc_resiliency.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_resiliency.html">
+        VMSC 恢復能力
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="使用 MCC 的 VMSC 案例"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware_vmsc_scen_mcc.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_scen_mcc.html">
+        使用 MCC 的 VMSC 案例
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="產品安全性"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 產品安全性</div>-->
+         產品安全性
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware vSphere適用的工具ONTAP"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-security-tools.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-security-tools.html">
+        VMware vSphere適用的工具ONTAP
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware vSphere的插件SnapCenter"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/vmware/vmware-security-snapcenter.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-security-snapcenter.html">
+        VMware vSphere的插件SnapCenter
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="法律聲明"
+      data-li-level="1#" 
+      class="   "
+      dale-page-url="/oracle/oracle-migration-log-shipping.html" 
+      dale-entry-url="/legal-notices.html" 
+    ><a class="ie-sidebar-menuitem-1 " href="/zh-tw/ontap-apps-dbs/legal-notices.html">
+        法律聲明
+      </a></li></ul>
+</div>
+<script>
+
+  $(".ie-sidebar-button").click(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    expandedLI = $('li.ie-sidebar-expand')
+
+    const li = $(this).closest("li");
+
+    const parentsLI = $(li).parents('li');
+
+    expandedLI.map(element => {
+      if (sidebarAccordion && !li.hasClass('ie-sidebar-expand') && jQuery.inArray(expandedLI[element], parentsLI) == -1) {
+        $(expandedLI[element]).toggleClass('ie-sidebar-expand');
+        $(expandedLI[element]).children("ul").animate({ height: 'toggle' }, 400, function () {
+          $(li).children("ul").toggleClass('ie-sidebar-open');
+
+        })
+      }
+
+    })
+
+    $(li).toggleClass('ie-sidebar-expand');
+    $(li).children("ul").animate({ height: 'toggle' }, 400, function () {
+      $(li).children("ul").toggleClass('ie-sidebar-open');
+    })
+  });
+
+
+  
+    $("li.ie-sidebar-selected").parents('ul').toggleClass("ie-sidebar-open");
+    $("li.ie-sidebar-selected").toggleClass("ie-sidebar-expand")
+    $("ul.ie-sidebar-open").parent().toggleClass("ie-sidebar-expand");
+    $("li.ie-sidebar-selected").children('ul').toggleClass("ie-sidebar-open")
+  
+  
+</script>
+    </div>
+</div>
+<script>
+
+    
+    let sidebarScrollTopPosition = 0;
+    $("#ie-new-toc").on("scroll", function () {
+        if (sidebarScrollTopPosition == 0) {
+            $.cookie("sidebarScroll", $("#ie-new-toc").scrollTop(), {
+                path: "/zh-tw/ontap-apps-dbs"
+            });
+        }
+
+        if ($("#ie-new-toc").scrollTop() > 0) {
+            $('#ie-product-identity-lockup').addClass('ie-addShadow');
+        } else {
+            $('#ie-product-identity-lockup').removeClass('ie-addShadow');
+        }
+    });
+
+    $(function () {
+        if ($.cookie("sidebarScroll")) {
+            $("#ie-new-toc").scrollTop($.cookie("sidebarScroll"));
+        }
+    });
+
+    function setSidebarBottom() {
+        const footerGap = PXinViewport($(".n-footer"));
+        document.getElementById("ie-new-sidebar").style.bottom = Math.max(0, footerGap) + "px";
+    }
+
+    window.onscroll = () => {
+        setSidebarBottom();
+    };
+
+    $("#sidebar-collapse").click(function (e) {
+        const sidebarWidth = $("#ie-new-sidebar").width() - $("#ie-new-sidebar-collapse").width();
+        e.preventDefault();
+        const width = $(".ie-content-pane").width();
+        const marginLeft = parseInt($(".ie-content-pane").css('marginLeft'));
+
+        if ($.cookie("sidebarScroll")) {
+            sidebarScrollTopPosition = $.cookie("sidebarScroll");
+        }
+
+        $("#ie-new-sidebar").animate({ width: 'toggle' }, 350, function () {
+            $("#ie-new-sidebar-collapse").show();
+            $("#ie-new-sidebar").removeClass("open")
+            $("#ie-new-sidebar").addClass("close")
+            $("#ie-new-sidebar").removeAttr("style")
+        });
+        $(".ie-content-pane").animate({ width: (width + sidebarWidth), marginLeft: (marginLeft - sidebarWidth) }, 350, function () {
+            resizeContent()
+        })
+
+    });
+    $("#sidebar-expand").click(function (e) {
+        const sidebarWidth = $("#ie-new-sidebar").width() - $("#ie-new-sidebar-collapse").width();
+        e.preventDefault();
+        const width = $(".ie-content-pane").width();
+        const marginLeft = parseInt($(".ie-content-pane").css('marginLeft'));
+
+        $("#ie-new-sidebar").animate({ width: 'toggle' }, 250, function () {
+            $('#ie-new-sidebar').css('display', 'flex');
+            $("#ie-new-sidebar-collapse").hide();
+            $("#ie-new-sidebar").removeClass("close")
+            $("#ie-new-sidebar").addClass("open")
+            setSidebarBottom();
+
+            if (sidebarScrollTopPosition != 0) {
+                $.cookie("sidebarScroll", sidebarScrollTopPosition, {
+                    path: "/zh-tw/ontap-apps-dbs"
+                })
+                $("#ie-new-toc").scrollTop(sidebarScrollTopPosition);
+                sidebarScrollTopPosition = 0;
+            }
+        });
+        $(".ie-content-pane").animate({ width: (width - sidebarWidth), 'marginLeft': (marginLeft + sidebarWidth) }, 250, function () {
+            resizeContent()
+        })
+    });
+    function resizeContent() {
+        const sidebarWidth = $("#ie-new-sidebar").width() - $("#ie-new-sidebar-collapse").width();
+        const rightNavbarVisible =  $("#ie-right-navbar").css('display') && $("#ie-right-navbar").css('display') != 'none';
+        const sidebarVisible = $("#ie-new-sidebar").css('display') != 'none';
+        const rightNavbarWidth = $("#ie-right-navbar").width();
+        const rightNavbarCollapseWidth = $("#ie-right-navbar-collapse").width();
+        const rightNavbarCollapseVisible = $("#ie-right-navbar-collapse").css('display') && $("#ie-right-navbar-collapse").css('display') != 'none';
+        
+        if (rightNavbarVisible && sidebarVisible) {
+            $(".ie-content-pane").width(`calc(100% - ${sidebarWidth + rightNavbarWidth}px)`)
+            $(".ie-content-pane").css('marginLeft', `${sidebarWidth}px`)
+        } else if (sidebarVisible) {
+            $(".ie-content-pane").css('marginLeft', `${sidebarWidth}px`)
+            if (rightNavbarCollapseVisible) {
+                $(".ie-content-pane").width(`calc(100% - ${sidebarWidth + rightNavbarCollapseWidth}px)`)
+            } else {
+                $(".ie-content-pane").width(`calc(100% - ${$("#ie-new-sidebar").width()}px)`)
+            }
+
+        } else if (rightNavbarVisible) {
+            $(".ie-content-pane").css('marginLeft', `${$("#ie-new-sidebar-collapse").width()}px`)
+            $(".ie-content-pane").width(`calc(100% - ${rightNavbarWidth}px)`)
+        } else {
+            $(".ie-content-pane").css('marginLeft', `${$("#ie-new-sidebar-collapse").width()}px`)
+            if (rightNavbarCollapseVisible) {
+                $(".ie-content-pane").width(`calc(100% - ${rightNavbarCollapseWidth}px)`);
+            } else {
+                $(".ie-content-pane").width(`calc(100% - ${$("#ie-new-sidebar-collapse").width()}px) `);
+            }
+            
+        }
+    }
+    $(window).on("resize load", function () {
+        setSidebarBottom();
+        resizeContent()
+    });
+
+
+</script>
+
+<div class="ie-content-pane ie-component-detail-content ie-component-detail-content--show-code">
+    <!-- Begin of page container --><article class="page-content" id="main">
+      <!-- include utility.html -->
+      <div class="ie-info-disclaimer">
+    <span>
+      <div class="ie-info-disclaimer-container">
+        <div class="ie-info-disclaimer-icon">
+          <img src="/zh-tw/ontap-apps-dbs/images/notification-icons.svg" class="luci-icon" alt="" />
+        </div>
+        <div class="ie-info-disclaimer-content">
+          <span> 本繁體中文版使用機器翻譯，譯文僅供參考，若與英文版本牴觸，應以英文版本為準。 </span>
+        </div>
+        <div style="clear:both;"></div>
+      </div>
+    </span>
+  </div><div class="ie-component-detail-heading-wrap">
+  <h1 class="ie-component-detail-heading">透過記錄傳送進行 Oracle 資料庫移轉</h1>
+</div>
+
+<div id="ie-byline">
+  
+<div class="page-details">
+    
+        
+            <time datetime="2024-03-13 14:09:20 +0000">03/13/2024</time>
+        
+    
+    
+        <span>貢獻者
+        </span>
+    
+    
+</div>
+<div class="page-controls">
+    <div id="contribute-dropdown" class="custom-dropdown custom-dropdown-contrib" >
+        <div class="custom-dropdown-select custom-dropdown-select-contrib">
+        <span class="contrib-name"><img src="/zh-tw/ontap-apps-dbs/images/discuss-sm.svg" alt="" class="github-icon" />建議變更</span>
+        <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevrondown invisible" />
+        <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevronup" />
+        </div>
+        <ul class="custom-dropdown-menu suggested-changes-dropdown"><li>
+                <a target="_blank" href="https://github.com/NetAppDocs/ontap-apps-dbs.zh-tw/issues/new?template=new-from-page.yml&page-url=https://docs.netapp.com/zh-tw/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html&page-title=透過記錄傳送進行 Oracle 資料庫移轉" class="page-nav-contribute-link" role="button">請求文件變更</a>
+            </li><li> 
+                <a target="_blank" href="https://github.com/NetAppDocs/ontap-apps-dbs/blob/main/oracle/oracle-migration-log-shipping.adoc" class="page-nav-contribute-link" role="button">編輯本頁</a>
+            </li><li><a target="_blank" href="https://docs.netapp.com/us-en/contribute/" class="page-nav-contribute-link"  >瞭解如何貢獻</a></li>
+        </ul>
+    </div>
+    <div id="pdf-control-container">
+        <div class="n-pdf-header">
+            <a id="toggleButtonPdf" class="n-pdf-button" type="button">
+                <img class="adobe-icon" src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>PDF<img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" class="custom-icon" alt="" />
+            </a>
+        </div>
+        <div class="n-pdf-body-container">
+            <ul id="toggleContainerPdf" class="n-pdf-body" style="display:none;"><li class="pdf-ux-container">
+                    
+                    
+                    
+                    <a target="_blank" class="pdf-download-link" href="/zh-tw/ontap-apps-dbs/pdfs/fullsite-sidebar/ONTAP_與企業應用程式.pdf" >
+                    <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>此文件 PDF 的網站</a>
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Microsoft_SQL_Server.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Microsoft SQL Server
+          </a>
+          
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Microsoft_SQL_Server_的資料庫組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料庫組態
+          </a>
+          
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Microsoft_SQL_Server_的儲存組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            儲存組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MySQL.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            MySQL
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MySQL_的資料庫組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料庫組態
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MySQL_的主機組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            主機組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MySQL_的儲存組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            儲存組態
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle資料庫.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Oracle資料庫
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/組態ONTAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            組態ONTAP
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫的資料庫組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料庫組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫的主機組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            主機組態
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫的網路組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            網路組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫的儲存組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            儲存組態
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/FC_SAN.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            FC SAN
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/NFS.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            NFS
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/分層.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            分層
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/分層原則.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            分層原則
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/分層策略.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            分層策略
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料保護.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Oracle 資料保護
+          </a>
+          
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/備份與還原基礎知識.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            備份與還原基礎知識
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_災難恢復.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Oracle 災難恢復
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MetroCluster.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            MetroCluster
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/SnapMirror_主動同步.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            SnapMirror 主動同步
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫移轉.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Oracle 資料庫移轉
+          </a>
+          
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/程序.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            程序
+          </a>
+          
+
+
+
+
+    <ul class="subfolders" id="pdf-remove" style="display:none;"><li class="active"></li></ul>
+  
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/外部_LUN_匯入.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            外部 LUN 匯入
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/其他附註.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            其他附註
+          </a>
+          
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/PostgreSQL.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            PostgreSQL
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/PostgreSQL_的主機組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料庫組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/PostgreSQL_的儲存組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            儲存組態
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/PostgreSQL_的資料保護.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料保護
+          </a>
+          
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/SAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            SAP
+          </a>
+          
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/VMware.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            VMware
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/VMware_vSphere_搭配_ONTAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            VMware vSphere 搭配 ONTAP
+          </a>
+          
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/資料存放區與傳輸協定.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料存放區與傳輸協定
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/使用_ONTAP_的虛擬磁碟區__VVols__.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            使用 ONTAP 的虛擬磁碟區（ VVols ）
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/VMware_Site_Recovery_Manager_搭配_ONTAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            VMware Site Recovery Manager 搭配 ONTAP
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/vSphere_Metro_Storage_叢集搭配_ONTAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            vSphere Metro Storage 叢集搭配 ONTAP
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/產品安全性.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            產品安全性
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+</li></ul>
+            <div class="zip-pdf-link-container" style="display: none;">   
+                <a href="#" id="zipPdf">
+                <img src="/zh-tw/ontap-apps-dbs/images/pdf-zip.png" alt="" width="16" height="16"/>
+                <pre>個別的 PDF 文件集合<span class="zip-size"></span></pre>
+                </a><div id="zip-link-popup" class="hide">
+    <div class="inner-modal">
+        <div class="downloading-progress">
+            <div class="spinner"></div>
+            <h1>Creating your file...</h1>
+            <div>This may take a few minutes. Thanks for your patience.</div>
+            <button class="cancel-download-btn" type="button">Cancel</button>
+        </div>
+        <div class="download-complete hide">
+            <div class="done-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+            </div>
+            <div>Your file is ready</div>
+            <button class="cancel-download-btn" type="button">OK</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(".cancel-download-btn").click(function(){
+        $("#zip-link-popup").addClass("hide");
+        $("#zip-link-popup .downloading-progress").removeClass("hide");
+        $("#zip-link-popup .download-complete").addClass("hide");
+    });
+</script></div>
+        </div>
+    </div>        
+<script>
+$("#toggleContainerPdf li.active:last-child").parents('ul.subfolders').toggle('display');
+$("#toggleButtonPdf").on('click', function(e){ 
+    e.stopPropagation();
+    $("#toggleContainerPdf").toggle('display');
+    $(".n-pdf-body-container .zip-pdf-link-container").toggle('display');
+});
+
+//hide is by clicking outside pdfcontainer
+$(document).on('click', function (e) {
+    if ($('#toggleContainerPdf').is(':visible') && !$('.n-pdf-body-container').is(e.target) && !$('.n-pdf-body-container').has(e.target).length)  {
+        
+        $("#toggleContainerPdf").toggle('display');
+        $(".n-pdf-body-container .zip-pdf-link-container").toggle('display');
+        $("#toggleButtonPdf").removeClass("active");
+    }
+});
+</script>
+<script>
+    function getPdfLocation() {
+        const pdfLocation = window.scrollX + document.querySelector('#pdf-control-container').getBoundingClientRect().left
+        if (pdfLocation < 450) {
+            $(".n-pdf-body-container").addClass("block")
+        } else {
+            $(".n-pdf-body-container").removeClass("block")
+        }
+    
+    }
+    $( window ).on( "resize", function() {
+        getPdfLocation()
+} );
+</script>
+<script>
+    const pdfButtonWidth =  $(".n-pdf-header").width();
+    const pdfMenuWidth = $(".n-pdf-body-container").width();
+    $(".n-pdf-body-container").css('margin-left', `calc(${pdfButtonWidth - pdfMenuWidth}px)`);
+</script>
+</div>
+
+    
+
+</div>
+
+
+
+
+<div class="content-to-index">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph lead">
+<p>使用記錄傳送進行移轉的目標是在新位置建立原始資料檔案的複本、然後建立將變更傳送到新環境的方法。</p>
+</div>
+<div class="paragraph">
+<p>一旦建立、記錄傳送和重播就能自動進行、使複本資料庫與來源保持大致同步。例如、 cron 工作可排程至（ a ）將最近的記錄複製到新位置、並（ b ）每 15 分鐘重播一次。這樣做可在轉換時將中斷次數降至最低、因為必須重播不超過 15 分鐘的歸檔記錄。</p>
+</div>
+<div class="paragraph">
+<p>以下程序基本上也是資料庫複製作業。所示邏輯類似於 NetApp SnapManager for Oracle （ SMO ）和 NetApp SnapCenter Oracle Plug-in 內的引擎。有些客戶已使用指令碼或 WFA 工作流程中所示的程序來進行自訂的複製作業。雖然此程序比使用 SnapCenter 或 SMO 更為手冊化、但仍可輕鬆撰寫指令碼、而 ONTAP 中的資料管理 API 則可進一步簡化程序。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="記錄傳送-檔案系統至檔案系統">記錄傳送 - 檔案系統至檔案系統</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>本範例示範如何將名為華夫餅的資料庫從一般檔案系統移轉至位於不同伺服器上的其他一般檔案系統。它也說明 SnapMirror 可用來快速複製資料檔案、但這並不是整體程序不可或缺的一部分。</p>
+</div>
+<div class="sect2">
+<h3 id="建立資料庫備份">建立資料庫備份</h3>
+<div class="paragraph">
+<p>第一步是建立資料庫備份。具體而言、此程序需要一組資料檔案、可用於歸檔記錄重新執行。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="環境">環境</h3>
+<div class="paragraph">
+<p>在此範例中、來源資料庫位於 ONTAP 系統上。建立資料庫備份最簡單的方法是使用 Snapshot 複本。將資料庫置於熱備份模式幾秒鐘 <code>snapshot create</code> 在託管資料檔案的磁碟區上執行作業。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; alter database begin backup;
+Database altered.</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Cluster01::*&gt; snapshot create -vserver vserver1 -volume jfsc1_oradata hotbackup
+Cluster01::*&gt;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; alter database end backup;
+Database altered.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>結果是磁碟上的 Snapshot 複本稱為 <code>hotbackup</code> 包含處於熱備份模式時的資料檔案映像。如果結合適當的歸檔記錄以使資料檔案一致、則此 Snapshot 複本中的資料可作為還原或複製的基礎。在這種情況下、它會複寫到新的伺服器。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="還原至新環境">還原至新環境</h3>
+<div class="paragraph">
+<p>現在必須在新環境中還原備份。這可以透過多種方式完成、包括 Oracle RMAN 、從備份應用程式（如 NetBackup ）還原、或是簡單複製置於熱備份模式的資料檔案。</p>
+</div>
+<div class="paragraph">
+<p>在此範例中、 SnapMirror 用於將稱為熱備份的 Snapshot 複本複寫到新位置。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>建立新的磁碟區以接收快照資料。從初始化鏡像 <code>jfsc1_oradata</code> 至 <code>vol_oradata</code>。</p>
+<div class="literalblock">
+<div class="content">
+<pre>Cluster01::*&gt; volume create -vserver vserver1 -volume vol_oradata -aggregate data_01 -size 20g -state online -type DP -snapshot-policy none -policy jfsc3
+[Job 833] Job succeeded: Successful</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Cluster01::*&gt; snapmirror initialize -source-path vserver1:jfsc1_oradata -destination-path vserver1:vol_oradata
+Operation is queued: snapmirror initialize of destination "vserver1:vol_oradata".
+Cluster01::*&gt; volume mount -vserver vserver1 -volume vol_oradata -junction-path /vol_oradata
+Cluster01::*&gt;</pre>
+</div>
+</div>
+</li>
+<li>
+<p>在 SnapMirror 設定狀態後、表示同步已完成、請特別根據所需的快照來更新鏡像。</p>
+<div class="literalblock">
+<div class="content">
+<pre>Cluster01::*&gt; snapmirror show -destination-path vserver1:vol_oradata -fields state
+source-path             destination-path        state
+----------------------- ----------------------- ------------
+vserver1:jfsc1_oradata vserver1:vol_oradata SnapMirrored</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Cluster01::*&gt; snapmirror update -destination-path vserver1:vol_oradata -source-snapshot hotbackup
+Operation is queued: snapmirror update of destination "vserver1:vol_oradata".</pre>
+</div>
+</div>
+</li>
+<li>
+<p>您可以透過檢視來驗證同步成功與否 <code>newest-snapshot</code> 鏡射磁碟區上的欄位。</p>
+<div class="literalblock">
+<div class="content">
+<pre>Cluster01::*&gt; snapmirror show -destination-path vserver1:vol_oradata -fields newest-snapshot
+source-path             destination-path        newest-snapshot
+----------------------- ----------------------- ---------------
+vserver1:jfsc1_oradata vserver1:vol_oradata hotbackup</pre>
+</div>
+</div>
+</li>
+<li>
+<p>然後鏡射可能會中斷。</p>
+<div class="literalblock">
+<div class="content">
+<pre>Cluster01::&gt; snapmirror break -destination-path vserver1:vol_oradata
+Operation succeeded: snapmirror break for destination "vserver1:vol_oradata".
+Cluster01::&gt;</pre>
+</div>
+</div>
+</li>
+<li>
+<p>掛載新的檔案系統。使用區塊型檔案系統時、精確的程序會因使用中的 LVM 而異。必須設定 FC 分區或 iSCSI 連線。建立與 LUN 的連線後、命令如 Linux <code>pvscan</code> 可能需要探索哪些磁碟區群組或 LUN 需要正確設定、才能讓 ASM 發現。</p>
+<div class="paragraph">
+<p>在此範例中、使用簡單的 NFS 檔案系統。此檔案系統可直接掛載。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>fas8060-nfs1:/vol_oradata        19922944   1639360   18283584   9% /oradata
+fas8060-nfs1:/vol_logs            9961472       128    9961344   1% /logs</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="建立控制檔建立範本">建立控制檔建立範本</h3>
+<div class="paragraph">
+<p>接下來必須建立控制檔範本。。 <code>backup controlfile to trace</code> 命令會建立文字命令以重新建立控制檔。在某些情況下、此功能可用於從備份還原資料庫、而且通常用於執行資料庫複製等工作的指令碼。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>以下命令的輸出用於爲遷移的數據庫重新創建控制文件。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; alter database backup controlfile to trace as '/tmp/waffle.ctrl';
+Database altered.</pre>
+</div>
+</div>
+</li>
+<li>
+<p>建立控制檔之後、請將檔案複製到新伺服器。</p>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc3 tmp]$ scp oracle@jfsc1:/tmp/waffle.ctrl /tmp/
+oracle@jfsc1's password:
+waffle.ctrl                                              100% 5199     5.1KB/s   00:00</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="備份參數檔案">備份參數檔案</h3>
+<div class="paragraph">
+<p>在新環境中也需要一個參數檔。最簡單的方法是從目前的 spfile 或 pfile 建立 pfile 。在此範例中、來源資料庫使用的是 spfile 。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; create pfile='/tmp/waffle.tmp.pfile' from spfile;
+File created.</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="建立-oratab-項目">建立 oratab 項目</h3>
+<div class="paragraph">
+<p>需要建立 oratab 項目、才能正常運作如 oraenv 等公用程式。若要建立 oratab 項目、請完成下列步驟。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>WAFFLE:/orabin/product/12.1.0/dbhome_1:N</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="準備目錄結構">準備目錄結構</h3>
+<div class="paragraph">
+<p>如果所需目錄尚未存在、您必須建立它們、否則資料庫啟動程序會失敗。若要準備目錄結構、請完成下列最低需求。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc3 ~]$ . oraenv
+ORACLE_SID = [oracle] ? WAFFLE
+The Oracle base has been set to /orabin
+[oracle@jfsc3 ~]$ cd $ORACLE_BASE
+[oracle@jfsc3 orabin]$ cd admin
+[oracle@jfsc3 admin]$ mkdir WAFFLE
+[oracle@jfsc3 admin]$ cd WAFFLE
+[oracle@jfsc3 WAFFLE]$ mkdir adump dpdump pfile scripts xdb_wallet</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="參數檔案更新">參數檔案更新</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>若要將參數檔複製到新伺服器、請執行下列命令。預設位置為 <code>$ORACLE_HOME/dbs</code> 目錄。在這種情況下、 pfile 可以放在任何地方。它只是移轉程序中的中間步驟。</p>
+</li>
+</ol>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc3 admin]$ scp oracle@jfsc1:/tmp/waffle.tmp.pfile $ORACLE_HOME/dbs/waffle.tmp.pfile
+oracle@jfsc1's password:
+waffle.pfile                                             100%  916     0.9KB/s   00:00</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>視需要編輯檔案。例如、如果歸檔記錄位置已變更、則必須變更 pfile 以反映新位置。在此範例中、只有控制檔正在重新定位、部分是為了在記錄檔和資料檔案系統之間散佈。</p>
+<div class="literalblock">
+<div class="content">
+<pre>[root@jfsc1 tmp]# cat waffle.pfile
+WAFFLE.__data_transfer_cache_size=0
+WAFFLE.__db_cache_size=507510784
+WAFFLE.__java_pool_size=4194304
+WAFFLE.__large_pool_size=20971520
+WAFFLE.__oracle_base='/orabin'#ORACLE_BASE set from environment
+WAFFLE.__pga_aggregate_target=268435456
+WAFFLE.__sga_target=805306368
+WAFFLE.__shared_io_pool_size=29360128
+WAFFLE.__shared_pool_size=234881024
+WAFFLE.__streams_pool_size=0
+*.audit_file_dest='/orabin/admin/WAFFLE/adump'
+*.audit_trail='db'
+*.compatible='12.1.0.2.0'
+*.control_files='/oradata//WAFFLE/control01.ctl','/oradata//WAFFLE/control02.ctl'
+*.control_files='/oradata/WAFFLE/control01.ctl','/logs/WAFFLE/control02.ctl'
+*.db_block_size=8192
+*.db_domain=''
+*.db_name='WAFFLE'
+*.diagnostic_dest='/orabin'
+*.dispatchers='(PROTOCOL=TCP) (SERVICE=WAFFLEXDB)'
+*.log_archive_dest_1='LOCATION=/logs/WAFFLE/arch'
+*.log_archive_format='%t_%s_%r.dbf'
+*.open_cursors=300
+*.pga_aggregate_target=256m
+*.processes=300
+*.remote_login_passwordfile='EXCLUSIVE'
+*.sga_target=768m
+*.undo_tablespace='UNDOTBS1'</pre>
+</div>
+</div>
+</li>
+<li>
+<p>編輯完成後、請根據此 pfile 建立 spfile 。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; create spfile from pfile='waffle.tmp.pfile';
+File created.</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="重新建立控制檔">重新建立控制檔</h3>
+<div class="paragraph">
+<p>在前一個步驟中、的輸出 <code>backup controlfile to trace</code> 已複製到新伺服器。所需輸出的特定部分是 <code>controlfile recreation</code> 命令。此資訊可在檔案中標記的區段下找到 <code>Set #1. NORESETLOGS</code>。從這條線開始 <code>create controlfile reuse database</code> 並應包含這個字 <code>noresetlogs</code>。結尾是分號（；）字元。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>在此範例程序中、檔案會讀取如下內容。</p>
+<div class="literalblock">
+<div class="content">
+<pre>CREATE CONTROLFILE REUSE DATABASE "WAFFLE" NORESETLOGS  ARCHIVELOG
+    MAXLOGFILES 16
+    MAXLOGMEMBERS 3
+    MAXDATAFILES 100
+    MAXINSTANCES 8
+    MAXLOGHISTORY 292
+LOGFILE
+  GROUP 1 '/logs/WAFFLE/redo/redo01.log'  SIZE 50M BLOCKSIZE 512,
+  GROUP 2 '/logs/WAFFLE/redo/redo02.log'  SIZE 50M BLOCKSIZE 512,
+  GROUP 3 '/logs/WAFFLE/redo/redo03.log'  SIZE 50M BLOCKSIZE 512
+-- STANDBY LOGFILE
+DATAFILE
+  '/oradata/WAFFLE/system01.dbf',
+  '/oradata/WAFFLE/sysaux01.dbf',
+  '/oradata/WAFFLE/undotbs01.dbf',
+  '/oradata/WAFFLE/users01.dbf'
+CHARACTER SET WE8MSWIN1252
+;</pre>
+</div>
+</div>
+</li>
+<li>
+<p>視需要編輯此指令碼、以反映各種檔案的新位置。例如、已知可支援高 I/O 的某些資料檔案、可能會重新導向至高效能儲存層上的檔案系統。在其他情況下、這些變更可能純粹是因為系統管理員的理由、例如在專用磁碟區中隔離指定的 PDB 資料檔案。</p>
+</li>
+<li>
+<p>在此範例中 <code>DATAFILE</code> stanza 保持不變、但重做記錄會移至中的新位置 <code>/redo</code> 而非與歸檔登入共用空間 <code>/logs</code>。</p>
+<div class="literalblock">
+<div class="content">
+<pre>CREATE CONTROLFILE REUSE DATABASE "WAFFLE" NORESETLOGS  ARCHIVELOG
+    MAXLOGFILES 16
+    MAXLOGMEMBERS 3
+    MAXDATAFILES 100
+    MAXINSTANCES 8
+    MAXLOGHISTORY 292
+LOGFILE
+  GROUP 1 '/redo/redo01.log'  SIZE 50M BLOCKSIZE 512,
+  GROUP 2 '/redo/redo02.log'  SIZE 50M BLOCKSIZE 512,
+  GROUP 3 '/redo/redo03.log'  SIZE 50M BLOCKSIZE 512
+-- STANDBY LOGFILE
+DATAFILE
+  '/oradata/WAFFLE/system01.dbf',
+  '/oradata/WAFFLE/sysaux01.dbf',
+  '/oradata/WAFFLE/undotbs01.dbf',
+  '/oradata/WAFFLE/users01.dbf'
+CHARACTER SET WE8MSWIN1252
+;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; startup nomount;
+ORACLE instance started.
+Total System Global Area  805306368 bytes
+Fixed Size                  2929552 bytes
+Variable Size             331353200 bytes
+Database Buffers          465567744 bytes
+Redo Buffers                5455872 bytes
+SQL&gt; CREATE CONTROLFILE REUSE DATABASE "WAFFLE" NORESETLOGS  ARCHIVELOG
+  2      MAXLOGFILES 16
+  3      MAXLOGMEMBERS 3
+  4      MAXDATAFILES 100
+  5      MAXINSTANCES 8
+  6      MAXLOGHISTORY 292
+  7  LOGFILE
+  8    GROUP 1 '/redo/redo01.log'  SIZE 50M BLOCKSIZE 512,
+  9    GROUP 2 '/redo/redo02.log'  SIZE 50M BLOCKSIZE 512,
+ 10    GROUP 3 '/redo/redo03.log'  SIZE 50M BLOCKSIZE 512
+ 11  -- STANDBY LOGFILE
+ 12  DATAFILE
+ 13    '/oradata/WAFFLE/system01.dbf',
+ 14    '/oradata/WAFFLE/sysaux01.dbf',
+ 15    '/oradata/WAFFLE/undotbs01.dbf',
+ 16    '/oradata/WAFFLE/users01.dbf'
+ 17  CHARACTER SET WE8MSWIN1252
+ 18  ;
+Control file created.
+SQL&gt;</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>如果有任何檔案放錯位置或參數設定錯誤、就會產生錯誤、指出必須修正的項目。資料庫已掛載、但尚未開啟且無法開啟、因為使用中的資料檔案仍標示為處於熱備份模式。必須先套用歸檔記錄檔、才能使資料庫一致。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="初始記錄複寫">初始記錄複寫</h3>
+<div class="paragraph">
+<p>為了使資料檔案一致、至少需要執行一項記錄回覆作業。有許多選項可供重播記錄。在某些情況下、原始伺服器上的原始歸檔記錄檔位置可以透過 NFS 共用、而且記錄回覆可以直接完成。在其他情況下、必須複製歸檔記錄。</p>
+</div>
+<div class="paragraph">
+<p>例如、簡單 <code>scp</code> 作業可將所有目前記錄從來源伺服器複製到移轉伺服器：</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc3 arch]$ scp jfsc1:/logs/WAFFLE/arch/* ./
+oracle@jfsc1's password:
+1_22_912662036.dbf                                       100%   47MB  47.0MB/s   00:01
+1_23_912662036.dbf                                       100%   40MB  40.4MB/s   00:00
+1_24_912662036.dbf                                       100%   45MB  45.4MB/s   00:00
+1_25_912662036.dbf                                       100%   41MB  40.9MB/s   00:01
+1_26_912662036.dbf                                       100%   39MB  39.4MB/s   00:00
+1_27_912662036.dbf                                       100%   39MB  38.7MB/s   00:00
+1_28_912662036.dbf                                       100%   40MB  40.1MB/s   00:01
+1_29_912662036.dbf                                       100%   17MB  16.9MB/s   00:00
+1_30_912662036.dbf                                       100%  636KB 636.0KB/s   00:00</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="初始記錄重新播放">初始記錄重新播放</h3>
+<div class="paragraph">
+<p>檔案在歸檔記錄位置後、可以發出命令來重新播放 <code>recover database until cancel</code> 接著是回應 <code>AUTO</code> 自動重播所有可用的記錄。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; recover database until cancel;
+ORA-00279: change 382713 generated at 05/24/2016 09:00:54 needed for thread 1
+ORA-00289: suggestion : /logs/WAFFLE/arch/1_23_912662036.dbf
+ORA-00280: change 382713 for thread 1 is in sequence #23
+Specify log: {&lt;RET&gt;=suggested | filename | AUTO | CANCEL}
+AUTO
+ORA-00279: change 405712 generated at 05/24/2016 15:01:05 needed for thread 1
+ORA-00289: suggestion : /logs/WAFFLE/arch/1_24_912662036.dbf
+ORA-00280: change 405712 for thread 1 is in sequence #24
+ORA-00278: log file '/logs/WAFFLE/arch/1_23_912662036.dbf' no longer needed for
+this recovery
+...
+ORA-00279: change 713874 generated at 05/26/2016 04:26:43 needed for thread 1
+ORA-00289: suggestion : /logs/WAFFLE/arch/1_31_912662036.dbf
+ORA-00280: change 713874 for thread 1 is in sequence #31
+ORA-00278: log file '/logs/WAFFLE/arch/1_30_912662036.dbf' no longer needed for
+this recovery
+ORA-00308: cannot open archived log '/logs/WAFFLE/arch/1_31_912662036.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 3</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>最終的歸檔記錄回覆會回報錯誤、但這是正常現象。記錄會指出這一點 <code>sqlplus</code> 正在尋找特定的記錄檔、但找不到該檔案。原因很可能是記錄檔尚未存在。</p>
+</div>
+<div class="paragraph">
+<p>如果在複製歸檔記錄之前可以關閉來源資料庫、則此步驟只能執行一次。歸檔記錄會複製並重新播放、然後程序會直接繼續進行轉換程序、以複寫重要的重作記錄。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="遞增記錄複寫及重新播放">遞增記錄複寫及重新播放</h3>
+<div class="paragraph">
+<p>在大多數情況下、移轉作業不會立即執行。移轉程序可能在幾天甚至幾週前完成、這表示記錄必須持續運送至複本資料庫並重新執行。因此、當轉換程式到達時、必須傳輸和重播最少的資料。</p>
+</div>
+<div class="paragraph">
+<p>這樣做有許多方式可以撰寫指令碼、但其中最受歡迎的方法之一是使用 rsync 、這是通用的檔案複寫公用程式。使用此公用程式最安全的方法是將其設定為常駐程式。例如、 <code>rsyncd.conf</code> 下列檔案顯示如何建立名為的資源 <code>waffle.arch</code> 使用 Oracle 使用者認證存取、並對應至 <code>/logs/WAFFLE/arch</code>。最重要的是、資源設為唯讀、可讀取正式作業資料、但不變更。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[root@jfsc1 arch]# cat /etc/rsyncd.conf
+[waffle.arch]
+   uid=oracle
+   gid=dba
+   path=/logs/WAFFLE/arch
+   read only = true
+[root@jfsc1 arch]# rsync --daemon</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>下列命令會將新伺服器的保存檔記錄目的地與 rsync 資源同步 <code>waffle.arch</code> 在原始伺服器上。。 <code>t</code> 引數 <code>rsync - potg</code> 根據時間戳記比較檔案清單、只複製新檔案。此程序提供新伺服器的遞增更新。此命令也可在 cron 中排程為定期執行。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc3 arch]$ rsync -potg --stats --progress jfsc1::waffle.arch/* /logs/WAFFLE/arch/
+1_31_912662036.dbf
+      650240 100%  124.02MB/s    0:00:00 (xfer#1, to-check=8/18)
+1_32_912662036.dbf
+     4873728 100%  110.67MB/s    0:00:00 (xfer#2, to-check=7/18)
+1_33_912662036.dbf
+     4088832 100%   50.64MB/s    0:00:00 (xfer#3, to-check=6/18)
+1_34_912662036.dbf
+     8196096 100%   54.66MB/s    0:00:00 (xfer#4, to-check=5/18)
+1_35_912662036.dbf
+    19376128 100%   57.75MB/s    0:00:00 (xfer#5, to-check=4/18)
+1_36_912662036.dbf
+       71680 100%  201.15kB/s    0:00:00 (xfer#6, to-check=3/18)
+1_37_912662036.dbf
+     1144320 100%    3.06MB/s    0:00:00 (xfer#7, to-check=2/18)
+1_38_912662036.dbf
+    35757568 100%   63.74MB/s    0:00:00 (xfer#8, to-check=1/18)
+1_39_912662036.dbf
+      984576 100%    1.63MB/s    0:00:00 (xfer#9, to-check=0/18)
+Number of files: 18
+Number of files transferred: 9
+Total file size: 399653376 bytes
+Total transferred file size: 75143168 bytes
+Literal data: 75143168 bytes
+Matched data: 0 bytes
+File list size: 474
+File list generation time: 0.001 seconds
+File list transfer time: 0.000 seconds
+Total bytes sent: 204
+Total bytes received: 75153219
+sent 204 bytes  received 75153219 bytes  150306846.00 bytes/sec
+total size is 399653376  speedup is 5.32</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>在收到記錄之後、必須重新播放記錄。前面的範例顯示使用 sqlplus 來手動執行 <code>recover database until cancel</code>，這是一種可以輕鬆自動化的程序。此處顯示的範例使用中所述的指令碼 <a href="oracle-migration-sample-scripts.html#replay-logs-on-database">"重播資料庫上的記錄"</a>。指令碼會接受指定需要重新執行作業之資料庫的引數。如此可在多資料庫移轉作業中使用相同的指令碼。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc3 logs]$ ./replay.logs.pl WAFFLE
+ORACLE_SID = [WAFFLE] ? The Oracle base remains unchanged with value /orabin
+SQL*Plus: Release 12.1.0.2.0 Production on Thu May 26 10:47:16 2016
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+SQL&gt; ORA-00279: change 713874 generated at 05/26/2016 04:26:43 needed for thread 1
+ORA-00289: suggestion : /logs/WAFFLE/arch/1_31_912662036.dbf
+ORA-00280: change 713874 for thread 1 is in sequence #31
+Specify log: {&lt;RET&gt;=suggested | filename | AUTO | CANCEL}
+ORA-00279: change 814256 generated at 05/26/2016 04:52:30 needed for thread 1
+ORA-00289: suggestion : /logs/WAFFLE/arch/1_32_912662036.dbf
+ORA-00280: change 814256 for thread 1 is in sequence #32
+ORA-00278: log file '/logs/WAFFLE/arch/1_31_912662036.dbf' no longer needed for
+this recovery
+ORA-00279: change 814780 generated at 05/26/2016 04:53:04 needed for thread 1
+ORA-00289: suggestion : /logs/WAFFLE/arch/1_33_912662036.dbf
+ORA-00280: change 814780 for thread 1 is in sequence #33
+ORA-00278: log file '/logs/WAFFLE/arch/1_32_912662036.dbf' no longer needed for
+this recovery
+...
+ORA-00279: change 1120099 generated at 05/26/2016 09:59:21 needed for thread 1
+ORA-00289: suggestion : /logs/WAFFLE/arch/1_40_912662036.dbf
+ORA-00280: change 1120099 for thread 1 is in sequence #40
+ORA-00278: log file '/logs/WAFFLE/arch/1_39_912662036.dbf' no longer needed for
+this recovery
+ORA-00308: cannot open archived log '/logs/WAFFLE/arch/1_40_912662036.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 3
+SQL&gt; Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="轉換">轉換</h3>
+<div class="paragraph">
+<p>當您準備好切換至新環境時、必須執行最後一次同步、其中包括歸檔記錄和重做記錄。如果尚未知道原始的重做記錄位置、可以如下所示識別：</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; select member from v$logfile;
+MEMBER
+--------------------------------------------------------------------------------
+/logs/WAFFLE/redo/redo01.log
+/logs/WAFFLE/redo/redo02.log
+/logs/WAFFLE/redo/redo03.log</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>關閉來源資料庫。</p>
+</li>
+<li>
+<p>使用所需的方法、在新伺服器上執行歸檔記錄的最後一次同步。</p>
+</li>
+<li>
+<p>來源重做記錄檔必須複製到新伺服器。在此範例中、重做記錄會重新定位到新的目錄 <code>/redo</code>。</p>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc3 logs]$ scp jfsc1:/logs/WAFFLE/redo/* /redo/
+oracle@jfsc1's password:
+redo01.log                                                              100%   50MB  50.0MB/s   00:01
+redo02.log                                                              100%   50MB  50.0MB/s   00:00
+redo03.log                                                              100%   50MB  50.0MB/s   00:00</pre>
+</div>
+</div>
+</li>
+<li>
+<p>在此階段、新的資料庫環境包含所有必要的檔案、使其與來源完全相同。歸檔記錄必須最後重播一次。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; recover database until cancel;
+ORA-00279: change 1120099 generated at 05/26/2016 09:59:21 needed for thread 1
+ORA-00289: suggestion : /logs/WAFFLE/arch/1_40_912662036.dbf
+ORA-00280: change 1120099 for thread 1 is in sequence #40
+Specify log: {&lt;RET&gt;=suggested | filename | AUTO | CANCEL}
+AUTO
+ORA-00308: cannot open archived log '/logs/WAFFLE/arch/1_40_912662036.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 3
+ORA-00308: cannot open archived log '/logs/WAFFLE/arch/1_40_912662036.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 3</pre>
+</div>
+</div>
+</li>
+<li>
+<p>完成後、必須重新執行重作記錄。如果出現此訊息 <code>Media recovery complete</code> 會傳回、程序成功、資料庫會同步、並可開啟。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; recover database;
+Media recovery complete.
+SQL&gt; alter database open;
+Database altered.</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="記錄傳送-asm-至檔案系統">記錄傳送 - ASM 至檔案系統</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>本範例說明如何使用 Oracle RMAN 移轉資料庫。這與先前的檔案系統傳送檔案系統記錄檔範例非常類似、但主機看不到 ASM 上的檔案。唯一用於移轉位於 ASM 裝置上的資料的選項是重新放置 ASM LUN 、或使用 Oracle RMAN 來執行複製作業。</p>
+</div>
+<div class="paragraph">
+<p>雖然 RMAN 是從 Oracle ASM 複製檔案的必要條件、但 RMAN 的使用不限於 ASM 。RMAN 可用於從任何類型的儲存設備移轉至任何其他類型。</p>
+</div>
+<div class="paragraph">
+<p>此範例顯示將名為 pake 的資料庫從 ASM 儲存設備重新放置到位於路徑上不同伺服器上的一般檔案系統 <code>/oradata</code> 和 <code>/logs</code>。</p>
+</div>
+<div class="sect2">
+<h3 id="建立資料庫備份-2">建立資料庫備份</h3>
+<div class="paragraph">
+<p>第一步是建立要移轉到替代伺服器的資料庫備份。由於來源使用 Oracle ASM 、因此必須使用 RMAN 。簡單的 RMAN 備份可執行如下。此方法會建立標記備份、可在稍後的程序中由 RMAN 輕鬆識別。</p>
+</div>
+<div class="paragraph">
+<p>第一個命令定義備份的目的地類型和要使用的位置。第二個只會啟動資料檔案的備份。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>RMAN&gt; configure channel device type disk format '/rman/pancake/%U';
+using target database control file instead of recovery catalog
+old RMAN configuration parameters:
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/rman/pancake/%U';
+new RMAN configuration parameters:
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/rman/pancake/%U';
+new RMAN configuration parameters are successfully stored
+RMAN&gt; backup database tag 'ONTAP_MIGRATION';
+Starting backup at 24-MAY-16
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=251 device type=DISK
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00001 name=+ASM0/PANCAKE/system01.dbf
+input datafile file number=00002 name=+ASM0/PANCAKE/sysaux01.dbf
+input datafile file number=00003 name=+ASM0/PANCAKE/undotbs101.dbf
+input datafile file number=00004 name=+ASM0/PANCAKE/users01.dbf
+channel ORA_DISK_1: starting piece 1 at 24-MAY-16
+channel ORA_DISK_1: finished piece 1 at 24-MAY-16
+piece handle=/rman/pancake/1gr6c161_1_1 tag=ONTAP_MIGRATION comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:03
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+including current control file in backup set
+including current SPFILE in backup set
+channel ORA_DISK_1: starting piece 1 at 24-MAY-16
+channel ORA_DISK_1: finished piece 1 at 24-MAY-16
+piece handle=/rman/pancake/1hr6c164_1_1 tag=ONTAP_MIGRATION comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 24-MAY-16</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="備份控制檔">備份控制檔</h3>
+<div class="paragraph">
+<p>稍後的程序中需要備份控制檔 <code>duplicate database</code> 營運。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>RMAN&gt; backup current controlfile format '/rman/pancake/ctrl.bkp';
+Starting backup at 24-MAY-16
+using channel ORA_DISK_1
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+including current control file in backup set
+channel ORA_DISK_1: starting piece 1 at 24-MAY-16
+channel ORA_DISK_1: finished piece 1 at 24-MAY-16
+piece handle=/rman/pancake/ctrl.bkp tag=TAG20160524T032651 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 24-MAY-16</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="備份參數檔案-2">備份參數檔案</h3>
+<div class="paragraph">
+<p>在新環境中也需要一個參數檔。最簡單的方法是從目前的 spfile 或 pfile 建立 pfile 。在此範例中、來源資料庫使用 spfile 。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>RMAN&gt; create pfile='/rman/pancake/pfile' from spfile;
+Statement processed</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="asm-檔案重新命名指令碼">ASM 檔案重新命名指令碼</h3>
+<div class="paragraph">
+<p>移動資料庫時、控制檔中目前定義的數個檔案位置會變更。下列指令碼會建立 RMAN 指令碼、以簡化程序。此範例顯示的資料庫資料檔案數量極少、但資料庫通常包含數百個甚至數千個資料檔案。</p>
+</div>
+<div class="paragraph">
+<p>此指令碼位於 <a href="oracle-migration-sample-scripts.html#asm-to-file-system-name-conversion">"ASM 至檔案系統名稱轉換"</a> 它有兩件事。</p>
+</div>
+<div class="paragraph">
+<p>首先、它會建立一個參數、重新定義稱為的重做記錄位置 <code>log_file_name_convert</code>。基本上是交替欄位清單。第一個欄位是目前重做記錄檔的位置、第二個欄位是新伺服器上的位置。然後重複該模式。</p>
+</div>
+<div class="paragraph">
+<p>第二個功能是提供資料檔案重新命名的範本。指令碼會循環瀏覽資料檔案、擷取名稱和檔案編號資訊、並將其格式化為 RMAN 指令碼。然後、它會對暫存檔案執行相同的操作。結果是一個簡單的 RMAN 指令碼、可視需要加以編輯、以確保檔案還原至所需的位置。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; @/rman/mk.rename.scripts.sql
+Parameters for log file conversion:
+*.log_file_name_convert = '+ASM0/PANCAKE/redo01.log',
+'/NEW_PATH/redo01.log','+ASM0/PANCAKE/redo02.log',
+'/NEW_PATH/redo02.log','+ASM0/PANCAKE/redo03.log', '/NEW_PATH/redo03.log'
+rman duplication script:
+run
+{
+set newname for datafile 1 to '+ASM0/PANCAKE/system01.dbf';
+set newname for datafile 2 to '+ASM0/PANCAKE/sysaux01.dbf';
+set newname for datafile 3 to '+ASM0/PANCAKE/undotbs101.dbf';
+set newname for datafile 4 to '+ASM0/PANCAKE/users01.dbf';
+set newname for tempfile 1 to '+ASM0/PANCAKE/temp01.dbf';
+duplicate target database for standby backup location INSERT_PATH_HERE;
+}
+PL/SQL procedure successfully completed.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>擷取此畫面的輸出。。 <code>log_file_name_convert</code> 參數會如下所述放置在 pfile 中。RMAN 資料檔案重新命名和重複指令碼必須據此編輯、才能將資料檔案放置在所需的位置。在此範例中、所有的項目都放在中 <code>/oradata/pancake</code>。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>run
+{
+set newname for datafile 1 to '/oradata/pancake/pancake.dbf';
+set newname for datafile 2 to '/oradata/pancake/sysaux.dbf';
+set newname for datafile 3 to '/oradata/pancake/undotbs1.dbf';
+set newname for datafile 4 to '/oradata/pancake/users.dbf';
+set newname for tempfile 1 to '/oradata/pancake/temp.dbf';
+duplicate target database for standby backup location '/rman/pancake';
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="準備目錄結構-2">準備目錄結構</h3>
+<div class="paragraph">
+<p>指令碼幾乎可以執行、但首先必須有目錄結構。如果所需目錄尚未存在、則必須建立這些目錄、否則資料庫啟動程序會失敗。以下範例反映最低需求。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc2 ~]$ mkdir /oradata/pancake
+[oracle@jfsc2 ~]$ mkdir /logs/pancake
+[oracle@jfsc2 ~]$ cd /orabin/admin
+[oracle@jfsc2 admin]$ mkdir PANCAKE
+[oracle@jfsc2 admin]$ cd PANCAKE
+[oracle@jfsc2 PANCAKE]$ mkdir adump dpdump pfile scripts xdb_wallet</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="建立-oratab-項目-2">建立 oratab 項目</h3>
+<div class="paragraph">
+<p>下列命令是 oraenv 等公用程式正常運作所需的命令。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>PANCAKE:/orabin/product/12.1.0/dbhome_1:N</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="參數更新">參數更新</h3>
+<div class="paragraph">
+<p>必須更新儲存的 pfile 、以反映新伺服器上的任何路徑變更。資料檔案路徑變更是由 RMAN 複製指令碼所變更、幾乎所有資料庫都需要變更 <code>control_files</code> 和 <code>log_archive_dest</code> 參數。也可能有必須變更的稽核檔案位置和參數、例如 <code>db_create_file_dest</code> 在 ASM 之外可能無關緊要。經驗豐富的 DBA 應仔細審查建議的變更、然後再繼續。</p>
+</div>
+<div class="paragraph">
+<p>在此範例中、主要變更為控制檔位置、記錄歸檔目的地、以及新增 <code>log_file_name_convert</code> 參數。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>PANCAKE.__data_transfer_cache_size=0
+PANCAKE.__db_cache_size=545259520
+PANCAKE.__java_pool_size=4194304
+PANCAKE.__large_pool_size=25165824
+PANCAKE.__oracle_base='/orabin'#ORACLE_BASE set from environment
+PANCAKE.__pga_aggregate_target=268435456
+PANCAKE.__sga_target=805306368
+PANCAKE.__shared_io_pool_size=29360128
+PANCAKE.__shared_pool_size=192937984
+PANCAKE.__streams_pool_size=0
+*.audit_file_dest='/orabin/admin/PANCAKE/adump'
+*.audit_trail='db'
+*.compatible='12.1.0.2.0'
+*.control_files='+ASM0/PANCAKE/control01.ctl','+ASM0/PANCAKE/control02.ctl'
+*.control_files='/oradata/pancake/control01.ctl','/logs/pancake/control02.ctl'
+*.db_block_size=8192
+*.db_domain=''
+*.db_name='PANCAKE'
+*.diagnostic_dest='/orabin'
+*.dispatchers='(PROTOCOL=TCP) (SERVICE=PANCAKEXDB)'
+*.log_archive_dest_1='LOCATION=+ASM1'
+*.log_archive_dest_1='LOCATION=/logs/pancake'
+*.log_archive_format='%t_%s_%r.dbf'
+'/logs/path/redo02.log'
+*.log_file_name_convert = '+ASM0/PANCAKE/redo01.log', '/logs/pancake/redo01.log', '+ASM0/PANCAKE/redo02.log', '/logs/pancake/redo02.log', '+ASM0/PANCAKE/redo03.log',  '/logs/pancake/redo03.log'
+*.open_cursors=300
+*.pga_aggregate_target=256m
+*.processes=300
+*.remote_login_passwordfile='EXCLUSIVE'
+*.sga_target=768m
+*.undo_tablespace='UNDOTBS1'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>確認新參數之後、必須使參數生效。存在多個選項、但大多數客戶會根據文字 pfile 建立 spfile 。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>bash-4.1$ sqlplus / as sysdba
+SQL*Plus: Release 12.1.0.2.0 Production on Fri Jan 8 11:17:40 2016
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+Connected to an idle instance.
+SQL&gt; create spfile from pfile='/rman/pancake/pfile';
+File created.</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="啟動-nomount">啟動 nomount</h3>
+<div class="paragraph">
+<p>複寫資料庫之前的最後一個步驟是啟動資料庫程序、但不要掛載檔案。在此步驟中、 spfile 可能會出現問題。如果是 <code>startup nomount</code> 命令因參數錯誤而失敗、關機很簡單、請修正 pfile 範本、將其重新載入為 spfile 、然後再試一次。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; startup nomount;
+ORACLE instance started.
+Total System Global Area  805306368 bytes
+Fixed Size                  2929552 bytes
+Variable Size             373296240 bytes
+Database Buffers          423624704 bytes
+Redo Buffers                5455872 bytes</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="複製資料庫">複製資料庫</h3>
+<div class="paragraph">
+<p>將先前的 RMAN 備份還原至新位置、比此程序中的其他步驟花費更多時間。必須複製資料庫、而不需變更資料庫 ID （ DBID ）或重新設定記錄。這可防止套用記錄、這是完全同步複本的必要步驟。</p>
+</div>
+<div class="paragraph">
+<p>使用 RMAN AS aux 連線至資料庫、並使用在前一個步驟中建立的指令碼發出重複資料庫命令。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc2 pancake]$ rman auxiliary /
+Recovery Manager: Release 12.1.0.2.0 - Production on Tue May 24 03:04:56 2016
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+connected to auxiliary database: PANCAKE (not mounted)
+RMAN&gt; run
+2&gt; {
+3&gt; set newname for datafile 1 to '/oradata/pancake/pancake.dbf';
+4&gt; set newname for datafile 2 to '/oradata/pancake/sysaux.dbf';
+5&gt; set newname for datafile 3 to '/oradata/pancake/undotbs1.dbf';
+6&gt; set newname for datafile 4 to '/oradata/pancake/users.dbf';
+7&gt; set newname for tempfile 1 to '/oradata/pancake/temp.dbf';
+8&gt; duplicate target database for standby backup location '/rman/pancake';
+9&gt; }
+executing command: SET NEWNAME
+executing command: SET NEWNAME
+executing command: SET NEWNAME
+executing command: SET NEWNAME
+executing command: SET NEWNAME
+Starting Duplicate Db at 24-MAY-16
+contents of Memory Script:
+{
+   restore clone standby controlfile from  '/rman/pancake/ctrl.bkp';
+}
+executing Memory Script
+Starting restore at 24-MAY-16
+allocated channel: ORA_AUX_DISK_1
+channel ORA_AUX_DISK_1: SID=243 device type=DISK
+channel ORA_AUX_DISK_1: restoring control file
+channel ORA_AUX_DISK_1: restore complete, elapsed time: 00:00:01
+output file name=/oradata/pancake/control01.ctl
+output file name=/logs/pancake/control02.ctl
+Finished restore at 24-MAY-16
+contents of Memory Script:
+{
+   sql clone 'alter database mount standby database';
+}
+executing Memory Script
+sql statement: alter database mount standby database
+released channel: ORA_AUX_DISK_1
+allocated channel: ORA_AUX_DISK_1
+channel ORA_AUX_DISK_1: SID=243 device type=DISK
+contents of Memory Script:
+{
+   set newname for tempfile  1 to
+ "/oradata/pancake/temp.dbf";
+   switch clone tempfile all;
+   set newname for datafile  1 to
+ "/oradata/pancake/pancake.dbf";
+   set newname for datafile  2 to
+ "/oradata/pancake/sysaux.dbf";
+   set newname for datafile  3 to
+ "/oradata/pancake/undotbs1.dbf";
+   set newname for datafile  4 to
+ "/oradata/pancake/users.dbf";
+   restore
+   clone database
+   ;
+}
+executing Memory Script
+executing command: SET NEWNAME
+renamed tempfile 1 to /oradata/pancake/temp.dbf in control file
+executing command: SET NEWNAME
+executing command: SET NEWNAME
+executing command: SET NEWNAME
+executing command: SET NEWNAME
+Starting restore at 24-MAY-16
+using channel ORA_AUX_DISK_1
+channel ORA_AUX_DISK_1: starting datafile backup set restore
+channel ORA_AUX_DISK_1: specifying datafile(s) to restore from backup set
+channel ORA_AUX_DISK_1: restoring datafile 00001 to /oradata/pancake/pancake.dbf
+channel ORA_AUX_DISK_1: restoring datafile 00002 to /oradata/pancake/sysaux.dbf
+channel ORA_AUX_DISK_1: restoring datafile 00003 to /oradata/pancake/undotbs1.dbf
+channel ORA_AUX_DISK_1: restoring datafile 00004 to /oradata/pancake/users.dbf
+channel ORA_AUX_DISK_1: reading from backup piece /rman/pancake/1gr6c161_1_1
+channel ORA_AUX_DISK_1: piece handle=/rman/pancake/1gr6c161_1_1 tag=ONTAP_MIGRATION
+channel ORA_AUX_DISK_1: restored backup piece 1
+channel ORA_AUX_DISK_1: restore complete, elapsed time: 00:00:07
+Finished restore at 24-MAY-16
+contents of Memory Script:
+{
+   switch clone datafile all;
+}
+executing Memory Script
+datafile 1 switched to datafile copy
+input datafile copy RECID=5 STAMP=912655725 file name=/oradata/pancake/pancake.dbf
+datafile 2 switched to datafile copy
+input datafile copy RECID=6 STAMP=912655725 file name=/oradata/pancake/sysaux.dbf
+datafile 3 switched to datafile copy
+input datafile copy RECID=7 STAMP=912655725 file name=/oradata/pancake/undotbs1.dbf
+datafile 4 switched to datafile copy
+input datafile copy RECID=8 STAMP=912655725 file name=/oradata/pancake/users.dbf
+Finished Duplicate Db at 24-MAY-16</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="初始記錄複寫-2">初始記錄複寫</h3>
+<div class="paragraph">
+<p>您現在必須將變更從來源資料庫傳送至新位置。這樣做可能需要多個步驟的組合。最簡單的方法是讓來源資料庫上的 RMAN 將歸檔記錄寫入共用網路連線。如果無法使用共用位置、則另一種方法是使用 RMAN 寫入本機檔案系統、然後使用 rcp 或 rsync 複製檔案。</p>
+</div>
+<div class="paragraph">
+<p>在此範例中 <code>/rman</code> 目錄是一種 NFS 共用、可同時用於原始和移轉的資料庫。</p>
+</div>
+<div class="paragraph">
+<p>此處的一個重要問題是 <code>disk format</code> 條款。備份的磁碟格式為 <code>%h_%e_%a.dbf</code>，這表示您必須使用資料庫的執行緒編號、序號和啟動 ID 格式。雖然字母不同、但這與相符 <code>log_archive_format='%t_%s_%r.dbf</code> pfile 中的參數。此參數也會以執行緒編號、序號和啟動 ID 的格式來指定封存記錄。最終結果是來源上的記錄檔備份使用資料庫預期的命名慣例。如此一來、就能執行像這樣的作業 <code>recover database</code> 更簡單、因為 sqlplus 能正確預測要重新播放的歸檔記錄名稱。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>RMAN&gt; configure channel device type disk format '/rman/pancake/logship/%h_%e_%a.dbf';
+old RMAN configuration parameters:
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/rman/pancake/arch/%h_%e_%a.dbf';
+new RMAN configuration parameters:
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/rman/pancake/logship/%h_%e_%a.dbf';
+new RMAN configuration parameters are successfully stored
+released channel: ORA_DISK_1
+RMAN&gt; backup as copy archivelog from time 'sysdate-2';
+Starting backup at 24-MAY-16
+current log archived
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=373 device type=DISK
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=54 RECID=70 STAMP=912658508
+output file name=/rman/pancake/logship/1_54_912576125.dbf RECID=123 STAMP=912659482
+channel ORA_DISK_1: archived log copy complete, elapsed time: 00:00:01
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=41 RECID=29 STAMP=912654101
+output file name=/rman/pancake/logship/1_41_912576125.dbf RECID=124 STAMP=912659483
+channel ORA_DISK_1: archived log copy complete, elapsed time: 00:00:01
+...
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=45 RECID=33 STAMP=912654688
+output file name=/rman/pancake/logship/1_45_912576125.dbf RECID=152 STAMP=912659514
+channel ORA_DISK_1: archived log copy complete, elapsed time: 00:00:01
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=47 RECID=36 STAMP=912654809
+output file name=/rman/pancake/logship/1_47_912576125.dbf RECID=153 STAMP=912659515
+channel ORA_DISK_1: archived log copy complete, elapsed time: 00:00:01
+Finished backup at 24-MAY-16</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="初始記錄重新播放-2">初始記錄重新播放</h3>
+<div class="paragraph">
+<p>檔案在歸檔記錄位置後、可以發出命令來重新播放 <code>recover database until cancel</code> 接著是回應 <code>AUTO</code> 自動重播所有可用的記錄。參數檔目前正在將歸檔記錄導向 `/logs/archive`但這與 RMAN 用於保存日誌的位置不匹配。在恢復資料庫之前、可依下列方式暫時重新導向位置。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; alter system set log_archive_dest_1='LOCATION=/rman/pancake/logship' scope=memory;
+System altered.
+SQL&gt; recover standby database until cancel;
+ORA-00279: change 560224 generated at 05/24/2016 03:25:53 needed for thread 1
+ORA-00289: suggestion : /rman/pancake/logship/1_49_912576125.dbf
+ORA-00280: change 560224 for thread 1 is in sequence #49
+Specify log: {&lt;RET&gt;=suggested | filename | AUTO | CANCEL}
+AUTO
+ORA-00279: change 560353 generated at 05/24/2016 03:29:17 needed for thread 1
+ORA-00289: suggestion : /rman/pancake/logship/1_50_912576125.dbf
+ORA-00280: change 560353 for thread 1 is in sequence #50
+ORA-00278: log file '/rman/pancake/logship/1_49_912576125.dbf' no longer needed
+for this recovery
+...
+ORA-00279: change 560591 generated at 05/24/2016 03:33:56 needed for thread 1
+ORA-00289: suggestion : /rman/pancake/logship/1_54_912576125.dbf
+ORA-00280: change 560591 for thread 1 is in sequence #54
+ORA-00278: log file '/rman/pancake/logship/1_53_912576125.dbf' no longer needed
+for this recovery
+ORA-00308: cannot open archived log '/rman/pancake/logship/1_54_912576125.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 3</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>最終的歸檔記錄回覆會回報錯誤、但這是正常現象。此錯誤表示 sqlplus 正在尋找特定的記錄檔、但找不到該檔案。原因很可能是記錄檔尚未存在。</p>
+</div>
+<div class="paragraph">
+<p>如果在複製歸檔記錄之前可以關閉來源資料庫、則此步驟只能執行一次。歸檔記錄會複製並重新播放、然後程序會直接繼續進行轉換程序、以複寫重要的重作記錄。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="遞增記錄複寫及重新播放-2">遞增記錄複寫及重新播放</h3>
+<div class="paragraph">
+<p>在大多數情況下、移轉作業不會立即執行。移轉程序可能在幾天甚至幾週前完成、這表示記錄必須持續運送至複本資料庫並重新執行。這樣做可確保轉換程序到達時、必須傳輸和重播最少的資料。</p>
+</div>
+<div class="paragraph">
+<p>此程序很容易撰寫指令碼。例如、您可以在原始資料庫上排程下列命令、以確保用於記錄傳送的位置持續更新。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc1 pancake]$ cat copylogs.rman
+configure channel device type disk format '/rman/pancake/logship/%h_%e_%a.dbf';
+backup as copy archivelog from time 'sysdate-2';</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[oracle@jfsc1 pancake]$ rman target / cmdfile=copylogs.rman
+Recovery Manager: Release 12.1.0.2.0 - Production on Tue May 24 04:36:19 2016
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+connected to target database: PANCAKE (DBID=3574534589)
+RMAN&gt; configure channel device type disk format '/rman/pancake/logship/%h_%e_%a.dbf';
+2&gt; backup as copy archivelog from time 'sysdate-2';
+3&gt;
+4&gt;
+using target database control file instead of recovery catalog
+old RMAN configuration parameters:
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/rman/pancake/logship/%h_%e_%a.dbf';
+new RMAN configuration parameters:
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/rman/pancake/logship/%h_%e_%a.dbf';
+new RMAN configuration parameters are successfully stored
+Starting backup at 24-MAY-16
+current log archived
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=369 device type=DISK
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=54 RECID=123 STAMP=912659482
+RMAN-03009: failure of backup command on ORA_DISK_1 channel at 05/24/2016 04:36:22
+ORA-19635: input and output file names are identical: /rman/pancake/logship/1_54_912576125.dbf
+continuing other job steps, job failed will not be re-run
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=41 RECID=124 STAMP=912659483
+RMAN-03009: failure of backup command on ORA_DISK_1 channel at 05/24/2016 04:36:23
+ORA-19635: input and output file names are identical: /rman/pancake/logship/1_41_912576125.dbf
+continuing other job steps, job failed will not be re-run
+...
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=45 RECID=152 STAMP=912659514
+RMAN-03009: failure of backup command on ORA_DISK_1 channel at 05/24/2016 04:36:55
+ORA-19635: input and output file names are identical: /rman/pancake/logship/1_45_912576125.dbf
+continuing other job steps, job failed will not be re-run
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=47 RECID=153 STAMP=912659515
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03009: failure of backup command on ORA_DISK_1 channel at 05/24/2016 04:36:57
+ORA-19635: input and output file names are identical: /rman/pancake/logship/1_47_912576125.dbf
+Recovery Manager complete.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>在收到記錄之後、必須重新播放記錄。先前的範例顯示使用 sqlplus 來手動執行 `recover database until cancel`可輕鬆自動化。此處顯示的範例使用中所述的指令碼 <a href="oracle-migration-sample-scripts.html#replay-logs-on-standby-database">"重播待命資料庫上的記錄"</a>。指令碼會接受一個引數、指定需要重新執行作業的資料庫。此程序允許在多資料庫移轉工作中使用相同的指令碼。</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>[root@jfsc2 pancake]# ./replaylogs.pl PANCAKE
+ORACLE_SID = [oracle] ? The Oracle base has been set to /orabin
+SQL*Plus: Release 12.1.0.2.0 Production on Tue May 24 04:47:10 2016
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+SQL&gt; ORA-00279: change 560591 generated at 05/24/2016 03:33:56 needed for thread 1
+ORA-00289: suggestion : /rman/pancake/logship/1_54_912576125.dbf
+ORA-00280: change 560591 for thread 1 is in sequence #54
+Specify log: {&lt;RET&gt;=suggested | filename | AUTO | CANCEL}
+ORA-00279: change 562219 generated at 05/24/2016 04:15:08 needed for thread 1
+ORA-00289: suggestion : /rman/pancake/logship/1_55_912576125.dbf
+ORA-00280: change 562219 for thread 1 is in sequence #55
+ORA-00278: log file '/rman/pancake/logship/1_54_912576125.dbf' no longer needed for this recovery
+ORA-00279: change 562370 generated at 05/24/2016 04:19:18 needed for thread 1
+ORA-00289: suggestion : /rman/pancake/logship/1_56_912576125.dbf
+ORA-00280: change 562370 for thread 1 is in sequence #56
+ORA-00278: log file '/rman/pancake/logship/1_55_912576125.dbf' no longer needed for this recovery
+...
+ORA-00279: change 563137 generated at 05/24/2016 04:36:20 needed for thread 1
+ORA-00289: suggestion : /rman/pancake/logship/1_65_912576125.dbf
+ORA-00280: change 563137 for thread 1 is in sequence #65
+ORA-00278: log file '/rman/pancake/logship/1_64_912576125.dbf' no longer needed for this recovery
+ORA-00308: cannot open archived log '/rman/pancake/logship/1_65_912576125.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 3
+SQL&gt; Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="轉換-2">轉換</h3>
+<div class="paragraph">
+<p>準備好切換至新環境時、您必須執行最後一次同步。使用一般檔案系統時、由於原始的重作記錄會複製並重新播放、因此很容易確保移轉的資料庫與原始資料庫 100% 同步。使用 ASM 執行此作業的方法並不理想。只有歸檔日誌可以輕鬆地重新記錄。為了確保不會遺失任何資料、必須謹慎執行原始資料庫的最終關機。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>首先、必須將資料庫暫時禁用、確保不會進行任何變更。這種停止可能包括停用排程作業、關閉接聽程式及 / 或關閉應用程式。</p>
+</li>
+<li>
+<p>執行此步驟後、大多數 DBA 會建立一個虛擬表格、做為關機的標記。</p>
+</li>
+<li>
+<p>強制記錄歸檔、以確保在歸檔記錄檔中記錄建立虛擬表格。若要這麼做、請執行下列命令：</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; create table cutovercheck as select * from dba_users;
+Table created.
+SQL&gt; alter system archive log current;
+System altered.
+SQL&gt; shutdown immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.</pre>
+</div>
+</div>
+</li>
+<li>
+<p>若要複製最後一個歸檔記錄檔、請執行下列命令。資料庫必須可用、但不可開啟。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; startup mount;
+ORACLE instance started.
+Total System Global Area  805306368 bytes
+Fixed Size                  2929552 bytes
+Variable Size             331353200 bytes
+Database Buffers          465567744 bytes
+Redo Buffers                5455872 bytes
+Database mounted.</pre>
+</div>
+</div>
+</li>
+<li>
+<p>若要複製歸檔記錄檔、請執行下列命令：</p>
+<div class="literalblock">
+<div class="content">
+<pre>RMAN&gt; configure channel device type disk format '/rman/pancake/logship/%h_%e_%a.dbf';
+2&gt; backup as copy archivelog from time 'sysdate-2';
+3&gt;
+4&gt;
+using target database control file instead of recovery catalog
+old RMAN configuration parameters:
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/rman/pancake/logship/%h_%e_%a.dbf';
+new RMAN configuration parameters:
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   '/rman/pancake/logship/%h_%e_%a.dbf';
+new RMAN configuration parameters are successfully stored
+Starting backup at 24-MAY-16
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=8 device type=DISK
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=54 RECID=123 STAMP=912659482
+RMAN-03009: failure of backup command on ORA_DISK_1 channel at 05/24/2016 04:58:24
+ORA-19635: input and output file names are identical: /rman/pancake/logship/1_54_912576125.dbf
+continuing other job steps, job failed will not be re-run
+...
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=45 RECID=152 STAMP=912659514
+RMAN-03009: failure of backup command on ORA_DISK_1 channel at 05/24/2016 04:58:58
+ORA-19635: input and output file names are identical: /rman/pancake/logship/1_45_912576125.dbf
+continuing other job steps, job failed will not be re-run
+channel ORA_DISK_1: starting archived log copy
+input archived log thread=1 sequence=47 RECID=153 STAMP=912659515
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03009: failure of backup command on ORA_DISK_1 channel at 05/24/2016 04:59:00
+ORA-19635: input and output file names are identical: /rman/pancake/logship/1_47_912576125.dbf</pre>
+</div>
+</div>
+</li>
+<li>
+<p>最後、在新伺服器上重播剩餘的歸檔記錄。</p>
+<div class="literalblock">
+<div class="content">
+<pre>[root@jfsc2 pancake]# ./replaylogs.pl PANCAKE
+ORACLE_SID = [oracle] ? The Oracle base has been set to /orabin
+SQL*Plus: Release 12.1.0.2.0 Production on Tue May 24 05:00:53 2016
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+SQL&gt; ORA-00279: change 563137 generated at 05/24/2016 04:36:20 needed for thread 1
+ORA-00289: suggestion : /rman/pancake/logship/1_65_912576125.dbf
+ORA-00280: change 563137 for thread 1 is in sequence #65
+Specify log: {&lt;RET&gt;=suggested | filename | AUTO | CANCEL}
+ORA-00279: change 563629 generated at 05/24/2016 04:55:20 needed for thread 1
+ORA-00289: suggestion : /rman/pancake/logship/1_66_912576125.dbf
+ORA-00280: change 563629 for thread 1 is in sequence #66
+ORA-00278: log file '/rman/pancake/logship/1_65_912576125.dbf' no longer needed
+for this recovery
+ORA-00308: cannot open archived log '/rman/pancake/logship/1_66_912576125.dbf'
+ORA-27037: unable to obtain file status
+Linux-x86_64 Error: 2: No such file or directory
+Additional information: 3
+SQL&gt; Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options</pre>
+</div>
+</div>
+</li>
+<li>
+<p>在此階段、複寫所有資料。資料庫已準備好從待命資料庫轉換為作用中的作業資料庫、然後開啟。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; alter database activate standby database;
+Database altered.
+SQL&gt; alter database open;
+Database altered.</pre>
+</div>
+</div>
+</li>
+<li>
+<p>確認虛擬表格是否存在、然後將其丟棄。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; desc cutovercheck
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ USERNAME                                  NOT NULL VARCHAR2(128)
+ USER_ID                                   NOT NULL NUMBER
+ PASSWORD                                           VARCHAR2(4000)
+ ACCOUNT_STATUS                            NOT NULL VARCHAR2(32)
+ LOCK_DATE                                          DATE
+ EXPIRY_DATE                                        DATE
+ DEFAULT_TABLESPACE                        NOT NULL VARCHAR2(30)
+ TEMPORARY_TABLESPACE                      NOT NULL VARCHAR2(30)
+ CREATED                                   NOT NULL DATE
+ PROFILE                                   NOT NULL VARCHAR2(128)
+ INITIAL_RSRC_CONSUMER_GROUP                        VARCHAR2(128)
+ EXTERNAL_NAME                                      VARCHAR2(4000)
+ PASSWORD_VERSIONS                                  VARCHAR2(12)
+ EDITIONS_ENABLED                                   VARCHAR2(1)
+ AUTHENTICATION_TYPE                                VARCHAR2(8)
+ PROXY_ONLY_CONNECT                                 VARCHAR2(1)
+ COMMON                                             VARCHAR2(3)
+ LAST_LOGIN                                         TIMESTAMP(9) WITH TIME ZONE
+ ORACLE_MAINTAINED                                  VARCHAR2(1)
+SQL&gt; drop table cutovercheck;
+Table dropped.</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="不中斷的重作記錄移轉">不中斷的重作記錄移轉</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>有時資料庫會在整體上正確組織、但重做記錄除外。這可能是因為許多原因、其中最常見的原因與快照有關。SnapManager for Oracle 、 SnapCenter 和 NetApp Snap Creator 儲存管理架構等產品可讓您近乎即時地恢復資料庫、但前提是您必須還原資料檔案磁碟區的狀態。如果重做記錄檔與資料檔案共用空間、則無法安全執行還原、因為還原會導致重做記錄檔毀損、這可能表示資料遺失。因此、重做記錄必須重新定位。</p>
+</div>
+<div class="paragraph">
+<p>此程序很簡單、可在不中斷營運的情況下執行。</p>
+</div>
+<div class="sect2">
+<h3 id="目前的重做記錄組態">目前的重做記錄組態</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>識別重做記錄群組的數目及其各自的群組編號。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; select group#||' '||member from v$logfile;
+GROUP#||''||MEMBER
+--------------------------------------------------------------------------------
+1 /redo0/NTAP/redo01a.log
+1 /redo1/NTAP/redo01b.log
+2 /redo0/NTAP/redo02a.log
+2 /redo1/NTAP/redo02b.log
+3 /redo0/NTAP/redo03a.log
+3 /redo1/NTAP/redo03b.log
+rows selected.</pre>
+</div>
+</div>
+</li>
+<li>
+<p>輸入重做記錄檔的大小。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; select group#||' '||bytes from v$log;
+GROUP#||''||BYTES
+--------------------------------------------------------------------------------
+1 524288000
+2 524288000
+3 524288000</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="建立新記錄">建立新記錄</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>針對每個重做記錄、建立一個大小和成員數目相符的新群組。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; alter database add logfile ('/newredo0/redo01a.log', '/newredo1/redo01b.log') size 500M;
+Database altered.
+SQL&gt; alter database add logfile ('/newredo0/redo02a.log', '/newredo1/redo02b.log') size 500M;
+Database altered.
+SQL&gt; alter database add logfile ('/newredo0/redo03a.log', '/newredo1/redo03b.log') size 500M;
+Database altered.
+SQL&gt;</pre>
+</div>
+</div>
+</li>
+<li>
+<p>驗證新組態。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; select group#||' '||member from v$logfile;
+GROUP#||''||MEMBER
+--------------------------------------------------------------------------------
+1 /redo0/NTAP/redo01a.log
+1 /redo1/NTAP/redo01b.log
+2 /redo0/NTAP/redo02a.log
+2 /redo1/NTAP/redo02b.log
+3 /redo0/NTAP/redo03a.log
+3 /redo1/NTAP/redo03b.log
+4 /newredo0/redo01a.log
+4 /newredo1/redo01b.log
+5 /newredo0/redo02a.log
+5 /newredo1/redo02b.log
+6 /newredo0/redo03a.log
+6 /newredo1/redo03b.log
+12 rows selected.</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="刪除舊記錄">刪除舊記錄</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>刪除舊記錄（群組 1 、 2 和 3 ）。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; alter database drop logfile group 1;
+Database altered.
+SQL&gt; alter database drop logfile group 2;
+Database altered.
+SQL&gt; alter database drop logfile group 3;
+Database altered.</pre>
+</div>
+</div>
+</li>
+<li>
+<p>如果您遇到錯誤、導致無法刪除作用中記錄、請強制切換至下一個記錄檔、以釋放鎖定並強制建立全域檢查點。請參閱下列此程序範例。由於此記錄檔中仍有作用中的資料、因此拒絕嘗試丟棄位於舊位置的記錄檔群組 2 。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; alter database drop logfile group 2;
+alter database drop logfile group 2
+*
+ERROR at line 1:
+ORA-01623: log 2 is current log for instance NTAP (thread 1) - cannot drop
+ORA-00312: online log 2 thread 1: '/redo0/NTAP/redo02a.log'
+ORA-00312: online log 2 thread 1: '/redo1/NTAP/redo02b.log'</pre>
+</div>
+</div>
+</li>
+<li>
+<p>記錄歸檔之後再加上檢查點、可讓您捨棄記錄檔。</p>
+<div class="literalblock">
+<div class="content">
+<pre>SQL&gt; alter system archive log current;
+System altered.
+SQL&gt; alter system checkpoint;
+System altered.
+SQL&gt; alter database drop logfile group 2;
+Database altered.</pre>
+</div>
+</div>
+</li>
+<li>
+<p>然後從檔案系統刪除記錄。您應該非常小心地執行此程序。</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+    </article>
+    <!-- Page Container -->
+  </div>
+
+  
+  <!-- Start Page Toolbar -->
+<div id="ie-right-navbar-collapse" class="close">
+  <img id="navbar-expand" class="ie-searchbox-icon" src="/zh-tw/ontap-apps-dbs/images/double_arrow.svg" alt="" />
+</div>
+<div id="ie-right-navbar" class="open">
+  <div id="right-navbar-collapse">
+    <img src="/zh-tw/ontap-apps-dbs/images/double_arrow.svg" alt="" />
+  </div>
+  <div class="page-nav-container">
+    <nav class="page-nav-fixed">
+      <div class="page-nav-title">在本頁</div>
+      <div class="page-nav-links">
+        <ul class="page-nav-inner" id="page-menu"></ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+
+<script>
+  resizeContent();
+  function setRightBarHeight() {
+    var h = 0;
+
+    // header 1
+    h += PXinViewport($('.n-footer'));
+    h += PXinViewport($('#ie-new-header'));
+
+    if ($('#ie-right-navbar').length) {
+      $('#ie-right-navbar').css({ height: `calc(100vh - ${h}px)` });
+    }
+    if ($('.page-nav-links').length) {
+      h += 98;
+      $('.page-nav-links').css({ height: `calc(100vh - ${h}px)` });
+    }
+  }
+
+  $(document).ready(function () {
+    // PAGE NAV - Click
+    const MASTHEAD_OFFSET = 65;
+    const SECTIONS = $("main h2, main h3");
+    let calculateActiveSection = false;
+    setTimeout(() => {
+      calculateActiveSection = true;
+    }, 100)
+
+    $(".page-nav__link").click(function (event) {
+      calculateActiveSection = false;
+      $(".page-nav__link").removeClass('page-nav__link--active');
+      var target = $(event.target);
+      target.addClass('page-nav__link--active');
+      location.hash = event.target.hash;
+      setTimeout(() => {
+        calculateActiveSection = true;
+      }, 100)
+
+    });
+
+    // PAGE NAV - Scroll
+    $(window).on('resize scroll', function () {
+      if (calculateActiveSection) {
+        var activeSection = getActiveSection(SECTIONS, MASTHEAD_OFFSET);
+        if (activeSection) {
+          var activeHref = $(activeSection).attr('id');
+          $(".page-nav__link").removeClass('page-nav__link--active');
+          $("#page-menu a[href=#" + activeHref + "]").addClass('page-nav__link--active');
+          if (location.hash != "#" + activeHref) {
+            if (history.replaceState) {
+              history.replaceState(null, null, "#" + activeHref);
+            }
+          }
+        }
+      }
+    });
+
+    $(".n-pdf-button").click(function () {
+      $(this).toggleClass("active");
+    });
+
+    $.fn.isVisibleAndInViewport = function () {
+      var elementTop = $(this).offset().top;
+      var elementBottom = elementTop + $(this).outerHeight();
+
+      var viewportTop = $(window).scrollTop();
+      var viewportBottom = viewportTop + $(window).height();
+
+      return elementBottom > viewportTop && elementTop < viewportBottom && $(this).is(":visible");
+    };
+
+
+    $(window).on('resize scroll', function () {
+      setRightBarHeight();
+    });
+
+    $(window).trigger('resize');
+
+
+  });
+
+  $("#right-navbar-collapse").click(function (e) {
+    const rightNavbarWidth = $("#ie-right-navbar").width() - $("#ie-right-navbar-collapse").width();
+    e.preventDefault();
+    const width = $(".ie-content-pane").width();
+
+    $("#ie-right-navbar").animate({ width: 'toggle' }, 350, function () {
+      $("#ie-right-navbar-collapse").removeClass("close")
+      $("#ie-right-navbar-collapse").addClass("open")
+      $("#ie-right-navbar").removeClass("open")
+      $("#ie-right-navbar").addClass("close")
+    });
+    $(".ie-content-pane").animate({ width: (width + rightNavbarWidth) }, 350, function () {
+      resizeContent()
+      setSidebarBottom();
+    })
+
+  });
+  $("#navbar-expand").click(function (e) {
+    const rightNavbarWidth = $("#ie-right-navbar").width() - $("#ie-right-navbar-collapse").width();
+    e.preventDefault();
+    const width = $(".ie-content-pane").width();
+    $("#ie-right-navbar").animate({ width: 'toggle' }, 250, function () {
+      $("#ie-right-navbar-collapse").removeClass("open")
+      $("#ie-right-navbar-collapse").addClass("close")
+      $("#ie-right-navbar").removeClass("close")
+      $("#ie-right-navbar").addClass("open")
+      setRightBarHeight();
+      setSidebarBottom();
+    });
+    $(".ie-content-pane").animate({ width: (width - rightNavbarWidth) }, 250, function () {
+      resizeContent()
+    })
+  });
+
+  function navbarResize() {
+    const rightNavbarResized = $("#ie-right-navbar-collapse").hasClass('resized');
+    if (window.innerWidth < 1024) {
+      $("#ie-right-navbar").removeClass("open")
+      $("#ie-right-navbar").addClass("close")
+      $("#ie-right-navbar").removeAttr("style")
+      $("#ie-right-navbar-collapse").removeClass("close")
+      $("#ie-right-navbar-collapse").addClass("open")
+      $("#ie-right-navbar-collapse").addClass("resized")
+    } else {
+      if (rightNavbarResized) {
+        $('#ie-right-navbar').removeClass('close');
+        $('#ie-right-navbar').addClass('open');
+        $("#ie-right-navbar-collapse").removeClass("resized")
+        $("#ie-right-navbar-collapse").removeClass("open")
+        $("#ie-right-navbar-collapse").addClass("close")
+      }
+    }
+    resizeContent()
+  }
+  navbarResize();
+  $(window).on('resize load', function () {
+    navbarResize()
+  });
+
+  function getActiveSection(sections, offset) {
+    var scrollPosition = $(window).scrollTop() + offset + 5;
+    var activeSection;
+    for (var i = 0; i < sections.length; i++) {
+      var el = $(sections[i]);
+      var activePosition = el.offset().top;
+      if (activePosition > scrollPosition) {
+        break;
+      }
+
+      activeSection = sections[i];
+    }
+
+    return activeSection;
+  }
+
+  $("a[href*=#]:not([href=#])").click(function () {
+    setTimeout(() => {
+      $(window).trigger('scroll');
+    }, 105)
+  })
+
+  const hashOnLoad = location.href.split("#")[1];
+  setTimeout(function () {
+    if (hashOnLoad) {
+      $(".page-nav__link").removeClass('page-nav__link--active');
+      $("#page-menu a[href=#" + hashOnLoad + "]").addClass('page-nav__link--active');
+    }
+  }, 100)
+
+</script>
+
+
+  <div style="clear: both"></div><!-- Main needs to have height --></div>
+
+        </main>
+
+        <footer class="n-footer">
+  <div class="n-footer__bottom">
+    <div class="n-container">
+        <div class="n-footer__left">
+          <li class="n-footer__copyright-link">
+                    <a href="https://www.netapp.com/company/legal/copyright/">© 2024 NetApp, Inc.</a>
+          </li>
+        </div>
+        <div class="n-footer__center">
+          <ul class="n-footer__copyright-list">
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/terms-of-use/">使用條款</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/privacy-policy/">隱私權政策</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/cookie-policy/">Cookie 政策</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a class="ot-sdk-show-settings">Cookie 設定</a>
+            </li>
+          </ul>
+       </div>
+        <div class="n-footer__right">
+              <li class="n-footer__copyright-link">
+                <a target="_self" href="javascript:netapp_mailto()">傳送有關本網頁的意見反應</a>
+              </li>
+        </div>
+     </div>
+  </div>
+</footer>
+
+      </div><!-- Elasticsearch JS -->
+      <script type="text/javascript" src='/zh-tw/ontap-apps-dbs/js/bundle.js'></script>
+
+      <!-- Syntax Highlighting -->
+      <script type="text/javascript" src='/zh-tw/ontap-apps-dbs/js/prism.js'></script>
+      <script type="text/javascript" src='/zh-tw/ontap-apps-dbs/js/prism-curl.js'></script>
+    </div>
+    <script>
+      document.body.offsetWidth=1903;
+      cookieLaw = {}
+      cookieLaw.euCountry = "US";
+      cookieLaw.invoke = function(){return false;}
+    </script>
+    <script src='/zh-tw/ontap-apps-dbs/js/ie-tabbed-blocks.js'></script>
+    <script src='/zh-tw/ontap-apps-dbs/js/ie-sidebar.js'></script>
+  </body>
+
+</html>

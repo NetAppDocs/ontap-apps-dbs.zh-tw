@@ -1,0 +1,4513 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+  <head class="at-element-marker">
+  <title>vSphere 資料存放區和傳輸協定功能概觀</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta http-equiv="language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="vSphere 資料存放區和傳輸協定功能概觀" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://docs.netapp.com/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+	<meta property="og:description" content="本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的最佳實務做法。" />
+  <meta property="og:image" content="https://docs.netapp.com/zh-tw/ontap-apps-dbs/images/logo-tophat-social.png" />
+  <meta property="og:image:alt" content="NetApp Logo" />
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="encoding" content="utf-8">
+  <meta http-equiv="nss-type" content="Product Documentation"/>
+  <meta http-equiv="nss-subtype" content="User Guide"/><meta name="description" content="本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的最佳實務做法。">
+  <meta name="keywords" content=" vSphere, datastore, VMFS, FC, FCoE, NVMe/FC, iSCSI, NFS, vVols"><!-- Icons -->
+  <link rel="icon" href="/zh-tw/ontap-apps-dbs/images/favicon.ico" type="image/x-icon">
+
+  <!-- RSS Feed --><!-- CSS Definitions: NetApp CSS should be defined after generic css -->
+
+
+  <!-- Combined CSS -->
+  <link rel="stylesheet" type="text/css" href="/zh-tw/ontap-apps-dbs/css/ie-netappdocs.css">
+
+  
+  <link rel="stylesheet" href="/zh-tw/ontap-apps-dbs/css/ie-landing-page.css" type="text/css">
+  <link rel="stylesheet" href="/zh-tw/ontap-apps-dbs/css/ie-tabbed-blocks.css" type="text/css">
+  <!-- Canonical url -->
+  <link rel="canonical" href="https://docs.netapp.com/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="x-default" href="https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="zh-Hant" href="https://docs.netapp.com/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="en" href="https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="ja" href="https://docs.netapp.com/ja-jp/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="ko" href="https://docs.netapp.com/ko-kr/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="zh-Hans" href="https://docs.netapp.com/zh-cn/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="de" href="https://docs.netapp.com/de-de/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="es" href="https://docs.netapp.com/es-es/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="fr" href="https://docs.netapp.com/fr-fr/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <link rel="alternate" hreflang="it" href="https://docs.netapp.com/it-it/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html" />
+  <!-- Top level site integrations -->
+<script type="text/javascript" src="https://cdn.cookielaw.org/consent/72570c5c-fe30-465f-b0e0-b77f7fb4ae34/OtAutoBlock.js"></script>
+    <script type="text/javascript" src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" charset="UTF-8" data-document-language="true" data-domain-script="72570c5c-fe30-465f-b0e0-b77f7fb4ae34"></script>
+    <script type="text/javascript">function OptanonWrapper() { }</script>
+    <script type="text/plain" class="optanon-category-C0002" src="https://assets.adobedtm.com/60287eadf1ee/c284da483c83/launch-e9ff3acac59f.min.js"></script>
+    <script class="optanon-category-C0001">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.setAttributeNode(d.createAttribute('data-ot-ignore'));j.setAttribute('class','optanon-category-C0001');j.async=true;
+        j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl+'';f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MD73T9M');</script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+      const MASTHEAD_OFFSET = 65;
+      const SECTIONS = $("main h2, main h3");
+      // PAGE NAV - Init
+      if (SECTIONS.length == 0) {
+        // remove if there is no elements
+        /*
+        $("#ie-right-navbar").remove();
+        $("#ie-right-navbar-collapse").remove();
+        */
+      } else {
+        $(".page-nav-title").css('display', 'block');
+        for (var i = 0; i < SECTIONS.length; i++) {
+          var sectionId = $(SECTIONS[i]).attr('id');
+          var sectionName = $(SECTIONS[i]).text();
+          var subClass = $(SECTIONS[i]).is("h3") ? ' page-nav__sublink' : '';
+          $("#page-menu").append('<li class="page-nav-item"><a href="#' + sectionId + '" class="page-nav__link' + subClass + '">' + sectionName + '</a></li>');
+        }
+      }
+    });
+  </script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+  <!-- Used for Product Family Page Sidebar Visibility --><!-- Used to import Promise for IE. Required for SearchKit -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script><script src='/zh-tw/ontap-apps-dbs/js/na-search.js'></script><script src='/zh-tw/ontap-apps-dbs/js/ie-clouddocs.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><script>
+    /*
+      $(document).ready(function() {
+          $("#tg-sb-link").click(function() {
+              $("#tg-sb-sidebar").toggle();
+              $("#tg-sb-content").toggleClass('col-md-9');
+              $("#tg-sb-content").toggleClass('col-md-12');
+              $("#tg-sb-icon").toggleClass('fa-toggle-on');
+              $("#tg-sb-icon").toggleClass('fa-toggle-off');
+          });
+      });
+      */
+  </script>
+  <script src='/zh-tw/ontap-apps-dbs/js/custom-dropdown.js'></script>
+  <script src='/zh-tw/ontap-apps-dbs/js/FileSaver.min.js'></script>
+  <script src='/zh-tw/ontap-apps-dbs/js/jszip-utils.min.js'></script>
+  <script src='/zh-tw/ontap-apps-dbs/js/jszip.min.js'></script><script src='/zh-tw/ontap-apps-dbs/js/ie-pdf-ux.js'></script></head>
+
+
+  <body class role="document" data-flavor="">
+    <div class="skip-to-main">
+      <a href="#main" >Skip to main content</a>
+    </div><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MD73T9M"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="page" class="">
+      <div id="ie-phone-menu" class=""></div>
+      <div id="ie-content-wrap" class="">
+        <nav id="ie-new-header">
+    <ul>
+        <li id="ie-phone-menu-button">
+            <a href="#">
+                <image id="" src="/zh-tw/ontap-apps-dbs/images/hamburger.svg" alt="menu" />
+            </a>
+        </li>
+
+        <li>
+            <a href="https://www.netapp.com/tw">
+                <image id="ie-header-logo" src="/zh-tw/ontap-apps-dbs/images/netapp_logo.svg" alt="netapp" />
+            </a>
+        </li>
+        <li id="ie-header-docs">
+            <a href="https://www.netapp.com/support-and-training/documentation/">文件</a>
+        </li>
+
+        <!-- Empty container to push header left with or without lang selector -->
+        <li id="empty-container" style="margin-left: auto">
+        </li>
+        <!-- Start Language Selector --><li id="ie-language-dropdown">
+            <div id="language-dropdown" class="custom-dropdown custom-dropdown-lang">
+                <div class="custom-dropdown-select custom-dropdown-select-lang">
+                    <img src="/zh-tw/ontap-apps-dbs/images/language_white_24dp.svg" class="n-globe__icon" />
+                    <span class="lang-name">繁體中文</span>
+                    <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevrondown header invisible" />
+                    <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevronup header" />
+                    </button>
+                </div>
+
+                <ul class="custom-dropdown-menu"><li>
+                        <a href="https://docs.netapp.com/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html"
+                            target="_self"><span translate="no" class="notranslate">繁體中文</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html"
+                            target="_self"><span translate="no" class="notranslate">English</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/ja-jp/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html"
+                            target="_self"><span translate="no" class="notranslate">日本語</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/ko-kr/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html"
+                            target="_self"><span translate="no" class="notranslate">한국어</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/zh-cn/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html"
+                            target="_self"><span translate="no" class="notranslate">简体中文</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/de-de/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html"
+                            target="_self"><span translate="no" class="notranslate">Deutsch</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/es-es/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html"
+                            target="_self"><span translate="no" class="notranslate">Español</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/fr-fr/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html"
+                            target="_self"><span translate="no" class="notranslate">Français</span></a>
+                    </li><li>
+                        <a href="https://docs.netapp.com/it-it/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html"
+                            target="_self"><span translate="no" class="notranslate">Italiano</span></a>
+                    </li></ul>
+            </div>
+            </li>
+        <!-- End Language Selector -->
+
+
+        <li id="ie-allnetapp">
+            <div id="allnetapp-dropdown" class="custom-dropdown custom-dropdown-allnetapp">
+                <div class="custom-dropdown-select custom-dropdown-select-allnetapp">
+                    <img src="/zh-tw/ontap-apps-dbs/images/apps_white_24dp.svg" alt="" class="allnetapp-icon" />
+                    <span class="allnetapp-name">所有 NetApp</span>
+                    <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevrondown header invisible" />
+                    <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevronup header" />
+                    </button>
+                </div>
+
+                <ul class="custom-dropdown-menu allnetapp-dropdown">
+                    <li>
+                        <a href="https://bluexp.netapp.com/"
+                            target="_self"><span translate="no" class="notranslate">BlueXP</span></a>
+                    </li>
+                    <li>
+                        <a href="https://mysupport.netapp.com/site/"
+                            target="_self"><span translate="no" class="notranslate">支援</span></a>
+                    </li>
+                    <li>
+                        <a href="https://kb.netapp.com/"
+                            target="_self"><span translate="no" class="notranslate">知識庫</span></a>
+                    </li>
+                    <li>
+                        <a href="https://www.netapp.com/support-and-training/netapp-learning-services/"
+                            target="_self"><span translate="no" class="notranslate">訓練</span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </li>
+
+    </ul>
+</nav>
+
+        <main id="n-main-content" class="n-main-content">
+          <!-- Start Documentation Content -->
+<div class="ie-main">
+
+<div id="ie-new-sidebar-collapse" style="display: none">
+    <img id="sidebar-expand" class="ie-searchbox-icon" src="/zh-tw/ontap-apps-dbs/images/double_arrow.svg" alt="" />
+</div>
+<div id="ie-new-sidebar">
+    <div id="ie-product-identity-lockup">
+        <div id="sidebar-collapse" class="">
+            <img src="/zh-tw/ontap-apps-dbs/images/double_arrow.svg" alt="" />
+        </div>
+        <div id="ie-breadcrumb" class="">
+  <ul class="ie-breadcrumb">
+    <li class="">
+      <a href="https://docs.netapp.com">所有文件</a>
+    </li>
+    
+    
+
+    
+  </ul>
+  
+  <div class="ie-product-name" >
+    <!--<a href="/zh-tw/ontap-apps-dbs/">-->
+      Enterprise applications
+    <!--</a>-->
+  </div>
+</div>
+
+            
+
+        
+        
+
+<div id="ie-searchbox" class="ie-searchbox-sidebar ">
+    <img class="ie-searchbox-icon" src="/zh-tw/ontap-apps-dbs/images/loupe.svg" alt=""/>
+    <div id="react-search" 
+        data-search-html="/zh-tw/ontap-apps-dbs/search.html" 
+        data-type="widget"
+        data-placeholder="搜尋說明文件"
+        data-no-results-found="找不到 {query} 的結果"
+        data-did-you-mean="搜尋 {suggestion}。"
+        data-no-results-found-did-you-mean="找不到 {query} 的結果。您的意思是 {suggestion} 嗎？"
+        data-results-found="找到 {hitCount} 個結果"
+        data-error-message="發生錯誤。請再試一次。"
+        data-error-reset="重設搜尋"
+        data-sk-es-pf-indexes="" 
+        data-flavor="">
+    </div>
+</div>
+        
+    </div>
+    <div id="ie-new-toc"><script>
+  let sidebarAccordion = true;
+
+  /* specific css rules for Mac */
+  if(navigator.platform.match('Mac') !== null) {
+    document.body.setAttribute('class', 'OSX');
+  }
+
+</script>
+
+<div id="ie-sidebar-container">
+  <ul id="ie-sidebar-list" ><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="企業應用程式"
+      data-li-level="1#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/index.html" 
+    ><a class="ie-sidebar-menuitem-1 " href="/zh-tw/ontap-apps-dbs/index.html">
+        企業應用程式
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Microsoft SQL Server"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Microsoft SQL Server</div>-->
+         Microsoft SQL Server
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-overview.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="工作負載"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-workloads.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-workloads.html">
+        工作負載
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Microsoft SQL Server 的資料庫組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料庫組態</div>-->
+         資料庫組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="共享執行個體與專用執行個體"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-shared-vs-dedicated.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-shared-vs-dedicated.html">
+        共享執行個體與專用執行個體
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="CPU 組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-cpu-configuration.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-cpu-configuration.html">
+        CPU 組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="記憶體組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-memory-configuration.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-memory-configuration.html">
+        記憶體組態
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Microsoft SQL Server 的儲存組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 儲存組態</div>-->
+         儲存組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料庫檔案和檔案群組"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-files-and-filegroups.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-files-and-filegroups.html">
+        資料庫檔案和檔案群組
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="tempdb 檔案"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-tempdb.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-tempdb.html">
+        tempdb 檔案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存考量"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-storage-considerations.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-storage-considerations.html">
+        儲存考量
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存效率"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-storage-efficiency.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-storage-efficiency.html">
+        儲存效率
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料保護"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-data-protection.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-data-protection.html">
+        資料保護
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="災難恢復"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-disaster-recovery.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-disaster-recovery.html">
+        災難恢復
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料安全"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mssql/mssql-data-security.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mssql/mssql-data-security.html">
+        資料安全
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> MySQL</div>-->
+         MySQL
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-overview.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL 的資料庫組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料庫組態</div>-->
+         資料庫組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="檔案結構"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-file-structure.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-file-structure.html">
+        檔案結構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="組態總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-configuration.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-configuration.html">
+        組態總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_log_file_size"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-innodb_log_file_size.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_log_file_size.html">
+        InnoDB_log_file_size
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_Flush 記錄 _AT_TRx_Commit"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-innodb_flush_log_at_trx_commit.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_flush_log_at_trx_commit.html">
+        InnoDB_Flush 記錄 _AT_TRx_Commit
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_doublewrite"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-innodb_doublewrite.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_doublewrite.html">
+        InnoDB_doublewrite
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_緩 衝區 _Pool_size"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-innodb_buffer_pool_size.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_buffer_pool_size.html">
+        InnoDB_緩 衝區 _Pool_size
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_Flush 方法"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-innodb_flush_method.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_flush_method.html">
+        InnoDB_Flush 方法
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_IO_capAC"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-innodb_io_capacity.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_io_capacity.html">
+        InnoDB_IO_capAC
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="InnoDB_LRU_SCAN_depth"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-innodb_lru_scan_depth.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-innodb_lru_scan_depth.html">
+        InnoDB_LRU_SCAN_depth
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="open_file_limits"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-open_file_limits.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-open_file_limits.html">
+        open_file_limits
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL 的主機組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 主機組態</div>-->
+         主機組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="容器化"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-containers.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-containers.html">
+        容器化
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="插槽表格"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-slot-tables.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-slot-tables.html">
+        插槽表格
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="I/O 排程器"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-schedulers.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-schedulers.html">
+        I/O 排程器
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="檔案描述元"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-file-descriptors.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-file-descriptors.html">
+        檔案描述元
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL 的儲存組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 儲存組態</div>-->
+         儲存組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL over NFS"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-mysql-over-nfs.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-mysql-over-nfs.html">
+        MySQL over NFS
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MySQL over SAN"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/mysql/mysql-mysql-over-san.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/mysql/mysql-mysql-over-san.html">
+        MySQL over SAN
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle資料庫"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Oracle資料庫</div>-->
+         Oracle資料庫
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-overview.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="組態ONTAP"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 組態ONTAP</div>-->
+         組態ONTAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="RAID"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-raid.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-raid.html">
+        RAID
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="容量限制"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-capacity-limits.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-capacity-limits.html">
+        容量限制
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存虛擬機器"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-svm.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-svm.html">
+        儲存虛擬機器
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="服務品質（QoS）"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-qos.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-qos.html">
+        服務品質（QoS）
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="效率"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-efficiency.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-efficiency.html">
+        效率
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資源隨需配置"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-thin-provisioning.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-thin-provisioning.html">
+        資源隨需配置
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="容錯移轉與切換"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-ontap-config-failover.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-ontap-config-failover.html">
+        容錯移轉與切換
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫的資料庫組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料庫組態</div>-->
+         資料庫組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料檔案和重做區塊大小"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-app-config-block-sizes.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-app-config-block-sizes.html">
+        資料檔案和重做區塊大小
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="DB_FILE_multimblock_read_count"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-app-config-mbr.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-app-config-mbr.html">
+        DB_FILE_multimblock_read_count
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="filesystemio_options"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-app-config-filesystemio_options.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-app-config-filesystemio_options.html">
+        filesystemio_options
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle RAC"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-app-config-rac.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-app-config-rac.html">
+        Oracle RAC
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫的主機組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 主機組態</div>-->
+         主機組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="AIX"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-host-config-aix.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-aix.html">
+        AIX
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="HP-UX"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-host-config-hp-ux.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-hp-ux.html">
+        HP-UX
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Linux"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-host-config-linux.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-linux.html">
+        Linux
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Linux 搭配 ASMLib 和 AFD"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-host-config-asmlib-afd.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-asmlib-afd.html">
+        Linux 搭配 ASMLib 和 AFD
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Microsoft Windows"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-host-config-windows.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-windows.html">
+        Microsoft Windows
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Solaris"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-host-config-solaris.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-host-config-solaris.html">
+        Solaris
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫的網路組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 網路組態</div>-->
+         網路組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="邏輯介面"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-network-config-lifs.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-network-config-lifs.html">
+        邏輯介面
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="乙太網路組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-network-config-ethernet.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-network-config-ethernet.html">
+        乙太網路組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="FC SAN 組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-network-config-fc.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-network-config-fc.html">
+        FC SAN 組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="直接連線網路"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-network-config-direct-connect.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-network-config-direct-connect.html">
+        直接連線網路
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫的儲存組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 儲存組態</div>-->
+         儲存組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="FC SAN"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> FC SAN</div>-->
+         FC SAN
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="LUN 對齊"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-lun-alignment.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-lun-alignment.html">
+        LUN 對齊
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="LUN 數量和 LUN 大小"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-lun-sizing.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-lun-sizing.html">
+        LUN 數量和 LUN 大小
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="LUN 調整大小"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-lun-resizing.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-lun-resizing.html">
+        LUN 調整大小
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="LVM 分拆"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-lvm-striping.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-lvm-striping.html">
+        LVM 分拆
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> NFS</div>-->
+         NFS
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="組態"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-overview.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-overview.html">
+        組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle Direct NFS（DNFS）"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-dnfs.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-dnfs.html">
+        Oracle Direct NFS（DNFS）
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS 會租用和鎖定"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-leases-and-locks.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-leases-and-locks.html">
+        NFS 會租用和鎖定
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS 快取"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-caching.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-caching.html">
+        NFS 快取
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS 傳輸大小"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-nfs-config-transfer-sizes.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-nfs-config-transfer-sizes.html">
+        NFS 傳輸大小
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 和 NVFAIL"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-nvfail.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-nvfail.html">
+        Oracle 和 NVFAIL
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="ASM 回收公用程式"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-storage-san-config-asmru.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-storage-san-config-asmru.html">
+        ASM 回收公用程式
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="虛擬化"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-virtualization-introduction.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-virtualization-introduction.html">
+        虛擬化
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="分層"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 分層</div>-->
+         分層
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-tiering-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="分層原則"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 分層原則</div>-->
+         分層原則
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="傳送資料至物件存放區"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-tiering-policies.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-policies.html">
+        傳送資料至物件存放區
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="從物件存放區擷取資料"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-tiering-retrieval-policies.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-retrieval-policies.html">
+        從物件存放區擷取資料
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="分層策略"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 分層策略</div>-->
+         分層策略
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="完整檔案"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-tiering-whole-file.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-whole-file.html">
+        完整檔案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="部分檔案"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-tiering-partial-file.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-partial-file.html">
+        部分檔案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="選取檔案"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-tiering-logs.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-logs.html">
+        選取檔案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="快照"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-tiering-snapshots.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-snapshots.html">
+        快照
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="備份"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-tiering-backups.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-backups.html">
+        備份
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="物件存放區存取中斷"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-tiering-object-store-access-interruptions.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-tiering-object-store-access-interruptions.html">
+        物件存放區存取中斷
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料保護"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Oracle 資料保護</div>-->
+         Oracle 資料保護
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="RPO 、 RTO 和 SLA"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-slas.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-slas.html">
+        RPO 、 RTO 和 SLA
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料可用度"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-data-availability.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-data-availability.html">
+        資料可用度
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料完整性"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-data-integrity.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-data-integrity.html">
+        資料完整性
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="備份與還原基礎知識"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 備份與還原基礎知識</div>-->
+         備份與還原基礎知識
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="快照"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-snapshots.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-snapshots.html">
+        快照
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SnapRestore"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-snaprestore.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-snaprestore.html">
+        SnapRestore
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="快照型線上備份"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-online-backup.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-online-backup.html">
+        快照型線上備份
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存 Snapshot 最佳化備份"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-storage-snapshot-optimized-backups.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-storage-snapshot-optimized-backups.html">
+        儲存 Snapshot 最佳化備份
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SnapCenter 和其他工具"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dp-backup-tools.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dp-backup-tools.html">
+        SnapCenter 和其他工具
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 災難恢復"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Oracle 災難恢復</div>-->
+         Oracle 災難恢復
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MetroCluster"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> MetroCluster</div>-->
+         MetroCluster
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="實體架構"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-physical.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-physical.html">
+        實體架構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="邏輯架構"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-logical.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-logical.html">
+        邏輯架構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SyncMirror"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-syncmirror.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-syncmirror.html">
+        SyncMirror
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 容錯移轉"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-failover.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-failover.html">
+        Oracle 容錯移轉
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NVFAIL"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-nvfail.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-nvfail.html">
+        NVFAIL
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MetroCluster 上的 Oracle SI"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-si.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-si.html">
+        MetroCluster 上的 Oracle SI
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="MetroCluster 上的 Oracle RAC"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-mcc-rac.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-mcc-rac.html">
+        MetroCluster 上的 Oracle RAC
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SnapMirror 主動同步"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> SnapMirror 主動同步</div>-->
+         SnapMirror 主動同步
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="架構"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-architecture.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-architecture.html">
+        架構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="容錯移轉"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-failover.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-failover.html">
+        容錯移轉
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle SI 搭配 SnapMirror 主動式同步"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-si.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-si.html">
+        Oracle SI 搭配 SnapMirror 主動式同步
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle RAC 搭配 SnapMirror 主動式同步"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-rac.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-rac.html">
+        Oracle RAC 搭配 SnapMirror 主動式同步
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="故障案例"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-dr-smbc-failure-scenarios.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-dr-smbc-failure-scenarios.html">
+        故障案例
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Oracle 資料庫移轉"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> Oracle 資料庫移轉</div>-->
+         Oracle 資料庫移轉
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="規劃"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-planning.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-planning.html">
+        規劃
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="程序"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 程序</div>-->
+         程序
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-procedures-overview.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-procedures-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料檔案移動"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-datafile-move.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-datafile-move.html">
+        資料檔案移動
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="記錄傳送"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-log-shipping.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-log-shipping.html">
+        記錄傳送
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="主機資料複本"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-host-data-copy.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-host-data-copy.html">
+        主機資料複本
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="外部 LUN 匯入"
+      data-li-level="4" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-4  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 外部 LUN 匯入</div>-->
+         外部 LUN 匯入
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="規劃"
+      data-li-level="5#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-fli-planning.html" 
+    ><a class="ie-sidebar-menuitem-5 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-fli-planning.html">
+        規劃
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="轉換"
+      data-li-level="5#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-fli-cutover.html" 
+    ><a class="ie-sidebar-menuitem-5 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-fli-cutover.html">
+        轉換
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="完成"
+      data-li-level="5#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-fli-completion.html" 
+    ><a class="ie-sidebar-menuitem-5 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-fli-completion.html">
+        完成
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="傳輸協定轉換"
+      data-li-level="5#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-fli-protocol-conversion.html" 
+    ><a class="ie-sidebar-menuitem-5 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-fli-protocol-conversion.html">
+        傳輸協定轉換
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="範例指令碼"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-migration-sample-scripts.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-migration-sample-scripts.html">
+        範例指令碼
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="其他附註"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 其他附註</div>-->
+         其他附註
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="效能最佳化與基準測試"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-notes-optimization-and-benchmarking.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-notes-optimization-and-benchmarking.html">
+        效能最佳化與基準測試
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="過時的 NFS 鎖定"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-notes-stale-nfs-locks.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-notes-stale-nfs-locks.html">
+        過時的 NFS 鎖定
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="WAFL 對齊驗證"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/oracle/oracle-notes-wafl-alignment-verification.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/oracle/oracle-notes-wafl-alignment-verification.html">
+        WAFL 對齊驗證
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="PostgreSQL"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> PostgreSQL</div>-->
+         PostgreSQL
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-overview.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="PostgreSQL 的主機組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料庫組態</div>-->
+         資料庫組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="架構"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-architecture.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-architecture.html">
+        架構
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="初始化"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-initialization.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-initialization.html">
+        初始化
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="設定"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-db-config.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-db-config.html">
+        設定
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="表格空間"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-tablespaces.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-tablespaces.html">
+        表格空間
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="PostgreSQL 的儲存組態"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 儲存組態</div>-->
+         儲存組態
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-nfs-filesystems.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-nfs-filesystems.html">
+        NFS
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SAN"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-san-filesystems.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-san-filesystems.html">
+        SAN
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="PostgreSQL 的資料保護"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料保護</div>-->
+         資料保護
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="原生資料保護"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-native-dp.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-native-dp.html">
+        原生資料保護
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="Snapshot 技術"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-snapshot-dp.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-snapshot-dp.html">
+        Snapshot 技術
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料保護軟體"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/postgres/postgres-snapcenter-dp.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/postgres/postgres-snapcenter-dp.html">
+        資料保護軟體
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SAP"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> SAP</div>-->
+         SAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SAP HANA 與 AnyDB"
+      data-li-level="2#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="sap-solutions.html" 
+    ><a class="ie-sidebar-menuitem-2 " href="/zh-tw/ontap-apps-dbs/sap-solutions.html">
+        SAP HANA 與 AnyDB
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware"
+      data-li-level="1" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-1  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> VMware</div>-->
+         VMware
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware vSphere 搭配 ONTAP"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> VMware vSphere 搭配 ONTAP</div>-->
+         VMware vSphere 搭配 ONTAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="統一化儲存設備"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-unified.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-unified.html">
+        統一化儲存設備
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="虛擬化工具"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-vtools.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-vtools.html">
+        虛擬化工具
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="虛擬磁碟區和儲存原則型管理"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-vvols_and_spbm.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-vvols_and_spbm.html">
+        虛擬磁碟區和儲存原則型管理
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料存放區與傳輸協定"
+      data-li-level="3" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-3  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 資料存放區與傳輸協定</div>-->
+         資料存放區與傳輸協定
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="4#" 
+      class="  ie-sidebar-selected    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-datastores-top.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="SAN"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-datastores-san.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-san.html">
+        SAN
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="NFS"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-datastores-nfs.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-nfs.html">
+        NFS
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料量FlexGroup"
+      data-li-level="4#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-datastores-fg.html" 
+    ><a class="ie-sidebar-menuitem-4 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-fg.html">
+        資料量FlexGroup
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="網路組態"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-network.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-network.html">
+        網路組態
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="複製"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-cloning.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-cloning.html">
+        複製
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="資料保護"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-dp.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-dp.html">
+        資料保護
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="QoS"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-qos.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-qos.html">
+        QoS
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="儲存原則型管理"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-policy-and-vvols.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-policy-and-vvols.html">
+        儲存原則型管理
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware Storage Distributed Resource Scheduler"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-sdrs.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-sdrs.html">
+        VMware Storage Distributed Resource Scheduler
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="建議設定"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vsphere-settings.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-settings.html">
+        建議設定
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="使用 ONTAP 的虛擬磁碟區（ VVols ）"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 使用 ONTAP 的虛擬磁碟區（ VVols ）</div>-->
+         使用 ONTAP 的虛擬磁碟區（ VVols ）
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vvols-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="搭配 ONTAP 使用 vVols"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vvols-ontap.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-ontap.html">
+        搭配 ONTAP 使用 vVols
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="部署 vVols 儲存設備"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vvols-deploy.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-deploy.html">
+        部署 vVols 儲存設備
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="保護 vVols"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vvols-protect.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-protect.html">
+        保護 vVols
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="疑難排解"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-vvols-resources.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-vvols-resources.html">
+        疑難排解
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware Site Recovery Manager 搭配 ONTAP"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> VMware Site Recovery Manager 搭配 ONTAP</div>-->
+         VMware Site Recovery Manager 搭配 ONTAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="總覽"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-srm-overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-overview.html">
+        總覽
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="部署最佳實務做法"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-srm-deployment_best_practices.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-deployment_best_practices.html">
+        部署最佳實務做法
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="營運最佳實務做法"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-srm-operational_best_practices.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-operational_best_practices.html">
+        營運最佳實務做法
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="複寫拓撲"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-srm-replication_topologies.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-replication_topologies.html">
+        複寫拓撲
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="使用vVols複寫時疑難排解SRM"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-srm-vvol-troubleshooting.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-srm-vvol-troubleshooting.html">
+        使用vVols複寫時疑難排解SRM
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="vSphere Metro Storage 叢集搭配 ONTAP"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> vSphere Metro Storage 叢集搭配 ONTAP</div>-->
+         vSphere Metro Storage 叢集搭配 ONTAP
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMSC 概述"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware_vmsc_overview.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_overview.html">
+        VMSC 概述
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="vSphere HA 解決方案"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware_vmsc_solution.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_solution.html">
+        vSphere HA 解決方案
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMSC 設計"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware_vmsc_design.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_design.html">
+        VMSC 設計
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMSC 恢復能力"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware_vmsc_resiliency.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_resiliency.html">
+        VMSC 恢復能力
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="使用 MCC 的 VMSC 案例"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware_vmsc_scen_mcc.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware_vmsc_scen_mcc.html">
+        使用 MCC 的 VMSC 案例
+      </a></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="產品安全性"
+      data-li-level="2" 
+      class=" sidebar-folder    "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="" 
+    ><a class="ie-sidebar-menuitem-2  ie-sidebar-button " href="#">
+        <img class="ie-sidebar-icon ie-sidebar-button open" src="/zh-tw/ontap-apps-dbs/images/link_expand.svg" alt="" />
+        <img class="ie-sidebar-icon ie-sidebar-button close" src="/zh-tw/ontap-apps-dbs/images/link_collapse.svg" alt="" />
+        <!--<div class="" style="display: inline;"> 產品安全性</div>-->
+         產品安全性
+      </a>
+      <ul class="">
+        <li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware vSphere適用的工具ONTAP"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-security-tools.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-security-tools.html">
+        VMware vSphere適用的工具ONTAP
+      </a></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="VMware vSphere的插件SnapCenter"
+      data-li-level="3#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/vmware/vmware-security-snapcenter.html" 
+    ><a class="ie-sidebar-menuitem-3 " href="/zh-tw/ontap-apps-dbs/vmware/vmware-security-snapcenter.html">
+        VMware vSphere的插件SnapCenter
+      </a></li></ul></li></ul></li><li 
+      data-pdf-exists="true" 
+      data-pdf-filename="法律聲明"
+      data-li-level="1#" 
+      class="   "
+      dale-page-url="/vmware/vmware-vsphere-datastores-top.html" 
+      dale-entry-url="/legal-notices.html" 
+    ><a class="ie-sidebar-menuitem-1 " href="/zh-tw/ontap-apps-dbs/legal-notices.html">
+        法律聲明
+      </a></li></ul>
+</div>
+<script>
+
+  $(".ie-sidebar-button").click(function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    expandedLI = $('li.ie-sidebar-expand')
+
+    const li = $(this).closest("li");
+
+    const parentsLI = $(li).parents('li');
+
+    expandedLI.map(element => {
+      if (sidebarAccordion && !li.hasClass('ie-sidebar-expand') && jQuery.inArray(expandedLI[element], parentsLI) == -1) {
+        $(expandedLI[element]).toggleClass('ie-sidebar-expand');
+        $(expandedLI[element]).children("ul").animate({ height: 'toggle' }, 400, function () {
+          $(li).children("ul").toggleClass('ie-sidebar-open');
+
+        })
+      }
+
+    })
+
+    $(li).toggleClass('ie-sidebar-expand');
+    $(li).children("ul").animate({ height: 'toggle' }, 400, function () {
+      $(li).children("ul").toggleClass('ie-sidebar-open');
+    })
+  });
+
+
+  
+    $("li.ie-sidebar-selected").parents('ul').toggleClass("ie-sidebar-open");
+    $("li.ie-sidebar-selected").toggleClass("ie-sidebar-expand")
+    $("ul.ie-sidebar-open").parent().toggleClass("ie-sidebar-expand");
+    $("li.ie-sidebar-selected").children('ul').toggleClass("ie-sidebar-open")
+  
+  
+</script>
+    </div>
+</div>
+<script>
+
+    
+    let sidebarScrollTopPosition = 0;
+    $("#ie-new-toc").on("scroll", function () {
+        if (sidebarScrollTopPosition == 0) {
+            $.cookie("sidebarScroll", $("#ie-new-toc").scrollTop(), {
+                path: "/zh-tw/ontap-apps-dbs"
+            });
+        }
+
+        if ($("#ie-new-toc").scrollTop() > 0) {
+            $('#ie-product-identity-lockup').addClass('ie-addShadow');
+        } else {
+            $('#ie-product-identity-lockup').removeClass('ie-addShadow');
+        }
+    });
+
+    $(function () {
+        if ($.cookie("sidebarScroll")) {
+            $("#ie-new-toc").scrollTop($.cookie("sidebarScroll"));
+        }
+    });
+
+    function setSidebarBottom() {
+        const footerGap = PXinViewport($(".n-footer"));
+        document.getElementById("ie-new-sidebar").style.bottom = Math.max(0, footerGap) + "px";
+    }
+
+    window.onscroll = () => {
+        setSidebarBottom();
+    };
+
+    $("#sidebar-collapse").click(function (e) {
+        const sidebarWidth = $("#ie-new-sidebar").width() - $("#ie-new-sidebar-collapse").width();
+        e.preventDefault();
+        const width = $(".ie-content-pane").width();
+        const marginLeft = parseInt($(".ie-content-pane").css('marginLeft'));
+
+        if ($.cookie("sidebarScroll")) {
+            sidebarScrollTopPosition = $.cookie("sidebarScroll");
+        }
+
+        $("#ie-new-sidebar").animate({ width: 'toggle' }, 350, function () {
+            $("#ie-new-sidebar-collapse").show();
+            $("#ie-new-sidebar").removeClass("open")
+            $("#ie-new-sidebar").addClass("close")
+            $("#ie-new-sidebar").removeAttr("style")
+        });
+        $(".ie-content-pane").animate({ width: (width + sidebarWidth), marginLeft: (marginLeft - sidebarWidth) }, 350, function () {
+            resizeContent()
+        })
+
+    });
+    $("#sidebar-expand").click(function (e) {
+        const sidebarWidth = $("#ie-new-sidebar").width() - $("#ie-new-sidebar-collapse").width();
+        e.preventDefault();
+        const width = $(".ie-content-pane").width();
+        const marginLeft = parseInt($(".ie-content-pane").css('marginLeft'));
+
+        $("#ie-new-sidebar").animate({ width: 'toggle' }, 250, function () {
+            $('#ie-new-sidebar').css('display', 'flex');
+            $("#ie-new-sidebar-collapse").hide();
+            $("#ie-new-sidebar").removeClass("close")
+            $("#ie-new-sidebar").addClass("open")
+            setSidebarBottom();
+
+            if (sidebarScrollTopPosition != 0) {
+                $.cookie("sidebarScroll", sidebarScrollTopPosition, {
+                    path: "/zh-tw/ontap-apps-dbs"
+                })
+                $("#ie-new-toc").scrollTop(sidebarScrollTopPosition);
+                sidebarScrollTopPosition = 0;
+            }
+        });
+        $(".ie-content-pane").animate({ width: (width - sidebarWidth), 'marginLeft': (marginLeft + sidebarWidth) }, 250, function () {
+            resizeContent()
+        })
+    });
+    function resizeContent() {
+        const sidebarWidth = $("#ie-new-sidebar").width() - $("#ie-new-sidebar-collapse").width();
+        const rightNavbarVisible =  $("#ie-right-navbar").css('display') && $("#ie-right-navbar").css('display') != 'none';
+        const sidebarVisible = $("#ie-new-sidebar").css('display') != 'none';
+        const rightNavbarWidth = $("#ie-right-navbar").width();
+        const rightNavbarCollapseWidth = $("#ie-right-navbar-collapse").width();
+        const rightNavbarCollapseVisible = $("#ie-right-navbar-collapse").css('display') && $("#ie-right-navbar-collapse").css('display') != 'none';
+        
+        if (rightNavbarVisible && sidebarVisible) {
+            $(".ie-content-pane").width(`calc(100% - ${sidebarWidth + rightNavbarWidth}px)`)
+            $(".ie-content-pane").css('marginLeft', `${sidebarWidth}px`)
+        } else if (sidebarVisible) {
+            $(".ie-content-pane").css('marginLeft', `${sidebarWidth}px`)
+            if (rightNavbarCollapseVisible) {
+                $(".ie-content-pane").width(`calc(100% - ${sidebarWidth + rightNavbarCollapseWidth}px)`)
+            } else {
+                $(".ie-content-pane").width(`calc(100% - ${$("#ie-new-sidebar").width()}px)`)
+            }
+
+        } else if (rightNavbarVisible) {
+            $(".ie-content-pane").css('marginLeft', `${$("#ie-new-sidebar-collapse").width()}px`)
+            $(".ie-content-pane").width(`calc(100% - ${rightNavbarWidth}px)`)
+        } else {
+            $(".ie-content-pane").css('marginLeft', `${$("#ie-new-sidebar-collapse").width()}px`)
+            if (rightNavbarCollapseVisible) {
+                $(".ie-content-pane").width(`calc(100% - ${rightNavbarCollapseWidth}px)`);
+            } else {
+                $(".ie-content-pane").width(`calc(100% - ${$("#ie-new-sidebar-collapse").width()}px) `);
+            }
+            
+        }
+    }
+    $(window).on("resize load", function () {
+        setSidebarBottom();
+        resizeContent()
+    });
+
+
+</script>
+
+<div class="ie-content-pane ie-component-detail-content ie-component-detail-content--show-code">
+    <!-- Begin of page container --><article class="page-content" id="main">
+      <!-- include utility.html -->
+      <div class="ie-info-disclaimer">
+    <span>
+      <div class="ie-info-disclaimer-container">
+        <div class="ie-info-disclaimer-icon">
+          <img src="/zh-tw/ontap-apps-dbs/images/notification-icons.svg" class="luci-icon" alt="" />
+        </div>
+        <div class="ie-info-disclaimer-content">
+          <span> 本繁體中文版使用機器翻譯，譯文僅供參考，若與英文版本牴觸，應以英文版本為準。 </span>
+        </div>
+        <div style="clear:both;"></div>
+      </div>
+    </span>
+  </div><div class="ie-component-detail-heading-wrap">
+  <h1 class="ie-component-detail-heading">vSphere 資料存放區和傳輸協定功能概觀</h1>
+</div>
+
+<div id="ie-byline">
+  
+<div class="page-details">
+    
+        
+            <time datetime="2024-03-07 20:27:06 +0000">03/07/2024</time>
+        
+    
+    
+        <span>貢獻者
+        </span>
+    
+    
+</div>
+<div class="page-controls">
+    <div id="contribute-dropdown" class="custom-dropdown custom-dropdown-contrib" >
+        <div class="custom-dropdown-select custom-dropdown-select-contrib">
+        <span class="contrib-name"><img src="/zh-tw/ontap-apps-dbs/images/discuss-sm.svg" alt="" class="github-icon" />建議變更</span>
+        <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevrondown invisible" />
+        <img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" alt="" class="custom-icon chevronup" />
+        </div>
+        <ul class="custom-dropdown-menu suggested-changes-dropdown"><li>
+                <a target="_blank" href="https://github.com/NetAppDocs/ontap-apps-dbs.zh-tw/issues/new?template=new-from-page.yml&page-url=https://docs.netapp.com/zh-tw/ontap-apps-dbs/vmware/vmware-vsphere-datastores-top.html&page-title=vSphere 資料存放區和傳輸協定功能概觀" class="page-nav-contribute-link" role="button">請求文件變更</a>
+            </li><li> 
+                <a target="_blank" href="https://github.com/NetAppDocs/ontap-apps-dbs/blob/main/vmware/vmware-vsphere-datastores-top.adoc" class="page-nav-contribute-link" role="button">編輯本頁</a>
+            </li><li><a target="_blank" href="https://docs.netapp.com/us-en/contribute/" class="page-nav-contribute-link"  >瞭解如何貢獻</a></li>
+        </ul>
+    </div>
+    <div id="pdf-control-container">
+        <div class="n-pdf-header">
+            <a id="toggleButtonPdf" class="n-pdf-button" type="button">
+                <img class="adobe-icon" src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>PDF<img src="/zh-tw/ontap-apps-dbs/images/dropdown-arrow.svg" class="custom-icon" alt="" />
+            </a>
+        </div>
+        <div class="n-pdf-body-container">
+            <ul id="toggleContainerPdf" class="n-pdf-body" style="display:none;"><li class="pdf-ux-container">
+                    
+                    
+                    
+                    <a target="_blank" class="pdf-download-link" href="/zh-tw/ontap-apps-dbs/pdfs/fullsite-sidebar/ONTAP_與企業應用程式.pdf" >
+                    <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>此文件 PDF 的網站</a>
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Microsoft_SQL_Server.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Microsoft SQL Server
+          </a>
+          
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Microsoft_SQL_Server_的資料庫組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料庫組態
+          </a>
+          
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Microsoft_SQL_Server_的儲存組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            儲存組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MySQL.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            MySQL
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MySQL_的資料庫組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料庫組態
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MySQL_的主機組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            主機組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MySQL_的儲存組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            儲存組態
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle資料庫.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Oracle資料庫
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/組態ONTAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            組態ONTAP
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫的資料庫組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料庫組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫的主機組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            主機組態
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫的網路組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            網路組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫的儲存組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            儲存組態
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/FC_SAN.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            FC SAN
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/NFS.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            NFS
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/分層.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            分層
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/分層原則.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            分層原則
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/分層策略.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            分層策略
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料保護.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Oracle 資料保護
+          </a>
+          
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/備份與還原基礎知識.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            備份與還原基礎知識
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_災難恢復.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Oracle 災難恢復
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/MetroCluster.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            MetroCluster
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/SnapMirror_主動同步.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            SnapMirror 主動同步
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/Oracle_資料庫移轉.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            Oracle 資料庫移轉
+          </a>
+          
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/程序.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            程序
+          </a>
+          
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/外部_LUN_匯入.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            外部 LUN 匯入
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/其他附註.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            其他附註
+          </a>
+          
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/PostgreSQL.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            PostgreSQL
+          </a>
+          
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/PostgreSQL_的主機組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料庫組態
+          </a>
+          
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/PostgreSQL_的儲存組態.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            儲存組態
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/PostgreSQL_的資料保護.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料保護
+          </a>
+          
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/SAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            SAP
+          </a>
+          
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/VMware.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            VMware
+          </a>
+          
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/VMware_vSphere_搭配_ONTAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            VMware vSphere 搭配 ONTAP
+          </a>
+          
+
+
+
+
+
+
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/資料存放區與傳輸協定.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            資料存放區與傳輸協定
+          </a>
+          
+    <ul class="subfolders" id="pdf-remove" style="display:none;"><li class="active"></li></ul>
+  
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/使用_ONTAP_的虛擬磁碟區__VVols__.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            使用 ONTAP 的虛擬磁碟區（ VVols ）
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/VMware_Site_Recovery_Manager_搭配_ONTAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            VMware Site Recovery Manager 搭配 ONTAP
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/vSphere_Metro_Storage_叢集搭配_ONTAP.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            vSphere Metro Storage 叢集搭配 ONTAP
+          </a>
+          
+
+
+
+
+
+
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+    
+      <ul class="subfolders" style="display:none;">
+        <li class="pdf-ux-container">
+          
+          
+          
+          <a target="_blank" class="pdf-download-link"
+            
+              href="/zh-tw/ontap-apps-dbs/pdfs/sidebar/產品安全性.pdf" 
+            
+          >
+            <img src="/zh-tw/ontap-apps-dbs/images/pdf-icon.png" alt="" width="16" height="16"/>
+            產品安全性
+          </a>
+          
+
+
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+        </li>
+      </ul>
+    
+
+  
+
+
+
+</li></ul>
+            <div class="zip-pdf-link-container" style="display: none;">   
+                <a href="#" id="zipPdf">
+                <img src="/zh-tw/ontap-apps-dbs/images/pdf-zip.png" alt="" width="16" height="16"/>
+                <pre>個別的 PDF 文件集合<span class="zip-size"></span></pre>
+                </a><div id="zip-link-popup" class="hide">
+    <div class="inner-modal">
+        <div class="downloading-progress">
+            <div class="spinner"></div>
+            <h1>Creating your file...</h1>
+            <div>This may take a few minutes. Thanks for your patience.</div>
+            <button class="cancel-download-btn" type="button">Cancel</button>
+        </div>
+        <div class="download-complete hide">
+            <div class="done-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+            </div>
+            <div>Your file is ready</div>
+            <button class="cancel-download-btn" type="button">OK</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(".cancel-download-btn").click(function(){
+        $("#zip-link-popup").addClass("hide");
+        $("#zip-link-popup .downloading-progress").removeClass("hide");
+        $("#zip-link-popup .download-complete").addClass("hide");
+    });
+</script></div>
+        </div>
+    </div>        
+<script>
+$("#toggleContainerPdf li.active:last-child").parents('ul.subfolders').toggle('display');
+$("#toggleButtonPdf").on('click', function(e){ 
+    e.stopPropagation();
+    $("#toggleContainerPdf").toggle('display');
+    $(".n-pdf-body-container .zip-pdf-link-container").toggle('display');
+});
+
+//hide is by clicking outside pdfcontainer
+$(document).on('click', function (e) {
+    if ($('#toggleContainerPdf').is(':visible') && !$('.n-pdf-body-container').is(e.target) && !$('.n-pdf-body-container').has(e.target).length)  {
+        
+        $("#toggleContainerPdf").toggle('display');
+        $(".n-pdf-body-container .zip-pdf-link-container").toggle('display');
+        $("#toggleButtonPdf").removeClass("active");
+    }
+});
+</script>
+<script>
+    function getPdfLocation() {
+        const pdfLocation = window.scrollX + document.querySelector('#pdf-control-container').getBoundingClientRect().left
+        if (pdfLocation < 450) {
+            $(".n-pdf-body-container").addClass("block")
+        } else {
+            $(".n-pdf-body-container").removeClass("block")
+        }
+    
+    }
+    $( window ).on( "resize", function() {
+        getPdfLocation()
+} );
+</script>
+<script>
+    const pdfButtonWidth =  $(".n-pdf-header").width();
+    const pdfMenuWidth = $(".n-pdf-body-container").width();
+    $(".n-pdf-body-container").css('margin-left', `calc(${pdfButtonWidth - pdfMenuWidth}px)`);
+</script>
+</div>
+
+    
+
+</div>
+
+
+
+
+<div class="content-to-index">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph lead">
+<p>使用七種傳輸協定將VMware vSphere連接至執行ONTAP VMware軟體的系統上的資料存放區：</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>FCP</p>
+</li>
+<li>
+<p>FCoE</p>
+</li>
+<li>
+<p>NVMe / FC</p>
+</li>
+<li>
+<p>NVMe / TCP</p>
+</li>
+<li>
+<p>iSCSI</p>
+</li>
+<li>
+<p>NFS v3</p>
+</li>
+<li>
+<p>NFS v4.1</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>FCP、FCoE、NVMe/FC、NVMe/TCP和iSCSI是區塊傳輸協定、使用vSphere虛擬機器檔案系統（VMFS）將VM儲存在ONTAP 包含ONTAP FlexVol 在一個EesfVolume中的SesfLUN或NVMe命名空間內。請注意、從vSphere 7.0開始、VMware不再支援正式作業環境中的軟體FCoE。NFS是一種檔案傳輸協定、可將VM放入資料存放區（只是ONTAP 指不需要VMFS的功能）。SMB（CIFS）、iSCSI、NVMe / TCP或NFS也可直接從客體作業系統使用到ONTAP 不支援。</p>
+</div>
+<div class="paragraph">
+<p>下表提供 vSphere 支援的傳統資料存放區功能與 ONTAP 。此資訊不適用於vVols資料存放區、但通常適用於使用支援ONTAP 的版本資訊的vSphere 6.x及更新版本。您也可以諮詢 <a href="https://www.vmware.com/support/pubs/" target="_blank" rel="noopener">"VMware 組態上限"</a> 以確認特定vSphere版本的特定限制。</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">功能/特色</th>
+<th class="tableblock halign-left valign-top">FC/FCoE</th>
+<th class="tableblock halign-left valign-top">iSCSI</th>
+<th class="tableblock halign-left valign-top">NVMe</th>
+<th class="tableblock halign-left valign-top">NFS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">格式</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMFS或原始裝置對應（RDM）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMFS或RDM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMFS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">不適用</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區或LUN的最大數量</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">每個主機有1024個LUN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">每個伺服器有1024個LUN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">每個伺服器256個Namespeces</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">256 個掛載<br>
+預設 NFS 。最大磁碟區為8。使用VMware vSphere的VMware vSphere功能將其提升至256個。ONTAP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">最大資料存放區大小</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">100TB FlexVol 以上的穩定區塊（含FlexGroup 不穩定區）</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">最大資料存放區檔案大小</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">62TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">62TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">62TB</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">62TB 、含 ONTAP 9.12.1P2 及更新版本</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">每個LUN或檔案系統的最佳佇列深度</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64-256</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64-256</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">自動協商</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">請參閱中的NFS.MaxQuestue深度 <a href="https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsphere_ontap_recommended_esxi_host_and_other_ontap_settings.html" target="_blank" rel="noopener">"建議的ESXi主機和其他ONTAP 功能設定"</a>。</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>下表列出支援的VMware儲存相關功能。</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">容量/功能</th>
+<th class="tableblock halign-left valign-top">FC/FCoE</th>
+<th class="tableblock halign-left valign-top">iSCSI</th>
+<th class="tableblock halign-left valign-top">NVMe</th>
+<th class="tableblock halign-left valign-top">NFS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">vMotion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Storage VMotion</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMware HA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">儲存分散式資源排程器（SDR）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">啟用資料保護（VADP）的VMware vStorage API備份軟體</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VM內的Microsoft叢集服務（Microsoft Cluster Service、英文）或容錯移轉叢集</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">不支援</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">容錯能力</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Site Recovery Manager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">僅適用於v3 *</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">精簡配置的VM（虛擬磁碟）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的<br>
+此設定是不使用 VAAI 時、 NFS 上所有 VM 的預設值。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMware原生多重路徑</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是、使用新的高效能外掛程式（HPP）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NFS v4.1 工作階段主幹需要 ONTAP 9.14.1 及更新版本</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>下表列出支援ONTAP 的功能不完整的儲存管理功能。</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">功能/特色</th>
+<th class="tableblock halign-left valign-top">FC/FCoE</th>
+<th class="tableblock halign-left valign-top">iSCSI</th>
+<th class="tableblock halign-left valign-top">NVMe</th>
+<th class="tableblock halign-left valign-top">NFS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">重複資料刪除技術</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">節省陣列成本</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">節省陣列成本</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">節省陣列成本</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區的節約效益</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資源隨需配置</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區或RDM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區或RDM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">調整資料存放區大小</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">僅成長</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">僅成長</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">僅成長</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">擴充、自動擴充及縮減</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">適用於Windows、Linux應用程式（客體內）的列舉外掛程式SnapCenter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">使用ONTAP VMware vSphere的VMware VMware vSphere的支援工具來監控及主機組態</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">使用ONTAP VMware vSphere的VMware vSphere的VMware工具進行資源配置</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>下表列出支援的備份功能。</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">功能/特色</th>
+<th class="tableblock halign-left valign-top">FC/FCoE</th>
+<th class="tableblock halign-left valign-top">iSCSI</th>
+<th class="tableblock halign-left valign-top">NVMe</th>
+<th class="tableblock halign-left valign-top">NFS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ONTAP 快照</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SRM支援複寫備份</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">僅適用於v3 *</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Volume SnapMirror</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMDK映像存取</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">啟用VADP的備份軟體</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">啟用VADP的備份軟體</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">啟用VADP的備份軟體</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">啟用VADP的備份軟體、vSphere Client和vSphere Web Client資料存放區瀏覽器</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMDK檔案層級存取</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">啟用VADP的備份軟體、僅限Windows</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">啟用VADP的備份軟體、僅限Windows</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">啟用VADP的備份軟體、僅限Windows</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">啟用VADP的備份軟體和協力廠商應用程式</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NDMP精細度</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">資料存放區或 VM</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>NetApp建議將來賓iSCSI用於Microsoft叢集、而非在VMFS資料存放區中使用支援多寫入器的VMDK。Microsoft和VMware完全支援這種方法、ONTAP 提供優異的靈活度搭配使用VMware（SnapMirror至ONTAP 內部部署或雲端的等化系統）、易於設定和自動化、SnapCenter 並可透過VMware加以保護。vSphere 7新增叢集式VMDK選項。這與啟用多寫入器的VMDK不同、因為VMDK需要透過FC傳輸協定呈現資料存放區、而且此傳輸協定已啟用叢集式VMDK支援。其他限制也適用。請參閱 VMware 的 <a href="https://docs.vmware.com/en/VMware-vSphere/7.0/vsphere-esxi-vcenter-server-70-setup-wsfc.pdf" target="_blank" rel="noopener">"Windows Server容錯移轉叢集的設定"</a> 組態準則文件。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>*使用NVMe與NFS v4.1的資料存放區需要vSphere複寫。SRM不支援陣列型複寫。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="選擇儲存傳輸協定">選擇儲存傳輸協定</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>執行ONTAP 支援所有主要儲存傳輸協定的系統、因此客戶可以根據現有和規劃的網路基礎架構和員工技能、選擇最適合自己環境的系統。NetApp測試通常顯示以類似線路速度執行的傳輸協定之間沒有什麼差異、因此最好將重點放在網路基礎架構和員工能力上、而不只是原始傳輸協定效能。</p>
+</div>
+<div class="paragraph">
+<p>下列因素可能有助於考量選擇傳輸協定：</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>*目前的客戶環境。*雖然IT團隊通常擅長管理乙太網路IP基礎架構、但並非所有人都擅長管理FC SAN架構。但是、使用非專為儲存流量設計的通用 IP 網路可能無法正常運作。請考量您所擁有的網路基礎架構、任何計畫性的改善、以及員工管理這些基礎架構的技能和可用度。</p>
+</li>
+<li>
+<p>*易於設定。*除了FC架構的初始組態設定（額外的交換器和纜線、分區、以及HBA和韌體的互通性驗證）之外、區塊傳輸協定也需要建立及對應LUN、以及由客體作業系統探索及格式化。NFS磁碟區建立及匯出之後、便會由ESXi主機掛載並準備好使用。NFS沒有特殊的硬體限制或韌體可管理。</p>
+</li>
+<li>
+<p>*易於管理。*有了SAN傳輸協定、如果需要更多空間、就必須採取幾個步驟、包括擴充LUN、重新掃描以探索新的大小、然後擴充檔案系統）。雖然可以擴充LUN、但減少LUN的大小並不可行、而且恢復未使用的空間可能需要額外的心力。NFS可輕鬆調整規模或縮減規模、儲存系統也能自動調整大小。SAN透過客體作業系統修剪/取消對應命令提供空間回收、讓刪除檔案的空間可以傳回陣列。NFS資料存放區的這類空間回收較為困難。</p>
+</li>
+<li>
+<p>*儲存空間的透明度。*在NFS環境中、儲存使用率通常比較容易查看、因為精簡配置可立即回收節約效益。同樣地、相同資料存放區中的其他VM或其他儲存系統磁碟區也可立即使用重複資料刪除和複製的節約效益。NFS資料存放區的VM密度通常也較高、可減少資料存放區的管理數量、進而改善重複資料刪除的節約效益、並降低管理成本。</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="資料存放區配置">資料存放區配置</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>可靈活建立VM和虛擬磁碟的資料存放區。ONTAP雖然ONTAP 使用VSC來配置vSphere的資料存放區時會套用許多功能不實的最佳實務做法（請參閱一節 <a href="vmware-vsphere-settings.html">"建議的ESXi主機和其他ONTAP 功能設定"</a>）、以下是一些額外的考量準則：</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>部署vSphere搭配ONTAP 使用不間斷的NFS資料存放區、可實現高效能且易於管理的實作、提供VM對資料存放區的比率、而這些比率無法透過區塊型儲存傳輸協定取得。此架構可減少相關資料存放區數量、使資料存放區密度增加十倍。雖然較大的資料存放區可提升儲存效率並提供營運效益、但請考慮使用至少四個資料存放區FlexVol （VMware Volume）、將VM儲存在單ONTAP 一的VMware控制器上、以從硬體資源中獲得最大效能。此方法也可讓您建立具有不同恢復原則的資料存放區。根據業務需求、部分備份或複寫的頻率可能會比其他更高。由於資料存放區FlexGroup 是依設計進行擴充、因此不需要使用多個資料存放區來提升效能。</p>
+</li>
+<li>
+<p>NetApp 建議對大多數 NFS 資料存放區使用 FlexVol Volume 。從 ONTAP 9.8 FlexGroup 磁碟區開始、也支援作為資料存放區使用、一般建議在某些使用案例中使用。一般不建議使用其他 ONTAP 儲存容器、例如 qtree 、因為目前 VMware vSphere 的 ONTAP 工具或 VMware vSphere 的 NetApp SnapCenter 外掛程式都不支援這些容器。也就是說、將資料存放區部署為單一磁碟區中的多個 qtree 、對於高度自動化的環境來說可能很有用、因為資料存放區層級配額或 VM 檔案複本可以讓環境受益。</p>
+</li>
+<li>
+<p>適用於不只FlexVol 4TB、更能滿足8TB的需求。這種規模對於效能、管理簡易性和資料保護來說、是一個很好的平衡點。從小規模開始（例如4TB）、視需要擴充資料存放區（最高100TB）。較小的資料存放區可更快從備份或災難後恢復、並可在叢集之間快速移動。請考慮使用ONTAP 不同步自動調整大小、以便在使用空間變更時自動擴充及縮小磁碟區。VMware vSphere資料存放區資源配置精靈的「VMware vSphere資料存放區資源配置精靈」預設會針對新的資料存放區使用自動調整大小。ONTAP您可以使用System Manager或命令列、進一步自訂「成長」和「縮減」臨界值、以及最大和最小大小。</p>
+</li>
+<li>
+<p>此外、VMFS資料存放區也可以設定LUN、以供FC、iSCSI或FCoE存取。VMFS可讓叢集中的每個ESX伺服器同時存取傳統LUN。VMFS資料存放區的大小最多可達64TB、最多可包含32個2TB LUN（VMFS 3）或單一64TB LUN（VMFS 5）。大部分系統的LUN大小僅為16TB、ONTAP All SAN陣列系統的LUN大小上限為12TB。因此、在ONTAP 大多數的不實系統上、可使用四個16TB LUN來建立最大大小的VMFS 5資料存放區。雖然多個LUN的高I/O工作負載（使用高階FAS 的功能或AFF 功能性系統）可獲得效能優勢、但由於建立、管理及保護資料存放區LUN的管理複雜度增加、以及提高可用度風險、因此這項優勢已被抵銷。NetApp一般建議針對每個資料存放區使用單一大型LUN、而且只有在需要超越16TB資料存放區的情況下才需要跨距。與NFS一樣、請考慮使用多個資料存放區（Volume）、在單ONTAP 一的VMware控制器上發揮最大效能。</p>
+</li>
+<li>
+<p>老舊的客體作業系統（OS）需要與儲存系統一致、才能獲得最佳效能和儲存效率。然而、Microsoft和Linux經銷商（例如Red Hat）所支援的現代化作業系統不再需要調整、以使檔案系統分割區與虛擬環境中基礎儲存系統的區塊保持一致。如果您使用的是可能需要調整的舊作業系統、請在NetApp支援知識庫中搜尋文章、使用「VM對齊」、或向NetApp銷售或合作夥伴聯絡人索取TR-3747的複本。</p>
+</li>
+<li>
+<p>避免在來賓作業系統中使用重組公用程式、因為這不會帶來效能效益、也會影響儲存效率和快照空間使用量。也請考慮在客體作業系統中關閉虛擬桌面的搜尋索引。</p>
+</li>
+<li>
+<p>以創新的儲存效率功能引領業界、讓您充分發揮可用磁碟空間的效益。ONTAP利用預設的即時重複資料刪除與壓縮技術、支援更高的效率。AFF資料會在集合體中的所有磁碟區中進行重複資料刪除、因此您不再需要將類似的作業系統和類似的應用程式群組在單一資料存放區中、以達到最大的節約效益。</p>
+</li>
+<li>
+<p>在某些情況下、您甚至不需要資料存放區。為獲得最佳效能與管理能力、請避免將資料存放區用於高I/O應用程式、例如資料庫和某些應用程式。相反地、請考慮使用來賓擁有的檔案系統、例如NFS或iSCSI檔案系統、由來賓或RDM管理。如需特定的應用程式指南、請參閱適用於您應用程式的NetApp技術報告。例如、 <a href="../oracle/oracle-overview.html">"Oracle資料庫ONTAP"</a> 提供虛擬化的相關章節、並提供實用的詳細資料。</p>
+</li>
+<li>
+<p>一流磁碟（或改良的虛擬磁碟）可讓vCenter管理的磁碟獨立於vSphere 6.5及更新版本的VM。雖然主要是由API管理、但在vVols上也很實用、尤其是由OpenStack或Kubernetes工具管理時。支援的項目包括ONTAP VMware ONTAP vSphere的VMware vSphere的支援功能和VMware vSphere的支援功能。</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="資料存放區與vm移轉">資料存放區與VM移轉</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>將VM從另一個儲存系統上的現有資料存放區移轉至ONTAP 支援區時、請謹記以下幾項實務做法：</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>使用Storage VMotion將大部分虛擬機器移至ONTAP VMware。這種方法不僅不中斷虛ONTAP 擬機器的執行、還能讓諸如即時重複資料刪除和壓縮等儲存效率功能、在資料移轉時處理資料。請考慮使用vCenter功能從清單清單清單中選取多個VM、然後在適當的時間排程移轉（按一下「Actions」（動作）時使用Ctrl鍵）。</p>
+</li>
+<li>
+<p>雖然您可以仔細規劃移轉至適當的目的地資料存放區、但通常較容易大量移轉、然後視需要組織。如果您有特定的資料保護需求、例如不同的 Snapshot 排程、您可能會想要使用此方法來引導您移轉至不同的資料存放區。</p>
+</li>
+<li>
+<p>大多數VM及其儲存設備可能會在執行（Hot）時移轉、但從其他儲存系統移轉附加（非資料存放區）儲存設備（例如ISO、LUN或NFS磁碟區）可能需要冷移轉。</p>
+</li>
+<li>
+<p>需要更謹慎移轉的虛擬機器包括使用附加儲存設備的資料庫和應用程式。一般而言、請考慮使用應用程式的工具來管理移轉。對於Oracle、請考慮使用Oracle工具（例如RMAN或ASM）來移轉資料庫檔案。請參閱 <a href="https://www.netapp.com/us/media/tr-4534.pdf" target="_blank" rel="noopener">"TR-4534"</a> 以取得更多資訊。同樣地、對於SQL Server、請考慮使用SQL Server Management Studio或NetApp工具、例如SnapManager 適用於SQL Server或SnapCenter VMware。</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="vmware-vsphere適用的工具ontap">VMware vSphere適用的工具ONTAP</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>搭配執行ONTAP VMware vCenter軟體的系統使用vSphere時、最重要的最佳實務做法是安裝及使用ONTAP VMware vSphere外掛程式（前身為虛擬儲存主控台）的VMware VMware vSphere資訊工具。無論使用SAN或NAS、此vCenter外掛程式都能簡化儲存管理、提升可用度、並降低儲存成本和營運成本。它採用最佳實務做法來配置資料存放區、並針對多重路徑和HBA逾時最佳化ESXi主機設定（如附錄B所述）。由於它是 vCenter 外掛程式、因此可用於所有連線至 vCenter 伺服器的 vSphere Web 用戶端。</p>
+</div>
+<div class="paragraph">
+<p>外掛程式也能協助您在ONTAP vSphere環境中使用其他的功能。它可讓您安裝適用於 VMware VAAI 的 NFS 外掛程式、以便將複本卸載至 ONTAP 進行虛擬機器複製作業、保留大型虛擬磁碟檔案的空間、以及 ONTAP 快照卸載。</p>
+</div>
+<div class="paragraph">
+<p>外掛程式也是VASA Provider許多功能的管理介面、ONTAP 可支援vVols的儲存原則型管理。在登錄VMware vSphere的VMware vSphere基礎架構工具之後ONTAP 、請使用它來建立儲存功能設定檔、將其對應至儲存設備、並確保資料存放區在一段時間內符合設定檔的要求。VASA Provider也提供一個介面、可用來建立及管理VVol資料存放區。</p>
+</div>
+<div class="paragraph">
+<p>一般而言、NetApp建議在ONTAP vCenter內使用VMware vSphere的VMware vCenter功能的VMware vCenter功能、來配置傳統和vVols資料存放區、以確保遵循最佳實務做法。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="一般網路">一般網路</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>使用vSphere搭配執行ONTAP VMware軟體的系統時、設定網路設定很簡單、而且類似於其他網路組態。以下是幾點需要考量的事項：</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>將儲存網路流量與其他網路區隔。使用專屬的VLAN或獨立的交換器來儲存、即可建立獨立的網路。如果儲存網路共用實體路徑（例如上行鏈路）、您可能需要QoS或額外的上行鏈路連接埠、以確保有足夠的頻寬。請勿將主機直接連線至儲存設備；請使用交換器來建立備援路徑、並讓 VMware HA 在不需介入的情況下運作。請參閱 <a href="vmware-vsphere-network.html">"直接連線網路"</a> 以取得更多資訊。</p>
+</li>
+<li>
+<p>如果您的網路需要並支援巨型框架、尤其是使用iSCSI時、可以使用巨型框架。如果使用、請確定在儲存設備和ESXi主機之間的路徑中、所有網路裝置、VLAN等上的設定都相同。否則、您可能會看到效能或連線問題。MTU也必須在ESXi虛擬交換器、VMkernel連接埠、以及每ONTAP 個節點的實體連接埠或介面群組上設定相同。</p>
+</li>
+<li>
+<p>NetApp僅建議停用ONTAP 叢集內叢集網路連接埠上的網路流量控制。對於用於資料流量的其餘網路連接埠、NetApp並未提出其他最佳實務做法建議。您應視需要啟用或停用。請參閱 <a href="http://www.netapp.com/us/media/tr-4182.pdf" target="_blank" rel="noopener">"TR-4182"</a> 以取得流程控制的更多背景資訊。</p>
+</li>
+<li>
+<p>當ESXi和ONTAP VMware ESXi儲存陣列連接至乙太網路儲存網路時、NetApp建議將這些系統連接的乙太網路連接埠設定為快速擴充樹狀傳輸協定（RSTP）邊緣連接埠、或使用Cisco PortFast功能。NetApp建議在使用Cisco PortFast功能的環境中、啟用跨距樹狀結構PortFast主幹功能、並在ESXi伺服器或ONTAP VMware®儲存陣列上啟用802.1Q VLAN主幹連線。</p>
+</li>
+<li>
+<p>NetApp建議下列連結集合最佳實務做法：</p>
+<div class="ulist">
+<ul>
+<li>
+<p>使用交換器、透過 Cisco 的 Virtual PortChannel （ VPC ）等多機箱連結集合群組方法、在兩個獨立的交換器機箱上支援連接埠的連結集合。</p>
+</li>
+<li>
+<p>除非您使用已設定LACP的DVSwitches 5.1或更新版本、否則請停用連接至ESXi的交換器連接埠LACP。</p>
+</li>
+<li>
+<p>使用 LACP 為具有連接埠或 IP 雜湊的動態多重模式介面群組的 ONTAP 儲存系統建立連結集合體。請參閱 <a href="https://docs.netapp.com/us-en/ontap/networking/combine_physical_ports_to_create_interface_groups.html#dynamic-multimode-interface-group" target="_blank" rel="noopener">"網路管理"</a> 以取得進一步指引。</p>
+</li>
+<li>
+<p>在 ESXi 上使用靜態連結集合（例如、 EtherChannel ）和標準 vSwitch 、或是搭配 vSphere Distributed Switch 使用 LACP 型連結集合時、請使用 IP 雜湊成組原則。如果未使用連結集合、請改用「根據來源虛擬連接埠 ID 建立路由」。</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>下表提供網路組態項目的摘要、並指出套用設定的位置。</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">項目</th>
+<th class="tableblock halign-left valign-top">ESXi</th>
+<th class="tableblock halign-left valign-top">交換器</th>
+<th class="tableblock halign-left valign-top">節點</th>
+<th class="tableblock halign-left valign-top">SVM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IP 位址</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMkernel</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">連結集合體</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">虛擬交換器</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否*</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VLAN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">VMkernel和VM連接埠群組</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否*</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">流程控制</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NIC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否*</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">跨距樹狀結構</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是的</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MTU（用於巨型框架）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">虛擬交換器與VMkernel連接埠（9000）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是（設為上限）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">有（9000）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否*</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">容錯移轉群組</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">否</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是（建立）</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">是（選取）</p></td>
+</tr>
+</tbody>
+</table>
+<div class="ulist">
+<ul>
+<li>
+<p>SVM lifs連接到具有VLAN、MTU及其他設定的連接埠、介面群組或VLAN介面。不過、這些設定不會在SVM層級進行管理。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>這些裝置擁有自己的IP位址進行管理、但這些位址並未用於ESXi儲存網路環境。</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+    </article>
+    <!-- Page Container -->
+  </div>
+
+  
+  <!-- Start Page Toolbar -->
+<div id="ie-right-navbar-collapse" class="close">
+  <img id="navbar-expand" class="ie-searchbox-icon" src="/zh-tw/ontap-apps-dbs/images/double_arrow.svg" alt="" />
+</div>
+<div id="ie-right-navbar" class="open">
+  <div id="right-navbar-collapse">
+    <img src="/zh-tw/ontap-apps-dbs/images/double_arrow.svg" alt="" />
+  </div>
+  <div class="page-nav-container">
+    <nav class="page-nav-fixed">
+      <div class="page-nav-title">在本頁</div>
+      <div class="page-nav-links">
+        <ul class="page-nav-inner" id="page-menu"></ul>
+      </div>
+    </nav>
+  </div>
+</div>
+
+
+<script>
+  resizeContent();
+  function setRightBarHeight() {
+    var h = 0;
+
+    // header 1
+    h += PXinViewport($('.n-footer'));
+    h += PXinViewport($('#ie-new-header'));
+
+    if ($('#ie-right-navbar').length) {
+      $('#ie-right-navbar').css({ height: `calc(100vh - ${h}px)` });
+    }
+    if ($('.page-nav-links').length) {
+      h += 98;
+      $('.page-nav-links').css({ height: `calc(100vh - ${h}px)` });
+    }
+  }
+
+  $(document).ready(function () {
+    // PAGE NAV - Click
+    const MASTHEAD_OFFSET = 65;
+    const SECTIONS = $("main h2, main h3");
+    let calculateActiveSection = false;
+    setTimeout(() => {
+      calculateActiveSection = true;
+    }, 100)
+
+    $(".page-nav__link").click(function (event) {
+      calculateActiveSection = false;
+      $(".page-nav__link").removeClass('page-nav__link--active');
+      var target = $(event.target);
+      target.addClass('page-nav__link--active');
+      location.hash = event.target.hash;
+      setTimeout(() => {
+        calculateActiveSection = true;
+      }, 100)
+
+    });
+
+    // PAGE NAV - Scroll
+    $(window).on('resize scroll', function () {
+      if (calculateActiveSection) {
+        var activeSection = getActiveSection(SECTIONS, MASTHEAD_OFFSET);
+        if (activeSection) {
+          var activeHref = $(activeSection).attr('id');
+          $(".page-nav__link").removeClass('page-nav__link--active');
+          $("#page-menu a[href=#" + activeHref + "]").addClass('page-nav__link--active');
+          if (location.hash != "#" + activeHref) {
+            if (history.replaceState) {
+              history.replaceState(null, null, "#" + activeHref);
+            }
+          }
+        }
+      }
+    });
+
+    $(".n-pdf-button").click(function () {
+      $(this).toggleClass("active");
+    });
+
+    $.fn.isVisibleAndInViewport = function () {
+      var elementTop = $(this).offset().top;
+      var elementBottom = elementTop + $(this).outerHeight();
+
+      var viewportTop = $(window).scrollTop();
+      var viewportBottom = viewportTop + $(window).height();
+
+      return elementBottom > viewportTop && elementTop < viewportBottom && $(this).is(":visible");
+    };
+
+
+    $(window).on('resize scroll', function () {
+      setRightBarHeight();
+    });
+
+    $(window).trigger('resize');
+
+
+  });
+
+  $("#right-navbar-collapse").click(function (e) {
+    const rightNavbarWidth = $("#ie-right-navbar").width() - $("#ie-right-navbar-collapse").width();
+    e.preventDefault();
+    const width = $(".ie-content-pane").width();
+
+    $("#ie-right-navbar").animate({ width: 'toggle' }, 350, function () {
+      $("#ie-right-navbar-collapse").removeClass("close")
+      $("#ie-right-navbar-collapse").addClass("open")
+      $("#ie-right-navbar").removeClass("open")
+      $("#ie-right-navbar").addClass("close")
+    });
+    $(".ie-content-pane").animate({ width: (width + rightNavbarWidth) }, 350, function () {
+      resizeContent()
+      setSidebarBottom();
+    })
+
+  });
+  $("#navbar-expand").click(function (e) {
+    const rightNavbarWidth = $("#ie-right-navbar").width() - $("#ie-right-navbar-collapse").width();
+    e.preventDefault();
+    const width = $(".ie-content-pane").width();
+    $("#ie-right-navbar").animate({ width: 'toggle' }, 250, function () {
+      $("#ie-right-navbar-collapse").removeClass("open")
+      $("#ie-right-navbar-collapse").addClass("close")
+      $("#ie-right-navbar").removeClass("close")
+      $("#ie-right-navbar").addClass("open")
+      setRightBarHeight();
+      setSidebarBottom();
+    });
+    $(".ie-content-pane").animate({ width: (width - rightNavbarWidth) }, 250, function () {
+      resizeContent()
+    })
+  });
+
+  function navbarResize() {
+    const rightNavbarResized = $("#ie-right-navbar-collapse").hasClass('resized');
+    if (window.innerWidth < 1024) {
+      $("#ie-right-navbar").removeClass("open")
+      $("#ie-right-navbar").addClass("close")
+      $("#ie-right-navbar").removeAttr("style")
+      $("#ie-right-navbar-collapse").removeClass("close")
+      $("#ie-right-navbar-collapse").addClass("open")
+      $("#ie-right-navbar-collapse").addClass("resized")
+    } else {
+      if (rightNavbarResized) {
+        $('#ie-right-navbar').removeClass('close');
+        $('#ie-right-navbar').addClass('open');
+        $("#ie-right-navbar-collapse").removeClass("resized")
+        $("#ie-right-navbar-collapse").removeClass("open")
+        $("#ie-right-navbar-collapse").addClass("close")
+      }
+    }
+    resizeContent()
+  }
+  navbarResize();
+  $(window).on('resize load', function () {
+    navbarResize()
+  });
+
+  function getActiveSection(sections, offset) {
+    var scrollPosition = $(window).scrollTop() + offset + 5;
+    var activeSection;
+    for (var i = 0; i < sections.length; i++) {
+      var el = $(sections[i]);
+      var activePosition = el.offset().top;
+      if (activePosition > scrollPosition) {
+        break;
+      }
+
+      activeSection = sections[i];
+    }
+
+    return activeSection;
+  }
+
+  $("a[href*=#]:not([href=#])").click(function () {
+    setTimeout(() => {
+      $(window).trigger('scroll');
+    }, 105)
+  })
+
+  const hashOnLoad = location.href.split("#")[1];
+  setTimeout(function () {
+    if (hashOnLoad) {
+      $(".page-nav__link").removeClass('page-nav__link--active');
+      $("#page-menu a[href=#" + hashOnLoad + "]").addClass('page-nav__link--active');
+    }
+  }, 100)
+
+</script>
+
+
+  <div style="clear: both"></div><!-- Main needs to have height --></div>
+
+        </main>
+
+        <footer class="n-footer">
+  <div class="n-footer__bottom">
+    <div class="n-container">
+        <div class="n-footer__left">
+          <li class="n-footer__copyright-link">
+                    <a href="https://www.netapp.com/company/legal/copyright/">© 2024 NetApp, Inc.</a>
+          </li>
+        </div>
+        <div class="n-footer__center">
+          <ul class="n-footer__copyright-list">
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/terms-of-use/">使用條款</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/privacy-policy/">隱私權政策</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a href="https://www.netapp.com/company/legal/cookie-policy/">Cookie 政策</a>
+            </li>
+            <li class="n-footer__copyright-link">
+              <a class="ot-sdk-show-settings">Cookie 設定</a>
+            </li>
+          </ul>
+       </div>
+        <div class="n-footer__right">
+              <li class="n-footer__copyright-link">
+                <a target="_self" href="javascript:netapp_mailto()">傳送有關本網頁的意見反應</a>
+              </li>
+        </div>
+     </div>
+  </div>
+</footer>
+
+      </div><!-- Elasticsearch JS -->
+      <script type="text/javascript" src='/zh-tw/ontap-apps-dbs/js/bundle.js'></script>
+
+      <!-- Syntax Highlighting -->
+      <script type="text/javascript" src='/zh-tw/ontap-apps-dbs/js/prism.js'></script>
+      <script type="text/javascript" src='/zh-tw/ontap-apps-dbs/js/prism-curl.js'></script>
+    </div>
+    <script>
+      document.body.offsetWidth=1903;
+      cookieLaw = {}
+      cookieLaw.euCountry = "US";
+      cookieLaw.invoke = function(){return false;}
+    </script>
+    <script src='/zh-tw/ontap-apps-dbs/js/ie-tabbed-blocks.js'></script>
+    <script src='/zh-tw/ontap-apps-dbs/js/ie-sidebar.js'></script>
+  </body>
+
+</html>

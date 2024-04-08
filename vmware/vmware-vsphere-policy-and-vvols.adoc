@@ -24,13 +24,13 @@ SCP 支援虛擬機器資料 VVols 的最低和 / 或最高 QoS 。只AFF 有在
 
 下圖說明ONTAP VMware vSphere 9.8 vVols儀表板的各項功能。
 
-image:vsphere_ontap_image7.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image7.png["適用於 VMware vSphere 9.8 vVols 的 ONTAP 工具儀表板"]
 
 定義儲存功能設定檔之後、就可以使用識別其需求的儲存原則來配置VM。VM儲存原則與資料存放區儲存功能設定檔之間的對應、可讓vCenter顯示相容資料存放區清單以供選擇。這種方法稱為儲存原則型管理。
 
 VASA提供查詢儲存設備的技術、並將一組儲存功能傳回vCenter。VASA廠商供應商會提供儲存系統API與架構之間的轉譯、以及vCenter所瞭解的VMware API。NetApp 的 VASA Provider for ONTAP 是 ONTAP 工具的一部分、適用於 VMware vSphere 應用裝置 VM 、 vCenter 外掛程式則提供介面、可配置及管理 vVol 資料存放區、並可定義儲存功能設定檔（ CDP ）。
 
-支援VMFS和NFS vVol資料存放區。ONTAP將vVols與SAN資料存放區搭配使用、可帶來NFS的部分效益、例如VM層級的精細度。以下是一些最佳實務做法、您可以在中找到更多資訊 http://www.netapp.com/us/media/tr-4400.pdf["TR-4400"^]：
+支援VMFS和NFS vVol資料存放區。ONTAP將vVols與SAN資料存放區搭配使用、可帶來NFS的部分效益、例如VM層級的精細度。以下是一些最佳實務做法、您可以在中找到更多資訊 link:vmware-vvols-overview.html["TR-4400"^]：
 
 * VVol資料存放區可由FlexVol 多個叢集節點上的多個支援功能區所組成。最簡單的方法是單一資料存放區、即使磁碟區具有不同的功能也一樣。SPBM可確保VM使用相容的Volume。然而、這些磁碟區必須全部屬於ONTAP 單一的一套功能、並使用單一傳輸協定來存取。每個節點的每個傳輸協定只需一個LIF就足夠了。避免在ONTAP 單一VVol資料存放區中使用多個版本的支援、因為儲存功能可能因版本而異。
 * 使用ONTAP VMware vSphere外掛程式的VMware vCenter工具來建立及管理VVol資料存放區。除了管理資料存放區及其設定檔之外、它還會自動建立傳輸協定端點、以便在需要時存取vVols。如果使用LUN、請注意LUN PE是使用LUN ID 300以上的LUN來對應。確認 ESXi 主機進階系統設定 `Disk.MaxLUN` 允許大於 300 的 LUN ID 號碼（預設值為 1,024 ）。若要執行此步驟、請在 vCenter 中選取 ESXi 主機、然後選取「設定」索引標籤、再選取「尋找」 `Disk.MaxLUN` 在進階系統設定清單中。
@@ -40,4 +40,4 @@ VASA提供查詢儲存設備的技術、並將一組儲存功能傳回vCenter。
 
 下圖顯示vVols元件。
 
-image:vsphere_ontap_image8.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image8.png["VVols 元件"]

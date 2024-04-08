@@ -14,7 +14,7 @@ summary: ONTAP 上的 MySQL
 MySQL 及其變種、包括 MariaDB 和 Percona MySQL 、是全球最受歡迎的資料庫。
 
 
-NOTE: ONTAP 和 MySQL 資料庫上的本文件取代先前發佈的 _TR-4722 ： NetApp ONTAP 最佳實務做法的 MySQL 資料庫。 _
+NOTE: ONTAP 和 MySQL 資料庫上的本文件取代先前發佈的 _TR-4722 ： ONTAP 最佳實務做法的 MySQL 資料庫。 _
 
 ONTAP 是適用於 MySQL 資料庫的理想平台、因為 ONTAP 確實是專為資料庫所設計。為了滿足資料庫工作負載的需求、我們特別建立了許多功能、例如隨機 IO 延遲最佳化、以提供進階服務品質（ QoS ）到基本 FlexClone 功能。
 

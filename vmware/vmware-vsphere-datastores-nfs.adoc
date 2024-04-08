@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmware-vsphere-datastores-nfs.html 
-keywords: vSphere, datastore, VMFS, FC, FCoE, NVMe/FC, iSCSI, NFS, vVols 
-summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的最佳實務做法。 
+keywords: vSphere, datastore, VMFS, FC, FCoE, NVMe/FC, iSCSI, NFS, vVols, NFSv3, NFSv4.1 
+summary: 本頁說明使用 ONTAP 和 NFS 連線的資料存放區實作 VMware vSphere 的最佳實務做法。 
 ---
 = NFS
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的
 
 
 [role="lead"]
-vSphere可讓客戶使用企業級NFS陣列、同時存取ESXi叢集中所有節點的資料存放區。如資料存放區一節所述、在使用NFS搭配vSphere時、會有一些易於使用和儲存效率可見度的優點。
+NetApp ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能。ONTAP 讓 VMware vSphere 能夠從許多 ESXi 主機同時存取 NFS 連線的資料存放區、遠超出對 VMFS 檔案系統的限制。如中所述、將 NFS 搭配 vSphere 使用可提供一些易用性和儲存效率可見度效益 link:vmware-vsphere-datastores-top.html["資料存放區"] 區段。
 
 搭配ONTAP vSphere使用VMware NFS時、建議採用下列最佳實務做法：
 
@@ -22,8 +22,8 @@ vSphere可讓客戶使用企業級NFS陣列、同時存取ESXi叢集中所有節
 * VMware自VMware Infrastructure 3以來就一直支援NFSv3。vSphere 6.0新增對NFSv4.1的支援、可啟用某些進階功能、例如Kerberos安全性。NFSv3使用用戶端鎖定功能時、NFSv4.1會使用伺服器端鎖定功能。雖然可以透過這兩種傳輸協定匯出一個資料區、但ESXi只能透過一個傳輸協定掛載。ONTAP此單一傳輸協定掛載並不排除其他ESXi主機透過不同版本掛載相同的資料存放區。請務必指定要在掛載時使用的傳輸協定版本、以便所有主機使用相同版本、因此鎖定樣式相同。請勿在主機之間混合使用NFS版本。如有可能、請使用主機設定檔檢查是否符合規定。
 +
 ** 由於NFSv3與NFSv4.1之間沒有自動資料存放區轉換、因此請建立新的NFSv4.1資料存放區、並使用Storage VMotion將VM移轉至新的資料存放區。
-** 請參閱中的NFS v4.1互通性表附註 https://mysupport.netapp.com/matrix/["NetApp互通性對照表工具"^] 支援所需的特定ESXi修補程式層級。
-** VMware 支援從 vSphere 8.0U2 開始與 NFSv3 進行 nconnect 。如需 nconnect 的詳細資訊、請參閱 link:vmware-vsphere-network.html#nfs["請按這裡"]。
+** 請參閱中的NFS v4.1互通性表附註 link:https://mysupport.netapp.com/matrix/["NetApp互通性對照表工具"^] 支援所需的特定ESXi修補程式層級。
+** VMware 支援從 vSphere 8.0U2 開始與 NFSv3 進行 nconnect 。如需 nconnect 的詳細資訊、請參閱 link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vmware-vsphere8-nfsv3-nconnect.html["NFSv3 nConnect 功能搭配 NetApp 和 VMware"]
 
 
 * NFS匯出原則用於控制vSphere主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用NFSv3時、ESXi會使用sys（UNIX）安全樣式、並需要root掛載選項來執行VM。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意、匯出具有不同值的原則規則 `-anon` 和 `-allow-suid` 可能會導致SVM發現ONTAP 問題、因為使用這些功能。以下是範例原則：

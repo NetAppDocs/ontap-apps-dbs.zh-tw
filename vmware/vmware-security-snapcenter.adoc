@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmware-security-snapcenter.html 
-keywords: WP-7355, security, snapcenter, treat modeling, dast, vulnerability scanning, penetration testing 
-summary:  
+keywords: WP-7355, security, snapcenter, treat modeling, dast, vulnerability scanning, penetration testing,SCV,VMware,vSphere 
+summary: 本文件說明適用於 VMware 的 SnapCenter 外掛程式的安全性層面。 
 ---
 = SnapCenter 外掛程式 VMware vSphere
 :allow-uri-read: 
@@ -16,7 +16,7 @@ summary:
 * *協力廠商程式碼貨幣。*在開發軟體及使用開放原始碼軟體（開放原始碼軟體）的過程中、必須解決與產品整合的開放原始碼軟體（開放原始碼軟體）相關的安全性弱點。這是一項持續努力、因為開放源碼軟體會元件的版本可能隨時報告新發現的弱點。
 * *弱點掃描。*弱點掃描的目的是在NetApp產品中發現常見且已知的安全性弱點之後、再將弱點發佈給客戶。
 * *滲透測試。*滲透測試是評估系統、Web應用程式或網路以找出攻擊者可能利用的安全性弱點的程序。NetApp的滲透測試（筆測試）是由一群獲核准且值得信賴的第三方公司進行。其測試範圍包括利用精密的利用方法或工具、對惡意入侵者或駭客等應用程式或軟體發動攻擊。
-* *產品安全性事件回應活動。*安全性弱點會在公司內部和外部發現、如果無法及時解決、可能會對NetApp的聲譽造成嚴重風險。為了推動此程序、產品安全性事件回應團隊（PSIRT）會報告並追蹤弱點。
+* * 產品安全性事件回應活動。 * 公司內部和外部都發現安全性弱點、如果未及時解決、可能會對 NetApp 的聲譽造成嚴重風險。為了推動此程序、產品安全性事件回應團隊（PSIRT）會報告並追蹤弱點。
 
 
 
@@ -43,7 +43,7 @@ individual files in /usr/share/doc/*/copyright.
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 ....
-* *角色型存取控制（RBAC）。*有兩種RBAC控制項與NetApp ONTAP 支援工具相關：
+* *角色型存取控制（RBAC）。* ONTAP 有兩種RBAC控制項與VMware Tools相關聯：
 +
 ** 原生vCenter Server權限。
 ** VMware vCenter外掛程式特定權限。如需詳細資訊、請參閱 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_role_based_access_control.html["角色型存取控制（RBAC）"^]。

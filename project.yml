@@ -3,7 +3,7 @@ settings:
   name: Enterprise applications
   search: ontap-technical-reports, ontap-apps-dbs, netapp-solutions-sap
   internal:
-    pdf_enabled: true
+    pdf_enabled: false
   prod:
     pdf_enabled: true
     harmony_enabled: false
@@ -12,6 +12,7 @@ sidebar:
   entries:
   - title: 企業應用程式
     url: "/index.html"
+  - section: Hyper-V
   - section: mssql
   - section: mysql
   - section: oracle

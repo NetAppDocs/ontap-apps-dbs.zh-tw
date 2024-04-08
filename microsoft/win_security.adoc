@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: microsoft/win_security.html 
+keywords: Windows,Hyper-V,VHDX,VM,Virtual 
+summary: 使用 Hyper-V 的 ONTAP 儲存安全性 
+---
+= 安全性
+:allow-uri-read: 
+
+
+[role="lead"]
+ONTAP 為 Windows 作業系統提供安全的儲存系統。
+
+
+
+== Windows Defender 防毒軟體
+
+Windows Defender 是預設在 Windows Server 上安裝及啟用的反惡意程式碼軟體。此軟體可主動保護 Windows Server 免於已知惡意軟體的侵害、並可透過 Windows Update 定期更新反惡意程式碼定義。NetApp LUN 和 SMB 共用可以使用 Windows Defender 進行掃描。
+
+
+
+=== 進一步閱讀
+
+如需詳細資訊、請參閱 https://technet.microsoft.com/windows-server-docs/security/windows-defender/windows-defender-overview-windows-server?f=255&MSPPError=-2147217396["Windows Defender 概觀"]。
+
+
+
+== Bitlocker
+
+BitLocker 磁碟機加密是一項資料保護功能、延續自 Windows Server 2012 。此加密可保護實體磁碟、 LUN 和 CSV 。
+
+
+
+=== 最佳實務做法
+
+啟用 BitLocker 之前、必須先將 CSV 設為維護模式。因此、 NetApp 建議您在 CSV 上建立 VM 之前、先做出有關以 BitLocker 為基礎的安全性的決策、以避免停機。

@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmware-vsphere-overview.html 
 keywords: introduction, unified storage, virtual volumes, storage efficiency, hybrid cloud 
-summary: NetApp ONTAP 解決方案是VMware vSphere環境的領導級儲存解決方案、已有將近二十年的歷史、持續增加創新功能來簡化管理、同時降低成本。本文件介紹ONTAP vSphere的解決方案、包括最新的產品資訊和最佳實務做法、以簡化部署、降低風險及簡化管理。 
+summary: ONTAP 在將近 20 年來一直是 VMware vSphere 環境的領先儲存解決方案、並持續新增創新功能來簡化管理、同時降低成本。本文件介紹ONTAP vSphere的解決方案、包括最新的產品資訊和最佳實務做法、以簡化部署、降低風險及簡化管理。 
 ---
 = VMware vSphere 搭配 ONTAP
 :hardbreaks:
@@ -14,7 +14,7 @@ summary: NetApp ONTAP 解決方案是VMware vSphere環境的領導級儲存解�
 
 
 [role="lead"]
-NetApp ONTAP 解決方案是VMware vSphere環境的領導級儲存解決方案、已有將近二十年的歷史、持續增加創新功能來簡化管理、同時降低成本。本文件介紹ONTAP vSphere的解決方案、包括最新的產品資訊和最佳實務做法、以簡化部署、降低風險及簡化管理。
+ONTAP 在將近 20 年來一直是 VMware vSphere 環境的領先儲存解決方案、並持續新增創新功能來簡化管理、同時降低成本。本文件介紹ONTAP vSphere的解決方案、包括最新的產品資訊和最佳實務做法、以簡化部署、降低風險及簡化管理。
 
 
 NOTE: 本文件取代先前發佈的技術報告 _TR-4597 ： VMware vSphere for ONTAP _

@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmware-vsphere-datastores-san.html 
 keywords: vSphere, datastore, VMFS, FC, FCoE, NVMe/FC, iSCSI, NFS, vVols 
-summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的最佳實務做法。 
+summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案的最佳實務做法。 
 ---
 = SAN（FC、FCoE、NVMe/FC、iSCSI）、RDM
 :hardbreaks:
@@ -14,6 +14,8 @@ summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的
 
 
 [role="lead"]
+NetApp ONTAP 使用 iSCSI 、光纖通道傳輸協定（ FCP 或 FC 簡稱）和 NVMe over Fabrics （ NVMe of ）、為 VMware vSphere 提供企業級區塊儲存。以下是使用 vSphere 和 ONTAP 實作 VM 儲存區塊傳輸協定的最佳實務做法。
+
 在vSphere中、有三種使用區塊儲存LUN的方法：
 
 * 使用VMFS資料存放區
@@ -25,7 +27,7 @@ VMFS是高效能的叢集式檔案系統、可提供共用儲存資源池的資�
 
 vSphere內建多個儲存裝置路徑的支援功能、稱為原生多重路徑（NMP）。NMP可偵測支援儲存系統的儲存類型、並自動設定NMP堆疊以支援使用中儲存系統的功能。
 
-NMP和NetApp ONTAP 的支援非對稱邏輯單元存取（ALUA）、可協調最佳化和非最佳化的路徑。在本功能中、ALUA最佳化路徑會使用主控所存取LUN的節點上的目標連接埠、遵循直接資料路徑。ONTAP預設會在vSphere和ONTAP VMware中同時開啟ALUA。NMP 將 ONTAP 叢集識別為 ALUA 、並使用 ALUA 儲存陣列類型外掛程式 (`VMW_SATP_ALUA`）並選取循環路徑選擇外掛程式 (`VMW_PSP_RR`）。
+NMP 和 ONTAP 都支援非對稱邏輯單元存取（ ALUA ）、可協調最佳化和非最佳化的路徑。在本功能中、ALUA最佳化路徑會使用主控所存取LUN的節點上的目標連接埠、遵循直接資料路徑。ONTAP預設會在vSphere和ONTAP VMware中同時開啟ALUA。NMP 將 ONTAP 叢集識別為 ALUA 、並使用 ALUA 儲存陣列類型外掛程式 (`VMW_SATP_ALUA`）並選取循環路徑選擇外掛程式 (`VMW_PSP_RR`）。
 
 ESXi 6最多可支援256個LUN、並可支援多達1、024條通往LUN的總路徑。ESXi不會看到任何超出這些限制的LUN或路徑。假設LUN數量上限、則路徑限制允許每個LUN有四個路徑。在更大ONTAP 的實體叢集中、可以在LUN限制之前達到路徑限制。為了解決此限制、ONTAP 支援8.3版及更新版本中的選擇性LUN對應（SLM),
 
@@ -47,4 +49,4 @@ ESXi 6最多可支援256個LUN、並可支援多達1、024條通往LUN的總路�
 * 如需更多關於將NVMe/FC搭配vSphere 7.0使用的資訊、請參閱此 https://docs.netapp.com/us-en/ontap-sanhost/nvme_esxi_7.html["NVMe / FC主機組態指南ONTAP"^] 和 http://www.netapp.com/us/media/tr-4684.pdf["TR-4684"^]下圖說明從vSphere主機到ONTAP VMware LUN的多重路徑連線能力。
 
 
-image:vsphere_ontap_image2.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image2.png["多重路徑連線"]

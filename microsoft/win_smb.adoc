@@ -1,0 +1,144 @@
+---
+sidebar: sidebar 
+permalink: microsoft/win_smb.html 
+keywords: Windows,Hyper-V,VHDX,VM,Virtual 
+summary: ONTAP NAS 儲存設備、適用於使用 SMB3 的 Hyper-V 
+---
+= 在 SMB 環境中進行資源配置
+:allow-uri-read: 
+
+
+[role="lead"]
+ONTAP 使用 SMB3 傳輸協定、為 Hyper-V 虛擬機器提供彈性且高效能的 NAS 儲存設備。
+
+使用 CIFS 通訊協定建立 SVM 時、 CIFS 伺服器會在 Windows Active Directory 網域的 SVM 上執行。SMB 共用可用於主目錄、以及裝載 Hyper-V 和 SQL Server 工作負載。ONTAP 支援下列 SMB 3.0 功能：
+
+* 持續處理（持續可用的檔案共用）
+* 見證協定
+* 叢集式用戶端容錯移轉
+* 橫向擴充認知
+* ODX
+* 遠端 VSS
+
+
+
+
+== 在 Windows Server 上配置 SMB 共享
+
+
+
+=== 先決條件
+
+在 Windows Server 的 NAS 環境中使用 NetApp 儲存設備有下列需求：
+
+* ONTAP 叢集具有有效的 CIFS 授權。
+* 至少會建立一個 Aggregate 。
+* 系統會建立一個資料邏輯介面（ LIF ）、而且必須為 CIFS 設定資料 LIF 。
+* 存在 DNS 設定的 Windows Active Directory 網域伺服器和網域管理員認證。
+* NetApp 叢集中的每個節點都會與 Windows 網域控制站同步處理時間。
+
+
+
+
+=== Active Directory 網域控制站
+
+NetApp 儲存控制器可以與 Windows Server 類似、在 Active Directory 中加入及操作。在建立 SVM 期間、您可以提供網域名稱和名稱伺服器詳細資料來設定 DNS 。SVM 會嘗試搜尋 Active Directory 網域控制站、方法是以類似 Windows Server 的方式、查詢 DNS 中的 Active Directory/ 輕量型目錄存取傳輸協定（ LDAP ）伺服器。
+
+若要讓 CIFS 設定正常運作、 NetApp 儲存控制器必須與 Windows 網域控制器同步時間。NetApp 建議 Windows 網域控制器與 NetApp 儲存控制器之間的時間偏差不超過五分鐘。最佳做法是設定 ONTAP 叢集的網路時間傳輸協定（ NTP ）伺服器、使其與外部時間來源同步。若要將 Windows 網域控制站設定為 NTP 伺服器、請在 ONTAP 叢集上執行下列命令：
+
+....
+$domainControllerIP = "<input IP Address of windows domain controller>"
+cluster::> system services ntp server create â€“server $domainControllerIP
+....
+
+
+=== 部署
+
+. 在啟用 NAS 傳輸協定 CIFS 的情況下、建立新的 SVM 。您可以使用下列任一方法建立新的 SVM ：
++
+** NetApp ONTAP 上的 CLI 命令
+** 系統管理員
+** NetApp PowerShell 工具套件
+
+
+. 設定 CIFS 通訊協定
++
+.. 提供 CIFS 伺服器名稱。
+.. 提供必須加入 CIFS 伺服器的 Active Directory 。您必須擁有網域管理員認證、才能將 CIFS 伺服器加入 Active Directory 。
+
+
+. 在每個叢集節點上指派具有生命的 SVM 。
+. 在 SVM 上啟動 CIFS 服務。
+. 從 Aggregate 建立具有 NTFS 安全樣式的磁碟區。
+. 在捲上建立 qtree （選用）。
+. 建立對應於 Volume 或 qtree 目錄的共用、以便從 Windows Server 存取。如果共用用於 Hyper-V 儲存設備、請選取在建立共用時啟用 Hyper-V 的持續可用性。這樣做可為檔案共用提供高可用度。
+. 編輯建立的共用、並視需要修改存取共用的權限。SMB 共用的權限必須設定為授與存取此共用之所有伺服器的電腦帳戶存取權。
+
+
+
+
+=== 主機整合
+
+NAS 傳輸協定 CIFS 原生整合至 ONTAP 。因此、 Windows Server 不需要任何額外的用戶端軟體即可存取 NetApp ONTAP 上的資料。NetApp 儲存控制器會在網路上顯示為原生檔案伺服器、並支援 Microsoft Active Directory 驗證。
+
+若要偵測先前使用 Windows Server 建立的 CIFS 共用、請完成下列步驟：
+
+. 以系統管理員群組成員的身分登入 Windows Server 。
+. 請移至 run.exe 、輸入為存取共用而建立的 CIFS 共用的完整路徑。
+. 若要將共用永久對應至 Windows Server 、請以滑鼠右鍵按一下「此電腦」、按一下「對應網路磁碟機」、然後提供 CIFS 共用的路徑。
+. 某些 CIFS 管理工作可以使用 Microsoft Management Console （ MMC ）來執行。在執行這些工作之前、您必須使用 MMC 功能表命令、將 MMC 連接至 NetApp ONTAP 儲存設備。
++
+.. 若要在 Windows Server 中開啟 MMC 、請按一下 Server Manager 「工具」區段中的「電腦管理」。
+.. 按一下 [ 其他動作 ] 並連線到另一台電腦，這會開啟 [ 選取電腦 ] 對話方塊。
+.. 輸入 CIFS 伺服器名稱或 SVM LIF 的 IP 位址、以連線至 CIFS 伺服器。
+.. 展開「系統工具」和「共用資料夾」、以檢視和管理開啟的檔案、工作階段和共用。
+
+
+
+
+
+
+=== 最佳實務做法
+
+* 為了確認當磁碟區從一個節點移至另一個節點時、或在節點故障的情況下、不會發生停機、 NetApp 建議您在檔案共用上啟用持續可用性選項。
+* 為 Hyper-V over SMB 環境佈建 VM 時、 NetApp 建議您在儲存系統上啟用複本卸載功能。如此可縮短 VM 的資源配置時間。
+* 如果儲存叢集主控多個 SMB 工作負載、例如 SQL Server 、 Hyper-V 和 CIFS 伺服器、 NetApp 建議將不同的 SMB 工作負載託管在不同的 SVM 上。這項組態非常實用、因為每項工作負載都需要獨特的儲存網路和 Volume 配置。
+* NetApp 建議您將 Hyper-V 主機與 NetApp ONTAP 儲存設備連線至 10GB 網路（如果有的話）。如果是 1GB 網路連線、 NetApp 建議您建立由多個 1GB 連接埠組成的介面群組。
+* 將 VM 從一個 SMB 3.0 共用移轉至另一個 SMB 3.0 共用時、 NetApp 建議在儲存系統上啟用 CIFS 複本卸載功能、以便更快移轉。
+
+
+
+
+=== 記住事項
+
+* 為 SMB 環境佈建磁碟區時、必須以 NTFS 安全樣式建立磁碟區。
+* 叢集中節點上的時間設定應相應設定。如果 NetApp CIFS 伺服器必須參與 Windows Active Directory 網域、請使用 NTP 。
+* 持續處理只能在 HA 配對中的節點之間運作。
+* 見證通訊協定只能在 HA 配對中的節點之間運作。
+* 只有 Hyper-V 和 SQL Server 工作負載才支援持續可用的檔案共用。
+* ONTAP 9.4 以上版本支援 SMB 多通道。
+* 不支援 RDMA 。
+* 不支援 Refs 。
+
+
+
+
+== 在奈米伺服器上配置 SMB 共享
+
+nano 伺服器不需要額外的用戶端軟體、即可存取 NetApp 儲存控制器上 CIFS 共用區上的資料。
+
+若要將檔案從奈米伺服器複製到 CIFS 共用、請在遠端伺服器上執行下列 Cmdlet ：
+
+ $ip = "<input IP Address of the Nano Server>"
+....
+# Create a New PS Session to the Nano Server
+$session = New-PSSession -ComputerName $ip -Credential ~\Administrator
+....
+ Copy-Item -FromSession $s -Path C:\Windows\Logs\DISM\dism.log -Destination \\cifsshare
+* `cifsshare` 是 NetApp 儲存控制器上的 CIFS 共用。
+* 若要將檔案複製到奈米伺服器、請執行下列 Cmdlet ：
++
+ Copy-Item -ToSession $s -Path \\cifsshare\<file> -Destination C:\
+
+
+若要複製資料夾的完整內容、請指定資料夾名稱、並使用 Cmdlet 結尾的 -Recurse 參數。

@@ -14,7 +14,7 @@ summary: 利用NetApp技術、儲存虛擬機器（SVM）的概念可在安全�
 
 
 [role="lead"]
-以下各節將超越 VMware 和 ONTAP SRM 的部署最佳實務做法。
+以下各節概述 ONTAP 和 VMware SRM 的部署最佳實務做法。
 
 
 

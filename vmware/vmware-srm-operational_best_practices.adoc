@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmware-srm-operational_best_practices.html 
 keywords: vmware, site, recovery manager, vsrm, datastores, protocols, spbm, vvols, protection, replication, volumes, array, groups, failover test, reportect, failback 
-summary: 如有可能、請務必使用ONTAP 「資訊工具」來配置資料存放區和磁碟區。這可確保磁碟區、交會路徑、LUN、igroup、匯出原則、 和其他設定均以相容的方式進行設定。 
+summary: VMware SRM 和 ONTAP 儲存設備的最佳作業實務做法 
 ---
 = 營運最佳實務做法
 :hardbreaks:
@@ -25,7 +25,7 @@ summary: 如有可能、請務必使用ONTAP 「資訊工具」來配置資料�
 * 若要確認連線能力、請務必確認您可以從目的地ONTAP 叢集掛載並卸載DR站台上的新測試資料存放區。測試您要用於資料存放區連線的每個傳輸協定。最佳實務做法是使用ONTAP 「VMware工具」來建立測試資料存放區、因為它是依照SRM的指示來執行所有資料存放區自動化作業。
 * 每個站台的SAN傳輸協定應該是同質的。您可以混合使用NFS和SAN、但SAN傳輸協定不應在站台內混合使用。例如、您可以在站台A中使用FCP、而在站台B中使用iSCSI您不應在站台A同時使用FCP和iSCSI原因是SRA不會在恢復站台建立混合式igroup、而且SRM不會篩選指派給SRA的啟動器清單。
 * 先前的指南建議建立 LIF 至資料位置。也就是說、務必使用實體擁有磁碟區的節點上的LIF來掛載資料存放區。這已不再是ONTAP 現今版本的更新要求。只要可能、而且如果提供叢集範圍的認證、 ONTAP 工具仍會選擇在資料的本機生命體之間平衡負載、但這並不是高可用度或高效能的需求。
-* NetApp ONTAP 9 可設定為自動移除快照、以在自動調整大小無法提供足夠的緊急容量時、在空間不足的情況下保留正常運作時間。此功能的預設設定不會自動刪除 SnapMirror 所建立的快照。如果刪除 SnapMirror 快照、則 NetApp 無法針對受影響的磁碟區進行反向和重新同步複寫。若要防止 ONTAP 刪除 SnapMirror 快照、請設定 Snapshot 自動刪除功能以嘗試。
+* ONTAP 9 可設定為自動移除快照、以在自動調整大小無法提供足夠的緊急容量時、在空間不足的情況下保留正常運作時間。此功能的預設設定不會自動刪除 SnapMirror 所建立的快照。如果刪除 SnapMirror 快照、則 NetApp 無法針對受影響的磁碟區進行反向和重新同步複寫。若要防止 ONTAP 刪除 SnapMirror 快照、請設定 Snapshot 自動刪除功能以嘗試。
 
 
 ....
@@ -45,15 +45,15 @@ snap autodelete modify -volume -commitment try
 
 以下範例顯示啟用 vVols 複寫。
 
-image:vsrm-ontap9_image2.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image2.png["VVols 複寫"]
 
 以下螢幕快照提供「建立VM儲存原則」精靈中所顯示的SnapMirror排程範例。
 
-image:vsrm-ontap9_image3.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image3.png["SnapMirror 排程"]
 
 支援將故障切換至不同儲存設備的功能。ONTAP例如、系統可能會從ONTAP Select 位於邊緣位置的停止執行、到AFF 核心資料中心的故障轉移。無論儲存設備的相似性為何、您都必須針對啟用複寫的VM儲存原則、設定儲存原則對應和反轉對應、以確保恢復站台所提供的服務符合期望和要求。下列螢幕擷取畫面會強調顯示原則對應範例。
 
-image:vsrm-ontap9_image4.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image4.png["原則對應"]
 
 
 
@@ -61,9 +61,9 @@ image:vsrm-ontap9_image4.png["錯誤：缺少圖形影像"]
 
 與先前的vVols資料存放區不同、複寫的vVols資料存放區必須從啟用複寫的開始建立、而且必須使用ONTAP 在具有SnapMirror關係的SnapMirror系統上預先建立的磁碟區。這需要預先設定叢集對等和SVM對等等項目。這些活動應由 ONTAP 管理員執行、因為這有助於在多個站台之間管理 ONTAP 系統的人員與主要負責 vSphere 作業的人員之間、嚴格區分責任。
 
-這是vSphere管理員的新要求。由於建立的磁碟區超出ONTAP 了功能性測試工具的範圍、因此在ONTAP 定期排程的重新探索期間之前、系統管理員不會察覺到您所做的變更。因此、當您建立要與vVols搭配使用的Volume或SnapMirror關係時、一律執行重新探索是最佳實務做法。只要在主機或叢集上按一下滑鼠右鍵、然後選取「 NetApp ONTAP 工具」 > 「更新主機和儲存資料」、如下面的螢幕擷取畫面所示。
+這是vSphere管理員的新要求。由於建立的磁碟區超出ONTAP 了功能性測試工具的範圍、因此在ONTAP 定期排程的重新探索期間之前、系統管理員不會察覺到您所做的變更。因此、當您建立要與vVols搭配使用的Volume或SnapMirror關係時、一律執行重新探索是最佳實務做法。只要在主機或叢集上按一下滑鼠右鍵、然後選取「 ONTAP 工具」 > 「更新主機和儲存資料」、如下面的螢幕擷取畫面所示。
 
-image:vsrm-ontap9_image5.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image5.png["更新主機和儲存資料"]
 
 在vVols和SRM方面、請務必謹慎處理。請勿在同一個vVols資料存放區中混用受保護和未受保護的VM。原因是當您使用SRM容錯移轉至DR站台時、只有屬於保護群組的VM才會在DR中上線。因此、當您重新保護（將SnapMirror從災難恢復還原至正式作業）時、可能會覆寫未容錯移轉的VM、並可能包含寶貴的資料。
 
@@ -75,7 +75,7 @@ image:vsrm-ontap9_image5.png["錯誤：缺少圖形影像"]
 
 在SRM中設定陣列配對時、您應該一律以新增至ONTAP 「VMware工具」的相同方式、在SRM中新增這些配對、也就是說、它們必須使用相同的使用者名稱、密碼和管理LIF。這項需求可確保SRA與陣列正常通訊。下列螢幕快照說明ONTAP 叢集在「叢集工具」中的顯示方式、以及如何將其新增至陣列管理程式。
 
-image:vsrm-ontap9_image6.jpg["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image6.jpg["叢集"]
 
 
 

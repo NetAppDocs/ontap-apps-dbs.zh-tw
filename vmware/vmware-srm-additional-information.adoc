@@ -17,9 +17,9 @@ summary: 若要深入瞭解本文所述資訊、請檢閱下列文件和/或網�
 若要深入瞭解本文所述資訊、請檢閱下列文件和 / 或網站：
 
 * TR-4597：VMware vSphere ONTAP for VMware
-https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsphere_ontap_ontap_for_vsphere.html["https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsphere_ontap_ontap_for_vsphere.html"^]
+link:vmware-vsphere-overview.html["https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html"^]
 * TR-4400: VMware vSphere虛擬Volume ONTAP with VMware
-https://www.netapp.com/pdf.html?item=/media/13555-tr4400.pdf["https://www.netapp.com/pdf.html?item=/media/13555-tr4400.pdf"^]
+link:vmware-vvols-overview.html["https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-overview.html"^]
 * TR-4015《SnapMirror組態最佳實務指南ONTAP 》（英文）
 https://www.netapp.com/media/17229-tr4015.pdf?v=127202175503P[]
 * RBAC使用者建立工具ONTAP 以供參考

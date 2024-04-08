@@ -1,0 +1,36 @@
+---
+section: Hyper-V
+title: Hyper-V
+entries:
+- title: 部署準則和儲存最佳實務做法
+  entries:
+  - title: 總覽
+    url: "/microsoft/win_overview.html"
+  - title: NetApp 儲存設備和 Windows Server 環境
+    url: "/microsoft/win_environment.html"
+  - title: 在 SAN 環境中進行資源配置
+    url: "/microsoft/win_san.html"
+  - title: 在 SMB 環境中進行資源配置
+    url: "/microsoft/win_smb.html"
+  - title: NetApp 上的 Hyper-V 儲存基礎架構
+    url: "/microsoft/win_hyperv_infra.html"
+  - title: 儲存效率
+    url: "/microsoft/win_efficiency.html"
+  - title: 安全性
+    url: "/microsoft/win_security.html"
+  - title: 部署奈米伺服器
+    url: "/microsoft/win_deploy_nano.html"
+  - title: 部署 Hyper-V 叢集
+    url: "/microsoft/win_deploy_hyperv.html"
+  - title: 在叢集式環境中部署 Hyper-V 線上即時移轉
+    url: "/microsoft/win_deploy_hyperv_lmce.html"
+  - title: 在叢集式環境外部署 Hyper-V 即時移轉
+    url: "/microsoft/win_deploy_hyperv_lmoce.html"
+  - title: 部署 Hyper-V 儲存即時移轉
+    url: "/microsoft/win_deploy_hyperv_slm.html"
+  - title: 在叢集環境外部署 Hyper-V 複本
+    url: "/microsoft/win_deploy_hyperv_replica_oce.html"
+  - title: 在叢集環境中部署 Hyper-V 複本
+    url: "/microsoft/win_deploy_hyperv_replica_ce.html"
+  - title: 何處可找到其他資訊
+    url: "/microsoft/win_additional_information.html"

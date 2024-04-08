@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmware-srm-ontap-tools-features.html 
 keywords: vmware, site, recovery manager, vsrm, vsphere, ipv6, support, rest, api, replication, ccols, spbm, srm, appliance based 
-summary: 隨著舊有虛擬應用裝置的移轉、ONTAP VMware的功能豐富、限制更高、並提供全新vVols支援。 
+summary: ONTAP 工具支援功能、限制和 VVols 。 
 ---
 = SRM和ONTAP VMware Tools的新功能
 :hardbreaks:

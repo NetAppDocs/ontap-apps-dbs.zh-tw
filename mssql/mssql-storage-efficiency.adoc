@@ -1,18 +1,18 @@
 ---
 sidebar: sidebar 
 permalink: mssql/mssql-storage-efficiency.html 
-keywords: MS-SQL,mssql,SQL Server 
-summary: ONTAP 上的 Microsoft SQL Server 
+keywords: MSSQL,SQL Server, efficiency, compression, deduplication 
+summary: Microsoft SQL Server 和 ONTAP 儲存效率 
 ---
-= 使用 Microsoft SQL Server 實現 ONTAP 儲存效率
+= Microsoft SQL Server 與儲存效率
 :allow-uri-read: 
 :imagesdir: ../media/
 
 
 [role="lead"]
-儲存效率是以消耗最少儲存空間的方式來儲存和管理 SQL Server 資料、對系統整體效能幾乎沒有影響或完全沒有影響。
+ONTAP 儲存效率經過最佳化、可儲存及管理 SQL Server 資料、但所需的儲存空間最少、對系統整體效能幾乎沒有影響或完全沒有影響。
 
-儲存效率是 RAID 、資源配置（整體配置和使用率）、鏡像和其他資料保護技術的組合。NetApp 技術（例如 Snapshot 複本、精簡配置、 FlexClone ）可最佳化基礎架構中的現有儲存設備、並延後或避免未來的儲存支出、協助創造成本效益。這些技術搭配使用越多、節省的成本就越大。
+儲存效率是 RAID 、資源配置（整體配置和使用率）、鏡像和其他資料保護技術的組合。NetApp 技術包括快照、精簡配置和複製、可最佳化基礎架構中的現有儲存設備、並可延後或避免未來的儲存支出。這些技術搭配使用越多、節省的成本就越大。
 
 
 
@@ -96,7 +96,7 @@ summary: ONTAP 上的 Microsoft SQL Server
 
 NOTE: 請參閱以下關於精簡配置的章節、以瞭解儲存效率與部分保留之間互動的說明。
 
-SQL Server 也具備壓縮及有效管理資料的功能。SQL Server 目前支援兩種類型的資料壓縮：資料列壓縮和頁面壓縮。
+SQL Server 本身也具備可壓縮及有效管理資料的功能。SQL Server 目前支援兩種類型的資料壓縮：資料列壓縮和頁面壓縮。
 
 資料列壓縮會變更資料儲存格式。例如、它會將整數和小數位數變更為可變長度格式、而非原生固定長度格式。它也會消除空白、將固定長度字元字串變更為可變長度格式。頁面壓縮會實作列壓縮及其他兩種壓縮策略（前置壓縮和字典壓縮）。您可以在中找到有關頁面壓縮的詳細資料 link:https://learn.microsoft.com/en-us/sql/relational-databases/data-compression/page-compression-implementation?view=sql-server-ver16&redirectedfrom=MSDN["頁面壓縮實作"^]。
 

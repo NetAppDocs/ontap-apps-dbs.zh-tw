@@ -22,7 +22,7 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 
 下圖說明ONTAP 了還原複製。
 
-image:vsphere_ontap_image5.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image5.png["ONTAP 複製"]
 
 複製可ONTAP 透過多種機制卸載至執行支援軟體的系統、通常是VM、vVol或資料存放區層級。其中包括：
 

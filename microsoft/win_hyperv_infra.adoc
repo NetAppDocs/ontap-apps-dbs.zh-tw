@@ -1,0 +1,302 @@
+---
+sidebar: sidebar 
+permalink: microsoft/win_hyperv_infra.html 
+keywords: Windows,Hyper-V,VHDX,VM,Virtual 
+summary: 採用 ONTAP 的 Hyper-V 儲存基礎架構 
+---
+= NetApp 上的 Hyper-V 儲存基礎架構
+:allow-uri-read: 
+
+
+[role="lead"]
+Hyper-V 儲存基礎架構可裝載於 ONTAP 儲存系統上。Hyper-V 儲存以儲存 VM 檔案及其磁碟的儲存設備可使用 NetApp LUN 或 NetApp CIFS 共用來提供、如下圖所示。
+
+image:win_image5.png["NetApp 上的 Hyper-V 儲存基礎架構、寬度 =624 、高度 =338"]
+
+
+
+== NetApp LUN 上的 Hyper-V 儲存設備
+
+* 在 Hyper-V 伺服器機器上佈建 NetApp LUN 。如需詳細資訊、請參閱「link:win_san.html["在 SAN 環境中進行資源配置"]。」
+* 從 Server Manager 的「工具」區段開啟 Hyper-V Manager 。
+* 選取 Hyper-V 伺服器、然後按一下 Hyper-V 設定。
+* 指定將 VM 及其磁碟儲存為 LUN 的預設資料夾。這樣做會將預設路徑設為 Hyper-V 儲存設備的 LUN 。如果您想要明確指定 VM 的路徑、則可以在建立 VM 時指定路徑。
+
+
+
+
+== NetApp CIFS 共用上的 Hyper-V 儲存設備
+
+在開始執行本節所列的步驟之前、請先檢閱「link:win_smb.html["在 SMB 環境中進行資源配置"]。」 若要在 NetApp CIFS 共用上設定 Hyper-V 儲存設備、請完成下列步驟：
+
+. 從 Server Manager 的「工具」區段開啟 Hyper-V Manager 。
+. 選取 Hyper-V 伺服器、然後按一下 Hyper-V 設定。
+. 指定將 VM 及其磁碟儲存為 CIFS 共用的預設資料夾。這樣做會將預設路徑設為 Hyper-V 儲存設備的 CIFS 共用。如果您想要明確指定 VM 的路徑、則可以在建立 VM 時指定路徑。
+
+
+Hyper-V 中的每個虛擬機器也可隨附提供給實體主機的 NetApp LUN 和 CIFS 共用。此程序與任何實體主機相同。下列方法可用於將儲存設備配置至 VM ：
+
+* 使用 VM 中的 FC 啟動器新增儲存 LUN
+* 使用虛擬機器中的 iSCSI 啟動器新增儲存 LUN
+* 將直接移轉實體磁碟新增至 VM
+* 從主機將 VHD/VHDX 新增至 VM
+
+
+
+
+=== 最佳實務做法
+
+* 當 VM 及其資料儲存在 NetApp 儲存設備上時、 NetApp 建議定期在 Volume 層級執行 NetApp 重複資料刪除。當相同的 VM 託管在 CSV 或 SMB 共享上時、這種做法可大幅節省空間。重複資料刪除功能會在儲存控制器上執行、不會影響主機系統和 VM 的效能。
+* 在 Hyper-V 使用 iSCSI LUN 時、請務必啟用 `iSCSI Service (TCP-In) for Inbound` 和 `iSCSI Service (TCP-Out) for Outbound` 在 Hyper-V 主機的防火牆設定中。如此一來、 iSCSI 流量就能往返於 Hyper-V 主機和 NetApp 控制器。
+* NetApp 建議取消勾選允許管理作業系統共用 Hyper-V 虛擬交換器的此網路介面卡選項。這樣做可為 VM 建立專用網路。
+
+
+
+
+=== 記住事項
+
+* 使用虛擬光纖通道來配置 VM 需要啟用 N_Port ID 虛擬化功能的 FC HBA 。最多支援四個 FC 連接埠。
+* 如果主機系統已設定多個 FC 連接埠並呈現給 VM 、則必須在 VM 中安裝 MPIO 才能啟用多重路徑功能。
+* 如果在該主機上使用 MPIO 、則無法將直接移轉磁碟配置至主機、因為直接移轉磁碟不支援 MPIO 。
+* 用於 VHD/VHD 檔案的磁碟應該使用 64K 格式進行配置。
+
+
+
+
+=== 進一步閱讀
+
+* 如需 FC HBA 的相關資訊、請參閱 http://mysupport.netapp.com/matrix/["NetApp 互通性對照表"]。
+* 如需虛擬光纖通道的詳細資訊、請參閱 Microsoft https://technet.microsoft.com/en-us/library/hh831413.aspx["Hyper-V 虛擬光纖通道總覽"] 頁面。
+
+
+
+
+== 卸載資料傳輸
+
+Microsoft ODX 也稱為複製卸載、可在儲存裝置內或相容儲存裝置之間直接傳輸資料、而無需透過主機電腦傳輸資料。NetApp ONTAP 支援 CIFS 與 SAN 傳輸協定的 ODX 功能。如果複本位於同一個磁碟區內、 ODX 可能會改善效能、降低用戶端 CPU 和記憶體的使用率、並降低網路 I/O 頻寬使用率。
+
+有了 ODX 、在 SMB 共用區、 LUN 內、以及 SMB 共用區與 LUN 之間（如果位於同一個磁碟區）複製檔案、速度更快、效率更高。此方法在相同磁碟區中需要多個作業系統（ HDD/VHDX ）黃金映像複本的情況下更有幫助。如果複本位於同一個磁碟區內、則可在大幅減少的時間內製作同一個黃金映像的數個複本。ODX 也適用於 Hyper-V 儲存即時移轉、可用於移動 VM 儲存設備。
+
+如果複本是跨磁碟區的、相較於主機型複本、效能可能不會大幅提升。
+
+若要在 CIFS 上啟用 ODX 功能、請在 NetApp 儲存控制器上執行下列 CLI 命令：
+
+. 啟用適用於 CIFS 的 ODX 。
+# 將權限等級設為診斷
+叢集：： > 設定權限診斷
++
+....
+#enable the odx feature
+cluster::> vserver cifs options modify -vserver <vserver_name> -copy-offload-enabled true
+....
++
+....
+#return to admin privilege level
+cluster::> set privilege admin
+....
+. 若要在 SAN 上啟用 ODX 功能、請在 NetApp 儲存控制器上執行下列 CLI 命令：
+# 將權限等級設為診斷
+叢集：： > 設定權限診斷
++
+....
+#enable the odx feature
+cluster::> copy-offload modify -vserver <vserver_name> -scsi enabled
+....
++
+....
+#return to admin privilege level
+cluster::> set privilege admin
+....
+
+
+
+
+=== 記住事項
+
+* 對於 CIFS 、只有當用戶端和儲存伺服器都支援 SMB 3.0 和 ODX 功能時、 ODX 才會提供使用。
+* 對於 SAN 環境、只有當用戶端和儲存伺服器都支援 ODX 功能時、 ODX 才可用。
+
+
+
+
+=== 進一步閱讀
+
+如需 ODX 的相關資訊、請參閱 https://docs.netapp.com/us-en/ontap/smb-admin/improve-microsoft-remote-copy-performance-concept.html["改善 Microsoft 遠端複製效能"] 和 https://docs.netapp.com/us-en/ontap/san-admin/microsoft-offloaded-data-transfer-odx-concept.html["Microsoft 卸載資料傳輸"] 。
+
+
+
+== Hyper-V 叢集：適用於虛擬機器的高可用度與擴充性
+
+容錯移轉叢集可為 Hyper-V 伺服器提供高可用度和擴充性。容錯移轉叢集是一組相互支援的 Hyper-V 伺服器、可一起提高 VM 的可用度和擴充性。
+
+Hyper-V 叢集式伺服器（稱為節點）是由實體網路和叢集軟體所連接。這些節點使用共用儲存設備來儲存 VM 檔案、包括組態、虛擬硬碟（ VHD ）檔案和 Snapshot 複本。共享儲存設備可以是 NetApp SMB/CIFS 共用、或是 NetApp LUN 上的 CSV 、如圖 6 所示。此共享儲存設備提供一致且分散的命名空間、可由叢集中的所有節點同時存取。因此、如果叢集中有一個節點發生故障、另一個節點會透過稱為容錯移轉的程序來提供服務。您可以使用容錯移轉叢集管理單元和容錯移轉叢集 Windows PowerShell Cmdlet 來管理容錯移轉叢集。
+
+
+
+=== 叢集共享磁碟區
+
+CSV 可讓容錯移轉叢集中的多個節點同時擁有與 NTFS 或 Refs 磁碟區相同的 NetApp LUN 的讀取 / 寫入存取權。透過 CSV 、叢集式角色可以從一個節點快速容錯移轉至另一個節點、而無需變更磁碟機擁有權或卸除及重新掛載磁碟區。CSV 也能簡化容錯移轉叢集中可能大量 LUN 的管理。CSV 提供一般用途的叢集式檔案系統、其分層位於 NTFS 或 Refs 之上。
+
+image:win_image6.png["Hyper-V 容錯移轉叢集與 NetApp 、 width=624 、 height =271"]
+
+
+
+=== 最佳實務做法
+
+* NetApp 建議關閉 iSCSI 網路上的叢集通訊、以防止內部叢集通訊和 CSV 流量流經同一個網路。
+* NetApp 建議使用備援網路路徑（多個交換器）來提供恢復能力和 QoS 。
+
+
+
+
+=== 記住事項
+
+* 用於 CSV 的磁碟必須使用 NTFS 或 Refs 進行分割。使用 FAT 或 FAT32 格式化的磁碟無法用於 CSV 。
+* 用於 CSV 的磁碟應使用 64K 格式進行配置。
+
+
+
+
+=== 進一步閱讀
+
+如需部署 Hyper-V 叢集的相關資訊、請參閱附錄 B ： link:win_deploy_hyperv.html["部署 Hyper-V 叢集"]。
+
+
+
+== Hyper-V 線上即時移轉： VM 移轉
+
+有時在 VM 的生命週期內、必須將其移至 Windows 叢集上的不同主機。如果主機的系統資源不足、或由於維護原因而需要重新開機、則可能需要這麼做。同樣地、可能需要將 VM 移至不同的 LUN 或 SMB 共用區。如果目前的 LUN 或共享區空間不足或效能低於預期、則可能需要這項功能。Hyper-V 線上即時移轉功能可將執行中的 VM 從一部實體 Hyper-V 伺服器移轉至另一部伺服器、對使用者的 VM 可用度沒有影響。您可以在屬於容錯移轉叢集一部分的 Hyper-V 伺服器之間、或是在不屬於任何叢集的單獨 Hyper-V 伺服器之間、即時移轉 VM 。
+
+
+
+=== 叢集環境中的即時移轉
+
+VM 可在叢集的節點之間無縫移動。VM 移轉是即時的、因為叢集中的所有節點都共用相同的儲存設備、而且可以存取 VM 及其磁碟。下圖說明叢集環境中的即時移轉。
+
+image:win_image7.png["在叢集式環境中進行即時移轉、寬度 =580 、高度 =295"]
+
+
+
+=== 最佳實務做法
+
+* 擁有專屬連接埠、可進行即時移轉流量。
+* 擁有專用的主機即時移轉網路、以避免移轉期間發生與網路相關的問題。
+
+
+
+
+=== 進一步閱讀
+
+如需在叢集環境中部署即時移轉的相關資訊、請參閱 link:win_deploy_hyperv_lmce.html["附錄 C ：在叢集環境中部署 Hyper-V 線上即時移轉"]。
+
+
+
+=== 叢集環境外部的即時移轉
+
+您可以在兩個非叢集式、不相互關聯的 Hyper-V 伺服器之間即時移轉 VM 。此程序可以使用共用或不共用的即時移轉。
+
+* 在共享的即時移轉中、虛擬機器會儲存在 SMB 共用區中。因此、當您即時移轉虛擬機器時、虛擬機器的儲存設備會保留在中央 SMB 共用區上、以便其他節點立即存取、如下圖所示。
+
+
+image:win_image8.png["在非叢集式環境中進行共用即時移轉、寬度 =331 、高度 =271"]
+
+* 在「共享無內容即時移轉」中、每部 Hyper-V 伺服器都有自己的本機儲存設備（可以是 SMB 共享區、 LUN 或 DAS ）、而 VM 的儲存設備則是其 Hyper-V 伺服器的本機儲存設備。VM 在線上即時移轉時、 VM 的儲存設備會透過用戶端網路鏡射到目的地伺服器、然後再移轉 VM 。儲存在 DAS 、 LUN 或 SMB/CIFS 共用區上的虛擬機器可移至其他 Hyper-V 伺服器上的 SMB/CIFS 共用區、如下圖所示。也可將其移至 LUN 、如第二個圖所示。
+
+
+image:win_image9.png["在非叢集式環境中、不共用任何即時移轉至 SMB 共享區、寬度 =624 、高度 =384"]
+
+image:win_image10.png["在非叢集式環境中將任何內容即時移轉至 LUN 、寬度 =624 、高度 =384"]
+
+
+
+=== 進一步閱讀
+
+如需在叢集環境外部部署即時移轉的相關資訊、請參閱 link:win_deploy_hyperv_lmoce.html["附錄 D ：在叢集環境之外部署 Hyper-V 即時移轉"]。
+
+
+
+=== Hyper-V 儲存即時移轉
+
+在虛擬機器的生命週期內、您可能需要將虛擬機器儲存設備（ HDD/VHDX ）移至不同的 LUN 或 SMB 共享區。如果目前的 LUN 或共享區空間不足或效能低於預期、則可能需要這項功能。
+
+目前裝載 VM 的 LUN 或共用區可能會用盡空間、重新規劃用途、或是降低效能。在這種情況下、虛擬機器可以在不停機的情況下移至另一個 LUN 、或在不同的磁碟區、集合或叢集上共用。如果儲存系統具備複製卸載功能、此程序就會更快完成。NetApp 儲存系統預設為啟用 CIFS 和 SAN 環境的複製卸載。
+
+ODX 功能可在位於遠端伺服器上的兩個目錄之間執行完整檔案或子檔案複本。複本是透過在伺服器之間複製資料來建立（如果來源和目的地檔案都在同一部伺服器上、則複製資料也會複製到同一部伺服器）。建立複本時、用戶端不會從來源讀取資料、也不會寫入目的地。此程序可減少用戶端或伺服器的處理器和記憶體使用量、並將網路 I/O 頻寬降至最低。如果複本位於同一個磁碟區內、則複本速度會更快。如果複本是跨磁碟區的、相較於主機型複本、效能可能不會大幅提升。在繼續主機上的複本作業之前、請確認儲存系統上已設定複本卸載設定。
+
+從主機啟動 VM 儲存即時移轉時、會識別來源和目的地、並將複製活動卸載至儲存系統。由於活動是由儲存系統執行、因此主機 CPU 、記憶體或網路的使用率可忽略不計。
+
+NetApp 儲存控制器支援下列不同的 ODX 情境：
+
+* * IntraSVM 。 * 資料歸同一個 SVM 所有：
+* * Intravolume 、 inIntranet 模式 * 。來源和目的地檔案或 LUN 位於同一個磁碟區內。複本是使用 FlexClone 檔案技術執行、可提供額外的遠端複本效能優勢。
+* * 磁碟區間、內部網路模式 * 。來源和目的地檔案或 LUN 位於同一個節點上的不同磁碟區上。
+* * 磁碟區間、節點間。 * 來源和目的地檔案或 LUN 位於不同節點上的不同磁碟區。
+* * InterSVM 。 * 資料由不同的 SVM 擁有。
+* * 磁碟區間、內部網路模式 * 。來源和目的地檔案或 LUN 位於同一個節點上的不同磁碟區上。
+* * 磁碟區間、節點間。 * 來源和目的地檔案或 LUN 位於不同節點上的不同磁碟區。
+* * 叢集間。 * 從 ONTAP 9.0 開始、 ODX 也支援 SAN 環境中的叢集間 LUN 傳輸。叢集間 ODX 僅支援 SAN 通訊協定、不支援 SMB 。
+
+
+移轉完成後、必須重新設定備份和複寫原則、以反映存放 VM 的新磁碟區。任何先前所進行的備份都無法使用。
+
+VM 儲存設備（ HDD/VHDX ）可在下列儲存類型之間移轉：
+
+* DAS 和 SMB 共享
+* DAS 和 LUN
+* SMB 共享區和 LUN
+* 在 LUN 之間
+* 在 SMB 共享之間
+
+
+image:win_image11.png["Hyper-V 儲存即時移轉、寬度 = 339 、高度 = 352"]
+
+
+
+=== 進一步閱讀
+
+如需部署儲存即時移轉的相關資訊、請參閱 link:win_deploy_hyperv_slm.html["附錄 E ：部署 Hyper-V 儲存即時移轉"]。
+
+
+
+== Hyper-V 複本：虛擬機器的災難恢復
+
+Hyper-V 複本會將 Hyper-V VM 從主要站台複寫到次要站台上的複本 VM 、以非同步方式為 VM 提供災難恢復。主站台上的 Hyper-V 伺服器稱為主伺服器；次要站台上接收複寫 VM 的 Hyper-V 伺服器稱為複本伺服器。下圖顯示 Hyper-V 複本範例案例。您可以在屬於容錯移轉叢集一部分的 Hyper-V 伺服器之間、或是在不屬於任何叢集的單獨 Hyper-V 伺服器之間、使用 Hyper-V 複本來處理 VM 。
+
+image:win_image12.png["Hyper-V 複本、寬度 = 624 、高度 = 201"]
+
+
+
+=== 複寫
+
+在主伺服器上為 VM 啟用 Hyper-V 複本之後、初始複寫會在複本伺服器上建立相同的 VM 。初始複寫之後、 Hyper-V 複本會維護 VM VHD 的記錄檔。根據複寫頻率、以相反順序將記錄檔重新播放至複本 VHD 。此記錄和反向順序的使用可確保以非同步方式儲存和複寫最新的變更。如果複寫未與預期頻率一致、就會發出警示。
+
+
+
+=== 延伸複寫
+
+Hyper-V 複本支援延伸複寫、可在其中設定次要複本伺服器以進行災難恢復。您可以設定次要複本伺服器、讓複本伺服器接收複本 VM 上的變更。在延伸複寫案例中、主要伺服器上主要 VM 上的變更會複寫到複本伺服器。然後將變更複寫到擴充複本伺服器。只有當主要和複本伺服器都停機時、 VM 才能容錯移轉至延伸複本伺服器。
+
+
+
+=== 容錯移轉
+
+容錯移轉不是自動的；程序必須手動觸發。容錯移轉有三種類型：
+
+* * 測試容錯移轉。 * 此類型用於驗證複本 VM 是否能在複本伺服器上成功啟動、並在複本 VM 上啟動。此程序會在容錯移轉期間建立重複的測試 VM 、不會影響正常的正式作業複寫。
+* * 計畫性容錯移轉。 * 此類型用於在計畫性停機或預期停機期間容錯移轉 VM 。此程序是在主 VM 上啟動、必須在主伺服器上關閉、然後才會執行規劃的容錯移轉。機器容錯移轉後、 Hyper-V 複本會在複本伺服器上啟動複本 VM 。
+* * 非計畫性容錯移轉。 * 發生非預期的中斷時、可使用此類型。此程序是在複本 VM 上啟動、只有在主機器故障時才應使用。
+
+
+
+
+=== 恢復
+
+當您設定虛擬機器的複寫時、可以指定恢復點的數量。恢復點代表可從複寫機器恢復資料的時間點。
+
+
+
+=== 進一步閱讀
+
+* 如需在叢集環境外部署 Hyper-V 複本的相關資訊、請參閱link:win_deploy_hyperv_replica_oce.html["在叢集環境之外部署 Hyper-V 複本"]。」
+* 如需在叢集環境中部署 Hyper-V 複本的相關資訊、請參閱link:win_deploy_hyperv_replica_ce.html["在叢集環境中部署 Hyper-V 複本"]。」
+

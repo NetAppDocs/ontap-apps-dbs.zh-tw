@@ -36,7 +36,7 @@ summary: 透過記錄傳送進行 Oracle 移轉
 
 === 環境
 
-在此範例中、來源資料庫位於 ONTAP 系統上。建立資料庫備份最簡單的方法是使用 Snapshot 複本。將資料庫置於熱備份模式幾秒鐘 `snapshot create` 在託管資料檔案的磁碟區上執行作業。
+在此範例中、來源資料庫位於 ONTAP 系統上。建立資料庫備份最簡單的方法是使用快照。將資料庫置於熱備份模式幾秒鐘 `snapshot create` 在託管資料檔案的磁碟區上執行作業。
 
 ....
 SQL> alter database begin backup;
@@ -50,7 +50,7 @@ Cluster01::*>
 SQL> alter database end backup;
 Database altered.
 ....
-結果是磁碟上的 Snapshot 複本稱為 `hotbackup` 包含處於熱備份模式時的資料檔案映像。如果結合適當的歸檔記錄以使資料檔案一致、則此 Snapshot 複本中的資料可作為還原或複製的基礎。在這種情況下、它會複寫到新的伺服器。
+結果是磁碟上的快照稱為 `hotbackup` 包含處於熱備份模式時的資料檔案映像。如果結合適當的歸檔記錄以使資料檔案一致、則此快照中的資料可作為還原或複製的基礎。在這種情況下、它會複寫到新的伺服器。
 
 
 
@@ -58,7 +58,7 @@ Database altered.
 
 現在必須在新環境中還原備份。這可以透過多種方式完成、包括 Oracle RMAN 、從備份應用程式（如 NetBackup ）還原、或是簡單複製置於熱備份模式的資料檔案。
 
-在此範例中、 SnapMirror 用於將稱為熱備份的 Snapshot 複本複寫到新位置。
+在此範例中、 SnapMirror 用於將快照熱備份複寫到新位置。
 
 . 建立新的磁碟區以接收快照資料。從初始化鏡像 `jfsc1_oradata` 至 `vol_oradata`。
 +

@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmware-vsphere-vvols_and_spbm.html 
 keywords: vSphere, vVols, virtual volumes, SPBM, storage police based management, ONTAP 
-summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的最佳實務做法。 
+summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案的最佳實務做法。 
 ---
 = 虛擬磁碟區（vVols）與儲存原則型管理（SPBM）
 :hardbreaks:
@@ -21,4 +21,4 @@ SPBM提供一個架構、可在虛擬化環境可用的儲存服務與透過原�
 這個解決方案是VVols擴充儲存產業的領導廠商、可在單一叢集內支援數十萬個vVols、而企業陣列和小型Flash陣列廠商則支援每個陣列數千個vVols。ONTAPNetApp也透過即將推出的VVols 3.0支援功能、推動VM精細管理的演進。
 
 
-NOTE: 如需VMware vSphere虛擬磁碟區、SPBM及ONTAP VMware的詳細資訊、請參閱 https://www.netapp.com/pdf.html?item=/media/13555-tr4400.pdf["TR-4400: VMware vSphere虛擬Volume ONTAP with VMware"^]。
+NOTE: 如需VMware vSphere虛擬磁碟區、SPBM及ONTAP VMware的詳細資訊、請參閱 link:vmware-vvols-overview.html["TR-4400: VMware vSphere虛擬Volume ONTAP with VMware"^]。

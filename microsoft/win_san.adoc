@@ -1,0 +1,376 @@
+---
+sidebar: sidebar 
+permalink: microsoft/win_san.html 
+keywords: Windows,Hyper-V,VHDX,VM,Virtual,SAN,LUN,NVMe 
+summary: 在 SAN 環境中為 Windows 和 Hyper-V 配置 ONTAP 儲存設備 
+---
+= 在 SAN 環境中進行資源配置
+:allow-uri-read: 
+
+
+[role="lead"]
+ONTAP SVM 支援區塊傳輸協定 iSCSI 和 FC 。使用區塊傳輸協定 iSCSI 或 FC 建立 SVM 時、 SVM 會分別取得 iSCSI 合格名稱（ IQN ）或 FC 全球名稱（ WWN ）。此識別碼為存取 NetApp 區塊儲存設備的主機提供 SCSI 目標。
+
+
+
+== 在 Windows Server 上佈建 NetApp LUN
+
+
+
+=== 先決條件
+
+在 Windows Server 的 SAN 環境中使用 NetApp 儲存設備有下列需求：
+
+* NetApp 叢集已設定一或多個 NetApp 儲存控制器。
+* NetApp 叢集或儲存控制器具有有效的 iSCSI 授權。
+* 可使用 iSCSI 和 / 或 FC 組態連接埠。
+* FC 分區是在 FC 的 FC 交換器上執行。
+* 至少會建立一個 Aggregate 。
+* SVM 應在每個儲存控制器上、每個乙太網路或光纖通道架構都有一個 LIF 、以便使用 iSCSI 或光纖通道來提供資料。
+
+
+
+
+=== 部署
+
+. 建立新的 SVM 、並啟用區塊傳輸協定 iSCSI 和 / 或 FC 。您可以使用下列任一方法建立新的 SVM ：
++
+** NetApp 儲存設備上的 CLI 命令
+** 系統管理程式ONTAP
+** NetApp PowerShell 工具套件
+
+
+
+
+. 設定 iSCSI 和 / 或 FC 傳輸協定。
+. 在每個叢集節點上指派具有生命的 SVM 。
+. 在 SVM 上啟動 iSCSI 和 / 或 FC 服務。
++
+。
+
+. 使用 SVM 生命來建立 iSCSI 和 / 或 FC 連接埠集。
+. 使用建立的連接埠集、為 Windows 建立 iSCSI 和 / 或 FC 啟動器群組。
+. 將啟動器新增至啟動器群組。啟動器是 iSCSI 的 IQN 、 FC 的 WWPN 。您可以執行 PowerShell Cmdlet Get-InitiatorPort 從 Windows Server 查詢。
+
+
+
+
+= 取得適用於 iSCSI + 的 IQN
+
+Get-InitiatorPort | 其中 \{$_.ConnectionType -eq 'iSCSI'} | Select-Object -Property NodeAddress
+
+
+
+= 取得 FC + 的 WWPN
+
+Get-InitiatorPort | 其中 \{$_.ConnectionType -eq 'Fibre Channel'} | Select-Object -Property PortAddress +
+ +
+# 在 FC 的情況下、將啟動器新增至啟動器群組時、請務必以標準 WWPN 格式提供啟動器（ PortAddress ）
+
+Windows Server 上 iSCSI 的 IQN 也可以在 iSCSI 啟動器內容的組態中進行檢查。
+
+* 使用 Create LUN （創建 LUN ）嚮導創建 LUN ，並將其與創建的啓動器組相關聯。
+
+
+
+
+=== 主機整合
+
+Windows Server 使用非對稱式邏輯單元存取（ ALUA ）擴充 MPIO 來判斷通往 LUN 的直接和間接路徑。雖然 SVM 擁有的每個 LIF 都接受其 LUN 的讀取 / 寫入要求、但在任何指定時刻、只有其中一個叢集節點實際擁有支援該 LUN 的磁碟。這會將通往 LUN 的可用路徑分為兩種類型、直接或間接、如下圖所示。
+
+LUN 的直接路徑是指 SVM 的生命和要存取的 LUN 位於同一個節點上的路徑。若要從實體目標連接埠移至磁碟、就不需要周遊叢集網路。
+
+間接路徑是指 SVM 的生命與 LUN 位於不同節點上的資料路徑。資料必須穿越叢集網路、才能從實體目標連接埠移至磁碟。
+
+image:win_image3.png["SAN 環境中的多重路徑、寬度 = 624 、高度 = 232"]
+
+
+
+=== MPIO
+
+NetApp ONTAP 提供高可用度的儲存設備、其中可存在從儲存控制器到 Windows Server 的多個路徑。多重路徑是指從伺服器到儲存陣列的多重資料路徑。多重路徑可防止硬體故障（纜線切割、交換器和主機匯流排介面卡 [HBA] 故障等）、並可利用多重連線的彙總效能來提供更高的效能限制。當某個路徑或連線無法使用時、多重路徑軟體會自動將負載移至其他可用路徑之一。MPIO 功能將通往儲存設備的多個實體路徑結合為單一邏輯路徑、用於資料存取、以提供儲存恢復能力和負載平衡。若要使用此功能、必須在 Windows Server 上啟用 MPIO 功能。
+
+
+
+=== 啟用 MPIO
+
+若要在 Windows Server 上啟用 MPIO 、請完成下列步驟：
+
+. 以系統管理員群組成員的身分登入 Windows Server 。
+
+
+. 啟動 Server Manager 。
+. 按一下 [ 管理 ] 區段中的 [ 新增角色和功能 ] 。
+. 在「選取功能」頁面中、選取「多重路徑 I/O 」
+
+
+
+
+=== 設定 MPIO
+
+使用 iSCSI 傳輸協定時、您必須告知 Windows Server 將多重路徑支援套用至 MPIO 內容中的 iSCSI 裝置。
+
+若要在 Windows Server 上設定 MPIO 、請完成下列步驟：
+
+. 以系統管理員群組成員的身分登入 Windows Server 。
+
+
+. 啟動 Server Manager 。
+. 按一下 [ 工具 ] 區段中的 [MPIO ] 。
+. 在 Discover Multi-Paths 的 MPIO Properties （ MPIO 內容）中、選取 Add Support for iSCSI Devices （新增 iSCSI 裝置支援）、然後按一下 Add （新增）。接著會出現提示、要求您重新啟動電腦。
+. 重新啟動 Windows Server 、查看 MPIO 內容的「 MPIO 裝置」一節中所列的 MPIO 裝置。
+
+
+
+
+=== 設定iSCSI
+
+若要在 Windows Server 上偵測 iSCSI 區塊儲存、請完成下列步驟：
+
+. 以系統管理員群組成員的身分登入 Windows Server 。
+
+
+. 啟動 Server Manager 。
+. 按一下 [ 工具 ] 區段中的 [iSCSI 啟動器 ] 。
+. 按一下「探索」索引標籤下的「探索入口網站」。
+. 提供與為 SAN 傳輸協定的 NetApp 儲存設備所建立之 SVM 相關聯的生命負載 IP 位址。按一下「進階」、在「一般」索引標籤中設定資訊、然後按一下「確定」。
+. iSCSI 啟動器會自動偵測 iSCSI 目標、並將其列在「目標」索引標籤中。
+. 在探索到的目標中選取 iSCSI 目標。按一下「連線」以開啟「連線至目標」視窗。
+. 您必須在 NetApp 儲存叢集上、從 Windows Server 主機建立多個工作階段至目標 iSCSI 生命期。若要這麼做、請完成下列步驟：
+
+
+. 在「連線至目標」視窗中、選取「啟用 MPIO 」、然後按一下「進階」。
+. 在「一般」索引標籤下的「進階設定」中、選取本機介面卡做為 Microsoft iSCSI 啟動器、然後選取「啟動器 IP 」和「目標入口網站 IP 」。
+. 您也必須使用第二個路徑進行連線。因此、請重複步驟 5 至步驟 8 、但這次請為第二個路徑選取啟動器 IP 和目標入口網站 IP 。
+. 在 iSCSI Properties （ iSCSI 屬性）主窗口的 Discered Targets （已發現目標）中選擇 iSCSI 目標，然後單擊 Properties （屬性）。
+. 「內容」視窗顯示已偵測到多個工作階段。選取工作階段、按一下「裝置」、然後按一下 MPIO 以設定負載平衡原則。會顯示為裝置設定的所有路徑、並支援所有負載平衡原則。NetApp 通常建議使用子集循環資源、而此設定是啟用 ALUA 的陣列的預設值。循環配置資源是不支援 ALUA 的主動式陣列的預設值。
+
+
+
+
+=== 偵測區塊儲存
+
+若要在 Windows Server 上偵測 iSCSI 或 FC 區塊儲存、請完成下列步驟：
+
+. 按一下「伺服器管理員」「工具」區段中的「電腦管理」。
+. 在 [ 電腦管理 ] 中，按一下 [ 儲存設備中的磁碟管理 ] 區段，然後按一下 [ 其他動作及重新掃描磁碟 ] 。這樣做會顯示原始 iSCSI LUN 。
+. 按一下探索到的 LUN 、然後將其上線。然後選取使用 MBR 或 GPT 分割區初始化磁碟。提供磁碟區大小和磁碟機代號、並使用 FAT 、 FAT32 、 NTFS 或彈性檔案系統（ Refs ）格式化、以建立新的簡易磁碟區。
+
+
+
+
+=== 最佳實務做法
+
+* NetApp 建議在託管 LUN 的磁碟區上啟用精簡配置。
+* 為了避免多重路徑問題、 NetApp 建議使用所有 10Gb 工作階段或所有 1Gb 工作階段、連至指定的 LUN 。
+* NetApp 建議您確認已在儲存系統上啟用 ALUA 。ONTAP 預設會啟用 ALUA 。
+* 在 NetApp LUN 對應至的 Windows Server 主機上、在防火牆設定中、針對輸入和 iSCSI 服務（ TCP 輸出）啟用 iSCSI 服務（ TCP 輸入）。這些設定可讓 iSCSI 流量進出 Hyper-V 主機和 NetApp 控制器。
+
+
+
+
+== 在奈米伺服器上佈建 NetApp LUN
+
+
+
+=== 先決條件
+
+除了上一節提及的先決條件、儲存角色必須從奈米伺服器端啟用。例如、必須使用 -Storage 選項來部署奈米伺服器。若要部署奈米伺服器、請參閱「link:win_deploy_nano.html["部署奈米伺服器。"]"
+
+
+
+=== 部署
+
+若要在奈米伺服器上配置 NetApp LUN 、請完成下列步驟：
+
+. 請依照「link:win_deploy_nano.html["連線至奈米伺服器"]。」
+. 若要設定 iSCSI 、請在奈米伺服器上執行下列 PowerShell Cmdlet ：
++
+....
+# Start iSCSI service, if it is not already running
+Start-Service msiscsi
+....
++
+....
+# Create a new iSCSI target portal
+New-IscsiTargetPortal â€“TargetPortalAddress <SVM LIF>
+....
++
+....
+# View the available iSCSI targets and their node address
+Get-IscsiTarget
+....
++
+....
+# Connect to iSCSI target
+Connect-IscsiTarget -NodeAddress <NodeAddress>
+....
++
+....
+# NodeAddress is retrived in above cmdlet Get-IscsiTarget
+# OR
+Get-IscsiTarget | Connect-IscsiTarget
+....
++
+....
+# View the established iSCSI session
+Get-IscsiSession
+....
++
+ # Note the InitiatorNodeAddress retrieved in the above cmdlet Get-IscsiSession. This is the IQN for Nano server and this needs to be added in the Initiator group on NetApp Storage
++
+....
+# Rescan the disks
+Update-HostStorageCache
+....
+
+
+. 將啟動器新增至啟動器群組。
++
+ Add the InitiatorNodeAddress retrieved from the cmdlet Get-IscsiSession to the Initiator Group on NetApp Controller
+
+
+. 設定 MPIO 。
++
+....
+# Enable MPIO Feature
+Enable-WindowsOptionalFeature -Online -FeatureName MultipathIo
+....
++
+....
+# Get the Network adapters and their IPs
+Get-NetIPAddress â€“AddressFamily IPv4 â€“PrefixOrigin <Dhcp or Manual>
+....
++
+....
+# Create one MPIO-enabled iSCSI connection per network adapter
+Connect-IscsiTarget -NodeAddress <NodeAddress> -IsPersistent $True â€“IsMultipathEnabled $True â€“InitiatorPortalAddress <IP Address of ethernet adapter>
+....
++
+....
+# NodeAddress is retrieved from the cmdlet Get-IscsiTarget
+# IPs are retrieved in above cmdlet Get-NetIPAddress
+....
++
+....
+# View the connections
+Get-IscsiConnection
+....
+
+
+. 偵測區塊儲存。
++
+....
+# Rescan disks
+Update-HostStorageCache
+....
++
+....
+# Get details of disks
+Get-Disk
+....
++
+....
+# Initialize disk
+Initialize-Disk -Number <DiskNumber> -PartitionStyle <GPT or MBR>
+....
++
+....
+# DiskNumber is retrived in the above cmdlet Get-Disk
+# Bring the disk online
+Set-Disk -Number <DiskNumber> -IsOffline $false
+....
++
+....
+# Create a volume with maximum size and default drive letter
+New-Partition -DiskNumber <DiskNumber> -UseMaximumSize -AssignDriveLetter
+....
++
+....
+# To choose the size and drive letter use -Size and -DriveLetter parameters
+# Format the volume
+Format-Volume -DriveLetter <DriveLetter> -FileSystem <FAT32 or NTFS or REFS>
+....
+
+
+
+
+== 從 SAN 開機
+
+實體主機（伺服器）或 Hyper-V VM 可直接從 NetApp LUN （而非其內部硬碟）啟動 Windows Server 作業系統。在從 SAN 開機的方法中、要從中開機的 OS 映像位於連接至實體主機或 VM 的 NetApp LUN 上。對於實體主機、實體主機的 HBA 會設定為使用 NetApp LUN 進行開機。對於 VM 、 NetApp LUN 會附加為用於開機的直接移轉磁碟。
+
+
+
+=== NetApp FlexClone 方法
+
+使用 NetApp FlexClone 技術、可立即複製具有 OS 映像的開機 LUN 、並將其附加至伺服器和 VM 、以快速提供乾淨的 OS 映像、如下圖所示。
+
+image:win_image4.png["使用 NetApp Flexclone, width=561,height=357 啟動 LUN"]
+
+
+
+=== 從 SAN 開機、適用於實體主機
+
+
+
+==== 先決條件
+
+* 實體主機（伺服器）具有適當的 iSCSI 或 FC HBA 。
+* 您已為支援 Windows Server 的伺服器下載適當的 HBA 裝置驅動程式。
+* 伺服器具有適當的 CD/DVD 磁碟機或虛擬媒體來插入 Windows Server ISO 映像、而且已下載 HBA 裝置驅動程式。
+* NetApp iSCSI 或 FC LUN 是在 NetApp 儲存控制器上進行佈建。
+
+
+
+
+==== 部署
+
+若要設定實體主機從 SAN 開機、請完成下列步驟：
+
+. 在伺服器 HBA 上啟用 BootBIOS 。
+. 對於 iSCSI HBA 、請在開機 BIOS 設定中設定啟動器 IP 、 iSCSI 節點名稱和介面卡開機模式。
+. 在 NetApp 儲存控制器上建立 iSCSI 和 / 或 FC 的啟動器群組時、請將伺服器 HBA 啟動器新增至群組。伺服器的 HBA 啟動器是 FC HBA 的 WWPN 或 iSCSI HBA 的 iSCSI 節點名稱。
+. 在 NetApp 儲存控制器上建立 LUN 、 LUN ID 為 0 、並將其與上一步建立的啟動器群組建立關聯。此 LUN 可作為開機 LUN 。
+. 將 HBA 限制為指向開機 LUN 的單一路徑。在開機 LUN 上安裝 Windows Server 之後、可以新增其他路徑、以利用多重路徑功能。
+. 使用 HBA 的 BootBIOS 公用程式、將 LUN 設定為開機裝置。
+. 重新啟動主機並進入主機 BIOS 公用程式。
+. 設定主機 BIOS 、使開機 LUN 成為開機順序中的第一個裝置。
+. 從 Windows Server ISO 啟動安裝設定。
+. 當安裝詢問「您要在何處安裝 Windows ？」時、請按一下安裝畫面底部的「載入驅動程式」、以啟動「選取要安裝的驅動程式」頁面。提供先前下載的 HBA 裝置驅動程式路徑、並完成驅動程式的安裝。
+. 現在、之前建立的開機 LUN 必須顯示在 Windows 安裝頁面上。選取開機 LUN 以在開機 LUN 上安裝 Windows Server 、然後完成安裝。
+
+
+
+
+=== 從 SAN 開機以供虛擬機器使用
+
+若要設定從 SAN 開機以供 VM 使用、請完成下列步驟：
+
+
+
+==== 部署
+
+. 在 NetApp 儲存控制器上建立 iSCSI 或 FC 的啟動器群組時、請將 iSCSI 的 IQN 或 Hyper-V 伺服器 FC 的 WWN 新增至控制器。
+. 在 NetApp 儲存控制器上建立 LUN 或 LUN 複本、並將它們與上一步建立的啟動器群組建立關聯。這些 LUN 可作為 VM 的開機 LUN 。
+. 偵測 Hyper-V 伺服器上的 LUN 、將其上線並初始化。
+. 使 LUN 離線。
+. 使用稍後在「 Connect Virtual Hard Disk 」頁面上的「 Attach a Virtual Hard Disk 」選項來建立 VM 。
+. 將 LUN 新增為傳遞磁碟至 VM 。
++
+.. 開啟 VM 設定。
+.. 按一下「 IDE 控制器 0 」、選取「硬碟」、然後按一下「新增」。選取 IDE 控制器 0 、將此磁碟設為 VM 的第一個開機裝置。
+.. 在「硬碟」選項中選取「實體硬碟」、然後從清單中選取一個磁碟做為直接移轉磁碟。磁碟是在前述步驟中設定的 LUN 。
+
+
+. 在傳遞磁碟上安裝 Windows Server 。
+
+
+
+
+=== 最佳實務做法
+
+* 確定 LUN 已離線。否則、磁碟將無法新增為直接移轉磁碟至 VM 。
+* 當存在多個 LUN 時、請務必在磁碟管理中記下 LUN 的磁碟編號。這是必要的做法、因為列出給 VM 的磁碟會與磁碟編號一起列出。此外、將磁碟選擇為 VM 的直接移轉磁碟也會根據此磁碟編號而定。
+* NetApp 建議避免 iSCSI NIC 的 NIC 群組。
+* NetApp 建議您使用在主機上設定的 ONTAP MPIO 進行儲存。
+

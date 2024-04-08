@@ -1,31 +1,23 @@
 ---
 sidebar: sidebar 
 permalink: mssql/mssql-overview.html 
-keywords: MS-SQL,mssql,SQL Server,TR-4590 
+keywords: MSSQL,SQL Server,TR-4590, SnapCenter, ONTAP 
 summary: ONTAP 上的 Microsoft SQL Server 
 ---
-= Microsoft SQL Server 概述
+= ONTAP 上的 Microsoft SQL Server
 :allow-uri-read: 
 :imagesdir: ../media/
 
 
 [role="lead"]
-SQL Server 是 Microsoft 資料平台的基礎、無論是在內部部署或雲端、都能以記憶體內建技術提供關鍵任務效能、並更快洞悉任何資料。
+ONTAP 為您的 Microsoft SQL Server 資料庫提供企業級的安全性與效能解決方案、同時也提供世界級的工具來管理您的環境。
 
 
 NOTE: 本文件取代先前發佈的技術報告 _TR-4590 ： Microsoft SQL Server 與 ONTAP 的最佳實務做法指南
 
-Microsoft SQL Server 以先前版本所提供的關鍵任務功能為基礎、為關鍵任務應用程式提供突破性的效能、可用度和管理能力。儲存系統是 SQL Server 資料庫整體效能的關鍵因素。NetApp 提供數種產品、可讓您的 SQL Server 資料庫提供企業級效能、同時提供世界級的工具來管理您的環境。
+NetApp 假設讀者具備下列工作知識：
 
-
-
-== 目的與範圍
-
-本節說明最佳實務做法、並深入瞭解在執行 NetApp ONTAP 軟體的 NetApp 儲存系統上部署 SQL Server 的設計考量、目標是實現有效且有效率的儲存部署、以及端點對端點資料保護與保留規劃。本指南的範圍僅限於根據 NetApp 在部署 SQL Server 時針對儲存基礎架構所建議的設計原則和偏好的標準、制定技術設計準則。端點對端點實作不在本報告的範圍之內。
-
-本指南所述的最佳實務做法與建議、可讓 SQL Server 架構設計師與 NetApp 儲存管理員規劃高可用度且易於管理的 SQL Server 環境、並符合嚴格的 SLA 。NetApp 假設讀者具備下列工作知識：
-
-* NetApp ONTAP 軟體
+* 軟件ONTAP
 * NetApp SnapCenter 做為備份軟體、包括：
 +
 ** 適用於Microsoft Windows的解決方案SnapCenter
@@ -35,4 +27,16 @@ Microsoft SQL Server 以先前版本所提供的關鍵任務功能為基礎、�
 * Microsoft SQL Server 架構與管理
 
 
-如需跨 NetApp 堆疊的組態相容性、請參閱 link:http://mysupport.netapp.com/NOW/products/interoperability/["NetApp互通性對照表工具IMT （不含）"^]。
+本最佳實務做法一節的範圍僅限於根據 NetApp 建議的儲存基礎架構設計原則和偏好的標準進行技術設計。端點對端點實作超出範圍。
+
+如需 NetApp 產品的組態相容性、請參閱 link:https://mysupport.netapp.com/matrix/["NetApp互通性對照表工具IMT （不含）"^]。
+
+
+
+== Microsoft SQL Server 工作負載
+
+部署 SQL Server 之前、您必須先瞭解 SQL Server 執行個體所支援應用程式的資料庫工作負載需求。每個應用程式對於容量、效能和可用度的需求各不相同、因此每個資料庫都應該設計成能以最佳方式支援這些需求。許多組織會使用應用程式需求來定義 SLA 、將資料庫分類為多個管理層。SQL Server 工作負載的說明如下：
+
+* OLTP 資料庫通常也是組織中最重要的資料庫。這些資料庫通常會支援面對客戶的應用程式、因此被視為是公司核心營運不可或缺的一環。關鍵任務 OLTP 資料庫及其支援的應用程式通常都有需要高效能的 SLA 、而且對效能降級和可用度很敏感。他們也可能是永遠在容錯移轉叢集或永遠在可用度群組的候選對象。這些類型資料庫的 I/O 組合通常以 75% 至 90% 隨機讀取和 25% 至 10% 寫入為特徵。
+* 決策支援系統（ DSS ）資料庫也可稱為資料倉儲。這些資料庫在許多仰賴分析技術的企業中、都是關鍵任務。執行查詢時、這些資料庫會對 CPU 使用率和從磁碟讀取作業敏感。在許多組織中、 DSS 資料庫在月底、每季和每年都是最重要的此工作負載通常有 100% 的讀取 I/O 混合。
+

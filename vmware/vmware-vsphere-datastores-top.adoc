@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmware-vsphere-datastores-top.html 
 keywords: vSphere, datastore, VMFS, FC, FCoE, NVMe/FC, iSCSI, NFS, vVols 
-summary: 本頁說明在ONTAP VMware vSphere環境中實作NetApp解決方案的最佳實務做法。 
+summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案的最佳實務做法。 
 ---
 = vSphere 資料存放區和傳輸協定功能概觀
 :hardbreaks:
@@ -46,7 +46,7 @@ FCP、FCoE、NVMe/FC、NVMe/TCP和iSCSI是區塊傳輸協定、使用vSphere虛�
 | 最大資料存放區檔案大小 | 62TB | 62TB | 62TB | 62TB 、含 ONTAP 9.12.1P2 及更新版本 
 
 
-| 每個LUN或檔案系統的最佳佇列深度 | 64-256 | 64-256 | 自動協商 | 請參閱中的NFS.MaxQuestue深度 https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsphere_ontap_recommended_esxi_host_and_other_ontap_settings.html["建議的ESXi主機和其他ONTAP 功能設定"^]。 
+| 每個LUN或檔案系統的最佳佇列深度 | 64-256 | 64-256 | 自動協商 | 請參閱中的NFS.MaxQuestue深度 link:vmware-vsphere-settings.html["建議的ESXi主機和其他ONTAP 功能設定"^]。 
 |===
 下表列出支援的VMware儲存相關功能。
 

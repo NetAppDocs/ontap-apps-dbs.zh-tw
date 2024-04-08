@@ -90,7 +90,7 @@ VMware vSphere儲存I/O控制（SIOC）是相輔相成的技術、vSphere和儲�
 
 VMware儲存分散式資源排程器（SDR）是vSphere功能、可根據目前的I/O延遲和空間使用量、將VM放置在儲存設備上。接著、它會在資料存放區叢集中的資料存放區之間（也稱為Pod）、在不中斷營運的情況下移動VM或VMDK、並選取將VM或VMDK置於資料存放區叢集中的最佳資料存放區。資料存放區叢集是類似資料存放區的集合、從 vSphere 管理員的觀點來看、這些資料存放區會彙總成單一使用量單位。
 
-將SDR搭配適用於ONTAP VMware vSphere的NetApp VMware版資訊工具使用時、您必須先使用外掛程式建立資料存放區、使用vCenter建立資料存放區叢集、然後將資料存放區新增至其中。建立資料存放區叢集之後、可直接從「詳細資料」頁面上的資源配置精靈、將其他資料存放區新增至資料存放區叢集。
+搭配 ONTAP 工具使用適用於 VMware vSphere 的 SDR 時、您必須先使用外掛程式建立資料存放區、使用 vCenter 建立資料存放區叢集、然後將資料存放區新增至該叢集。建立資料存放區叢集之後、可直接從「詳細資料」頁面上的資源配置精靈、將其他資料存放區新增至資料存放區叢集。
 
 SDR的ONTAP 其他最佳實務做法包括：
 
@@ -116,13 +116,13 @@ SCP 支援虛擬機器資料 VVols 的最低和 / 或最高 QoS 。只AFF 有在
 
 下圖說明ONTAP VMware vSphere 9.8 vVols儀表板的各項功能。
 
-image:vsphere_ontap_image7.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image7.png["適用於 VMware vSphere 9.8 vVols 的 ONTAP 工具儀表板"]
 
 定義儲存功能設定檔之後、就可以使用識別其需求的儲存原則來配置VM。VM儲存原則與資料存放區儲存功能設定檔之間的對應、可讓vCenter顯示相容資料存放區清單以供選擇。這種方法稱為儲存原則型管理。
 
 VASA提供查詢儲存設備的技術、並將一組儲存功能傳回vCenter。VASA廠商供應商會提供儲存系統API與架構之間的轉譯、以及vCenter所瞭解的VMware API。NetApp 的 VASA Provider for ONTAP 是 ONTAP 工具的一部分、適用於 VMware vSphere 應用裝置 VM 、 vCenter 外掛程式則提供介面、可配置及管理 vVol 資料存放區、並可定義儲存功能設定檔（ CDP ）。
 
-支援VMFS和NFS vVol資料存放區。ONTAP將vVols與SAN資料存放區搭配使用、可帶來NFS的部分效益、例如VM層級的精細度。以下是一些最佳實務做法、您可以在中找到更多資訊 http://www.netapp.com/us/media/tr-4400.pdf["TR-4400"^]：
+支援VMFS和NFS vVol資料存放區。ONTAP將vVols與SAN資料存放區搭配使用、可帶來NFS的部分效益、例如VM層級的精細度。以下是一些最佳實務做法、您可以在中找到更多資訊 link:vmware-vvols-overview.html["TR-4400"^]：
 
 * VVol資料存放區可由FlexVol 多個叢集節點上的多個支援功能區所組成。最簡單的方法是單一資料存放區、即使磁碟區具有不同的功能也一樣。SPBM可確保VM使用相容的Volume。然而、這些磁碟區必須全部屬於ONTAP 單一的一套功能、並使用單一傳輸協定來存取。每個節點的每個傳輸協定只需一個LIF就足夠了。避免在ONTAP 單一VVol資料存放區中使用多個版本的支援、因為儲存功能可能因版本而異。
 * 使用ONTAP VMware vSphere外掛程式的VMware vCenter工具來建立及管理VVol資料存放區。除了管理資料存放區及其設定檔之外、它還會自動建立傳輸協定端點、以便在需要時存取vVols。如果使用LUN、請注意LUN PE是使用LUN ID 300以上的LUN來對應。確認 ESXi 主機進階系統設定 `Disk.MaxLUN` 允許大於 300 的 LUN ID 號碼（預設值為 1,024 ）。若要執行此步驟、請在 vCenter 中選取 ESXi 主機、然後選取「設定」索引標籤、再選取「尋找」 `Disk.MaxLUN` 在進階系統設定清單中。
@@ -132,7 +132,7 @@ VASA提供查詢儲存設備的技術、並將一組儲存功能傳回vCenter。
 
 下圖顯示vVols元件。
 
-image:vsphere_ontap_image8.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image8.png["VVols 元件"]
 
 
 
@@ -141,7 +141,7 @@ image:vsphere_ontap_image8.png["錯誤：缺少圖形影像"]
 另一ONTAP 項優勢是廣泛支援混合雲、將內部部署私有雲中的系統與公有雲功能合併在一起。以下是一些可搭配vSphere使用的NetApp雲端解決方案：
 
 * * 雲端 Volume 。 * NetApp Cloud Volumes Service for Amazon Web Services 或 Google Cloud Platform 和 Azure NetApp Files for anf 可在領先業界的公有雲環境中、提供高效能、多重傳輸協定的託管儲存服務。VMware Cloud VM來賓可以直接使用。
-* *《NetApp》資料管理軟體可在您選擇的雲端上、為您的資料提供控制、保護、靈活度及效率。Cloud Volumes ONTAP Cloud Volumes ONTAPNetApp是以NetApp解決方案儲存軟體為建置基礎的雲端原生資料管理軟體。Cloud Volumes ONTAP ONTAP搭配Cloud Manager一起使用、即可部署Cloud Volumes ONTAP 及管理包含ONTAP 內部部署的各種系統的不二執行個體。利用先進的 NAS 和 iSCSI SAN 功能、搭配整合式資料管理、包括快照和 SnapMirror 複寫。
+* *《NetApp》資料管理軟體可在您選擇的雲端上、為您的資料提供控制、保護、靈活度及效率。Cloud Volumes ONTAP Cloud Volumes ONTAPCloud Volumes ONTAP 是以 ONTAP 儲存設備為基礎的雲端原生資料管理軟體。搭配Cloud Manager一起使用、即可部署Cloud Volumes ONTAP 及管理包含ONTAP 內部部署的各種系統的不二執行個體。利用先進的 NAS 和 iSCSI SAN 功能、搭配整合式資料管理、包括快照和 SnapMirror 複寫。
 * * Cloud Services。*使用Cloud Backup Service NetApp或SnapMirror Cloud、利用公有雲儲存設備保護內部部署系統的資料。可協助您在NAS、物件儲存區和物件儲存區之間移轉及保持資料同步。Cloud Sync Cloud Volumes Service
 * * FabricPool 《*》FabricPool *《*》*《*》提供快速且簡單的ONTAP 資料分層功能。冷區塊可移轉至公有雲或私有 StorageGRID 物件存放區中的物件存放區、並在再次存取 ONTAP 資料時自動重新叫用。或是將物件層用作SnapVault 已由效益管理的資料的第三層保護。您可以使用這種方法 https://www.linkedin.com/pulse/rethink-vmware-backup-again-keith-aasen/["儲存更多 VM 快照"^] 在一線ONTAP 和/或二線的不二元儲存系統上。
 * *《*》。*使用NetApp軟體定義的儲存設備、將您的私有雲端延伸至遠端設施和辦公室、您可以使用《》來支援區塊和檔案服務、以及您在企業資料中心擁有的相同vSphere資料管理功能。ONTAP Select ONTAP Select
@@ -177,10 +177,10 @@ image:vsphere_ontap_image8.png["錯誤：缺少圖形影像"]
 
 下列螢幕快照顯示Active IQ Unified Manager 「VMware虛擬機器」檢視畫面。
 
-image:vsphere_ontap_image9.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image9.png["Active IQ Unified Manager 虛擬機器檢視"]
 
 Unified Manager會在拓撲檢視中呈現虛擬環境的底層子系統、以判斷運算節點、網路或儲存設備是否發生延遲問題。此檢視也會強調導致效能延遲的特定物件、以便採取補救步驟並解決根本問題。
 
 下列螢幕快照顯示AIQUM擴充拓撲。
 
-image:vsphere_ontap_image10.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image10.png["AIQUM 擴充拓撲"]

@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: microsoft/win_deploy_hyperv_slm.html 
+keywords: Windows,Hyper-V,VHDX,VM,Virtual 
+summary: 如何設定 Hyper-V 儲存即時移轉 
+---
+= 部署 Hyper-V 儲存即時移轉
+:allow-uri-read: 
+
+
+[role="lead"]
+瞭解如何設定 Hyper-V 儲存即時移轉
+
+
+
+== 先決條件
+
+* 您必須擁有獨立式 Hyper-V 伺服器、並具備獨立儲存設備（ DAS 或 LUN ）或 SMB 儲存設備（本機或其他 Hyper-V 伺服器共用）。
+* Hyper-V 伺服器必須設定為即時移轉。檢閱中的部署一節 link:win_deploy_hyperv_replica_oce.html["在叢集環境之外進行即時移轉"]。
+
+
+
+
+== 部署
+
+. 開啟 Hyper-V Manager 。
+. 在 VM 上按一下滑鼠右鍵、然後按一下「移動」。
+. 選取 [ 移動虛擬機器的儲存設備 ] 。
+. 根據您的偏好選擇儲存設備的移動選項。
+. 提供 VM 項目的新位置。
+. 檢閱摘要、然後按一下「確定」以移動 VM 的儲存設備。
+

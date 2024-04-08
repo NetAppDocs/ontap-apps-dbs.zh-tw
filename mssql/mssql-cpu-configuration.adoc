@@ -1,16 +1,16 @@
 ---
 sidebar: sidebar 
 permalink: mssql/mssql-cpu-configuration.html 
-keywords: MS-SQL,mssql,SQL Server 
-summary: ONTAP 上的 Microsoft SQL Server 
+keywords: MSSQL,SQL Server, CPU, ONTAP 
+summary: Microsoft SQL Server CPU 組態 
 ---
-= CPU 組態
+= Microsoft SQL Server CPU 組態
 :allow-uri-read: 
 :imagesdir: ../media/
 
 
 [role="lead"]
-修改伺服器和資料庫設定有助於提升資料庫效能和效率。
+若要改善系統效能、您需要修改 SQL Server 設定和伺服器組態、才能使用適當數量的處理器來執行。
 
 
 
@@ -18,11 +18,13 @@ summary: ONTAP 上的 Microsoft SQL Server
 
 超執行緒是 Intel 專屬的同步多執行緒（ SMT ）實作、可改善在 x86 微處理器上執行的運算（多工）平行化。
 
-使用超執行緒的硬體可讓邏輯超執行緒 CPU 在作業系統中顯示為實體 CPU 。SQL Server 接著會看到作業系統所呈現的實體 CPU 、因此可以使用超執行緒處理器。
+使用超執行緒的硬體可讓邏輯超執行緒 CPU 在作業系統中顯示為實體 CPU 。SQL Server 接著會看到作業系統所呈現的實體 CPU 、並可使用超執行緒處理器。如此一來、可提高平行處理能力、進而提升效能。
 
 此處的注意點是、每個 SQL Server 版本都有自己的運算能力限制。如需詳細資訊、請參閱依 SQL Server 版本計算容量限制。
 
-授權 SQL Server 時有兩大主要考量。第一個稱為伺服器 + 用戶端存取授權（ CAL ）模式、第二個是每個處理器核心模式。雖然您可以使用伺服器 + CAL 策略存取 SQL Server 中所有可用的產品功能、但每個插槽的硬體限制為 20 個 CPU 核心。即使您的伺服器的 SQL Server Enterprise Edition + CAL 每個插槽有超過 20 個 CPU 核心、應用程式也無法在該執行個體上同時使用所有這些核心。圖顯示啟動後的 SQL Server 記錄訊息、指出核心限制的強制執行。
+SQL Server 授權有兩個選項。第一個稱為伺服器 + 用戶端存取授權（ CAL ）模式、第二個是每個處理器核心模式。雖然您可以使用伺服器 + CAL 策略存取 SQL Server 中所有可用的產品功能、但每個插槽的硬體限制為 20 個 CPU 核心。即使您的伺服器的 SQL Server Enterprise Edition + CAL 每個插槽有超過 20 個 CPU 核心、應用程式也無法在該執行個體上同時使用所有這些核心。
+
+下圖顯示啟動後的 SQL Server 記錄訊息、指出核心限制的強制執行。
 
 
 
@@ -44,7 +46,7 @@ SQL Server 可透過兩個選項來支援處理器關聯性：
 * 關聯性 I/O 遮罩
 
 
-SQL Server 會使用作業系統提供的所有 CPU （如果選擇了每個處理器核心授權）。它會在所有 CPU 上建立排程器、以便為任何指定的工作負載充分利用資源。當多工處理時、伺服器上的作業系統或其他應用程式可以將處理執行緒從一個處理器切換至另一個處理器。SQL Server 是一種資源密集的應用程式、因此發生這種情況時、效能可能會受到影響。若要將影響降至最低、您可以設定處理器、使所有 SQL Server 負載都導向預先選取的處理器群組。這是透過使用 CPU 關聯性遮罩來達成的。
+SQL Server 會使用作業系統提供的所有 CPU （如果選擇了每個處理器核心授權）。它會在所有 CPU 上建立排程器、以便為任何指定的工作負載充分利用資源。當多工處理時、伺服器上的作業系統或其他應用程式可以將處理執行緒從一個處理器切換至另一個處理器。SQL Server 是一種資源密集的應用程式、發生這種情況時、效能可能會受到影響。為了將影響降至最低、您可以設定處理器、以便將所有 SQL Server 負載導向預先選定的處理器群組。這是透過使用 CPU 關聯性遮罩來達成的。
 
 關聯性 I/O 遮罩選項會將 SQL Server 磁碟 I/O 繫結至 CPU 子集。在 SQL Server OLTP 環境中、此延伸功能可提升 SQL Server 執行緒的效能、以執行 I/O 作業。
 
@@ -52,12 +54,12 @@ SQL Server 會使用作業系統提供的所有 CPU （如果選擇了每個處�
 
 == 平行度上限（ MAXDOP ）
 
-根據預設、 SQL Server 會在查詢執行期間使用所有可用的 CPU （如果選擇了個別處理器核心授權）。
+根據預設、如果選擇個別處理器核心授權、 SQL Server 會在查詢執行期間使用所有可用的 CPU 。
 
-雖然這對大型查詢來說很好、但可能會造成效能問題、並限制並行處理。更好的方法是將平行度限制在單一 CPU 插槽中的實體核心數量。例如、在具有兩個實體 CPU 插槽、每個插槽有 12 個核心的伺服器上、無論超執行緒為何、 MAXDOP 都應設為 12 。MAXDOP 無法限制或規定要使用的 CPU 。而是限制單一批次查詢可以使用的 CPU 數量。
+雖然這對大型查詢很有幫助、但可能會造成效能問題並限制並行處理。更好的方法是將平行度限制在單一 CPU 插槽中的實體核心數量。例如、在具有兩個實體 CPU 插槽、每個插槽有 12 個核心的伺服器上、無論超執行緒為何、 MAXDOP 都應設為 12 。MAXDOP 無法限制或規定要使用的 CPU 。而是限制單一批次查詢可以使用的 CPU 數量。
 
 
-TIP: * NetApp 建議 * 使用 DSS （例如資料倉儲）、從這項設定開始於 50 左右、並視情況調校或調校。請務必測量應用程式中的關鍵查詢、並視需要進行調整。
+TIP: * NetApp 建議 * 適用於資料倉儲等 DSS 、從 50 開始使用 MAXDOP 、並視需要探索調校或調校。進行變更時、請務必測量應用程式中的關鍵查詢。
 
 
 
@@ -81,18 +83,11 @@ image:mssql-max-worker-threads.png["錯誤：缺少圖形影像"]
 The following example shows how to configure the max work threads option using T-SQL.
 
 EXEC sp_configure 'show advanced options', 1;
-
 GO
-
 RECONFIGURE ;
-
 GO
-
 EXEC sp_configure 'max worker threads', 900 ;
-
 GO
-
 RECONFIGURE;
-
 GO
 ....

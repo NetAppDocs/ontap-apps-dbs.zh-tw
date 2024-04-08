@@ -2,9 +2,9 @@
 sidebar: sidebar 
 permalink: vmware/vmware-srm-overview.html 
 keywords: ontap, vsphere, srm, srm, hybrid, cloud, migration, vmware, site, recovery manager, vsrm 
-summary: 自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。 
+summary: 適用於 VMware Site Recovery Manager （ SRM ）的 ONTAP 解決方案 
 ---
-= VMware Site Recovery Manager 搭配 NetApp ONTAP
+= VMware Site Recovery Manager 搭配 ONTAP
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: 自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直�
 
 
 [role="lead"]
-自ONTAP 2002年推出現代化資料中心以來、NetApp功能一直是VMware vSphere環境的領先儲存解決方案、並持續增加創新功能、以簡化管理、同時降低成本。
+ONTAP 自 2002 年引進現代化資料中心以來、一直是 VMware vSphere 環境的領先儲存解決方案、並持續新增創新功能、以簡化管理、同時降低成本。
 
 本文件介紹 VMware 領先業界的災難恢復（ DR ）軟體 VMware Site Recovery Manager （ SRM ） ONTAP 解決方案、包括最新的產品資訊和最佳實務做法、可簡化部署、降低風險並簡化後續管理。
 

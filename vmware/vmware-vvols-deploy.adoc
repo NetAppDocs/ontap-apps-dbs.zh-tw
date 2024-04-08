@@ -28,7 +28,7 @@ summary:
 +
 ** 將 ONTAP 叢集新增至 _Storage Systems_ 下的 ONTAP 工具
 +
-*** 雖然 ONTAP 工具和 SRA 同時支援叢集層級和 SVM 層級認證、但 VASA Provider 僅支援儲存系統的叢集層級認證。這是因為許多用於 vVols 的 API 只能在叢集層級上使用。因此、如果您打算使用 vVols 、則必須使用叢集範圍認證來新增 ONTAP 叢集。
+*** 雖然 ONTAP 工具和 SRA 同時支援叢集層級和 SVM 層級認證、但 VASA Provider 僅支援儲存系統的叢集層級認證。這是因為許多用於 vVols 的 API 只能在叢集層級使用。因此、如果您打算使用 vVols 、則必須使用叢集範圍認證來新增 ONTAP 叢集。
 
 
 ** 如果 ONTAP 資料生命期與 VMkernel 介面卡位於不同的子網路上、則必須將 VMkernel 介面卡子網路新增至 ONTAP 工具的「設定」功能表中的「所選子網路」清單。根據預設、 ONTAP 工具僅允許本機子網路存取、以保護您的儲存流量。

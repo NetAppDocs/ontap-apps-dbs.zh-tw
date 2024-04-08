@@ -4,26 +4,26 @@ title: Microsoft SQL Server
 entries:
 - title: 總覽
   url: "/mssql/mssql-overview.html"
-- title: 工作負載
-  url: "/mssql/mssql-workloads.html"
 - title: 資料庫組態
   pdf-filename: Microsoft SQL Server 的資料庫組態
   entries:
-  - title: 共享執行個體與專用執行個體
-    url: "/mssql/mssql-shared-vs-dedicated.html"
   - title: CPU 組態
     url: "/mssql/mssql-cpu-configuration.html"
   - title: 記憶體組態
     url: "/mssql/mssql-memory-configuration.html"
+  - title: 共享執行個體與專用執行個體
+    url: "/mssql/mssql-shared-vs-dedicated.html"
 - title: 儲存組態
   pdf-filename: Microsoft SQL Server 的儲存組態
   entries:
+  - title: 總覽
+    url: "/mssql/mssql-storage-considerations.html"
   - title: 資料庫檔案和檔案群組
     url: "/mssql/mssql-files-and-filegroups.html"
+  - title: 記錄目錄
+    url: "/mssql/mssql-log-directory.html"
   - title: tempdb 檔案
     url: "/mssql/mssql-tempdb.html"
-  - title: 儲存考量
-    url: "/mssql/mssql-storage-considerations.html"
   - title: 儲存效率
     url: "/mssql/mssql-storage-efficiency.html"
 - title: 資料保護

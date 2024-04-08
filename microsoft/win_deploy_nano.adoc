@@ -1,0 +1,130 @@
+---
+sidebar: sidebar 
+permalink: microsoft/win_deploy_nano.html 
+keywords: Windows,Hyper-V,VHDX,VM,Virtual 
+summary: 瞭解如何部署 Microsoft Windows Nano Server 
+---
+= 部署奈米伺服器
+:allow-uri-read: 
+
+
+[role="lead"]
+瞭解如何部署 Microsoft Windows Nano Server 。
+
+
+
+== 部署
+
+若要將奈米伺服器部署為 Hyper-V 主機、請完成下列步驟：
+
+. 以系統管理員群組成員的身分登入 Windows Server 。
+. 將 Windows Server ISO 中的 \NanoServer 資料夾中的 NanoServerImageGenerator 資料夾複製到本機硬碟。
+. 若要建立奈米伺服器 VHD/VHDX 、請完成下列步驟：
++
+.. 以系統管理員身分啟動 Windows PowerShell 、瀏覽至本機硬碟上複製的 NanoServerImageGenerator 資料夾、然後執行下列 Cmdlet ：
++
+....
+Set-ExecutionPolicy RemoteSigned
+Import-Module .\NanoServerImageGenerator -Verbose
+....
+.. 執行下列 PowerShell Cmdlet 、為奈米伺服器建立 VHD 做為 Hyper-V 主機。此命令會提示您輸入新 VHD 的系統管理員密碼。
++
+ New-NanoServerImage -Edition Standard -DeploymentType Guest -MediaPath <"input the path to the root of the contents of Windows Server 2016 ISO"> -TargetPath <"input the path, including the filename and extension where the resulting VHD/VHDX will be created"> -ComputerName <"input the name of the nano server computer you are about to create"> -Compute
+.. 在下列範例中、我們建立了支援啟用容錯移轉叢集功能 Hyper-V 主機的 Nano Server VHD 。此範例是從安裝於 f:\ 的 ISO 建立 Nano Server VHD 。新建立的 VHD 會放在執行 Cmdlet 的資料夾中名為 NanoServer 的資料夾中。電腦名稱為 NanoServer 、而產生的 VHD 包含 Windows Server 的標準版本。
++
+ New-NanoServerImage -Edition Standard -DeploymentType Guest -MediaPath f:\ -TargetPath .\NanoServer.vhd -ComputerName NanoServer -Compute -Clustering
+.. 使用 Cmdlet New-NanovServerImage 設定參數來設定 IP 位址、子網路遮罩、預設閘道、 DNS 伺服器、網域名稱、 等等。
+
+
+. 在 VM 或實體主機中使用 VHD 將 Nano Server 部署為 Hyper-V 主機：
++
+.. 若要在虛擬機器上部署、請在 Hyper-V Manager 中建立新的虛擬機器、並使用步驟 3 中建立的 VHD 。
+.. 若要在實體主機上部署、請將 VHD 複製到實體電腦、並將其設定為從此新 VHD 開機。首先、掛載 VHD 、執行 BCDboot e:\windows （ VHD 掛載於 E:\ 下）、卸載 VHD 、重新啟動實體電腦、然後開機至奈米伺服器。
+
+
+. 將 Nano Server 加入網域（選用）：
++
+.. 登入網域中的任何電腦、並執行下列 PowerShell Cmdlet 來建立資料 blob ：
++
+....
+$domain = "<input the domain to which the Nano Server is to be joined>"
+$nanoserver = "<input name of the Nano Server>"
+....
++
+ djoin.exe /provision /domain $domain /machine $nanoserver /savefile C:\temp\odjblob /reuse
+.. 在遠端機器上執行下列 PowerShell Cmdlet 、將 odjblob 檔案複製到奈米伺服器：
++
+....
+$nanoserver = "<input name of the Nano Server>"
+$nanouname = ""<input username of the Nano Server>"
+$nanopwd = ""<input password of the Nano Server>"
+....
++
+....
+$filePath = 'c:\temp\odjblob'
+$fileContents = Get-Content -Path $filePath -Encoding Unicode
+....
++
+....
+$securenanopwd = ConvertTo-SecureString -AsPlainText -Force $nanopwd
+$nanosecurecred = new-object management.automation.pscredential $nanouname, $securenanopwd
+....
++
+....
+Invoke-Command -VMName $nanoserver -Credential $nanosecurecred -ArgumentList @($filePath,$fileContents) -ScriptBlock \{
+    param($filePath,$data)
+    New-Item -ItemType directory -Path c:\temp
+    Set-Content -Path $filePath -Value $data -Encoding Unicode
+    cd C:\temp
+    djoin /requestodj /loadfile c:\temp\odjblob /windowspath c:\windows /localos
+}
+....
+.. 重新啟動奈米伺服器。
+
+
+
+
+
+
+== 連線至奈米伺服器
+
+若要使用 PowerShell 遠端連線至奈米伺服器、請完成下列步驟：
+
+. 在遠端伺服器上執行下列 Cmdlet 、將 Nano Server 新增為遠端電腦上的信任主機：
++
+ Set-Item WSMan:\LocalHost\Client\TrustedHosts "<input IP Address of the Nano Server>"
+. 如果環境安全、而且您想要將所有主機設定為伺服器上的信任主機、請執行下列命令：
++
+ Set-Item WSMan:\LocalHost\Client\TrustedHosts *
+. 在遠端伺服器上執行下列 Cmdlet 來啟動遠端工作階段。出現提示時、請提供 Nano 伺服器的密碼。
++
+ Enter-PSSession -ComputerName "<input IP Address of the Nano Server>" -Credential ~\Administrator
+
+
+若要從遠端 Windows Server 使用 GUI 管理工具遠端連線至 Nano Server 、請完成下列命令：
+
+. 以系統管理員群組成員的身分登入 Windows Server 。
+. 啓動 Server Manager**
+. 若要從伺服器管理員遠端管理奈米伺服器、請在「所有伺服器」上按一下滑鼠右鍵、按一下「新增伺服器」、提供奈米伺服器的資訊並加以新增。您現在可以在伺服器清單中看到奈米伺服器。選取「奈米伺服器」、按一下滑鼠右鍵、然後開始使用提供的各種選項進行管理。
+. 若要從遠端管理奈米伺服器上的服務、請完成下列步驟：
++
+.. 從 Server Manager 的「工具」區段開啟「服務」。
+.. 以滑鼠右鍵按一下 [ 服務 ( 本機 )] 。
+.. 按一下「連線至伺服器」
+.. 提供 Nano Server 詳細資料、以檢視及管理奈米伺服器上的服務。
+
+
+. 如果在奈米伺服器上啟用 Hyper-V 角色、請完成下列步驟、從 Hyper-V Manager 遠端管理：
++
+.. 從 Server Manager 的「工具」區段開啟 Hyper-V Manager 。
+.. 以滑鼠右鍵按一下 Hyper-V Manager 。
+.. 按一下「連線至伺服器」、並提供奈米伺服器詳細資料。現在、您可以將奈米伺服器當作 Hyper-V 伺服器來管理、在上面建立和管理 VM 。
+
+
+. 如果在奈米伺服器上啟用容錯移轉叢集角色、請完成下列步驟、從容錯移轉叢集管理程式進行遠端管理：
++
+.. 從 Server Manager 的「工具」區段開啟容錯移轉叢集管理程式。
+.. 使用奈米伺服器執行叢集相關作業。
+
+
+

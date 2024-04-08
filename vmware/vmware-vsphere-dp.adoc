@@ -24,7 +24,7 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 
 下圖說明SnapCenter 了一套功能性部署的範例。
 
-image:vsphere_ontap_image4.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image4.png["SnapCenter 部署"]
 
 如需增強的災難恢復功能、請考慮搭配ONTAP VMware Site Recovery Manager使用NetApp SRA for VMware。除了支援將資料存放區複寫至DR站台之外、它也能透過複製複寫的資料存放區、在DR環境中進行不中斷營運的測試。SRA內建自動化功能、可在故障解決後、輕鬆從災難中恢復並重新保護正式作業。
 

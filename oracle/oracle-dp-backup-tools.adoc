@@ -24,7 +24,7 @@ ONTAP 在 Oracle 資料庫環境中的主要價值來自核心 ONTAP 技術、�
 
 SnapCenter 是 NetApp 資料保護的旗艦產品。在極低的層級上、它與 SnapManager 產品在執行資料庫備份的方式上類似、但它是從頭開始打造、提供單一窗口來管理 NetApp 儲存系統上的資料保護。
 
-SnapCenter 包括 Snapshot 複本型備份與還原、 SnapMirror 與 SnapVault 複寫等基本功能、以及大型企業大規模營運所需的其他功能。這些進階功能包括擴充的角色型存取控制（ RBAC ）功能、可與協力廠商協調化產品整合的 RESTful API 、資料庫主機上 SnapCenter 外掛程式的不中斷中央管理、以及專為雲端規模環境設計的使用者介面。
+SnapCenter 包括快照式備份與還原、 SnapMirror 與 SnapVault 複寫等基本功能、以及大型企業大規模營運所需的其他功能。這些進階功能包括擴充的角色型存取控制（ RBAC ）功能、可與協力廠商協調化產品整合的 RESTful API 、資料庫主機上 SnapCenter 外掛程式的不中斷中央管理、以及專為雲端規模環境設計的使用者介面。
 
 
 

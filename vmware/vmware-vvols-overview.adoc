@@ -2,19 +2,19 @@
 sidebar: sidebar 
 permalink: vmware/vmware-vvols-overview.html 
 keywords: tr-4400, vvols, ontap, virtual volumes 
-summary:  
+summary: 以下是 VMware vSphere 虛擬磁碟區（ VVols ）與 ONTAP 的概觀 
 ---
 = 總覽
 :allow-uri-read: 
 
 
 [role="lead"]
-NetApp ONTAP 軟體在過去二十多年來一直是 VMware vSphere 環境的領先儲存解決方案、並持續新增創新功能來簡化管理、同時降低成本。
+ONTAP 在過去二十多年來一直是 VMware vSphere 環境的領先儲存解決方案、並持續新增創新功能來簡化管理、同時降低成本。
 
 本文件涵蓋適用於 VMware vSphere 虛擬磁碟區（ VVols ）的 ONTAP 功能、包括最新的產品資訊和使用案例、以及最佳實務做法和其他資訊、可簡化部署並減少錯誤。
 
 
-NOTE: 本文件將先前發佈的技術報告 _TR-4400: VMware vSphere 虛擬磁碟區（ vVols ）取代為 NetApp ONTAP
+NOTE: 本文件將先前發佈的技術報告 _TR-4400: VMware vSphere 虛擬磁碟區（ vVols ）取代為 ONTAP
 
 最佳實務做法是輔助其他文件、例如指南和相容性清單。這些技術是根據實驗室測試和NetApp工程師與客戶廣泛的現場經驗所開發。它們可能不是唯一可行或受支援的實務做法、但通常是最簡單的解決方案、可滿足大多數客戶的需求。
 
@@ -109,19 +109,19 @@ image::vvols-image4.png[虛擬機器儲存原則符合性,320,100]
 
 == NetApp VVols 支援
 
-NetApp ONTAP 自 2012 年首次推出 VASA 規格以來、就一直提供支援。雖然其他 NetApp 儲存系統可能支援 VASA 、但本文件著重於目前支援的 ONTAP 9 版本。
+ONTAP 自 2012 年首次推出 VASA 規格以來、就一直提供支援。雖然其他 NetApp 儲存系統可能支援 VASA 、但本文件著重於目前支援的 ONTAP 9 版本。
 
 
 
-=== NetApp ONTAP
+=== ONTAP
 
-除了 AFF 、 ASA 和 FAS 系統上的 ONTAP 9 、 NetApp 還支援 ONTAP Select 上的 VMware 工作負載、採用 VMware Cloud on AWS 的 ONTAP 上的 Amazon FSX 、採用 Azure VMware 解決方案的 Azure NetApp Files 、使用 Google Cloud 的 Cloud Volumes Service VMware Engine 、以及 Equinix 中的 NetApp 私有儲存設備、 但具體功能可能會因服務供應商和可用的網路連線而異。也可從 vSphere 來賓存取儲存在這些組態中的資料、以及 Cloud Volumes ONTAP 。
+除了 AFF 、 ASA 和 FAS 系統上的 ONTAP 9 之外、 NetApp 還支援 ONTAP Select 上的 VMware 工作負載、適用於 NetApp 的 Amazon FSX 搭配 AWS 上的 VMware Cloud 、 Azure NetApp Files 搭配 Azure VMware 解決方案、 Cloud Volumes Service 搭配 Google Cloud VMware Engine 、以及 Equinix 中的 NetApp 私有儲存設備、 但具體功能可能會因服務供應商和可用的網路連線而異。也可從 vSphere 來賓存取儲存在這些組態中的資料、以及 Cloud Volumes ONTAP 。
 
 在發佈時、超大規模環境僅限於傳統的 NFS v3 資料存放區、因此 VVols 僅適用於內部部署 ONTAP 系統、或雲端連線系統、這些系統提供內部部署系統的完整功能、例如由全球各地的 NetApp 合作夥伴和服務供應商代管的系統。
 
 _ 如需 ONTAP 的詳細資訊、請參閱 https://docs.netapp.com/us-en/ontap-family/["產品文件ONTAP"^]_
 
-_ 如需 ONTAP 和 VMware vSphere 最佳實務做法的詳細資訊、請參閱 https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsphere_ontap_ontap_for_vsphere.html["TR-4597"^]_
+_ 如需 ONTAP 和 VMware vSphere 最佳實務做法的詳細資訊、請參閱 link:vmware-vsphere-overview.html["TR-4597"^]_
 
 
 

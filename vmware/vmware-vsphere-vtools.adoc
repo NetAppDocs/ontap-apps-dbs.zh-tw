@@ -31,7 +31,7 @@ VMware vSphere的VMware vSphere工具是一套搭配vSphere使用VMware vCenter�
 
 下圖說明ONTAP vSphere的各項功能。
 
-image:vsphere_ontap_image1.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image1.png["適用於 vSphere 的 ONTAP 工具"]
 
 
 

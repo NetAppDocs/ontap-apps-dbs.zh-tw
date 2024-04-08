@@ -17,7 +17,7 @@ ONTAP 工具也包括 vCenter UI 擴充、 REST API 伺服器、適用於 VMware
 
 == 產品與文件
 
-ONTAP FlexClone 授權（隨附於 ONTAP One ）和 ONTAP 工具應用裝置是唯一需要搭配 NetApp ONTAP 使用 vVols 的額外產品。ONTAP 工具的最新版本是以單一統一應用裝置的形式提供、可在 ESXi 上執行、提供以前三種不同應用裝置和伺服器的功能。對於 vVols 、使用 ONTAP 工具 vCenter UI 延伸或 REST API 作為 ONTAP 與 vSphere 功能的一般管理工具和使用者介面、以及提供特定 vVols 功能的 VASA 供應商、是非常重要的。SRA 元件包含在傳統資料存放區中、但 VMware Site Recovery Manager 不會將 SRA 用於 vVols 、而是在 SRM 8.3 及更新版本中實作新服務、利用 VVols 複寫的 VASA 提供者。
+ONTAP FlexClone 授權（隨附於 ONTAP One ）和 ONTAP 工具應用裝置是唯一需要搭配 ONTAP 使用 vVols 的其他產品。ONTAP 工具的最新版本是以單一統一應用裝置的形式提供、可在 ESXi 上執行、提供以前三種不同應用裝置和伺服器的功能。對於 vVols 、使用 ONTAP 工具 vCenter UI 延伸或 REST API 作為 ONTAP 與 vSphere 功能的一般管理工具和使用者介面、以及提供特定 vVols 功能的 VASA 供應商、是非常重要的。SRA 元件包含在傳統資料存放區中、但 VMware Site Recovery Manager 不會將 SRA 用於 vVols 、而是在 SRM 8.3 及更新版本中實作新服務、利用 VVols 複寫的 VASA 提供者。
 
 
 

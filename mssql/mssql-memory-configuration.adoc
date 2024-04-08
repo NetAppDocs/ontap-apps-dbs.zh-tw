@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: mssql/mssql-memory-configuration.html 
-keywords: MS-SQL,mssql,SQL Server 
-summary: ONTAP 上的 Microsoft SQL Server 
+keywords: MSSQL,SQL Server, memory 
+summary: Microsoft SQL Server 記憶體組態 
 ---
 = Microsoft SQL Server 記憶體組態
 :allow-uri-read: 
@@ -10,7 +10,7 @@ summary: ONTAP 上的 Microsoft SQL Server
 
 
 [role="lead"]
-下列各節將說明一些重要的記憶體組態設定。
+下節說明如何設定 SQL Server 記憶體設定、以最佳化資料庫效能。
 
 
 
@@ -37,17 +37,11 @@ image:mssql-max-server-memory.png["錯誤：缺少圖形影像"]
 
 ....
 EXECUTE sp_configure 'show advanced options', 1
-
 GO
-
 EXECUTE sp_configure 'min server memory (MB)', 2048
-
 GO
-
 EXEC sp_configure 'max server memory (MB)', 120832
-
 GO
-
 RECONFIGURE WITH OVERRIDE
 ....
 
@@ -70,9 +64,9 @@ RECONFIGURE WITH OVERRIDE
 
 == 每個查詢的最小記憶體
 
-執行查詢時、 SQL Server 會嘗試分配最適當的記憶體量、讓它能夠有效率地執行。
+執行查詢時、 SQL Server 會嘗試分配最適當的記憶體量、以有效執行。
 
-根據預設， [ 每個查詢的最小記憶體 ] 設定會為每個要執行的查詢分配 > 或 = 至 1024KB 。最佳做法是將此設定保留為預設值 0 、以允許 SQL Server 動態管理分配給索引建立作業的記憶體量。不過、如果 SQL Server 的 RAM 超過有效執行所需的容量、則如果您增加此設定、某些查詢的效能可能會大幅提升。因此、只要 SQL Server 、任何其他應用程式或作業系統未使用的伺服器上有可用的記憶體、則提升此設定有助於整體 SQL Server 效能。如果沒有可用的可用記憶體、增加此設定可能會影響整體效能。
+根據預設， [ 每個查詢的最小記憶體 ] 設定會為每個要執行的查詢分配 >= 至 1024KB 。最佳做法是將此設定保留為預設值 0 、以允許 SQL Server 動態管理分配給索引建立作業的記憶體量。不過、如果 SQL Server 的 RAM 超過有效執行所需的容量、則如果您增加此設定、某些查詢的效能可能會大幅提升。因此、只要 SQL Server 、任何其他應用程式或作業系統未使用的伺服器上有可用的記憶體、則提升此設定有助於整體 SQL Server 效能。如果沒有可用的可用記憶體、增加此設定可能會影響整體效能。
 
 image:mssql-min-memory-per-query.png["錯誤：缺少圖形影像"]
 
@@ -108,14 +102,9 @@ image:mssql-min-memory-per-query.png["錯誤：缺少圖形影像"]
 
 ....
 USE master
-
 GO
-
 ALTER SERVER CONFIGURATION
-
 SET BUFFER POOL EXTENSION ON
-
   (FILENAME = ‘P:\BUFFER POOL EXTENSION\SQLServerCache.BUFFER POOL EXTENSION', SIZE = 32 GB);
-
 GO
 ....

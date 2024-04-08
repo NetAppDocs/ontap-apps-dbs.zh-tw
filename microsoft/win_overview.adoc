@@ -1,0 +1,52 @@
+---
+sidebar: sidebar 
+permalink: microsoft/win_overview.html 
+keywords: Windows,Hyper-V,VHDX,VM,Virtual 
+summary: Microsoft Windows 與 Hyper-V 虛擬化與 ONTAP 概觀 
+---
+= 總覽
+:allow-uri-read: 
+
+
+[role="lead"]
+Microsoft Windows Server 是企業級作業系統（ OS ）、涵蓋網路、安全性、虛擬化、私有雲、混合雲、 虛擬桌面基礎架構、存取保護、資訊保護、 Web 服務、應用程式平台基礎架構、 還有更多。
+
+
+NOTE: * 本文件取代先前發佈的技術報告 _TR-4568 ： NetApp 部署指南與 Windows Server* 儲存最佳實務做法
+
+.NetApp ONTAP （ R ）管理軟體可在 NetApp 儲存控制器上執行。有多種格式可供選擇。
+* 支援檔案、物件和區塊傳輸協定的統一化架構。如此一來、儲存控制器就能同時做為 NAS 和 SAN 裝置、以及物件儲存區
+* All SAN Array （ ASA ）僅著重於區塊傳輸協定、並透過為連線主機新增對稱的雙主動式多重路徑功能、將 I/O 恢復時間（ IORT ）最佳化
+* 軟體定義的統一化架構
++
+** 在 VMware vSphere 或 KVM 上執行的 ONTAP Select
+** Cloud Volumes ONTAP 以雲端原生執行個體執行
+
+
+* 來自超大規模雲端供應商的第一方產品
++
+** Amazon FSX for NetApp ONTAP 產品
+** Azure NetApp Files
+** Google Cloud NetApp Volumes
+
+
+
+
+ONTAP 提供 NetApp 儲存效率功能、例如 NetApp Snapshot （ R ）技術、複製、重複資料刪除、精簡配置、精簡複寫、 壓縮、虛擬儲存分層等多項功能、都能提升效能與效率。
+
+Windows Server 和 ONTAP 可在大型環境中共同運作、為資料中心整合和私有雲或混合雲部署帶來巨大價值。這種組合也能有效率地提供不中斷營運的工作負載、並支援無縫擴充。
+
+
+
+== 目標對象
+
+本文件適用於設計適用於 Windows Server 的 NetApp 儲存解決方案的系統與儲存架構設計師。
+
+我們在此文件中做出下列假設：
+
+* 讀者對 NetApp 硬體與軟體解決方案有廣泛的瞭解。請參閱 https://docs.netapp.com/us-en/ontap/cluster-admin/index.html["叢集管理員系統管理指南"] 以取得詳細資料。
+* 讀取器一般瞭解區塊存取傳輸協定、例如 iSCSI 、 FC 和檔案存取傳輸協定 SMB/CIFS 。請參閱 https://docs.netapp.com/us-en/ontap/san-management/index.html["叢集式 Data ONTAP SAN 管理"] 以取得 SAN 相關資訊。請參閱 https://docs.netapp.com/us-en/ontap/nas-management/index.html["NAS 管理"] 以取得 CIFS/SMB 相關資訊。
+* 讀者對 Windows Server 作業系統和 Hyper-V 有廣泛的瞭解
+
+
+如需完整且定期更新的已測試及支援 SAN 和 NAS 組態對照表、請參閱 http://mysupport.netapp.com/matrix/["互通性對照表工具IMT （不含）"] 在 NetApp 支援網站 上。有了 IMT 、您就能判斷特定環境所支援的確切產品和功能版本。NetApp IMT 定義與 NetApp 支援組態相容的產品元件和版本。具體結果取決於每位客戶依照已發佈規格所安裝的產品。

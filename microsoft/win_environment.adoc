@@ -1,0 +1,125 @@
+---
+sidebar: sidebar 
+permalink: microsoft/win_environment.html 
+keywords: Windows,Hyper-V,VHDX,VM,Virtual 
+summary: 瞭解 NetApp 儲存設備和 Windows Server 環境 
+---
+= NetApp 儲存設備和 Windows Server 環境
+:allow-uri-read: 
+
+
+[role="lead"]
+如中所述 link:win_overview.html["總覽"]NetApp 儲存控制器提供真正統一化的架構、支援檔案、區塊和物件傳輸協定。這包括 SMB/CIFS 、 NFS 、 NVMe / TCP 、 NVMe / FC 、 iSCSI 、 FC （ FCP ）和 S3 、可建立統一化的用戶端和主機存取。同一個儲存控制器可以同時以 SAN LUN 的形式提供區塊儲存服務、並以 NFS 和 SMB/CIFS 的形式提供檔案服務。ONTAP 也可做為 All SAN Array （ ASA ）使用、透過 iSCSI 和 FCP 的對稱雙主動式多重路徑功能來最佳化主機存取、而統一化的 ONTAP 系統則使用非對稱雙主動式多重路徑功能。在這兩種模式中、 ONTAP 都會使用 ANA 來管理 NVMe over Fabrics （ NVMe of ）多重路徑。
+
+執行 ONTAP 軟體的 NetApp 儲存控制器可在 Windows Server 環境中支援下列工作負載：
+
+* 以持續可用的 SMB 3.0 共享區代管的 VM
+* 在 iSCSI 或 FC 上執行的叢集共用磁碟區（ CSV ） LUN 上託管的 VM
+* SMB 3.0 共用上的 SQL Server 資料庫
+* NVMe 、 iSCSI 或 FC 上的 SQL Server 資料庫
+* 其他應用程式工作負載
+
+
+此外、 NetApp 儲存效率功能、例如重複資料刪除、 NetApp FlexClone （ R ）複本、 NetApp Snapshot 技術、精簡配置、壓縮、 而儲存分層功能可為在 Windows Server 上執行的工作負載提供顯著的價值。
+
+
+
+== ONTAP 資料管理
+
+ONTAP 是在 NetApp 儲存控制器上執行的管理軟體。NetApp 儲存控制器稱為節點、是一種硬體裝置、內含處理器、 RAM 和 NVRAM 。節點可以連接至 SATA 、 SAS 或 SSD 磁碟機、或是這些磁碟機的組合。
+
+將多個節點彙總至叢集式系統。叢集中的節點會持續彼此通訊、以協調叢集活動。節點也可以使用備援路徑、將資料透明地從節點移至節點、然後移至由兩個 10Gb 乙太網路交換器組成的專用叢集網路。叢集中的節點可以互相接管、在任何容錯移轉案例中提供高可用度。叢集是在整個叢集上進行管理、而非以每個節點為基礎、而且資料是從一或多個儲存虛擬機器（ SVM ）提供。叢集必須至少有一個 SVM 才能提供資料。
+
+叢集的基本單元是節點、節點會新增至叢集、作為高可用度（ HA ）配對的一部分。HA 配對可透過 HA 互連（與專用叢集網路分開）彼此通訊、並維持與 HA 配對磁碟的備援連線、實現高可用度。雖然磁碟櫃可能包含屬於 HA 配對任一成員的磁碟、但磁碟不會在 HA 配對之間共用。下圖說明 Windows Server 環境中的 NetApp 儲存部署。
+
+image:win_image1.png["Windows Server 環境中的 NetApp 儲存部署、寬度 =624 、高度 =479"]
+
+
+
+== 儲存虛擬機器
+
+ONTAP SVM 是一種邏輯儲存伺服器、可從一或多個邏輯介面（生命體）提供 LUN 和 / 或 NAS 命名空間的資料存取。因此 SVM 是儲存區段的基本單元、可在 ONTAP 中實現安全的多租戶共享。每個 SVM 都設定為擁有儲存磁碟區、這些磁碟區是從指派給實體乙太網路或 FC 目標連接埠的實體集合和邏輯介面（生命體）來配置。
+
+邏輯磁碟（ LUN ）或 CIFS 共用是在 SVM 的磁碟區內建立、並對應至 Windows 主機和叢集、以提供儲存空間、如下圖所示。SVM 不受節點限制、並以叢集為基礎；它們可以使用實體資源、例如叢集中任何位置的磁碟區或網路連接埠。
+
+image:win_image2.png["ONTAP 儲存虛擬機器、寬度 = 572 、高度 = 443"]
+
+
+
+== 為 Windows Server 佈建 NetApp 儲存設備
+
+儲存設備可同時在 SAN 和 NAS 環境中佈建至 Windows Server 。在 SAN 環境中、儲存設備是以 NetApp 磁碟區上 LUN 的磁碟形式提供、作為區塊儲存設備。在 NAS 環境中、儲存設備會在 NetApp 磁碟區上以 CIFS/SMB 共用的形式提供、做為檔案儲存設備。這些磁碟和共用可以在 Windows Server 中套用、如下所示：
+
+* 適用於 Windows Server 主機的儲存設備、適用於應用程式工作負載
+* 儲存儲存設備：奈米伺服器和容器
+* 用於儲存 VM 的個別 Hyper-V 主機儲存設備
+* Hyper-V 叢集的共用儲存設備、以 CSV 的形式儲存 VM
+* SQL Server 資料庫的儲存設備
+
+
+
+
+== 管理 NetApp 儲存設備
+
+若要從 Windows Server 2016 連線、設定及管理 NetApp 儲存設備、請使用下列其中一種方法：
+
+* * 安全 Shell （ SSH ）。 * 使用 Windows Server 上的任何 SSH 用戶端來執行 NetApp CLI 命令。
+* * System Manager 。 * 這是 NetApp 的 GUI 型管理產品。
+* * NetApp PowerShell Toolkit* 。這是 NetApp PowerShell 工具套件、用於自動化及實作自訂指令碼和工作流程。
+
+
+
+
+== NetApp PowerShell 工具套件
+
+NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端點對端自動化、並可讓您管理 NetApp ONTAP 的儲存設備。ONTAP 模組包含超過 2 、 000 個 Cmdlet 、可協助管理 FAS 、 NetApp All Flash FAS （ AFF ）、市售硬體和雲端資源。
+
+
+
+=== 記住事項
+
+* NetApp 不支援 Windows Server 儲存空間。儲存空間僅用於 JBOD （只有一堆磁碟）、不適用於任何類型的 RAID （直接附加儲存 [DAS] 或 SAN ）。
+* ONTAP 不支援 Windows Server 中的叢集式儲存集區。
+* NetApp 支援共享虛擬硬碟格式（ VHDX ）、用於 Windows SAN 環境中的來賓叢集。
+* Windows Server 不支援使用 iSCSI 或 FC LUN 建立儲存池。
+
+
+
+
+=== 進一步閱讀
+
+* 如需 NetApp PowerShell 工具組的詳細資訊、請參閱 https://mysupport.netapp.com/site/tools/tool-eula/ontap-powershell-toolkit["NetApp 支援網站"]。
+* 如需 NetApp PowerShell 工具組最佳實務做法的相關資訊、請參閱 https://www.netapp.com/media/16861-tr-4475.pdf?v=93202073432AM["TR-4475 ： NetApp PowerShell 工具套件最佳實務指南"]。
+
+
+
+
+== 網路最佳實務做法
+
+乙太網路可廣泛分為下列群組：
+
+* 虛擬機器的用戶端網路
+* 多個儲存網路（連接至儲存系統的 iSCSI 或 SMB ）
+* 叢集通訊網路（叢集節點之間的活動訊號和其他通訊）
+* 管理網路（用於監控系統並進行疑難排解）
+* 移轉網路（用於主機即時移轉）
+* VM 複寫（ Hyper-V 複本）
+
+
+
+
+=== 最佳實務做法
+
+* NetApp 建議您針對上述各項功能、使用專用的實體連接埠來隔離網路並提高效能。
+* 針對上述每項網路需求（儲存需求除外）、可彙總多個實體網路連接埠以分散負載或提供容錯能力。
+* NetApp 建議在 Hyper-V 主機上建立專用的虛擬交換器、以便在 VM 內建立來賓儲存連線。
+* 請確定 Hyper-V 主機和來賓 iSCSI 資料路徑使用不同的實體連接埠和虛擬交換器、以確保來賓與主機之間的安全隔離。
+* NetApp 建議避免 iSCSI NIC 的 NIC 群組。
+* NetApp 建議使用主機上設定的 ONTAP 多重路徑輸入 / 輸出（ MPIO ）來進行儲存。
+* 如果使用來賓 iSCSI 啟動器、 NetApp 建議在來賓 VM 中使用 MPIO 。如果您使用直接移轉磁碟、則必須避免在客體內使用 MPIO 。在這種情況下、在主機上安裝 MPIO 就足夠了。
+* NetApp 建議不要將 QoS 原則套用至指派給儲存網路的虛擬交換器。
+* NetApp 建議不要在實體 NIC 上使用自動私有 IP 位址（ APIPA ）、因為 APIPA 不可路由且未在 DNS 中登錄。
+* NetApp 建議為 CSV 、 iSCSI 和即時移轉網路開啟巨型框架、以提高處理量並縮短 CPU 週期。
+* NetApp 建議取消勾選允許管理作業系統共用 Hyper-V 虛擬交換器的此網路介面卡選項、以建立虛擬機器專用的網路。
+* NetApp 建議建立備援網路路徑（多個交換器）、以進行即時移轉、並建立 iSCSI 網路、以提供恢復能力和 QoS 。
+

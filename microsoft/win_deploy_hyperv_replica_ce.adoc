@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: microsoft/win_deploy_hyperv_replica_ce.html 
+keywords: Windows,Hyper-V,VHDX,VM,Virtual 
+summary: 瞭解如何使用 Windows Server 容錯移轉叢集來部署及設定 Hyper-V 複本。 
+---
+= 在叢集環境中部署 Hyper-V 複本
+:allow-uri-read: 
+
+
+[role="lead"]
+瞭解如何使用 Windows Server 容錯移轉叢集來部署及設定 Hyper-V 複本。
+
+
+
+== 先決條件
+
+* 您必須將 Hyper-V 叢集放在相同或不同地理位置的同一位置、做為主要叢集和複本叢集。請參閱「link:\l["Hyper-V 叢集"]」以取得更多詳細資料。
+* 如果使用不同的站台、則必須設定每個站台的防火牆、以允許主要叢集和複本叢集之間的通訊。
+* 複本叢集必須有足夠的空間來儲存複寫的工作負載。
+
+
+
+
+== 部署
+
+. 在叢集的所有節點上啟用防火牆規則。在主要叢集和複本叢集中的所有節點上、以管理員權限執行下列 PowerShell Cmdlet 。
++
+....
+# For Kerberos authentication
+get-clusternode | ForEach-Object \{Invoke-command -computername $_.name -scriptblock \{Enable-Netfirewallrule -displayname "Hyper-V Replica HTTP Listener (TCP-In)"}}
+....
++
+....
+ # For Certificate authentication
+get-clusternode | ForEach-Object \{Invoke-command -computername $_.name -scriptblock \{Enable-Netfirewallrule -displayname "Hyper-V Replica HTTPS Listener (TCP-In)"}}
+....
+. 設定複本叢集。
++
+.. 使用 NetBIOS 名稱和 IP 位址來設定 Hyper-V 複本代理程式、以作為用於複本叢集的叢集連線點。
++
+... 開啟容錯移轉叢集管理程式。
+... 展開叢集、按一下「角色」、然後按一下「從動作設定角色」窗格。
+... 在「選取角色」頁面中選取 Hyper-V 複本代理人。
+... 提供要用作叢集連線點的 NetBIOS 名稱和 IP 位址（用戶端存取點）。
+... 此程序會建立 Hyper-V 複本代理程式角色。確認已成功上線。
+
+
+.. 設定複寫設定。
++
+... 以滑鼠右鍵按一下在前述步驟中建立的複本代理程式、然後按一下複寫設定。
+... 選取 " 將此叢集啟用為複本伺服器 " 。
+... 在驗證和連接埠區段中、選取驗證方法和連接埠。
+... 在授權與儲存區段中、選取允許將 VM 複寫至此叢集的伺服器。此外、請指定儲存複寫虛擬機器的預設位置。
+
+
+
+
+
+
+
+
+== 複寫
+
+複寫類似於一節中所述的程序 link:win_deploy_hyperv_replica_oce["叢集環境外部的複本"]。

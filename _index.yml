@@ -3,9 +3,13 @@ indexpage:
   title: ONTAP 與企業應用程式
   summary: ONTAP 是許多企業應用程式與資料庫技術的資料管理與資料保護基礎。下列頁面提供 ONTAP 和企業應用程式及基礎架構的最佳實務做法和實作程序指引。
   keywords: VMware, vSphere, Oracle, SAP, HANA, SAP HANA, MSSQL, SQL Server, Postgres,
-    postgresql, mysql, mariadb
+    postgresql, mysql, mariadb, Hyper-V
   lead: ONTAP 是許多企業應用程式與資料庫技術的資料管理與資料保護基礎。下列頁面提供 ONTAP 和企業應用程式及基礎架構的最佳實務做法和實作程序指引。
   tiles:
+  - title: Microsoft Hyper-V
+    links:
+    - title: 部署準則和儲存最佳實務做法
+      url: "/microsoft/win_overview.html"
   - title: Microsoft SQL Server
     links:
     - title: ONTAP 上的 Microsoft SQL Server

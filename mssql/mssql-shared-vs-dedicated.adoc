@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: mssql/mssql-shared-vs-dedicated.html 
-keywords: MS-SQL,mssql,SQL Server 
-summary: ONTAP 上的 Microsoft SQL Server 
+keywords: MSSQL,SQL Server, multiple instances, dedicated instance, ONTAP 
+summary: Microsoft SQL Server 執行個體部署 
 ---
 = Microsoft SQL Server 共用執行個體與專用執行個體的比較
 :allow-uri-read: 
@@ -10,9 +10,9 @@ summary: ONTAP 上的 Microsoft SQL Server
 
 
 [role="lead"]
-如果應用程式有許多架構和儲存程序、可能會影響其他共用 SQL Server 執行個體的應用程式。
+可將多個 SQL Server 設定為每部伺服器的單一執行個體、或設定為多個執行個體。正確的決策通常取決於各種因素、例如伺服器是用於正式作業或開發、無論執行個體是否對業務營運和效能目標至關重要。
 
-執行個體資源可能會被分割或鎖定、進而導致在共用 SQL Server 執行個體上主控資料庫的其他應用程式發生效能問題。
+共享執行個體組態一開始可能比較容易設定、但可能會導致資源被分割或鎖定的問題、進而導致在共享 SQL Server 執行個體上主控資料庫的其他應用程式效能問題。
 
 疑難排解效能問題可能很複雜、因為您必須找出哪個執行個體是根本原因。此問題與作業系統授權和 SQL Server 授權的成本相比較。如果應用程式效能至關重要、則強烈建議使用專用執行個體。
 

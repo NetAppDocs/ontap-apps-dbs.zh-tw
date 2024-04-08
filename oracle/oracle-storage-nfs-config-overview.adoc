@@ -16,7 +16,7 @@ summary: Oracle 資料庫的 NFS 組態
 [role="lead"]
 NetApp 已提供企業級 NFS 儲存設備超過 30 年、由於其簡易性、隨著雲端型基礎架構的推向、其使用量也不斷增加。
 
-NFS 傳輸協定包含多個不同需求的版本。如需 ONTAP 的 NFS 組態完整說明、請參閱 link:https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["TR-4067 NetApp ONTAP 最佳實務做法上的 NFS"^]。下列各節涵蓋一些較重要的需求和一般使用者錯誤。
+NFS 傳輸協定包含多個不同需求的版本。如需 ONTAP 的 NFS 組態完整說明、請參閱 link:https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["TR-4067 ONTAP 最佳實務做法上的 NFS"^]。下列各節涵蓋一些較重要的需求和一般使用者錯誤。
 
 
 
@@ -122,7 +122,7 @@ vserver1  orabin     1         sys       true
 
 TIP: * 如果需要 NFSv4 功能、 NetApp 建議 * 使用 NFSv4.1 。NFSv4.1 中的 NFSv4 傳輸協定有一些功能性增強功能、可改善某些邊緣情況的恢復能力。
 
-切換至 NFSv4 比單純將掛載選項從 ves=3 變更為 ves=4.1 更複雜。如需更完整的 NFSv4 組態與 ONTAP 說明、包括作業系統設定指南、請參閱 https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["TR-4067 NetApp ONTAP 最佳實務做法上的 NFS"^]。本 TR 的下列各節說明使用 NFSv4 的一些基本要求。
+切換至 NFSv4 比單純將掛載選項從 ves=3 變更為 ves=4.1 更複雜。如需更完整的 NFSv4 組態與 ONTAP 說明、包括作業系統設定指南、請參閱 https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["TR-4067 ONTAP 最佳實務做法上的 NFS"^]。本 TR 的下列各節說明使用 NFSv4 的一些基本要求。
 
 
 

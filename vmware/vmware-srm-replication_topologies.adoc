@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmware-srm-replication_topologies.html 
 keywords: vmware, site, recovery manager, vsrm, replication, technologies, snapmirror layouts, array manager, snapvault, qtress, fc, iscsi, supported 
-summary: 在流程9中ONTAP 、叢集管理員可以看到叢集的實體元件、但使用叢集的應用程式和主機無法直接看到這些元件。 
+summary: 使用 ONTAP 搭配 SnapMirror 和 VMware SRM 的複寫拓撲。 
 ---
 = 複寫拓撲
 :hardbreaks:
@@ -36,13 +36,13 @@ summary: 在流程9中ONTAP 、叢集管理員可以看到叢集的實體元件�
 
 下圖顯示了SRM和SRA支援的SnapMirror關係配置案例。複寫磁碟區中的每個VM在每個站台只擁有一個SRM陣列（SVM）上的資料。
 
-image:vsrm-ontap9_image7.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image7.png["SnapMirror 關係配置"]
 
-image:vsrm-ontap9_image8.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image8.png["SnapMirror 關係配置"]
 
-image:vsrm-ontap9_image9.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image9.png["SnapMirror 關係配置"]
 
-image:vsrm-ontap9_image10.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image10.png["SnapMirror 關係配置"]
 
 
 
@@ -50,7 +50,7 @@ image:vsrm-ontap9_image10.png["錯誤：缺少圖形影像"]
 
 當您在SRM中使用陣列型複寫（ABR）時、保護群組會隔離為單一陣列配對、如下面的快照所示。在此案例中、 `SVM1` 和 `SVM2` 與我們合作 `SVM3` 和 `SVM4` 在恢復站點上。不過、您只能在建立保護群組時、從兩個陣列配對中選取一個。
 
-image:vsrm-ontap9_image11.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image11.png["陣列配對"]
 
 
 
@@ -58,13 +58,13 @@ image:vsrm-ontap9_image11.png["錯誤：缺少圖形影像"]
 
 不受支援的組態在個別VM擁有的多個SVM上有資料（VMDK或RDM）。在下列圖中所示的範例中、 `VM1` 無法使用 SRM 進行保護設定、原因是 `VM1` 在兩個 SVM 上有資料。
 
-image:vsrm-ontap9_image12.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image12.png["不支援的組態"]
 
-image:vsrm-ontap9_image13.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image13.png["不支援的組態"]
 
 任何將個別NetApp磁碟區從一個來源SVM複寫到同一個SVM或不同SVM中的多個目的地的複寫關係、都稱為SnapMirror連出。SRM不支援連出。在下圖所示範例中、 `VM1` 無法在 SRM 中進行保護設定、因為它會與 SnapMirror 一起複寫到兩個不同的位置。
 
-image:vsrm-ontap9_image14.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image14.png["不支援的組態"]
 
 
 
@@ -72,7 +72,7 @@ image:vsrm-ontap9_image14.png["錯誤：缺少圖形影像"]
 
 SRM不支援SnapMirror關係的串聯、在這種關係中、來源磁碟區會複寫到目的地磁碟區、而目的地磁碟區也會使用SnapMirror複寫到另一個目的地磁碟區。在下圖所示的案例中、SRM無法用於任何站台之間的容錯移轉。
 
-image:vsrm-ontap9_image15.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image15.png["SnapMirror 關係串聯"]
 
 
 
@@ -103,11 +103,11 @@ NOTE: NetApp 支援 `mirror-vault` 原則類型。
 
 下圖說明SnapMirror至SnapVault SnapMirror串聯組態。如果該站台位於DR站台或第三站台、但不受主站台中斷影響、則可重新設定環境、以便在容錯移轉後繼續備份。SnapVault
 
-image:vsrm-ontap9_image16.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image16.png["SnapMirror 至 SnapVault 串聯"]
 
 下圖說明使用SRM將SnapMirror複寫還原回主要站台之後的組態。環境也經過重新設定、SnapVault 使目前的SnapMirror來源產生了不支援的資料。此設定為SnapMirror SnapVault 的橫向風扇組態。
 
-image:vsrm-ontap9_image17.png["錯誤：缺少圖形影像"]
+image:vsrm-ontap9_image17.png["SnapMirror 至 SnapVault 串聯反轉"]
 
 在SRM執行容錯回復並第二次反轉SnapMirror關係之後、正式作業資料就會回到主要站台。此資料現在的保護方式與容錯移轉至DR站台之前相同、透過SnapMirror和SnapVault 還原備份。
 

@@ -1,27 +1,30 @@
 ---
 sidebar: sidebar 
 permalink: mssql/mssql-disaster-recovery.html 
-keywords: MS-SQL,mssql,SQL Server, disaster recovery, snapmirror 
-summary: ONTAP 上的 Microsoft SQL Server 
+keywords: MSSQL,SQL Server, disaster recovery, snapmirror 
+summary: 使用 ONTAP 進行 Microsoft SQL Server 災難恢復 
 ---
-= Microsoft SQL Server 災難恢復
+= 使用 ONTAP 進行 Microsoft SQL Server 災難恢復
 :allow-uri-read: 
 :imagesdir: ../media/
 
 
 [role="lead"]
-NetApp 提供各種方法、可在發生硬體、軟體或站台故障時提高資料可用度。
+企業資料庫和應用程式基礎架構通常需要複寫、才能在最短的停機時間內、避免自然災難或非預期的業務中斷。
+
+SQL Server 全年無休可用性群組複寫功能是絕佳的選擇、而 NetApp 提供的選項可將資料保護與全年無休整合。不過、在某些情況下、您可能會想要考慮使用 ONTAP 複寫技術。ONTAP 複寫選項（包括 MetroCluster 和 SnapMirror ）可在最小化效能影響的情況下更好地擴充、保護非 SQL 資料、並通常提供完整的基礎架構複寫和災難恢復解決方案。
 
 
 
-== NetApp SnapMirror
+== SnapMirror 非同步
 
-NetApp SnapMirror 技術提供快速靈活的企業解決方案、可透過 LAN 和 WAN 來鏡射或複寫資料。SnapMirror 技術在初始基礎傳輸之後、只會將經過修改的 4KB 資料區塊傳輸到目的地、大幅降低網路頻寬需求。SnapMirror 可根據設定的複寫更新間隔、提供非同步的磁碟區層級複寫。
+SnapMirror 技術提供快速靈活的非同步企業解決方案、可在 LAN 和 WAN 上複寫資料。SnapMirror 技術只會在建立初始鏡像之後、將變更的資料區塊傳輸到目的地、大幅降低網路頻寬需求。
+
 以下是 SnapMirror for SQL Server 的建議：
 
 * 如果使用 CIFS 、目的地 SVM 必須是來源 SVM 所屬 Active Directory 網域的成員、如此一來、在從災難恢復期間、 NAS 檔案中儲存的存取控制清單（ ACL ）就不會中斷。
 * 不需要使用與來源 Volume 名稱相同的目的地 Volume 名稱、但可讓將目的地 Volume 掛載至目的地的程序更容易管理。如果使用 CIFS 、您必須在來源命名空間的路徑和目錄結構中、使目的地 NAS 命名空間相同。
-* 為了一致性、請勿從控制器排程 SnapMirror 更新。不過、在完整備份或記錄備份完成後、啟用 SnapCenter 的 SnapMirror 更新來更新 SnapMirror 。
+* 為了一致性的目的、請勿從控制器排程 SnapMirror 更新。而是在完整備份或記錄備份完成後、從 SnapCenter 啟用 SnapMirror 更新以更新 SnapMirror 。
 * 將包含 SQL Server 資料的磁碟區分散到叢集中的不同節點、以允許所有叢集節點共用 SnapMirror 複寫活動。此套裝作業系統可最佳化節點資源的使用。
 
 

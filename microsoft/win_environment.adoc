@@ -5,7 +5,12 @@ keywords: Windows,Hyper-V,VHDX,VM,Virtual
 summary: 瞭解 NetApp 儲存設備和 Windows Server 環境 
 ---
 = NetApp 儲存設備和 Windows Server 環境
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]
@@ -76,7 +81,7 @@ NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端
 
 
 
-=== 記住事項
+=== 值得記住的事項
 
 * NetApp 不支援 Windows Server 儲存空間。儲存空間僅用於 JBOD （只有一堆磁碟）、不適用於任何類型的 RAID （直接附加儲存 [DAS] 或 SAN ）。
 * ONTAP 不支援 Windows Server 中的叢集式儲存集區。

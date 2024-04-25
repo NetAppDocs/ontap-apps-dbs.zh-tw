@@ -127,8 +127,6 @@
   <block id="d7023f86951b6c3c009891a468c3effd" category="paragraph">在最簡單的層級上、同步複寫表示必須先對鏡射儲存設備的兩側進行任何變更、然後才會被確認。例如、如果資料庫正在寫入記錄檔、或是正在修補 VMware 來賓作業系統、則寫入作業絕不能遺失。作爲一種協議級別，在兩個站點上的非易失性介質被認可之前，存儲系統不得確認寫入內容。只有這樣、在不遺失資料的風險下繼續作業是安全的。</block>
   <block id="eee4f7a4e0ed3a8646a97bcf3e118fb9" category="paragraph">使用同步複寫技術是設計和管理同步複寫解決方案的第一步。最重要的考量是瞭解在各種計畫性和非計畫性失敗案例中可能發生的情況。並非所有同步複寫解決方案都提供相同的功能。如果您需要提供零恢復點目標（ RPO ）的解決方案、亦即零資料遺失、則必須考慮所有故障情況。特別是、當站台之間的連線中斷而無法進行複寫時、預期會產生什麼結果？</block>
   <block id="71554672a088c43ab21c759ddd161928" category="section-title">SyncMirror 資料可用度</block>
-  <block id="bec293a9cf8e49ec40e6a4fdc02b9146" category="paragraph">MetroCluster 複寫是以 NetApp SyncMirror 技術為基礎、其設計旨在有效率地切換至同步模式及從同步模式切換到同步模式。這項功能符合要求同步複寫、但也需要高可用度資料服務的客戶需求。例如、如果中斷與遠端站台的連線、通常最好讓儲存系統繼續以非複寫狀態運作。</block>
-  <block id="9a9ce41f4b23474045b6c6e0ac7752af" category="paragraph">許多同步複寫解決方案只能以同步模式運作。這種類型的全或全無複寫有時稱為 Domino 模式。這類儲存系統會停止提供資料、而不允許資料的本機和遠端複本變得不同步。如果複寫被強制中斷、重新同步可能會非常耗時、而且可能會讓客戶在重新建立鏡像期間暴露在完全資料遺失的風險中。</block>
   <block id="8646bb558f8f18a200cce2f70602627a" category="paragraph">SyncMirror 不僅可以在無法連線到遠端站台時、無縫切換至同步模式、也可以在連線恢復時、快速重新同步至 RPO = 0 狀態。遠端站台的資料過時複本也可在重新同步期間保留為可用狀態、以確保資料的本機和遠端複本隨時都存在。</block>
   <block id="995f5151d2d1c0a4e8371b2b3c9b6e5b" category="paragraph">在需要 Domino 模式的情況下、 NetApp 提供 SnapMirror 同步（ SM-S ）。應用程式層級選項也存在、例如 Oracle DataGuard 或主機端磁碟鏡射的延長逾時。如需其他資訊和選項、請洽詢您的 NetApp 或合作夥伴客戶團隊。</block>
   <block id="1d12d7a206d9b5337ae6fa442f23d377" category="doc">僅限 Snapshot</block>
@@ -145,12 +143,10 @@
   <block id="10d8500e282e8bbacd668af6f773f412" category="paragraph">有了這項原則、就能立即將區塊視為酷炫、並立即分層至容量層。</block>
   <block id="ec583de0216b95bc673c84e4ec9356e6" category="paragraph">此原則特別適用於長期備份。它也可以用作階層式儲存管理（ HSM ）的形式。過去、 HSM 通常用於將檔案的資料區塊分層至磁帶、同時讓檔案本身在檔案系統上保持可見。具有的 FabricPool Volume<block ref="a181a603769c1f98ad927e7367c7aa51" prefix=" " category="inline-code"></block> 原則可讓您將檔案儲存在可見且可管理的環境中、但幾乎無需佔用本機儲存層的空間。</block>
   <block id="79768a069a539d4f130e672a660bf45f" category="doc">分區</block>
-  <block id="79da1502ddfac887bfdf0d92f2428fe6" category="paragraph">這包括典型的規劃措施、例如確保主機和儲存系統之間的 SAN 上有足夠的頻寬、使用 FC 交換器廠商所需的 FC 連接埠設定、檢查所有必要裝置之間是否存在所有 SAN 路徑、避免 ISL 爭用、 並使用適當的 SAN 架構監控。</block>
   <block id="a0bdb98e8b9da585816478d24278e42f" category="paragraph">FC 區域不得包含多個啟動器。這種安排一開始可能會運作、但啟動器之間的串擾最終會影響效能和穩定性。</block>
   <block id="8ef958d9e25538841b306960ab117626" category="paragraph">雖然在極少數情況下、來自不同廠商的 FC 目標連接埠行為造成問題、但多目標區域通常被視為安全區域。例如、避免將 NetApp 和非 NetApp 儲存陣列的目標連接埠同時納入同一區域。此外、將 NetApp 儲存系統和磁帶裝置置於同一個區域、更有可能造成問題。</block>
   <block id="642223473862db290604321fe2ebe763" category="doc">SVM</block>
   <block id="47ea917cf14ad91c68c407f90a7a189d" category="paragraph">SVM 在 ONTAP CLI 中稱為 vserver 、是基本的儲存功能單元、比較 SVM 與 VMware ESX 伺服器上的客體是很有用的。</block>
-  <block id="9efbaa34de852e33319ca8ceb1861832" category="paragraph">首次安裝時、 ESX 沒有預先設定的功能、例如代管來賓作業系統或支援終端使用者應用程式。它是空容器、直到定義虛擬機器（ VM ）為止。ONTAP 類似。第一次安裝 ONTAP 時、只有建立 SVM 、它才具備資料服務功能。定義資料服務的是 SVM 特性設定。</block>
   <block id="13ce2622b2cc2118c44d3aae7df8167d" category="paragraph">與儲存架構的其他層面一樣、 SVM 和邏輯介面（ LIF ）設計的最佳選項、在很大程度上取決於擴充需求和業務需求。</block>
   <block id="8fb41a27984f0beba2e12fb920a486aa" category="paragraph">我們並未正式提供 ONTAP 的 SVM 資源配置最佳實務做法。正確的方法取決於管理和安全要求。</block>
   <block id="f4d8541bb6d07f7533a6b5aa6cfb2455" category="paragraph">大多數客戶只需操作一部主要 SVM 、即可滿足大部分的日常需求、然後針對特殊需求建立少量 SVM 。例如、您可能想要建立：</block>
@@ -158,7 +154,6 @@
   <block id="0e10f2715884f3538282397d69b2cd00" category="list-text">開發群組的 SVM 已獲得完整的管理控制權、可讓他們獨立管理自己的儲存設備</block>
   <block id="7624156e307247e4ea1ec8bf574136a1" category="list-text">必須限制管理團隊的 SVM 、用於處理敏感業務資料、例如人力資源或財務報告資料</block>
   <block id="e5e09031843479ef9ef8cbbd4c2f404c" category="inline-link-macro">NetApp Hardware Universe</block>
-  <block id="bd32656670155eb09690047819fc0971" category="paragraph">在多租戶環境中、每個租戶的資料都可以獲得專屬的 SVM 。每個叢集、 HA 配對和節點的 SVM 和生命量限制取決於所使用的傳輸協定、節點模型和 ONTAP 版本。  請參閱 <block ref="41f66f34b3a905f864500c9319fdff8f" category="inline-link-macro-rx"></block> 針對這些限制。</block>
   <block id="fb012f1e7970d8285bd5d6c5a7f7d523" category="doc">SSD 集合體、包括 AFF 系統</block>
   <block id="cb8e4651c457f71d5788f38eac01471f" category="paragraph">可用空間定義為任何不用於實際資料的空間、並包括集合體本身的未分配空間、以及組成磁碟區內的未使用空間。也必須考慮精簡配置。例如、某個磁碟區可能包含 1TB LUN 、其中只有 50% 被實際資料使用。在精簡佈建的環境中、這似乎是消耗 500GB 的空間。不過、在完全佈建的環境中、 1TB 的完整容量似乎正在使用中。500GB 的未分配空間會隱藏起來。實際資料未使用此空間、因此應納入總可用空間的計算。</block>
   <block id="d3487661d9a0702bd5915d49070f62dc" category="paragraph">NetApp 對於企業應用程式所使用的儲存系統建議如下：</block>
@@ -3608,11 +3603,9 @@
   <block id="4f0dae2ba2fd11c533349d6ade4f81de" category="paragraph">ONTAP 提供強大的角色型存取控制（ RBAC ）功能、可用於管理登入。某些管理員可能需要完整的叢集存取權、而其他管理員可能只需要存取特定的 SVM 。進階服務台人員可能需要增加磁碟區大小的能力。因此、您可以授予系統管理使用者執行工作職責所需的存取權限、而無需再提供其他權限。此外、您可以使用來自不同廠商的 PKI 來保護這些登入安全、僅限制對 ssh 金鑰的存取、並強制執行失敗的登入嘗試鎖定。</block>
   <block id="6ae13b0198daa7d13d79a8631297e64d" category="paragraph">如需管理存取控制的詳細資訊、請按一下 <block ref="db5be08b697b5ef26e0e94da1d5f4970" category="inline-link-macro-rx"></block></block>
   <block id="671a94a08dff3cf44fad087e2346c8b0" category="section-title">Multfactor 驗證</block>
-  <block id="c6595c32ea3c4aa315aa5c66b88b0a54" category="paragraph">ONTAP 和其他某些 NetApp 產品現在支援使用各種方法的多因素驗證。因此、光是使用者名稱 / 密碼就不再是安全執行緒、而沒有第二個因素的資料、例如 FOB 或智慧型手機應用程式。</block>
   <block id="945c88a63c229c39ee73ab5592b3ef63" category="paragraph">如需詳細資訊、請按一下 <block ref="03628d0cd13b6640ef56c399aa1c2070" category="inline-link-macro-rx"></block></block>
   <block id="852741d2a7fb0a8a1a5dd748dbbd6734" category="section-title">API RBAC</block>
   <block id="bbbea5fec67f15424fa77aa563754c49" category="paragraph">自動化需要 API 呼叫、但並非所有工具都需要完整的管理存取權。為了協助保護自動化系統的安全、 API 層級也提供 RBAC 。您可以將自動化使用者帳戶限制為所需的 API 呼叫。例如、監控軟體不需要變更存取權、只需要讀取存取權。配置儲存設備的工作流程不需要刪除儲存設備的能力。</block>
-  <block id="cb93ad4589e6e6834d2627d2ef8c8456" category="section-title">多管理員驗證</block>
   <block id="7604bad489eaec7e27d112c63d3e2936" category="paragraph">若要進一步進行多重「因素」驗證、需要兩位不同的管理員（每位管理員都有自己的認證）來核准某些活動。這包括變更登入權限、執行診斷命令和刪除資料。</block>
   <block id="e890d04cd745ac382688bbb307655e81" category="paragraph">如需多管理驗證（ MAV ）的詳細資訊、請按一下 <block ref="88f84d4fec0424d978600980bf11baf0" category="inline-link-macro-rx"></block></block>
   <block id="b39c0496b44447232912303246b46aaa" category="paragraph">如果需要大量連續 IO 、則可依照下節所述增加 NFS 傳輸大小。</block>
@@ -4060,7 +4053,6 @@
   <block id="2c0931d05d138f5ed298de6301f8b914" category="paragraph">SnapMirror 主動同步可針對個別 Oracle 資料庫和應用程式環境、啟用選擇性的 RPO =0 同步鏡射。</block>
   <block id="23ac407fd735aa143b377c5ce899450a" category="paragraph">SnapMirror 主動同步基本上是 SAN 的強化 SnapMirror 功能、可讓主機從主控 LUN 的系統以及主控其複本的系統存取 LUN 。</block>
   <block id="b3bb502fe4549a90a1e8172726d68f50" category="paragraph">SnapMirror 主動式同步和 SnapMirror 同步可共用複寫引擎、不過 SnapMirror 主動式同步則包含其他功能、例如企業應用程式的透明應用程式容錯移轉和容錯回復。</block>
-  <block id="174334561d4297360aed6a35cab38797" category="paragraph">藉助 SnapMirror Active Syncsc ，可以從主存儲陣列和遠程存儲陣列中的主機操作系統看到存儲設備。路徑是透過非對稱式邏輯單元存取（ ALUA ）進行管理、這是一種業界標準傳輸協定、用於識別儲存系統與主機之間的最佳化路徑。</block>
   <block id="e1ffc166cd6595b5b47f9c72a57357ed" category="paragraph">SnapMirror 主動同步關係是位於不同叢集上的一對 SVM 之間的關係。兩個 SVM 都能提供資料、但 ALUA 會優先使用 SVM 、而 SVM 目前擁有 LUN 所在磁碟機的所有權。透過 SnapMirror 主動同步互連、將 IO 透過代理至遠端 SVM 。</block>
   <block id="a6c7f963d0151b1e80b754596853d273" category="paragraph">在正常作業中、遠端複本始終為 RPO = 0 同步複本、但有一個例外。如果無法複寫資料、 SnapMirror 主動式同步將會釋放複寫資料和恢復服務 IO 的需求。如果客戶認為複寫連結遺失的情況近乎災難、或是不想在無法複寫資料時停止業務作業、則偏好使用此選項。</block>
   <block id="ea1d91c32fcf0f4a1090fd0da341c014" category="paragraph">與其他儲存災難恢復解決方案不同、 SnapMirror 主動式同步提供非對稱式平台靈活度。每個站台的硬體不一定相同。此功能可讓您調整支援 SnapMirror 主動同步所用硬體的大小。如果遠端儲存系統需要支援完整的正式作業工作負載、則它可以與主要站台相同、但如果災難導致 I/O 減少、遠端站台上較小的系統可能會更具成本效益。</block>
@@ -4136,7 +4128,6 @@
   <block id="96738983d52a374cb4a8c958e924836e" category="paragraph">備份或交易記錄等資料會循序寫入跨越多個區塊的作業、所有這些區塊都會被壓縮。因此、不需要考慮對齊。唯一令人擔憂的 I/O 模式是隨機覆寫檔案。</block>
   <block id="1afe2c0821b67085f9ea2d2deeb2e92a" category="paragraph">資料壓縮技術可改善壓縮效率。如前所述、僅有調適式壓縮功能、最多可節省 2 ： 1 、因為它僅限於在 4KB WAFL 區塊中儲存 8KB I/O 。較大區塊大小的壓縮方法可提供更好的效率。不過、這些資料不適合受到小型區塊覆寫的資料。解壓縮 32KB 的資料單元、更新 8KB 部分、重新壓縮及回寫磁碟機、都會產生額外的負荷。</block>
   <block id="82116b39cd4d0d1920fab1ab4515603b" category="paragraph">節省的程度各不相同。已壓縮或加密的資料通常無法進一步壓縮、因此資料集無法從資料壓縮中獲益。相反地、新初始化的資料檔案僅包含區塊中繼資料和零、最多可壓縮至 80 ： 1 。</block>
-  <block id="648bfcfcbad0911f90c81de48afd0a97" category="paragraph">部分資料不包含重複資料。例如、 Oracle 區塊包含資料庫的全域唯一標頭、以及近乎唯一的標尾。因此、 Oracle 資料庫的重複資料刪除功能很少能節省 1% 以上的成本。使用 MS SQL 資料庫進行重複資料刪除的效果稍微好一些、但區塊層級的獨特中繼資料仍是一大限制。</block>
   <block id="2608473fa5767385d01f256eccbc1cc4" category="paragraph">許多競爭陣列都宣稱能夠根據資料庫複製多次的假設來刪除重複的資料庫。在這方面，也可以使用 NetApp 重複資料刪除技術，但 ONTAP 提供更好的選擇： NetApp FlexClone 技術。最終結果相同；資料庫的多個複本會建立共用大部分基礎實體區塊。使用 FlexClone 比花時間複製資料庫檔案然後刪除複製檔案更有效率。實際上，它是不重複數據刪除，而不是重複數據刪除，因爲從一開始就不會創建重複數據。</block>
   <block id="7e96c1b651af3f28c27b78807f0310e2" category="paragraph">強烈建議採用精簡配置、因為它可以簡化管理、同時大幅改善可用容量、並節省相關成本。原因很簡單：資料庫環境通常包含大量的空空間、大量的磁碟區和 LUN 、以及可壓縮的資料。如果磁碟區和 LUN 的儲存空間有一天 100% 滿、而且包含 100% 不可壓縮的資料、則大量資源配置會導致保留空間。這種情況不太可能發生。精簡配置可回收空間並在其他地方使用、並可讓容量管理以儲存系統本身為基礎、而非許多較小的磁碟區和 LUN 。</block>
   <block id="0f55b43344575cc268bf51ae032d47c2" category="paragraph">NetApp 建議：</block>
@@ -4221,7 +4212,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="dabc72adea00cc712e7650b066f1d8c6" category="inline-link">TR-4067 ONTAP 最佳實務做法上的 NFS</block>
   <block id="36911cfd2b35ef0ca97dab53c7e045f0" category="paragraph">切換至 NFSv4 比單純將掛載選項從 ves=3 變更為 ves=4.1 更複雜。如需更完整的 NFSv4 組態與 ONTAP 說明、包括作業系統設定指南、請參閱<block ref="92f446ddde3e320c4e32b449cbe3112d" category="inline-link-rx"></block>。本 TR 的下列各節說明使用 NFSv4 的一些基本要求。</block>
   <block id="a80438f1b3354b284cf31082c45b33b3" category="summary">採用 ONTAP 的 Hyper-V 儲存基礎架構</block>
-  <block id="77d9e17a96fcc62f4b2f3f1b9eb8f6f3" category="doc">NetApp 上的 Hyper-V 儲存基礎架構</block>
   <block id="cfbb26e347d5746581822f8046be20c4" category="paragraph">Hyper-V 儲存基礎架構可裝載於 ONTAP 儲存系統上。Hyper-V 儲存以儲存 VM 檔案及其磁碟的儲存設備可使用 NetApp LUN 或 NetApp CIFS 共用來提供、如下圖所示。</block>
   <block id="25aa60030552ee28c6e802f74d96f111" category="inline-image-macro">NetApp 上的 Hyper-V 儲存基礎架構、寬度 =624 、高度 =338</block>
   <block id="818a20c74e71223c5a644895a6dd4095" category="paragraph"><block ref="818a20c74e71223c5a644895a6dd4095" category="inline-image-macro-rx" type="image"></block></block>
@@ -4231,7 +4221,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="2771a58b129233810f1c389eedd2207f" category="list-text">從 Server Manager 的「工具」區段開啟 Hyper-V Manager 。</block>
   <block id="ee15a170a42b1f37e0d70bf3b367f2ee" category="list-text">選取 Hyper-V 伺服器、然後按一下 Hyper-V 設定。</block>
   <block id="b9cc0276ae5386d0ed5e9ed31ceb340d" category="list-text">指定將 VM 及其磁碟儲存為 LUN 的預設資料夾。這樣做會將預設路徑設為 Hyper-V 儲存設備的 LUN 。如果您想要明確指定 VM 的路徑、則可以在建立 VM 時指定路徑。</block>
-  <block id="551348ade1eff79be71e03da6bf03bea" category="section-title">NetApp CIFS 共用上的 Hyper-V 儲存設備</block>
   <block id="72feffd29972ad4bc2fb9f5705e60864" category="inline-link-macro">在 SMB 環境中進行資源配置</block>
   <block id="ace87f7890ab6204f4ef6abd0afaf28a" category="paragraph">在開始執行本節所列的步驟之前、請先檢閱「<block ref="f9d723fa339e7968f40a99719593036c" category="inline-link-macro-rx"></block>。」 若要在 NetApp CIFS 共用上設定 Hyper-V 儲存設備、請完成下列步驟：</block>
   <block id="d3f9aa7fc4289533bdeb015bbd645a22" category="list-text">指定將 VM 及其磁碟儲存為 CIFS 共用的預設資料夾。這樣做會將預設路徑設為 Hyper-V 儲存設備的 CIFS 共用。如果您想要明確指定 VM 的路徑、則可以在建立 VM 時指定路徑。</block>
@@ -4243,17 +4232,14 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="50fba9282607c757ab39ad110cd0fde4" category="list-text">當 VM 及其資料儲存在 NetApp 儲存設備上時、 NetApp 建議定期在 Volume 層級執行 NetApp 重複資料刪除。當相同的 VM 託管在 CSV 或 SMB 共享上時、這種做法可大幅節省空間。重複資料刪除功能會在儲存控制器上執行、不會影響主機系統和 VM 的效能。</block>
   <block id="6421e175d1ef977d73a52a6a90626eb8" category="list-text">在 Hyper-V 使用 iSCSI LUN 時、請務必啟用<block ref="0a6a9fc5db5706ee3ac704f21780cb07" prefix=" " category="inline-code"></block> 和<block ref="d8ed6ba87266cde713ed7ac6c907ff7e" prefix=" " category="inline-code"></block> 在 Hyper-V 主機的防火牆設定中。如此一來、 iSCSI 流量就能往返於 Hyper-V 主機和 NetApp 控制器。</block>
   <block id="6b4ecf09c5310b6b905c86b910a57012" category="list-text">NetApp 建議取消勾選允許管理作業系統共用 Hyper-V 虛擬交換器的此網路介面卡選項。這樣做可為 VM 建立專用網路。</block>
-  <block id="8bd7919dcdb07a06e0c90028167583b1" category="section-title">記住事項</block>
   <block id="d39c100d166d09a8e573d5c4980c0674" category="list-text">使用虛擬光纖通道來配置 VM 需要啟用 N_Port ID 虛擬化功能的 FC HBA 。最多支援四個 FC 連接埠。</block>
   <block id="8f20505d01de58b8e00048581d2d7244" category="list-text">如果主機系統已設定多個 FC 連接埠並呈現給 VM 、則必須在 VM 中安裝 MPIO 才能啟用多重路徑功能。</block>
   <block id="e003acc3eceda748125d4c7bf41052e7" category="list-text">如果在該主機上使用 MPIO 、則無法將直接移轉磁碟配置至主機、因為直接移轉磁碟不支援 MPIO 。</block>
   <block id="aa7c5f68a034b43fa3bafa90ea6a6c2b" category="list-text">用於 VHD/VHD 檔案的磁碟應該使用 64K 格式進行配置。</block>
-  <block id="4dc66bc568b2cb9bcd58e7a2d13c424a" category="section-title">進一步閱讀</block>
   <block id="bc8be72fdc9d6054f356bb2b7f80fd12" category="inline-link">NetApp 互通性對照表</block>
   <block id="34de012edea0d70cf76edda88efae407" category="list-text">如需 FC HBA 的相關資訊、請參閱<block ref="03bbc27528de80852aa5d0d1250f8442" category="inline-link-rx"></block>。</block>
   <block id="5aa08a9ab39b4ff0ad3ec476f9c0a7a9" category="inline-link">Hyper-V 虛擬光纖通道總覽</block>
   <block id="17d2fe1a1b42dbc4c914a82ff9a06cbf" category="list-text">如需虛擬光纖通道的詳細資訊、請參閱 Microsoft<block ref="ffefda586e5fabc71f0e43393b116d4c" category="inline-link-rx"></block> 頁面。</block>
-  <block id="da74a9322c811ab8d1f8f1e3a8de77ae" category="section-title">卸載資料傳輸</block>
   <block id="fadcc8cea091e223f4d4a49a0c02b9cb" category="paragraph">Microsoft ODX 也稱為複製卸載、可在儲存裝置內或相容儲存裝置之間直接傳輸資料、而無需透過主機電腦傳輸資料。NetApp ONTAP 支援 CIFS 與 SAN 傳輸協定的 ODX 功能。如果複本位於同一個磁碟區內、 ODX 可能會改善效能、降低用戶端 CPU 和記憶體的使用率、並降低網路 I/O 頻寬使用率。</block>
   <block id="6736b7040d05d12679268b13fae93377" category="paragraph">有了 ODX 、在 SMB 共用區、 LUN 內、以及 SMB 共用區與 LUN 之間（如果位於同一個磁碟區）複製檔案、速度更快、效率更高。此方法在相同磁碟區中需要多個作業系統（ HDD/VHDX ）黃金映像複本的情況下更有幫助。如果複本位於同一個磁碟區內、則可在大幅減少的時間內製作同一個黃金映像的數個複本。ODX 也適用於 Hyper-V 儲存即時移轉、可用於移動 VM 儲存設備。</block>
   <block id="53003aec095203ae2075a8150e8ead4e" category="paragraph">如果複本是跨磁碟區的、相較於主機型複本、效能可能不會大幅提升。</block>
@@ -4269,7 +4255,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="f41987326c80680c60b359697adfa4cc" category="inline-link">改善 Microsoft 遠端複製效能</block>
   <block id="fcb65106bb1fd73c88cf9528cb579ed5" category="inline-link">Microsoft 卸載資料傳輸</block>
   <block id="65994fb0563b49bfe0e59359edf5513d" category="paragraph">如需 ODX 的相關資訊、請參閱<block ref="29f9e15a4017cdf9ae06e098a7a28381" category="inline-link-rx"></block> 和<block ref="f884f78ec6d36ebebd3d9fc57e8c3734" category="inline-link-rx"></block> 。</block>
-  <block id="5900297dc6c562ff01ee433afebbac1e" category="section-title">Hyper-V 叢集：適用於虛擬機器的高可用度與擴充性</block>
   <block id="20029977789a74e480e6f8d14c07b48a" category="paragraph">容錯移轉叢集可為 Hyper-V 伺服器提供高可用度和擴充性。容錯移轉叢集是一組相互支援的 Hyper-V 伺服器、可一起提高 VM 的可用度和擴充性。</block>
   <block id="982112e1f4d4e4c9d7ded4eff9e38200" category="paragraph">Hyper-V 叢集式伺服器（稱為節點）是由實體網路和叢集軟體所連接。這些節點使用共用儲存設備來儲存 VM 檔案、包括組態、虛擬硬碟（ VHD ）檔案和 Snapshot 複本。共享儲存設備可以是 NetApp SMB/CIFS 共用、或是 NetApp LUN 上的 CSV 、如圖 6 所示。此共享儲存設備提供一致且分散的命名空間、可由叢集中的所有節點同時存取。因此、如果叢集中有一個節點發生故障、另一個節點會透過稱為容錯移轉的程序來提供服務。您可以使用容錯移轉叢集管理單元和容錯移轉叢集 Windows PowerShell Cmdlet 來管理容錯移轉叢集。</block>
   <block id="1b5f8c43b61e9249f3c82e39f9649160" category="section-title">叢集共享磁碟區</block>
@@ -4292,7 +4277,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="7c021f26d9ab2ec9934fc24d167ceaa4" category="list-text">擁有專用的主機即時移轉網路、以避免移轉期間發生與網路相關的問題。</block>
   <block id="a725857d2338d476a409fd1fb67b1f56" category="inline-link-macro">附錄 C ：在叢集環境中部署 Hyper-V 線上即時移轉</block>
   <block id="45f7134e494aae2cba3b60b3fe769caa" category="paragraph">如需在叢集環境中部署即時移轉的相關資訊、請參閱 <block ref="b584c2d96a6b139fbe05976580afae94" category="inline-link-macro-rx"></block>。</block>
-  <block id="4373b97ea25c2f936187bcd85e56945d" category="section-title">叢集環境外部的即時移轉</block>
   <block id="07cb5e9c694ee3a8dcc475a38371ad5c" category="paragraph">您可以在兩個非叢集式、不相互關聯的 Hyper-V 伺服器之間即時移轉 VM 。此程序可以使用共用或不共用的即時移轉。</block>
   <block id="e71df2d29ba96f271b3da69baa09714f" category="list-text">在共享的即時移轉中、虛擬機器會儲存在 SMB 共用區中。因此、當您即時移轉虛擬機器時、虛擬機器的儲存設備會保留在中央 SMB 共用區上、以便其他節點立即存取、如下圖所示。</block>
   <block id="87b94a12a79a6dbc08decd540810bb26" category="inline-image-macro">在非叢集式環境中進行共用即時移轉、寬度 =331 、高度 =271</block>
@@ -4328,13 +4312,11 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="eccf932baf8f6019c69035ea09e26c2c" category="paragraph"><block ref="eccf932baf8f6019c69035ea09e26c2c" category="inline-image-macro-rx" type="image"></block></block>
   <block id="319572d5872182625e2834b8615517f2" category="inline-link-macro">附錄 E ：部署 Hyper-V 儲存即時移轉</block>
   <block id="04a136595cb35e5c42e3ea764e9cd259" category="paragraph">如需部署儲存即時移轉的相關資訊、請參閱 <block ref="e0d213bcf75379722df0c1b3af5063a2" category="inline-link-macro-rx"></block>。</block>
-  <block id="0284c4228f4ca29dcfaa0da79f4ff585" category="section-title">Hyper-V 複本：虛擬機器的災難恢復</block>
   <block id="86174aa4d77b1853f72b6e1a6f32c753" category="paragraph">Hyper-V 複本會將 Hyper-V VM 從主要站台複寫到次要站台上的複本 VM 、以非同步方式為 VM 提供災難恢復。主站台上的 Hyper-V 伺服器稱為主伺服器；次要站台上接收複寫 VM 的 Hyper-V 伺服器稱為複本伺服器。下圖顯示 Hyper-V 複本範例案例。您可以在屬於容錯移轉叢集一部分的 Hyper-V 伺服器之間、或是在不屬於任何叢集的單獨 Hyper-V 伺服器之間、使用 Hyper-V 複本來處理 VM 。</block>
   <block id="28e90920ae557bd81a8056f93fb4b0ee" category="inline-image-macro">Hyper-V 複本、寬度 = 624 、高度 = 201</block>
   <block id="4fc821418df9e4488323cc70692d5083" category="paragraph"><block ref="4fc821418df9e4488323cc70692d5083" category="inline-image-macro-rx" type="image"></block></block>
   <block id="8c340dc334134096f68b880b42a8692c" category="section-title">複寫</block>
   <block id="b9bce4677e5b3ea1c310fddca6123c9f" category="paragraph">在主伺服器上為 VM 啟用 Hyper-V 複本之後、初始複寫會在複本伺服器上建立相同的 VM 。初始複寫之後、 Hyper-V 複本會維護 VM VHD 的記錄檔。根據複寫頻率、以相反順序將記錄檔重新播放至複本 VHD 。此記錄和反向順序的使用可確保以非同步方式儲存和複寫最新的變更。如果複寫未與預期頻率一致、就會發出警示。</block>
-  <block id="5a5778eba70a76865cae590f81e9f490" category="section-title">延伸複寫</block>
   <block id="ec9fc8b78968b1d0daadf7598a4e2ab6" category="paragraph">Hyper-V 複本支援延伸複寫、可在其中設定次要複本伺服器以進行災難恢復。您可以設定次要複本伺服器、讓複本伺服器接收複本 VM 上的變更。在延伸複寫案例中、主要伺服器上主要 VM 上的變更會複寫到複本伺服器。然後將變更複寫到擴充複本伺服器。只有當主要和複本伺服器都停機時、 VM 才能容錯移轉至延伸複本伺服器。</block>
   <block id="a3f36244dba1d116dac91134dda3b9db" category="paragraph">容錯移轉不是自動的；程序必須手動觸發。容錯移轉有三種類型：</block>
   <block id="f8487dcb10cf762a4d3f28da4635bd2a" category="list-text">* 測試容錯移轉。 * 此類型用於驗證複本 VM 是否能在複本伺服器上成功啟動、並在複本 VM 上啟動。此程序會在容錯移轉期間建立重複的測試 VM 、不會影響正常的正式作業複寫。</block>
@@ -4383,7 +4365,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="9da4e10b0da989c65844cd59ed2a0991" category="list-text">使用 Hyper-V Manager 將共享儲存設備（ SMB 共享或 CSV ）設定為儲存 Hyper-V 伺服器的 VM 及其磁碟的預設路徑。</block>
   <block id="064cd683bf50cb65205de6b9298201b3" category="list-text">測試非計畫性容錯移轉停止擁有 VM 的伺服器上的叢集服務。</block>
   <block id="c7bfaead2ee1aea320b1d91da7ba31d7" category="summary">瞭解 NetApp 儲存設備和 Windows Server 環境</block>
-  <block id="3654a2a95a62ead550b874d74dd4bbe8" category="doc">NetApp 儲存設備和 Windows Server 環境</block>
   <block id="5c8c98e7f403562b754941b4d0c17f65" category="paragraph">如中所述 <block ref="ba92ae7cf3bb4a058d2b231c16067714" category="inline-link-macro-rx"></block>NetApp 儲存控制器提供真正統一化的架構、支援檔案、區塊和物件傳輸協定。這包括 SMB/CIFS 、 NFS 、 NVMe / TCP 、 NVMe / FC 、 iSCSI 、 FC （ FCP ）和 S3 、可建立統一化的用戶端和主機存取。同一個儲存控制器可以同時以 SAN LUN 的形式提供區塊儲存服務、並以 NFS 和 SMB/CIFS 的形式提供檔案服務。ONTAP 也可做為 All SAN Array （ ASA ）使用、透過 iSCSI 和 FCP 的對稱雙主動式多重路徑功能來最佳化主機存取、而統一化的 ONTAP 系統則使用非對稱雙主動式多重路徑功能。在這兩種模式中、 ONTAP 都會使用 ANA 來管理 NVMe over Fabrics （ NVMe of ）多重路徑。</block>
   <block id="98ae8a9e34d3f73da98da55a46678554" category="paragraph">執行 ONTAP 軟體的 NetApp 儲存控制器可在 Windows Server 環境中支援下列工作負載：</block>
   <block id="b39d47dbcb48e2064ea0978dea0793ae" category="list-text">以持續可用的 SMB 3.0 共享區代管的 VM</block>
@@ -4402,14 +4383,12 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="ded35f53d6a4c12f9aa23622a273290c" category="paragraph">邏輯磁碟（ LUN ）或 CIFS 共用是在 SVM 的磁碟區內建立、並對應至 Windows 主機和叢集、以提供儲存空間、如下圖所示。SVM 不受節點限制、並以叢集為基礎；它們可以使用實體資源、例如叢集中任何位置的磁碟區或網路連接埠。</block>
   <block id="66bfba6c82925242c27d2f07403b627e" category="inline-image-macro">ONTAP 儲存虛擬機器、寬度 = 572 、高度 = 443</block>
   <block id="9bcb5e161ae4c106ccd0f2dc96989097" category="paragraph"><block ref="9bcb5e161ae4c106ccd0f2dc96989097" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="a4b249fe3614883d2e2cce7079c39aeb" category="section-title">為 Windows Server 佈建 NetApp 儲存設備</block>
   <block id="8f64c369fcdc9c990f5540ce53430671" category="paragraph">儲存設備可同時在 SAN 和 NAS 環境中佈建至 Windows Server 。在 SAN 環境中、儲存設備是以 NetApp 磁碟區上 LUN 的磁碟形式提供、作為區塊儲存設備。在 NAS 環境中、儲存設備會在 NetApp 磁碟區上以 CIFS/SMB 共用的形式提供、做為檔案儲存設備。這些磁碟和共用可以在 Windows Server 中套用、如下所示：</block>
   <block id="8572daf67b8cf4929b8a104909d42a03" category="list-text">適用於 Windows Server 主機的儲存設備、適用於應用程式工作負載</block>
   <block id="460622219d2e0a7fe2d7339d37894127" category="list-text">儲存儲存設備：奈米伺服器和容器</block>
   <block id="24148b9d626dc3494e0f1a07f5ddf180" category="list-text">用於儲存 VM 的個別 Hyper-V 主機儲存設備</block>
   <block id="c9d2a95802a3dc0a7c1033928d3cfc3f" category="list-text">Hyper-V 叢集的共用儲存設備、以 CSV 的形式儲存 VM</block>
   <block id="76c319d8818e93b50538dff2f4427cbc" category="list-text">SQL Server 資料庫的儲存設備</block>
-  <block id="8e7e7423d4c5b4575cf1a6830fca5d79" category="section-title">管理 NetApp 儲存設備</block>
   <block id="13a4fb282282699692756c149d94bbbe" category="paragraph">若要從 Windows Server 2016 連線、設定及管理 NetApp 儲存設備、請使用下列其中一種方法：</block>
   <block id="81ef8774b45c60d7387b0e91d9c4eb05" category="list-text">* 安全 Shell （ SSH ）。 * 使用 Windows Server 上的任何 SSH 用戶端來執行 NetApp CLI 命令。</block>
   <block id="935df6062271011aad64300fe0f8a6c7" category="list-text">* System Manager 。 * 這是 NetApp 的 GUI 型管理產品。</block>
@@ -4423,7 +4402,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="570d38aae09bbf84ba37f9219909a7cb" category="list-text">如需 NetApp PowerShell 工具組的詳細資訊、請參閱<block ref="12f72d9ce1eab5b7cd58718fecdd145c" category="inline-link-rx"></block>。</block>
   <block id="699f0a44719fb3de5404046fc6caa8af" category="inline-link">TR-4475 ： NetApp PowerShell 工具套件最佳實務指南</block>
   <block id="532d077f114744273b1a7cd2a4794077" category="list-text">如需 NetApp PowerShell 工具組最佳實務做法的相關資訊、請參閱<block ref="87b47631a9123c9d2a382039a9ba503e" category="inline-link-rx"></block>。</block>
-  <block id="3f8ab3a6d193b8b730105448fea2b95a" category="section-title">網路最佳實務做法</block>
   <block id="64f3248fbae79dd41841377bf7dd37c6" category="paragraph">乙太網路可廣泛分為下列群組：</block>
   <block id="0047d4a23ffec6d4afe912d0a2598e58" category="list-text">虛擬機器的用戶端網路</block>
   <block id="d6cf6da705ce58c7b649fea1cd43c470" category="list-text">多個儲存網路（連接至儲存系統的 iSCSI 或 SMB ）</block>
@@ -4448,7 +4426,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="0650b34324cf33e3bf1ba6d5db9aa14c" category="list-text">Windows Server 上 Hyper-V 的新功能 +
 <block ref="8508224d602483e88bde8402b5d1f2d1" category="inline-link-rx"></block></block>
   <block id="1139a59d4aa15acd59f31d05c5a9d642" category="summary">本附錄說明如何在叢集環境外部署 Hyper-V 複本。</block>
-  <block id="e80afdb83a9f81a61c1b60253a4c4122" category="doc">在叢集環境外部署 Hyper-V 複本</block>
   <block id="be9cfe5b3b6e5354686be0cb736fe70d" category="list-text">您需要位於相同或不同地理位置的獨立 Hyper-V 伺服器、作為主要和複本伺服器。</block>
   <block id="427aef80e259ae74b835c2b646e8fba8" category="list-text">如果使用不同的站台、則必須設定每個站台的防火牆、以允許主要伺服器和複本伺服器之間的通訊。</block>
   <block id="3ac92c1d06a47463c6ea9f2c4289a625" category="list-text">複本伺服器必須有足夠的空間來儲存複寫的工作負載。</block>
@@ -4484,7 +4461,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="c01438bcded7cda6d1ee326fa268f93c" category="list-text">在 Hyper-V Manager 中、以滑鼠右鍵按一下複本 VM 、按一下複寫、然後按一下容錯移轉。</block>
   <block id="94faab2d3840f3d8320e20ad4a90e6cd" category="list-text">按一下「容錯移轉」以容錯移轉 VM 。</block>
   <block id="4be45953e45cfa5fc987ba108c1e5793" category="summary">本附錄說明如何在叢集式環境中部署即時移轉。</block>
-  <block id="407f0c958d87180b9cc5045be0f28bd4" category="doc">在叢集環境中部署 Hyper-V 即時移轉</block>
   <block id="388b92a1de3321595dcfbdc1c67ce749" category="paragraph">若要在叢集環境中使用即時移轉、請完成下列步驟：</block>
   <block id="b66a6c742469f1d08a2d11bcf4f211ff" category="list-text">在容錯移轉叢集管理程式中、選取並展開叢集。如果叢集不可見、請按一下容錯移轉叢集管理程式、按一下連線至叢集、然後提供叢集名稱。</block>
   <block id="e3883376513ba0aeb2f3d190d4e0377d" category="list-text">按一下角色、其中會列出叢集中所有可用的 VM 。</block>
@@ -4501,7 +4477,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="f5025b9fcd1b24276af8ec2da3aa4cd7" category="list-text">橫向擴充認知</block>
   <block id="81abcea6e16bc538d9843e8808b2066b" category="list-text">ODX</block>
   <block id="f4ad9c4d51155dbb3fb746c7c497c145" category="list-text">遠端 VSS</block>
-  <block id="3449a74b82cb004b788a86c512094db4" category="section-title">在 Windows Server 上配置 SMB 共享</block>
   <block id="56a26f5f5f602966c3a3088fc05c7383" category="paragraph">在 Windows Server 的 NAS 環境中使用 NetApp 儲存設備有下列需求：</block>
   <block id="5f3a2953a5f6d187ed4babba3c754b95" category="list-text">ONTAP 叢集具有有效的 CIFS 授權。</block>
   <block id="2744237d602ca5ed3f1a6370ed8ebe91" category="list-text">至少會建立一個 Aggregate 。</block>
@@ -4524,7 +4499,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="1418b945a2d25e4f6514fc52e9d6c7ef" category="list-text">在捲上建立 qtree （選用）。</block>
   <block id="f0bbe023b40d4d11ed83d36a68894cae" category="list-text">建立對應於 Volume 或 qtree 目錄的共用、以便從 Windows Server 存取。如果共用用於 Hyper-V 儲存設備、請選取在建立共用時啟用 Hyper-V 的持續可用性。這樣做可為檔案共用提供高可用度。</block>
   <block id="9ef47a6b1a5d19245750aa732054173a" category="list-text">編輯建立的共用、並視需要修改存取共用的權限。SMB 共用的權限必須設定為授與存取此共用之所有伺服器的電腦帳戶存取權。</block>
-  <block id="ab748827acb6cea568808e325dfb52a3" category="section-title">主機整合</block>
   <block id="413353879b081038ef89f78350859cad" category="paragraph">NAS 傳輸協定 CIFS 原生整合至 ONTAP 。因此、 Windows Server 不需要任何額外的用戶端軟體即可存取 NetApp ONTAP 上的資料。NetApp 儲存控制器會在網路上顯示為原生檔案伺服器、並支援 Microsoft Active Directory 驗證。</block>
   <block id="053003e418b94e54d509f16e6a5ac54f" category="paragraph">若要偵測先前使用 Windows Server 建立的 CIFS 共用、請完成下列步驟：</block>
   <block id="9eb306535570bd14746bad4f0768684f" category="list-text">以系統管理員群組成員的身分登入 Windows Server 。</block>
@@ -4548,7 +4522,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="fa2e04a9f0cdcb5ad0e9f1e5ad1ada82" category="list-text">ONTAP 9.4 以上版本支援 SMB 多通道。</block>
   <block id="f357368b2f195de4f8b4463eed2bf004" category="list-text">不支援 RDMA 。</block>
   <block id="f55cb235b18bf3d499f9276cd235bfb6" category="list-text">不支援 Refs 。</block>
-  <block id="beec46689e2b8966c6ef9cedfc5b1a16" category="section-title">在奈米伺服器上配置 SMB 共享</block>
   <block id="fb97dc994a0600d8610daca021159b33" category="paragraph">nano 伺服器不需要額外的用戶端軟體、即可存取 NetApp 儲存控制器上 CIFS 共用區上的資料。</block>
   <block id="2be09e0be799992463b5c9542ce31dd8" category="paragraph">若要將檔案從奈米伺服器複製到 CIFS 共用、請在遠端伺服器上執行下列 Cmdlet ：</block>
   <block id="2e0d4f41db110bf64a66493b31c9b168" category="list-text"><block ref="6f88c516ba3d9ab0cd23b81fc43dd697" prefix="" category="inline-code"></block> 是 NetApp 儲存控制器上的 CIFS 共用。</block>
@@ -4567,11 +4540,8 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="13d0ba1c0320910efd0d040f2d461527" category="list-text">提供 VM 項目的新位置。</block>
   <block id="6efadc6e298c560f1699100ac97c7378" category="list-text">檢閱摘要、然後按一下「確定」以移動 VM 的儲存設備。</block>
   <block id="b2d949a2d7f46bb1e39037d38eea14e4" category="summary">使用 Microsoft Hyper-V 實現 ONTAP 儲存效率</block>
-  <block id="91b681e174a782226d26fb4056e14081" category="doc">儲存效率</block>
   <block id="bd2eab4ffe0ab602b60386dfdd3ef913" category="paragraph">ONTAP 為虛擬化環境（包括 Microsoft Hyper-V ）提供領先業界的儲存效率NetApp 也提供儲存效率保證方案。</block>
-  <block id="00c669d0ad76fdc5f38284497ce751a4" category="section-title">NetApp 重複資料刪除</block>
   <block id="e957a0e8016b502f05bb1966b2ec6064" category="paragraph">NetApp 重複資料刪除的運作方式是在儲存磁碟區層級移除重複的區塊、只儲存一個實體複本、無論有多少個邏輯複本。因此、重複資料刪除會產生一種錯覺、認為該區塊有許多複本。重複資料刪除功能會在整個磁碟區的 4KB 區塊層級上自動移除重複的資料區塊。此程序會重新宣告儲存設備、藉由減少實體寫入磁碟的次數、以達到空間和潛在的效能節約。重複資料刪除技術可在 Hyper-V 環境中節省 70% 以上的空間。</block>
-  <block id="a65c22e6af9f696dc25755536ae95d1c" category="section-title">精簡配置</block>
   <block id="44ee5e4157e5291ffc8bc5d1d9b5959d" category="paragraph">精簡配置是配置儲存設備的有效方法、因為儲存設備並未預先配置。換句話說、當磁碟區或 LUN 是使用精簡配置建立時、儲存系統上的空間就會被閒置。在資料寫入 LUN 或磁碟區之前、該空間會一直保持未使用狀態、而且只會使用儲存資料所需的空間。NetApp 建議在磁碟區上啟用精簡配置、並停用 LUN 保留。</block>
   <block id="8bc14f0cb78851f59e85c1d447c2c99f" category="section-title">服務品質</block>
   <block id="5f4c07a9f526ef861fd661ab7d801ef0" category="paragraph">叢集式 ONTAP 中的儲存 QoS 可讓您將儲存物件分組、並設定群組的處理量限制。儲存 QoS 可用於限制工作負載的處理量、並監控工作負載效能。有了這項功能、儲存管理員就能依組織、應用程式、業務單位、或正式作業或開發環境來分隔工作負載。</block>
@@ -4665,12 +4635,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="80967cdacf7a48c49276c07097765c46" category="list-text">使用 SVM 生命來建立 iSCSI 和 / 或 FC 連接埠集。</block>
   <block id="2d59cbd9d3169fc27e47164a0bf60c42" category="list-text">使用建立的連接埠集、為 Windows 建立 iSCSI 和 / 或 FC 啟動器群組。</block>
   <block id="b6efc79e22c0381d9fcc8c3f40ff674f" category="list-text">將啟動器新增至啟動器群組。啟動器是 iSCSI 的 IQN 、 FC 的 WWPN 。您可以執行 PowerShell Cmdlet Get-InitiatorPort 從 Windows Server 查詢。</block>
-  <block id="bf1c6b696a94a39a463a62136c5eb36d" category="section-title">取得適用於 iSCSI + 的 IQN</block>
-  <block id="8e155014dca56282d4a9f246c7a4ad19" category="paragraph">Get-InitiatorPort | 其中 \{$_.ConnectionType -eq 'iSCSI'} | Select-Object -Property NodeAddress</block>
-  <block id="5a4f145b3ff22d5b22bb7c3cf2cd5db4" category="section-title">取得 FC + 的 WWPN</block>
-  <block id="f91306a56cf57876ce0ec5a6f8cf44cd" category="paragraph">Get-InitiatorPort | 其中 \{$_.ConnectionType -eq 'Fibre Channel'} | Select-Object -Property PortAddress +
- +
-# 在 FC 的情況下、將啟動器新增至啟動器群組時、請務必以標準 WWPN 格式提供啟動器（ PortAddress ）</block>
   <block id="ab39c1b30c8045ee5b2419b682b64e5c" category="paragraph">Windows Server 上 iSCSI 的 IQN 也可以在 iSCSI 啟動器內容的組態中進行檢查。</block>
   <block id="83f0120a854049de17bd46bb97e5c5fa" category="list-text">使用 Create LUN （創建 LUN ）嚮導創建 LUN ，並將其與創建的啓動器組相關聯。</block>
   <block id="186c31b1cbf72f8c54f9c6a0edca1cfe" category="paragraph">Windows Server 使用非對稱式邏輯單元存取（ ALUA ）擴充 MPIO 來判斷通往 LUN 的直接和間接路徑。雖然 SVM 擁有的每個 LIF 都接受其 LUN 的讀取 / 寫入要求、但在任何指定時刻、只有其中一個叢集節點實際擁有支援該 LUN 的磁碟。這會將通往 LUN 的可用路徑分為兩種類型、直接或間接、如下圖所示。</block>
@@ -4705,7 +4669,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="fdcb9587e9c4d393ea337f94fb0e1f5f" category="list-text">您也必須使用第二個路徑進行連線。因此、請重複步驟 5 至步驟 8 、但這次請為第二個路徑選取啟動器 IP 和目標入口網站 IP 。</block>
   <block id="cb35c153406b8cdeb5963bd9a0ceb501" category="list-text">在 iSCSI Properties （ iSCSI 屬性）主窗口的 Discered Targets （已發現目標）中選擇 iSCSI 目標，然後單擊 Properties （屬性）。</block>
   <block id="2a3977b58760a2b4c9e557175a5e494e" category="list-text">「內容」視窗顯示已偵測到多個工作階段。選取工作階段、按一下「裝置」、然後按一下 MPIO 以設定負載平衡原則。會顯示為裝置設定的所有路徑、並支援所有負載平衡原則。NetApp 通常建議使用子集循環資源、而此設定是啟用 ALUA 的陣列的預設值。循環配置資源是不支援 ALUA 的主動式陣列的預設值。</block>
-  <block id="01b914bd47e455b3edf222a4866ab128" category="section-title">偵測區塊儲存</block>
   <block id="7b7b8262c038321869fc17ba522bbe07" category="paragraph">若要在 Windows Server 上偵測 iSCSI 或 FC 區塊儲存、請完成下列步驟：</block>
   <block id="7554b29976a023cca6089775e3a7fd73" category="list-text">按一下「伺服器管理員」「工具」區段中的「電腦管理」。</block>
   <block id="b7e726cedaa814db32dbfe4395773cc4" category="list-text">在 [ 電腦管理 ] 中，按一下 [ 儲存設備中的磁碟管理 ] 區段，然後按一下 [ 其他動作及重新掃描磁碟 ] 。這樣做會顯示原始 iSCSI LUN 。</block>
@@ -4725,11 +4688,9 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="8e08d5639ddc5bf9f71aeea2f9df6706" category="list-text">偵測區塊儲存。</block>
   <block id="ad04ba98fa2a26c6e2a4f71314b1c4c7" category="section-title">從 SAN 開機</block>
   <block id="e29512aa6180bca309f145289f08337c" category="paragraph">實體主機（伺服器）或 Hyper-V VM 可直接從 NetApp LUN （而非其內部硬碟）啟動 Windows Server 作業系統。在從 SAN 開機的方法中、要從中開機的 OS 映像位於連接至實體主機或 VM 的 NetApp LUN 上。對於實體主機、實體主機的 HBA 會設定為使用 NetApp LUN 進行開機。對於 VM 、 NetApp LUN 會附加為用於開機的直接移轉磁碟。</block>
-  <block id="ca67b8d4183c246318656b138774f18c" category="section-title">NetApp FlexClone 方法</block>
   <block id="2cf07cb81d5366158ac32b0d02e3bf39" category="paragraph">使用 NetApp FlexClone 技術、可立即複製具有 OS 映像的開機 LUN 、並將其附加至伺服器和 VM 、以快速提供乾淨的 OS 映像、如下圖所示。</block>
   <block id="e60c0a021a1a11ca0fd66050c818b441" category="inline-image-macro">使用 NetApp Flexclone, width=561,height=357 啟動 LUN</block>
   <block id="79f4f54e05eb2f1c2084e0542e66f182" category="paragraph"><block ref="79f4f54e05eb2f1c2084e0542e66f182" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="d5b83a3e5eac367b2681029c1f37ecb5" category="section-title">從 SAN 開機、適用於實體主機</block>
   <block id="738e6a96e2bf795b59ac62d4827a779e" category="list-text">實體主機（伺服器）具有適當的 iSCSI 或 FC HBA 。</block>
   <block id="7957c1b3b06b3ca5c17a05da5e59c9ec" category="list-text">您已為支援 Windows Server 的伺服器下載適當的 HBA 裝置驅動程式。</block>
   <block id="1810f78aa22a9972644e65ac2cdad107" category="list-text">伺服器具有適當的 CD/DVD 磁碟機或虛擬媒體來插入 Windows Server ISO 映像、而且已下載 HBA 裝置驅動程式。</block>
@@ -4746,7 +4707,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="3472e7b0e2c4389366cf3e0f09f6376d" category="list-text">從 Windows Server ISO 啟動安裝設定。</block>
   <block id="8423662d97649ae1012d665b6594f514" category="list-text">當安裝詢問「您要在何處安裝 Windows ？」時、請按一下安裝畫面底部的「載入驅動程式」、以啟動「選取要安裝的驅動程式」頁面。提供先前下載的 HBA 裝置驅動程式路徑、並完成驅動程式的安裝。</block>
   <block id="4d0de28cb0fe5a517374a0c7fdaaff27" category="list-text">現在、之前建立的開機 LUN 必須顯示在 Windows 安裝頁面上。選取開機 LUN 以在開機 LUN 上安裝 Windows Server 、然後完成安裝。</block>
-  <block id="63e71d44aa7ef64411f8ff6f341b706d" category="section-title">從 SAN 開機以供虛擬機器使用</block>
   <block id="0dbc8e7afe6136a3b34471c047b28f83" category="paragraph">若要設定從 SAN 開機以供 VM 使用、請完成下列步驟：</block>
   <block id="6af97eac32eef9a62687eac41262ae48" category="list-text">在 NetApp 儲存控制器上建立 iSCSI 或 FC 的啟動器群組時、請將 iSCSI 的 IQN 或 Hyper-V 伺服器 FC 的 WWN 新增至控制器。</block>
   <block id="c18de5a7c8558c6b9b749ea9d61336da" category="list-text">在 NetApp 儲存控制器上建立 LUN 或 LUN 複本、並將它們與上一步建立的啟動器群組建立關聯。這些 LUN 可作為 VM 的開機 LUN 。</block>
@@ -4762,7 +4722,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="9865f9e3af02eaca8b480229a22515f4" category="list-text">當存在多個 LUN 時、請務必在磁碟管理中記下 LUN 的磁碟編號。這是必要的做法、因為列出給 VM 的磁碟會與磁碟編號一起列出。此外、將磁碟選擇為 VM 的直接移轉磁碟也會根據此磁碟編號而定。</block>
   <block id="15b11e66e58b25dffc74ff36f6529d4d" category="list-text">NetApp 建議您使用在主機上設定的 ONTAP MPIO 進行儲存。</block>
   <block id="154e178d8f948264ecf34dcfd8ad3112" category="summary">本附錄說明如何在叢集環境之外使用 Hyper-V 即時移轉</block>
-  <block id="98806bebb03edce0f8fc90a03ff487ce" category="doc">在叢集環境外部部署 Hyper-V 即時移轉</block>
   <block id="3a37015d23bf5b95b8aaeeb60e7149f6" category="paragraph">本節說明如何在叢集環境外部署 Hyper-V 即時移轉。</block>
   <block id="34076d85579973b175bda646666488f5" category="list-text">獨立式 Hyper-V 伺服器、具備獨立儲存設備或共享的 SMB 儲存設備。</block>
   <block id="6d3867adf71fde2bd2e28c3530f980e2" category="list-text">安裝在來源伺服器和目的地伺服器上的 Hyper-V 角色。</block>
@@ -4808,7 +4767,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="1215f8190533dfdf63d2224a6d88266f" category="list-text">Google Cloud NetApp Volumes</block>
   <block id="7ad18871bdb08a3899a3f7ed4e463284" category="paragraph">ONTAP 提供 NetApp 儲存效率功能、例如 NetApp Snapshot （ R ）技術、複製、重複資料刪除、精簡配置、精簡複寫、 壓縮、虛擬儲存分層等多項功能、都能提升效能與效率。</block>
   <block id="538a662f2ecbeba6af56e41386484f67" category="paragraph">Windows Server 和 ONTAP 可在大型環境中共同運作、為資料中心整合和私有雲或混合雲部署帶來巨大價值。這種組合也能有效率地提供不中斷營運的工作負載、並支援無縫擴充。</block>
-  <block id="e3d5affaa1de885da64636ba32e51cd8" category="section-title">目標對象</block>
   <block id="8f0442ea7c58fe8ab4000f5aaeac415b" category="paragraph">本文件適用於設計適用於 Windows Server 的 NetApp 儲存解決方案的系統與儲存架構設計師。</block>
   <block id="f6f27d1607ed17a4b610676f16f68357" category="paragraph">我們在此文件中做出下列假設：</block>
   <block id="e9d690b9eb25093e460ea369baa55496" category="inline-link">叢集管理員系統管理指南</block>
@@ -5031,4 +4989,42 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="1dd1e97374852e1f244963d9fdb0c414" category="list-text">測試計畫性容錯移轉。使用即時移轉、快速移轉或儲存移轉（移動）、將 VM 移至另一個節點。檢閱 <block ref="ba8afff2d0e4662eeb47d28935e79828" category="inline-link-macro-rx"></block> 以取得更多詳細資料。</block>
   <block id="8737a5d2bc43b0eb76ab5674d0fcb094" category="sidebar">SRM with ONTAP 概述</block>
   <block id="76f6daa4bfab6ca8a7350e46d3d6718f" category="sidebar">SRM 的其他資訊</block>
+  <block id="3ebf71fd7bd7392466a892c2228b2f58" category="section-title">在 Windows Server 上配置 SMB 共享</block>
+  <block id="674b9c5bbf2379d6c48343d029972e53" category="section-title">主機整合</block>
+  <block id="16ce478a465011bacaa6e508063c2648" category="section-title">值得記住的事項</block>
+  <block id="83f04319244758f7531b398c51aa9f38" category="section-title">在奈米伺服器上配置 SMB 共享</block>
+  <block id="2323e97f7cf2da464750911f1f3e1af6" category="doc">在叢集環境中部署 Hyper-V 複本</block>
+  <block id="38792c1c1d72aaa53d18f0b79d2621aa" category="doc">部署 Hyper-V Torage 即時移轉</block>
+  <block id="36b10adb4505559b63b091b53614af1f" category="section-title">NetApp 重複資料刪除</block>
+  <block id="1ba5c1747d37a3d7ae84fd1dcac77603" category="section-title">進一步閱讀</block>
+  <block id="50802d3e5a25b93d471686a10da03dd8" category="section-title">最佳實務做法</block>
+  <block id="67bd1e9f90c0abcd3fe89dce2e8b6307" category="doc">在叢集式環境外部署 Hyper-V 即時移轉</block>
+  <block id="f2b84afd0523a6df7547c404aa3647d8" category="section-title">目標對象</block>
+  <block id="458ed20ed5d1729b427e233e0e52f797" category="section-title">為 Windows Server 佈建 NetApp 儲存設備</block>
+  <block id="e648c74a53b161f90c8e915624ce6135" category="section-title">管理 NetApp 儲存設備</block>
+  <block id="9292ee6bce21e93911c38cd0a1c2e209" category="section-title">網路最佳實務做法</block>
+  <block id="381400d1babe5b80783d5e46896d832e" category="doc">部署奈米伺服器</block>
+  <block id="02676c7c18a8d411999242a1f5731de2" category="section-title">NetApp CIFS 上的 Hyper-V 儲存設備</block>
+  <block id="00a66fbc09172147ac7be9c85b708a6b" category="section-title">卸載資料傳輸</block>
+  <block id="39d0bfdf27f1fc555ae2f030e21f8818" category="section-title">Hyper-V 叢集：虛擬機器的高可用度與擴充性</block>
+  <block id="10fd9c0040ca7b99a67758c3cd638746" category="section-title">在叢集式環境中進行即時移轉</block>
+  <block id="ed7cd01cb26e2db33a36eaa87ac85ff1" category="section-title">在叢集式環境外進行即時移轉</block>
+  <block id="023196611fee49915adf49422b3289e6" category="section-title">Hyper-V 複本：虛擬機器的災難恢復</block>
+  <block id="e78f6d0414a6dde66f4e12a3e218620b" category="section-title">延伸複寫</block>
+  <block id="e43f3be13a49d6eeab4304d80790eaa0" category="section-title">偵測區塊儲存</block>
+  <block id="adc95a9707f2f351740aa0d52f08981e" category="section-title">NetApp FlexClone 方法</block>
+  <block id="0bee1618a00f62535bd1e3f03af6a8f0" category="section-title">從 SAN 開機以供實體主機使用</block>
+  <block id="68468d5f213be162fe50260787894f8f" category="section-title">從 SAN 開機以供虛擬機器使用</block>
+  <block id="5b6253395cb699e828a4e33bbe3ad99e" category="doc">在叢集環境外部署 Hyper-V 複本</block>
+  <block id="c56bd6d44fe37df3133f12e09059b492" category="doc">部署 Hyper-V 叢集</block>
+  <block id="284558d4613b1e72103300f1b8973b3b" category="paragraph">首次安裝時、 ESX 沒有預先設定的功能、例如代管來賓作業系統或支援終端使用者應用程式。它是空容器、直到定義虛擬機器（ VM ）為止。ONTAP 類似。第一次安裝 ONTAP 時、只有建立 SVM 、它才具備資料服務功能。定義資料服務的是 SVM 特性設定。</block>
+  <block id="2737c9012caaebb1cbb9e526400a2345" category="paragraph">在多租戶環境中、每個租戶的資料都可以獲得專用的 SVM 。每個叢集、 HA 配對和節點的 SVM 和生命量限制取決於所使用的傳輸協定、節點模型和 ONTAP 版本。  請參閱 <block ref="41f66f34b3a905f864500c9319fdff8f" category="inline-link-macro-rx"></block> 針對這些限制。</block>
+  <block id="8463ed7d5167a086a7f342d40b0340ea" category="paragraph">透過 SnapMirror 主動式同步、儲存裝置可從主要和遠端儲存陣列的主機作業系統中看到。路徑是透過非對稱式邏輯單元存取（ ALUA ）進行管理、這是一種業界標準傳輸協定、用於識別儲存系統與主機之間的最佳化路徑。</block>
+  <block id="50812cc1b8d48579d382b689e4393be6" category="paragraph">部分資料不包含重複資料。例如、 Oracle 區塊包含資料庫的全域唯一標頭、以及近乎唯一的標尾。因此、 Oracle 資料庫的重複資料刪除功能很少能節省 1% 以上的成本。使用 MS SQL 資料庫進行重複資料刪除的效果稍微好一些、但區塊層級的獨特中繼資料仍是一項限制。</block>
+  <block id="e237dd01ca20b300861ea50239fefbf9" category="paragraph">這包括典型的規劃措施、例如確保主機和儲存系統之間的 SAN 上有足夠的頻寬、使用 FC 交換器廠商所需的 FC 連接埠設定、檢查所有必要裝置之間是否存在所有 SAN 路徑、避免 ISL 爭用、 並使用適當的 SAN 架構監控。</block>
+  <block id="bab63c3a8b4ae009c3596c809e27d73b" category="paragraph">MetroCluster 複寫是以 NetApp SyncMirror 技術為基礎、其設計旨在有效率地切換至同步模式及從同步模式切換到同步模式。這項功能符合要求同步複寫、但也需要高可用度資料服務的客戶需求。例如、如果中斷與遠端站台的連線、通常最好讓儲存系統繼續以非複寫狀態運作。</block>
+  <block id="bf4d44f407dab4b746f1eaeb06e897af" category="paragraph">許多同步複寫解決方案只能以同步模式運作。這種類型的全或全無複寫有時稱為 Domino 模式。這類儲存系統會停止提供資料、而不允許資料的本機和遠端複本進行非同步處理。如果複寫被強制中斷、重新同步可能會非常耗時、而且可能會讓客戶在重新建立鏡像期間暴露在完全資料遺失的風險中。</block>
+  <block id="8f076395fe8f8f46c03efb655db313e6" category="section-title">FC 直接連線</block>
+  <block id="722830ffc5e46dbe206670f85cd1d889" category="paragraph">ONTAP 和其他某些 NetApp 產品現在支援使用各種方法的多因素驗證（ MFA ）。因此、光是使用者名稱 / 密碼就不再是安全執行緒、而沒有第二個因素的資料、例如 FOB 或智慧型手機應用程式。</block>
+  <block id="37c43820ab88f1340855c30955eec330" category="section-title">多重管理驗證（ MAV ）</block>
 </blocks>

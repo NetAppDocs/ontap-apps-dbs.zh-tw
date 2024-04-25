@@ -5,7 +5,12 @@ keywords: Windows,Hyper-V,VHDX,VM,Virtual
 summary: 本附錄說明如何在 NetApp 儲存設備上部署高可用度 Hyper-V 叢集。 
 ---
 = 部署 Hyper-V 叢集
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]

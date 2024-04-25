@@ -21,4 +21,4 @@ SVM 在 ONTAP CLI 中稱為 vserver 、是基本的儲存功能單元、比較 S
 * 必須限制管理團隊的 SVM 、用於處理敏感業務資料、例如人力資源或財務報告資料
 
 
-在多租戶環境中、每個租戶的資料都可以獲得專屬的 SVM 。每個叢集、 HA 配對和節點的 SVM 和生命量限制取決於所使用的傳輸協定、節點模型和 ONTAP 版本。  請參閱 link:https://hwu.netapp.com/["NetApp Hardware Universe"^] 針對這些限制。
+在多租戶環境中、每個租戶的資料都可以獲得專用的 SVM 。每個叢集、 HA 配對和節點的 SVM 和生命量限制取決於所使用的傳輸協定、節點模型和 ONTAP 版本。  請參閱 link:https://hwu.netapp.com/["NetApp Hardware Universe"^] 針對這些限制。

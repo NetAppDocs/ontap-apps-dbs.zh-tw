@@ -5,7 +5,12 @@ keywords: Windows,Hyper-V,VHDX,VM,Virtual
 summary: ONTAP NAS 儲存設備、適用於使用 SMB3 的 Hyper-V 
 ---
 = 在 SMB 環境中進行資源配置
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]
@@ -109,7 +114,7 @@ NAS 傳輸協定 CIFS 原生整合至 ONTAP 。因此、 Windows Server 不需�
 
 
 
-=== 記住事項
+=== 值得記住的事項
 
 * 為 SMB 環境佈建磁碟區時、必須以 NTFS 安全樣式建立磁碟區。
 * 叢集中節點上的時間設定應相應設定。如果 NetApp CIFS 伺服器必須參與 Windows Active Directory 網域、請使用 NTP 。

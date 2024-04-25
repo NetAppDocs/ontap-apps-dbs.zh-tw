@@ -4,8 +4,13 @@ permalink: microsoft/win_deploy_hyperv_lmce.html
 keywords: Windows,Hyper-V,VHDX,VM,Virtual 
 summary: 本附錄說明如何在叢集式環境中部署即時移轉。 
 ---
-= 在叢集環境中部署 Hyper-V 即時移轉
+= 在叢集式環境中部署 Hyper-V 線上即時移轉
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]

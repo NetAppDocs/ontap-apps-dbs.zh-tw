@@ -5,7 +5,12 @@ keywords: Windows,Hyper-V,VHDX,VM,Virtual
 summary: 採用 ONTAP 的 Hyper-V 儲存基礎架構 
 ---
 = NetApp 上的 Hyper-V 儲存基礎架構
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]
@@ -25,7 +30,7 @@ image:win_image5.png["NetApp 上的 Hyper-V 儲存基礎架構、寬度 =624 、
 
 
 
-== NetApp CIFS 共用上的 Hyper-V 儲存設備
+== NetApp CIFS 上的 Hyper-V 儲存設備
 
 在開始執行本節所列的步驟之前、請先檢閱「link:win_smb.html["在 SMB 環境中進行資源配置"]。」 若要在 NetApp CIFS 共用上設定 Hyper-V 儲存設備、請完成下列步驟：
 
@@ -53,7 +58,7 @@ Hyper-V 中的每個虛擬機器也可隨附提供給實體主機的 NetApp LUN 
 
 
 
-=== 記住事項
+=== 值得記住的事項
 
 * 使用虛擬光纖通道來配置 VM 需要啟用 N_Port ID 虛擬化功能的 FC HBA 。最多支援四個 FC 連接埠。
 * 如果主機系統已設定多個 FC 連接埠並呈現給 VM 、則必須在 VM 中安裝 MPIO 才能啟用多重路徑功能。
@@ -111,7 +116,7 @@ cluster::> set privilege admin
 
 
 
-=== 記住事項
+=== 值得記住的事項
 
 * 對於 CIFS 、只有當用戶端和儲存伺服器都支援 SMB 3.0 和 ODX 功能時、 ODX 才會提供使用。
 * 對於 SAN 環境、只有當用戶端和儲存伺服器都支援 ODX 功能時、 ODX 才可用。
@@ -125,7 +130,7 @@ cluster::> set privilege admin
 
 
 
-== Hyper-V 叢集：適用於虛擬機器的高可用度與擴充性
+== Hyper-V 叢集：虛擬機器的高可用度與擴充性
 
 容錯移轉叢集可為 Hyper-V 伺服器提供高可用度和擴充性。容錯移轉叢集是一組相互支援的 Hyper-V 伺服器、可一起提高 VM 的可用度和擴充性。
 
@@ -149,7 +154,7 @@ image:win_image6.png["Hyper-V 容錯移轉叢集與 NetApp 、 width=624 、 hei
 
 
 
-=== 記住事項
+=== 值得記住的事項
 
 * 用於 CSV 的磁碟必須使用 NTFS 或 Refs 進行分割。使用 FAT 或 FAT32 格式化的磁碟無法用於 CSV 。
 * 用於 CSV 的磁碟應使用 64K 格式進行配置。
@@ -169,7 +174,7 @@ image:win_image6.png["Hyper-V 容錯移轉叢集與 NetApp 、 width=624 、 hei
 
 
 
-=== 叢集環境中的即時移轉
+=== 在叢集式環境中進行即時移轉
 
 VM 可在叢集的節點之間無縫移動。VM 移轉是即時的、因為叢集中的所有節點都共用相同的儲存設備、而且可以存取 VM 及其磁碟。下圖說明叢集環境中的即時移轉。
 
@@ -191,7 +196,7 @@ image:win_image7.png["在叢集式環境中進行即時移轉、寬度 =580 、�
 
 
 
-=== 叢集環境外部的即時移轉
+=== 在叢集式環境外進行即時移轉
 
 您可以在兩個非叢集式、不相互關聯的 Hyper-V 伺服器之間即時移轉 VM 。此程序可以使用共用或不共用的即時移轉。
 

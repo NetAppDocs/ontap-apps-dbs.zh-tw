@@ -5,7 +5,12 @@ keywords: Windows,Hyper-V,VHDX,VM,Virtual
 summary: 使用 Microsoft Hyper-V 實現 ONTAP 儲存效率 
 ---
 = 儲存效率
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]
@@ -19,7 +24,7 @@ NetApp 重複資料刪除的運作方式是在儲存磁碟區層級移除重複�
 
 
 
-== 精簡配置
+== 資源隨需配置
 
 精簡配置是配置儲存設備的有效方法、因為儲存設備並未預先配置。換句話說、當磁碟區或 LUN 是使用精簡配置建立時、儲存系統上的空間就會被閒置。在資料寫入 LUN 或磁碟區之前、該空間會一直保持未使用狀態、而且只會使用儲存資料所需的空間。NetApp 建議在磁碟區上啟用精簡配置、並停用 LUN 保留。
 

@@ -4,8 +4,13 @@ permalink: microsoft/win_deploy_hyperv_lmoce.html
 keywords: Windows,Hyper-V,VHDX,VM,Virtual 
 summary: 本附錄說明如何在叢集環境之外使用 Hyper-V 即時移轉 
 ---
-= 在叢集環境外部部署 Hyper-V 即時移轉
+= 在叢集式環境外部署 Hyper-V 即時移轉
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]

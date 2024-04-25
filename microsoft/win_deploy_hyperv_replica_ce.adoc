@@ -5,7 +5,12 @@ keywords: Windows,Hyper-V,VHDX,VM,Virtual
 summary: 瞭解如何使用 Windows Server 容錯移轉叢集來部署及設定 Hyper-V 複本。 
 ---
 = 在叢集環境中部署 Hyper-V 複本
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]
@@ -32,7 +37,7 @@ get-clusternode | ForEach-Object \{Invoke-command -computername $_.name -scriptb
 ....
 +
 ....
- # For Certificate authentication
+# For Certificate authentication
 get-clusternode | ForEach-Object \{Invoke-command -computername $_.name -scriptblock \{Enable-Netfirewallrule -displayname "Hyper-V Replica HTTPS Listener (TCP-In)"}}
 ....
 . 設定複本叢集。

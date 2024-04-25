@@ -4,8 +4,13 @@ permalink: microsoft/win_deploy_hyperv_slm.html
 keywords: Windows,Hyper-V,VHDX,VM,Virtual 
 summary: 如何設定 Hyper-V 儲存即時移轉 
 ---
-= 部署 Hyper-V 儲存即時移轉
+= 部署 Hyper-V Torage 即時移轉
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]

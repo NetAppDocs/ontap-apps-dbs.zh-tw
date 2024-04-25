@@ -5,7 +5,12 @@ keywords: Windows,Hyper-V,VHDX,VM,Virtual,SAN,LUN,NVMe
 summary: 在 SAN 環境中為 Windows 和 Hyper-V 配置 ONTAP 儲存設備 
 ---
 = 在 SAN 環境中進行資源配置
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media
 
 
 [role="lead"]
@@ -51,21 +56,19 @@ ONTAP SVM 支援區塊傳輸協定 iSCSI 和 FC 。使用區塊傳輸協定 iSCS
 . 使用 SVM 生命來建立 iSCSI 和 / 或 FC 連接埠集。
 . 使用建立的連接埠集、為 Windows 建立 iSCSI 和 / 或 FC 啟動器群組。
 . 將啟動器新增至啟動器群組。啟動器是 iSCSI 的 IQN 、 FC 的 WWPN 。您可以執行 PowerShell Cmdlet Get-InitiatorPort 從 Windows Server 查詢。
++
+....
+# Get the IQN for iSCSI
+Get-InitiatorPort | Where \{$_.ConnectionType -eq 'iSCSI'} | Select-Object -Property NodeAddress
+....
++
+....
+# Get the WWPN for FC
+Get-InitiatorPort | Where \{$_.ConnectionType -eq 'Fibre Channel'} | Select-Object -Property PortAddress
+....
++
+ # While adding initiator to the initiator group in case of FC, make sure to provide the initiator(PortAddress) in the standard WWPN format
 
-
-
-
-= 取得適用於 iSCSI + 的 IQN
-
-Get-InitiatorPort | 其中 \{$_.ConnectionType -eq 'iSCSI'} | Select-Object -Property NodeAddress
-
-
-
-= 取得 FC + 的 WWPN
-
-Get-InitiatorPort | 其中 \{$_.ConnectionType -eq 'Fibre Channel'} | Select-Object -Property PortAddress +
- +
-# 在 FC 的情況下、將啟動器新增至啟動器群組時、請務必以標準 WWPN 格式提供啟動器（ PortAddress ）
 
 Windows Server 上 iSCSI 的 IQN 也可以在 iSCSI 啟動器內容的組態中進行檢查。
 
@@ -309,7 +312,7 @@ image:win_image4.png["使用 NetApp Flexclone, width=561,height=357 啟動 LUN"]
 
 
 
-=== 從 SAN 開機、適用於實體主機
+=== 從 SAN 開機以供實體主機使用
 
 
 

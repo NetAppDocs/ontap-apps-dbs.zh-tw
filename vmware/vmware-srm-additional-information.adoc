@@ -17,17 +17,17 @@ summary: 若要深入瞭解本文所述資訊、請檢閱下列文件和/或網�
 若要深入瞭解本文所述資訊、請檢閱下列文件和 / 或網站：
 
 * TR-4597：VMware vSphere ONTAP for VMware
-link:vmware-vsphere-overview.html["https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html"^]
+link:vmware-vsphere-overview.html["https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vsphere-overview.html"]
 * TR-4400: VMware vSphere虛擬Volume ONTAP with VMware
-link:vmware-vvols-overview.html["https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-overview.html"^]
+link:vmware-vvols-overview.html["https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-vvols-overview.html"]
 * TR-4015《SnapMirror組態最佳實務指南ONTAP 》（英文）
-https://www.netapp.com/media/17229-tr4015.pdf?v=127202175503P[]
+link:https://www.netapp.com/media/17229-tr4015.pdf?v=127202175503P["https://www.netapp.com/media/17229-tr4015.pdf?v=127202175503P"]
 * RBAC使用者建立工具ONTAP 以供參考
-https://mysupport.netapp.com/site/tools/tool-eula/rbac["https://mysupport.netapp.com/site/tools/tool-eula/rbac"^]
+link:https://mysupport.netapp.com/site/tools/tool-eula/rbac["https://mysupport.netapp.com/site/tools/tool-eula/rbac"]
 * VMware vSphere資源的相關工具ONTAP
-https://mysupport.netapp.com/site/products/all/details/otv/docsandkb-tab["https://mysupport.netapp.com/site/products/all/details/otv/docsandkb-tab"^]
+link:https://mysupport.netapp.com/site/products/all/details/otv/docsandkb-tab["https://mysupport.netapp.com/site/products/all/details/otv/docsandkb-tab"]
 * VMware Site Recovery Manager文件
-https://docs.vmware.com/en/Site-Recovery-Manager/index.html["https://docs.vmware.com/en/Site-Recovery-Manager/index.html"^]
+link:https://docs.vmware.com/en/Site-Recovery-Manager/index.html["https://docs.vmware.com/en/Site-Recovery-Manager/index.html"]
 
 
-請參閱 http://mysupport.netapp.com/matrix["互通性對照表工具IMT （不含）"^] 在 NetApp 支援網站上，驗證您的特有環境是否支援本文件中所述的明確產品與功能版本。NetApp IMT 解決方案定義了可用於建構NetApp支援組態的產品元件和版本。具體結果取決於每位客戶依照已發佈規格所安裝的產品。
+請參閱 link:http://mysupport.netapp.com/matrix["互通性對照表工具IMT （不含）"] 在 NetApp 支援網站上，驗證您的特有環境是否支援本文件中所述的明確產品與功能版本。NetApp IMT 解決方案定義了可用於建構NetApp支援組態的產品元件和版本。具體結果取決於每位客戶依照已發佈規格所安裝的產品。

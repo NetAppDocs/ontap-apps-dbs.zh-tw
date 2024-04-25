@@ -3153,19 +3153,10 @@
   <block id="3e4627f6667f830baceaaf35890b575a" category="summary">若要深入瞭解本文所述資訊、請檢閱下列文件和/或網站。</block>
   <block id="092bf78f9c97ba171b8232ddff585392" category="doc">其他資訊</block>
   <block id="7d5b957cd473f6eaf5ad335a9c63c4ff" category="paragraph">若要深入瞭解本文所述資訊、請檢閱下列文件和 / 或網站：</block>
-  <block id="18df8e05a5400abd9d0980b1c5bc9ef3" category="list-text">TR-4015《SnapMirror組態最佳實務指南ONTAP 》（英文）
-<block ref="e361bd9d6f7b20da762bc23fcb3d09c2" category="inline-link-rx"></block></block>
   <block id="cbe2f6eb2a73f4a2c871a06264f10dc7" category="inline-link"><block ref="cbe2f6eb2a73f4a2c871a06264f10dc7" category="inline-link-rx"></block></block>
-  <block id="249b98331fa56dc46bf6ba51dc6c39d5" category="list-text">RBAC使用者建立工具ONTAP 以供參考
-<block ref="6b15b91279acfce2bbee060bdb17db43" category="inline-link-rx"></block></block>
   <block id="c88037eb28ae3cceb0e32c2cd3c322d7" category="inline-link"><block ref="c88037eb28ae3cceb0e32c2cd3c322d7" category="inline-link-rx"></block></block>
-  <block id="1a57e0f74e725c1a5e2d53b4d4b4460d" category="list-text">VMware vSphere資源的相關工具ONTAP
-<block ref="80c496cd9ab75e5683007d8f66ca6fbf" category="inline-link-rx"></block></block>
   <block id="9aa6e8f8fac5c131e5924ee033660d29" category="inline-link"><block ref="9aa6e8f8fac5c131e5924ee033660d29" category="inline-link-rx"></block></block>
-  <block id="91a48e1708df22b7464bced79c745ad2" category="list-text">VMware Site Recovery Manager文件
-<block ref="92ad802ced4838839b492be6d0bf427d" category="inline-link-rx"></block></block>
   <block id="c9dd6bad4c7d561872f2e2d498a990bf" category="inline-link">互通性對照表工具IMT （不含）</block>
-  <block id="97cd1357ea4a16b44bd9e360127a1a9d" category="paragraph">請參閱<block ref="99cfde592e1d7fa7832b186d73ee4002" category="inline-link-rx"></block> 在 NetApp 支援網站上，驗證您的特有環境是否支援本文件中所述的明確產品與功能版本。NetApp IMT 解決方案定義了可用於建構NetApp支援組態的產品元件和版本。具體結果取決於每位客戶依照已發佈規格所安裝的產品。</block>
   <block id="1f82b18dcba5f32a085bc502cdd0c6b7" category="summary">利用NetApp技術、儲存虛擬機器（SVM）的概念可在安全的多租戶環境中提供嚴格的區隔。ONTAP</block>
   <block id="7520e12a140ccf3de279fe2fd48889e4" category="doc">部署最佳實務做法</block>
   <block id="1b4574c516231b685bb37b013b789b06" category="section-title">適用於SMT的SVM配置與區隔</block>
@@ -4390,7 +4381,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="4380a9c5c56776fad0f4492a0d3c63f5" category="list-text">從 VM 應位於的叢集中選取節點。</block>
   <block id="a8be7e73ae88a070ad15a4a6f6d515fe" category="list-text">在虛擬機器建立精靈中、提供共用儲存設備（ SMB 共享區或 CSV ）作為儲存 VM 及其磁碟的路徑。</block>
   <block id="9da4e10b0da989c65844cd59ed2a0991" category="list-text">使用 Hyper-V Manager 將共享儲存設備（ SMB 共享或 CSV ）設定為儲存 Hyper-V 伺服器的 VM 及其磁碟的預設路徑。</block>
-  <block id="7bfcd2ed65eadd56b87a3ad2ccf40dff" category="list-text">測試計畫性容錯移轉。使用即時移轉、快速移轉或儲存移轉（移動）、將 VM 移至另一個節點。請參閱「<block ref="389dcc9a311ede7b2257b650a030a873" category="inline-link-macro-rx"></block>」以取得更多詳細資料。</block>
   <block id="064cd683bf50cb65205de6b9298201b3" category="list-text">測試非計畫性容錯移轉停止擁有 VM 的伺服器上的叢集服務。</block>
   <block id="c7bfaead2ee1aea320b1d91da7ba31d7" category="summary">瞭解 NetApp 儲存設備和 Windows Server 環境</block>
   <block id="3654a2a95a62ead550b874d74dd4bbe8" category="doc">NetApp 儲存設備和 Windows Server 環境</block>
@@ -4455,15 +4445,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="0d3e51fc3c7ecb31cb6dcf3ea104060c" category="list-text">NetApp 建議建立備援網路路徑（多個交換器）、以進行即時移轉、並建立 iSCSI 網路、以提供恢復能力和 QoS 。</block>
   <block id="72a46482f366b350b6b0215baa631137" category="summary">Microsoft Windows 和 Hyper-V 的其他資源</block>
   <block id="4bb047f8c530785002e490ef17fa725e" category="doc">何處可找到其他資訊</block>
-  <block id="654b5ef83fa66dad8993f3654a8bebb5" category="list-text">概念ONTAP</block>
-  <block id="836022e29667128997850a15d18e8759" category="paragraph"><block ref="836022e29667128997850a15d18e8759" category="inline-link-rx"></block></block>
-  <block id="3c4676f4bca8b513c846ad2af3faccbd" category="list-text">現代 SAN 的最佳實務做法</block>
-  <block id="49df8abaa6163afdde37b69f7f59185c" category="paragraph"><block ref="49df8abaa6163afdde37b69f7f59185c" category="inline-link-rx"></block></block>
-  <block id="162a16b6ce79384fa5f7280046025873" category="list-text">NetApp All SAN Array Data Availability and Integrity with the NetApp ASA</block>
-  <block id="8f140ecff12b563e3c96a8cff991aedb" category="paragraph"><block ref="8f140ecff12b563e3c96a8cff991aedb" category="inline-link-rx"></block></block>
-  <block id="a5328e6434e6dca1eceeffb0159744e9" category="list-text">SMB 傳輸協定最佳實務做法</block>
-  <block id="8dde74cc713b527ca86df68c5efea489" category="list-text"><block ref="136d5353e9c99477f1d3147e966df5af" category="inline-link-rx"></block> 開始使用 Nano Server +
-<block ref="abdd6de84336a7f761fbe384605879e9" category="inline-link-rx"></block></block>
   <block id="0650b34324cf33e3bf1ba6d5db9aa14c" category="list-text">Windows Server 上 Hyper-V 的新功能 +
 <block ref="8508224d602483e88bde8402b5d1f2d1" category="inline-link-rx"></block></block>
   <block id="1139a59d4aa15acd59f31d05c5a9d642" category="summary">本附錄說明如何在叢集環境外部署 Hyper-V 複本。</block>
@@ -4504,8 +4485,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="94faab2d3840f3d8320e20ad4a90e6cd" category="list-text">按一下「容錯移轉」以容錯移轉 VM 。</block>
   <block id="4be45953e45cfa5fc987ba108c1e5793" category="summary">本附錄說明如何在叢集式環境中部署即時移轉。</block>
   <block id="407f0c958d87180b9cc5045be0f28bd4" category="doc">在叢集環境中部署 Hyper-V 即時移轉</block>
-  <block id="9774bdda08aa75b382aa5e42ff0441b6" category="inline-link-macro">Hyper-V 叢集</block>
-  <block id="a897bc62277be342ef178e68f04b5c92" category="paragraph">若要部署即時移轉、您必須在具有共用儲存設備的容錯移轉叢集中設定 Hyper-V 伺服器。請參閱一節 <block ref="2ba01ece72ad73715f4a19148fab7c67" category="inline-link-macro-rx"></block> 以取得更多詳細資料。</block>
   <block id="388b92a1de3321595dcfbdc1c67ce749" category="paragraph">若要在叢集環境中使用即時移轉、請完成下列步驟：</block>
   <block id="b66a6c742469f1d08a2d11bcf4f211ff" category="list-text">在容錯移轉叢集管理程式中、選取並展開叢集。如果叢集不可見、請按一下容錯移轉叢集管理程式、按一下連線至叢集、然後提供叢集名稱。</block>
   <block id="e3883376513ba0aeb2f3d190d4e0377d" category="list-text">按一下角色、其中會列出叢集中所有可用的 VM 。</block>
@@ -4653,7 +4632,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="8d9091beebb755bb6e68a4f04d3288f6" category="paragraph">BitLocker 磁碟機加密是一項資料保護功能、延續自 Windows Server 2012 。此加密可保護實體磁碟、 LUN 和 CSV 。</block>
   <block id="0494cad48bf6f5dd2105391f0426af1a" category="paragraph">啟用 BitLocker 之前、必須先將 CSV 設為維護模式。因此、 NetApp 建議您在 CSV 上建立 VM 之前、先做出有關以 BitLocker 為基礎的安全性的決策、以避免停機。</block>
   <block id="e2e4ca1a6c3bcca61ed5ec3ea10c90c0" category="summary">瞭解如何使用 Windows Server 容錯移轉叢集來部署及設定 Hyper-V 複本。</block>
-  <block id="8127ab9fa104e0306d7d39fd7950c254" category="list-text">您必須將 Hyper-V 叢集放在相同或不同地理位置的同一位置、做為主要叢集和複本叢集。請參閱「<block ref="ea7aa0b79f69b4796e1e78e5a203a5d7" category="inline-link-macro-rx"></block>」以取得更多詳細資料。</block>
   <block id="5674fdbee301f444dd0ca3836c682957" category="list-text">如果使用不同的站台、則必須設定每個站台的防火牆、以允許主要叢集和複本叢集之間的通訊。</block>
   <block id="6cc66ed27b17f9c380f924d533e633d6" category="list-text">複本叢集必須有足夠的空間來儲存複寫的工作負載。</block>
   <block id="ff71768b9e039ee5012c181eb29bdc39" category="list-text">在叢集的所有節點上啟用防火牆規則。在主要叢集和複本叢集中的所有節點上、以管理員權限執行下列 PowerShell Cmdlet 。</block>
@@ -4914,11 +4892,7 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="8e00c91ecf143f76c94e3aa1668fc92b" category="inline-image-macro">ONTAP 複製</block>
   <block id="9c7295440be885852a164f5880627146" category="paragraph"><block ref="9c7295440be885852a164f5880627146" category="inline-image-macro-rx" type="image"></block></block>
   <block id="1eed6756a7834e04fb7716ee8d830425" category="inline-link-macro"><block ref="1eed6756a7834e04fb7716ee8d830425" category="inline-link-rx"></block></block>
-  <block id="8da9c2cbb1fa115b8d5d719e3db3375d" category="list-text">TR-4597：VMware vSphere ONTAP for VMware
-<block ref="9e6a16c482927bdc7bc737986ae09658" category="inline-link-macro-rx"></block></block>
   <block id="0e4a75553a081fffff029a37e55f5d71" category="inline-link-macro"><block ref="0e4a75553a081fffff029a37e55f5d71" category="inline-link-rx"></block></block>
-  <block id="82ce198298a8d30a65e9e49a1e9328a4" category="list-text">TR-4400: VMware vSphere虛擬Volume ONTAP with VMware
-<block ref="4752e298e06276577ddb7ded2f908b71" category="inline-link-macro-rx"></block></block>
   <block id="2e633a7cd484b8152bb61b1eee51006b" category="paragraph">ONTAP FlexClone 授權（隨附於 ONTAP One ）和 ONTAP 工具應用裝置是唯一需要搭配 ONTAP 使用 vVols 的其他產品。ONTAP 工具的最新版本是以單一統一應用裝置的形式提供、可在 ESXi 上執行、提供以前三種不同應用裝置和伺服器的功能。對於 vVols 、使用 ONTAP 工具 vCenter UI 延伸或 REST API 作為 ONTAP 與 vSphere 功能的一般管理工具和使用者介面、以及提供特定 vVols 功能的 VASA 供應商、是非常重要的。SRA 元件包含在傳統資料存放區中、但 VMware Site Recovery Manager 不會將 SRA 用於 vVols 、而是在 SRM 8.3 及更新版本中實作新服務、利用 VVols 複寫的 VASA 提供者。</block>
   <block id="32fd58743bd2ce579949a47db1b95ca8" category="summary">與 SRA 和傳統資料存放區相比、 VVols 複寫搭配 VASA 提供獨特的功能。</block>
   <block id="daf6970022e96957e3a4ea5b6a599a27" category="list-text">雖然 ONTAP 工具和 SRA 同時支援叢集層級和 SVM 層級認證、但 VASA Provider 僅支援儲存系統的叢集層級認證。這是因為許多用於 vVols 的 API 只能在叢集層級使用。因此、如果您打算使用 vVols 、則必須使用叢集範圍認證來新增 ONTAP 叢集。</block>
@@ -5026,4 +5000,35 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="0726f4e9c3c98564af638f1b4cd17a9e" category="sidebar">在叢集式環境外部署 Hyper-V 即時移轉</block>
   <block id="1bbd09497cd931a02f8dc0ee3cfcf19d" category="sidebar">在叢集環境外部署 Hyper-V 複本</block>
   <block id="832a116d7f9184d8880a539553a0cb52" category="sidebar">在叢集環境中部署 Hyper-V 複本</block>
+  <block id="1a85c0d242c43eb56cc500e60d323331" category="paragraph">VMFS是高效能的叢集式檔案系統、可提供共用儲存資源池的資料存放區。VMFS 資料存放區可設定為使用 FC 、 iSCSI 、 FCoE 或 NVMe 命名空間存取 LUN 、使用 NVMe / FC 或 NVMe / TCP 通訊協定存取。VMFS 可讓叢集中的每個 ESX 伺服器同時存取儲存設備。從 ONTAP 9.12.1P2 開始、 LUN 大小上限通常為 128TB （ ASA 系統則為較早版本）；因此、使用單一 LUN 可建立最大大小為 64TB 的 VMFS 5 或 6 資料存放區。</block>
+  <block id="5d7771be7242d0b5e76913e2ea5d3dad" category="paragraph">ESXi 6最多可支援256個LUN、並可支援多達1、024條通往LUN的總路徑。ESXi 不會看到超出這些限制的任何 LUN 或路徑。假設LUN數量上限、則路徑限制允許每個LUN有四個路徑。在更大ONTAP 的實體叢集中、可以在LUN限制之前達到路徑限制。為了解決此限制、ONTAP 支援8.3版及更新版本中的選擇性LUN對應（SLM),</block>
+  <block id="8983ee0717807e5385f3c8b2c70a177c" category="list-text">TR-4597：VMware vSphere ONTAP for VMware
+<block ref="0bff808225ac084b8184e7670c17aa52" category="inline-link-macro-rx"></block></block>
+  <block id="1f7ff87198d4a8563ac0d42354d47052" category="list-text">TR-4400: VMware vSphere虛擬Volume ONTAP with VMware
+<block ref="57ea579fe6c0d333a496008248ad03e2" category="inline-link-macro-rx"></block></block>
+  <block id="ef8c76bd50596fa93881a13dac3f23b3" category="inline-link-macro"><block ref="ef8c76bd50596fa93881a13dac3f23b3" category="inline-link-rx"></block></block>
+  <block id="6e5923e0b2d91653ee7dd35aa5f48141" category="list-text">TR-4015《SnapMirror組態最佳實務指南ONTAP 》（英文）
+<block ref="6a851721cd10ebeb2f9cfa107f963956" category="inline-link-macro-rx"></block></block>
+  <block id="1e626dbc797733633cd43ac045564b36" category="list-text">RBAC使用者建立工具ONTAP 以供參考
+<block ref="51416f5c8b6f7981eb23be678ab313ad" category="inline-link-macro-rx"></block></block>
+  <block id="eaef75afe923a97ffd4ccab86876f8da" category="list-text">VMware vSphere資源的相關工具ONTAP
+<block ref="9d52dd6d1c195e015d4baef3146522a8" category="inline-link-macro-rx"></block></block>
+  <block id="58b39d11ffaef440efc4e3c365487610" category="list-text">VMware Site Recovery Manager文件
+<block ref="18c037ca2f7fe7180f506030fe7e514c" category="inline-link-macro-rx"></block></block>
+  <block id="bc11d67bfced1da7778c2cabee9e7615" category="paragraph">請參閱 <block ref="de89165a46abdf575eb9a1ba0995e131" category="inline-link-macro-rx"></block> 在 NetApp 支援網站上，驗證您的特有環境是否支援本文件中所述的明確產品與功能版本。NetApp IMT 解決方案定義了可用於建構NetApp支援組態的產品元件和版本。具體結果取決於每位客戶依照已發佈規格所安裝的產品。</block>
+  <block id="e651877073d877e1ee090d986eafc550" category="list-text">您必須將 Hyper-V 叢集放在相同或不同地理位置的同一位置、做為主要叢集和複本叢集。檢閱 <block ref="8a150f92c22920868769b8738759e23d" category="inline-link-macro-rx"></block> 以取得更多詳細資料。</block>
+  <block id="8762adae157b34ee542f2e614401603a" category="list-text">概念ONTAP
+<block ref="836022e29667128997850a15d18e8759" category="inline-link-rx"></block></block>
+  <block id="e7b3912abd11fa36935a211d0189ebc2" category="list-text">現代 SAN 的最佳實務做法
+<block ref="49df8abaa6163afdde37b69f7f59185c" category="inline-link-rx"></block></block>
+  <block id="05c54431756e1b1a7114938bc6f4b199" category="list-text">NetApp All SAN Array Data Availability and Integrity with the NetApp ASA
+<block ref="8f140ecff12b563e3c96a8cff991aedb" category="inline-link-rx"></block></block>
+  <block id="61eccac29e55aa58f22643ddd6cf3587" category="list-text">SMB 傳輸協定最佳實務做法
+<block ref="63b1df1d0a5ff0e604f9987b8b1b21db" category="inline-link-rx"></block></block>
+  <block id="bc96f334e3988ce96701a7082c0e23b5" category="list-text">開始使用 Nano Server +
+<block ref="abdd6de84336a7f761fbe384605879e9" category="inline-link-rx"></block></block>
+  <block id="0e660b82d6e28b6935041a5223ed1aed" category="paragraph">若要部署即時移轉、您必須在具有共用儲存設備的容錯移轉叢集中設定 Hyper-V 伺服器。檢閱 <block ref="8a150f92c22920868769b8738759e23d" category="inline-link-macro-rx"></block> 以取得更多詳細資料。</block>
+  <block id="1dd1e97374852e1f244963d9fdb0c414" category="list-text">測試計畫性容錯移轉。使用即時移轉、快速移轉或儲存移轉（移動）、將 VM 移至另一個節點。檢閱 <block ref="ba8afff2d0e4662eeb47d28935e79828" category="inline-link-macro-rx"></block> 以取得更多詳細資料。</block>
+  <block id="8737a5d2bc43b0eb76ab5674d0fcb094" category="sidebar">SRM with ONTAP 概述</block>
+  <block id="76f6daa4bfab6ca8a7350e46d3d6718f" category="sidebar">SRM 的其他資訊</block>
 </blocks>

@@ -12,19 +12,14 @@ summary: Microsoft Windows 和 Hyper-V 的其他資源
 Microsoft Windows 和 Hyper-V 的其他資源
 
 * 概念ONTAP
-+
 https://docs.netapp.com/us-en/ontap/concepts/introducing-data-management-software-concept.html[]
-
 * 現代 SAN 的最佳實務做法
-+
 https://www.netapp.com/media/10680-tr4080.pdf[]
-
 * NetApp All SAN Array Data Availability and Integrity with the NetApp ASA
-+
 https://www.netapp.com/pdf.html?item=/media/85671-tr-4968.pdf[]
-
 * SMB 傳輸協定最佳實務做法
-* https://www.netapp.com/pdf.html?item=/media/10678-tr-4543pdf.pdfGetting[] 開始使用 Nano Server +
+https://www.netapp.com/pdf.html?item=/media/10678-tr-4543pdf.pdf[]
+* 開始使用 Nano Server +
 https://technet.microsoft.com/library/mt126167.aspx[]
 * Windows Server 上 Hyper-V 的新功能 +
 https://technet.microsoft.com/windows-server-docs/compute/hyper-v/what-s-new-in-hyper-v-on-windows[]

@@ -5,7 +5,12 @@ keywords: WP-7355, security, snapcenter, treat modeling, dast, vulnerability sca
 summary: 本文件說明適用於 VMware 的 SnapCenter 外掛程式的安全性層面。 
 ---
 = SnapCenter 外掛程式 VMware vSphere
+:hardbreaks:
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
 
 
 [role="lead"]

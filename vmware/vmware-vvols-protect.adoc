@@ -49,7 +49,7 @@ ONTAP 工具 9.7.1 搭配 VMware Site Recovery Manager （ SRM ） 8.3 版本、
 
 === 使用 SRM 複寫 VVols
 
-image:vvols-image17.png["VVols 與 SRM 複寫、 300"]
+image:vvols-image17.png["使用 SRM 複寫 VVols"]
 
 
 
@@ -91,7 +91,7 @@ vSphere 8.0 支援是採用分離式本機外掛程式架構的 4.7 號選擇控
 
 === 架構SnapCenter
 
-image:vvols-image18.png["SnapCenter 架構、 300"]
+image:snapcenter_arch.png["架構SnapCenter"]
 
 由於其他 SnapCenter 外掛程式在撰寫本文時尚未支援 vVols 、因此我們將著重於本文中的獨立部署模型。
 
@@ -155,7 +155,7 @@ image:vvols-image18.png["SnapCenter 架構、 300"]
 
 === 資源群組通知選項
 
-image:vvols-image19.png["資源群組通知選項、 300"]
+image:vvols-image19.png["資源群組通知選項"]
 
 
 

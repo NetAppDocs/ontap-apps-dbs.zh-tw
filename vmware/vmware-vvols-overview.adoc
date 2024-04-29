@@ -6,6 +6,10 @@ summary: 以下是 VMware vSphere 虛擬磁碟區（ VVols ）與 ONTAP 的概�
 ---
 = 總覽
 :allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
 
 
 [role="lead"]

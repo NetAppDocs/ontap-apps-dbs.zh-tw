@@ -4975,8 +4975,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
 <block ref="49df8abaa6163afdde37b69f7f59185c" category="inline-link-rx"></block></block>
   <block id="05c54431756e1b1a7114938bc6f4b199" category="list-text">NetApp All SAN Array Data Availability and Integrity with the NetApp ASA
 <block ref="8f140ecff12b563e3c96a8cff991aedb" category="inline-link-rx"></block></block>
-  <block id="61eccac29e55aa58f22643ddd6cf3587" category="list-text">SMB 傳輸協定最佳實務做法
-<block ref="63b1df1d0a5ff0e604f9987b8b1b21db" category="inline-link-rx"></block></block>
   <block id="bc96f334e3988ce96701a7082c0e23b5" category="list-text">開始使用 Nano Server +
 <block ref="abdd6de84336a7f761fbe384605879e9" category="inline-link-rx"></block></block>
   <block id="0e660b82d6e28b6935041a5223ed1aed" category="paragraph">若要部署即時移轉、您必須在具有共用儲存設備的容錯移轉叢集中設定 Hyper-V 伺服器。檢閱 <block ref="8a150f92c22920868769b8738759e23d" category="inline-link-macro-rx"></block> 以取得更多詳細資料。</block>
@@ -5024,4 +5022,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="1910dc5a02cb649cc24df5670c631e34" category="paragraph"><block ref="1910dc5a02cb649cc24df5670c631e34" category="inline-image-macro-rx" type="image"></block></block>
   <block id="416d0d3efc5f3919abcdaaa2364738d9" category="paragraph"><block ref="416d0d3efc5f3919abcdaaa2364738d9" category="inline-image-macro-rx" type="image"></block></block>
   <block id="28c6217e46797f76e427c591070cf50c" category="paragraph"><block ref="28c6217e46797f76e427c591070cf50c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d03e09c345dd723011486de3855c13b2" category="list-text">SMB 文件
+<block ref="409ef354547d1e3428907ed7fdd2dc6e" category="inline-link-rx"></block></block>
 </blocks>

@@ -22,8 +22,8 @@ https://docs.netapp.com/us-en/ontap/concepts/introducing-data-management-softwar
 https://www.netapp.com/media/10680-tr4080.pdf[]
 * NetApp All SAN Array Data Availability and Integrity with the NetApp ASA
 https://www.netapp.com/pdf.html?item=/media/85671-tr-4968.pdf[]
-* SMB 傳輸協定最佳實務做法
-https://www.netapp.com/pdf.html?item=/media/10678-tr-4543pdf.pdf[]
+* SMB 文件
+https://docs.netapp.com/us-en/ontap/smb-admin/index.html[]
 * 開始使用 Nano Server +
 https://technet.microsoft.com/library/mt126167.aspx[]
 * Windows Server 上 Hyper-V 的新功能 +

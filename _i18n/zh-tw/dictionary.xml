@@ -381,8 +381,6 @@
   <block id="5cf4dc4d1ce52ff655ea7f1157a72e2e" category="paragraph">幸運的是、這些風險可以透過仔細設定來解決<block ref="f9e1f2ea1a2becbaf82dd54e55a12e6b" prefix=" " category="inline-code"></block> 和<block ref="24d554277b3513bb6cef3f0a336725a9" prefix=" " category="inline-code"></block> 原則。如同其名稱所暗示、這些選項可讓使用者建立原則、以自動清除快照佔用的空間、或是增加磁碟區以容納額外資料。有許多選項可供選擇、需求因客戶而異。</block>
   <block id="6a28738961e6f6e4b57e4dd70c446600" category="inline-link-macro">邏輯儲存管理文件</block>
   <block id="01570cb5a3aec2324ab56e318e1de04d" category="paragraph">請參閱 <block ref="e69bd75bdb49183ee90588843edb33f4" category="inline-link-macro-rx"></block> 以完整討論這些功能。</block>
-  <block id="8cf44a7a390ab582c5010ba430143d4b" category="section-title">LUN 精簡配置</block>
-  <block id="ba0bdf51bc57bacdd6f3f0bd26b7674c" category="paragraph">在檔案系統環境中自動精簡配置作用中 LUN 的效率、可能會隨著資料刪除而隨時間而喪失。除非刪除的資料以零覆寫、或是以修剪 / 取消對應空間回收釋放空間、否則「清除的」資料會佔用檔案系統中越來越多的未分配空白。此外、在許多資料庫環境中、主動式 LUN 的精簡配置功能有限、因為資料檔案會在建立時初始化為全尺寸。</block>
   <block id="e10d46632bc86306cf4c22633ee930ab" category="paragraph">仔細規劃 LVM 組態可提高效率、並將儲存資源配置和 LUN 調整大小的需求降至最低。當使用 Veritas VxVM 或 Oracle ASM 等 LVM 時、基礎 LUN 會分割成僅在需要時才使用的範圍。例如、如果資料集的大小從 2TB 開始、但隨時間而成長至 10TB 、則此資料集可放置在配置在 LVM 磁碟群組中的 10TB 精簡配置 LUN 上。在建立時、它只會佔用 2TB 的空間、而且只會在分配範圍以容納資料成長時、才會要求額外的空間。只要監控空間、此程序就安全無虞。</block>
   <block id="66a41fd6fc38c454973e91d92cf0e291" category="section-title">部分保留</block>
   <block id="e8a206fe65814e0ea465e32487544751" category="paragraph">「部分保留」是指磁碟區中 LUN 在空間效率方面的行為。選項<block ref="c1acac5c4332e37ec1f281fcbaf0765a" prefix=" " category="inline-code"></block> 設為 100% 、磁碟區中的所有資料在任何資料模式下都能達到 100% 的營業額、而不會耗盡磁碟區上的空間。</block>
@@ -5024,4 +5022,34 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="28c6217e46797f76e427c591070cf50c" category="paragraph"><block ref="28c6217e46797f76e427c591070cf50c" category="inline-image-macro-rx" type="image"></block></block>
   <block id="d03e09c345dd723011486de3855c13b2" category="list-text">SMB 文件
 <block ref="409ef354547d1e3428907ed7fdd2dc6e" category="inline-link-rx"></block></block>
+  <block id="834873443aaaf2c09b851c8b0f7b2497" category="section-title">資料庫壓縮</block>
+  <block id="2ee3c7318caa2523e9c749e4e2152266" category="paragraph">與剛接觸 ONTAP 的客戶混淆的一個常見點是使用 FlexVols 、通常稱為「 Volume 」。</block>
+  <block id="ff2dabe8a40c84d01b0584c50319a79e" category="paragraph">磁碟區不是 LUN 。這些詞彙與許多其他廠商產品（包括雲端供應商）同義。ONTAP Volume 是簡單的管理容器。它們本身不會提供資料、也不會佔用空間。它們是檔案或 LUN 的容器、可改善及簡化管理、尤其是大規模管理。</block>
+  <block id="92a5781e05d0d9b7044f44e2ef7bff84" category="section-title">磁碟區和 LUN</block>
+  <block id="faf1e8eebcac2d18d4ac10e75f416a3f" category="paragraph">相關 LUN 通常位於單一磁碟區中。例如、需要 10 個 LUN 的資料庫通常會將所有 10 個 LUN 放在同一個磁碟區上。</block>
+  <block id="3a5bf2895b95fa2b89fce4dcf94fd2f9" category="list-text">使用 LUN 對磁碟區的比例 1 ： 1 表示每個磁碟區有一個 LUN 、這是 * 非 * 正式最佳實務做法。</block>
+  <block id="1886f4ac4aa2f64bf8224f178a36ba92" category="list-text">而是應將磁碟區視為工作負載或資料集的容器。每個磁碟區可能只有一個 LUN 、或者可能有許多 LUN 。正確的答案取決於管理需求。</block>
+  <block id="0de05608a70e8ec5863afc41ba150178" category="list-text">在不必要數量的磁碟區之間分散 LUN 、可能會導致額外的額外負荷和排程問題、例如快照作業、 UI 中顯示的物件過多、並導致在達到 LUN 限制之前達到平台磁碟區限制。</block>
+  <block id="0955dbd01a9f8194cad5a6876b931f5a" category="section-title">磁碟區、 LUN 和快照</block>
+  <block id="9bbd4f2fca3a1e1aaa76abf8cb43351c" category="paragraph">Snapshot 原則和排程會放置在磁碟區上、而非 LUN 上。如果資料集由 10 個 LUN 組成、則當這些 LUN 位於同一個磁碟區中時、只需要單一快照原則。</block>
+  <block id="f34f28bb7a1701ded173c2ab504f5c20" category="paragraph">此外、在單一磁碟區中共同定位給定資料集的所有相關 LUN 、可提供原子快照作業。例如、如果基礎 LUN 全部放在單一磁碟區上、則位於 10 個 LUN 上的資料庫、或是由 10 個不同作業系統組成的 VMware 應用程式環境、都可以作為單一且一致的物件加以保護。如果將快照放在不同的磁碟區上、則即使同時排程、快照仍可能保持 100% 同步。</block>
+  <block id="fe7797cb1dbe36223357d4c25ff30c9e" category="paragraph">在某些情況下、由於恢復需求、相關的 LUN 集可能需要分割成兩個不同的磁碟區。例如、資料庫可能有四個 LUN 用於資料檔案、兩個 LUN 用於記錄。在這種情況下、具有 4 個 LUN 的資料檔案磁碟區和具有 2 個 LUN 的記錄磁碟區可能是最佳選擇。原因在於可進行的可恢復性是不相關的。例如、資料檔案磁碟區可以選擇性地還原為較早的狀態、這表示所有四個 LUN 都會還原為快照狀態、而記錄磁碟區與其重要資料則不會受到影響。</block>
+  <block id="66383d632fe33f1b7c20af9c1c142028" category="section-title">Volume 、 LUN 和 SnapMirror</block>
+  <block id="8fb29c5f40886ece62abcd994f1aa202" category="paragraph">SnapMirror 原則和作業就像快照作業一樣、是在磁碟區上執行、而不是在 LUN 上執行。</block>
+  <block id="7d8d0afc8d9998a7e6457c6251b4defc" category="paragraph">在單一磁碟區中共同定位相關 LUN 、可讓您建立單一 SnapMirror 關係、並透過單一更新來更新所有包含的資料。與快照一樣、更新也將是一項原子作業。SnapMirror 目的地將保證擁有來源 LUN 的單一時間點複本。如果 LUN 分散在多個磁碟區、則複本可能彼此一致、也可能不一致。</block>
+  <block id="e45ffde45b5f4090fe8c92a49d38bcb2" category="section-title">磁碟區、 LUN 和 QoS</block>
+  <block id="756a4c619fb81eafd00bc072334a5877" category="paragraph">雖然 QoS 可以選擇性地套用至個別 LUN 、但通常在磁碟區層級設定 QoS 會比較容易。例如、指定 ESX 伺服器中的來賓所使用的所有 LUN 都可以放置在單一磁碟區上、然後就可以套用 ONTAP 調適性 QoS 原則。結果是將每 TB IOPS 的自我擴充限制套用至所有 LUN 。</block>
+  <block id="fb219ca81e7a635609b70d290a7a3aa2" category="paragraph">同樣地、如果資料庫需要 10 萬次 IOPS 、而且佔用 10 個 LUN 、則在單一磁碟區上設定單一的 10 萬次 IOPS 限制、比在每個 LUN 上設定 10 個個別的 10K IOPS 限制更容易。</block>
+  <block id="56739402ea66bd29b7303b69ee165d5b" category="section-title">多重 Volume 配置</block>
+  <block id="c509cb5f7def30cc77b15b0e91ab39a4" category="paragraph">在某些情況下、跨多個磁碟區散佈 LUN 可能會有幫助。主要原因是控制器分段。例如、 HA 儲存系統可能會裝載單一資料庫、其中需要每個控制器的完整處理與快取潛力。在這種情況下、典型的設計是將一半的 LUN 放在控制器 1 的單一磁碟區、而另一半的 LUN 則放在控制器 2 的單一磁碟區中。</block>
+  <block id="ad328d1793d6c3621e91d83556548a01" category="paragraph">同樣地、控制器分段也可用於負載平衡。HA 系統託管 100 個資料庫、每個資料庫各有 10 個 LUN 、每個資料庫可在兩個控制器上接收 5 個 LUN 磁碟區。如此一來、每個控制器就能以對稱的方式進行對稱載入、同時還能配置額外的資料庫。</block>
+  <block id="4cd2d5d8d873ad1f707d88334324153a" category="paragraph">不過、這些範例都不涉及 1 ： 1 的磁碟區對 LUN 比率。目標仍然是透過在磁碟區中共同定位相關 LUN 來最佳化管理性。</block>
+  <block id="a9fd7be1f3363701ad1b35b16af02c9e" category="paragraph">其中一個例子是、 1 ： 1 LUN 對磁碟區比率非常合理、其中每個 LUN 可能真正代表單一工作負載、而且每個工作負載都需要個別管理。在這種情況下、 1 ： 1 的比率可能是最佳的。</block>
+  <block id="64e5a77897fe6326f14436eaaaf5432b" category="section-title">可用空間和 LVM 空間分配</block>
+  <block id="702db8f3db66a0eec35817fe5d2e4544" category="inline-link-macro">ASMRU</block>
+  <block id="096ca5ad0b3774fee4699e2da1bfa884" category="paragraph">在檔案系統環境中自動精簡配置作用中 LUN 的效率、可能會隨著資料刪除而隨時間而喪失。除非刪除的資料會以零覆寫（另請參閱 <block ref="5b58c4ec517e475a59d0a785f87cabdc" category="inline-link-macro-rx"></block> 或是隨著修剪 / 取消對應空間回收而釋放空間、「清除」資料會佔用檔案系統中越來越多的未分配空白空間。此外、在許多資料庫環境中、主動式 LUN 的精簡配置功能有限、因為資料檔案會在建立時初始化為全尺寸。</block>
+  <block id="ceb8ec6ec593174c2c6f33be2ca966eb" category="summary">Oracle 和 ONTAP 磁碟區和 LUN 配置</block>
+  <block id="0724b56ced27e0a66fb4692a57fb1436" category="doc">Oracle 資料庫 LUN 放置</block>
+  <block id="f595bf3bf71ab0c91a5503ba4efb8ea4" category="paragraph">資料庫 LUN 在 ONTAP 磁碟區內的最佳放置方式、主要取決於如何使用各種 ONTAP 功能。</block>
+  <block id="05a1ffdb277b8c7ac1dca78adae0017e" category="sidebar">LUN 放置</block>
 </blocks>

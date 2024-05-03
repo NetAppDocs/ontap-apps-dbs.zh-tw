@@ -66,6 +66,8 @@ entries:
       url: "/oracle/oracle-storage-san-config-lun-alignment.html"
     - title: LUN 數量和 LUN 大小
       url: "/oracle/oracle-storage-san-config-lun-sizing.html"
+    - title: LUN 放置
+      url: "/oracle/oracle-storage-san-config-lun-placement.html"
     - title: LUN 調整大小
       url: "/oracle/oracle-storage-san-config-lun-resizing.html"
     - title: LVM 分拆

@@ -49,7 +49,7 @@ indexpage:
     - title: VMware vSphere 搭配 ONTAP
       url: "/vmware/vmware-vsphere-overview.html"
     - title: 適用於 VMware vSphere 的 ONTAP 工具安全性強化指南
-      url: "/vmware/vmware-otv-hardening-overview.html.html"
+      url: "/vmware/vmware-otv-hardening-overview.html"
     - title: 使用 ONTAP 的虛擬磁碟區（ VVols ）
       url: "/vmware/vmware-vvols-overview.html"
     - title: VMware Site Recovery Manager 搭配 ONTAP

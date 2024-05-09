@@ -80,7 +80,7 @@ entries:
     url: "/vmware/vmware-security-tools.html"
   - title: VMware vSphere的插件SnapCenter
     url: "/vmware/vmware-security-snapcenter.html"
-- title: 適用於 VMware vSphere 的 ONTAP 工具安全強化指南
+- title: 適用於 VMware vSphere 的 ONTAP 工具安全性強化指南
   entries:
   - title: ONTAP 工具強化概述
     url: "/vmware/vmware-otv-hardening-overview.html"

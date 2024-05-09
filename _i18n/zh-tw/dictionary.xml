@@ -5175,9 +5175,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="90ab4fc7a1c530bceac36bda71efbc5f" category="paragraph">根據預設、 NTP 的服務為 ntpd 。這是一項舊版服務、在某些情況下、虛擬機器無法順利運作。</block>
   <block id="6801ecdb823d018c7370042d27b5ee2c" category="section-title">* Debian*</block>
   <block id="dc3bb5166d38d2aec53765aca7c0d24c" category="paragraph">在 Debian 上、使用者可以存取 /etc/ntp.conf 檔案來取得 NTP 伺服器的詳細資料。</block>
-  <block id="08fe6a0b481c7eba55985eb19ee19e1e" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、概觀與簡介。</block>
-  <block id="baecfb438214487bb004e49d325c66bf" category="doc">適用於 VMware vSphere 的 ONTAP 工具安全強化指南</block>
-  <block id="8d1618af2c6a6379783e2978ba4a551c" category="paragraph">適用於 VMware vSphere 的 ONTAP 工具安全強化指南提供一組完整的指示、可用於設定最安全的設定。</block>
   <block id="fec65f0c33739368ce5845fadb6cb880" category="paragraph">這些指南同時適用於應用程式和應用裝置本身的客體作業系統。</block>
   <block id="5aaf8fc9424d7872cf500fb7adcb3b97" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、密碼原則組態。</block>
   <block id="ca80b83fb98de16af35b38476df589c3" category="doc">密碼原則</block>
@@ -5210,4 +5207,7 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="cb197b06aa92a742d01e256d58d3e34b" category="sidebar">DOS 攻擊</block>
   <block id="d870a4bd29f74339732a958574d2c4eb" category="sidebar">NTP 組態</block>
   <block id="339ce1d4220ba7045e3a35ef35279ad3" category="sidebar">密碼原則</block>
+  <block id="3698338a95ad1801e25ed154adaf1a70" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、概觀與簡介。</block>
+  <block id="47d29daaa26fbfa9c9a069d4cd023ac1" category="doc">適用於 VMware vSphere 的 ONTAP 工具安全性強化指南</block>
+  <block id="fe0e23a929284a636c245a362ada6472" category="paragraph">適用於 VMware vSphere 的 ONTAP 工具安全性強化指南提供一套完整的指示、可協助您設定最安全的設定。</block>
 </blocks>

@@ -1,0 +1,79 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-otv-hardening-ports.html 
+keywords: VMware, Data protection, security, OTV, Hardening, ONTAP Tools 
+summary: 適用於 VMware vSphere 的 ONTAP 工具安全強化指南。 
+---
+= 連接埠與傳輸協定
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+此處列出的必要連接埠和通訊協定、可讓 VMware vSphere 伺服器的 ONTAP 工具與其他實體（例如託管儲存系統、伺服器和其他元件）之間進行通訊。
+
+
+
+== OTV 所需的傳入和傳出連接埠
+
+請注意下表列出正確運作 ONTAP 工具所需的輸入和輸出連接埠。請務必確保只開啟表中所述的連接埠、以進行遠端機器的連線、而所有其他連接埠則應封鎖、以進行遠端機器的連線。這將有助於確保系統的安全性。
+
+下表說明開放連接埠的詳細資料。
+
+[cols="18%,21%,61%"]
+|===
+| *TCP v4/v6 連接埠 #* | *方向* | * 功能 * 
+
+
+| 8143. | 傳入 | 用於REST API的HTTPS連線 
+
+
+| 8043. | 傳入 | HTTPS連線 
+
+
+| 9060 | 傳入 | HTTPS 連線 +
+用於透過 HTTPS 連線的 SOAP +
+此連接埠必須開啟、才能讓用戶端連線至 ONTAP 工具 API 伺服器。 
+
+
+| 22 | 傳入 | SSH（預設為停用） 
+
+
+| 9080 | 傳入 | HTTPS連線- VP和SRA -僅從回送進行內部連線 
+
+
+| 9083. | 傳入 | HTTPS 連線： VP 與 SRA +
+用於透過 HTTPS 連線的 SOAP 
+
+
+| 1162 | 傳入 | VP SNMP設陷封包 
+
+
+| 8443 | 傳入 | 遠端外掛程式 
+
+
+| 1527. | 僅限內部使用 | 只有在此電腦和本身之間才有 Derby 資料庫連接埠、不接受外部連線—僅限內部連線 
+
+
+| 8150 | 僅限內部使用 | 記錄完整性服務會在連接埠上執行 
+
+
+| 443.. | 雙向 | 用於連線ONTAP 至叢集 
+|===
+
+
+== 控制對 Derby 資料庫的遠端存取
+
+系統管理員可以使用下列命令來存取 derby 資料庫。您可以透過 ONTAP 工具本機 VM 以及遠端伺服器來存取它、步驟如下：
+
+....
+java -classpath "/opt/netapp/vpserver/lib/*" org.apache.derby.tools.ij;
+connect 'jdbc:derby://<OTV-IP>:1527//opt/netapp/vpserver/vvoldb;user=<user>;password=<password>';
+....
+*[.Underline] #example:#*
+
+image:vmware-otv-hardening-ports.png["Derby 、 width=468 、 height =136"]

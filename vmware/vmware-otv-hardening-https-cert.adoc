@@ -1,0 +1,24 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-otv-hardening-https-cert.html 
+keywords: VMware, Data protection, security, OTV, Hardening, ONTAP Tools 
+summary: 適用於 VMware vSphere 的 ONTAP 工具安全強化指南、 HTTPS 憑證管理。 
+---
+= ONTAP 工具 HTTPS 憑證
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+根據預設、 ONTAP 工具會使用在安裝期間自動建立的自我簽署憑證、以確保 HTTPS 存取安全無虞。ONTAP 工具提供下列功能：
+
+. 重新產生 HTTPS 憑證
+
+
+在 ONTAP 工具安裝期間、會安裝 HTTPS CA 憑證、並將憑證儲存在金鑰庫中。使用者可以選擇透過維護主控台重新產生 HTTPS 憑證。
+
+您可以在 _main_ 主控台中存取上述選項、方法是瀏覽至「應用程式組態」→「重新產生憑證」。 _

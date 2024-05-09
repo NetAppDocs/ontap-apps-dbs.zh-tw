@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-otv-hardening-access.html 
+keywords: VMware, Data protection, security, ONTAP tools, Hardening, ONTAP Tools 
+summary: 適用於 VMware vSphere 的 ONTAP 工具安全強化指南、使用者存取點。 
+---
+= 適用於 VMware vSphere 存取點的 ONTAP 工具（使用者）
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+ONTAP Tools for VMware vSphere 安裝會建立並使用三種類型的使用者：
+
+. 系統使用者： root 使用者帳戶
+. 應用程式使用者：系統管理員使用者、主要使用者及資料庫使用者帳戶
+. 支援使用者：診斷使用者帳戶
+
+
+
+
+== 1. 系統使用者
+
+系統（ root ）使用者是由安裝在基礎作業系統（ Debian ）上的 ONTAP 工具所建立。
+
+* 預設的系統使用者「 root 」是由 ONTAP 工具安裝在 Debian 上建立的。其預設值為停用、可透過「 Maint 」主控台在特定的基礎上啟用。
+
+
+
+
+== 2. 應用程式使用者
+
+應用程式使用者在 ONTAP 工具中會命名為本機使用者。這些是在 ONTAP 工具應用程式中建立的使用者。下表列出應用程式使用者的類型：
+
+[cols="22%,78%"]
+|===
+| *使用者* | *說明* 
+
+
+| 系統管理員使用者 | 它是在 ONTAP 工具安裝期間建立、使用者在部署 ONTAP 工具時提供認證。使用者可以在「 Maint 」主控台中變更「密碼」。密碼將在 90 天內過期、使用者預期會變更相同的密碼。 
+
+
+| 維護使用者 | 它是在 ONTAP 工具安裝期間建立、使用者在部署 ONTAP 工具時提供認證。使用者可以在「 Maint 」主控台中變更「密碼」。這是維護使用者、是為了執行維護主控台作業而建立的。 
+
+
+| 資料庫使用者 | 它是在 ONTAP 工具安裝期間建立、使用者在部署 ONTAP 工具時提供認證。使用者可以在「 Maint 」主控台中變更「密碼」。密碼將在 90 天內過期、使用者預期會變更相同的密碼。 
+|===
+
+
+== 3. 支援使用者（診斷使用者）
+
+在 ONTAP 工具安裝期間、系統會建立支援使用者。此使用者可在伺服器發生任何問題或中斷時、用來存取 ONTAP 工具、並收集記錄。根據預設、此使用者已停用、但可透過「 Maint 」主控台臨時啟用。請務必注意、此使用者將在一段時間後自動停用。

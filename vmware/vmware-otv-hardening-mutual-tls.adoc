@@ -1,0 +1,59 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-otv-hardening-mutual-tls.html 
+keywords: VMware, Data protection, security, OTV, Hardening, ONTAP Tools 
+summary: 適用於 VMware vSphere 的 ONTAP 工具安全強化指南、儲存管理連線的相互 TLS 加密。 
+---
+= 相互 TLS （憑證型驗證）
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+ONTAP 9.7 版及更新版本支援相互 TLS 通訊。從適用於 VMware 的 ONTAP 工具和 vSphere 9.12 開始、系統會使用相互 TLS 與新增的叢集進行通訊（視 ONTAP 版本而定）。
+
+
+
+== ONTAP
+
+對於所有先前新增的儲存系統：在升級期間、所有新增的儲存系統都會自動受到信任、而且會設定憑證型驗證機制。
+
+如下面的螢幕擷取畫面所示、叢集設定頁面會顯示為每個叢集設定的相互 TLS （憑證型驗證）狀態。
+
+image:vmware-otv-hardening-mutual-tls-image2.png["Image2 、 width=468 、 height =158"]
+
+
+
+=== * 叢集新增 *
+
+在叢集新增工作流程期間、如果所新增的叢集支援 MTLS 、則預設會設定 MTLS 。使用者不需要為此進行任何組態。下列螢幕擷取畫面會顯示在叢集新增期間顯示給使用者的畫面。
+
+image:vmware-otv-hardening-mutual-tls-image3.png["新增儲存系統、寬度 = 450 、高度 = 400"]
+
+image:vmware-otv-hardening-mutual-tls-image4.png["新增儲存系統、寬度 = 468 、高度 = 416"]
+
+image:vmware-otv-hardening-mutual-tls-image5.png["新增儲存系統、寬度 = 450 、高度 = 400"]
+
+image:vmware-otv-hardening-mutual-tls-image6.png["新增儲存系統、寬度 = 468 、高度 = 516"]
+
+
+
+=== 叢集編輯
+
+在叢集編輯作業期間、有兩種情況：
+
+* 如果 ONTAP 憑證過期、則使用者必須取得新憑證並上傳憑證。
+* 如果 OTV 憑證過期、則使用者可以勾選核取方塊來重新產生該憑證。
++
+** 產生 ONTAP 的新用戶端憑證 _
+
+
+
+
+image:vmware-otv-hardening-mutual-tls-image7.png["修改儲存系統、寬度 = 468 、高度 = 461"]
+
+image:vmware-otv-hardening-mutual-tls-image8.png["修改儲存系統、寬度 = 468 、高度 = 461"]

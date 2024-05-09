@@ -1,0 +1,68 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-otv-hardening-integrity.html 
+keywords: VMware, Data protection, security, OTV, Hardening, ONTAP Tools 
+summary: 適用於 VMware vSphere 的 ONTAP 工具安全強化指南、完整性驗證。 
+---
+= 驗證 VMware vSphere 安裝套件的 ONTAP 工具完整性
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+有兩種方法可供客戶驗證其 ONTAP 工具安裝套件的完整性。
+
+. 驗證校驗和
+. 驗證簽名
+
+
+OTV 安裝套件的下載頁面提供校驗和。使用者必須根據下載頁面所提供的 Checksum 來驗證下載套件的總和。
+
+
+
+== 驗證 ONTAP 工具 OVA 的簽名
+
+vApp 安裝套件以 tarball 的形式提供。此 tarball 包含虛擬應用裝置的中繼和根憑證、以及 README 檔案和 OVA 套件。README 檔案可引導使用者驗證 vApp OVA 套件的完整性。
+
+客戶也必須在 vCenter 7.0U3E 版及更新版本上傳所提供的根憑證和中介憑證。  對於 7.0.1 與 7.0.U3E 之間的 vCenter 版本、 VMware 不支援驗證憑證的功能。客戶不需要上傳任何 vCenter 6.x 版的憑證
+
+
+
+=== 將信任的根憑證上傳至 vCenter
+
+. 使用 VMware vSphere Client 登入 vCenter Server 。
+. 指定管理員 @vspece.pengil 或 vCenter 單一登入管理員群組的其他成員的使用者名稱和密碼。如果您在安裝期間指定不同的網域、請以管理員 @ mydomain.
+. 瀏覽至「憑證管理」使用者介面： a.從主選單中、選取管理。B.按一下 [ 憑證 ] 底下的 [ 憑證管理 ] 。
+. 如果系統提示您、請輸入 vCenter Server 的認證。
+. 按一下 [ 信任的根憑證 ] 底下的 [ 新增 ] 。
+. 按一下瀏覽並選取憑證 .pem 檔案（ OTV_OVa_INT_ROOT_CERT_CHERC.pem ）的位置。
+. 按一下「新增」憑證即會新增至儲存區。
+
+
+請參閱 link:https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.authentication.doc/GUID-B635BDD9-4F8A-4FD8-A4FE-7526272FC87D.html["將信任的根憑證新增至憑證存放區"] 以取得更多資訊。部署 VApp （使用 OVA 檔案）時、可在「 Review details 」（檢閱詳細資料）頁面上驗證 vApp 套件的數位簽章。如果下載的 VApp 套件為正版、「發行者」欄會顯示「信任的憑證」（如下面的螢幕擷取畫面所示）。
+
+image:vmware-otv-hardening-trusted-publisher.png["信任的憑證"]
+
+
+
+== 驗證工具 ISO 和 ONTAP tar.gz 的簽名
+
+NetApp 會在產品下載頁面上與客戶共用程式碼簽署憑證、以及適用於 OTV-ISO 和 SRA.tgz 的產品 zip 檔案。
+
+從程式碼簽署憑證中、使用者可以擷取公開金鑰、如下所示：
+
+ #> openssl x509 -in <code-sign-cert, pem file> -pubkey -noout > <public-key name>
+接著應使用公開金鑰來驗證 ISO 和 tgz 產品 zip 的簽名、如下所示：
+
+ #> openssl dgst -sha256 -verify <public-key> -signature <signature-file>  <binary-name>
+範例：
+
+....
+#> openssl x509 -in OTV_ISO_CERT.pem -pubkey -noout > OTV_ISO.pub
+#> openssl dgst -sha256 -verify OTV_ISO.pub -signature netapp-ontap-tools-for-vmware-vsphere-9.12-upgrade-iso.sig netapp-ontap-tools-for-vmware-vsphere-9.12-upgrade.iso
+Verified OK  => response
+....

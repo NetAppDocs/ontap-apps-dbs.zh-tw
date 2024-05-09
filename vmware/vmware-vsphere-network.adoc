@@ -99,7 +99,7 @@ ESXi 6最多可支援256個LUN、並可支援多達1、024條通往LUN的總路�
 * 如需更多關於將NVMe/FC搭配vSphere 7.0使用的資訊、請參閱此 https://docs.netapp.com/us-en/ontap-sanhost/nvme_esxi_7.html["NVMe / FC主機組態指南ONTAP"^] 和 http://www.netapp.com/us/media/tr-4684.pdf["TR-4684"^]。下圖說明從 vSphere 主機到 ONTAP LUN 的多重路徑連線能力。
 
 
-image:vsphere_ontap_image2.png["錯誤：缺少圖形影像"]
+image:vsphere_ontap_image2.png["多重路徑連線能力"]
 
 
 

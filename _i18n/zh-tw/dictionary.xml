@@ -2797,7 +2797,6 @@
   <block id="636da39a2033c6179a718983c5ce1222" category="inline-link">NVMe / FC主機組態指南ONTAP</block>
   <block id="81ef6507a13da5635951bc5b533deb59" category="inline-link">TR-4684</block>
   <block id="15483b0826bb9a4b11d1c89af2029c5c" category="list-text">如需更多關於將NVMe/FC搭配vSphere 7.0使用的資訊、請參閱此<block ref="6b4ed262d14e47ef641cd57b65c32c38" category="inline-link-rx"></block> 和<block ref="7a29b2f31035a451d5b068728d2b79a7" category="inline-link-rx"></block>下圖說明從vSphere主機到ONTAP VMware LUN的多重路徑連線能力。</block>
-  <block id="f9fd9ea22ea7a2e8ec9e95254a449831" category="paragraph"><block ref="f9fd9ea22ea7a2e8ec9e95254a449831" category="inline-image-macro-rx" type="image"></block></block>
   <block id="f2a693e1f056b96566c4551fcab418f2" category="paragraph">vSphere可讓客戶使用企業級NFS陣列、同時存取ESXi叢集中所有節點的資料存放區。如資料存放區一節所述、在使用NFS搭配vSphere時、會有一些易於使用和儲存效率可見度的優點。</block>
   <block id="743fa5a7bc7d4ba215b096e34779d298" category="paragraph">搭配ONTAP vSphere使用VMware NFS時、建議採用下列最佳實務做法：</block>
   <block id="c05061b6d3055b83136fa96cb38f0f9a" category="list-text">在叢集中的每個節點上、為每個SVM使用單一邏輯介面（LIF）ONTAP 。不再需要過去針對每個資料存放區的LIF建議。雖然直接存取（同一個節點上的 LIF 和資料存放區）是最佳的選擇、但別擔心間接存取、因為效能影響通常很小（微秒）。</block>
@@ -5052,4 +5051,163 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="0724b56ced27e0a66fb4692a57fb1436" category="doc">Oracle 資料庫 LUN 放置</block>
   <block id="f595bf3bf71ab0c91a5503ba4efb8ea4" category="paragraph">資料庫 LUN 在 ONTAP 磁碟區內的最佳放置方式、主要取決於如何使用各種 ONTAP 功能。</block>
   <block id="05a1ffdb277b8c7ac1dca78adae0017e" category="sidebar">LUN 放置</block>
+  <block id="9d5c13d45bbf74999764cfe8d4798562" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、 HTTPS 憑證管理。</block>
+  <block id="0f464051d2b3e2c46fd57cb0c7edb4a9" category="doc">ONTAP 工具 HTTPS 憑證</block>
+  <block id="d6a1787b51b08315bfcc44f3a9bb4b2f" category="paragraph">根據預設、 ONTAP 工具會使用在安裝期間自動建立的自我簽署憑證、以確保 HTTPS 存取安全無虞。ONTAP 工具提供下列功能：</block>
+  <block id="1eddd0f3479da31541c39e5ddddfa930" category="list-text">重新產生 HTTPS 憑證</block>
+  <block id="61bf3033b18d202012951f5bf7be4fa9" category="paragraph">在 ONTAP 工具安裝期間、會安裝 HTTPS CA 憑證、並將憑證儲存在金鑰庫中。使用者可以選擇透過維護主控台重新產生 HTTPS 憑證。</block>
+  <block id="b363a018e3596ec66080579ce5bd4c2d" category="paragraph">您可以在 _main_ 主控台中存取上述選項、方法是瀏覽至「應用程式組態」→「重新產生憑證」。 _</block>
+  <block id="43d609906e5ac2fd9406eddd67d6f82a" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、使用者存取點。</block>
+  <block id="3562b87b566382dc56e8b6fb2b849126" category="doc">適用於 VMware vSphere 存取點的 ONTAP 工具（使用者）</block>
+  <block id="c015e2af845448c5e88873c4e51c8cac" category="paragraph">ONTAP Tools for VMware vSphere 安裝會建立並使用三種類型的使用者：</block>
+  <block id="6399e228248ba3e1f084750197938b67" category="list-text">系統使用者： root 使用者帳戶</block>
+  <block id="2a408bd40a0a3130a390340955a699ef" category="list-text">應用程式使用者：系統管理員使用者、主要使用者及資料庫使用者帳戶</block>
+  <block id="5d212a60c02bc59306c8863b31342276" category="list-text">支援使用者：診斷使用者帳戶</block>
+  <block id="3c2b7b0ce42bb5eb8141643a9729f4ee" category="section-title">1. 系統使用者</block>
+  <block id="b277c4882e7365ab0ac88d56cd6154b3" category="paragraph">系統（ root ）使用者是由安裝在基礎作業系統（ Debian ）上的 ONTAP 工具所建立。</block>
+  <block id="155b9191864da17a7eaaf07b64d596d8" category="list-text">預設的系統使用者「 root 」是由 ONTAP 工具安裝在 Debian 上建立的。其預設值為停用、可透過「 Maint 」主控台在特定的基礎上啟用。</block>
+  <block id="159efbffccd1957bc8c4c78b2a74c085" category="section-title">2. 應用程式使用者</block>
+  <block id="170cab8b15d5b37a17e43144afe7308d" category="paragraph">應用程式使用者在 ONTAP 工具中會命名為本機使用者。這些是在 ONTAP 工具應用程式中建立的使用者。下表列出應用程式使用者的類型：</block>
+  <block id="e01ca242f9b1bef82800de4c209149c7" category="cell">*使用者*</block>
+  <block id="f14c276c07197ebef1394a5a219087a1" category="cell">*說明*</block>
+  <block id="9eb92414db7b53ac16645af9b0f64e58" category="cell">系統管理員使用者</block>
+  <block id="ccf6887baccb4288ae3579b56fac8d2a" category="cell">它是在 ONTAP 工具安裝期間建立、使用者在部署 ONTAP 工具時提供認證。使用者可以在「 Maint 」主控台中變更「密碼」。密碼將在 90 天內過期、使用者預期會變更相同的密碼。</block>
+  <block id="55df75b800db0f96de770b3c38f676b4" category="cell">維護使用者</block>
+  <block id="a2bc121b09cae43d6c478870f5298ae5" category="cell">它是在 ONTAP 工具安裝期間建立、使用者在部署 ONTAP 工具時提供認證。使用者可以在「 Maint 」主控台中變更「密碼」。這是維護使用者、是為了執行維護主控台作業而建立的。</block>
+  <block id="b124032a093d41b9efbb43f40c538bcb" category="cell">資料庫使用者</block>
+  <block id="86a670227d3e81e8fa34eb4aede3129a" category="section-title">3. 支援使用者（診斷使用者）</block>
+  <block id="e482d8f0e37161e7916c7a78d2cf7210" category="paragraph">在 ONTAP 工具安裝期間、系統會建立支援使用者。此使用者可在伺服器發生任何問題或中斷時、用來存取 ONTAP 工具、並收集記錄。根據預設、此使用者已停用、但可透過「 Maint 」主控台臨時啟用。請務必注意、此使用者將在一段時間後自動停用。</block>
+  <block id="562596399deefc1e2a6cc32eb489976c" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南。</block>
+  <block id="1bc8028b63c10101b776e8b8ff907571" category="doc">連接埠與傳輸協定</block>
+  <block id="80dd7fd00106118cf9c10abf911b7111" category="paragraph">此處列出的必要連接埠和通訊協定、可讓 VMware vSphere 伺服器的 ONTAP 工具與其他實體（例如託管儲存系統、伺服器和其他元件）之間進行通訊。</block>
+  <block id="d40dfcfdaecc4e8015535acd5de00398" category="section-title">OTV 所需的傳入和傳出連接埠</block>
+  <block id="834b74ce890c61455ad330759d44eff2" category="paragraph">請注意下表列出正確運作 ONTAP 工具所需的輸入和輸出連接埠。請務必確保只開啟表中所述的連接埠、以進行遠端機器的連線、而所有其他連接埠則應封鎖、以進行遠端機器的連線。這將有助於確保系統的安全性。</block>
+  <block id="5732d3577c35dfcce968ba967a9a6149" category="cell">*TCP v4/v6 連接埠 #*</block>
+  <block id="e71a4b7488a97c0e5d8b3ab3efe619e4" category="cell">*方向*</block>
+  <block id="bc437eb0df24b836c84a74f47b391093" category="cell">* 功能 *</block>
+  <block id="576fe92cf4e45714b61ed10e5c856aa5" category="cell">HTTPS 連線 +
+用於透過 HTTPS 連線的 SOAP +
+此連接埠必須開啟、才能讓用戶端連線至 ONTAP 工具 API 伺服器。</block>
+  <block id="4e31bd5bdc8239bb7c98471d3500d951" category="cell">HTTPS 連線： VP 與 SRA +
+用於透過 HTTPS 連線的 SOAP</block>
+  <block id="7e6b20d014d1c659e4eaf20dc2dcd7eb" category="cell">8443</block>
+  <block id="aaa2d7fe63bee55de8ffca52cb61fbd5" category="cell">遠端外掛程式</block>
+  <block id="25fa62922a9b3c1c2763bbf88014e217" category="cell">只有在此電腦和本身之間才有 Derby 資料庫連接埠、不接受外部連線—僅限內部連線</block>
+  <block id="c68bd9055776bf38d8fc43c0ed283678" category="cell">8150</block>
+  <block id="b482bc4bf0e383b0858c5d9eb0e96ba9" category="cell">記錄完整性服務會在連接埠上執行</block>
+  <block id="9956361dfa33899fc0efed6ee3946512" category="section-title">控制對 Derby 資料庫的遠端存取</block>
+  <block id="58b7326b56820f4b18dfd73dc9707831" category="paragraph">系統管理員可以使用下列命令來存取 derby 資料庫。您可以透過 ONTAP 工具本機 VM 以及遠端伺服器來存取它、步驟如下：</block>
+  <block id="296068c08046bbf197300e38c4e851cb" category="paragraph">*[.Underline] #example:#*</block>
+  <block id="10046bc1eb8463e6ca6ae51bd3b7a574" category="inline-image-macro">Derby 、 width=468 、 height =136</block>
+  <block id="36434da35edb72a1f85cbbcc1ff2b197" category="paragraph"><block ref="36434da35edb72a1f85cbbcc1ff2b197" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f21dd7ffc271f1301878c3078a59692d" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、登入橫幅。</block>
+  <block id="8bea3b588d20824cc56c9e5629943f1a" category="doc">登入橫幅</block>
+  <block id="67f78f0bab8fe81a2b6971543c716d3d" category="paragraph">使用者在登入提示中輸入使用者名稱後、會顯示下列登入橫幅。請注意、 SSH 預設為停用、從 VM 主控台啟用時僅允許一次性登入。</block>
+  <block id="ae20daf991a940f9de7033ff0a1af410" category="paragraph">使用者透過SSH通道完成登入後、會顯示下列文字：</block>
+  <block id="8f1b6f904292913013b1f6e578d7b074" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、完整性驗證。</block>
+  <block id="cedd87fff2ad5101cd8565e33950e1fb" category="doc">驗證 VMware vSphere 安裝套件的 ONTAP 工具完整性</block>
+  <block id="aeeb9f5277554716592480db544d25f3" category="paragraph">有兩種方法可供客戶驗證其 ONTAP 工具安裝套件的完整性。</block>
+  <block id="126ba7383e25522e071a963ddd6f220f" category="list-text">驗證校驗和</block>
+  <block id="deccc645a0c8869a44e645f2f4247dbd" category="list-text">驗證簽名</block>
+  <block id="e5f3970dd7fabab1726b53d58d636de2" category="paragraph">OTV 安裝套件的下載頁面提供校驗和。使用者必須根據下載頁面所提供的 Checksum 來驗證下載套件的總和。</block>
+  <block id="7452fe022f94726684aeea655673eb0f" category="section-title">驗證 ONTAP 工具 OVA 的簽名</block>
+  <block id="373d060b52f94a014177952dcca0c4e9" category="paragraph">vApp 安裝套件以 tarball 的形式提供。此 tarball 包含虛擬應用裝置的中繼和根憑證、以及 README 檔案和 OVA 套件。README 檔案可引導使用者驗證 vApp OVA 套件的完整性。</block>
+  <block id="48fefdb76906b256f183e6f68b23eba1" category="paragraph">客戶也必須在 vCenter 7.0U3E 版及更新版本上傳所提供的根憑證和中介憑證。  對於 7.0.1 與 7.0.U3E 之間的 vCenter 版本、 VMware 不支援驗證憑證的功能。客戶不需要上傳任何 vCenter 6.x 版的憑證</block>
+  <block id="84a005842347a9560b170cfcd79c5203" category="section-title">將信任的根憑證上傳至 vCenter</block>
+  <block id="57f60da4817dc5d71c45890bb182781e" category="list-text">使用 VMware vSphere Client 登入 vCenter Server 。</block>
+  <block id="72282f16a7aca6b61acfc6fe27ce55c7" category="list-text">指定管理員 @vspece.pengil 或 vCenter 單一登入管理員群組的其他成員的使用者名稱和密碼。如果您在安裝期間指定不同的網域、請以管理員 @ mydomain.</block>
+  <block id="9470c9e64c285d5b66a039ab668ab64a" category="list-text">瀏覽至「憑證管理」使用者介面： a.從主選單中、選取管理。B.按一下 [ 憑證 ] 底下的 [ 憑證管理 ] 。</block>
+  <block id="43a75b176810226695d2db6f52c87b73" category="list-text">如果系統提示您、請輸入 vCenter Server 的認證。</block>
+  <block id="5f51c5b3cb2f48fd1d670bf384d1006d" category="list-text">按一下 [ 信任的根憑證 ] 底下的 [ 新增 ] 。</block>
+  <block id="55c3b759c54a437c7ced6432f1c62de0" category="list-text">按一下瀏覽並選取憑證 .pem 檔案（ OTV_OVa_INT_ROOT_CERT_CHERC.pem ）的位置。</block>
+  <block id="8acdedaaa4134bb6ae49472b4bc268a7" category="list-text">按一下「新增」憑證即會新增至儲存區。</block>
+  <block id="e2200da08ea15bdea0f97dbfc4e9f1c7" category="inline-link-macro">將信任的根憑證新增至憑證存放區</block>
+  <block id="6eeecddd909e7e017ba2732e46dc739c" category="paragraph">請參閱 <block ref="b8e45b03638af10d852f253eba7e63e3" category="inline-link-macro-rx"></block> 以取得更多資訊。部署 VApp （使用 OVA 檔案）時、可在「 Review details 」（檢閱詳細資料）頁面上驗證 vApp 套件的數位簽章。如果下載的 VApp 套件為正版、「發行者」欄會顯示「信任的憑證」（如下面的螢幕擷取畫面所示）。</block>
+  <block id="a13b63a149750821fb588cd3cb41c209" category="inline-image-macro">信任的憑證</block>
+  <block id="a83d8109f7a0cf9c4a04c65c40ecd354" category="paragraph"><block ref="a83d8109f7a0cf9c4a04c65c40ecd354" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="61dc5ac976a8bd4a8744d8890305d26e" category="section-title">驗證工具 ISO 和 ONTAP tar.gz 的簽名</block>
+  <block id="d4f26c1c073b64ba200e3fa71762c256" category="paragraph">NetApp 會在產品下載頁面上與客戶共用程式碼簽署憑證、以及適用於 OTV-ISO 和 SRA.tgz 的產品 zip 檔案。</block>
+  <block id="a7ac1e7561da5cc70126cfea891de159" category="paragraph">從程式碼簽署憑證中、使用者可以擷取公開金鑰、如下所示：</block>
+  <block id="5f4345a6f62f7a3926b2c3d92f5574f6" category="paragraph">接著應使用公開金鑰來驗證 ISO 和 tgz 產品 zip 的簽名、如下所示：</block>
+  <block id="81eeab9506186e2dca8faefa78d54067" category="paragraph">範例：</block>
+  <block id="c6666237b03fcb86e315a0a06e73b6ef" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、儲存管理連線的相互 TLS 加密。</block>
+  <block id="a1f873acd76a0948013378ff10927a74" category="doc">相互 TLS （憑證型驗證）</block>
+  <block id="53893182b7e17fb2da37935ee3ffda55" category="paragraph">ONTAP 9.7 版及更新版本支援相互 TLS 通訊。從適用於 VMware 的 ONTAP 工具和 vSphere 9.12 開始、系統會使用相互 TLS 與新增的叢集進行通訊（視 ONTAP 版本而定）。</block>
+  <block id="1be712dee4c47804142318ffb739e46b" category="paragraph">對於所有先前新增的儲存系統：在升級期間、所有新增的儲存系統都會自動受到信任、而且會設定憑證型驗證機制。</block>
+  <block id="d39adf53eaace0fbba30d4e13760a974" category="paragraph">如下面的螢幕擷取畫面所示、叢集設定頁面會顯示為每個叢集設定的相互 TLS （憑證型驗證）狀態。</block>
+  <block id="c036889d83926f57571c8b12e4f7fb6f" category="inline-image-macro">Image2 、 width=468 、 height =158</block>
+  <block id="095064767a4b9cadb4016dfc2788237c" category="paragraph"><block ref="095064767a4b9cadb4016dfc2788237c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="53f061d401dd80027634ccca2a19cd8d" category="section-title">* 叢集新增 *</block>
+  <block id="7ce4b2757e70979f49bcf8f64ba36363" category="paragraph">在叢集新增工作流程期間、如果所新增的叢集支援 MTLS 、則預設會設定 MTLS 。使用者不需要為此進行任何組態。下列螢幕擷取畫面會顯示在叢集新增期間顯示給使用者的畫面。</block>
+  <block id="3c1556a297200019d3a0b8045c0956b9" category="inline-image-macro">新增儲存系統、寬度 = 450 、高度 = 400</block>
+  <block id="3a225aabc3c5c25670ad0b4d131da24f" category="paragraph"><block ref="3a225aabc3c5c25670ad0b4d131da24f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="987de6e025f6af1fc4451710295ca76f" category="inline-image-macro">新增儲存系統、寬度 = 468 、高度 = 416</block>
+  <block id="576a9128888c73fc82869b3ae173c7d2" category="paragraph"><block ref="576a9128888c73fc82869b3ae173c7d2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="307eba22b8070bb93e642827620f8588" category="paragraph"><block ref="307eba22b8070bb93e642827620f8588" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="71cfed326a2cabd3b505c6580123a459" category="inline-image-macro">新增儲存系統、寬度 = 468 、高度 = 516</block>
+  <block id="a3a8f9da50b3f15d69f3186129f159f6" category="paragraph"><block ref="a3a8f9da50b3f15d69f3186129f159f6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3b3ebbeea272602ddec07bb77e34668a" category="section-title">叢集編輯</block>
+  <block id="d2562e450657937f981a45d9d18ff4ec" category="paragraph">在叢集編輯作業期間、有兩種情況：</block>
+  <block id="500bcb89776517849e2e07073aad4eca" category="list-text">如果 ONTAP 憑證過期、則使用者必須取得新憑證並上傳憑證。</block>
+  <block id="edf2227e3378b5b0864ef73e58d39d77" category="list-text">如果 OTV 憑證過期、則使用者可以勾選核取方塊來重新產生該憑證。</block>
+  <block id="6db8cdf80049c7cf629fe6f8f6e3a9c0" category="list-text">產生 ONTAP 的新用戶端憑證 _</block>
+  <block id="acba923a9524c642724d6ff34f5dac93" category="inline-image-macro">修改儲存系統、寬度 = 468 、高度 = 461</block>
+  <block id="6a59df9970674c274e20b1d91be2df8a" category="paragraph"><block ref="6a59df9970674c274e20b1d91be2df8a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="75545011d3e6abe8a2cd8cd5bc21c6fd" category="paragraph"><block ref="75545011d3e6abe8a2cd8cd5bc21c6fd" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="14a73da2f5fe352620bed1b49a3319ed" category="summary">適用於 VMware vSphere 之 ONTAP 工具的安全強化指南、網路安全保護、防範 DOS 攻擊。</block>
+  <block id="7dc9b3603fa2b925d4d44930e25f1afa" category="doc">每位使用者的並行要求上限（網路安全保護： DOS 攻擊）</block>
+  <block id="8f7e7bd942f453f0550dc4f907e88810" category="paragraph">依預設、每位使用者的並行要求上限為 48 個。ONTAP 工具中的根使用者可以根據其環境需求變更此值。* 此值不應設為非常高的值、因為它提供了一種機制來防範拒絕服務（ DOS ）攻擊。 *</block>
+  <block id="99c1088ea27d16b42c6b45d794f59d3f" category="paragraph">使用者可以在 *_/opt/NetApp/vscserver/etc/dosfilterParams .json_* 檔案中變更並行工作階段的最大數量及其他支援參數。</block>
+  <block id="5e7c907630f5a432ac6b39f0b8c04c28" category="paragraph">我們可以使用下列參數來設定篩選器：</block>
+  <block id="a35f2f4ccb228969a85b8719ea25b047" category="list-text">*_delayMs_* ：在考慮所有請求之前，爲其提供的延遲（以毫秒爲單位）超過了速率限制。給予 -1 即可拒絕要求。</block>
+  <block id="f1b9d5fde713093a3a80f140d1439d37" category="list-text">*_THROLMS__* ：異步等待信號量的時間。</block>
+  <block id="aa363bec6acd7600aedeee5377470bde" category="list-text">*_maxRequestM_* ：允許執行此要求的時間。</block>
+  <block id="351b695725caafd647abb749c50a7e6f" category="list-text">*_ipWhitelist_* ：以逗號分隔的 IP 位址清單、不會受到速率限制。（這可以是 vCenter 、 ESXi 和 SRA IP ）</block>
+  <block id="058e1fe7e6afcd3bcff86482a583976b" category="list-text">*_maxRequestsPerSec_* ：每秒來自連線的最大要求數。</block>
+  <block id="1c1496a21f967d57b50fe5ebb0e62125" category="paragraph">* 在 _dosfilterParams 檔案中的預設值： *</block>
+  <block id="ca49b2b6b0c4bb4aa0596879eef667f5" category="inline-image-macro">多重路徑連線能力</block>
+  <block id="de3698c6b3c2722a1b82c99522519f4f" category="paragraph"><block ref="de3698c6b3c2722a1b82c99522519f4f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9afb15056a8bc8b4402d55eba2274dad" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、 NTP 組態。</block>
+  <block id="bad9c891abe49e73c2bf4fb95fbe61ba" category="doc">網路時間傳輸協定（ NTP ）組態</block>
+  <block id="48edbd8a951efb0ad617f7868b27a6c0" category="paragraph">有時、網路時間組態不一致、可能會發生安全問題。請務必確保網路中的所有裝置都有正確的時間設定、以避免發生此類問題。</block>
+  <block id="a55d703ea2930e8e72e94ce11c3297ab" category="section-title">* 虛擬應用裝置 *</block>
+  <block id="5a65f4c9ca6d99f573528348d36914fa" category="paragraph">您可以從虛擬應用裝置的維護主控台設定 NTP 伺服器。  使用者可以在 _ 系統組態 _ = &gt; _ 新增 NTP 伺服器 _ 選項下新增 NTP 伺服器詳細資料</block>
+  <block id="90ab4fc7a1c530bceac36bda71efbc5f" category="paragraph">根據預設、 NTP 的服務為 ntpd 。這是一項舊版服務、在某些情況下、虛擬機器無法順利運作。</block>
+  <block id="6801ecdb823d018c7370042d27b5ee2c" category="section-title">* Debian*</block>
+  <block id="dc3bb5166d38d2aec53765aca7c0d24c" category="paragraph">在 Debian 上、使用者可以存取 /etc/ntp.conf 檔案來取得 NTP 伺服器的詳細資料。</block>
+  <block id="08fe6a0b481c7eba55985eb19ee19e1e" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、概觀與簡介。</block>
+  <block id="baecfb438214487bb004e49d325c66bf" category="doc">適用於 VMware vSphere 的 ONTAP 工具安全強化指南</block>
+  <block id="8d1618af2c6a6379783e2978ba4a551c" category="paragraph">適用於 VMware vSphere 的 ONTAP 工具安全強化指南提供一組完整的指示、可用於設定最安全的設定。</block>
+  <block id="fec65f0c33739368ce5845fadb6cb880" category="paragraph">這些指南同時適用於應用程式和應用裝置本身的客體作業系統。</block>
+  <block id="5aaf8fc9424d7872cf500fb7adcb3b97" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、密碼原則組態。</block>
+  <block id="ca80b83fb98de16af35b38476df589c3" category="doc">密碼原則</block>
+  <block id="53477738359cebc12d4e01727ee8b5e7" category="paragraph">首次部署 ONTAP 工具或升級至 9.12 版或更新版本的使用者、必須同時遵循系統管理員和資料庫使用者的強式密碼原則。在部署過程中、系統會提示新使用者輸入密碼。對於升級至 9.12 版或更新版本的瀏覽欄位使用者、維護主控台將提供遵循強式密碼原則的選項。</block>
+  <block id="7afd9be20a239f83f98bdbc7f90512ef" category="list-text">一旦使用者登入主控台、就會對照複雜的規則集來檢查密碼、如果發現未遵循、則會要求使用者重設相同的密碼。</block>
+  <block id="1e048d74f3d9375186833526a00f4309" category="list-text">密碼預設有效時間為 90 天、 75 天之後、使用者會開始收到變更密碼的通知。</block>
+  <block id="dbb73ef3f8e9b61d387a809281a654cc" category="list-text">每個週期都需要設定新密碼、系統不會將最後一個密碼當作新密碼。</block>
+  <block id="210b05d5e7375bcb02bcf09a873bbda6" category="list-text">每當使用者登入主控台時、會在載入主功能表之前、先檢查密碼原則、例如下列螢幕擷取畫面：</block>
+  <block id="bc66b4fce20ef49b05e4a54f053e65a6" category="inline-image-macro">主功能表、寬度 = 468 、高度 = 116</block>
+  <block id="4661acb75237098be364b3c05d7d9b7c" category="paragraph"><block ref="4661acb75237098be364b3c05d7d9b7c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8f09c69f731d4d6f2e8d6135082aa8e4" category="list-text">如果發現未遵循密碼原則或 ONTAP 工具 9.11 或更早版本的升級設定、然後使用者會看到下列畫面來重設密碼：</block>
+  <block id="4499d4bfb9610056781e2e61956dd0ca" category="inline-image-macro">密碼重設畫面、寬度 = 468 、高度 = 116</block>
+  <block id="a84278f7bf3ee281e39e467fca1fe454" category="paragraph"><block ref="a84278f7bf3ee281e39e467fca1fe454" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="47e6664ac0a72e1d719cfc288383b4f8" category="list-text">如果使用者嘗試設定弱密碼或再次輸入上一個密碼、則使用者將會看到下列錯誤：</block>
+  <block id="fe04952c38b6a9a7db1a75bbb4905232" category="inline-image-macro">弱密碼錯誤、寬度 = 468 、高度 = 101</block>
+  <block id="2c59de9ea5183e73d5fa6382fa7f3fc1" category="paragraph"><block ref="2c59de9ea5183e73d5fa6382fa7f3fc1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8463a61dd94ff5934036d4c8a8936e32" category="doc">閒置逾時</block>
+  <block id="704c7fc6c4d40b9af6aafb7cf9b44022" category="paragraph">為了防止未經授權的存取、系統會設定閒置逾時、自動登出在使用授權資源期間處於非使用中狀態的使用者。如此可確保只有授權使用者才能存取資源、並協助維護安全性。</block>
+  <block id="80f9ebebc8f94450338d28bcb4a2164d" category="inline-link">設定 vSphere Client 逾時值</block>
+  <block id="3748702da26b5718f1f7c769ce58b009" category="list-text">根據預設、 vSphere Client 工作階段會在閒置 120 分鐘後關閉、要求使用者再次登入才能繼續使用用戶端。您可以編輯 webclient.properties 檔案來變更逾時值。 您可以設定 vSphere Client 的逾時時間<block ref="ec8715bde1a929a6f64160d5372f4574" category="inline-link-rx"></block></block>
+  <block id="e4306c4cf124046d8f90518752cd5021" category="list-text">ONTAP 工具的網路 CLI 工作階段登出時間為 30 分鐘。</block>
+  <block id="7fb0cadcdae6feac05c7b8274b97b3c7" category="sidebar">ONTAP 工具強化概述</block>
+  <block id="10b486896b1a91f5d38214dfb30c4263" category="sidebar">驗證 ONTAP 工具安裝套件的完整性</block>
+  <block id="7c7c4cc4771d6114aa8b4d38f5817a85" category="sidebar">連接埠和通訊協定</block>
+  <block id="919e26ea009ce7fa2dcc499a27ccc6aa" category="sidebar">存取點（使用者）</block>
+  <block id="333dd505db0523536c6885f47456518c" category="sidebar">相互 TLS</block>
+  <block id="6a3f3799bc264d32568bb7169ddd515a" category="sidebar">HTTPS憑證</block>
+  <block id="4b7ad38343c4b2010cf81e6b2933e186" category="sidebar">登入橫幅</block>
+  <block id="bfdb89134acf30ff5da790924cefa0ac" category="sidebar">閒置逾時</block>
+  <block id="cb197b06aa92a742d01e256d58d3e34b" category="sidebar">DOS 攻擊</block>
+  <block id="d870a4bd29f74339732a958574d2c4eb" category="sidebar">NTP 組態</block>
+  <block id="339ce1d4220ba7045e3a35ef35279ad3" category="sidebar">密碼原則</block>
 </blocks>

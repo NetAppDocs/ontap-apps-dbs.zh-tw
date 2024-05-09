@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-otv-hardening-timeout.html 
+keywords: VMware, Data protection, security, OTV, Hardening, ONTAP Tools 
+summary: 適用於 VMware vSphere 的 ONTAP 工具安全強化指南。 
+---
+= 閒置逾時
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+為了防止未經授權的存取、系統會設定閒置逾時、自動登出在使用授權資源期間處於非使用中狀態的使用者。如此可確保只有授權使用者才能存取資源、並協助維護安全性。
+
+* 根據預設、 vSphere Client 工作階段會在閒置 120 分鐘後關閉、要求使用者再次登入才能繼續使用用戶端。您可以編輯 webclient.properties 檔案來變更逾時值。 您可以設定 vSphere Client 的逾時時間 https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.vcenterhost.doc/GUID-975412DE-CDCB-49A1-8E2A-0965325D33A5.html["設定 vSphere Client 逾時值"]
+* ONTAP 工具的網路 CLI 工作階段登出時間為 30 分鐘。
+

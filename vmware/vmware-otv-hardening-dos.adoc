@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-otv-hardening-dos.html 
+keywords: VMware, Data protection, security, OTV, Hardening, ONTAP Tools 
+summary: 適用於 VMware vSphere 之 ONTAP 工具的安全強化指南、網路安全保護、防範 DOS 攻擊。 
+---
+= 每位使用者的並行要求上限（網路安全保護： DOS 攻擊）
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+依預設、每位使用者的並行要求上限為 48 個。ONTAP 工具中的根使用者可以根據其環境需求變更此值。* 此值不應設為非常高的值、因為它提供了一種機制來防範拒絕服務（ DOS ）攻擊。 *
+
+使用者可以在 *_/opt/NetApp/vscserver/etc/dosfilterParams .json_* 檔案中變更並行工作階段的最大數量及其他支援參數。
+
+我們可以使用下列參數來設定篩選器：
+
+* *_delayMs_* ：在考慮所有請求之前，爲其提供的延遲（以毫秒爲單位）超過了速率限制。給予 -1 即可拒絕要求。
+* *_THROLMS__* ：異步等待信號量的時間。
+* *_maxRequestM_* ：允許執行此要求的時間。
+* *_ipWhitelist_* ：以逗號分隔的 IP 位址清單、不會受到速率限制。（這可以是 vCenter 、 ESXi 和 SRA IP ）
+* *_maxRequestsPerSec_* ：每秒來自連線的最大要求數。
+
+
+* 在 _dosfilterParams 檔案中的預設值： *
+
+....
+{"delayMs":"-1",
+"throttleMs":"1800000",
+"maxRequestMs":"300000",
+"ipWhitelist":"10.224.58.52",
+"maxRequestsPerSec":"48"}
+....

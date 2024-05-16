@@ -128,7 +128,6 @@
   <block id="eee4f7a4e0ed3a8646a97bcf3e118fb9" category="paragraph">使用同步複寫技術是設計和管理同步複寫解決方案的第一步。最重要的考量是瞭解在各種計畫性和非計畫性失敗案例中可能發生的情況。並非所有同步複寫解決方案都提供相同的功能。如果您需要提供零恢復點目標（ RPO ）的解決方案、亦即零資料遺失、則必須考慮所有故障情況。特別是、當站台之間的連線中斷而無法進行複寫時、預期會產生什麼結果？</block>
   <block id="71554672a088c43ab21c759ddd161928" category="section-title">SyncMirror 資料可用度</block>
   <block id="8646bb558f8f18a200cce2f70602627a" category="paragraph">SyncMirror 不僅可以在無法連線到遠端站台時、無縫切換至同步模式、也可以在連線恢復時、快速重新同步至 RPO = 0 狀態。遠端站台的資料過時複本也可在重新同步期間保留為可用狀態、以確保資料的本機和遠端複本隨時都存在。</block>
-  <block id="995f5151d2d1c0a4e8371b2b3c9b6e5b" category="paragraph">在需要 Domino 模式的情況下、 NetApp 提供 SnapMirror 同步（ SM-S ）。應用程式層級選項也存在、例如 Oracle DataGuard 或主機端磁碟鏡射的延長逾時。如需其他資訊和選項、請洽詢您的 NetApp 或合作夥伴客戶團隊。</block>
   <block id="1d12d7a206d9b5337ae6fa442f23d377" category="doc">僅限 Snapshot</block>
   <block id="64c29f2f2feedeb607ff588b13d9758b" category="paragraph">。<block ref="8805d416ce540c5f2df34af5b18d742b" prefix=" " category="inline-code"></block><block ref="964193481f440d73ce3474a7a09bc3ac" prefix=" " category="inline-code"></block> 僅適用於未與作用中檔案系統共用的區塊。它基本上會導致資料庫備份分層。在建立快照之後、區塊會成為分層的候選項目、然後區塊會被覆寫、導致區塊只存在於快照中。A 之前的延遲<block ref="8805d416ce540c5f2df34af5b18d742b" prefix=" " category="inline-code"></block> 區塊視為冷區、由控制<block ref="e5e88684921dd21f3f86c28343a3082f" prefix=" " category="inline-code"></block> 音量設定。ONTAP 9.8 的範圍為 2 至 183 天。</block>
   <block id="ebd9889c847a7a3ddeccd2717ead46f2" category="paragraph">許多資料集的變更率都很低、因此這項原則可節省的成本極低。例如、在 ONTAP 上觀察到的典型資料庫每週變更率低於 5% 。資料庫歸檔記錄檔可能佔用大量空間、但通常會繼續存在於作用中的檔案系統中、因此不會成為根據此原則分層的候選項目。</block>
@@ -1547,20 +1546,13 @@
   <block id="2623b589ddbc1cdb6184ba32aa06e83f" category="inline-link-macro">NVFAIL</block>
   <block id="a4feacea8b05d0f24e5a4612a164a055" category="paragraph">通常的最佳實務做法仍適用、如果您的需求只需要 RPO = 0 資料保護、則 MetroCluster 會滿足您的需求。然而、大多數客戶不僅使用 MetroCluster 來保護 RPO =0 資料、還能在災難期間改善 RTO 、並在站台維護活動中提供透明的容錯移轉。</block>
   <block id="3ff8bcf18c694581aa25b0a347508e0f" category="section-title">使用預先設定的作業系統進行容錯移轉</block>
-  <block id="9bd9ad7f296a0e8ac3df804b3c6a392f" category="paragraph">SyncMirror 在災難恢復站點上提供資料的同步複本、但要讓資料可用、則需要作業系統和相關應用程式。基本自動化可大幅改善整體環境的容錯移轉時間。Oracle RAC 、 Veritas 叢集伺服器（ VCS ）或 VMware HA 等叢集式產品通常用於在站台之間建立叢集、在許多情況下、容錯移轉程序可以使用簡單的指令碼來驅動。</block>
-  <block id="c5a2f3b867d990c681a218d29a55fcfa" category="paragraph">如果主節點遺失、叢集軟體（或指令碼）會設定為在替代站台上線應用程式。其中一個選項是建立預先針對構成應用程式的 NFS 或 SAN 資源所預先設定的待命伺服器。如果主站台發生故障、叢集軟體或指令碼替代方案會執行類似下列的一系列動作：</block>
   <block id="442f34633164f1be348a442b2c62d29d" category="list-text">強制 MetroCluster 進行重新操作</block>
   <block id="e081e79ea1b1040c51d4a452e46de76d" category="list-text">執行 FC LUN 探索（僅限 SAN ）</block>
-  <block id="6f3fd86521759fc98ed93853eaf8a03a" category="list-text">掛載檔案系統</block>
-  <block id="9d9ea7a9c532a3cec63305130018a45b" category="list-text">啟動應用程式</block>
-  <block id="b8eca7b573624230962095fcadb03ddf" category="paragraph">此方法的主要需求是在遠端站台上執行作業系統。它必須預先設定應用程式二進位檔、也就是說、修補等工作必須在主要站台和待命站台上執行。或者、應用程式二進位檔可鏡射至遠端站台、並在宣告災難時掛載。</block>
   <block id="e60946bf73021e18706a6ac33386b376" category="paragraph">實際的啟動程序很簡單。LUN 探索等命令每個 FC 連接埠只需要幾個命令。檔案系統掛載只不過是<block ref="19822b1b15d9eefc54c07ab49f87b100" prefix=" " category="inline-code"></block> 只需一個命令、即可在 CLI 上啟動和停止資料庫和 ASM 。如果在切換之前、磁碟區和檔案系統並未在災難恢復站台上使用、則無需設定<block ref="3b93661df04b698b1340ff2da3238d16" prefix=" " category="inline-code"></block> 在磁碟區上。</block>
   <block id="486eed21f55b6fb544db5504294592e6" category="section-title">使用虛擬化作業系統進行容錯移轉</block>
   <block id="bf65e943f86f26b49698bfdac9b95f81" category="paragraph">資料庫環境的容錯移轉可延伸至包含作業系統本身。理論上、此容錯移轉可以使用開機 LUN 來完成、但通常是使用虛擬化的作業系統來完成。此程序類似於下列步驟：</block>
   <block id="7c37589384e83d2b43bba430c18a45aa" category="list-text">裝載託管資料庫伺服器虛擬機器的資料存放區</block>
   <block id="3d4d04d6cdab90b7ca0deb0344f04eec" category="list-text">啟動虛擬機器</block>
-  <block id="ba2f22f63087151f0a0694be5f35fcf2" category="list-text">手動啟動資料庫、或將虛擬機器設定為自動啟動資料庫</block>
-  <block id="810078f3b19b93e24de8638d68f727b5" category="paragraph">例如、 ESX 叢集可以跨越站台。在發生災難時、虛擬機器可在移至災難恢復站台後上線。只要主控虛擬化資料庫伺服器的資料存放區在災難發生時並未使用、就不需要設定<block ref="3b93661df04b698b1340ff2da3238d16" prefix=" " category="inline-code"></block> 在相關的磁碟區上。</block>
   <block id="c702c387f07bcb4f18482e68d69a155a" category="paragraph">SyncMirror 是 MetroCluster 系統的 Oracle 資料保護基礎、是最大效能的橫向擴充同步鏡射技術。</block>
   <block id="9028b52caaa7bdbfb9be779eeb1fe00e" category="summary">Oracle Extended RAC with MetroCluster</block>
   <block id="dbcedb2fd86e6012347a3c9ad111f3a8" category="doc">MetroCluster 上的延伸 Oracle RAC</block>
@@ -5210,4 +5202,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="3698338a95ad1801e25ed154adaf1a70" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、概觀與簡介。</block>
   <block id="47d29daaa26fbfa9c9a069d4cd023ac1" category="doc">適用於 VMware vSphere 的 ONTAP 工具安全性強化指南</block>
   <block id="fe0e23a929284a636c245a362ada6472" category="paragraph">適用於 VMware vSphere 的 ONTAP 工具安全性強化指南提供一套完整的指示、可協助您設定最安全的設定。</block>
+  <block id="bc86ce4caa57368f9094a93dd72ffd28" category="paragraph">在需要 Domino 模式的情況下、 NetApp 提供 SnapMirror 同步（ SM-S ）。應用程式層級選項也存在、例如 Oracle DataGuard 或 SQL Server Always On Availability Groups 。作業系統層級的磁碟鏡射可以是一個選項。如需其他資訊和選項、請洽詢您的 NetApp 或合作夥伴客戶團隊。</block>
+  <block id="ef0892c4d97bdcd9e4bada330c24ee8b" category="paragraph">MetroCluster 是一項 ONTAP 功能、可在各個站台之間使用 RPO=0 同步鏡射來保護您的 Oracle 資料庫、並可在單一 MetroCluster 系統上擴充至支援數百個資料庫。使用也很簡單。使用 MetroCluster 並不一定會增加或變更任何用於營運企業應用程式和資料庫的最佳競賽。</block>
 </blocks>

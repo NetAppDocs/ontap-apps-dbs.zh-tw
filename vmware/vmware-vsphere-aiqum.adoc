@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-vsphere-aiqum.html 
+keywords: Data protection, Space reclamation, VM and datastore cloning, Storage efficiency, thin provisioning, QoS, SIOC, Storage Distributed Resource Scheduler, DRS, Active IQ Unified Manager, Encryption 
+summary: Active IQ Unified Manager 可在 VMware vSphere 環境中監控及疑難排解 NetApp 儲存設備和效能問題。 
+---
+= Active IQ Unified Manager
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+利用VMware Infrastructure、您可以清楚掌握虛擬基礎架構中的虛擬機器、並監控及疑難排解虛擬環境中的儲存與效能問題。Active IQ Unified Manager
+
+典型的虛擬基礎架構部署ONTAP 在整個運算、網路和儲存層之間、有許多不同的元件。VM應用程式中的任何效能延遲都可能是因為各個元件在各個層面上所面臨的延遲問題。
+
+下列螢幕快照顯示Active IQ Unified Manager 「VMware虛擬機器」檢視畫面。
+
+image:vsphere_ontap_image9.png["Active IQ Unified Manager 虛擬機器檢視"]
+
+Unified Manager會在拓撲檢視中呈現虛擬環境的底層子系統、以判斷運算節點、網路或儲存設備是否發生延遲問題。此檢視也會強調導致效能延遲的特定物件、以便採取補救步驟並解決根本問題。
+
+下列螢幕快照顯示AIQUM擴充拓撲。
+
+image:vsphere_ontap_image10.png["AIQUM 擴充拓撲"]

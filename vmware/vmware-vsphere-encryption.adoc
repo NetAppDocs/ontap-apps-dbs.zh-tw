@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-vsphere-encryption.html 
+keywords: Data protection, Space reclamation, VM and datastore cloning, Storage efficiency, thin provisioning, QoS, SIOC, Storage Distributed Resource Scheduler, DRS, Active IQ Unified Manager, Encryption 
+summary: 對靜態資料加密的需求與日俱增、超越傳統資料、延伸到所有儲存的資料類型。 
+---
+= vSphere資料加密
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+如今、透過加密保護閒置資料的需求與日俱增。雖然最初的重點是財務和醫療資訊、但無論資訊儲存在檔案、資料庫或其他資料類型中、都越來越有興趣保護所有資訊。
+
+執行ONTAP 此軟體的系統可透過閒置加密、輕鬆保護任何資料。NetApp儲存加密（NSE）使用自我加密的磁碟機ONTAP 搭配使用、以保護SAN和NAS資料。NetApp也提供NetApp Volume Encryption和NetApp Aggregate Encryption、這是一種簡單、以軟體為基礎的方法、可加密任何磁碟機上的磁碟區。此軟體加密不需要特殊的磁碟機或外部金鑰管理員、 ONTAP 客戶可免費使用。您可以在不中斷用戶端或應用程式的情況下升級及開始使用、而且它們已通過FIPS 140-2第1級標準驗證、包括內建金鑰管理程式。
+
+有幾種方法可以保護在VMware vSphere上執行的虛擬化應用程式資料。其中一種方法是在客體作業系統層級使用VM內部的軟體來保護資料。vSphere 6.5等較新的Hypervisor現在也支援VM層級的加密、這是另一種替代方案。不過、NetApp軟體加密既簡單又簡單、而且具有下列優點：
+
+* *對虛擬伺服器CPU沒有影響。*某些虛擬伺服器環境需要其應用程式的每個可用CPU週期、但測試顯示、Hypervisor層級加密需要高達5倍的CPU資源。即使加密軟體支援 Intel 的 AES-NI 指令集來卸載加密工作負載（如同 NetApp 軟體加密一樣）、由於新的 CPU 與舊版伺服器不相容、因此這種方法可能不可行。
+* *隨附機上金鑰管理程式。* NetApp軟體加密包含內建金鑰管理程式、不需額外付費、因此無需購買和使用複雜的高可用度金鑰管理伺服器、即可輕鬆開始使用。
+* *對儲存效率沒有影響。*目前廣泛使用重複資料刪除與壓縮等儲存效率技術、是以具成本效益的方式使用Flash磁碟媒體的關鍵。不過、加密資料通常無法進行重複資料刪除或壓縮。NetApp硬體與儲存加密的運作層級較低、可充分運用領先業界的NetApp儲存效率功能、不像其他方法。
+* *輕鬆進行資料存放區精細加密。*有了NetApp Volume Encryption、每個磁碟區都能獲得自己的AES 256位元金鑰。如果您需要變更、只要使用一個命令即可。如果您有多個租戶、或需要證明不同部門或應用程式的獨立加密、這種方法非常適合。這種加密是在資料存放區層級進行管理、比管理個別VM容易得多。
+
+
+開始使用軟體加密非常簡單。安裝授權之後、只要指定通關密碼、即可設定內建金鑰管理程式、然後建立新的磁碟區、或是執行儲存端磁碟區移轉、即可啟用加密功能。NetApp正致力於在未來的VMware工具版本中、為加密功能提供更多整合式支援。
+
+如需深入探討更多安全性主題、請參閱下列資源。
+
+* link:https://docs.netapp.com/us-en/ontap-technical-reports/security.html["安全技術報告"]
+* link:https://docs.netapp.com/us-en/ontap-technical-reports/security-hardening-guides.html["安全強化指南"]
+* link:https://docs.netapp.com/us-en/ontap/security-encryption/index.html["ONTAP 安全性與資料加密產品文件"]
+

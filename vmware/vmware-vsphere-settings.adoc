@@ -33,7 +33,7 @@ NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定�
 
 
 | VMFS3.EnablBlockDelete | 保留預設值（ 0 ）、但可視需要變更。
-如需詳細資訊、請參閱 link:https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2007427["VMware KB 2007427"] | 否 
+如需詳細資訊、請參閱 link:https://knowledge.broadcom.com/external/article?legacyId=2007427["VMware KB 2007427"] | 否 
 
 
 | VMFS3.EnableVMFS6 取消對應 | 保留預設值（ 1 ）
@@ -48,7 +48,7 @@ NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定�
 
 
 | net.TcpipHeapMax | 大多數vSphere 6.x版本的設定為512MB。
-若為6.5U3、6.7U3及7.0或更新版本、則設為1024MB。 | 是的 
+針對 6.5U3 、 6.7U3 和 7.0 或更新版本、設為預設（ 1024MB ）。 | 是的 
 
 
 | NFS.MaxVolumes | vSphere 6.0 或更新版本、設定為 256

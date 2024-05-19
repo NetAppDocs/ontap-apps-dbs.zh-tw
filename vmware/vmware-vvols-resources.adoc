@@ -25,7 +25,7 @@ https://mysupport.netapp.com/site/products/all/details/otv/docs-tab["NetApp 支�
 
 其他解決方案文件可於此處取得：
 
-https://docs.netapp.com/us-en/netapp-solutions/virtualization/index.html["_NetApp 虛擬化解決方案 _"]
+https://docs.netapp.com/us-en/netapp-solutions/vmware/index.html["_Broadcom_ 的 NetApp 虛擬化解決方案"]
 
 
 

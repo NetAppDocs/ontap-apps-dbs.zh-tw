@@ -14,11 +14,15 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 
 
 [role="lead"]
-執行ONTAP 支援功能的系統可使用ONTAP 「支援服務品質」功能、限制檔案、LUN、磁碟區或整個SVM等不同儲存物件的每秒處理量（以Mbps和/或I/O（IOPS）為單位）。
+處理量限制在控制服務層級、管理未知工作負載、或在部署前測試應用程式、以確保它們不會影響正式作業中的其他工作負載。它們也可用於在識別出高效能工作負載之後加以限制。
 
-處理量限制可在部署前控制未知工作負載或測試工作負載、以確保不會影響其他工作負載。它們也可用於在識別出高效能工作負載之後加以限制。也支援以IOPS為基礎的最低服務層級、以提供一致的效能、適用於ONTAP VMware的SAN物件、以及ONTAP 支援VMware的NAS物件。
 
-有了NFS資料存放區、QoS原則可套用至FlexVol 整個VMware磁碟區或其中的個別VMDK檔案。使用ONTAP 使用VMware LUN的VMFS資料存放區時、QoS原則可套用至FlexVol 包含LUN或個別LUN的VMware磁碟區、但不能套用個別VMDK檔案、因為ONTAP VMware對VMFS檔案系統沒有任何認知。使用vVols時、可使用儲存功能設定檔和VM儲存原則、在個別VM上設定最低和/或最高QoS。
+
+== ONTAP QoS 原則支援
+
+執行 ONTAP 軟體的系統可以使用儲存 QoS 功能、以 Mbps 和 / 或 I/O 每秒（ IOPS ）來限制不同儲存物件（例如檔案、 LUN 、磁碟區或整個 SVM ）的處理量。
+
+也支援以IOPS為基礎的最低服務層級、以提供一致的效能、適用於ONTAP VMware的SAN物件、以及ONTAP 支援VMware的NAS物件。
 
 物件的QoS最大處理量限制可設定為Mbps和/或IOPS。如果兩者皆使用、ONTAP 則由支援執行第一個上限。工作負載可以包含多個物件、QoS原則也可以套用至一或多個工作負載。當原則套用至多個工作負載時、工作負載會共用原則的總限制。不支援巢狀物件（例如、磁碟區內的檔案無法各自擁有自己的原則）。QoS最低值只能以IOPS設定。
 
@@ -32,18 +36,54 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 * VMware vSphere VASA Provider適用的工具ONTAP
 
 
+若要將QoS原則指派給LUN、包括VMFS和RDM、ONTAP 顯示為Vserver的SVM、LUN路徑和序號、可從ONTAP VMware vSphere的「VMware vSphere的VMware vSphere」（VMware vSphere）「VMware vCenter工具」首頁上的「儲存系統」功能表取得。選取儲存系統（ SVM ）、然後選取相關物件 > SAN 。  使用ONTAP 其中一項功能來指定QoS時、請使用此方法。
+
+請參閱 link:https://docs.netapp.com/us-en/ontap/performance-admin/index.html["效能監控與管理總覽"] 以取得更多資訊。
+
+
+
+== 非 VVols NFS 資料存放區
+
+ONTAP QoS 原則可套用至整個資料存放區或其中的個別 VMDK 檔案。不過、請務必瞭解、傳統（非 vVols ） NFS 資料存放區上的所有 VM 都會共用來自指定主機的通用 I/O 佇列。如果有任何 VM 受到 ONTAP QoS 原則的限制、則實際上這會導致該資料存放區的所有 I/O 似乎都受到該主機的節流限制。
+
+*範例：*
+* 您可以針對主機 ESX3-01 掛載為傳統 NFS 資料存放區的磁碟區、設定 vm1.vmdk 的 QoS 限制。
+* 同一部主機（ ESX3-01 ）使用 VM2.vmdk 、而且位於同一個磁碟區。
+* 如果 vm1.vmdk 受到節流、則 VM2.vmdk 也會被節流、因為它與 vm1.vmdk 共用相同的 IO 佇列。
+
+* 注意： * 這不適用於 vVols 。
+
+從 vSphere 6.5 開始、您可以利用儲存 I/O 控制（ SIC ） v2 的儲存原則型管理（ SPBM ）來管理非 vVols 資料存放區的檔案精細限制。
+
+如需更多有關使用 SEIOC 和 SPBM 原則管理效能的資訊、請參閱下列連結。
+
+link:https://blogs.vmware.com/virtualblocks/2019/07/02/spbm-host-based-rules/["SPBM 主機型規則： SEIOC v2"]
+link:https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-resource-management/GUID-7686FEC3-1FAC-4DA7-B698-B808C44E5E96.html["使用 vSphere 管理儲存 I/O 資源"]
+
 若要將QoS原則指派給NFS上的VMDK、請注意下列準則：
 
-* 原則必須套用至 `vmname- flat.vmdk` 其中包含實際的虛擬磁碟映像、而非 `vmname.vmdk` （虛擬磁碟描述元檔案）或 `vmname.vmx` （ VM 描述元檔案）。
+* 原則必須套用至 `vmname-flat.vmdk` 其中包含實際的虛擬磁碟映像、而非 `vmname.vmdk` （虛擬磁碟描述元檔案）或 `vmname.vmx` （ VM 描述元檔案）。
 * 請勿將原則套用至其他 VM 檔案、例如虛擬交換檔案 (`vmname.vswp`）。
 * 使用 vSphere Web 用戶端尋找檔案路徑（資料存放區 > 檔案）時、請注意它會結合的資訊 `- flat.vmdk` 和 `. vmdk` 只要顯示一個檔案、其中包含的名稱即可 `. vmdk` 但是的大小 `- flat.vmdk`。新增 `-flat` 輸入檔案名稱以取得正確路徑。
 
 
-若要將QoS原則指派給LUN、包括VMFS和RDM、ONTAP 顯示為Vserver的SVM、LUN路徑和序號、可從ONTAP VMware vSphere的「VMware vSphere的VMware vSphere」（VMware vSphere）「VMware vCenter工具」首頁上的「儲存系統」功能表取得。選取儲存系統（ SVM ）、然後選取相關物件 > SAN 。  使用ONTAP 其中一項功能來指定QoS時、請使用此方法。
+使用VMware vSphere 9.8及更新版本的VMware vSphere 9.8版的VMware VMware vCenter資料存放區提供增強的QoS功能。FlexGroup ONTAP您可以輕鬆地在資料存放區或特定VM的所有VM上設定QoS。如FlexGroup 需詳細資訊、請參閱本報告的「參考資料」一節。請注意、上述傳統 NFS 資料存放區的 QoS 限制仍然適用。
 
-利用ONTAP VMware vSphere或Virtual Storage Console 7.1及更新版本的VMware vSphere或Virtual Storage Console 7.1工具、可輕鬆將最大和最小QoS指派給VVol型VM。為 vVol 容器建立儲存功能設定檔時、請在效能功能下指定最大和 / 或最小 IOPS 值、然後使用 VM 的儲存原則參考此 SCP 。建立VM或將原則套用至現有VM時、請使用此原則。
 
-使用VMware vSphere 9.8及更新版本的VMware vSphere 9.8版的VMware VMware vCenter資料存放區提供增強的QoS功能。FlexGroup ONTAP您可以輕鬆地在資料存放區或特定VM的所有VM上設定QoS。如FlexGroup 需詳細資訊、請參閱本報告的「參考資料」一節。
+
+== VMFS 資料存放區
+
+使用 ONTAP LUN 時、 QoS 原則可套用至包含 LUN 或個別 LUN 的 FlexVol 磁碟區、但無法套用至個別 VMDK 檔案、因為 ONTAP 無法感知 VMFS 檔案系統。
+
+
+
+== VVols 資料存放區
+
+您可以在個別 VM 或 VMDK 上輕鬆設定最低和 / 或最高 QoS 、而不會影響任何其他 VM 或 VMDK 、使用儲存原則型管理和 vVols 。
+
+為 vVol 容器建立儲存功能設定檔時、請在效能功能下指定最大和 / 或最小 IOPS 值、然後使用 VM 的儲存原則參考此 SCP 。建立VM或將原則套用至現有VM時、請使用此原則。
+
+* 附註： * vVols 需要使用 ONTAP 工具來執行 VMware vSphere 、以作為 VASA Provider for ONTAP 。請參閱 link:/vmware/vmware-vvols-overview.html["VMware vSphere 虛擬磁碟區（ VVols ）搭配 ONTAP"] 適用於 VVols 最佳實務做法。
 
 
 
@@ -70,10 +110,10 @@ VMware vSphere儲存I/O控制（SIOC）是相輔相成的技術、vSphere和儲�
 | 設定LUN上的QoS（RDM）？ | 是的 | 否 
 
 
-| 在LUN（VMFS）上設定QoS？ | 是的 | 否 
+| 在LUN（VMFS）上設定QoS？ | 是的 | 是（資料存放區可以節流） 
 
 
-| 在Volume（NFS資料存放區）上設定QoS？ | 是的 | 否 
+| 在Volume（NFS資料存放區）上設定QoS？ | 是的 | 是（資料存放區可以節流） 
 
 
 | 在SVM（租戶）上設定QoS？ | 是的 | 否 
@@ -133,54 +173,3 @@ VASA提供查詢儲存設備的技術、並將一組儲存功能傳回vCenter。
 下圖顯示vVols元件。
 
 image:vsphere_ontap_image8.png["VVols 元件"]
-
-
-
-== 雲端移轉與備份
-
-另一ONTAP 項優勢是廣泛支援混合雲、將內部部署私有雲中的系統與公有雲功能合併在一起。以下是一些可搭配vSphere使用的NetApp雲端解決方案：
-
-* * 雲端 Volume 。 * NetApp Cloud Volumes Service for Amazon Web Services 或 Google Cloud Platform 和 Azure NetApp Files for anf 可在領先業界的公有雲環境中、提供高效能、多重傳輸協定的託管儲存服務。VMware Cloud VM來賓可以直接使用。
-* *《NetApp》資料管理軟體可在您選擇的雲端上、為您的資料提供控制、保護、靈活度及效率。Cloud Volumes ONTAP Cloud Volumes ONTAPCloud Volumes ONTAP 是以 ONTAP 儲存設備為基礎的雲端原生資料管理軟體。搭配Cloud Manager一起使用、即可部署Cloud Volumes ONTAP 及管理包含ONTAP 內部部署的各種系統的不二執行個體。利用先進的 NAS 和 iSCSI SAN 功能、搭配整合式資料管理、包括快照和 SnapMirror 複寫。
-* * Cloud Services。*使用Cloud Backup Service NetApp或SnapMirror Cloud、利用公有雲儲存設備保護內部部署系統的資料。可協助您在NAS、物件儲存區和物件儲存區之間移轉及保持資料同步。Cloud Sync Cloud Volumes Service
-* * FabricPool 《*》FabricPool *《*》*《*》提供快速且簡單的ONTAP 資料分層功能。冷區塊可移轉至公有雲或私有 StorageGRID 物件存放區中的物件存放區、並在再次存取 ONTAP 資料時自動重新叫用。或是將物件層用作SnapVault 已由效益管理的資料的第三層保護。您可以使用這種方法 https://www.linkedin.com/pulse/rethink-vmware-backup-again-keith-aasen/["儲存更多 VM 快照"^] 在一線ONTAP 和/或二線的不二元儲存系統上。
-* *《*》。*使用NetApp軟體定義的儲存設備、將您的私有雲端延伸至遠端設施和辦公室、您可以使用《》來支援區塊和檔案服務、以及您在企業資料中心擁有的相同vSphere資料管理功能。ONTAP Select ONTAP Select
-
-
-在設計VM型應用程式時、請考慮未來的雲端行動力。例如、應用程式和資料檔案不會放在一起、而是使用個別的LUN或NFS匯出來匯出資料。這可讓您將VM和資料分別移轉至雲端服務。
-
-
-
-== vSphere資料加密
-
-如今、透過加密保護閒置資料的需求與日俱增。雖然最初的重點是財務和醫療資訊、但無論資訊儲存在檔案、資料庫或其他資料類型中、都越來越有興趣保護所有資訊。
-
-執行ONTAP 此軟體的系統可透過閒置加密、輕鬆保護任何資料。NetApp儲存加密（NSE）使用自我加密的磁碟機ONTAP 搭配使用、以保護SAN和NAS資料。NetApp也提供NetApp Volume Encryption和NetApp Aggregate Encryption、這是一種簡單、以軟體為基礎的方法、可加密任何磁碟機上的磁碟區。此軟體加密不需要特殊的磁碟機或外部金鑰管理員、 ONTAP 客戶可免費使用。您可以在不中斷用戶端或應用程式的情況下升級及開始使用、而且它們已通過FIPS 140-2第1級標準驗證、包括內建金鑰管理程式。
-
-有幾種方法可以保護在VMware vSphere上執行的虛擬化應用程式資料。其中一種方法是在客體作業系統層級使用VM內部的軟體來保護資料。vSphere 6.5等較新的Hypervisor現在也支援VM層級的加密、這是另一種替代方案。不過、NetApp軟體加密既簡單又簡單、而且具有下列優點：
-
-* *對虛擬伺服器CPU沒有影響。*某些虛擬伺服器環境需要其應用程式的每個可用CPU週期、但測試顯示、Hypervisor層級加密需要高達5倍的CPU資源。即使加密軟體支援 Intel 的 AES-NI 指令集來卸載加密工作負載（如同 NetApp 軟體加密一樣）、由於新的 CPU 與舊版伺服器不相容、因此這種方法可能不可行。
-* *隨附機上金鑰管理程式。* NetApp軟體加密包含內建金鑰管理程式、不需額外付費、因此無需購買和使用複雜的高可用度金鑰管理伺服器、即可輕鬆開始使用。
-* *對儲存效率沒有影響。*目前廣泛使用重複資料刪除與壓縮等儲存效率技術、是以具成本效益的方式使用Flash磁碟媒體的關鍵。不過、加密資料通常無法進行重複資料刪除或壓縮。NetApp硬體與儲存加密的運作層級較低、可充分運用領先業界的NetApp儲存效率功能、不像其他方法。
-* *輕鬆進行資料存放區精細加密。*有了NetApp Volume Encryption、每個磁碟區都能獲得自己的AES 256位元金鑰。如果您需要變更、只要使用一個命令即可。如果您有多個租戶、或需要證明不同部門或應用程式的獨立加密、這種方法非常適合。這種加密是在資料存放區層級進行管理、比管理個別VM容易得多。
-
-
-開始使用軟體加密非常簡單。安裝授權之後、只要指定通關密碼、即可設定內建金鑰管理程式、然後建立新的磁碟區、或是執行儲存端磁碟區移轉、即可啟用加密功能。NetApp正致力於在未來的VMware工具版本中、為加密功能提供更多整合式支援。
-
-
-
-== Active IQ Unified Manager
-
-利用VMware Infrastructure、您可以清楚掌握虛擬基礎架構中的虛擬機器、並監控及疑難排解虛擬環境中的儲存與效能問題。Active IQ Unified Manager
-
-典型的虛擬基礎架構部署ONTAP 在整個運算、網路和儲存層之間、有許多不同的元件。VM應用程式中的任何效能延遲都可能是因為各個元件在各個層面上所面臨的延遲問題。
-
-下列螢幕快照顯示Active IQ Unified Manager 「VMware虛擬機器」檢視畫面。
-
-image:vsphere_ontap_image9.png["Active IQ Unified Manager 虛擬機器檢視"]
-
-Unified Manager會在拓撲檢視中呈現虛擬環境的底層子系統、以判斷運算節點、網路或儲存設備是否發生延遲問題。此檢視也會強調導致效能延遲的特定物件、以便採取補救步驟並解決根本問題。
-
-下列螢幕快照顯示AIQUM擴充拓撲。
-
-image:vsphere_ontap_image10.png["AIQUM 擴充拓撲"]

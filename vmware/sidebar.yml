@@ -30,6 +30,12 @@ entries:
     url: "/vmware/vmware-vsphere-dp.html"
   - title: QoS
     url: "/vmware/vmware-vsphere-qos.html"
+  - title: 雲端移轉與備份
+    url: "/vmware/vmware-vsphere-cloud_migration_backup.html"
+  - title: vSphere資料加密
+    url: "/vmware/vmware-vsphere-encryption.html"
+  - title: Active IQ Unified Manager
+    url: "/vmware/vmware-vsphere-aiqum.html"
   - title: 儲存原則型管理
     url: "/vmware/vmware-vsphere-policy-and-vvols.html"
   - title: VMware Storage Distributed Resource Scheduler

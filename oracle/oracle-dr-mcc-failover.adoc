@@ -14,6 +14,8 @@ summary: 使用 MetroCluster 進行 Oracle 資料庫容錯移轉
 
 
 [role="lead"]
-MetroCluster 是一項 ONTAP 功能、可在各個站台之間使用 RPO=0 同步鏡射來保護您的 Oracle 資料庫、並可在單一 MetroCluster 系統上擴充至支援數百個資料庫。使用也很簡單。使用 MetroCluster 並不一定會增加或變更任何用於營運企業應用程式和資料庫的最佳競賽。
+MetroCluster 是一項 ONTAP 功能、可在各個站台之間使用 RPO=0 同步鏡射來保護您的 Oracle 資料庫、並可在單一 MetroCluster 系統上擴充至支援數百個資料庫。
+
+使用也很簡單。使用 MetroCluster 並不一定會增加或變更任何用於營運企業應用程式和資料庫的最佳競賽。
 
 通常的最佳實務做法仍適用、如果您的需求只需要 RPO = 0 資料保護、則 MetroCluster 會滿足您的需求。然而、大多數客戶不僅使用 MetroCluster 來保護 RPO =0 資料、還能在災難期間改善 RTO 、並在站台維護活動中提供透明的容錯移轉。

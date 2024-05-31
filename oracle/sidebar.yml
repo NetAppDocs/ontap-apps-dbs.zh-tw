@@ -142,14 +142,14 @@ entries:
     url: "/oracle/oracle-dr-overview.html"
   - title: MetroCluster
     entries:
+    - title: MetroCluster 的 Oracle 容錯移轉
+      url: "/oracle/oracle-dr-mcc-failover.html"
     - title: 實體架構
       url: "/oracle/oracle-dr-mcc-physical.html"
     - title: 邏輯架構
       url: "/oracle/oracle-dr-mcc-logical.html"
     - title: SyncMirror
       url: "/oracle/oracle-dr-mcc-syncmirror.html"
-    - title: Oracle 容錯移轉
-      url: "/oracle/oracle-dr-mcc-failover.html"
     - title: NVFAIL
       url: "/oracle/oracle-dr-mcc-nvfail.html"
     - title: MetroCluster 上的 Oracle SI

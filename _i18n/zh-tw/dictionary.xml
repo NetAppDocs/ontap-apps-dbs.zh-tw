@@ -159,7 +159,6 @@
   <block id="678e476783bceae80094bcb4c1f32969" category="admonition">* NetApp 建議 * 至少有 10% 的可用空間。這包括所有未使用的空間、包括集合體或磁碟區內的可用空間、以及因使用完整資源配置而分配但實際資料未使用的任何可用空間。邏輯空間並不重要、問題在於實際可用的實體空間可用於資料儲存。</block>
   <block id="2171d172d184f1202a686849c85dce91" category="paragraph">10% 可用空間的建議非常保守。SSD 集合體可支援使用率更高的工作負載、而不會對效能造成任何影響。不過、隨著 Aggregate 的使用率增加、如果未仔細監控使用率、則用盡空間的風險也會增加。此外、當系統的容量達到 99% 時、可能不會導致效能降低、但在訂購額外硬體時、可能需要管理人員努力避免系統完全裝滿、而且可能需要一些時間來採購和安裝額外的磁碟機。</block>
   <block id="789243e17acb0b134f435d6c4c1350f2" category="section-title">HDD 集合體、包括 Flash Pool 集合體</block>
-  <block id="7302e9f16fb8c5bc30f6035fe4098b52" category="admonition">* 使用旋轉磁碟機時、 NetApp 建議 * 至少有 15% 的可用空間。這包括所有未使用的空間、包括集合體或磁碟區內的可用空間、以及因使用完整資源配置而分配但實際資料未使用的任何可用空間。在免費語音方法中、效能將受到 10% 的影響。</block>
   <block id="0b0a68e2dedde9c0b9a3ea4276f4b85c" category="paragraph">。<block ref="9df22f196a33acd0b372fe502de51211" prefix=" " category="inline-code"></block> 原則是最適合備份資料的原則。如此可確保在達到冷卻臨界值時、無論主要檔案系統中的檔案是否已刪除或繼續存在、都能立即分層。將所有可能需要的檔案儲存在作用中檔案系統的單一位置、也能簡化管理。沒有理由搜尋快照以找出需要還原的檔案。</block>
   <block id="11a75a1257cc68a4a46bc553dabe0c0d" category="paragraph">。<block ref="8805d416ce540c5f2df34af5b18d742b" prefix=" " category="inline-code"></block> 原則可以生效、但該原則僅適用於不在作用中檔案系統中的區塊。因此、必須先刪除 NFS 或 SMB 共用上的檔案、才能分層化資料。</block>
   <block id="b4af96e8cea99b56592db816cab30fce" category="paragraph">使用 LUN 組態時、此原則的效率會更低、因為從 LUN 刪除檔案只會從檔案系統中繼資料中移除檔案參照。LUN 上的實際區塊會一直保留到位、直到被覆寫為止。這種情況可能會造成從刪除檔案到覆寫區塊並成為分層候選項目之間的長時間延遲。移動有一些好處<block ref="8805d416ce540c5f2df34af5b18d742b" prefix=" " category="inline-code"></block> 區塊到容量層、但整體而言、備份資料的 FabricPool 管理最適合搭配使用<block ref="9df22f196a33acd0b372fe502de51211" prefix=" " category="inline-code"></block> 原則。</block>
@@ -3464,7 +3463,6 @@
   <block id="2c6d98297c340e390e0783220b038545" category="sidebar">實體架構</block>
   <block id="13a854bdd11f8f57a0b25c00631f1430" category="sidebar">邏輯架構</block>
   <block id="5e7988aeba0e1d3c15c5c78a0db738d1" category="sidebar">SyncMirror</block>
-  <block id="3f23f85f537c810b6eca3c767c3ff00c" category="sidebar">Oracle 容錯移轉</block>
   <block id="5ba8ee2f32815884475d1f2244ba16a6" category="sidebar">故障案例</block>
   <block id="e31593850dc03f8f10d036df5dc8633b" category="sidebar">Oracle 資料庫移轉</block>
   <block id="5102abd5a9cc202678054b832caf678d" category="sidebar">程序</block>
@@ -5029,7 +5027,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="f595bf3bf71ab0c91a5503ba4efb8ea4" category="paragraph">資料庫 LUN 在 ONTAP 磁碟區內的最佳放置方式、主要取決於如何使用各種 ONTAP 功能。</block>
   <block id="05a1ffdb277b8c7ac1dca78adae0017e" category="sidebar">LUN 放置</block>
   <block id="9d5c13d45bbf74999764cfe8d4798562" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、 HTTPS 憑證管理。</block>
-  <block id="0f464051d2b3e2c46fd57cb0c7edb4a9" category="doc">ONTAP 工具 HTTPS 憑證</block>
   <block id="d6a1787b51b08315bfcc44f3a9bb4b2f" category="paragraph">根據預設、 ONTAP 工具會使用在安裝期間自動建立的自我簽署憑證、以確保 HTTPS 存取安全無虞。ONTAP 工具提供下列功能：</block>
   <block id="1eddd0f3479da31541c39e5ddddfa930" category="list-text">重新產生 HTTPS 憑證</block>
   <block id="61bf3033b18d202012951f5bf7be4fa9" category="paragraph">在 ONTAP 工具安裝期間、會安裝 HTTPS CA 憑證、並將憑證儲存在金鑰庫中。使用者可以選擇透過維護主控台重新產生 HTTPS 憑證。</block>
@@ -5055,7 +5052,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="86a670227d3e81e8fa34eb4aede3129a" category="section-title">3. 支援使用者（診斷使用者）</block>
   <block id="e482d8f0e37161e7916c7a78d2cf7210" category="paragraph">在 ONTAP 工具安裝期間、系統會建立支援使用者。此使用者可在伺服器發生任何問題或中斷時、用來存取 ONTAP 工具、並收集記錄。根據預設、此使用者已停用、但可透過「 Maint 」主控台臨時啟用。請務必注意、此使用者將在一段時間後自動停用。</block>
   <block id="562596399deefc1e2a6cc32eb489976c" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南。</block>
-  <block id="1bc8028b63c10101b776e8b8ff907571" category="doc">連接埠與傳輸協定</block>
   <block id="80dd7fd00106118cf9c10abf911b7111" category="paragraph">此處列出的必要連接埠和通訊協定、可讓 VMware vSphere 伺服器的 ONTAP 工具與其他實體（例如託管儲存系統、伺服器和其他元件）之間進行通訊。</block>
   <block id="d40dfcfdaecc4e8015535acd5de00398" category="section-title">OTV 所需的傳入和傳出連接埠</block>
   <block id="834b74ce890c61455ad330759d44eff2" category="paragraph">請注意下表列出正確運作 ONTAP 工具所需的輸入和輸出連接埠。請務必確保只開啟表中所述的連接埠、以進行遠端機器的連線、而所有其他連接埠則應封鎖、以進行遠端機器的連線。這將有助於確保系統的安全性。</block>
@@ -5078,7 +5074,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="10046bc1eb8463e6ca6ae51bd3b7a574" category="inline-image-macro">Derby 、 width=468 、 height =136</block>
   <block id="36434da35edb72a1f85cbbcc1ff2b197" category="paragraph"><block ref="36434da35edb72a1f85cbbcc1ff2b197" category="inline-image-macro-rx" type="image"></block></block>
   <block id="f21dd7ffc271f1301878c3078a59692d" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、登入橫幅。</block>
-  <block id="8bea3b588d20824cc56c9e5629943f1a" category="doc">登入橫幅</block>
   <block id="67f78f0bab8fe81a2b6971543c716d3d" category="paragraph">使用者在登入提示中輸入使用者名稱後、會顯示下列登入橫幅。請注意、 SSH 預設為停用、從 VM 主控台啟用時僅允許一次性登入。</block>
   <block id="ae20daf991a940f9de7033ff0a1af410" category="paragraph">使用者透過SSH通道完成登入後、會顯示下列文字：</block>
   <block id="8f1b6f904292913013b1f6e578d7b074" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、完整性驗證。</block>
@@ -5108,7 +5103,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="5f4345a6f62f7a3926b2c3d92f5574f6" category="paragraph">接著應使用公開金鑰來驗證 ISO 和 tgz 產品 zip 的簽名、如下所示：</block>
   <block id="81eeab9506186e2dca8faefa78d54067" category="paragraph">範例：</block>
   <block id="c6666237b03fcb86e315a0a06e73b6ef" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、儲存管理連線的相互 TLS 加密。</block>
-  <block id="a1f873acd76a0948013378ff10927a74" category="doc">相互 TLS （憑證型驗證）</block>
   <block id="53893182b7e17fb2da37935ee3ffda55" category="paragraph">ONTAP 9.7 版及更新版本支援相互 TLS 通訊。從適用於 VMware 的 ONTAP 工具和 vSphere 9.12 開始、系統會使用相互 TLS 與新增的叢集進行通訊（視 ONTAP 版本而定）。</block>
   <block id="1be712dee4c47804142318ffb739e46b" category="paragraph">對於所有先前新增的儲存系統：在升級期間、所有新增的儲存系統都會自動受到信任、而且會設定憑證型驗證機制。</block>
   <block id="d39adf53eaace0fbba30d4e13760a974" category="paragraph">如下面的螢幕擷取畫面所示、叢集設定頁面會顯示為每個叢集設定的相互 TLS （憑證型驗證）狀態。</block>
@@ -5132,7 +5126,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="6a59df9970674c274e20b1d91be2df8a" category="paragraph"><block ref="6a59df9970674c274e20b1d91be2df8a" category="inline-image-macro-rx" type="image"></block></block>
   <block id="75545011d3e6abe8a2cd8cd5bc21c6fd" category="paragraph"><block ref="75545011d3e6abe8a2cd8cd5bc21c6fd" category="inline-image-macro-rx" type="image"></block></block>
   <block id="14a73da2f5fe352620bed1b49a3319ed" category="summary">適用於 VMware vSphere 之 ONTAP 工具的安全強化指南、網路安全保護、防範 DOS 攻擊。</block>
-  <block id="7dc9b3603fa2b925d4d44930e25f1afa" category="doc">每位使用者的並行要求上限（網路安全保護： DOS 攻擊）</block>
   <block id="8f7e7bd942f453f0550dc4f907e88810" category="paragraph">依預設、每位使用者的並行要求上限為 48 個。ONTAP 工具中的根使用者可以根據其環境需求變更此值。* 此值不應設為非常高的值、因為它提供了一種機制來防範拒絕服務（ DOS ）攻擊。 *</block>
   <block id="99c1088ea27d16b42c6b45d794f59d3f" category="paragraph">使用者可以在 *_/opt/NetApp/vscserver/etc/dosfilterParams .json_* 檔案中變更並行工作階段的最大數量及其他支援參數。</block>
   <block id="5e7c907630f5a432ac6b39f0b8c04c28" category="paragraph">我們可以使用下列參數來設定篩選器：</block>
@@ -5145,7 +5138,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="ca49b2b6b0c4bb4aa0596879eef667f5" category="inline-image-macro">多重路徑連線能力</block>
   <block id="de3698c6b3c2722a1b82c99522519f4f" category="paragraph"><block ref="de3698c6b3c2722a1b82c99522519f4f" category="inline-image-macro-rx" type="image"></block></block>
   <block id="9afb15056a8bc8b4402d55eba2274dad" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、 NTP 組態。</block>
-  <block id="bad9c891abe49e73c2bf4fb95fbe61ba" category="doc">網路時間傳輸協定（ NTP ）組態</block>
   <block id="48edbd8a951efb0ad617f7868b27a6c0" category="paragraph">有時、網路時間組態不一致、可能會發生安全問題。請務必確保網路中的所有裝置都有正確的時間設定、以避免發生此類問題。</block>
   <block id="a55d703ea2930e8e72e94ce11c3297ab" category="section-title">* 虛擬應用裝置 *</block>
   <block id="5a65f4c9ca6d99f573528348d36914fa" category="paragraph">您可以從虛擬應用裝置的維護主控台設定 NTP 伺服器。  使用者可以在 _ 系統組態 _ = &gt; _ 新增 NTP 伺服器 _ 選項下新增 NTP 伺服器詳細資料</block>
@@ -5154,7 +5146,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="dc3bb5166d38d2aec53765aca7c0d24c" category="paragraph">在 Debian 上、使用者可以存取 /etc/ntp.conf 檔案來取得 NTP 伺服器的詳細資料。</block>
   <block id="fec65f0c33739368ce5845fadb6cb880" category="paragraph">這些指南同時適用於應用程式和應用裝置本身的客體作業系統。</block>
   <block id="5aaf8fc9424d7872cf500fb7adcb3b97" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、密碼原則組態。</block>
-  <block id="ca80b83fb98de16af35b38476df589c3" category="doc">密碼原則</block>
   <block id="53477738359cebc12d4e01727ee8b5e7" category="paragraph">首次部署 ONTAP 工具或升級至 9.12 版或更新版本的使用者、必須同時遵循系統管理員和資料庫使用者的強式密碼原則。在部署過程中、系統會提示新使用者輸入密碼。對於升級至 9.12 版或更新版本的瀏覽欄位使用者、維護主控台將提供遵循強式密碼原則的選項。</block>
   <block id="7afd9be20a239f83f98bdbc7f90512ef" category="list-text">一旦使用者登入主控台、就會對照複雜的規則集來檢查密碼、如果發現未遵循、則會要求使用者重設相同的密碼。</block>
   <block id="1e048d74f3d9375186833526a00f4309" category="list-text">密碼預設有效時間為 90 天、 75 天之後、使用者會開始收到變更密碼的通知。</block>
@@ -5188,7 +5179,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="47d29daaa26fbfa9c9a069d4cd023ac1" category="doc">適用於 VMware vSphere 的 ONTAP 工具安全性強化指南</block>
   <block id="fe0e23a929284a636c245a362ada6472" category="paragraph">適用於 VMware vSphere 的 ONTAP 工具安全性強化指南提供一套完整的指示、可協助您設定最安全的設定。</block>
   <block id="bc86ce4caa57368f9094a93dd72ffd28" category="paragraph">在需要 Domino 模式的情況下、 NetApp 提供 SnapMirror 同步（ SM-S ）。應用程式層級選項也存在、例如 Oracle DataGuard 或 SQL Server Always On Availability Groups 。作業系統層級的磁碟鏡射可以是一個選項。如需其他資訊和選項、請洽詢您的 NetApp 或合作夥伴客戶團隊。</block>
-  <block id="ef0892c4d97bdcd9e4bada330c24ee8b" category="paragraph">MetroCluster 是一項 ONTAP 功能、可在各個站台之間使用 RPO=0 同步鏡射來保護您的 Oracle 資料庫、並可在單一 MetroCluster 系統上擴充至支援數百個資料庫。使用也很簡單。使用 MetroCluster 並不一定會增加或變更任何用於營運企業應用程式和資料庫的最佳競賽。</block>
   <block id="8059304404c995bd8a349056e7d40e32" category="inline-link">_Broadcom_ 的 NetApp 虛擬化解決方案</block>
   <block id="cc5363f91541e771ebd890b2330cb8ba" category="paragraph"><block ref="cc5363f91541e771ebd890b2330cb8ba" category="inline-link-rx"></block></block>
   <block id="c90946faf2ed37e17d936e0b3acde7a7" category="summary">對靜態資料加密的需求與日俱增、超越傳統資料、延伸到所有儲存的資料類型。</block>
@@ -5256,4 +5246,13 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="136d0794411ea29f9fb5130ec2655f35" category="paragraph">* 附註： * vVols 需要使用 ONTAP 工具來執行 VMware vSphere 、以作為 VASA Provider for ONTAP 。請參閱 <block ref="2486a36e844a24e9d1cf22351b1f1514" category="inline-link-macro-rx"></block> 適用於 VVols 最佳實務做法。</block>
   <block id="8743b08c4d707cd145a4e7acce189480" category="cell">是（資料存放區可以節流）</block>
   <block id="b2891bc898f2a418aa349b623568299e" category="summary">Active IQ Unified Manager 可在 VMware vSphere 環境中監控及疑難排解 NetApp 儲存設備和效能問題。</block>
+  <block id="b7ce758ec5c25cb23edfa4ead0d0097e" category="admonition">* 使用旋轉磁碟機時、 NetApp 建議 * 至少有 15% 的可用空間。這包括所有未使用的空間、包括集合體或磁碟區內的可用空間、以及因使用完整資源配置而分配但實際資料未使用的任何可用空間。當可用空間接近 10% 時、效能會受到影響。</block>
+  <block id="5a7f49be424e282d22b4c3889f5cd341" category="paragraph">MetroCluster 是一項 ONTAP 功能、可在各個站台之間使用 RPO=0 同步鏡射來保護您的 Oracle 資料庫、並可在單一 MetroCluster 系統上擴充至支援數百個資料庫。</block>
+  <block id="30160293c6cf2d26d13cbd294af7fb4c" category="paragraph">使用也很簡單。使用 MetroCluster 並不一定會增加或變更任何用於營運企業應用程式和資料庫的最佳競賽。</block>
+  <block id="c77924ff430fa98df17795d4f5c5885f" category="doc">ONTAP 工具 HTTPS 憑證</block>
+  <block id="641cc5f60c71fe9f9a2e15c5cc680ec3" category="summary">適用於 VMware vSphere 、 TCP 連接埠和傳輸協定的 ONTAP 工具安全強化指南</block>
+  <block id="872cba2a662a784946eb48675276dee2" category="doc">相互 TLS （憑證型驗證）</block>
+  <block id="5a4857ad48868097d482a4a448f48bd9" category="doc">每位使用者的並行要求上限（網路安全保護 /DOS 攻擊）</block>
+  <block id="0af211d5cda5cc4bb17dd7751e741595" category="doc">網路時間傳輸協定（ NTP ）組態</block>
+  <block id="c1fac7a72cd91bcd345e567f6d6d93a3" category="sidebar">MetroCluster 的 Oracle 容錯移轉</block>
 </blocks>

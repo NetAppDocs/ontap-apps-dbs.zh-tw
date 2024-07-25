@@ -2363,7 +2363,6 @@
   <block id="f0d0f0a6174a5a9dde27782042e22ccf" category="paragraph">VM 佈建完成後、 VASA Provider 將繼續檢查法規遵循狀況、並在備用磁碟區不再符合原則時、在 vCenter 中警示 VM 管理員（圖 2 ）。</block>
   <block id="941431bc1cecb0ec5e89e78e9a5a96fc" category="section-title">VM 儲存原則法規遵循</block>
   <block id="bfd6dec22a6a1724ff1b67f1f289cdfc" category="image-alt">虛擬機器儲存原則符合性</block>
-  <block id="e08bc5b354c3e8058003a662e0f7cade" category="section-title">NetApp VVols 支援</block>
   <block id="9fe1fd556b933358881222d5c3da127c" category="paragraph">在發佈時、超大規模環境僅限於傳統的 NFS v3 資料存放區、因此 VVols 僅適用於內部部署 ONTAP 系統、或雲端連線系統、這些系統提供內部部署系統的完整功能、例如由全球各地的 NetApp 合作夥伴和服務供應商代管的系統。</block>
   <block id="274bc582ca884fc158ea9ac9f79f9067" category="inline-link">產品文件ONTAP</block>
   <block id="5ca60fe92dec435059ba5acefa4ce2c9" category="paragraph">_ 如需 ONTAP 的詳細資訊、請參閱<block ref="8a9b15dc18a16e0b1acfa438e27f6aa6" category="inline-link-rx"></block>_</block>
@@ -2375,7 +2374,6 @@
   <block id="3f4dbd6687bd0d55bf69fe5fdd0137c4" category="list-text">* 更聰明的資源配置。 * 儲存系統功能可透過 VASA API 公開、讓資源配置工作流程能夠充分利用進階功能、而無需 VM 管理員瞭解如何管理儲存系統。</block>
   <block id="a13fcc9220d042cae454e9ac073636ca" category="list-text">* 更快的資源配置。 * 可在單一資料存放區中支援不同的儲存功能、並根據 VM 原則自動選擇適合的 VM 。</block>
   <block id="eb4c052226108afebf26e670208b9a55" category="list-text">* 避免錯誤。 * 儲存和 VM 原則是事先開發的、並可視需要套用、而無需每次佈建 VM 時都自訂儲存設備。當儲存功能從定義的原則中移出時、就會發出法規遵循警報。如前所述、 SCP 可讓初始資源配置可預測且可重複執行、而 VM 儲存原則則以 SCP 為基礎、則可確保正確放置。</block>
-  <block id="9c520768a1d84268417335cf19a423b9" category="list-text">* 更好的容量管理。 * VASA 和 ONTAP 工具可讓您視需要將儲存容量向下檢視至大量的彙總層級、並在容量開始不足時提供多層警示。</block>
   <block id="f9878e32fdf258284c007eaae38773cd" category="section-title">現代化 SAN 上的 VM 精細管理</block>
   <block id="7e673a7c12cc256f29bcd7b2028d9d5a" category="paragraph">使用光纖通道和 iSCSI 的 SAN 儲存系統是 VMware 首次支援 ESX 的系統、但它們缺乏從儲存系統管理個別 VM 檔案和磁碟的能力。而是配置 LUN 並由 VMFS 管理個別檔案。這使得儲存系統難以直接管理個別 VM 儲存效能、複製和保護。VVols 提供 ONTAP 強大、高效能的 SAN 功能、讓使用 NFS 儲存設備的客戶能夠享有更精細的儲存空間。</block>
   <block id="25a46370807e0eab0dfe3853abfb9b6e" category="paragraph">現在、使用適用於 VMware vSphere 9.12 及更新版本的 vSphere 8 和 ONTAP 工具、 Vols 對於舊版 SCSI 型傳輸協定所使用的相同精細控制功能現在也可在採用 NVMe over Fabrics 的現代化光纖通道 SAN 中使用、以在規模上獲得更高的效能。有了 vSphere 8.0 更新 1 、現在可以使用 vVols 部署完整的端點對端 NVMe 解決方案、而無需在 Hypervisor 儲存堆疊中進行任何 I/O 轉譯。</block>
@@ -5255,4 +5253,6 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
   <block id="5a4857ad48868097d482a4a448f48bd9" category="doc">每位使用者的並行要求上限（網路安全保護 /DOS 攻擊）</block>
   <block id="0af211d5cda5cc4bb17dd7751e741595" category="doc">網路時間傳輸協定（ NTP ）組態</block>
   <block id="c1fac7a72cd91bcd345e567f6d6d93a3" category="sidebar">MetroCluster 的 Oracle 容錯移轉</block>
+  <block id="273eb98a312e607888044e87e0210015" category="section-title">NetApp VVols 支援</block>
+  <block id="551e3b0a48f99995daac658b17a1de62" category="list-text">* 更好的容量管理。 *Vasa 與 ONTAP 工具可視需要將儲存容量降至個別的集合層級、並在容量開始不足時提供多層警示。</block>
 </blocks>

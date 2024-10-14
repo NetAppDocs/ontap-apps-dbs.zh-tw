@@ -14,7 +14,7 @@ summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案
 
 
 [role="lead"]
-NetApp ONTAP 使用 iSCSI 、光纖通道傳輸協定（ FCP 或 FC 簡稱）和 NVMe over Fabrics （ NVMe of ）、為 VMware vSphere 提供企業級區塊儲存。以下是使用 vSphere 和 ONTAP 實作 VM 儲存區塊傳輸協定的最佳實務做法。
+ONTAP 使用 iSCSI 、光纖通道傳輸協定（ FCP 或 FC 簡稱）和 NVMe over Fabrics （ NVMe of ）、為 VMware vSphere 提供企業級區塊儲存。以下是使用 vSphere 和 ONTAP 實作 VM 儲存區塊傳輸協定的最佳實務做法。
 
 在vSphere中、有三種使用區塊儲存LUN的方法：
 
@@ -31,7 +31,7 @@ NMP 和 ONTAP 都支援非對稱邏輯單元存取（ ALUA ）、可協調最佳
 
 ESXi 6最多可支援256個LUN、並可支援多達1、024條通往LUN的總路徑。ESXi 不會看到超出這些限制的任何 LUN 或路徑。假設LUN數量上限、則路徑限制允許每個LUN有四個路徑。在更大ONTAP 的實體叢集中、可以在LUN限制之前達到路徑限制。為了解決此限制、ONTAP 支援8.3版及更新版本中的選擇性LUN對應（SLM),
 
-對於向指定LUN通告路徑的節點、SLM會有限制。NetApp最佳實務做法是每個SVM每個節點至少有一個LIF、並使用SLM來限制通告給裝載LUN及其HA合作夥伴之節點的路徑。雖然存在其他路徑、但預設不會通告這些路徑。您可以使用新增和移除在SLMs中的報告節點引數來修改通告的路徑。請注意、在8.3之前的版本中建立的LUN會通告所有路徑、而且必須加以修改、才能只向主機HA配對通告路徑。如需更多關於SLM,請參閱第5.9節 http://www.netapp.com/us/media/tr-4080.pdf["TR-4080"^]。先前的連接埠集方法也可用於進一步減少LUN的可用路徑。PortSets可減少igroup中的啟動器可透過哪些可見路徑來查看LUN、進而提供協助。
+對於向指定LUN通告路徑的節點、SLM會有限制。NetApp最佳實務做法是每個SVM每個節點至少有一個LIF、並使用SLM來限制通告給裝載LUN及其HA合作夥伴之節點的路徑。雖然存在其他路徑、但預設不會通告這些路徑。您可以使用新增和移除在SLMs中的報告節點引數來修改通告的路徑。請注意、在8.3之前的版本中建立的LUN會通告所有路徑、而且必須加以修改、才能只向主機HA配對通告路徑。有關 SLM 的詳細信息，請參閱第 5.9 節 https://www.netapp.com/pdf.html?item=/media/10680-tr4080pdf.pdf["TR-4080"^]（英文）。先前的連接埠集方法也可用於進一步減少LUN的可用路徑。PortSets可減少igroup中的啟動器可透過哪些可見路徑來查看LUN、進而提供協助。
 
 * 根據預設、會啟用SLM.除非您使用連接埠集、否則不需要額外的組態。
 * 對於在 Data ONTAP 8.3 之前建立的 LUN 、請執行手動套用 SLM `lun mapping remove-reporting-nodes` 用於移除 LUN 報告節點、並限制 LUN 存取 LUN 所屬節點及其 HA 合作夥伴的命令。

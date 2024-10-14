@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-example-filesystems.html 
+keywords: epic,cache,iris 
+summary: EPIC on ONTAP 範例部署 - 檔案系統 
+---
+= EPIC on ONTAP 範例部署 - 檔案系統
+:allow-uri-read: 
+
+
+[role="lead"]
+如需有關裝載 LUN 、建立磁碟區群組和邏輯磁碟區、以及設定檔案系統的資訊、請參閱 Epic Storage Configuration 快速參考指南。使用下列命令範例、為 RHEL 設定 Epic Production 伺服器。
+
+
+
+== 檔案系統和掛載選項
+
+在建立並對應 LUN 並完成分區之後、請使用下列程序將儲存設備附加至伺服器。
+
+
+NOTE: 在此範例中、我們使用 8 個 1024GB LUN 做為 DB 、 2 個 1024GB LUN 做為日誌、 2 個 1024GB LUN 做為應用程式安裝。
+
+
+
+== 非同步 I/O
+
+Epic SAN 考量白皮書與儲存組態快速參考文件複本、提供如何設定主機及連線至儲存設備的詳細資料。本節將說明如何設定 Red Hat Enterprise Linux 主機。AIX 詳細資料可在參考文件中找到。

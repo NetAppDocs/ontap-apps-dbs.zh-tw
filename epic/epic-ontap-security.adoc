@@ -1,0 +1,20 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-ontap-security.html 
+keywords: epic,cache,iris 
+summary: ONTAP 安全性的 EPIC 
+---
+= ONTAP 安全性的 EPIC
+:allow-uri-read: 
+
+
+[role="lead"]
+安全性是當今組織和醫療主管的首要考量。管理工作從未如此困難、組織也面臨法規遵循、資料治理、防毒保護和勒索軟體等挑戰。
+
+完整的 Epic 與儲存安全性指南不在本文件的涵蓋範圍之內、但link:https://docs.netapp.com/us-en/ontap/ontap-security-hardening/security-hardening-overview.html["ONTAP 安全強化指南"^]詳細說明 ONTAP 提供的所有廣泛與進階安全功能。
+
+NetApp Active IQ Unified Manager 會根據所包含的資訊來監控安全違規事件、並在儀表板中報告這些違規事件link:https://docs.netapp.com/us-en/ontap/ontap-security-hardening/security-hardening-overview.html["TR-4569"^]、以簡化安全管理。這些工具可協助貴組織達成安全目標、以保護、偵測及補救攻擊。
+
+NetApp 也與安全性廠商合作、透過軟體提供整合link:https://docs.netapp.com/us-en/ontap/ontap-security-hardening/create-fpolicy.html["NetApp FPolicy"^]功能、以強化您的安全性產品。此外、link:https://docs.netapp.com/us-en/ontap/authentication/mfa-overview.html["多因素（ MFA ）驗證"^]您也可以新增以保護 Epic 環境免於遭洩漏認證的未經授權存取。
+
+最後、 ONTAP 原生 Snapshot 複本與不可變link:https://docs.netapp.com/us-en/netapp-solutions/cyber-vault/ontap-cyber-vault-overview.html["ONTAP 網路保存庫"^]的 SnapLock 技術搭配、提供獨特的氣隙功能、可保護病患記錄免於勒索軟體的侵害。請參閱上的 NetApp 文件link:https://docs.netapp.com/us-en/ontap/ransomware-solutions/ransomware-overview.html["NetApp勒索軟體解決方案"^]。如需更具策略性的安全性方法，請參閱link:https://docs.netapp.com/us-en/ontap/zero-trust/zero-trust-overview.html["NetApp 與 Zero Trust"^]。

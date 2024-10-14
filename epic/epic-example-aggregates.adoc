@@ -1,0 +1,15 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-example-aggregates.html 
+keywords: epic,cache,iris 
+summary: EPIC on ONTAP 範例部署 - 集合體 
+---
+= EPIC on ONTAP 範例部署 - 集合體
+:allow-uri-read: 
+
+
+[role="lead"]
+如需資源配置集合體的最新文件link:https://docs.netapp.com/us-en/ontap/disks-aggregates/manage-local-tiers-overview-concept.html["請按這裡"^]、請按一下。
+
+
+NOTE: 預設設定可最佳化效能和容量。每個節點會建立一個大型 Aggregate 。

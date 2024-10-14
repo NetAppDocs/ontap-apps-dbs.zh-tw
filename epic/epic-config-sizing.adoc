@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-config-sizing.html 
+keywords: epic,cache,iris 
+summary: 專為 Epic 打造的儲存規模 
+---
+= 專為 Epic 打造的儲存規模
+:allow-uri-read: 
+
+
+[role="lead"]
+您應該與 Epic 聯盟團隊合作、確認任何 Epic 設計。您可以在 EPIC @ NetApp .com 聯絡團隊。每個部署作業都需要滿足客戶要求、同時遵循 Epic 和 NetApp 建議的最佳實務做法。
+
+如需如何使用 NetApp 規模調整工具來判斷 Epic 軟體環境儲存需求的正確 RAID 群組大小和 RAID 群組數量的相關資訊、請參閱link:https://fieldportal.netapp.com/content/192412?assetComponentId=192510["TR-3930i：《NetApp Epic規模調整準則》（NetApp Sizing Guidelines for Epic）"^]（需要 NetApp 登入）。
+
+
+NOTE: 必須存取 NetApp Field Portal 。

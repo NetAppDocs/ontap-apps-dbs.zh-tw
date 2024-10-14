@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-example-overview.html 
+keywords: epic,cache,iris 
+summary: EPIC on ONTAP 範例部署 
+---
+= EPIC on ONTAP 範例部署
+:allow-uri-read: 
+
+
+[role="lead"]
+本節將引導您完成 ONTAP 叢集的完整進階組態、配置儲存設備、並將其呈現給 Epic 伺服器。
+
+為了擷取詳細資料並簡化文件、我們使用命令列。如果偏好 GUI 、您可以在 System Manager 中配置所有設定。
+
+過去、大型專案的初始大量設定通常會使用表 1 所列的命令來加快、尤其是當您串連工作表中的命令時。此命令清單也可做為絕佳的建置文件。
+
+另一個資源配置選項是使用 Ansible 的第 0 天和第 1 天自動化指令碼。NetApp 現有數百本 Ansible 教戰手冊可供下載、包括透過 Ansible 銀河集合 install NetApp ． ONTAP 命令下載 Ansible Galaxy 集合。
+
+此外、 GUI 也能與簡單的單頁 LUN 及共享資源配置搭配運作、GUI 最適合用於新增、修改或刪除儲存設備時的作業。如果您套用表 1 中的最佳實務儲存設定、則任一選項都沒問題。
+
+完整的叢集設定和儲存 / 主機資源配置、在分段時不應超過一小時。
+
+* 最佳儲存設定實務 *
+
+[cols="1,1"]
+|===
+
+
+| 設定 | 價值 
+
+
+| Aggregate | 預設自動資源配置、每個節點使用 RAID DEP 、一個 ADP 集合體 
+
+
+| SVM | 使用多個處理器時有兩個 SVM （區塊 SVM 和 SMB/NFS SVM ）。使用 Epic 和傳輸協定命名慣例。使用適當的安全風格 
+
+
+| 磁碟區空間保證 | 無 
+
+
+| Volume Snapshot 原則 | 無 
+
+
+| Volume 自動調整大小 | 成長 
+
+
+| Volume 最大自動調整大小 | 2T 或 2 X LUN 大小 
+
+
+| Volume Snapshot 自動刪除 | 已啟用 
+
+
+| Volume大小 | 1.5 X LUN 大小 
+
+
+| Volume 配置 | 甚至跨控制器散佈 
+
+
+| igroup類型 | 作業系統與實體伺服器搭配使用時、 VMware 類型與 ESX 搭配使用。 
+|===

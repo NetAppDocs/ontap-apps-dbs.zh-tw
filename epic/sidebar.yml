@@ -1,0 +1,58 @@
+---
+section: epic
+title: 致勝
+entries:
+- title: 總覽
+  url: "/epic/epic-overview.html"
+- title: ONTAP 上的 EPIC
+  entries:
+  - title: 總覽
+    url: "/epic/epic-ontap-overview.html"
+  - title: 可用度
+    url: "/epic/epic-ontap-availability.html"
+  - title: 整合
+    url: "/epic/epic-ontap-consolidation.html"
+  - title: 效率
+    url: "/epic/epic-ontap-efficiency.html"
+  - title: 效能
+    url: "/epic/epic-ontap-performance.html"
+  - title: 擴充
+    url: "/epic/epic-ontap-scalability.html"
+  - title: 快照與複製
+    url: "/epic/epic-ontap-snapshots.html"
+  - title: 安全性
+    url: "/epic/epic-ontap-security.html"
+- title: 史詩般的架構與設計
+  entries:
+  - title: 總覽
+    url: "/epic/epic-arch-overview.html"
+  - title: 規模調整
+    url: "/epic/epic-arch-sizing.html"
+  - title: 儲存需求
+    url: "/epic/epic-arch-storage.html"
+  - title: 四節點架構
+    url: "/epic/epic-arch-4node.html"
+  - title: 六節點架構
+    url: "/epic/epic-arch-6node.html"
+  - title: 八節點架構
+    url: "/epic/epic-arch-8node.html"
+- title: 組態與最佳實務做法
+  entries:
+  - title: 主機公用程式
+    url: "/epic/epic-config-huk.html"
+  - title: LUN 和磁碟區組態
+    url: "/epic/epic-config-lunvol.html"
+  - title: 檔案服務
+    url: "/epic/epic-config-files.html"
+  - title: 效能
+    url: "/epic/epic-config-performance.html"
+  - title: 通訊協定
+    url: "/epic/epic-config-protocols.html"
+  - title: 儲存效率
+    url: "/epic/epic-config-efficiency.html"
+  - title: 一致性群組
+    url: "/epic/epic-config-cgs.html"
+  - title: 儲存規模調整
+    url: "/epic/epic-config-sizing.html"
+- title: 何處可找到其他資訊
+  url: "/epic/epic-additional-info.html"

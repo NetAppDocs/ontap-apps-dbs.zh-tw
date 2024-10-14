@@ -10,7 +10,7 @@ summary: Microsoft Windows 與 Hyper-V 虛擬化與 ONTAP 概觀
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]
@@ -19,7 +19,7 @@ Microsoft Windows Server 是企業級作業系統（ OS ）、涵蓋網路、安
 
 NOTE: * 本文件取代先前發佈的技術報告 _TR-4568 ： NetApp 部署指南與 Windows Server* 儲存最佳實務做法
 
-.NetApp ONTAP （ R ）管理軟體可在 NetApp 儲存控制器上執行。有多種格式可供選擇。
+.ONTAP 可在 NetApp 儲存控制器上執行。有多種格式可供選擇。
 * 支援檔案、物件和區塊傳輸協定的統一化架構。如此一來、儲存控制器就能同時做為 NAS 和 SAN 裝置、以及物件儲存區
 * All SAN Array （ ASA ）僅著重於區塊傳輸協定、並透過為連線主機新增對稱的雙主動式多重路徑功能、將 I/O 恢復時間（ IORT ）最佳化
 * 軟體定義的統一化架構

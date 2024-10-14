@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-smas-fail-repl.html 
+keywords: Oracle, SnapMirror active sync, SMBC, failover 
+summary: Oracle 與 SnapMirror 主動同步容錯移轉 
+---
+= SnapMirror 主動式同步 - 連線中斷總數
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果站台之間的複寫連結完全遺失、則 SnapMirror 主動式同步和 Oracle RAC 連線都會中斷。
+
+Oracle RAC SPLIT 偵測功能與 Oracle RAC 儲存設備活動訊號有關。如果站台對站台連線中斷導致 RAC 網路心跳和儲存複寫服務同時中斷、結果是 RAC 站台無法透過 RAC 互連或 RAC 投票磁碟進行跨站台通訊。在預設設定下、這兩個站台可能會被移除、因此產生一組偶數的節點。具體行為將取決於事件順序、 RAC 網路和磁碟心跳輪詢的時間。
+
+雙站台中斷的風險可透過兩種方式解決。首先、link:oracle-dr-smas-arch-tiebreaker.html["斷路器"]可以使用組態。
+
+如果第三站台無法使用、則可調整 RAC 叢集上的「錯誤數」參數來解決此風險。根據預設值、 RAC 網路心跳逾時為 30 秒。這通常是 RAC 用來識別故障的 RAC 節點、並將其從叢集中移除。它也與投票磁碟活動訊號有連線。
+
+例如、如果反鏟切斷了傳輸 Oracle RAC 和儲存複寫服務站台間流量的處理通道、則 30 秒錯過計數倒數將會開始。如果 RAC 偏好的站台節點無法在 30 秒內重新與另一個站台建立連絡、而且也無法使用投票磁碟來確認對方站台在相同的 30 秒內停機、則偏好的站台節點也會被移除。結果是資料庫完全中斷。
+
+視發生錯誤數輪詢的時間而定、 30 秒可能不足以讓 SnapMirror 作用中同步逾時、並允許首選站台上的儲存設備在 30 秒的時間過期之前恢復服務。這 30 秒的時間範圍可以增加。
+
+....
+[root@jfs12 ~]# /grid/bin/crsctl set css misscount 100
+CRS-4684: Successful set of parameter misscount to 100 for Cluster Synchronization Services.
+....
+此值可讓偏好的站台上的儲存系統在錯誤計數逾時過期之前恢復作業。然後、只會將 LUN 路徑移除站台上的節點移除。範例如下：
+
+....
+2024-09-12 09:50:59.352 [ONMD(681360)]CRS-1612: Network communication with node jfs13 (2) has been missing for 50% of the timeout interval.  If this persists, removal of this node from cluster will occur in 49.570 seconds
+2024-09-12 09:51:10.082 [CRSD(682669)]CRS-7503: The Oracle Grid Infrastructure process 'crsd' observed communication issues between node 'jfs12' and node 'jfs13', interface list of local node 'jfs12' is '192.168.30.1:46039;', interface list of remote node 'jfs13' is '192.168.30.2:42037;'.
+2024-09-12 09:51:24.356 [ONMD(681360)]CRS-1611: Network communication with node jfs13 (2) has been missing for 75% of the timeout interval.  If this persists, removal of this node from cluster will occur in 24.560 seconds
+2024-09-12 09:51:39.359 [ONMD(681360)]CRS-1610: Network communication with node jfs13 (2) has been missing for 90% of the timeout interval.  If this persists, removal of this node from cluster will occur in 9.560 seconds
+2024-09-12 09:51:47.527 [OHASD(680884)]CRS-8011: reboot advisory message from host: jfs13, component: cssagent, with time stamp: L-2024-09-12-09:51:47.451
+2024-09-12 09:51:47.527 [OHASD(680884)]CRS-8013: reboot advisory message text: oracssdagent is about to reboot this node due to unknown reason as it did not receive local heartbeats for 10470 ms amount of time
+2024-09-12 09:51:48.925 [ONMD(681360)]CRS-1632: Node jfs13 is being removed from the cluster in cluster incarnation 621596607
+....
+Oracle Support 強烈建議您不要變更錯誤數或磁碟逾時參數、以解決組態問題。不過、在許多情況下、變更這些參數可能是必要且不可避免的、包括 SAN 開機、虛擬化及儲存複寫組態。例如、如果 SAN 或 IP 網路發生穩定性問題、導致 RAC 遷離、您應該修正基礎問題、而不要收取錯誤數或磁碟逾時的值。為了解決組態錯誤而變更逾時是掩蓋問題、而非解決問題。根據基礎架構的設計層面、變更這些參數以正確設定 RAC 環境、是不同的、且與 Oracle 支援聲明一致。使用 SAN 開機時、通常會調整到最大 200 的 miskcount 、以符合磁碟逾時。如需其他資訊、請參閱link:oracle-app-config-rac.html["此連結"]。

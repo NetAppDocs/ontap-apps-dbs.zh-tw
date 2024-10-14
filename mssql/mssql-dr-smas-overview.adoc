@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: mssql/mssql-dr-smas-overview.html 
+keywords: MSSQL,SQL Server, SnapMirror active sync, SMBC, overview 
+summary: Microsoft SQL Server 和 SnapMirror 主動式同步 
+---
+= SQL Server 和 SnapMirror 主動式同步
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapMirror 主動式同步功能可讓個別 SQL Server 資料庫和應用程式在儲存設備和網路中斷期間繼續作業、並可透過透明的儲存容錯移轉、無需任何手動介入。
+
+從 ONTAP 9 。 15.1 開始、 SnapMirror 主動式同步除了支援現有的非對稱組態之外、還支援對稱式主動 / 主動式架構。對稱式主動 / 主動式功能可提供同步雙向複寫、以利業務持續運作和災難恢復。它可協助您保護關鍵 SAN 工作負載的資料存取、同時跨多個故障網域同時讀寫資料、確保不中斷營運、並將災難或系統故障期間的停機時間降至最低。
+
+SQL Server 主機使用光纖通道（ FC ）或 iSCSI LUN 存取儲存設備。在每個託管複寫資料複本的叢集之間進行複寫。由於此功能是儲存層級複寫、因此在獨立主機或容錯移轉叢集執行個體上執行的 SQL Server 執行個體可以執行任何叢集的讀取 / 寫入作業。有關規劃和組態步驟、請參閱link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/["SnapMirror Active Sync 的 ONTAP 文件"]。
+
+
+
+== 具有對稱主動 / 主動式的 SnapMirror 主動式架構
+
+image:mssql-smas-architecture.png["錯誤：缺少圖形影像"]
+
+** 同步複寫 **
+
+在正常作業中、每個複本都是 RPO=0 同步複本、但有一個例外。如果資料無法複寫、 ONTAP 將釋出複寫資料的需求、並在另一個站台上的 LUN 離線時、繼續在一個站台上提供 IO 服務。
+
+** 儲存硬體 **
+
+與其他儲存災難恢復解決方案不同、 SnapMirror 主動式同步提供非對稱式平台靈活度。每個站台的硬體不一定相同。此功能可讓您調整支援 SnapMirror 主動同步所用硬體的大小。如果遠端儲存系統需要支援完整的正式作業工作負載、則它可以與主要站台相同、但如果災難導致 I/O 減少、遠端站台上較小的系統可能會更具成本效益。
+
+** ONTAP 調解器 **
+
+ONTAP Mediator 是從 NetApp 支援下載的軟體應用程式、通常部署在小型虛擬機器上。ONTAP Mediator 不是一種斷路器。它是參與 SnapMirror 主動同步複寫之兩個叢集的替代通訊通道。自動化作業由 ONTAP 根據合作夥伴透過直接連線和協調員所收到的回應來驅動。

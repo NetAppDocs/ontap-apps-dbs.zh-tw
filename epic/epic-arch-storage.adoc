@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-arch-storage.html 
+keywords: epic,cache,iris 
+summary: EPIC 儲存需求 
+---
+= EPIC 儲存需求
+:allow-uri-read: 
+
+
+[role="lead"]
+專屬的儲存資源通常會提供給正式作業資料庫、而鏡射資料庫執行個體則會與其他 Epic 軟體相關元件（例如 Clarity 報告工具）共用次要儲存資源。
+
+其他軟體儲存環境（例如用於應用程式和系統檔案的環境）也由次要儲存資源提供。
+
+除了規模調整考量之外、 Epic 還有下列額外的儲存配置規則和重要考量：
+
+* 自 2020 年起、所有營運資料庫（ odb ）工作負載都必須位於 All Flash Array 上。
+* EPIC 建議每個儲存池位於不同的實體硬體上、包括 Pool1 、 Pool2 、 Pool3 、 NAS1 和 NAS2 。
+
+
+
+NOTE: 叢集中的節點可視為儲存資源池。使用 ONTAP 9 的 4 或更新版本和 AQO 、您可以使用原則建立受保護的集區。
+
+* 全新 Epic 3-2-1 備份建議。
++
+.. 位於遠端站台的複本（災難恢復）
+.. 其中一個複本必須位於與主要複本不同的儲存平台上
+.. 資料複本
+
+
+
+
+
+NOTE: 使用 NetApp SnapMirror 備份 NetApp 的客戶不符合 3-2-1 建議。原因是 ONTAP to ONTAP 不符合上述第二項要求。您可以直接從 ONTAP 使用 SnapMirror 來在內部部署（例如透過 StorageGRID ）或雲端上物件儲存、以滿足 Epic 的需求。
+
+如需更多關於儲存設備要求的資訊、請參閱下列適用於 Galaxy 的 Epic 指南：
+
+* SAN考量
+* 儲存產品與技術狀態（ Spats ）
+* 硬體組態指南
+

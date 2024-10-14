@@ -13,10 +13,10 @@ summary: Oracle Extended RAC with MetroCluster
 
 雖然兩個站台上都有資料複本、但只有目前擁有 Aggregate 的控制器才能提供資料。因此、使用擴充的 RAC 叢集時、遠端節點必須透過站台對站台連線來執行 I/O 。結果會增加 I/O 延遲、但這種延遲通常不是問題。RAC 互連網路也必須延伸至站台、這表示無論如何都需要高速、低延遲的網路。如果增加的延遲確實造成問題、則叢集可以主動被動方式運作。接著、需要將 I/O 密集作業導向至擁有該集合體的控制器本機的 RAC 節點。然後、遠端節點會執行較輕的 I/O 作業、或純粹作為暖待機伺服器使用。
 
-如果需要雙主動式擴充 RAC 、則應考慮使用 ASM 鏡像來取代 MetroCluster 。ASM 鏡像可讓您偏好資料的特定複本。因此、可以內建擴充 RAC 叢集、讓所有讀取作業都在本機進行。讀取 I/O 永遠不會跨越網站、因此可提供最低的延遲。所有寫入活動仍必須傳輸站台間連線、但任何同步鏡射解決方案都無法避免此類流量。
+如果需要雙主動式擴充 RAC 、則應考慮使用 SnapMirror 主動式同步來取代 MetroCluster 。SM-AS 複寫可讓您偏好資料的特定複本。因此、可以內建擴充 RAC 叢集、讓所有讀取作業都在本機進行。讀取 I/O 永遠不會跨越網站、因此可提供最低的延遲。所有寫入活動仍必須傳輸站台間連線、但任何同步鏡射解決方案都無法避免此類流量。
 
 
-NOTE: 如果開機 LUN （包括虛擬化開機磁碟）與 Oracle RAC 搭配使用、請使用 `misscount` 可能需要變更參數。如需 RAC 逾時參數的詳細資訊、請參閱 link:../oracle-configuration/rac.html["Oracle RAC 搭配 ONTAP"]。
+NOTE: 如果開機 LUN （包括虛擬化開機磁碟）與 Oracle RAC 搭配使用、則 `misscount`可能需要變更參數。如需 RAC 逾時參數的詳細資訊link:oracle-app-config-rac.html["Oracle RAC 搭配 ONTAP"]、請參閱。
 
 
 

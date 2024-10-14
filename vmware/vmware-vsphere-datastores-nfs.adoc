@@ -14,7 +14,7 @@ summary: 本頁說明使用 ONTAP 和 NFS 連線的資料存放區實作 VMware 
 
 
 [role="lead"]
-NetApp ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能。ONTAP 讓 VMware vSphere 能夠從許多 ESXi 主機同時存取 NFS 連線的資料存放區、遠超出對 VMFS 檔案系統的限制。如中所述、將 NFS 搭配 vSphere 使用可提供一些易用性和儲存效率可見度效益 link:vmware-vsphere-datastores-top.html["資料存放區"] 區段。
+ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能。ONTAP 讓 VMware vSphere 能夠從許多 ESXi 主機同時存取 NFS 連線的資料存放區、遠超出對 VMFS 檔案系統的限制。如一節所述、將 NFS 與 vSphere 搭配使用可提供一些易用性和儲存效率可見度優勢link:vmware-vsphere-datastores-top.html["資料存放區"]。
 
 搭配ONTAP vSphere使用VMware NFS時、建議採用下列最佳實務做法：
 

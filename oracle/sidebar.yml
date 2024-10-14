@@ -158,16 +158,48 @@ entries:
       url: "/oracle/oracle-dr-mcc-rac.html"
   - title: SnapMirror 主動同步
     entries:
-    - title: 架構
-      url: "/oracle/oracle-dr-smbc-architecture.html"
-    - title: 容錯移轉
-      url: "/oracle/oracle-dr-smbc-failover.html"
-    - title: Oracle SI 搭配 SnapMirror 主動式同步
-      url: "/oracle/oracle-dr-smbc-si.html"
-    - title: Oracle RAC 搭配 SnapMirror 主動式同步
-      url: "/oracle/oracle-dr-smbc-rac.html"
+    - title: 總覽
+      url: "/oracle/oracle-dr-smas-overview.html"
+    - title: 資訊媒體ONTAP
+      url: "/oracle/oracle-dr-smas-mediator.html"
+    - title: 偏好的網站
+      url: "/oracle/oracle-dr-smas-preferred-site.html"
+    - title: 網路拓撲
+      entries:
+      - title: 統一存取
+        url: "/oracle/oracle-dr-smas-uniform.html"
+      - title: 不一致的存取
+        url: "/oracle/oracle-dr-smas-nonuniform.html"
+    - title: Oracle 組態
+      entries:
+      - title: 總覽
+        url: "/oracle/oracle-dr-smas-arch-overview.html"
+      - title: Oracle 單一執行個體
+        url: "/oracle/oracle-dr-smas-arch-si.html"
+      - title: Oracle RAC
+        url: "/oracle/oracle-dr-smas-arch-rac.html"
+      - title: Oracle RAC 和 tiebreaker
+        url: "/oracle/oracle-dr-smas-arch-tiebreaker.html"
     - title: 故障案例
-      url: "/oracle/oracle-dr-smbc-failure-scenarios.html"
+      entries:
+      - title: 總覽
+        url: "/oracle/oracle-dr-smas-fail-overview.html"
+      - title: 範例架構
+        url: "/oracle/oracle-dr-smas-fail-sample.html"
+      - title: RAC 互連故障
+        url: "/oracle/oracle-dr-smas-fail-interconnect.html"
+      - title: SnapMirror 通訊失敗
+        url: "/oracle/oracle-dr-smas-fail-snapmirror.html"
+      - title: 網路互連總故障
+        url: "/oracle/oracle-dr-smas-fail-repl.html"
+      - title: 站台故障
+        url: "/oracle/oracle-dr-smas-fail-site.html"
+      - title: 中介故障
+        url: "/oracle/oracle-dr-smas-fail-mediator.html"
+      - title: 故障後的服務還原
+        url: "/oracle/oracle-dr-smas-fail-restore.html"
+      - title: 手動容錯移轉
+        url: "/oracle/oracle-dr-smas-fail-manual.html"
 - title: Oracle 資料庫移轉
   entries:
   - title: 總覽

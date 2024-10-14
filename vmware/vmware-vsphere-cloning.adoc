@@ -24,7 +24,7 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 
 image:vsphere_ontap_image5.png["ONTAP 複製"]
 
-複製可ONTAP 透過多種機制卸載至執行支援軟體的系統、通常是VM、vVol或資料存放區層級。其中包括：
+可透過多種機制將複製卸載至執行 ONTAP 的系統、通常是在 VM 、 vVol 或資料存放區層級。其中包括：
 
 * VVols使用NetApp vSphere API for Storage Aware（VASA）Provider。  ONTAP 複本可用於支援 vCenter 管理的 vVol 快照、這些快照的空間效率極低、而且 I/O 效果極低、可用來建立和刪除這些快照。  也可以使用vCenter複製VM、這些VM也會卸載到ONTAP VMware、無論是在單一資料存放區/ Volume內、或是在資料存放區/磁碟區之間。
 * 使用vSphere API進行vSphere複製與移轉–陣列整合（VAAI）。VM複製作業可在ONTAP SAN和NAS環境中卸載至VMware（NetApp提供ESXi外掛程式來啟用VAAI for NFS）。  vSphere僅卸載NAS資料存放區中的冷（關機）VM作業、而熱VM（複製與儲存vMotion）上的作業也會卸載用於SAN。根據來源、目的地及安裝的產品授權、使用最有效率的方法。ONTAPVMware Horizon View也會使用此功能。

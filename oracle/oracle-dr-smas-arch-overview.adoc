@@ -1,0 +1,18 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-smas-arch-overview.html 
+keywords: oracle, active sync, mcc, MCC-IP 
+summary: Oracle 單一執行個體、含 SnapMirror 作用中同步 
+---
+= Oracle 與 SnapMirror 主動式同步
+:allow-uri-read: 
+
+
+[role="lead"]
+使用 SnapMirror 主動式同步不一定會新增或變更任何操作資料庫的最佳實務做法。
+
+最佳架構取決於業務需求。例如、如果目標是在資料遺失的情況下提供 RPO =0 保護、但 RTO 是放寬的、則使用 Oracle 單一執行個體資料庫並以 SM 方式複寫 LUN 、可能就足以滿足 Oracle 授權標準的要求、而且成本也較低。遠端站台的故障不會中斷作業、而主站台的遺失會導致仍在運作中的站台產生 LUN 、而這些 LUN 已在線上且可供使用。
+
+如果 RTO 更嚴格、則透過指令碼或叢集軟體（例如 Pacemaker 或 Ansible ）進行基本主動被動式自動化、可縮短容錯移轉時間。例如、可將 VMware HA 設定為偵測主要站台上的 VM 故障、並在遠端站台上啟用 VM 。
+
+最後、為了實現極快速的容錯移轉、 Oracle RAC 可部署在各個站台上。RTO 基本上為零、因為資料庫會隨時在線上、且可在兩個站台上使用。

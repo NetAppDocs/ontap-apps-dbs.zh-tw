@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-smas-fail-interconnect.html 
+keywords: Oracle, SnapMirror active sync, SMBC, failover 
+summary: Oracle 與 SnapMirror 主動同步容錯移轉 
+---
+= SnapMirror 主動式同步： Oracle RAC 複寫遺失
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+喪失 Oracle RAC 複寫連結會產生類似於 SnapMirror 連線中斷的結果、但預設會縮短逾時時間。在預設設定下、 Oracle RAC 節點會在遺失儲存連線後等待 200 秒後才會消失、但在 RAC 網路心跳中斷後、只會等待 30 秒。
+
+CRS 訊息類似於下列訊息。您可以看到 30 秒的逾時時間。由於 CSS_critical 設定在站台 A 上的 jfs12 上、這將是要生存的站台、而站台 B 上的 jfs13 將被逐出。
+
+....
+2024-09-12 10:56:44.047 [ONMD(3528)]CRS-1611: Network communication with node jfs13 (2) has been missing for 75% of the timeout interval.  If this persists, removal of this node from cluster will occur in 6.980 seconds
+2024-09-12 10:56:48.048 [ONMD(3528)]CRS-1610: Network communication with node jfs13 (2) has been missing for 90% of the timeout interval.  If this persists, removal of this node from cluster will occur in 2.980 seconds
+2024-09-12 10:56:51.031 [ONMD(3528)]CRS-1607: Node jfs13 is being evicted in cluster incarnation 621599354; details at (:CSSNM00007:) in /gridbase/diag/crs/jfs12/crs/trace/onmd.trc.
+2024-09-12 10:56:52.390 [CRSD(6668)]CRS-7503: The Oracle Grid Infrastructure process 'crsd' observed communication issues between node 'jfs12' and node 'jfs13', interface list of local node 'jfs12' is '192.168.30.1:33194;', interface list of remote node 'jfs13' is '192.168.30.2:33621;'.
+2024-09-12 10:56:55.683 [ONMD(3528)]CRS-1601: CSSD Reconfiguration complete. Active nodes are jfs12 .
+2024-09-12 10:56:55.722 [CRSD(6668)]CRS-5504: Node down event reported for node 'jfs13'.
+2024-09-12 10:56:57.222 [CRSD(6668)]CRS-2773: Server 'jfs13' has been removed from pool 'Generic'.
+2024-09-12 10:56:57.224 [CRSD(6668)]CRS-2773: Server 'jfs13' has been removed from pool 'ora.NTAP'.
+....

@@ -29,7 +29,7 @@ NOTE: 本文件取代先前發佈的技術報告 _TR-4900: VMware Site Recovery 
 
 == 為何ONTAP 要搭配SRM使用此功能？
 
-NetApp資料管理平台採用ONTAP VMware軟體、是SRM最廣泛採用的儲存解決方案之一。理由十分豐富：安全、高效能、統一化的傳輸協定（ NAS 與 SAN 一起）資料管理平台、提供業界定義的儲存效率、多租戶、服務控制品質、節省空間的快照資料保護、以及使用 SnapMirror 進行複寫。所有這些工具都能運用原生混合式多雲端整合技術來保護VMware工作負載、並在彈指之間提供大量的自動化與協調工具。
+採用 ONTAP 技術的 NetApp 資料管理平台是 SRM 最廣泛採用的儲存解決方案之一。理由十分豐富：安全、高效能、統一化的傳輸協定（ NAS 與 SAN 一起）資料管理平台、提供業界定義的儲存效率、多租戶、服務控制品質、節省空間的快照資料保護、以及使用 SnapMirror 進行複寫。所有這些工具都能運用原生混合式多雲端整合技術來保護VMware工作負載、並在彈指之間提供大量的自動化與協調工具。
 
 當您使用 SnapMirror 進行陣列型複寫時、您將會充分利用 ONTAP 最成熟的技術之一。SnapMirror可讓您享有安全且高效率的資料傳輸優勢、只複製變更的檔案系統區塊、而非複製整個VM或資料存放區。即使是這些區塊、也能善用空間節約效益、例如重複資料刪除、壓縮及壓縮等。現代化ONTAP 的支援系統現在使用獨立於版本的SnapMirror、讓您能夠靈活選擇來源和目的地叢集。SnapMirror已真正成為最強大的災難恢復工具之一。
 
@@ -41,7 +41,7 @@ NetApp資料管理平台採用ONTAP VMware軟體、是SRM最廣泛採用的儲�
 
 SRM利用ONTAP VMware ONTAP vSphere的進階資料管理技術與VMware vSphere的VMware vSphere工具整合、此虛擬應用裝置包含三個主要元件：
 
-* vCenter外掛程式先前稱為虛擬儲存主控台（VSC）、可簡化儲存管理與效率功能、增強可用度、並降低儲存成本與營運成本、無論您使用SAN或NAS。它採用最佳實務做法來配置資料存放區、並針對NFS和區塊儲存環境最佳化ESXi主機設定。為獲得所有這些好處、NetApp建議您在使用vSphere搭配執行ONTAP VMware軟體的系統時、使用此外掛程式。
+* vCenter外掛程式先前稱為虛擬儲存主控台（VSC）、可簡化儲存管理與效率功能、增強可用度、並降低儲存成本與營運成本、無論您使用SAN或NAS。它採用最佳實務做法來配置資料存放區、並針對NFS和區塊儲存環境最佳化ESXi主機設定。為了獲得所有這些優點、 NetApp 建議在搭配執行 ONTAP 的系統使用 vSphere 時使用此外掛程式。
 * VASA Provider for ONTAP VMware vStorage API for Storage感知（VASA）架構。VASA Provider將vCenter Server與ONTAP VMware連線、以協助資源配置及監控VM儲存設備。它可支援VMware虛擬磁碟區（vVols）、並管理儲存功能設定檔（包括vVols複寫功能）和個別VM vVols效能。它也提供監控容量和設定檔法規遵循的警示。搭配SRM使用時、VASA Provider ONTAP for VMware可支援vVols型虛擬機器、而不需要在SRM伺服器上安裝SRA介面卡。
 * SRA與SRM搭配使用、可管理傳統VMFS與NFS資料存放區的正式作業與災難恢復站台之間的VM資料複寫、也可用於災難恢復複本的不中斷測試。它有助於自動化探索、還原及重新保護等工作。其中包括適用於Windows SRM伺服器和SRM應用裝置的SRA伺服器應用裝置和SRA介面卡。
 

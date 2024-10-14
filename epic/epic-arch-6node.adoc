@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-arch-6node.html 
+keywords: epic,cache,iris 
+summary: EPIC 六節點架構 
+---
+= EPIC 六節點架構
+:allow-uri-read: 
+
+
+[role="lead"]
+客戶可能想從六節點設計開始、或是在需求不斷增加的情況下、從四個節點無縫橫向擴充至六個節點。透過橫向擴充、您可以不中斷地在節點之間移動工作負載、並在叢集之間重新平衡。
+
+此架構可在叢集上提供最佳效能與容量平衡。Epic Production 、 Epic Report 及 Epic Test 均在第一對 HA 上執行。第二個 HA 配對用於 Clarity 、 Hyperspace 、 VMware 、 NAS1 及其餘 Epic 工作負載。災難恢復與上一節中的四節點架構相同。
+
+
+
+== 六節點架構
+
+image:epic-6node.png["EPIC 6 節點架構"]
+
+
+
+== 六節點工作負載配置
+
+image:epic-6node-design.png["EPIC 6 節點配置"]

@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: mssql/mssql-dr-smas-sql.html 
+keywords: MSSQL,SQL Server, SnapMirror active sync, ONTAP, SMBC, SMas, SnapMirror Business Continuity 
+summary: Microsoft SQL Server 和 SnapMirror 主動式同步 
+---
+= Microsoft SQL Server 搭配 SnapMirror 主動式同步
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+SQL Server 可設定為以多種方式搭配 SnapMirror 使用。正確的答案取決於可用的網路連線能力、 RPO 需求和可用度需求。
+
+
+
+== SQL Server 獨立執行個體
+
+檔案配置和伺服器組態的最佳實務做法與文件中建議的做法相同link:mssql-storage-considerations.html["ONTAP 上的 SQL Server"]。
+
+有了獨立安裝程式、 SQL Server 只能在一個站台上執行。可能link:mssql-dr-smas-uniform.html["統一"]會使用存取權。
+
+image:smas-onehost.png["具有統一存取的單一主機"]
+
+在統一存取的情況下、任一站台的儲存設備故障都不會中斷資料庫作業。包含資料庫伺服器的站台發生完整的站台故障、當然會導致停機。
+
+有些客戶可以使用預先設定的 SQL Server 安裝程式來設定在遠端站台上執行的作業系統、並以與正式作業執行個體相同的建置版本進行更新。容錯移轉需要在替代站台上啟動該 SQL Server 獨立執行個體、探索 LUN 、以及啟動資料庫。完整程序可透過 Windows PowerShell Cmdlet 自動化、因為儲存端不需要任何作業。
+
+link:mssql-dr-smas-nonuniform.html["不一致"]也可以使用存取、但如果資料庫伺服器所在的儲存系統故障、則會導致資料庫中斷、因為資料庫沒有可用的儲存路徑。在某些情況下、這點仍可接受。SnapMirror 主動式同步仍會提供 RPO = 0 資料保護、萬一站台發生故障、仍在運作中的複本就會開始運作、並可使用與上述統一存取相同的程序來恢復作業。
+
+使用虛擬化主機可更輕鬆地設定簡單且自動化的容錯移轉程序。例如、如果 SQL Server 資料檔案與開機 VMDK 同步複寫至次要儲存設備、則在發生災難時、可在其他站台啟動完整的環境。系統管理員可以手動啟動仍在運作的站台上的主機、或是透過 VMware HA 等服務來自動化程序。
+
+
+
+== SQL Server 容錯移轉叢集執行個體
+
+SQL Server 容錯移轉執行個體也可以裝載在實體伺服器或虛擬伺服器上執行的 Windows 容錯移轉叢集上、做為客體作業系統。這種多主機架構可提供 SQL Server 執行個體和儲存恢復能力。這類部署在尋求健全容錯移轉程序、同時維持強化效能的高需求環境中非常有用。在容錯移轉叢集設定中、當主機或主要儲存設備受到影響時、 SQL Services 會容錯移轉至次要主機、同時次要儲存設備也可用於 IO 。無需自動化指令碼或系統管理員介入。

@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-config-performance.html 
+keywords: epic,cache,iris,QoS 
+summary: EPIC 效能管理 
+---
+= EPIC 效能管理
+:allow-uri-read: 
+
+
+[role="lead"]
+大多數的 All Flash 陣列都能提供 Epic 工作負載所需的效能。NetApp 與眾不同之處在於能夠設定樓層等級的效能原則、並確保每個應用程式的效能一致。
+
+
+
+== 服務品質（QoS）
+
+NetApp 建議使用 QoS 。QoS 的優點是能夠整合所有 Epic 工作負載。所有的傳輸協定和儲存資源池都可以位於較少的硬體上。您不需要將儲存資源池分開。
+
+* NetApp 建議將叢集中的所有工作負載指派給 QoS 原則、以更有效地管理叢集上的保留空間。
+* NetApp 建議在 HA 配對之間平均平衡所有工作負載。
+* 執行任何 I/O 測試時、請勿使用 QoS 原則、否則 Genio 測試將會失敗。在指派任何 QoS 原則之前、請先分析不同的正式作業工作負載 2-4 週。
+

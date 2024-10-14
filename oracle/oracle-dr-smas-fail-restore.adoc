@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-smas-fail-restore.html 
+keywords: Oracle, SnapMirror active sync, SMBC, failover 
+summary: Oracle 與 SnapMirror 主動式同步：服務還原 
+---
+= Oracle 與 SnapMirror 主動式同步：服務還原
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapMirror 可以自我修復。SnapMirror 主動式同步會自動偵測是否存在錯誤的複寫關係、並將其恢復至 RPO = 0 狀態。重新建立同步複寫後、路徑將再次上線。
+
+在許多情況下、叢集式應用程式會自動偵測失敗路徑的傳回、這些應用程式也會重新上線。在其他情況下、可能需要主機層級的 SAN 掃描、或是需要手動將應用程式恢復上線。
+
+這取決於應用程式及其設定方式、一般而言、這類工作可以輕鬆自動化。SnapMirror 主動式同步本身是自行修正的、在電源和連線恢復後、不應需要任何使用者介入、即可恢復 RPO = 0 儲存作業。

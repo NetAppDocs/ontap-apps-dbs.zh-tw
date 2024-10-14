@@ -42,4 +42,4 @@ Oracle Direct NFS 的主要值是略過主機 NFS 用戶端、並直接在 NFS �
 只有在使用（ a ） DNFS 時才變更掛載選項、且（ b ）檔案可見度延遲所造成的問題。如果未使用 DNFS 、在單一執行個體資料庫上使用 Oracle RAC 掛載選項會導致效能降低。
 
 
-NOTE: 請參閱附註 `nosharecache` 在中 link:../host-configuration/linux.html#linux-direct-nfs["Linux NFS 裝載選項"] 針對可能產生異常結果的 Linux 特定 DNFS 問題。
+NOTE: 如需可產生異常結果的 Linux 特定 DNFS 問題、請參閱中的link:oracle-host-config-linux.html#linux-direct-nfs["Linux NFS 裝載選項"]說明 `nosharecache`。

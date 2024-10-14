@@ -18,8 +18,6 @@ summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP FlexGroup Volume �
 
 ONTAP 9.8 搭配適用於 VMware vSphere 9.8 的 ONTAP 工具、以及適用於 VMware 4.4 版本的 SnapCenter 外掛程式、新增了對 vSphere 中 FlexGroup Volume 備份資料存放區的支援。FlexGroup Volume 可簡化大型資料存放區的建立、並在 ONTAP 叢集上自動建立必要的分散式組成磁碟區、讓 ONTAP 系統發揮最大效能。
 
-如需 FlexGroup Volume 的詳細資訊、請參閱 link:../nas-containers.html["FlexCache 與 FlexGroup Volume 技術報告"]。
-
 如果您需要具備完整 ONTAP 叢集功能的單一可擴充 vSphere 資料存放區、或是擁有可從全新 FlexGroup 複製機制獲益的大型複製工作負載、請將 FlexGroup Volume 搭配 vSphere 一起使用。
 
 

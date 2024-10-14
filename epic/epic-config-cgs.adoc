@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-config-cgs.html 
+keywords: epic,cache,iris 
+summary: EPIC 儲存快照組態 
+---
+= EPIC 儲存效率組態
+:allow-uri-read: 
+
+
+[role="lead"]
+儲存設備分散於多個磁碟區、且擁有一個或多個適當數量的 LUN 以滿足工作負載需求的應用程式、需要將內容一起備份、以確保資料保護一致。
+
+一致性群組（簡稱 CGS ）提供這項功能及更多功能。您可以在夜間使用這些快照、使用原則來建立隨需或排程一致的快照。您可以使用此選項來還原、複製甚至複寫資料。
+
+如需 CGS 的其他資訊、請參閱link:https://docs.netapp.com/us-en/ontap/consistency-groups/["一致性群組總覽"^]
+
+一旦按照本文前幾節的詳細說明配置了這些卷和 LUN ，就可以將它們配置成一組 CGS 。建議的最佳實務做法是如下圖所示設定：
+
+image:epic-cg-layout.png["EPIC 一致性群組配置"]
+
+
+
+== 一致性群組快照
+
+每晚的 CG 快照排程應設定在每個與提供正式作業資料庫儲存設備之磁碟區相關的子 CGS 上。這將使這些 CGS 每天晚上都有一組全新的一致備份。然後、這些資料可用於複製正式作業資料庫、以用於開發和測試等非正式作業環境。NetApp 針對 Epic 開發專屬的 CG 型自動化 Ansible 工作流程、以自動化生產資料庫的備份、更新及測試環境。
+
+CG 快照可用於支援 Epic 正式作業資料庫的還原作業。
+
+對於 SAN 磁碟區、請停用用於 CGS 的每個磁碟區上的預設快照原則。這些快照通常由使用中的備份應用程式或 NetApp 的 Epic Ansible 自動化服務來管理。
+
+對於 SAN 磁碟區、請停用每個磁碟區上的預設快照原則。這些快照通常由備份應用程式或 Epic Ansible 自動化管理。 [NS2]
+
+WebBLOB 和 VMware 資料集應設定為僅限 Volume 、而非與 CGS 相關聯。您可以使用 SnapMirror 在不同於正式作業的儲存系統上維護快照。
+
+完成後、組態將如下所示：
+
+image:epic-cg-snapshots.png["Epic with CG 快照"]

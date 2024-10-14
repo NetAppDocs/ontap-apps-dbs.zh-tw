@@ -10,7 +10,7 @@ summary: 瞭解如何使用 Windows Server 容錯移轉叢集來部署及設定 
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]

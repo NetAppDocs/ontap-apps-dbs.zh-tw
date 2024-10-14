@@ -1,0 +1,20 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-smas-fail-sample.html 
+keywords: Oracle, SnapMirror active sync, SMBC, failover 
+summary: Oracle 與 SnapMirror 主動同步容錯移轉 
+---
+= Oracle 搭配 SnapMirror 主動式同步範例架構
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節所示的詳細故障範例是根據下列架構而定。
+
+
+NOTE: 這只是 SnapMirror Active Sync 上 Oracle 資料庫的眾多選項之一。選擇此設計是因為它說明了一些較複雜的案例。
+
+在此設計中，假設站台 A 是在設定的link:oracle-dr-smas-preferred-site.html["偏好的網站"]。
+
+image:smas-fail-example.png["SM 上的 Oracle 設計範例"]

@@ -1,0 +1,20 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-ontap-availability.html 
+keywords: epic,cache,iris 
+summary: ONTAP 可用度的 EPIC 
+---
+= ONTAP 可用度的 EPIC
+:allow-uri-read: 
+
+
+[role="lead"]
+ONTAP 的核心是不中斷營運的營運、可避免業務營運中斷所造成的成本高昂。
+
+NetApp 根據正式作業資料提供超過 99.99999999% 的可用度、這是透過 NetApp Active IQ 稱為家中的資料。叢集中的每個 HA 配對都沒有單點故障。ONTAP 可追溯至 1992 年、是全球部署最廣泛的資料管理軟體、擁有提供可靠儲存設備的卓越歷史。現在、有了 Active IQ 主動監控並自動解決 97% 的問題、可用度就會更高、支援案例也會大幅減少。
+
+EPIC建議使用HA儲存系統來減輕硬體元件故障。本建議從基本硬體（例如備援電源供應器）延伸至網路（例如多重路徑網路）。
+
+當您需要升級儲存設備、向上擴充、橫向擴充或重新平衡叢集上的工作負載時、病患照護將不會有任何影響。您可能會移動資料、但絕不會再因資料移轉或堆高機升級而中斷病患照護。改用新一代技術、防範未來、避免硬體束縛。 NetApp 甚至提供 100% 的書面可用度保證。
+
+如需 NetApp 可靠性、可用度、可維修性和安全功能的詳細資訊、請參閱link:https://www.netapp.com/media/67355-wp-7354.pdf["NetApp ONTAP 可靠性、可用度、可維修性和安全性"^]白皮書。

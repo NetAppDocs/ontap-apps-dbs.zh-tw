@@ -38,7 +38,8 @@ NetApp MetroCluster 的設定指示（稱為 MCC 組態）可在以下網址取�
 
 建立 vSphere HA 叢集是一個多步驟程序、完整記錄於 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-F7818000-26E3-4E2A-93D2-FCDCE7114508.html["如何在 docs.vmware.com 上的 vSphere Client 中建立和設定叢集"]。簡言之、您必須先建立空叢集、然後使用 vCenter 新增主機、並指定叢集的 vSphere HA 和其他設定。
 
-* 附註： * 本文件並無取代之處 https://core.vmware.com/resource/vmware-vsphere-metro-storage-cluster-recommended-practices["VMware vSphere Metro儲存叢集建議實務做法"]
+
+NOTE: 本文檔中的任何內容均未取代 https://core.vmware.com/resource/vmware-vsphere-metro-storage-cluster-recommended-practices["VMware vSphere Metro儲存叢集建議實務做法"]
 
 若要設定 HA 叢集、請完成下列步驟：
 
@@ -155,7 +156,10 @@ image::../media/vmsc_3_7.png[自動產生電腦說明的螢幕擷取畫面,624,5
 * NetApp 強烈建議在組 * 中的主機上運行規範 * ，而不是規範 * 必須在組 * 中的主機上運行。萬一站台 A 主機故障、站台 A 的 VM 需要透過 vSphere HA 在站台 B 的主機上重新啟動、但後者的規格不允許 HA 在站台 B 上重新啟動 VM 、因為這是硬規則。以前的規格是軟性規則、在 HA 發生時會違反、因此可提供可用度而非效能。
 
 
-* 附註： * 您可以建立事件型警示、在虛擬機器違反 VM-Host 關聯性規則時觸發。在 vSphere Client 中、新增虛擬機器的警示、並選取「 VM 正在違反 VM-Host Affinity Rule 」作為事件觸發程序。如需建立及編輯警示的詳細資訊、請參閱 http://pubs.vmware.com/vsphere-51/topic/com.vmware.ICbase/PDF/vsphere-esxi-vcenter-server-51-monitoring-performance-guide.pdf["vSphere 監控與效能"] 文件。
+*[ 附註 ]
+
+* 您可以建立事件型警示、在虛擬機器違反 VM 主機關聯規則時觸發。在 vSphere Client 中、新增虛擬機器的警示、並選取「 VM 正在違反 VM-Host Affinity Rule 」作為事件觸發程序。如需建立及編輯警示的詳細資訊、請參閱 http://pubs.vmware.com/vsphere-51/topic/com.vmware.ICbase/PDF/vsphere-esxi-vcenter-server-51-monitoring-performance-guide.pdf["vSphere 監控與效能"]文件。
+
 
 
 

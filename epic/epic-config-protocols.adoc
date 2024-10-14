@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-config-protocols.html 
+keywords: epic,cache,iris 
+summary: Epic on ONTAP - 傳輸協定 
+---
+= Epic on ONTAP - 傳輸協定
+:allow-uri-read: 
+
+
+[role="lead"]
+FCP 是呈現 LUN 的慣用傳輸協定。
+
+[TIP]
+====
+* NetApp 建議 * 單一啟動器分區：每個區域有一個啟動器、並使用全球連接埠名稱（ WWPN ）在儲存設備上提供所有必要的目標連接埠。在單一區域中存在多個啟動器、可能會導致間歇性 HBA 串擾、進而造成重大中斷。
+
+====
+建立 LUN 之後、將 LUN 對應至包含主機 WWPN 的啟動器群組（ igroup ）、以啟用存取。
+
+NetApp 也支援使用 NVMe / FC （如果您有支援的 AIX 和 RHEL 作業系統版本）、並增強效能。FCP和NVMe / FC可共存於同一個架構上。

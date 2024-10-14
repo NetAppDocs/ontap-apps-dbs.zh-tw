@@ -10,7 +10,7 @@ summary: 瞭解如何部署 Microsoft Windows Nano Server
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]

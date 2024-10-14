@@ -10,7 +10,7 @@ summary: 如何設定 Hyper-V 儲存即時移轉
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]

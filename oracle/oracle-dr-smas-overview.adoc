@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-smas-overview.html 
+keywords: Oracle,SM-as,active sync 
+summary: Oracle 和 SnapMirror 主動同步 
+---
+= Oracle 和 SnapMirror 主動同步
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapMirror 主動式同步可讓您建置超高可用度的 Oracle 資料庫環境、其中 LUN 可從兩個不同的儲存叢集取得。
+
+使用 SnapMirror 主動式同步時、資料不會有「主要」和「次要」複本。每個叢集都可以從其本機資料複本提供讀取 IO 、而且每個叢集都會將寫入複寫到其合作夥伴。結果是對稱 IO 行為。
+
+除了其他選項之外、這可讓您將 Oracle RAC 當作延伸叢集來執行、並在兩個站台上執行作業執行個體。或者、您也可以建置 RPO = 0 主動被動式資料庫叢集、在站台中斷期間、可在站台之間移動單一執行個體資料庫、而此程序可透過 Pacemaker 或 VMware HA 等產品來自動化。所有這些選項的基礎都是由 SnapMirror 主動式同步管理的同步複寫。
+
+
+
+== 同步複寫
+
+在正常作業中、 SnapMirror 主動式同步可隨時提供 RPO = 0 同步複本、但有一個例外。如果資料無法複寫、 ONTAP 將釋出複寫資料的需求、並在另一個站台上的 LUN 離線時、繼續在一個站台上提供 IO 服務。
+
+
+
+== 儲存硬體
+
+與其他儲存災難恢復解決方案不同、 SnapMirror 主動式同步提供非對稱式平台靈活度。每個站台的硬體不一定相同。此功能可讓您調整支援 SnapMirror 主動同步所用硬體的大小。如果遠端儲存系統需要支援完整的正式作業工作負載、則它可以與主要站台相同、但如果災難導致 I/O 減少、遠端站台上較小的系統可能會更具成本效益。
+
+
+
+== 中間器ONTAP
+
+ONTAP Mediator 是從 NetApp 支援下載的軟體應用程式、通常部署在小型虛擬機器上。ONTAP Mediator 與 SnapMirror 主動式同步搭配使用時、並不是一種斷路器。它是參與 SnapMirror 主動同步複寫之兩個叢集的替代通訊通道。自動化作業由 ONTAP 根據合作夥伴透過直接連線和協調員所收到的回應來驅動。

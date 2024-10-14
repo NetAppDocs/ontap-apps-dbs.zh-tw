@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-example-volumes.html 
+keywords: epic,cache,iris 
+summary: EPIC on ONTAP 範例部署 - Volume 
+---
+= EPIC on ONTAP 範例部署 - Volume
+:allow-uri-read: 
+
+
+[role="lead"]
+若要建立 Volume 、請參閱 https://docs.netapp.com/us-en/ontap-cli-9141//volume-create.html[]
+
+
+NOTE: 從 ONTAP 9 7 開始、當您擁有 NVE 授權、以及內建或外部金鑰管理時、預設會啟用 Aggregate 和 Volume 加密。若要啟用磁碟區層級的重複資料刪除功能、請將 ADD -CRY加密 錯誤設為 Volume cree/modify 命令（如果您擁有 NVE 授權）。
+
+
+
+== 自動刪除快照
+
+若要自動刪除快照： https://docs.netapp.com/us-en/ontap-cli-9141//volume-snapshot-autodelete-modify.html[]

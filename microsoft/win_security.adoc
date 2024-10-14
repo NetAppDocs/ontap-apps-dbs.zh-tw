@@ -10,7 +10,7 @@ summary: 使用 Hyper-V 的 ONTAP 儲存安全性
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]

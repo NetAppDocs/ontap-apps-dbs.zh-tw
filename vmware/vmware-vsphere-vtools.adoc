@@ -22,7 +22,7 @@ NetApp提供數種獨立式軟體工具、可搭配ONTAP 使用以管理您的�
 
 == VMware vSphere適用的工具ONTAP
 
-VMware vSphere的VMware vSphere工具是一套搭配vSphere使用VMware vCenter儲存設備的工具。ONTAP ONTAPvCenter外掛程式先前稱為虛擬儲存主控台（VSC）、可簡化儲存管理與效率功能、增強可用度、並降低儲存成本與營運成本、無論您使用SAN或NAS。它採用最佳實務做法來配置資料存放區、並針對NFS和區塊儲存環境最佳化ESXi主機設定。為獲得所有這些效益、NetApp建議您在ONTAP 使用vSphere搭配執行ONTAP VMware軟體的系統時、將這些VMware不完整的工具當作最佳實務做法。其中包括伺服器應用裝置、vCenter的使用者介面擴充、VASA Provider及儲存複寫介面卡。幾乎所有的功能都可以透過簡單的REST API來自動化、而大多數的現代化自動化工具都能耗用這些API ONTAP 。
+VMware vSphere的VMware vSphere工具是一套搭配vSphere使用VMware vCenter儲存設備的工具。ONTAP ONTAPvCenter外掛程式先前稱為虛擬儲存主控台（VSC）、可簡化儲存管理與效率功能、增強可用度、並降低儲存成本與營運成本、無論您使用SAN或NAS。它採用最佳實務做法來配置資料存放區、並針對NFS和區塊儲存環境最佳化ESXi主機設定。針對所有這些優點、 NetApp 建議在搭配執行 ONTAP 的系統使用 vSphere 時、使用這些 ONTAP 工具作為最佳實務做法。其中包括伺服器應用裝置、vCenter的使用者介面擴充、VASA Provider及儲存複寫介面卡。幾乎所有的功能都可以透過簡單的REST API來自動化、而大多數的現代化自動化工具都能耗用這些API ONTAP 。
 
 * * vCenter UI延伸功能* ONTAP 此功能可簡化營運團隊和vCenter管理員的工作。*此功能可在vCenter UI中、直接使用易於使用的內容相關功能表來管理主機和儲存設備、資訊入口小程式和原生警示功能、以利簡化工作流程。
 * *適用於ONTAP VMware的VASA Provider for Sfor Sfor the。*適用於ONTAP VMware的VASA Provider支援VMware vStorage API for Storage Aware（VASA）架構。它是ONTAP VMware vSphere的VMware vSphere配套工具、可做為單一虛擬應用裝置、方便部署。VASA Provider將vCenter Server與ONTAP VMware連線、以協助資源配置及監控VM儲存設備。它可支援VMware虛擬磁碟區（vVols）、管理儲存功能設定檔和個別VM vVols效能、以及監控容量和設定檔法規遵循的警示。

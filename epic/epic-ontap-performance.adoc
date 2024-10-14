@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-ontap-performance.html 
+keywords: epic,cache,iris 
+summary: ONTAP 的卓越效能 
+---
+= ONTAP 的卓越效能
+:allow-uri-read: 
+
+
+[role="lead"]
+ONTAP 於 2009 年推出 Flash 技術、並自 2010 年起支援 SSD 。這項 Flash 儲存設備的長期使用經驗可讓 NetApp 調整 ONTAP 功能、以最佳化 SSD 效能、並增強 Flash 媒體的耐受度、同時保留 ONTAP 的豐富功能。
+
+自 2020 年起、所有 Epic odb 工作負載都必須位於 All Flash 儲存設備上。EPIC 工作負載通常以每 TB 儲存容量約 1 、 000 至 2 、 000 IOPs （ 8k 區塊、 75% / 25% 讀寫比率、 100% 隨機）運作。EPIC 對延遲非常敏感、而高延遲對終端使用者體驗以及執行報告、備份、完整性檢查和環境更新時間等作業工作都有明顯影響。
+
+* All Flash Array 的限制因素不是磁碟機、而是控制器的使用率。
+* ONTAP 使用雙主動式架構。為了達到效能、 HA 配對中的兩個節點都會寫入磁碟機。
+* 如此一來、 CPU 使用率便達到最大化、這是 NetApp 能夠發佈業界最佳 Epic 效能的最重要因素。
+* NetApp RAID DP 、進階磁碟分割（ ADP ）和 WAFL 技術可滿足所有 Epic 需求。所有工作負載都會在所有磁碟之間散佈 IO 。無瓶頸。
+* ONTAP 已經過寫入最佳化；寫入一次會被確認寫入鏡射 NVRAM 、然後再以內嵌記憶體速度寫入磁碟。
+* WAFL 、 NVRAM 和模組化架構可讓 NetApp 使用軟體、以即時效率、加密和效能進行創新。此外、 NetApp 也能在不影響效能的情況下、引進新的功能和功能。
+* 過去、每個新版 ONTAP 的效能與效率都有 30% 至 50% 的提升。當您與 ONTAP 保持最新狀態時、效能是最佳選擇。
+
+
+
+
+== NVMe
+
+當效能至關重要時、 NetApp 也支援下一代 FC SAN 傳輸協定 NVMe / FC 。
+
+如下圖所示、我們的 Genio 測試使用 NVMe / FC 傳輸協定、與 FC 傳輸協定相比、實現了更多 IOPS 。NVMe / FC 連線解決方案在超過 45 秒寫入週期臨界值之前、達到超過 700k IOPS 。以 NVMe 取代 SCSI 命令、也能大幅降低主機的使用率。
+
+image:epic-genio.png["EPIC Genio 圖形"]

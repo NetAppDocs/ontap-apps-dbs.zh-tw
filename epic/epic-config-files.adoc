@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-config-files.html 
+keywords: epic,cache,iris 
+summary: EPIC 與檔案傳輸協定 
+---
+= EPIC 與檔案傳輸協定
+:allow-uri-read: 
+
+
+[role="lead"]
+支援在同一個 All Flash 陣列上結合 NAS 和 SAN 。
+
+[TIP]
+====
+* NetApp 建議 * 將 FlexGroup Volume 用於 NAS 共用區、例如 WebBLOB （若有）。
+
+====
+WebBLOB 的冷資料高達 95% 。您可以選擇使用 ONTAP 的功能、將所有 Flash 陣列和階層備份及冷資料的空間、釋放到內部部署或雲端的物件儲存空間link:https://docs.netapp.com/us-en/ontap/fabricpool/index.html["FabricPool"^]。所有這些都可以在沒有任何明顯效能影響的情況下完成。FabricPool 是 ONTAP 的一項隨附功能。客戶可以產生冷（或非作用中）資料報告、以檢視啟用 FabricPool 可實現多少效益。您可以透過原則將資料的存留期設定為階層。EPIC 客戶利用這項功能大幅節省成本。

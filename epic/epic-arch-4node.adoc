@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-arch-4node.html 
+keywords: epic,cache,iris 
+summary: EPIC 四節點架構 
+---
+= EPIC 四節點架構
+:allow-uri-read: 
+
+
+[role="lead"]
+下圖顯示四節點架構的儲存配置：正式作業中的 HA 配對、災難恢復中的 HA 配對。控制器的大小和磁碟數量是以後一個大小調整映像為基礎。
+
+NetApp 通過接受 SLM 建議的 AQO 策略來保證最低的樓層性能。Epic 支援將 ONTAP 上的儲存資源池整合到大幅減少的硬體上。如需更多資訊、請參閱 Epic 季度 Spats 文件。基本上、 Pool1 、 Pool2 和 NAS1 （列於 Epic 硬體組態指南中）都可以在單一 HA 配對上執行、工作負載平均分散在兩個控制器上。在災難恢復中、 Epic Pool 3 和 NAS 3 也會在 HA 配對中的兩個控制器之間分割。
+
+測試完整複本環境（例如 SUP 、 REL 和 PJX ）是從 Epic Production 、 Epic Report 或 Epic Disaster Recovery 複製而成。如需 Epic 備份與重新整理的相關資訊、請參閱標題為「資料管理」一節。
+
+
+
+== 四節點架構
+
+image:epic-4node.png["EPIC 4 節點架構"]
+
+
+
+== 四節點工作負載配置
+
+image:epic-4node-design.png["EPIC 4 節點放置"]

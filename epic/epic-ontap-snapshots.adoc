@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-ontap-snapshots.html 
+keywords: epic,cache,iris 
+summary: EPIC 快照與複製 
+---
+= EPIC 儲存效率組態
+:allow-uri-read: 
+
+
+[role="lead"]
+快照是磁碟區的時間點複本、該磁碟區是唯讀的。
+
+快照會對作用中檔案系統中的所有區塊進行邏輯鎖定。NetApp ONTAP Snapshot 複本近乎即時、而且不會使用任何額外的儲存設備。
+
+寫入其中檔案配置（即 WAFL ）是唯寫入的檔案系統、不會執行其他 IO 、例如在覆寫前複製受快照保護區塊中的資料。不會移動任何資料、因此快照不會影響儲存容量或效能。快照可大幅節省儲存成本、同時擴充備份解決方案。
+
+
+
+== FlexClone
+
+NetApp ONTAP FlexClone Volume 是現有磁碟區的複本或現有磁碟區的快照。否則、它 ONTAP 就像其他任何磁碟區一樣、可以自行複製、使用快照保護、並使用 QoS 原則進行設定。
+
+與快照一樣、 FlexClone 磁碟區在建立時不需要任何額外空間。只有複本變更才需要額外容量。
+
+Epic 需要 10 至 30 份正式作業資料庫複本、以滿足各種作業需求、例如串流備份、完整性檢查和整備升級環境。隨着升級頻率的增加，構建在 FlexClone 捲上的解決方案的需求也隨之增加。
+
+
+NOTE: NetApp 提供全自動 Epic 備份解決方案和 Epic Refresh 解決方案、作為解決方案的一部分、使用 Ansible 和原生 NetApp 工具。

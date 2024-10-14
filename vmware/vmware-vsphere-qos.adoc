@@ -20,7 +20,7 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 
 == ONTAP QoS 原則支援
 
-執行 ONTAP 軟體的系統可以使用儲存 QoS 功能、以 Mbps 和 / 或 I/O 每秒（ IOPS ）來限制不同儲存物件（例如檔案、 LUN 、磁碟區或整個 SVM ）的處理量。
+執行 ONTAP 的系統可以使用儲存 QoS 功能、以 Mbps 和 / 或 I/O 每秒（ IOPS ）來限制不同儲存物件（例如檔案、 LUN 、磁碟區或整個 SVM ）的處理量。
 
 也支援以IOPS為基礎的最低服務層級、以提供一致的效能、適用於ONTAP VMware的SAN物件、以及ONTAP 支援VMware的NAS物件。
 
@@ -51,7 +51,8 @@ ONTAP QoS 原則可套用至整個資料存放區或其中的個別 VMDK 檔案�
 * 同一部主機（ ESX3-01 ）使用 VM2.vmdk 、而且位於同一個磁碟區。
 * 如果 vm1.vmdk 受到節流、則 VM2.vmdk 也會被節流、因為它與 vm1.vmdk 共用相同的 IO 佇列。
 
-* 注意： * 這不適用於 vVols 。
+
+NOTE: 這不適用於 VVols 。
 
 從 vSphere 6.5 開始、您可以利用儲存 I/O 控制（ SIC ） v2 的儲存原則型管理（ SPBM ）來管理非 vVols 資料存放區的檔案精細限制。
 
@@ -83,13 +84,14 @@ link:https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-resource-management/G
 
 為 vVol 容器建立儲存功能設定檔時、請在效能功能下指定最大和 / 或最小 IOPS 值、然後使用 VM 的儲存原則參考此 SCP 。建立VM或將原則套用至現有VM時、請使用此原則。
 
-* 附註： * vVols 需要使用 ONTAP 工具來執行 VMware vSphere 、以作為 VASA Provider for ONTAP 。請參閱 link:/vmware/vmware-vvols-overview.html["VMware vSphere 虛擬磁碟區（ VVols ）搭配 ONTAP"] 適用於 VVols 最佳實務做法。
+
+NOTE: VVols 需要 VMware vSphere 的使用 ONTAP 工具、此工具可作為 ONTAP 的 VASA 提供者。請參閱link:/vmware/vmware-vvols-overview.html["VMware vSphere 虛擬磁碟區（ VVols ）搭配 ONTAP"]以瞭解 vVols 最佳實務做法。
 
 
 
 == QoS和VMware SIOC ONTAP
 
-VMware vSphere儲存I/O控制（SIOC）是相輔相成的技術、vSphere和儲存管理員可以搭配使用、來管理執行VMware軟體之系統上所託管vSphere VM的效能。ONTAP ONTAP每個工具都有自己的優點、如下表所示。由於VMware vCenter和ONTAP VMware vCenter的範圍不同、有些物件可由一個系統來查看和管理、而非由另一個系統來管理。
+ONTAP QoS 和 VMware vSphere 儲存 I/O 控制（ SEC ）是輔助技術、 vSphere 和儲存管理員可以一起使用這些技術來管理 ONTAP 系統上所託管的 vSphere VM 效能。每個工具都有自己的優點、如下表所示。由於VMware vCenter和ONTAP VMware vCenter的範圍不同、有些物件可由一個系統來查看和管理、而非由另一個系統來管理。
 
 |===
 | 屬性 | QoS ONTAP | VMware SIOC 

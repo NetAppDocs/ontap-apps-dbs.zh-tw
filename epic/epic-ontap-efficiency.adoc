@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-ontap-efficiency.html 
+keywords: epic,cache,iris 
+summary: EPIC on ONTAP 效率 
+---
+= EPIC on ONTAP 效率
+:allow-uri-read: 
+
+
+[role="lead"]
+EPIC 可在所有 Flash 陣列上執行、其中大部分的成本都是磁碟。因此、儲存效率對於節省成本至關重要。
+
+NetApp 內嵌式儲存效率可在儲存設備上實現領先業界的節約效益、而不會影響效能、我們甚至還提供 All Flash Array 的書面效率保證。
+
+在計算儲存效率時、請務必測量原始到可用的有效容量。
+
+* * 原始容量 * 在套用任何 RAID 之前、磁碟大小依磁碟數而定。
+* * 可用容量 * 套用 RAID 後、可用儲存空間有多少。
+* * 有效容量 * 配置及呈現給主機或用戶端的儲存容量。
+
+
+下圖是典型 Epic 部署的效率計算範例、包括所有需要 852TB 有效儲存空間的工作負載、效率高達 5.2:1 、可提供 1.32PB 的總有效資料。
+
+
+NOTE: 根據磁碟數量、原始至可用容量會稍有不同。
+
+image:epic-efficiency.png["卓越的儲存效率"]
+
+
+NOTE: NetApp 不使用 NetApp Snapshot 技術或精簡配置來計算保證方案的效率。這樣做會顯示 30-100:1 的不切實際效率、這並不代表實際儲存容量的規模。

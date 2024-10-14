@@ -1,0 +1,22 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-ontap-overview.html 
+keywords: epic,cache,iris 
+summary: EPIC on ONTAP 概覽 
+---
+= ONTAP 上的 EPIC
+:allow-uri-read: 
+
+
+[role="lead"]
+ONTAP 讓 EPIC 變得更簡單。
+
+ONTAP 是一個資料管理平台、可讓您整合 Epic 工作負載、同時滿足所有效能、資料保護及資料管理需求。
+
+只有在 NetApp 上、您才能在單一高可用度資料管理平台上、將 SAN 、 NAS 和物件的所有醫療工作負載標準化。ONTAP 是全球部署最廣泛的儲存軟體平台、擁有將近 30 年的持續創新經驗。您可以使用原生 ONTAP 資料管理工具和應用程式整合、來因應 Epic 的所有挑戰。不需要購買多種協力廠商工具來填補解決方案的缺口。
+
+許多儲存廠商都提供傳統、可靠且快速的區塊儲存。它們運作良好、但通常部署在封閉環境中、以執行單一工作負載、例如正式作業、報告、清晰度、 VDI 、 VMware 和 NAS 。每個封閉環境都有不同的硬體和不同的管理工具、通常由不同的 IT 群組管理。這種傳統方法增加了當今醫療業最大的問題、也就是複雜度。
+
+NetApp 讓資料管理變得更簡單、更有效率。ONTAP 使用創新與技術、透過任何具有整合式資料保護功能的傳輸協定、在單一平台上為每個工作負載提供一致且保證的 SLA 、而非讓大型封閉環境的問題大受影響。這些功能和工具也延伸到您選擇的雲端、如下圖所示。
+
+image:epic-consolidation.png["ONTAP 為醫療產業提供擴充性與簡易性"]

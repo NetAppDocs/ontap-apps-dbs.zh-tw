@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-ontap-cloning.html 
+keywords: epic,cache,iris 
+summary: EPIC 資料保護 
+---
+= EPIC 複製
+:allow-uri-read: 
+
+
+[role="lead"]
+Epic 認為儲存節點型 NetApp Snapshot 技術與傳統檔案型備份相比、對正式作業工作負載沒有效能影響。當 Snapshot 備份用作正式作業資料庫的還原來源時、必須以資料庫一致性為考量來實作備份方法。
+
+快照是磁碟區的時間點唯讀備份複本。NetApp FlexClone ® 會擷取快照、使其立即讀取並可寫入。FlexClone Volume 提供絕佳價值、可擷取唯讀、應用程式一致的快照、並從正式作業資料建立可寫入的 FlexClone Volume 。這項原生功能對儲存節省、作業時間和自動化功能有重大影響。
+
+在重新整理程序中、會使用 FlexClone 磁碟區。
+
+
+
+== 資料管理
+
+作為解決方案的一部分、 NetApp 使用原生 ONTAP 工具、提供全自動的備份與測試更新解決方案。此解決方案旨在簡化 Epic 資料管理、特別是針對 Epic 資料庫管理員（ DBA ）的大型社群：
+
+* Epic Mirror 用於將資料複寫至災難恢復和報告（以綠色表示）。
+* 從 Report 傾印至 Clarity 的每日資料傾印。
+* NetApp 自動備份（以黃色表示）。
+* NetApp 自動更新 SUP 、 REP 及其他（以藍色表示）的測試。
+* 測試環境適用於完整複本環境、而非較小的壁球複本。
+
+
+如需詳細資訊、請聯絡適用於 Epic 應用程式的 NetApp 服務。
+
+儲存設備分散於多個磁碟區、且擁有一個或多個適當數量的 LUN 以滿足工作負載需求的應用程式、需要將內容一起備份、以確保資料保護一致。
+
+一致性群組（簡稱 CGS ）提供這項功能及更多功能。您可以在夜間使用這些快照、使用原則來建立隨需或排程一致的快照。您可以使用此選項來還原、複製甚至複寫資料。
+
+如需 CGS 的其他資訊、請參閱link:https://docs.netapp.com/us-en/ontap/consistency-groups/["一致性群組的 NetApp 文件"^]
+
+
+
+== 設定 Epic 的一致性群組
+
+一旦按照本文前幾節的詳細說明配置了這些卷和 LUN ，就可以將它們配置成一組 CGS 。建議的最佳實務做法是如下圖所示設定：
+
+image:epic-cg-layout.png["EPIC 與一致性群組"]
+
+
+
+== 一致性群組快照
+
+每晚的 CG 快照排程應設定在每個與提供正式作業資料庫儲存設備之磁碟區相關的子 CGS 上。這將使這些 CGS 每天晚上都有一組全新的一致備份。然後、這些資料可用於複製正式作業資料庫、以用於開發和測試等非正式作業環境。NetApp 針對 Epic 開發專屬的 CG 型自動化 Ansible 工作流程、以自動化生產資料庫的備份、更新及測試環境。
+
+CG 快照可用於支援 Epic 正式作業資料庫的還原作業。
+
+對於 SAN 磁碟區、請停用用於 CGS 的每個磁碟區上的預設快照原則。這些快照通常由使用中的備份應用程式或 NetApp 的 Epic Ansible 自動化服務來管理。
+
+對於 SAN 磁碟區、請停用每個磁碟區上的預設快照原則。這些快照通常由備份應用程式或 Epic Ansible 自動化管理。 [NS2]
+
+WebBLOB 和 VMare 資料集應僅設定為 Volume 、而非與 CGS 相關聯。您可以使用 SnapMirror 或 SnapVault 技術、在不同於正式作業的儲存系統上維護其 Snapshot 複本。
+
+完成後、組態將如下所示：
+
+image:epic-cg-snapshots.png["Epic CG 快照"]

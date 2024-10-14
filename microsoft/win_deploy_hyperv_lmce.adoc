@@ -10,7 +10,7 @@ summary: 本附錄說明如何在叢集式環境中部署即時移轉。
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]

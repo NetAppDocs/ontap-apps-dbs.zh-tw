@@ -1,0 +1,43 @@
+= 複寫
+:allow-uri-read: 
+
+
+SnapMirror 主動式同步（前身為 SnapMirror Business Continuity 或 SM-bc ）可讓個別的 SQL Server 資料庫和應用程式在發生任何中斷時繼續提供服務、而且儲存設備的透明容錯移轉不需要任何手動介入。
+
+
+
+== 複寫
+
+SnapMirror 主動式同步（ SM-AS ）是以 SnapMirror 同步為基礎。兩者都能提供 RPO=0 同步資料複寫、但 SMAS 可為 SAN 資料提供接近零的 RTO 可用度、進一步提升解決方案。這是透過管理 SAN 路徑的自動化來完成、以保持資料可用。站台、控制器和通訊故障均由 ONTAP 自動處理。
+
+
+
+== 架構
+
+SnapMirror 主動式同步可提供存在於兩個不同站台上的 LUN 。在正常作業中、沒有「來源」或「目的地」。方向是雙向的。針對指定 LUN 路徑的所有讀取 IO 、將由本機控制器使用其本機資料複本來提供服務。所有寫入作業都會複寫到遠端合作夥伴、並在確認之前在本機寫入。
+
+image:smas-overview.png["SnapMirror 主動式同步總覽"]
+
+從邏輯上來說、這種行為就像一組 LUN 。IO 可透過位於兩個不同叢集上的 SAN 路徑導向這些邏輯 LUN 、但資料永遠相同。IO 行為是對稱的、對許多主動式應用程式組態而言、這是至關重要的。
+
+image:smas-logical.png["SnapMirror 主動式同步邏輯設計"]
+
+
+
+== 路徑管理
+
+SnapMirror 同步網路拓撲有兩種方法：統一和不統一。在統一存取和非統一存取之間選擇時、主要考量的因素是您是否可以或必須將 SAN 延伸至不同的站台。SnapMirror 主動式同步可在這兩種情況下使用。
+
+
+
+== 儲存硬體
+
+與其他儲存災難恢復解決方案不同、 SnapMirror 主動式同步提供非對稱式平台靈活度。每個站台的硬體不一定相同。此功能可讓您調整支援 SnapMirror 主動同步所用硬體的大小。如果遠端儲存系統需要支援完整的正式作業工作負載、則它可以與主要站台相同、但如果災難導致 I/O 減少、遠端站台上較小的系統可能會更具成本效益。
+
+
+
+== 中間器ONTAP
+
+ONTAP Mediator 是從 NetApp 支援網站下載的軟體應用程式、通常部署在虛擬機器上。
+
+有關規劃和組態步驟、請參閱link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/["SnapMirror Active Sync 的 ONTAP 文件"]。

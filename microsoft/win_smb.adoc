@@ -10,7 +10,7 @@ summary: ONTAP NAS 儲存設備、適用於使用 SMB3 的 Hyper-V
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]
@@ -61,7 +61,7 @@ cluster::> system services ntp server create â€“server $domainControllerIP
 
 . 在啟用 NAS 傳輸協定 CIFS 的情況下、建立新的 SVM 。您可以使用下列任一方法建立新的 SVM ：
 +
-** NetApp ONTAP 上的 CLI 命令
+** ONTAP 上的 CLI 命令
 ** 系統管理員
 ** NetApp PowerShell 工具套件
 
@@ -84,14 +84,14 @@ cluster::> system services ntp server create â€“server $domainControllerIP
 
 === 主機整合
 
-NAS 傳輸協定 CIFS 原生整合至 ONTAP 。因此、 Windows Server 不需要任何額外的用戶端軟體即可存取 NetApp ONTAP 上的資料。NetApp 儲存控制器會在網路上顯示為原生檔案伺服器、並支援 Microsoft Active Directory 驗證。
+NAS 傳輸協定 CIFS 原生整合至 ONTAP 。因此、 Windows Server 不需要任何額外的用戶端軟體即可存取 ONTAP 上的資料。NetApp 儲存控制器會在網路上顯示為原生檔案伺服器、並支援 Microsoft Active Directory 驗證。
 
 若要偵測先前使用 Windows Server 建立的 CIFS 共用、請完成下列步驟：
 
 . 以系統管理員群組成員的身分登入 Windows Server 。
 . 請移至 run.exe 、輸入為存取共用而建立的 CIFS 共用的完整路徑。
 . 若要將共用永久對應至 Windows Server 、請以滑鼠右鍵按一下「此電腦」、按一下「對應網路磁碟機」、然後提供 CIFS 共用的路徑。
-. 某些 CIFS 管理工作可以使用 Microsoft Management Console （ MMC ）來執行。在執行這些工作之前、您必須使用 MMC 功能表命令、將 MMC 連接至 NetApp ONTAP 儲存設備。
+. 某些 CIFS 管理工作可以使用 Microsoft Management Console （ MMC ）來執行。在執行這些工作之前、您必須使用 MMC 功能表命令、將 MMC 連接至 ONTAP 儲存設備。
 +
 .. 若要在 Windows Server 中開啟 MMC 、請按一下 Server Manager 「工具」區段中的「電腦管理」。
 .. 按一下 [ 其他動作 ] 並連線到另一台電腦，這會開啟 [ 選取電腦 ] 對話方塊。
@@ -108,7 +108,7 @@ NAS 傳輸協定 CIFS 原生整合至 ONTAP 。因此、 Windows Server 不需�
 * 為了確認當磁碟區從一個節點移至另一個節點時、或在節點故障的情況下、不會發生停機、 NetApp 建議您在檔案共用上啟用持續可用性選項。
 * 為 Hyper-V over SMB 環境佈建 VM 時、 NetApp 建議您在儲存系統上啟用複本卸載功能。如此可縮短 VM 的資源配置時間。
 * 如果儲存叢集主控多個 SMB 工作負載、例如 SQL Server 、 Hyper-V 和 CIFS 伺服器、 NetApp 建議將不同的 SMB 工作負載託管在不同的 SVM 上。這項組態非常實用、因為每項工作負載都需要獨特的儲存網路和 Volume 配置。
-* NetApp 建議您將 Hyper-V 主機與 NetApp ONTAP 儲存設備連線至 10GB 網路（如果有的話）。如果是 1GB 網路連線、 NetApp 建議您建立由多個 1GB 連接埠組成的介面群組。
+* NetApp 建議您將 Hyper-V 主機與 ONTAP 儲存設備連線至 10GB 網路（如果有的話）。如果是 1GB 網路連線、 NetApp 建議您建立由多個 1GB 連接埠組成的介面群組。
 * 將 VM 從一個 SMB 3.0 共用移轉至另一個 SMB 3.0 共用時、 NetApp 建議在儲存系統上啟用 CIFS 複本卸載功能、以便更快移轉。
 
 

@@ -1,0 +1,20 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-config-huk.html 
+keywords: epic,cache,iris 
+summary: Epic on ONTAP - 主機公用程式 
+---
+= Epic on ONTAP - 主機公用程式
+:allow-uri-read: 
+
+
+[role="lead"]
+NetApp 主機公用程式是適用於各種作業系統的軟體套件、其中包含管理公用程式、例如 `sanlun` CLI 二進位、多重路徑驅動程式、以及正常 SAN 作業所需的其他重要檔案。
+
+[TIP]
+====
+* NetApp 建議 * 在連接至儲存系統的主機上安裝 NetApp 主機公用程式、並存取 NetApp 儲存系統。如需詳細資訊、請參閱link:https://imt.netapp.com/matrix/["互通性對照表工具"^]與link:https://docs.netapp.com/us-en/ontap-sanhost/["SAN 主機"^]文件。
+
+====
+
+NOTE: 在 AIX 中、在探索 LUN 之前安裝主機公用程式尤其重要。如此可確保 LUN 多重路徑行為已正確設定。如果在未使用主機公用程式的情況下執行探索、則需要使用命令從系統取消設定 LUN 、然後透過或重新開機重新探索 `cfgmgr` LUN `rmdev -dl` 。

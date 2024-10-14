@@ -14,7 +14,7 @@ summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案
 
 
 [role="lead"]
-使用七種傳輸協定將VMware vSphere連接至執行ONTAP VMware軟體的系統上的資料存放區：
+有七種通訊協定用於將 VMware vSphere 連接至執行 ONTAP 的系統上的資料存放區：
 
 * FCP
 * FCoE
@@ -138,7 +138,7 @@ FCP、FCoE、NVMe/FC、NVMe/TCP和iSCSI是區塊傳輸協定、使用vSphere虛�
 
 == 選擇儲存傳輸協定
 
-執行ONTAP 支援所有主要儲存傳輸協定的系統、因此客戶可以根據現有和規劃的網路基礎架構和員工技能、選擇最適合自己環境的系統。NetApp測試通常顯示以類似線路速度執行的傳輸協定之間沒有什麼差異、因此最好將重點放在網路基礎架構和員工能力上、而不只是原始傳輸協定效能。
+執行 ONTAP 的系統支援所有主要儲存傳輸協定、因此客戶可以根據現有和計畫中的網路基礎架構和員工技能、選擇最適合其環境的方案。NetApp測試通常顯示以類似線路速度執行的傳輸協定之間沒有什麼差異、因此最好將重點放在網路基礎架構和員工能力上、而不只是原始傳輸協定效能。
 
 下列因素可能有助於考量選擇傳輸協定：
 
@@ -174,14 +174,14 @@ FCP、FCoE、NVMe/FC、NVMe/TCP和iSCSI是區塊傳輸協定、使用vSphere虛�
 * 使用Storage VMotion將大部分虛擬機器移至ONTAP VMware。這種方法不僅不中斷虛ONTAP 擬機器的執行、還能讓諸如即時重複資料刪除和壓縮等儲存效率功能、在資料移轉時處理資料。請考慮使用vCenter功能從清單清單清單中選取多個VM、然後在適當的時間排程移轉（按一下「Actions」（動作）時使用Ctrl鍵）。
 * 雖然您可以仔細規劃移轉至適當的目的地資料存放區、但通常較容易大量移轉、然後視需要組織。如果您有特定的資料保護需求、例如不同的 Snapshot 排程、您可能會想要使用此方法來引導您移轉至不同的資料存放區。
 * 大多數VM及其儲存設備可能會在執行（Hot）時移轉、但從其他儲存系統移轉附加（非資料存放區）儲存設備（例如ISO、LUN或NFS磁碟區）可能需要冷移轉。
-* 需要更謹慎移轉的虛擬機器包括使用附加儲存設備的資料庫和應用程式。一般而言、請考慮使用應用程式的工具來管理移轉。對於Oracle、請考慮使用Oracle工具（例如RMAN或ASM）來移轉資料庫檔案。請參閱 https://www.netapp.com/us/media/tr-4534.pdf["TR-4534"^] 以取得更多資訊。同樣地、對於SQL Server、請考慮使用SQL Server Management Studio或NetApp工具、例如SnapManager 適用於SQL Server或SnapCenter VMware。
+* 需要更謹慎移轉的虛擬機器包括使用附加儲存設備的資料庫和應用程式。一般而言、請考慮使用應用程式的工具來管理移轉。對於Oracle、請考慮使用Oracle工具（例如RMAN或ASM）來移轉資料庫檔案。如需詳細資訊、請參閱 https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-migration-overview.html["將 Oracle 資料庫移轉至 ONTAP 儲存系統"^] 。同樣地、對於SQL Server、請考慮使用SQL Server Management Studio或NetApp工具、例如SnapManager 適用於SQL Server或SnapCenter VMware。
 
 
 
 
 == VMware vSphere適用的工具ONTAP
 
-搭配執行ONTAP VMware vCenter軟體的系統使用vSphere時、最重要的最佳實務做法是安裝及使用ONTAP VMware vSphere外掛程式（前身為虛擬儲存主控台）的VMware VMware vSphere資訊工具。無論使用SAN或NAS、此vCenter外掛程式都能簡化儲存管理、提升可用度、並降低儲存成本和營運成本。它採用最佳實務做法來配置資料存放區、並針對多重路徑和HBA逾時最佳化ESXi主機設定（如附錄B所述）。由於它是 vCenter 外掛程式、因此可用於所有連線至 vCenter 伺服器的 vSphere Web 用戶端。
+在執行 ONTAP 的系統上使用 vSphere 時、最重要的最佳實務做法是安裝和使用適用於 VMware vSphere 外掛程式（前身為虛擬儲存主控台）的 ONTAP 工具。無論使用SAN或NAS、此vCenter外掛程式都能簡化儲存管理、提升可用度、並降低儲存成本和營運成本。它採用最佳實務做法來配置資料存放區、並針對多重路徑和HBA逾時最佳化ESXi主機設定（如附錄B所述）。由於它是 vCenter 外掛程式、因此可用於所有連線至 vCenter 伺服器的 vSphere Web 用戶端。
 
 外掛程式也能協助您在ONTAP vSphere環境中使用其他的功能。它可讓您安裝適用於 VMware VAAI 的 NFS 外掛程式、以便將複本卸載至 ONTAP 進行虛擬機器複製作業、保留大型虛擬磁碟檔案的空間、以及 ONTAP 快照卸載。
 
@@ -193,11 +193,11 @@ FCP、FCoE、NVMe/FC、NVMe/TCP和iSCSI是區塊傳輸協定、使用vSphere虛�
 
 == 一般網路
 
-使用vSphere搭配執行ONTAP VMware軟體的系統時、設定網路設定很簡單、而且類似於其他網路組態。以下是幾點需要考量的事項：
+在執行 ONTAP 的系統上使用 vSphere 時、設定網路設定非常簡單、類似於其他網路組態。以下是幾點需要考量的事項：
 
 * 將儲存網路流量與其他網路區隔。使用專屬的VLAN或獨立的交換器來儲存、即可建立獨立的網路。如果儲存網路共用實體路徑（例如上行鏈路）、您可能需要QoS或額外的上行鏈路連接埠、以確保有足夠的頻寬。請勿將主機直接連線至儲存設備；請使用交換器來建立備援路徑、並讓 VMware HA 在不需介入的情況下運作。請參閱 link:vmware-vsphere-network.html["直接連線網路"] 以取得更多資訊。
 * 如果您的網路需要並支援巨型框架、尤其是使用iSCSI時、可以使用巨型框架。如果使用、請確定在儲存設備和ESXi主機之間的路徑中、所有網路裝置、VLAN等上的設定都相同。否則、您可能會看到效能或連線問題。MTU也必須在ESXi虛擬交換器、VMkernel連接埠、以及每ONTAP 個節點的實體連接埠或介面群組上設定相同。
-* NetApp僅建議停用ONTAP 叢集內叢集網路連接埠上的網路流量控制。對於用於資料流量的其餘網路連接埠、NetApp並未提出其他最佳實務做法建議。您應視需要啟用或停用。請參閱 http://www.netapp.com/us/media/tr-4182.pdf["TR-4182"^] 以取得流程控制的更多背景資訊。
+* NetApp僅建議停用ONTAP 叢集內叢集網路連接埠上的網路流量控制。對於用於資料流量的其餘網路連接埠、NetApp並未提出其他最佳實務做法建議。您應視需要啟用或停用。如需流程控制的更多背景資訊、請參閱 https://www.netapp.com/pdf.html?item=/media/16885-tr-4182pdf.pdf["TR-4182"^]。
 * 當ESXi和ONTAP VMware ESXi儲存陣列連接至乙太網路儲存網路時、NetApp建議將這些系統連接的乙太網路連接埠設定為快速擴充樹狀傳輸協定（RSTP）邊緣連接埠、或使用Cisco PortFast功能。NetApp建議在使用Cisco PortFast功能的環境中、啟用跨距樹狀結構PortFast主幹功能、並在ESXi伺服器或ONTAP VMware®儲存陣列上啟用802.1Q VLAN主幹連線。
 * NetApp建議下列連結集合最佳實務做法：
 +

@@ -1,0 +1,16 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-example-protocol.html 
+keywords: epic,cache,iris 
+summary: EPIC on ONTAP 範例部署 - FCP 傳輸協定 
+---
+= EPIC on ONTAP 範例部署 - FCP 傳輸協定
+:allow-uri-read: 
+
+
+[role="lead"]
+建立 SVM 之後、您需要在其中新增通訊協定。
+
+若要建立 FCP 資料生命、請按一下link:https://docs.netapp.com/us-en/ontap/san-admin/configure-svm-fc-task.html["請按這裡"^]。
+
+啟動器群組用於允許伺服器存取 LUN 。若要建立 iGroup 、請按一下link:https://docs.netapp.com/us-en/ontap/san-admin/manage-san-initiators-task.html#view-manage-san-igroups["請按這裡"^]。

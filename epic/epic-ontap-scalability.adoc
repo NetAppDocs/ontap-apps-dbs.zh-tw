@@ -1,0 +1,22 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-ontap-scalability.html 
+keywords: epic,cache,iris 
+summary: ONTAP 擴充性的 EPIC 
+---
+= ONTAP 擴充性的 EPIC
+:allow-uri-read: 
+
+
+[role="lead"]
+Epic 硬體組態指南的成長率約為每年 20% 、為期 3 年。不過、環境也可能意外成長。
+
+NetApp 可無縫擴充 NAS 、 SAN 和物件叢集的效能和容量、最多可擴充至 12 個節點。因此、您可以隨業務成長而不中斷營運地向上或向外擴充。
+
+Epic Iris 提供更多擴充功能。它可讓擁有多個 Epic 執行個體的大型客戶整合至單一執行個體。link:https://www.netapp.com/media/27905-nva-1159-design.pdf["現代 SAN 上通過 NetApp 驗證的架構 Epic"^]本文說明 Epic 可在單一 HA 上無縫地將整合的工作負載擴充至 720K IOPS 、並在叢集中橫向擴充至超過 4M IOPS 。您可以升級控制器或將磁碟新增至現有叢集、以不中斷營運的方式擴充。
+
+NAS 、 SAN 和物件資料也能在叢集中的節點之間不中斷地移動。叢集中的每個 HA 配對都可以是 ONTAP FAS 和 AFF 系統類型和大小的任意組合。您可以在單一叢集之間平衡工作負載、以最大化您的儲存投資。
+
+ONTAP 也提供選項、可將 StorageGRID 或雲端上的物件儲存設備作為備份目標及 / 或自動冷儲存分層目標。此功能可讓您自動將昂貴的 All Flash 磁碟、階層快照和冷資料釋出給 Object 。
+
+結果是、 Epic 只要運用 ONTAP 、多重通訊協定、 StorageGRID 及您選擇的雲端、就能更好地運用 NetApp 產品組合。這些產品提供災難恢復、歸檔、分析、分層等選項。

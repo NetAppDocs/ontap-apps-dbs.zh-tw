@@ -10,7 +10,7 @@ summary: 本附錄說明如何在 NetApp 儲存設備上部署高可用度 Hyper
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]

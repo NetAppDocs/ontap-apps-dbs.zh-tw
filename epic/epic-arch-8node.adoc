@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-arch-8node.html 
+keywords: epic,cache,iris 
+summary: EPIC 八節點架構 
+---
+= EPIC 八節點架構
+:allow-uri-read: 
+
+
+[role="lead"]
+下圖顯示橫向擴充的八節點架構。同樣地、您可以從四個節點開始、擴充至六個節點、並繼續擴充至八個節點以上。此架構可在生產環境中的六個節點之間、提供最佳的效能與容量平衡。
+
+在本設計中、測試環境是從 Report 複製而非 Production 。這會減輕測試環境的負荷、並從正式作業環境中進行完整性檢查。
+
+
+
+== 八節點架構
+
+image:epic-8node.png["EPIC 4 節點架構"]
+
+
+
+== 八節點工作負載配置
+
+image:epic-8node-design.png["EPIC 8 節點配置"]

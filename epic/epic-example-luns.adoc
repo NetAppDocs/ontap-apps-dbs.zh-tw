@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-example-luns.html 
+keywords: epic,cache,iris 
+summary: EPIC on ONTAP 範例部署 - LUN 
+---
+= EPIC on ONTAP 範例部署 - LUN
+:allow-uri-read: 
+
+
+[role="lead"]
+>>> 敘述性的前置詞句或段落預留位置
+
+建立LUN
+
+若要建立 LUN ： https://docs.netapp.com/us-en/ontap-cli-9141//lun-create.html[]
+
+將 Volume 新增至 CG
+
+若要建立或修改一致性群組： https://docs.netapp.com/us-en/ontap/smbc/smbc_admin_add_and_remove_volumes_in_consistency_groups.html[]
+
+對應 LUN
+
+若要對應 LUN ： https://docs.netapp.com/us-en/ontap-cli-9141//lun-mapping-create.html[]
+
+視 ONTAP 版本而定、 Volume 上的「部分保留」預設設定可以是 100% 。此組態應設為 0 。

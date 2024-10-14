@@ -108,7 +108,7 @@ nointr,actimeo=0`
 
 另一個掛載選項、稱為 `nosharecache`（ a ） DNFS 啟用時、需要使用、（ b ）來源磁碟區多次裝載於具有巢狀 NFS 裝載的單一伺服器（ c ）上。此組態主要出現在支援 SAP 應用程式的環境中。例如、 NetApp 系統上的單一磁碟區可能會有位於的目錄 `/vol/oracle/base` 再來一次 `/vol/oracle/home`。如果 `/vol/oracle/base` 安裝於 `/oracle` 和 `/vol/oracle/home` 安裝於 `/oracle/home`，結果是來自相同來源的巢狀 NFS 掛載。
 
-作業系統可以偵測到這個事實 `/oracle` 和 `/oracle/home` 位於同一個磁碟區、即相同的來源檔案系統。作業系統接著會使用相同的裝置控制代碼來存取資料。這樣做可以改善 OS 快取和某些其他作業的使用、但會干擾 DNFS 。如果 DNFS 必須存取檔案、例如 `spfile`、開啟 `/oracle/home`，它可能會錯誤地嘗試使用錯誤的資料路徑。結果是 I/O 作業失敗。在這些組態中、新增 `nosharecache` 裝載選項至任何與該主機上其他 NFS 檔案系統共用來源 FlexVol 磁碟區的 NFS 檔案系統。這樣做會強制 Linux 作業系統為該檔案系統分配獨立的裝置控制代碼。
+作業系統可以偵測並 `/oracle/home`位於同一個磁碟區（即相同的來源檔案系統）上的事實 `/oracle`。作業系統接著會使用相同的裝置控制代碼來存取資料。這樣做可以改善 OS 快取和某些其他作業的使用、但會干擾 DNFS 。如果 DNFS 必須存取上的 `/oracle/home`檔案 `spfile`，可能會錯誤地嘗試使用錯誤的資料路徑。結果是 I/O 作業失敗。在這些組態中、將裝載選項新增 `nosharecache`至任何與該主機上其他 NFS 檔案系統共用來源 Volume 的 NFS 檔案系統。這樣做會強制 Linux 作業系統為該檔案系統分配獨立的裝置控制代碼。
 
 
 

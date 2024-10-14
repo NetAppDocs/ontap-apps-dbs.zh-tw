@@ -10,17 +10,15 @@ summary: Microsoft SQL Server 記憶體組態
 
 
 [role="lead"]
-下節說明如何設定 SQL Server 記憶體設定、以最佳化資料庫效能。
+下節說明最佳化資料庫效能所需的 SQL Server 記憶體設定。
 
 
 
 == 最大伺服器記憶體
 
-最大伺服器記憶體選項可設定 SQL Server 執行個體可使用的最大記憶體容量。
+最大伺服器記憶體選項可設定 SQL Server 執行個體可使用的最大記憶體容量。如果在執行 SQL Server 的同一部伺服器上執行多個應用程式、而且您想要保證這些應用程式有足夠的記憶體可以正常運作、通常會使用此功能。
 
-如果在執行 SQL Server 的同一部伺服器上執行多個應用程式、而且您想要保證這些應用程式有足夠的記憶體可以正常運作、通常會使用此功能。
-
-有些應用程式只會在啟動時使用任何可用的記憶體、即使需要也不會要求更多。這就是最大伺服器記憶體設定的作用所在。
+有些應用程式只會在啟動時使用任何可用的記憶體、而且不會要求額外的記憶體、即使這些應用程式的記憶體承受著記憶體壓力。這就是最大伺服器記憶體設定的作用所在。
 
 在具有多個 SQL Server 執行個體的 SQL Server 叢集上、每個執行個體可能會爭用資源。為每個 SQL Server 執行個體設定記憶體限制、有助於保證每個執行個體的最佳效能。
 
@@ -33,7 +31,7 @@ image:mssql-max-server-memory.png["錯誤：缺少圖形影像"]
 
 === 使用 SQL Server Management Studio 調整最小和最大伺服器記憶體。
 
-若要使用 SQL Server Management Studio 調整最小或最大伺服器記憶體、必須重新啟動 SQL Server 服務。您可以使用以下代碼、使用 TransAct SQL （ T-SQL ）來調整伺服器記憶體：
+若要使用 SQL Server Management Studio 調整最小或最大伺服器記憶體、必須重新啟動 SQL Server 服務。您也可以使用以下代碼、使用 TransAct SQL （ T-SQL ）來調整伺服器記憶體：
 
 ....
 EXECUTE sp_configure 'show advanced options', 1
@@ -48,7 +46,7 @@ RECONFIGURE WITH OVERRIDE
 
 == 不一致的記憶體存取
 
-非一致性記憶體存取（ NUMA ）是一種記憶體存取最佳化方法、可協助提高處理器速度、而不會增加處理器匯流排的負載。
+非一致性記憶體存取（ NUMA ）是一項記憶體存取最佳化技術、可協助避免處理器匯流排上的額外負載。
 
 如果在安裝 SQL Server 的伺服器上設定 NUMA 、則不需要額外的組態、因為 SQL Server 可感知 NUMA 並在 NUMA 硬體上執行良好。
 
@@ -56,7 +54,7 @@ RECONFIGURE WITH OVERRIDE
 
 == 索引會建立記憶體
 
-索引建立記憶體選項是另一個進階選項、您通常不應變更。
+索引建立記憶體選項是另一個進階選項、通常不需要變更為預設值。
 
 它控制最初分配給建立索引的最大 RAM 容量。此選項的預設值為 0 、這表示它是由 SQL Server 自動管理。不過、如果您在建立索引時遇到困難、請考慮增加此選項的值。
 
@@ -66,45 +64,6 @@ RECONFIGURE WITH OVERRIDE
 
 執行查詢時、 SQL Server 會嘗試分配最適當的記憶體量、以有效執行。
 
-根據預設， [ 每個查詢的最小記憶體 ] 設定會為每個要執行的查詢分配 >= 至 1024KB 。最佳做法是將此設定保留為預設值 0 、以允許 SQL Server 動態管理分配給索引建立作業的記憶體量。不過、如果 SQL Server 的 RAM 超過有效執行所需的容量、則如果您增加此設定、某些查詢的效能可能會大幅提升。因此、只要 SQL Server 、任何其他應用程式或作業系統未使用的伺服器上有可用的記憶體、則提升此設定有助於整體 SQL Server 效能。如果沒有可用的可用記憶體、增加此設定可能會影響整體效能。
+根據預設， [ 每個查詢的最小記憶體 ] 設定會為每個要執行的查詢分配 >= 至 1024KB 。最佳做法是將此設定保留為預設值、以便 SQL Server 能夠動態管理分配給索引建立作業的記憶體量。不過、如果 SQL Server 的 RAM 超過有效執行所需的容量、則如果您增加此設定、某些查詢的效能可能會大幅提升。因此、只要 SQL Server 、任何其他應用程式或作業系統未使用的伺服器上有可用的記憶體、則提升此設定有助於整體 SQL Server 效能。如果沒有可用的可用記憶體、增加此設定可能會影響整體效能。
 
 image:mssql-min-memory-per-query.png["錯誤：缺少圖形影像"]
-
-
-
-== 緩衝區集區副檔名
-
-緩衝區集區擴充可將 NVRAM 擴充與資料庫引擎緩衝區集區無縫整合、大幅改善 I/O 處理量。
-
-並非每個 SQL Server 版本都提供緩衝區集區擴充功能。僅適用於 64 位元 SQL Server Standard 、 Business Intelligence 和 Enterprise 版本。
-
-緩衝區集區擴充功能可利用非揮發性儲存設備（通常是 SSD ）來擴充緩衝區集區快取。此擴充功能可讓緩衝區集區容納更大的資料庫工作集、強制在 RAM 和 SSD 之間分頁 I/O 、並有效地將小型隨機 I/O 從機械磁碟卸載到 SSD 。由於 SSD 延遲較低、隨機 I/O 效能較佳、因此緩衝區集區擴充功能可大幅改善 I/O 處理量。
-
-緩衝區集區擴充功能提供下列優點：
-
-* 增加隨機 I/O 處理量
-* 降低 I/O 延遲
-* 提高交易處理量
-* 利用較大的混合式緩衝區集區來改善讀取效能
-* 一種快取架構、可充分利用現有和未來的低成本記憶體
-
-
-[TIP]
-====
-* NetApp 建議 * 將緩衝區集區延伸設定為：
-
-* 請確定將 SSD 支援的 LUN （例如 NetApp AFF ）呈現給 SQL Server 主機、以便將其用作緩衝區集區擴充目標磁碟。
-* 副檔名必須與緩衝區集區大小相同或大於該檔案。
-
-
-====
-下列範例顯示 T-SQL 命令、可設定 32GB 的緩衝區集區擴充。
-
-....
-USE master
-GO
-ALTER SERVER CONFIGURATION
-SET BUFFER POOL EXTENSION ON
-  (FILENAME = ‘P:\BUFFER POOL EXTENSION\SQLServerCache.BUFFER POOL EXTENSION', SIZE = 32 GB);
-GO
-....

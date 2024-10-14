@@ -14,7 +14,7 @@ summary: 使用 FLI 進行 Oracle 移轉：規劃
 
 
 [role="lead"]
-NetApp 中記錄了使用 FLI 移轉 SAN 資源的程序 http://www.netapp.com/us/media/tr-4380.pdf["TR-4380 ：使用外部 LUN Import 進行 SAN 移轉"^]。
+NetApp 中介紹了使用 FLI 遷移 SAN 資源的過程 https://docs.netapp.com/us-en/ontap-fli/index.html["不對外的LUN匯入文件ONTAP"^]。
 
 從資料庫和主機的觀點來看、不需要採取任何特殊步驟。更新 FC 區域並在 ONTAP 上提供 LUN 之後、 LVM 應該能夠從 LUN 讀取 LVM 中繼資料。此外、這些磁碟區群組也可以開始使用、無需進一步的組態步驟。在極少數情況下、環境可能會包含硬編碼的組態檔案、其中包含先前儲存陣列的參考資料。例如、內含的 Linux 系統 `/etc/multipath.conf` 參考指定裝置 WWN 的規則必須更新、以反映 FLI 所做的變更。
 

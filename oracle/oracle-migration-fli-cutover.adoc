@@ -146,7 +146,7 @@ vserver1  800DT$HuVWBn /vol/new_lvm/LUN8 2
 vserver1  800DT$HuVWBo /vol/new_lvm/LUN9 2
 20 entries were displayed.
 ....
-如果您需要離線程序、請延遲重新探索或重新啟動服務、直到 `lun import show` 命令表示所有移轉均已成功完成。接著您可以依照中所述、完成移轉程序 link:../migration/migration_options.html#foreign-lun-import-fli["外部 LUN 匯入：完成"]。
+如果您需要離線程序、請延遲重新探索或重新啟動服務、直到命令指出所有移轉均成功完成為止 `lun import show`。然後您可以按照中所述完成移轉程序link:oracle-migration-fli-completion.html["外部 LUN 匯入：完成"]。
 
 如果您需要線上移轉、請繼續在新的主目錄中重新探索 LUN 、並啟動服務。
 

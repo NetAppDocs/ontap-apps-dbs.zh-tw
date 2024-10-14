@@ -10,13 +10,13 @@ summary: 瞭解 NetApp 儲存設備和 Windows Server 環境
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]
 如中所述 link:win_overview.html["總覽"]NetApp 儲存控制器提供真正統一化的架構、支援檔案、區塊和物件傳輸協定。這包括 SMB/CIFS 、 NFS 、 NVMe / TCP 、 NVMe / FC 、 iSCSI 、 FC （ FCP ）和 S3 、可建立統一化的用戶端和主機存取。同一個儲存控制器可以同時以 SAN LUN 的形式提供區塊儲存服務、並以 NFS 和 SMB/CIFS 的形式提供檔案服務。ONTAP 也可做為 All SAN Array （ ASA ）使用、透過 iSCSI 和 FCP 的對稱雙主動式多重路徑功能來最佳化主機存取、而統一化的 ONTAP 系統則使用非對稱雙主動式多重路徑功能。在這兩種模式中、 ONTAP 都會使用 ANA 來管理 NVMe over Fabrics （ NVMe of ）多重路徑。
 
-執行 ONTAP 軟體的 NetApp 儲存控制器可在 Windows Server 環境中支援下列工作負載：
+執行 ONTAP 的 NetApp 儲存控制器可在 Windows Server 環境中支援下列工作負載：
 
 * 以持續可用的 SMB 3.0 共享區代管的 VM
 * 在 iSCSI 或 FC 上執行的叢集共用磁碟區（ CSV ） LUN 上託管的 VM
@@ -77,7 +77,7 @@ image:win_image2.png["ONTAP 儲存虛擬機器、寬度 = 572 、高度 = 443"]
 
 == NetApp PowerShell 工具套件
 
-NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端點對端自動化、並可讓您管理 NetApp ONTAP 的儲存設備。ONTAP 模組包含超過 2 、 000 個 Cmdlet 、可協助管理 FAS 、 NetApp All Flash FAS （ AFF ）、市售硬體和雲端資源。
+NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端點對端自動化、並可讓您管理 ONTAP 的儲存設備。ONTAP 模組包含超過 2 、 000 個 Cmdlet 、可協助管理 FAS 、 NetApp All Flash FAS （ AFF ）、市售硬體和雲端資源。
 
 
 

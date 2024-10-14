@@ -10,7 +10,7 @@ summary: 使用 Microsoft Hyper-V 實現 ONTAP 儲存效率
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]

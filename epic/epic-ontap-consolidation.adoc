@@ -1,0 +1,16 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-ontap-consolidation.html 
+keywords: epic,cache,iris 
+summary: ONTAP 整合的 EPIC 
+---
+= ONTAP 整合的 EPIC
+:allow-uri-read: 
+
+
+[role="lead"]
+醫療業的主要挑戰之一、就是封閉環境的效率不彰。
+
+多點解決方案是由阻礙進展的不同群組所建立。統一化的資料管理策略可提高效率、加速轉型。將病患記錄、勒索軟體和泛用 AI 等顛覆性技術、都是整合的必備工具。
+
+有了 ONTAP 、您就能在內部部署和雲端上整合檔案 / 區塊 / 物件、以及每個第 0/1/2/3 層工作負載、全部都在 ONTAP 上執行。

@@ -1,0 +1,58 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-smas-arch-tiebreaker.html 
+keywords: oracle, active sync, mcc, MCC-IP 
+summary: Oracle SnapMirror 作用中同步 
+---
+= Oracle 與 SnapMirror 主動式同步 - RAC 斷路器
+:allow-uri-read: 
+
+
+[role="lead"]
+雖然使用 SnapMirror 主動式同步的延伸 RAC 是 IO 的對稱架構、但有一個例外是連線至大腦分割管理。
+
+如果複寫連結遺失且兩個站台都沒有仲裁、會發生什麼情況？應該發生什麼事？此問題同時適用於 Oracle RAC 和 ONTAP 行為。如果無法跨站台複寫變更、而您想要恢復作業、則其中一個站台必須生存、另一個站台必須無法使用。
+
+可link:oracle-dr-smas-mediator.html["資訊媒體ONTAP"]在 ONTAP 層解決此需求。RAC 中斷有多個選項。
+
+
+
+== Oracle tiebreaker
+
+管理分離式 Oracle RAC 風險的最佳方法、是使用奇怪數量的 RAC 節點、最好是使用第三站台的斷路器。如果第三個站台無法使用、則可將斷路器執行個體放置在兩個站台的其中一個站台、有效地將其指定為慣用的生存者站台。
+
+
+
+== Oracle 和 CSS_critical
+
+對於偶數個節點、預設的 Oracle RAC 行為是叢集中的其中一個節點將被視為比其他節點更重要。具有較高優先順序節點的站台會在站台隔離後繼續運作、而另一個站台上的節點則會被移除。優先順序是以多個因素為基礎、但您也可以使用設定來控制此行為 `css_critical`。
+
+在link:oracle-dr-smas-fail-sample.html["範例"]架構中、 RAC 節點的主機名稱為 jfs12 和 jfs13 。的目前設定 `css_critical`如下：
+
+....
+[root@jfs12 ~]# /grid/bin/crsctl get server css_critical
+CRS-5092: Current value of the server attribute CSS_CRITICAL is no.
+
+[root@jfs13 trace]# /grid/bin/crsctl get server css_critical
+CRS-5092: Current value of the server attribute CSS_CRITICAL is no.
+....
+如果您想要將具有 jfs12 的站台設為慣用站台、請在站台 A 節點上將此值變更為「是」、然後重新啟動服務。
+
+....
+[root@jfs12 ~]# /grid/bin/crsctl set server css_critical yes
+CRS-4416: Server attribute 'CSS_CRITICAL' successfully changed. Restart Oracle High Availability Services for new value to take effect.
+
+[root@jfs12 ~]# /grid/bin/crsctl stop crs
+CRS-2791: Starting shutdown of Oracle High Availability Services-managed resources on 'jfs12'
+CRS-2673: Attempting to stop 'ora.crsd' on 'jfs12'
+CRS-2790: Starting shutdown of Cluster Ready Services-managed resources on server 'jfs12'
+CRS-2673: Attempting to stop 'ora.ntap.ntappdb1.pdb' on 'jfs12'
+…
+CRS-2673: Attempting to stop 'ora.gipcd' on 'jfs12'
+CRS-2677: Stop of 'ora.gipcd' on 'jfs12' succeeded
+CRS-2793: Shutdown of Oracle High Availability Services-managed resources on 'jfs12' has completed
+CRS-4133: Oracle High Availability Services has been stopped.
+
+[root@jfs12 ~]# /grid/bin/crsctl start crs
+CRS-4123: Oracle High Availability Services has been started.
+....

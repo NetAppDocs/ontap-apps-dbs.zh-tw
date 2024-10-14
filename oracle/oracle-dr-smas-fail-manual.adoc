@@ -1,0 +1,53 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-dr-smas-fail-manual.html 
+keywords: Oracle, SnapMirror active sync, SMBC, failover 
+summary: Oracle 與 SnapMirror 主動式同步 - 手動容錯移轉 
+---
+= Oracle 與 SnapMirror 主動式同步 - 手動容錯移轉
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+「容錯移轉」一詞並不表示使用 SnapMirror 主動式同步進行複寫的方向、因為它是雙向複寫技術。相反地、「容錯移轉」是指在發生故障時、哪個儲存系統是偏好的站台。
+
+例如、您可能想要在關閉站台進行維護之前、或是在執行 DR 測試之前、執行容錯移轉以變更偏好的站台。
+
+變更偏好的站台需要簡單的操作。IO 會暫停一秒或兩秒、作為叢集之間複寫行為切換的權限、但 IO 不會受到影響。
+
+GUI 範例：
+
+image:smas-preferred-site.png["以 SM 為偏好的站台的 SystemManager 剪輯"]
+
+透過 CLI 將其改回的範例：
+
+....
+Cluster2::> snapmirror failover start -destination-path jfs_as2:/cg/jfsAA
+[Job 9575] Job is queued: SnapMirror failover for destination "jfs_as2:/cg/jfsAA                      ".
+
+Cluster2::> snapmirror failover show
+
+Source    Destination                                          Error
+Path      Path        Type     Status    start-time end-time   Reason
+-------- -----------  -------- --------- ---------- ---------- ----------
+jfs_as1:/cg/jfsAA
+         jfs_as2:/cg/jfsAA
+                      planned  completed 9/11/2024  9/11/2024
+                                         09:29:22   09:29:32
+
+The new destination path can be verified as follows:
+
+
+Cluster1::> snapmirror show -destination-path jfs_as1:/cg/jfsAA
+
+                            Source Path: jfs_as2:/cg/jfsAA
+                       Destination Path: jfs_as1:/cg/jfsAA
+                      Relationship Type: XDP
+                Relationship Group Type: consistencygroup
+                 SnapMirror Policy Type: automated-failover-duplex
+                      SnapMirror Policy: AutomatedFailOverDuplex
+                            Tries Limit: -
+                           Mirror State: Snapmirrored
+                    Relationship Status: InSync
+....

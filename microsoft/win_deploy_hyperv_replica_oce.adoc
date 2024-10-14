@@ -10,7 +10,7 @@ summary: 本附錄說明如何在叢集環境外部署 Hyper-V 複本。
 :nofooter: 
 :icons: font
 :linkattrs: 
-:imagesdir: ../media
+:imagesdir: ../media/
 
 
 [role="lead"]

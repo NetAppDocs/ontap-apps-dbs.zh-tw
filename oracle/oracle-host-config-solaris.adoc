@@ -87,9 +87,13 @@ NetApp 強烈建議您使用記錄掛載選項、以便在 Solaris 主機當機�
 
 === mvector
 
-Solaris 11 變更了 IT 處理大型 I/O 作業的方式、可能會在 SAN 儲存陣列上造成嚴重的效能問題。NetApp 錯誤報告 630173 「 Solaris 11 ZFS 效能回歸」中詳細說明了此問題。" 解決方案是變更名為的 OS 參數 `zfs_mvector_max_size`。
+Solaris 11 變更了 IT 處理大型 I/O 作業的方式、可能會在 SAN 儲存陣列上造成嚴重的效能問題。此問題記錄在 NetApp 追蹤錯誤報告 630173 「 Solaris 11 ZFS 效能回歸」中。
 
-以 root 執行下列命令：
+這不是 ONTAP 錯誤。這是在 Solaris 瑕疵 7199305 和 7082975 下追蹤的 Solaris 瑕疵。
+
+您可以諮詢 Oracle 支援部門、瞭解您的 Solaris 11 版本是否受到影響、或者您也可以變更為較小的值來測試因應措施 `zfs_mvector_max_size`。
+
+您可以以 root 執行下列命令來達成此目的：
 
 ....
 [root@host1 ~]# echo "zfs_mvector_max_size/W 0t131072" |mdb -kw

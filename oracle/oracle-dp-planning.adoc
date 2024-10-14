@@ -52,7 +52,7 @@ RTO 通常可在數秒內測量。應用程式會關閉、磁碟區會還原、�
 
 == 複寫與災難恢復架構
 
-本節說明遠端資料保護、將資料複寫到遠端站台、以保護異地儲存和災難恢復的安全。請注意、這些表格並未解決同步鏡射資料保護問題。如需此需求、請參閱 NetApp MetroCluster 文件、包括 link:../metrocluster/overview.html["MetroCluster"] 和 link:../smbc/overview.html["SnapMirror 主動同步"]
+本節說明遠端資料保護、將資料複寫到遠端站台、以保護異地儲存和災難恢復的安全。請注意、這些表格並未解決同步鏡射資料保護問題。如需此需求、請參閱 NetApp MetroCluster 文件、包括link:oracle-dr-mcc-failover.html["MetroCluster"]和link:oracle-dr-smas-overview.html["SnapMirror 主動同步"]
 
 災難恢復 RPO 受限於可用的網路頻寬和受保護資料的總大小。建立初始基準傳輸之後、更新僅以變更的資料為基礎、這通常是資料佔用空間總量的低百分比、但確實存在例外情況。
 

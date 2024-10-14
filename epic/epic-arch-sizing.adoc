@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: epic/epic-arch-sizing.html 
+keywords: epic,cache,iris 
+summary: 大尺寸 
+---
+= 大尺寸
+:allow-uri-read: 
+
+
+[role="lead"]
+在評估 Epic 儲存環境時、其中一項重要架構考量事項是 ODB 資料庫大小。
+
+您可以使用下圖選取中小型大型 Epic 儲存架構。這些設計包括執行《硬體組態指南》中列出的所有工作負載。規模調整樹狀結構是根據 100 多份硬體組態指南中的資料而定、而且應該是最準確的預估值。
+
+請務必注意、這只是起點。您應該與 Epic 聯盟團隊合作、確認任何 Epic 設計。您可以在 EPIC @ NetApp .com 聯絡團隊。每個部署作業都需要滿足客戶要求、同時遵循 Epic 和 NetApp 建議的最佳實務做法。
+
+* Epic 小型架構、 Epic 資料庫低於 10TB
+* 中型 Epic 架構、採用 Epic 資料庫、介於 10TB 至 50TB 之間
+* 大型 Epic 架構、 Epic 資料庫容量大於 50TB
+
+
+image:epic-sizing.png["史詩般的尺寸指南"]

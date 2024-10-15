@@ -5140,7 +5140,6 @@
   <block id="9fad44ede04fb95c16ea64be5e51836c" category="paragraph">在許多情況下、透過站台對站台連結存取儲存設備的應用程式額外延遲成本是不可接受的。這表示統一網路的可用度提升到最低、因為站台上的儲存設備遺失、可能導致仍需要關閉該故障站台上的服務。</block>
   <block id="15da96ce40136a3259e04ae0dc25fc95" category="paragraph">由於簡單起見、本機叢集有多個備援路徑未顯示在這些圖表中。ONTAP 儲存系統本身就是 HA 、因此控制器故障不應導致站台故障。只會導致受影響網站上使用本機路徑的變更。</block>
   <block id="bb12626aefb7c36f9b13694d35dadd5d" category="paragraph">SM － as 的一項重要功能是能夠設定儲存系統、以瞭解主機的位置。將 LUN 對應至指定主機時、您可以指出 LUN 是否接近指定的儲存系統。</block>
-  <block id="dbd84b1ad340aea47672fb898893f86a" category="paragraph">使用 AFF 系統時、路徑會如下所示。</block>
   <block id="4590bab77464ba1a9c8ee6b8095eef60" category="inline-image-macro">SnapMirror Active Sync AFF 統一網路</block>
   <block id="988f5836c7a60d1374a4804da23d51e4" category="paragraph"><block ref="988f5836c7a60d1374a4804da23d51e4" category="inline-image-macro-rx" type="image"></block></block>
   <block id="2b2fdfa824f1319cc47992b1277faa78" category="paragraph">在正常作業中、所有 IO 都是本機 IO 。從本機儲存陣列提供讀取和寫入服務。寫入 IO 當然也需要由本機控制器複寫到遠端系統、然後才會被確認、但所有讀取 IO 都會在本機上提供服務、而且不會因在站台之間瀏覽 SAN 連結而產生額外延遲。</block>
@@ -5602,7 +5601,6 @@
   <block id="6fda40460e9cbbefd704b9c01ea2c18c" category="summary">Microsoft SQL Server 和 SM 做為慣用站台</block>
   <block id="ac420a2d1b21182a80148191683bc9f7" category="paragraph">SnapMirror 主動式同步處理行為是對稱的、但有一個重要的例外是偏好的站台組態。</block>
   <block id="309d61d5c343d8fd53c2c585c64587b6" category="doc">Microsoft SQL Server 搭配 SnapMirror 主動式同步</block>
-  <block id="05862d500fc3267b33f0cc75e23b6200" category="paragraph">SQL Server 可設定為以多種方式搭配 SnapMirror 使用。正確的答案取決於可用的網路連線能力、 RPO 需求和可用度需求。</block>
   <block id="3ccf31c781c6df95109107d66199a8f6" category="section-title">SQL Server 獨立執行個體</block>
   <block id="bd53ef250bf6f7a012cc7ed01c62f8cd" category="inline-link-macro">ONTAP 上的 SQL Server</block>
   <block id="d0d5aa4f66a3624a91ad4b11bbc2250f" category="paragraph">檔案配置和伺服器組態的最佳實務做法與文件中建議的做法相同<block ref="c89905de54b32eb552c83786b7590df9" category="inline-link-macro-rx"></block>。</block>
@@ -5870,4 +5868,12 @@
   <block id="29a8ec19326654cdf89bb8516725720a" category="sidebar">中介故障</block>
   <block id="38ea1deaf691187fc38ab915566310c5" category="sidebar">故障後的服務還原</block>
   <block id="9132b772b1437e64c8acac2be79a7a0f" category="sidebar">手動容錯移轉</block>
+  <block id="05b66cacce7105ad4a548ef5054997f0" category="doc">特殊警示點設定</block>
+  <block id="eccafd14420b568fff639755b251d1bd" category="paragraph">特殊警示是指每個叢集的組態、表示特定主機 WWN 或 iSCSI 啟動器 ID 屬於本機主機。這是設定 LUN 存取的第二個選用步驟。</block>
+  <block id="d99ea4fad7d0a9010283969d9ddf89aa" category="paragraph">第一步是一般的 igroup 組態。每個 LUN 都必須對應至包含需要存取該 LUN 之主機的 WWN/iSCSI ID 的 igroup 。這會控制哪些主機擁有對 LUN 的 _access_ 。</block>
+  <block id="bba32ce1a7b85dd9ba50c49b1a53fe4c" category="paragraph">第二個選用步驟是設定主機鄰近度。這無法控制存取、而是控制 _priority_ 。</block>
+  <block id="98271aec6138a28e374c8f3724a535b6" category="paragraph">例如、站台 A 的主機可能設定為存取受 SnapMirror 主動式同步保護的 LUN 、而且由於 SAN 延伸至站台、因此該 LUN 可使用站台 A 上的儲存設備或站台 B 上的儲存設備來存取路徑</block>
+  <block id="81959299f52ddb567fd902f3e1ae5311" category="paragraph">如果沒有特殊警示點設定、則該主機會同時使用兩個儲存系統、因為這兩個儲存系統都會通告主動 / 最佳化的路徑。如果站台之間的 SAN 延遲和 / 或頻寬受到限制、這可能無法進行設計、您可能希望確保在正常作業期間、每個主機都優先使用本機儲存系統的路徑。這是透過將主機 WWN/iSCSI ID 新增至本機叢集做為近端主機來設定的。這可以在 CLI 或 SystemManager 上完成。</block>
+  <block id="f08670cf73640d447fb34d01b0f6418f" category="paragraph">在 AFF 系統中、設定主機鄰近時、路徑會如下所示。</block>
+  <block id="85a2564342597a065a3926228b7e9fcd" category="paragraph">SQL Server 可設定為以多種方式搭配 SnapMirror 作用中同步處理。正確的答案取決於可用的網路連線能力、 RPO 需求和可用度需求。</block>
 </blocks>

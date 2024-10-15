@@ -10,7 +10,7 @@ summary: Microsoft SQL Server 和 SnapMirror 主動式同步
 
 
 [role="lead"]
-SQL Server 可設定為以多種方式搭配 SnapMirror 使用。正確的答案取決於可用的網路連線能力、 RPO 需求和可用度需求。
+SQL Server 可設定為以多種方式搭配 SnapMirror 作用中同步處理。正確的答案取決於可用的網路連線能力、 RPO 需求和可用度需求。
 
 
 

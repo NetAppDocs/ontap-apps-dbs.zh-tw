@@ -1664,9 +1664,6 @@
   <block id="09b6f386094bd895d3c9694f28bfdf65" category="paragraph">如果您突然關閉 NFSv4 伺服器的電源、當恢復 IO 時、嘗試恢復 IO 的用戶端會收到回應、基本上說：「我遺失了租用 / 鎖定資訊。您是否要重新登錄鎖定？」 這就是寬限期的開始。ONTAP 預設為 45 秒：</block>
   <block id="e4f8aa90af36d76254e2f02e56232aed" category="paragraph">結果是、在重新啟動之後、控制器會暫停 IO 、而所有用戶端都會回收租用和鎖定。寬限期結束後、伺服器將恢復 IO 作業。</block>
   <block id="bb2b26fdcb4e947cda6f8e38724ecfc9" category="section-title">租用逾時與寬限期比較</block>
-  <block id="563494d7f0f6ebcb6698cac7f9705aaa" category="paragraph">寬限期與租用期間已連線。如上所述、預設的租用逾時為 30 秒、這表示 NFSv4 用戶端必須至少每 30 秒與伺服器簽入一次、否則就會遺失租約、進而導致鎖定。存在寬限期、可讓 NFS 伺服器重建租用 / 鎖定資料、預設為 45 秒。ONTAP 要求寬限期比租用期長 15 秒。如此可確保設計為至少每 30 秒續約的 NFS 用戶端環境、在重新啟動後能夠與伺服器簽入。45 秒的寬限期可確保所有預期至少每 30 秒續約一次的客戶都有機會續約。</block>
-  <block id="5e6b60906bbbb9a41b140c0749591489" category="paragraph">如果無法接受 30 秒的逾時、您可以選擇延長租用期。如果您想要將租用逾時延長至 60 秒、以便承受 60 秒的網路中斷、您必須將寬限期延長至至少 75 秒。ONTAP 要求比租用期高 15 秒。這表示您將會在控制器容錯移轉期間經歷更長的 IO 暫停時間。</block>
-  <block id="4611c7c931fc15a6feba513fe72e22de" category="paragraph">這通常不是問題。一般使用者每年只會更新 ONTAP 控制器一或兩次、而且由於硬體故障而造成的非計畫性容錯移轉極少。此外、如果您的網路發生 60 秒網路中斷的可能性、而您需要將租用逾時時間延長至 60 秒、那麼您可能不會反對罕見的儲存系統容錯移轉、導致暫停時間也達 75 秒。您已確認網路暫停超過 60 秒、而且速度較快。</block>
   <block id="c4fb6f7d31d205bc07dbff47d0ae4bb3" category="summary">Oracle Direct NFS</block>
   <block id="f58bdad9659176e411f064fdb414233f" category="doc">Oracle directNFS</block>
   <block id="1bd6ec1185ba67395dc6f9cd2b458ec8" category="paragraph">Oracle 資料庫可使用 NFS 的方式有兩種。</block>
@@ -1889,7 +1886,6 @@
   <block id="322e1f85910dfc206274f8bd58a54a9d" category="list-text">指定站台上的每組磁碟機都會自動設定為一個或多個完全備援的 RAID-DP 或 RAID-TEC 群組、而不受鏡像的使用影響。即使在站台遺失之後、也能提供持續的資料保護。</block>
   <block id="dee2dfce5ab0c47301b3c12970a57aa6" category="paragraph">上圖說明 SyncMirror 組態範例。在控制器上建立了 24 個磁碟機的集合體、其中 12 個磁碟機來自於站台 A 上配置的機櫃、 12 個磁碟機來自於站台 B 上配置的機櫃磁碟機分為兩個鏡射 RAID 群組。RAID 群組 0 包括站台 A 上的 6 磁碟機叢、鏡射到站台 B 上的 6 磁碟機叢同樣地、 RAID Group 1 也包含站台 A 的 6 磁碟叢、鏡射到站台 B 的 6 磁碟叢叢</block>
   <block id="4fbc0abe91c0c1381d0a742f58b4e537" category="paragraph">SyncMirror 通常用於提供 MetroCluster 系統的遠端鏡射、每個站台都有一份資料複本。有時候、它是用來在單一系統中提供額外的備援層級。特別是提供機架層級的備援。磁碟機櫃已包含雙電源供應器和控制器、整體上比金屬板稍多、但在某些情況下、可能需要額外的保護。例如、有一位 NetApp 客戶部署 SyncMirror 、用於汽車測試期間使用的行動即時分析平台。系統由獨立的 UPS 系統提供獨立的電源供應器、分為兩個實體機架。</block>
-  <block id="95a3cc99b05998d49d8e035b994815bc" category="paragraph">=checksum</block>
   <block id="0cac56685de94a3ef0e1fd2bfca0c112" category="paragraph">對於習慣使用 Oracle RMAN 串流備份的 DBA 來說、檢查和主題特別重要、因為它們會移轉至快照型備份。RMAN 的一項功能是在備份作業期間執行完整性檢查。雖然這項功能有一些價值、但其主要優點是資料庫並未用於現代化的儲存陣列。當實體磁碟機用於 Oracle 資料庫時、幾乎可以確定磁碟機老化時最終會發生毀損、這是由真正儲存陣列中的陣列型校驗和所解決的問題。</block>
   <block id="58d7088c13cf2013ef373d85e3c27de7" category="paragraph">使用真正的儲存陣列、資料完整性可在多個層級上使用校驗和加以保護。如果 IP 型網路中的資料毀損、傳輸控制傳輸協定（ TCP ）層會拒絕封包資料並要求重新傳輸。FC 傳輸協定包括校驗和、封裝的 SCSI 資料也一樣。在陣列上之後、 ONTAP 就有 RAID 和 Checksum 保護。可能會發生毀損、但如同大多數企業陣列一樣、系統會偵測並修正毀損。一般而言、整個磁碟機都會故障、導致 RAID 重建、資料庫完整性也不會受到影響。ONTAP 偵測到 Checksum 錯誤的頻率較低、表示磁碟機上的資料已損壞。然後磁碟機故障、 RAID 重建就會開始。資料完整性再次不受影響。</block>
   <block id="8b7b33533c2b36c157a0a482bdd52a8e" category="paragraph">Oracle 資料檔案和重做記錄架構也設計成即使在極端情況下、也能提供最高程度的資料完整性。在最基本的層級、 Oracle 區塊幾乎包含每個 I/O 的 Checksum 和基本邏輯檢查如果 Oracle 尚未當機或將資料表空間離線、則資料會保持不變。資料完整性檢查的程度可調整、 Oracle 也可設定為確認寫入。因此、幾乎所有的當機和故障情況都可以恢復、而且在極罕見的不可恢復情況下、系統會立即偵測到毀損。</block>
@@ -3930,7 +3926,6 @@
   <block id="0c5284e14535835121effc8afb702b28" category="summary">使用 ONTAP 進行 Oracle 資料庫災難恢復</block>
   <block id="2ba21d57ee7f1d78a405b9e80c6aaf6b" category="paragraph">對於大多數客戶而言、 DR 不只需要擁有遠端資料複本、還需要能夠快速使用該資料。NetApp 提供兩種技術來滿足這種需求： MetroCluster 和 SnapMirror 主動同步</block>
   <block id="107bcc34799abe752a088be24869419c" category="paragraph">SnapMirror 主動同步是以 SnapMirror Synchronous 為基礎。使用 MetroCluster 、每個 ONTAP 控制器都負責將其磁碟機資料複寫到遠端位置。有了 SnapMirror 主動式同步、您基本上擁有兩個不同的 ONTAP 系統、可維護 LUN 資料的獨立複本、但可以合作呈現該 LUN 的單一執行個體。從主機的角度來看、這是單一 LUN 實體。</block>
-  <block id="d8f57e6104c0329961c4d91e154c4f27" category="paragraph">雖然 SnapMirror 主動式同步和 MetroCluster 在內部的運作方式截然不同、但對於主機而言、結果卻非常相似。主要差異在於精細度。如果您只需要選取要同步複寫的工作負載、 SnapMirror 主動同步是更好的選擇。如果您需要複寫整個環境、甚至是資料中心、 MetroCluster 是更好的選擇。此外、 SnapMirror 主動式同步目前僅適用於 SAN 、而 MetroCluster 則是多重傳輸協定、包括 SAN 、 NFS 和 SMB 。</block>
   <block id="50ae143b75fc238e91c09c750cf211c1" category="summary">Oracle 資料庫參數 - filesystemio_options</block>
   <block id="23c61da1d42f69597a6ab97e333a560f" category="doc">Oracle 資料庫參數： filesystemio_options</block>
   <block id="cf451e0aed3c944d3f1c761387762e56" category="summary">使用 Linux 的 Oracle 資料庫</block>
@@ -5553,12 +5548,6 @@
   <block id="97e73fdb42ddecb63ed519a484ff3c9b" category="paragraph">SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立時快照中有正確的資料。在大多數情況下、唯一安全的方法是使用 SnapCenter 或 T-SQL 。在沒有這種額外協調的情況下建立的快照、可能無法可靠地恢復。</block>
   <block id="9d831cc4c73b8a2915ce6d8928d55915" category="paragraph">SQL Server 全年無休可用性群組複寫功能是絕佳的選項、 NetApp 提供多種選項、可將資料保護與全年無休整合。不過、在某些情況下、您可能會想要考慮使用 ONTAP 複寫技術。有三個基本選項。</block>
   <block id="dd432f8769e4d3db8acf8bf9df94680a" category="paragraph">SnapMirror 技術提供快速靈活的企業解決方案、可在 LAN 和 WAN 上複寫資料。SnapMirror 技術只會在建立初始鏡射後、將變更的資料區塊傳輸到目的地、大幅降低網路頻寬需求。可以在同步或非同步模式中設定。</block>
-  <block id="164fe74cfbca9ef543331e42b891cf2c" category="section-title">NetApp MetroCluster</block>
-  <block id="919724e89015426f80bc09648382f128" category="paragraph">MetroCluster 組態有助於為應用程式、資料庫和虛擬化平台提供高可用度、零資料遺失的儲存解決方案。此解決方案是結合陣列型叢集與同步複寫來實作、為整個儲存設備和主機環境提供額外的保護層。</block>
-  <block id="6d2c492dffc0bf60de97e63a6009479e" category="section-title">SnapMirror Active Sync （前身為 SnapMirror Business Continuity ）</block>
-  <block id="123164a12a3f4d85ba9b3ada5527d5bd" category="paragraph">SnapMirror 主動式同步是以 SnapMirror Synchronous 及其將多個 LUN 複寫到複本儲存設備的能力為基礎、同時維持寫入順序的一致性。使用 MetroCluster 時、包括網路組態在內的 ONTAP 控制器在站台之間應相同。有了 SnapMirror 主動式同步、您基本上擁有兩個不同的 ONTAP 系統、可維護 LUN 資料的獨立複本、但可以合作呈現該 LUN 的單一執行個體。從主機的角度來看、這是單一 LUN 實體。</block>
-  <block id="b98b6a092261c39c119882f3184a9389" category="paragraph">MetroCluster 與 SnapMirror 主動式同步的主要差異在於精細度和擴充性。如果您只需要選取要同步複寫的特定工作負載、或兩個站台都應該提供 LUN 以進行讀寫作業、則 SnapMirror 主動式同步是更好的選擇。如果您需要複寫整個環境、甚至是資料中心、 MetroCluster 是更好的選擇。此外、 SnapMirror 主動式同步目前僅適用於 SAN 、而 MetroCluster 則是多重傳輸協定、包括 SAN 、 NFS 和 SMB 。</block>
-  <block id="ad92b482f7ca3e4927337deb7a2139be" category="paragraph">如需 SnapMirror 的詳細資訊，請參閱<block ref="7b9bb0f7fafd9178d92ab3dea0b9cbc5" category="inline-link-macro-rx"></block>。</block>
   <block id="fce5f84d02dbd5c9e3cfedf18e809644" category="summary">Microsoft SQL Server 和 NetApp MetroCluster</block>
   <block id="6d65b4d9884a5fae6940ac158045781c" category="doc">MetroCluster 概述與架構</block>
   <block id="41900c1c2eb669e401e4abee9091b40b" category="paragraph">Microsoft SQL Server 部署搭配 MetroCluster 環境需要對 MetroCluster 系統的實體設計進行一些說明。</block>
@@ -5876,4 +5865,34 @@
   <block id="81959299f52ddb567fd902f3e1ae5311" category="paragraph">如果沒有特殊警示點設定、則該主機會同時使用兩個儲存系統、因為這兩個儲存系統都會通告主動 / 最佳化的路徑。如果站台之間的 SAN 延遲和 / 或頻寬受到限制、這可能無法進行設計、您可能希望確保在正常作業期間、每個主機都優先使用本機儲存系統的路徑。這是透過將主機 WWN/iSCSI ID 新增至本機叢集做為近端主機來設定的。這可以在 CLI 或 SystemManager 上完成。</block>
   <block id="f08670cf73640d447fb34d01b0f6418f" category="paragraph">在 AFF 系統中、設定主機鄰近時、路徑會如下所示。</block>
   <block id="85a2564342597a065a3926228b7e9fcd" category="paragraph">SQL Server 可設定為以多種方式搭配 SnapMirror 作用中同步處理。正確的答案取決於可用的網路連線能力、 RPO 需求和可用度需求。</block>
+  <block id="d60999416cfb11e4fa51f3dbe7386d64" category="paragraph">SM-AS 和 MetroCluster 在整體功能上相似，但在實作 RPO =0 複寫的方式及其管理方式上有重要差異。SnapMirror 非同步和同步也可作為 DR 計畫的一部分使用，但它們並非設計為 HA 重新安裝技術。</block>
+  <block id="e122442a5a5728cd45ffc4ddd170a36f" category="list-text">MetroCluster 組態更像是一個整合式叢集，節點分散在各個站台上。SM-AS 的運作方式類似於兩個原本是相互不同的叢集，這些叢集正在合作為選取的 RPO = 0 同步複寫 LUN 提供服務。</block>
+  <block id="dbbbd9519f58f000ae618fd3a3f2f38c" category="list-text">MetroCluster 組態中的資料只能在任何指定時間從特定站台存取。另一個資料複本位於另一個站台，但資料是被動的。如果沒有儲存系統容錯移轉，就無法存取。</block>
+  <block id="72d2ba33caf4a678d0b02c7a4a562662" category="list-text">MetroCluster 和 SM-AS 執行鏡像會在不同層級執行。MetroCluster 鏡射是在 RAID 層執行。低階資料會使用 SyncMirror 以鏡射格式儲存。在 LUN ，磁碟區和傳輸協定層，使用鏡像幾乎是不可見的。</block>
+  <block id="33613d29368b0b312d33bd204505f12b" category="list-text">相反地， SM-AS 鏡射則發生在傳輸協定層。這兩個叢集都是整體上的不相關叢集。資料的兩個複本同步後，兩個叢集只需鏡射寫入。當某個叢集發生寫入時，它會複寫到另一個叢集。只有當兩個站台的寫入作業完成時，才會將寫入內容確認給主機。除了這種傳輸協定分割行為之外，這兩個叢集都是正常的 ONTAP 叢集。</block>
+  <block id="c6ce2d48c3feb0ac105233b1d47d6785" category="list-text">MetroCluster 的主要角色是大規模複寫。您可以使用 RPO=0 和接近零的 RTO 來複寫整個陣列。這簡化了容錯移轉程序，因為只有一件事需要容錯移轉，而且在容量和 IOPS 方面的擴充能力極佳。</block>
+  <block id="22c8f7d4250a7117dcec5e795cf01979" category="list-text">SMAS 的一個關鍵使用案例是精細複寫。有時候您不想將所有資料複寫為單一單元，或者您需要選擇性地容錯移轉特定工作負載。</block>
+  <block id="466f5e6d5af96a45aba533d742d1f30e" category="list-text">另一個用於 SM-AS 的重要使用案例是用於雙主動式作業，您想要在兩個不同位置的兩個不同叢集上提供完全可用的資料複本，而且效能特性相同，如果需要，也不需要在各個站台之間擴充 SAN 。您可以讓應用程式同時在兩個站台上執行，以降低容錯移轉作業期間的整體 RTO 。</block>
+  <block id="3ab2196c18fe1cd72bf252059597387b" category="section-title">NetApp MetroCluster 和 SnapMirror 作用中同步</block>
+  <block id="95da439be4f858e05c58cde4b5946324" category="paragraph">對於許多客戶而言，災難恢復不僅需要擁有遠端資料複本，還需要能夠快速使用該資料。NetApp 提供兩種技術來滿足這種需求： MetroCluster 和 SnapMirror 主動同步</block>
+  <block id="3e6b18011054436086bb6cf813b0cb23" category="section-title">SM 與 MCC 比較</block>
+  <block id="4ab72a69aa303ab33d610a6f6e594e68" category="section-title">Checksum</block>
+  <block id="0a4a3e3ef29b5fc4ea4e557f166532b4" category="paragraph">SnapMirror 主動式同步（ SM-AS ）是以 SnapMirror 同步為基礎。使用 MetroCluster 、每個 ONTAP 控制器都負責將其磁碟機資料複寫到遠端位置。有了 SnapMirror 主動式同步、您基本上擁有兩個不同的 ONTAP 系統、可維護 LUN 資料的獨立複本、但可以合作呈現該 LUN 的單一執行個體。從主機的角度來看、這是單一 LUN 實體。</block>
+  <block id="2f589372957b08ce09879b8a2ab6e58c" category="section-title">啟用 DNFS</block>
+  <block id="1a89d30b5bb0e2de334e029001a92f8a" category="paragraph">Oracle DNFS 可與 NFSv3 搭配使用，除了啟用 DNFS 程式庫之外，不需要任何組態（請參閱 Oracle 說明文件以取得所需的特定命令），但如果 DNFS 無法建立連線，則可無訊息還原至核心 NFS 用戶端。如果發生這種情況，效能可能會受到嚴重影響。</block>
+  <block id="9cb0e5a02b9facf3c0e654f08ceceda4" category="paragraph">如果您想要在多個介面上使用 NFSSv4.X 的 DNFS 多工處理，或是使用加密，則必須設定一個 fstab 檔案。語法非常嚴格。檔案中的小錯誤可能會導致啟動掛起或略過 oranfstab 檔案。</block>
+  <block id="3c04631b254b4b0e971a2c82517f50cb" category="paragraph">要確保某些 DNFS 正常運作，唯一的方法是查詢 v$dnfs 表格。</block>
+  <block id="21986e459426718105f7dc1a16e88bd0" category="paragraph">以下是位於 /et. 的範例 oranfstab 檔案這是可放置 oranfstab 檔案的多個位置之一。</block>
+  <block id="1d4338d2de6e933a6941c8605def3a39" category="paragraph">第一步是檢查 DNFS 是否可用於指定的檔案系統：</block>
+  <block id="75bc8bd82bedf61e91351f8667b97e13" category="paragraph">此輸出表示 DNFS 正與這兩個檔案系統搭配使用，但 * 不 * 表示 oranfstab 可以運作。如果出現錯誤， DNFS 會自動探索主機的 NFS 檔案系統，您仍可能會看到此命令的相同輸出。</block>
+  <block id="f4327e73856b2069e10b045605d3fbe9" category="paragraph">多重路徑檢查方式如下：</block>
+  <block id="99dc2d8bc11eb27fb0b920ca969e43e1" category="paragraph">這些是 DNFS 正在使用的連線。每個 SVRNAME 項目都會顯示兩個路徑和通道。這表示多重路徑功能正常運作，這表示 oranfstab 檔案已被辨識及處理。</block>
+  <block id="d99de907aa06fa04c7b19ffceff68307" category="admonition">以下各節是 ONTAP 9 版本 15.1 的最新版本，但租用和鎖定行為以及調校選項可能會從版本變更為版本。如果您需要調整 NFSv4 租用 / 鎖定逾時，請洽詢 NetApp 支援以取得最新資訊。</block>
+  <block id="4bf95f1ea9ecf4f42a7b323970405bb4" category="paragraph">此寬限期可控制網路介面變更期間的租用回收，但第二個寬限期則可控制儲存容錯移轉期間的回收。<block ref="d75aeb1a8759ea7475fe0ddcd2058ca1" prefix=" " category="inline-code"></block>這是節點層級選項。</block>
+  <block id="0ba7c8a7759adb519c715ac93fdee2a6" category="paragraph">例如，如果您經常需要執行 LIF 容錯移轉，而且需要縮短寬限期，您可以變更<block ref="b1280b7c6d986647dff33b87ce276327" prefix=" " category="inline-code"></block>。如果您想要在控制器容錯移轉期間改善 IO 恢復時間，您需要變更<block ref="d75aeb1a8759ea7475fe0ddcd2058ca1" prefix=" " category="inline-code"></block>。</block>
+  <block id="3f3edac1c3ed7bfad53f9d42b9a0c5a7" category="paragraph">只有在完全瞭解風險和後果之後，才應謹慎變更這些價值。無法完全避免使用 NFSv4.X 執行容錯移轉和移轉作業所涉及的 IO 暫停。鎖定，租賃和寬限期是 NFS RFC 的一部分。對於許多客戶而言， NFSv3 較為理想，因為容錯移轉時間較快。</block>
+  <block id="167503c08e9285f5c4a4a61a0123897b" category="paragraph">寬限期與租用期間已連線。如上所述、預設的租用逾時為 30 秒、這表示 NFSv4 用戶端必須至少每 30 秒與伺服器簽入一次、否則就會遺失租約、進而導致鎖定。存在寬限期、可讓 NFS 伺服器重建租用 / 鎖定資料、預設為 45 秒。寬限期必須比租用期間長。如此可確保設計為至少每 30 秒續約的 NFS 用戶端環境、在重新啟動後能夠與伺服器簽入。45 秒的寬限期可確保所有預期至少每 30 秒續約一次的客戶都有機會續約。</block>
+  <block id="6be050126f2df5ae7cd944ce446241c2" category="paragraph">如果無法接受 30 秒的逾時、您可以選擇延長租用期。</block>
+  <block id="38d530634a8d32e8775a37109fc08542" category="paragraph">如果您想要將租用逾時延長至 60 秒，以因應 60 秒的網路中斷，您也必須增加寬限期。這表示您將會在控制器容錯移轉期間經歷更長的 IO 暫停時間。</block>
+  <block id="ac76821692fdb2dae1d98babe804fb8f" category="paragraph">這通常不是問題。一般使用者每年只會更新 ONTAP 控制器一或兩次、而且由於硬體故障而造成的非計畫性容錯移轉極少。此外、如果您的網路發生 60 秒網路中斷的可能性、而您需要將租用逾時時間延長至 60 秒、那麼您可能不會反對罕見的儲存系統容錯移轉、導致暫停時間也達 61 秒。您已確認網路暫停超過 60 秒、而且速度較快。</block>
 </blocks>

@@ -1,38 +1,6 @@
----
-sidebar: sidebar 
-permalink: mssql/mssql-disaster-recovery.html 
-keywords: MSSQL,SQL Server, disaster recovery, snapmirror 
-summary: 使用 ONTAP 進行 Microsoft SQL Server 災難恢復 
----
-= 使用 ONTAP 進行 Microsoft SQL Server 災難恢復
+= 
 :allow-uri-read: 
-:imagesdir: ../media/
 
-
-[role="lead"]
-企業資料庫和應用程式基礎架構通常需要複寫、才能在最短的停機時間內、避免自然災難或非預期的業務中斷。
-
-SQL Server 全年無休可用性群組複寫功能是絕佳的選項、 NetApp 提供多種選項、可將資料保護與全年無休整合。不過、在某些情況下、您可能會想要考慮使用 ONTAP 複寫技術。有三個基本選項。
-
-
-
-== SnapMirror
-
-SnapMirror 技術提供快速靈活的企業解決方案、可在 LAN 和 WAN 上複寫資料。SnapMirror 技術只會在建立初始鏡射後、將變更的資料區塊傳輸到目的地、大幅降低網路頻寬需求。可以在同步或非同步模式中設定。
-
-
-
-== NetApp MetroCluster 和 SnapMirror 作用中同步
-
-對於許多客戶而言，災難恢復不僅需要擁有遠端資料複本，還需要能夠快速使用該資料。NetApp 提供兩種技術來滿足這種需求： MetroCluster 和 SnapMirror 主動同步
-
-MetroCluster 指的是硬體組態中的 ONTAP 、其中包括低階同步鏡射儲存設備和許多其他功能。MetroCluster 等整合式解決方案可簡化現今複雜的橫向擴充資料庫、應用程式及虛擬化基礎架構。它以一個簡單的中央儲存陣列取代多種外部資料保護產品和策略。它也能在單一叢集式儲存系統中提供整合式備份、還原、災難恢復和高可用度（ HA ）。
-
-SnapMirror 主動同步是以 SnapMirror Synchronous 為基礎。使用 MetroCluster 、每個 ONTAP 控制器都負責將其磁碟機資料複寫到遠端位置。有了 SnapMirror 主動式同步、您基本上擁有兩個不同的 ONTAP 系統、可維護 LUN 資料的獨立複本、但可以合作呈現該 LUN 的單一執行個體。從主機的角度來看、這是單一 LUN 實體。
-
-
-
-== SM 與 MCC 比較
 
 SM-AS 和 MetroCluster 在整體功能上相似，但在實作 RPO =0 複寫的方式及其管理方式上有重要差異。SnapMirror 非同步和同步也可作為 DR 計畫的一部分使用，但它們並非設計為 HA 重新安裝技術。
 

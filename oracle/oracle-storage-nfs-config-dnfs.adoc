@@ -33,7 +33,110 @@ Oracle Direct NFS 的主要值是略過主機 NFS 用戶端、並直接在 NFS �
 
 
 
-=== 直接 NFS 和主機檔案系統存取
+=== 啟用 DNFS
+
+Oracle DNFS 可與 NFSv3 搭配使用，除了啟用 DNFS 程式庫之外，不需要任何組態（請參閱 Oracle 說明文件以取得所需的特定命令），但如果 DNFS 無法建立連線，則可無訊息還原至核心 NFS 用戶端。如果發生這種情況，效能可能會受到嚴重影響。
+
+如果您想要在多個介面上使用 NFSSv4.X 的 DNFS 多工處理，或是使用加密，則必須設定一個 fstab 檔案。語法非常嚴格。檔案中的小錯誤可能會導致啟動掛起或略過 oranfstab 檔案。
+
+要確保某些 DNFS 正常運作，唯一的方法是查詢 v$dnfs 表格。
+
+以下是位於 /et. 的範例 oranfstab 檔案這是可放置 oranfstab 檔案的多個位置之一。
+
+....
+[root@jfs11 trace]# cat /etc/oranfstab
+server: NFSv3test
+path: jfs_svmdr-nfs1
+path: jfs_svmdr-nfs2
+export: /dbf mount: /oradata
+export: /logs mount: /logs
+nfs_version: NFSv3
+....
+第一步是檢查 DNFS 是否可用於指定的檔案系統：
+
+....
+SQL> select dirname,nfsversion from v$dnfs_servers;
+
+DIRNAME
+------------------------------------
+NFSVERSION
+----------------
+/logs
+NFSv3.0
+
+/dbf
+NFSv3.0
+....
+此輸出表示 DNFS 正與這兩個檔案系統搭配使用，但 * 不 * 表示 oranfstab 可以運作。如果出現錯誤， DNFS 會自動探索主機的 NFS 檔案系統，您仍可能會看到此命令的相同輸出。
+
+多重路徑檢查方式如下：
+
+....
+SQL> select svrname,path,ch_id from v$dnfs_channels;
+
+SVRNAME
+------------------------------------
+PATH
+------------------------------------
+     CH_ID
+----------
+NFSv3test
+jfs_svmdr-nfs1
+         0
+
+NFSv3test
+jfs_svmdr-nfs2
+         1
+
+SVRNAME
+------------------------------------
+PATH
+------------------------------------
+     CH_ID
+----------
+
+NFSv3test
+jfs_svmdr-nfs1
+         0
+
+NFSv3test
+jfs_svmdr-nfs2
+
+[output truncated]
+
+SVRNAME
+------------------------------------
+PATH
+------------------------------------
+     CH_ID
+----------
+NFSv3test
+jfs_svmdr-nfs2
+         1
+
+NFSv3test
+jfs_svmdr-nfs1
+         0
+
+SVRNAME
+------------------------------------
+PATH
+------------------------------------
+     CH_ID
+----------
+
+NFSv3test
+jfs_svmdr-nfs2
+         1
+
+
+66 rows selected.
+....
+這些是 DNFS 正在使用的連線。每個 SVRNAME 項目都會顯示兩個路徑和通道。這表示多重路徑功能正常運作，這表示 oranfstab 檔案已被辨識及處理。
+
+
+
+== 直接 NFS 和主機檔案系統存取
 
 使用 DNFS 有時會導致依賴掛載在主機上的可見檔案系統的應用程式或使用者活動發生問題、因為 DNFS 用戶端會從主機作業系統不定期存取檔案系統。DNFS 用戶端可以在不瞭解作業系統的情況下建立、刪除及修改檔案。
 

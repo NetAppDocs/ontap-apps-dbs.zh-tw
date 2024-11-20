@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: postgres/postgres-snapshot-dp.html 
 keywords: PostgreSQL,database,postgres 
 summary: PostgreSQL 資料庫和儲存快照 
+searchtitle: PostgreSQL 資料庫和儲存快照 
 ---
-= PostgreSQL 資料庫和儲存快照
+= 快照
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

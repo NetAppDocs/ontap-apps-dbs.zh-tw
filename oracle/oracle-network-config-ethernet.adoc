@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-network-config-ethernet.html 
 keywords: ethernet, jumbo frames, MTU 
 summary: Oracle 和 TCP/IP 及乙太網路組態 
+searchtitle: 用於 Oracle 資料庫的 TCP/IP 和乙太網路組態 
 ---
-= 用於 Oracle 資料庫的 TCP/IP 和乙太網路組態
+= TCP/IP 和乙太網路組態
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-ontap-config-qos.html 
 keywords: qos, bandwidth, minimum, guaranteed 
 summary: ONTAP QoS 的 Oracle 資料庫效能管理 
+searchtitle: ONTAP QoS 的 Oracle 資料庫效能管理 
 ---
-= ONTAP QoS 的 Oracle 資料庫效能管理
+= 透過 ONTAP QoS 進行效能管理
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

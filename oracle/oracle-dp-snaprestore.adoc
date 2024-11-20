@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dp-snaprestore.html 
 keywords: ontap, snaprestore 
 summary: 使用 SnapRestore 快速恢復 Oracle 資料庫 
+searchtitle: 使用 SnapRestore 快速恢復 Oracle 資料庫 
 ---
-= 使用 SnapRestore 快速恢復 Oracle 資料庫
+= SnapRestore
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

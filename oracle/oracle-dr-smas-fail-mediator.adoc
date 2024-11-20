@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dr-smas-fail-mediator.html 
 keywords: Oracle, SnapMirror active sync, SMBC, failover 
 summary: Oracle 和 SnapMirror 主動同步 - 中介故障 
+searchtitle: Oracle 和 SnapMirror 主動同步 - 中介故障 
 ---
-= Oracle 和 SnapMirror 主動同步 - 中介故障
+= 中介故障
 :allow-uri-read: 
 :imagesdir: ../media/
 

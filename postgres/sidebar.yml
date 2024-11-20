@@ -27,7 +27,7 @@ entries:
   entries:
   - title: 原生資料保護
     url: "/postgres/postgres-native-dp.html"
-  - title: Snapshot 技術
+  - title: 快照
     url: "/postgres/postgres-snapshot-dp.html"
   - title: 資料保護軟體
     url: "/postgres/postgres-snapcenter-dp.html"

@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-ontap-config-svm.html 
 keywords: svm 
 summary: Oracle 資料庫的 SVM 資源配置 
+searchtitle: Oracle 資料庫與儲存虛擬機器 
 ---
-= Oracle 資料庫與儲存虛擬機器
+= 儲存虛擬機器
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-notes-wafl-alignment-verification.html 
 keywords: oracle, database, ontap, wafl, alignment 
 summary: 適用於 Oracle 資料庫的 WAFL 對齊 
+searchtitle: Oracle 資料庫的 WAFL 對齊驗證 
 ---
-= Oracle 資料庫的 WAFL 對齊驗證
+= WAFL 對齊驗證
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

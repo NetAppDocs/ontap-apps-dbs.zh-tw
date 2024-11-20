@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-storage-considerations.html 
 keywords: MSSQL,SQL Server, volumes, LUN, SnapCenter 
 summary: Microsoft SQL Server 儲存考量 
+searchtitle: Microsoft SQL Server 儲存考量 
 ---
-= Microsoft SQL Server 儲存考量
+= 總覽
 :allow-uri-read: 
 :imagesdir: ../media/
 

@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: postgres/postgres-initialization.html 
 keywords: PostgreSQL,database,postgres 
 summary: PostgreSQL 初始化參數 
+searchtitle: PostgreSQL 初始化參數 
 ---
-= PostgreSQL 初始化參數
+= 初始化參數
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

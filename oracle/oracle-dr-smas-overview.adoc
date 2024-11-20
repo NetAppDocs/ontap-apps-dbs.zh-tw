@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dr-smas-overview.html 
 keywords: Oracle,SM-as,active sync 
 summary: Oracle 和 SnapMirror 主動同步 
+searchtitle: Oracle 與 SnapMirror 主動式同步總覽 
 ---
-= Oracle 和 SnapMirror 主動同步
+= 總覽
 :allow-uri-read: 
 :imagesdir: ../media/
 

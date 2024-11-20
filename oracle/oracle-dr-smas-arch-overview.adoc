@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dr-smas-arch-overview.html 
 keywords: oracle, active sync, mcc, MCC-IP 
 summary: Oracle 單一執行個體、含 SnapMirror 作用中同步 
+searchtitle: Oracle 與 SnapMirror 主動式同步 
 ---
-= Oracle 與 SnapMirror 主動式同步
+= 總覽
 :allow-uri-read: 
 
 

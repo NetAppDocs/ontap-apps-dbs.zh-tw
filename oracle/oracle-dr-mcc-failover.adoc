@@ -2,9 +2,10 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dr-mcc-failover.html 
 keywords: Metrocluster, mcc, MCC-IP 
-summary: 使用 MetroCluster 進行 Oracle 資料庫容錯移轉 
+summary: Oracle 資料庫 DR 搭配 MetroCluster 
+searchtitle: Oracle 資料庫 DR 搭配 MetroCluster 
 ---
-= 使用 MetroCluster 進行 Oracle 資料庫容錯移轉
+= 使用 MetroCluster 進行災難恢復
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

@@ -2,9 +2,10 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dr-smas-fail-site.html 
 keywords: Oracle, SnapMirror active sync, SMBC, failover 
-summary: Oracle 與 SnapMirror 主動式同步：連線中斷的總次數 
+summary: Oracle 和 SnapMirror 主動同步 - 站台故障 
+searchtitle: Oracle 和 SnapMirror 主動同步 - 站台故障 
 ---
-= Oracle 與 SnapMirror 主動式同步：連線中斷的總次數
+= 站台故障
 :allow-uri-read: 
 :imagesdir: ../media/
 

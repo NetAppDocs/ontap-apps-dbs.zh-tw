@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mysql/mysql-configuration.html 
 keywords: MySQL,MariaDB 
 summary: MySQL 組態參數 
+searchtitle: MySQL 組態參數 
 ---
-= MySQL 組態參數
+= 組態參數
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

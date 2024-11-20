@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-dr-smas-overview.html 
 keywords: MSSQL,SQL Server, SnapMirror active sync, SMBC, overview 
 summary: Microsoft SQL Server 和 SnapMirror 主動式同步 
+searchtitle: SQL Server 和 SnapMirror 主動式同步 
 ---
-= SQL Server 和 SnapMirror 主動式同步
+= 總覽
 :allow-uri-read: 
 :imagesdir: ../media/
 

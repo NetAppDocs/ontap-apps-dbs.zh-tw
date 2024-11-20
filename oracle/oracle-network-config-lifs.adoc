@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-network-config-lifs.html 
 keywords: LIF, multipath, multipathing 
 summary: Oracle 資料庫的邏輯介面設計 
+searchtitle: Oracle 資料庫的邏輯介面設計 
 ---
-= Oracle 資料庫的邏輯介面設計
+= 邏輯介面
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

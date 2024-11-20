@@ -142,7 +142,7 @@ entries:
     url: "/oracle/oracle-dr-overview.html"
   - title: MetroCluster
     entries:
-    - title: MetroCluster 的 Oracle 容錯移轉
+    - title: Oracle DR 搭配 MetroCluster
       url: "/oracle/oracle-dr-mcc-failover.html"
     - title: 實體架構
       url: "/oracle/oracle-dr-mcc-physical.html"

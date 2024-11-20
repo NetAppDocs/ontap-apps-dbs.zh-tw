@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mysql/mysql-containers.html 
 keywords: MySQL,MariaDB,containers,trident 
 summary: MySQL 容器化 
+searchtitle: MySQL 容器化 
 ---
-= MySQL 容器化
+= 容器化
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

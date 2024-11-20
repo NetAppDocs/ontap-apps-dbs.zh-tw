@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-host-config-hp-ux.html 
 keywords: oracle, database, ontap, hp-ux 
 summary: 使用 HP-UX 的 Oracle 資料庫 
+searchtitle: 使用 HP-UX 的 Oracle 資料庫 
 ---
-= 使用 HP-UX 的 Oracle 資料庫
+= HP-UX
 :allow-uri-read: 
 
 

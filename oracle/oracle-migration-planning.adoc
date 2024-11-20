@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-migration-planning.html 
 keywords: migration, oracle 
 summary: Oracle 資料庫移轉規劃 
+searchtitle: Oracle 資料庫移轉規劃 
 ---
-= Oracle 資料庫移轉規劃
+= 移轉規劃
 :allow-uri-read: 
 
 

@@ -2,9 +2,10 @@
 sidebar: sidebar 
 permalink: mysql/mysql-file-descriptors.html 
 keywords: MySQL,MariaDB,file descriptors 
-summary: MySQL 檔案說明 
+summary: MySQL 檔案描述元 
+searchtitle: MySQL 檔案描述元 
 ---
-= MySQL 檔案描述元
+= 檔案描述元
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

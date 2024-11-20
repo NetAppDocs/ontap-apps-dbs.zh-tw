@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-storage-san-config-lun-placement.html 
 keywords: SAN, ASM, LVM 
 summary: Oracle 和 ONTAP 磁碟區和 LUN 配置 
+searchtitle: Oracle 資料庫 LUN 放置 
 ---
-= Oracle 資料庫 LUN 放置
+= LUN 放置
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

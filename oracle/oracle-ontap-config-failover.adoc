@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-ontap-config-failover.html 
 keywords: failover, switchover 
 summary: 需要瞭解儲存設備接管和切入功能、才能確保 Oracle 資料庫作業不會因這些作業而中斷。此外、如果不正確使用、接管和切入作業所使用的引數可能會影響資料完整性。 
+searchtitle: Oracle 資料庫和 ONTAP 控制器容錯移轉 / 切換 
 ---
-= Oracle 資料庫和 ONTAP 控制器容錯移轉 / 切換
+= ONTAP 容錯移轉 / 切換
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

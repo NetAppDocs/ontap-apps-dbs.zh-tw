@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-shared-vs-dedicated.html 
 keywords: MSSQL,SQL Server, multiple instances, dedicated instance, ONTAP 
 summary: Microsoft SQL Server 執行個體部署 
+searchtitle: Microsoft SQL Server 共用執行個體與專用執行個體的比較 
 ---
-= Microsoft SQL Server 共用執行個體與專用執行個體的比較
+= 共享執行個體與專用執行個體
 :allow-uri-read: 
 :imagesdir: ../media/
 

@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-disaster-recovery.html 
 keywords: MSSQL,SQL Server, disaster recovery, snapmirror 
 summary: 使用 ONTAP 進行 Microsoft SQL Server 災難恢復 
+searchtitle: 使用 ONTAP 進行 Microsoft SQL Server 災難恢復 
 ---
-= 使用 ONTAP 進行 Microsoft SQL Server 災難恢復
+= 災難恢復
 :allow-uri-read: 
 :imagesdir: ../media/
 

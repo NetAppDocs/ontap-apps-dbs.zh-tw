@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dr-smas-fail-restore.html 
 keywords: Oracle, SnapMirror active sync, SMBC, failover 
 summary: Oracle 與 SnapMirror 主動式同步：服務還原 
+searchtitle: Oracle 與 SnapMirror 主動式同步：服務還原 
 ---
-= Oracle 與 SnapMirror 主動式同步：服務還原
+= 服務還原
 :allow-uri-read: 
 :imagesdir: ../media/
 

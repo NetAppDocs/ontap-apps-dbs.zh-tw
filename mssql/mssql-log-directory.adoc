@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-log-directory.html 
 keywords: MSSQL,SQL Server, volumes, LUN, SnapCenter 
 summary: Microsoft SQL Server 記錄目錄 
+searchtitle: Microsoft SQL Server 記錄目錄 
 ---
-= Microsoft SQL Server 記錄目錄
+= 記錄目錄
 :allow-uri-read: 
 :imagesdir: ../media/
 

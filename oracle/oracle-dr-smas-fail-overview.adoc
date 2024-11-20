@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dr-smas-fail-overview.html 
 keywords: Oracle, SnapMirror active sync, SMBC, failover 
 summary: Oracle 與 SnapMirror 主動同步容錯移轉 
+searchtitle: Oracle 與 SnapMirror 主動同步容錯移轉 
 ---
-= Oracle 與 SnapMirror 主動同步容錯移轉
+= 總覽
 :allow-uri-read: 
 :imagesdir: ../media/
 

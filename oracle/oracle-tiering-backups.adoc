@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-tiering-backups.html 
 keywords: tiering, fabricpool 
 summary: Oracle 備份分層 
+searchtitle: Oracle 資料庫備份分層 
 ---
-= Oracle 資料庫備份分層
+= 備份分層
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

@@ -2,9 +2,10 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dr-smas-uniform.html 
 keywords: Oracle,SM-as,active sync,uniform 
-summary: Oracle 與 SM ：統一存取 
+summary: Oracle 和 SM-as 統一存取 
+searchtitle: Oracle 和 SM-as 統一存取 
 ---
-= Oracle 和 SM-as 統一存取
+= 統一存取
 :allow-uri-read: 
 :imagesdir: ../media/
 

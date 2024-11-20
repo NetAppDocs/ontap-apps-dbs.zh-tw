@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dp-online-backup.html 
 keywords: oracle, data protection, hot backup 
 summary: Oracle 資料庫快照型備份與還原 
+searchtitle: Oracle 資料庫線上備份 
 ---
-= Oracle 資料庫線上備份
+= 線上備份
 :allow-uri-read: 
 
 

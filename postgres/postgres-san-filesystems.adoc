@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: postgres/postgres-san-filesystems.html 
 keywords: PostgreSQL,database,postgres 
 summary: ONTAP 上具有 SAN 的 PostgreSQL 資料庫 
+searchtitle: 具有 SAN 檔案系統的 PostgreSQL 
 ---
-= 具有 SAN 檔案系統的 PostgreSQL
+= SAN
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

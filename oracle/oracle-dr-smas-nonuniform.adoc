@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dr-smas-nonuniform.html 
 keywords: Oracle,SM-as,active sync,nonuniform 
 summary: Oracle 和 SM － as 非統一存取 
+searchtitle: Oracle 和 SM － as 非統一存取 
 ---
-= Oracle 和 SM － as 非統一存取
+= 不一致的存取
 :allow-uri-read: 
 :imagesdir: ../media/
 

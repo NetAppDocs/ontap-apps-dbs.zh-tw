@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: postgres/postgres-nfs-filesystems.html 
 keywords: PostgreSQL,database,postgres 
 summary: PostgreSQL 使用 ONTAP 來資料庫 NFS 
+searchtitle: 具有 NFS 檔案系統的 PostgreSQL 資料庫 
 ---
-= 具有 NFS 檔案系統的 PostgreSQL 資料庫
+= NFS
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

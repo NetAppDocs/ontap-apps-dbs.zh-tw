@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dr-overview.html 
 keywords: metrocluster, syncmirror, oracle 
 summary: 使用 ONTAP 進行 Oracle 資料庫災難恢復 
+searchtitle: 使用 ONTAP 進行 Oracle 資料庫災難恢復 
 ---
-= 使用 ONTAP 進行 Oracle 資料庫災難恢復
+= 總覽
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

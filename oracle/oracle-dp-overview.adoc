@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dp-overview.html 
 keywords: oracle, database, ontap 
 summary: Oracle 資料保護總覽 
+searchtitle: 使用 ONTAP 保護 Oracle 資料 
 ---
-= 使用 ONTAP 保護 Oracle 資料
+= 使用 ONTAP 保護資料
 :allow-uri-read: 
 
 

@@ -9,7 +9,7 @@ entries:
   entries:
   - title: 檔案結構
     url: "/mysql/mysql-file-structure.html"
-  - title: 組態總覽
+  - title: 組態參數
     url: "/mysql/mysql-configuration.html"
   - title: InnoDB_log_file_size
     url: "/mysql/mysql-innodb_log_file_size.html"
@@ -41,7 +41,7 @@ entries:
 - title: 儲存組態
   pdf-filename: MySQL 的儲存組態
   entries:
-  - title: MySQL over NFS
+  - title: NFS
     url: "/mysql/mysql-mysql-over-nfs.html"
-  - title: MySQL over SAN
+  - title: SAN
     url: "/mysql/mysql-mysql-over-san.html"

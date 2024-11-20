@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-files-and-filegroups.html 
 keywords: MSSQL,SQL Server, backup, recovery, database file management 
 summary: Microsoft SQL Server 資料庫檔案放置 
+searchtitle: Microsoft SQL Server 資料庫檔案和檔案群組 
 ---
-= Microsoft SQL Server 資料庫檔案和檔案群組
+= 資料庫檔案和檔案群組
 :allow-uri-read: 
 :imagesdir: ../media/
 

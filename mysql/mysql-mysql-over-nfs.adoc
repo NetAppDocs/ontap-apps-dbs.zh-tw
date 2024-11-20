@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mysql/mysql-mysql-over-nfs.html 
 keywords: MySQL,MariaDB,NFS 
 summary: 使用 NFS 的 MySQL 
+searchtitle: 使用 NFS 的 MySQL 
 ---
-= 使用 NFS 的 MySQL
+= NFS
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

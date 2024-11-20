@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-dr-smas-sql.html 
 keywords: MSSQL,SQL Server, SnapMirror active sync, ONTAP, SMBC, SMas, SnapMirror Business Continuity 
 summary: Microsoft SQL Server 和 SnapMirror 主動式同步 
+searchtitle: Microsoft SQL Server 搭配 SnapMirror 主動式同步 
 ---
-= Microsoft SQL Server 搭配 SnapMirror 主動式同步
+= 總覽
 :allow-uri-read: 
 :imagesdir: ../media/
 

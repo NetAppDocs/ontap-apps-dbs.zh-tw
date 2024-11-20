@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mysql/mysql-overview.html 
 keywords: MySQL,MariaDB,TR-4722 
 summary: ONTAP 上的 MySQL 
+searchtitle: ONTAP 上的 MySQL 資料庫 
 ---
-= ONTAP 上的 MySQL 資料庫
+= 總覽
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/

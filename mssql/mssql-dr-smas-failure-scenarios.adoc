@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-dr-smas-failure-scenarios.html 
 keywords: MSSQL,SQL Server, SnapMirror active sync, SMBC, failover 
 summary: Microsoft SQL Server 和 SM-as 容錯移轉案例 
+searchtitle: Microsoft SQL Server 和 SnapMirror 主動式同步容錯移轉 
 ---
-= Microsoft SQL Server 和 SnapMirror 主動式同步容錯移轉
+= 故障案例
 :allow-uri-read: 
 :imagesdir: ../media/
 

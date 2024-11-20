@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dr-smas-fail-interconnect.html 
 keywords: Oracle, SnapMirror active sync, SMBC, failover 
 summary: Oracle 與 SnapMirror 主動同步容錯移轉 
+searchtitle: SnapMirror 主動式同步： Oracle RAC 複寫遺失 
 ---
-= SnapMirror 主動式同步： Oracle RAC 複寫遺失
+= RAC 互連故障
 :allow-uri-read: 
 :imagesdir: ../media/
 

@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-memory-configuration.html 
 keywords: MSSQL,SQL Server, memory 
 summary: Microsoft SQL Server 記憶體組態 
+searchtitle: Microsoft SQL Server 記憶體組態 
 ---
-= Microsoft SQL Server 記憶體組態
+= 記憶體組態
 :allow-uri-read: 
 :imagesdir: ../media/
 

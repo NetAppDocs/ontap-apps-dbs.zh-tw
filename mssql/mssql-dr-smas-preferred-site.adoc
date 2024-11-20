@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: mssql/mssql-dr-smas-preferred-site.html 
 keywords: MSSQL,SQL Server, SnapMirror active sync, SMBC, overview 
 summary: Microsoft SQL Server 和 SM 做為慣用站台 
+searchtitle: Microsoft SQL Server 和 SM 做為慣用站台 
 ---
-= Microsoft SQL Server 和 SM 做為慣用站台
+= 偏好的網站
 :allow-uri-read: 
 :imagesdir: ../media/
 

@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-app-config-rac.html 
 keywords: oracle, database, ontap, rac, disktimeout, misscount 
 summary: Oracle RAC 逾時 
+searchtitle: Oracle Real Application 叢集逾時 
 ---
-= Oracle Real Application Clusters （ RAC ）逾時
+= RAC 逾時
 :allow-uri-read: 
 
 

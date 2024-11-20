@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-storage-nfs-config-transfer-sizes.html 
 keywords: NFS 
 summary: 使用 Oracle 的 NFS 傳輸大小 
+searchtitle: Oracle 資料庫的 NFS 傳輸大小 
 ---
-= Oracle 資料庫的 NFS 傳輸大小
+= NFS 傳輸大小
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

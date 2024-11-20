@@ -584,7 +584,6 @@
   <block id="030a270970f70c1bd91d3689b6f95f3f" category="inline-link-macro">設定最大工作執行緒伺服器組態選項</block>
   <block id="2a0c648df721b9bc2643d59c4a3a310a" category="paragraph">何時應設定 SQL Server 使用更多工作執行緒？如果每個排程器的平均工作佇列長度超過 1 、您可能會因為在系統中新增更多執行緒而受益、但前提是負載未受 CPU 限制或遇到任何其他繁重的等待。如果發生上述任一種情況、新增更多執行緒並不會有幫助、因為它們最終會等待其他系統瓶頸。如需工作者執行緒上限的詳細資訊、請參閱 <block ref="77c391df5f9f06cdf367c2a7314ce351" category="inline-link-macro-rx"></block>。</block>
   <block id="29d04e616d2293c4c7538dd6226feac5" category="section-title">使用 SQL Server Management Studio 設定最大工作執行緒。</block>
-  <block id="5962130d833e0408cf58a87e342bc1f9" category="doc">Microsoft SQL Server tempdb 檔案</block>
   <block id="44dbc82801d84781083ed9e23b63be00" category="list-text">對於 &lt; 或 = 至 8 核心： tempdb 資料檔案 = 核心數</block>
   <block id="6203fcdbdad10bb603fd00edd2f0fcf5" category="list-text">若為 &gt; 8 核心： 8 個 tempdb 資料檔案</block>
   <block id="b9f341e4fb0e6b384aa7ec0b5c33f964" category="paragraph">下列範例指令碼會建立八個 tempdb 檔案、並將 tempdb 移至掛載點、以修改 tempdb<block ref="ae6fbe62f3ddc46fa9a9885244d23675" prefix=" " category="inline-code"></block> 適用於 SQL Server 2012 及更新版本。</block>
@@ -1476,7 +1475,6 @@
   <block id="3d4d04d6cdab90b7ca0deb0344f04eec" category="list-text">啟動虛擬機器</block>
   <block id="c702c387f07bcb4f18482e68d69a155a" category="paragraph">SyncMirror 是 MetroCluster 系統的 Oracle 資料保護基礎、是最大效能的橫向擴充同步鏡射技術。</block>
   <block id="9028b52caaa7bdbfb9be779eeb1fe00e" category="summary">Oracle Extended RAC with MetroCluster</block>
-  <block id="dbcedb2fd86e6012347a3c9ad111f3a8" category="doc">MetroCluster 上的延伸 Oracle RAC</block>
   <block id="4d4d8a609e5b2ac58e622eb1e90f9e39" category="paragraph">許多客戶透過在各個站台之間延伸 Oracle RAC 叢集來最佳化 RTO 、進而實現完全主動式的組態。整體設計變得更複雜、因為它必須包含 Oracle RAC 的仲裁管理。此外、從兩個站台存取資料、這表示強制轉換可能會導致使用過時的資料複本。</block>
   <block id="89ffaa1a7d089080e9a1ce912bb8c2d3" category="paragraph">雖然兩個站台上都有資料複本、但只有目前擁有 Aggregate 的控制器才能提供資料。因此、使用擴充的 RAC 叢集時、遠端節點必須透過站台對站台連線來執行 I/O 。結果會增加 I/O 延遲、但這種延遲通常不是問題。RAC 互連網路也必須延伸至站台、這表示無論如何都需要高速、低延遲的網路。如果增加的延遲確實造成問題、則叢集可以主動被動方式運作。接著、需要將 I/O 密集作業導向至擁有該集合體的控制器本機的 RAC 節點。然後、遠端節點會執行較輕的 I/O 作業、或純粹作為暖待機伺服器使用。</block>
   <block id="f441d5fdc388f3419fb87e071534f3ce" category="inline-link-macro">Oracle RAC 搭配 ONTAP</block>
@@ -1665,7 +1663,6 @@
   <block id="e4f8aa90af36d76254e2f02e56232aed" category="paragraph">結果是、在重新啟動之後、控制器會暫停 IO 、而所有用戶端都會回收租用和鎖定。寬限期結束後、伺服器將恢復 IO 作業。</block>
   <block id="bb2b26fdcb4e947cda6f8e38724ecfc9" category="section-title">租用逾時與寬限期比較</block>
   <block id="c4fb6f7d31d205bc07dbff47d0ae4bb3" category="summary">Oracle Direct NFS</block>
-  <block id="f58bdad9659176e411f064fdb414233f" category="doc">Oracle directNFS</block>
   <block id="1bd6ec1185ba67395dc6f9cd2b458ec8" category="paragraph">Oracle 資料庫可使用 NFS 的方式有兩種。</block>
   <block id="96997ca5c577dd19a3ba5f7ff771f27a" category="paragraph">首先、它可以使用以作業系統一部分的原生 NFS 用戶端所掛載的檔案系統。這有時稱為核心 NFS 或 kNFS 。NFS 檔案系統是由 Oracle 資料庫安裝及使用、與任何其他應用程式使用 NFS 檔案系統的方式完全相同。</block>
   <block id="95c17c63df7ceea39a175b1d96955bb7" category="paragraph">第二種方法是 Oracle Direct NFS （ DNFS ）。這是在 Oracle 資料庫軟體中實作 NFS 標準。它不會改變 DBA 設定或管理 Oracle 資料庫的方式。只要儲存系統本身有正確的設定、就應該對 DBA 團隊和終端使用者透明使用 DNFS 。</block>
@@ -1887,7 +1884,6 @@
   <block id="dee2dfce5ab0c47301b3c12970a57aa6" category="paragraph">上圖說明 SyncMirror 組態範例。在控制器上建立了 24 個磁碟機的集合體、其中 12 個磁碟機來自於站台 A 上配置的機櫃、 12 個磁碟機來自於站台 B 上配置的機櫃磁碟機分為兩個鏡射 RAID 群組。RAID 群組 0 包括站台 A 上的 6 磁碟機叢、鏡射到站台 B 上的 6 磁碟機叢同樣地、 RAID Group 1 也包含站台 A 的 6 磁碟叢、鏡射到站台 B 的 6 磁碟叢叢</block>
   <block id="4fbc0abe91c0c1381d0a742f58b4e537" category="paragraph">SyncMirror 通常用於提供 MetroCluster 系統的遠端鏡射、每個站台都有一份資料複本。有時候、它是用來在單一系統中提供額外的備援層級。特別是提供機架層級的備援。磁碟機櫃已包含雙電源供應器和控制器、整體上比金屬板稍多、但在某些情況下、可能需要額外的保護。例如、有一位 NetApp 客戶部署 SyncMirror 、用於汽車測試期間使用的行動即時分析平台。系統由獨立的 UPS 系統提供獨立的電源供應器、分為兩個實體機架。</block>
   <block id="0cac56685de94a3ef0e1fd2bfca0c112" category="paragraph">對於習慣使用 Oracle RMAN 串流備份的 DBA 來說、檢查和主題特別重要、因為它們會移轉至快照型備份。RMAN 的一項功能是在備份作業期間執行完整性檢查。雖然這項功能有一些價值、但其主要優點是資料庫並未用於現代化的儲存陣列。當實體磁碟機用於 Oracle 資料庫時、幾乎可以確定磁碟機老化時最終會發生毀損、這是由真正儲存陣列中的陣列型校驗和所解決的問題。</block>
-  <block id="58d7088c13cf2013ef373d85e3c27de7" category="paragraph">使用真正的儲存陣列、資料完整性可在多個層級上使用校驗和加以保護。如果 IP 型網路中的資料毀損、傳輸控制傳輸協定（ TCP ）層會拒絕封包資料並要求重新傳輸。FC 傳輸協定包括校驗和、封裝的 SCSI 資料也一樣。在陣列上之後、 ONTAP 就有 RAID 和 Checksum 保護。可能會發生毀損、但如同大多數企業陣列一樣、系統會偵測並修正毀損。一般而言、整個磁碟機都會故障、導致 RAID 重建、資料庫完整性也不會受到影響。ONTAP 偵測到 Checksum 錯誤的頻率較低、表示磁碟機上的資料已損壞。然後磁碟機故障、 RAID 重建就會開始。資料完整性再次不受影響。</block>
   <block id="8b7b33533c2b36c157a0a482bdd52a8e" category="paragraph">Oracle 資料檔案和重做記錄架構也設計成即使在極端情況下、也能提供最高程度的資料完整性。在最基本的層級、 Oracle 區塊幾乎包含每個 I/O 的 Checksum 和基本邏輯檢查如果 Oracle 尚未當機或將資料表空間離線、則資料會保持不變。資料完整性檢查的程度可調整、 Oracle 也可設定為確認寫入。因此、幾乎所有的當機和故障情況都可以恢復、而且在極罕見的不可恢復情況下、系統會立即偵測到毀損。</block>
   <block id="4066c36b811913c85aa86346e30cee4d" category="paragraph">大多數使用 Oracle 資料庫的 NetApp 客戶在移轉至快照型備份後、都會停止使用 RMAN 和其他備份產品。仍有一些選項可讓 RMAN 使用 SnapCenter 執行區塊層級的還原。然而、日常使用的 RMAN 、 NetBackup 及其他產品只會偶爾用於建立每月或每季的歸檔複本。</block>
   <block id="d0cf0e689669c61d564607d2ef7deb79" category="paragraph">有些客戶選擇執行<block ref="d308cbfce7e270e5b41a84d84385645f" prefix=" " category="inline-code"></block> 定期對現有資料庫執行完整性檢查。NetApp 不鼓勵這種做法、因為它會產生不必要的 I/O 負載。如上所述、如果資料庫先前沒有遇到問題、就有可能發生<block ref="d308cbfce7e270e5b41a84d84385645f" prefix=" " category="inline-code"></block> 偵測問題接近零、此公用程式會在網路和儲存系統上產生非常高的連續 I/O 負載。除非有理由相信存在毀損、例如暴露於已知的 Oracle 錯誤、否則沒有理由執行<block ref="d308cbfce7e270e5b41a84d84385645f" prefix=" " category="inline-code"></block>。</block>
@@ -2125,7 +2121,6 @@
   <block id="d3d92f87c5235ad11c8bc69e85fb2fd0" category="section-title">重作記錄</block>
   <block id="162b54d51a30629d78e153f8da201780" category="paragraph">此處說明的程序適用於資料檔案。Oracle 重做記錄和歸檔記錄檔有不同的 I/O 模式。例如、重做記錄是單一檔案的循環覆寫。如果使用預設的 512 位元組區塊大小、寫入統計資料看起來會像這樣：</block>
   <block id="d36dbaa617441d3308f5a9b50cb6f5ca" category="paragraph">I/O 會分散到所有分佈式分佈區、但這並不是效能考量。不過、重做記錄率極高可能會因為使用 4KB 區塊大小而受惠。在這種情況下、最好確定重做記錄 LUN 已正確對齊。不過、這對於資料檔案對齊的良好效能並不重要。</block>
-  <block id="91d9710c9fee248ae3e9c4b810ae704f" category="doc">過時的 NFSv3 鎖定和 Oracle 資料庫</block>
   <block id="3f9e1e3abd12ad7445baea4b681b9ceb" category="paragraph">如果 Oracle 資料庫伺服器當機、則重新啟動時可能會發生過時的 NFS 鎖定問題。請仔細注意伺服器上的名稱解析設定、以避免此問題。</block>
   <block id="288ebefc25180862eb0448b786b1b9fc" category="paragraph">產生此問題的原因是建立鎖定和清除鎖定會使用兩種稍微不同的名稱解析方法。涉及兩個過程： Network Lock Manager （ NLM ）和 NFS 用戶端。NLM 使用<block ref="e5caaf154dfeed411b9eec65b903a22a" prefix=" " category="inline-code"></block> 以決定主機名稱、而<block ref="d49331f31f40041ebcee19fca74fd9d4" prefix=" " category="inline-code"></block> 程序用途<block ref="330c4316ae6124616389eb1ca9912f7a" prefix=" " category="inline-code"></block>。這些主機名稱必須相符、作業系統才能正確清除過時的鎖定。例如、主機可能正在尋找擁有的鎖定<block ref="c7169a6dd344d0f0a38071a1262e4973" prefix=" " category="inline-code"></block>但鎖定已由主機登錄為<block ref="0c32c65f5ac66d0bdb4e63bd5fde7f75" prefix=" " category="inline-code"></block>。如果<block ref="330c4316ae6124616389eb1ca9912f7a" prefix=" " category="inline-code"></block> 不會傳回與相同的值<block ref="5c020b5bb8d1ce1ace51c2a2f4c06fc2" prefix=" " category="inline-code"></block>，則鎖定釋放程序未成功。</block>
   <block id="19b9a1f540971d74c69042125bab2abc" category="paragraph">下列範例指令碼會驗證名稱解析是否完全一致：</block>
@@ -3228,7 +3223,6 @@
   <block id="038b11d42ee14bd77b6370c575c63b16" category="admonition">除非您證明較低的值不足以應付工作負載、否則請勿使用極端值、例如 20,000 或更多。</block>
   <block id="62385f5ceb285bca676cb0561555d719" category="paragraph">InnoDB_IO_capACure. 參數可規範排清率和相關 I/O</block>
   <block id="c957ef06af970a7526a73e741b47fef1" category="admonition">您可以將此參數或 InnoDB_IO_capACure_max 參數設定得太高、並以提早排清的方式浪費 I/O 作業、進而嚴重損害效能。</block>
-  <block id="d32067c550345cae14e678b4def6aa22" category="doc">MySQL over SAN</block>
   <block id="b238d5dd75fe5ed855c5b3047e074050" category="paragraph">有兩個選項可以使用常見的雙磁碟區模型、來設定 MySQL 與 SAN 。</block>
   <block id="58d94bb6e53e154e2f4b16efa09f4c0d" category="paragraph">只要 I/O 和容量需求在單一 LUN 檔案系統的限制範圍內、就可以將較小的資料庫放在一對標準 LUN 上。例如、需要大約 2K 隨機 IOPS 的資料庫、可以裝載在單一 LUN 上的單一檔案系統上。同樣地、只有 100GB 大小的資料庫也能放在單一 LUN 上、而不會造成管理問題。</block>
   <block id="c33bcb4f520265bb106616e844397ffb" category="paragraph">大型資料庫需要多個 LUN 。例如、需要 10 萬 IOPS 的資料庫最可能需要至少八個 LUN 。由於磁碟機的 SCSI 通道數量不足、單一 LUN 將成為瓶頸。10TB 資料庫同樣難以在單一 10TB LUN 上進行管理。邏輯磁碟區管理程式的設計旨在將多個 LUN 的效能和容量功能結合在一起、以改善效能和管理能力。</block>
@@ -3251,7 +3245,6 @@
   <block id="86fc8cb3bf2cae621315896a94b35f67" category="paragraph">NetApp LUN 以 4KB 實體區塊儲存資料、產生八個 512 位元組的邏輯區塊。</block>
   <block id="5f441ceabc94de2a9cced94d9f53a2d0" category="paragraph">如果您未設定相同的區塊大小、 I/O 將無法正確對齊實體區塊、而且可能會在 RAID 群組中的兩個不同磁碟機中寫入、導致延遲。</block>
   <block id="236ac851d05b8822524001920948f23d" category="admonition">請務必調整 I/O 、以順利進行讀寫作業。但是、當 I/O 從不在實體區塊開頭的邏輯區塊開始時、 I/O 會未對齊。I/O 作業只有在邏輯區塊（實體區塊中的第一個邏輯區塊）開始時才會對齊。</block>
-  <block id="282155126a94a0702cfd80daf38d4362" category="doc">組態總覽</block>
   <block id="3225a10b07f1580f10dee4abc3779e6c" category="cell">參數</block>
   <block id="c82a6100dace2b41087ba6cf99a5976a" category="cell">價值</block>
   <block id="b10db909b8fda84e70bf9b308d0938d9" category="cell">256M</block>
@@ -3287,7 +3280,6 @@
   <block id="0561a3b014eef0e5125fa63e1626cf57" category="paragraph">此配置也能協助您設計資料保護原則與策略。</block>
   <block id="9166d970028a28a614af39e6286371b7" category="paragraph">您可以使用關閉此參數<block ref="8cafbd8d9096941261e87f4f9152ab92" prefix=" " category="inline-code"></block> 針對效能標竿、或是當您比較在意最高效能、而非資料完整性或可能的故障時。InnoDB 使用稱為雙寫入的檔案清除技術。InnoDB 在將頁面寫入資料檔案之前、會將其寫入稱為雙寫入緩衝區的鄰近區域。寫入和清除雙寫入緩衝區完成後、 InnoDB 會將頁面寫入資料檔案中的適當位置。如果作業系統或 mysqld 程序在頁面寫入期間當機、 InnoDB 之後可以在當機恢復期間、從雙寫入緩衝區找到良好的頁面複本。</block>
   <block id="3dfd4b9a526f8a8cf17021e34638b375" category="admonition">* NetApp 建議 * 停用雙寫入緩衝區。ONTAP NVRAM 的功能相同。雙重緩衝會不必要地損害效能。</block>
-  <block id="dd5a2a602f713562e0f9f0fd8385660e" category="doc">MySQL over NFS</block>
   <block id="0e5e83102103fcdd25af430bf7327034" category="paragraph">MySQL 文件建議您將 NFSv4 用於 NAS 部署。</block>
   <block id="ca0d9fdc80b88e73b548638af421788f" category="section-title">ONTAP NFS 傳輸大小</block>
   <block id="efcd0ba3fcbee9896a25804677e70b4b" category="paragraph">根據預設、 ONTAP 將 NFS IO 大小限制為 64K 。使用 MySQL 資料庫的隨機 IO 使用的區塊大小要小得多、遠低於 64K 上限。大型區塊 IO 通常是平行處理的、因此 64K 最大值也不是限制。</block>
@@ -3319,7 +3311,6 @@
   <block id="2d2eef88dbdd0c34bde24e2632d9944f" category="sidebar">SAP HANA 與 AnyDB</block>
   <block id="399bd1ee587245ecac6f39beaa99886f" category="sidebar">PostgreSQL</block>
   <block id="f4f70727dc34561dfde1a3c529b6205c" category="sidebar">設定</block>
-  <block id="c476a4701643b158f9f5d57bcc91951d" category="sidebar">Snapshot 技術</block>
   <block id="7d219314ccabde6609510141bb175a6c" category="sidebar">共享執行個體與專用執行個體</block>
   <block id="d5363ae19ecaede49e2ced297df7737a" category="sidebar">記憶體組態</block>
   <block id="500c09aa1bb9af431f2c18348e69bfd0" category="sidebar">tempdb 檔案</block>
@@ -3500,7 +3491,6 @@
   <block id="c4f52498c0db572381512887d7584e53" category="summary">PostgreSQL 資料庫和儲存快照</block>
   <block id="b0792163c858a7c221b236d84619b5ef" category="summary">PostgreSQL 使用 ONTAP 來資料庫 NFS</block>
   <block id="189950ed46e5e8b7e92941531a5bb88b" category="doc">具有 NFS 檔案系統的 PostgreSQL 資料庫</block>
-  <block id="504cd1fb60a8eb7918484270e743ae3a" category="summary">PostgreSQL 資料保護 P</block>
   <block id="6cabd4dcf3582d38c441228705da3bda" category="doc">PostgreSQL 資料保護</block>
   <block id="383a6a5241ecfc558b9fec1d7cff5239" category="summary">PostgreSQL 表格空間</block>
   <block id="20d0e2519b3555a0a2927c8914c17280" category="summary">PostgreSQL 資料保護軟體</block>
@@ -3524,8 +3514,6 @@
   <block id="d5ef0a45fe252b03f538bfd134b168db" category="summary">MySQL 和 InnoDB_LRU_SCAN_depth</block>
   <block id="df657260453f6ef228ee0ca22dd7a415" category="summary">MySQL 容器化</block>
   <block id="885b1b5a90f898c89b664ec58a42121c" category="doc">MySQL 容器化</block>
-  <block id="2cbac38815d492c0afc5e7d7229601df" category="doc">MySQL 和 InnoDB</block>
-  <block id="1115aaa86f0065e0a105795d33ef4731" category="summary">MySQL 檔案說明</block>
   <block id="2828450fc6669c8df75f937e227996f1" category="doc">MySQL 檔案描述元</block>
   <block id="9420010a756fb6d3ddeadfa63d2170f6" category="paragraph">若要執行、 MySQL 伺服器需要檔案描述元、而且預設值不足。</block>
   <block id="62414a5a9c0e2fc12a8d028ad29164b8" category="summary">MySQL 和 InnoDB_IO_capACure</block>
@@ -3840,12 +3828,10 @@
   <block id="70b29c8dabeb7a16884003c35e163f96" category="sidebar">VMSC 設計</block>
   <block id="6c4755219197ce467bf892a552c8663a" category="sidebar">VMSC 恢復能力</block>
   <block id="13376e3e9b02a56731aa64aeb10947b2" category="sidebar">使用 MCC 的 VMSC 案例</block>
-  <block id="7f38ad8ab5454e76108c14e424240237" category="doc">Oracle 資料庫的 FC 組態</block>
   <block id="f0a36f02b824ef55cbd63aa2700a4ec9" category="summary">Oracle 資料庫快照型備份與還原</block>
   <block id="77243afc69ab08d8277d0e23dda813d9" category="doc">Oracle 資料庫線上備份</block>
   <block id="4ac7e99e454283880f5bdf93e9d59eb9" category="summary">Oracle 資料庫完整檔案 FabricPool 分層</block>
   <block id="3dd6786160916127fc2f6fc2ec955bbe" category="summary">具備 ONTAP 零區塊偵測功能的 ASM 回收公用程式</block>
-  <block id="bd2f93a60ac38752d2c10a0bdbc6ea07" category="doc">ASM 回收公用程式和 ONTAP 零區塊偵測</block>
   <block id="89c60635365825dfa13d154785577592" category="summary">Oracle 和 TCP/IP 及乙太網路組態</block>
   <block id="aaa024a70ffabce1e14fdc1a4b17fe8d" category="doc">用於 Oracle 資料庫的 TCP/IP 和乙太網路組態</block>
   <block id="665de76ea0059ac13982f04e19e74216" category="summary">使用 Microsoft Windows 的 Oracle 資料庫</block>
@@ -3855,7 +3841,6 @@
   <block id="33c729820ffa60f55745fa3c259e273c" category="doc">Oracle 資料庫一致性群組備份</block>
   <block id="56abf0735f338713ce53e8cdecd6994e" category="paragraph">若要進行最簡單的備份、只要將整個 Oracle 資料庫放在單一 ONTAP 磁碟區即可</block>
   <block id="190d2bad1c6e231bc18c33e002e663c7" category="summary">Oracle 資料庫與直接連線 ONTAP 連線</block>
-  <block id="0953588ff4980e20b797cd3bb6d1260f" category="summary">使用 MetroCluster 進行 Oracle 資料庫容錯移轉</block>
   <block id="4a3f422632f7d08bf0e6c05affea24e4" category="summary">SyncMirror 的 Oracle 資料庫</block>
   <block id="5bbdf1e19bb3f7b70de51a3764fc5f19" category="doc">Oracle 資料庫儲存快照最佳化備份</block>
   <block id="a962af081661ee46d4ef879de33c841e" category="paragraph">當 Oracle 12c 發行時、快照型備份與還原變得更簡單、因為不需要將資料庫置於熱備份模式。結果是能夠直接在儲存系統上排程快照式備份、同時仍保留執行完整或時間點還原的能力。</block>
@@ -3884,7 +3869,6 @@
   <block id="4bc550014af4fefad8f4cc8f0827c4b5" category="doc">Oracle 資料庫和快照型備份</block>
   <block id="cf5bc9d838fb937caa7978b4a9b0f98a" category="paragraph">NetApp Snapshot 技術是 ONTAP 上 Oracle 資料庫資料保護的基礎。</block>
   <block id="ba5a23e78f51c1bcb1b82efbe1797502" category="summary">Oracle 資料庫參數 - db_file_multimblock_read_count</block>
-  <block id="085e756798c73ce14f874c6f323311dc" category="doc">Oracle 資料庫參數： DB_FILE_Multifblock_read_count</block>
   <block id="ea84db84607112a0d40fca3ff45dfffa" category="summary">ONTAP QoS 的 Oracle 資料庫效能管理</block>
   <block id="0af83eb081b1a831789867d7f0867610" category="summary">Oracle 資料庫管理與自動化工具</block>
   <block id="7c58d5a62a9c29d2a846b210deea95f2" category="paragraph">ONTAP 在 Oracle 資料庫環境中的主要價值來自核心 ONTAP 技術、例如即時 Snapshot 複本、簡單的 SnapMirror 複寫、以及快速建立 FlexClone Volume 。</block>
@@ -3899,7 +3883,6 @@
   <block id="9688c9c1c1d15e2f91a3a5b8e5f14bd4" category="doc">ONTAP 提供 Oracle 資料庫可用度</block>
   <block id="44e95a6c3878f189a550b4c0314d3b33" category="paragraph">NetApp 知道資料庫中有最重要的關鍵任務資料。</block>
   <block id="7aa93b5fc17b83fc9e4816155f8f59ab" category="summary">Oracle 資料庫效能測試</block>
-  <block id="f0d314849d584b208a69d7a0dc70ac03" category="doc">Oracle 資料庫效能最佳化與基準測試程序</block>
   <block id="0b3a030b64747fb3830c79e1ffbef7ee" category="summary">Oracle 資料庫和物件儲存區存取中斷</block>
   <block id="99a1755be2504777b7e266ed14b33168" category="doc">Oracle 資料庫和 ONTAP 控制器容錯移轉 / 切換</block>
   <block id="8dbb58cb7fbd4c7db3f14b9674e7d4e6" category="summary">使用 SnapRestore 快速恢復 Oracle 資料庫</block>
@@ -3922,17 +3905,14 @@
   <block id="494900ae2c2cdb5abdba3806f4dfaeb0" category="doc">使用 ASMLib/AFD 的 Oracle 資料庫（ ASM 篩選器驅動程式）</block>
   <block id="afae47e326854c63cbc85989720416e0" category="summary">使用 FLI 進行 Oracle 移轉：規劃</block>
   <block id="85cef7bf4ac9d983cf8e1e11785eeef1" category="summary">Oracle 移轉與 FLI ：完成</block>
-  <block id="a92eff1aa9c637ada9c5a8c7c71a5edc" category="doc">Oracle 資料庫 LUN 調整大小和以 LVM 為基礎的調整大小</block>
   <block id="0c5284e14535835121effc8afb702b28" category="summary">使用 ONTAP 進行 Oracle 資料庫災難恢復</block>
   <block id="2ba21d57ee7f1d78a405b9e80c6aaf6b" category="paragraph">對於大多數客戶而言、 DR 不只需要擁有遠端資料複本、還需要能夠快速使用該資料。NetApp 提供兩種技術來滿足這種需求： MetroCluster 和 SnapMirror 主動同步</block>
   <block id="107bcc34799abe752a088be24869419c" category="paragraph">SnapMirror 主動同步是以 SnapMirror Synchronous 為基礎。使用 MetroCluster 、每個 ONTAP 控制器都負責將其磁碟機資料複寫到遠端位置。有了 SnapMirror 主動式同步、您基本上擁有兩個不同的 ONTAP 系統、可維護 LUN 資料的獨立複本、但可以合作呈現該 LUN 的單一執行個體。從主機的角度來看、這是單一 LUN 實體。</block>
   <block id="50ae143b75fc238e91c09c750cf211c1" category="summary">Oracle 資料庫參數 - filesystemio_options</block>
-  <block id="23c61da1d42f69597a6ab97e333a560f" category="doc">Oracle 資料庫參數： filesystemio_options</block>
   <block id="cf451e0aed3c944d3f1c761387762e56" category="summary">使用 Linux 的 Oracle 資料庫</block>
   <block id="e712ed441aacc4eeecb5656d5493c99c" category="summary">使用 HP-UX 的 Oracle 資料庫</block>
   <block id="c36ae718fe9d7978c8781b19d0b3dee0" category="paragraph">適用於 HP-UX with ONTAP 上 Oracle 資料庫的組態主題。</block>
   <block id="45df37151f6a0fd8a3b55d0423459f82" category="doc">Oracle 資料庫 I/O 的 LUN 對齊</block>
-  <block id="a73cbc9997ca90c0cc5b6d9e9b475272" category="summary">Oracle 資料庫 FabricPool 分層管理</block>
   <block id="857a8adc9eda2d9e197a52323daca558" category="doc">Oracle 資料庫 FabricPool 分層概述</block>
   <block id="fd73b1ca3b942a1514078a7e59c7433b" category="summary">Oracle 資料庫和過時的 NFSv3 鎖定</block>
   <block id="102aeb54bf1a69403672f53090c52878" category="summary">透過記錄傳送的 Oracle 資料庫 DR</block>
@@ -3948,7 +3928,6 @@
   <block id="eed7df980a6ae17f8e0fecdecf0e25f4" category="doc">Oracle 移轉程序範例指令碼</block>
   <block id="fac6d6b61dd6bd3ee73d5b425bc5a3b7" category="doc">使用 Oracle 資料庫進行精簡配置</block>
   <block id="35ebaedc3385b350dff13e0cfa869c9f" category="summary">Oracle RAC 逾時</block>
-  <block id="a920434a7bcd979e2ece4092cd8b8a19" category="doc">Oracle Real Application Clusters （ RAC ）逾時</block>
   <block id="710cf627a103721a0452cb72494ea742" category="admonition">請參閱以下關於精簡配置的章節、以瞭解儲存效率與部分保留之間互動的說明。</block>
   <block id="8bc1cc1880ea3a623cb9b80b8cbb7b72" category="paragraph">壓縮資料的方法有好幾種。許多資料庫都包含自己的壓縮功能、但在客戶環境中很少會發現這種情況。其原因通常是對壓縮資料的 * 變更 * 效能會受到影響、而對於某些應用程式而言、資料庫層級壓縮的授權成本較高。最後、對資料庫作業的整體效能影響。對於執行資料壓縮與解壓縮的 CPU 、而非實際的資料庫工作、支付高昂的每 CPU 授權成本是不合理的。更好的選擇是將壓縮工作卸載到儲存系統。</block>
   <block id="3e98696b9bb83904c14603458a8c3728" category="admonition">調適式壓縮所使用的區塊大小最多可增加至 32KB 。這可能會改善儲存效率、而且當大量的這類資料儲存在陣列上時、應該考慮用於靜態檔案、例如交易記錄檔和備份檔案。在某些情況下、使用 16KB 或 32KB 區塊大小的作用中資料庫、也可能因為增加適應式壓縮的區塊大小而受惠。請洽詢 NetApp 或合作夥伴代表、瞭解這是否適合您的工作負載。</block>
@@ -3998,7 +3977,6 @@
   <block id="cc3873d6002920194cf7e9dd493c5863" category="paragraph">除非您遇到效能問題、否則您不太可能需要變更處理器親和性預設值、但仍值得您瞭解它們是什麼、以及它們的運作方式。</block>
   <block id="4317f0d20ae625ae3139762a94175cbd" category="paragraph">根據預設、如果選擇個別處理器核心授權、 SQL Server 會在查詢執行期間使用所有可用的 CPU 。</block>
   <block id="ff03ad08d7a38270e44c8c74372d0e7c" category="summary">使用 SnapCenter 和 T-SQL 命令保護 ONTAP 上的 Microsoft SQL Server 資料庫。</block>
-  <block id="027202a07b43ba49311d98b7812a6c84" category="doc">使用 NetApp 管理軟體保護 Microsoft SQL Server 資料</block>
   <block id="a72812111b6cfc428e19135820c476bc" category="paragraph">SnapCenter 是適用於企業應用程式的 NetApp 資料保護軟體。使用適用於 SQL Server 的 SnapCenter 外掛程式、以及由 SnapCenter Plug-in for Microsoft Windows 管理的作業系統作業、即可快速輕鬆地保護 SQL Server 資料庫。</block>
   <block id="62c187efa0cd9f4191b84ae987d522c9" category="paragraph">SQL Server 執行個體可以是獨立式安裝、容錯移轉叢集執行個體、也可以永遠位於可用性群組。結果是、從單一窗口即可保護、複製及還原主要或次要複本的資料庫。SnapCenter 可以同時管理內部部署、雲端和混合式組態的 SQL Server 資料庫。資料庫複本也可以在幾分鐘內在原始主機或替代主機上建立、以供開發或報告之用。</block>
   <block id="8a3aceb6ed4b21af2f2c00ecb032f75f" category="paragraph">在 SQL Server 2022 中、 Microsoft 推出了 T-SQL 快照、可提供建立指令碼和自動化備份作業的路徑。您可以為資料庫準備快照、而非執行完整大小的複本。資料庫準備好備份之後、您就可以利用 ONTAP REST API 來建立快照。</block>
@@ -5062,7 +5040,6 @@
   <block id="872cba2a662a784946eb48675276dee2" category="doc">相互 TLS （憑證型驗證）</block>
   <block id="5a4857ad48868097d482a4a448f48bd9" category="doc">每位使用者的並行要求上限（網路安全保護 /DOS 攻擊）</block>
   <block id="0af211d5cda5cc4bb17dd7751e741595" category="doc">網路時間傳輸協定（ NTP ）組態</block>
-  <block id="c1fac7a72cd91bcd345e567f6d6d93a3" category="sidebar">MetroCluster 的 Oracle 容錯移轉</block>
   <block id="273eb98a312e607888044e87e0210015" category="section-title">NetApp VVols 支援</block>
   <block id="551e3b0a48f99995daac658b17a1de62" category="list-text">* 更好的容量管理。 *Vasa 與 ONTAP 工具可視需要將儲存容量降至個別的集合層級、並在容量開始不足時提供多層警示。</block>
   <block id="38653f1dd04b13c5276f4f4a82e8506f" category="admonition">術語「連線」是指用於跨站台複寫的叢集連線。它並不指主機協定。無論叢集間通訊所使用的連線類型為何、 MetroCluster 組態中的所有主機端通訊協定都會如常支援。</block>
@@ -5549,7 +5526,6 @@
   <block id="9d831cc4c73b8a2915ce6d8928d55915" category="paragraph">SQL Server 全年無休可用性群組複寫功能是絕佳的選項、 NetApp 提供多種選項、可將資料保護與全年無休整合。不過、在某些情況下、您可能會想要考慮使用 ONTAP 複寫技術。有三個基本選項。</block>
   <block id="dd432f8769e4d3db8acf8bf9df94680a" category="paragraph">SnapMirror 技術提供快速靈活的企業解決方案、可在 LAN 和 WAN 上複寫資料。SnapMirror 技術只會在建立初始鏡射後、將變更的資料區塊傳輸到目的地、大幅降低網路頻寬需求。可以在同步或非同步模式中設定。</block>
   <block id="fce5f84d02dbd5c9e3cfedf18e809644" category="summary">Microsoft SQL Server 和 NetApp MetroCluster</block>
-  <block id="6d65b4d9884a5fae6940ac158045781c" category="doc">MetroCluster 概述與架構</block>
   <block id="41900c1c2eb669e401e4abee9091b40b" category="paragraph">Microsoft SQL Server 部署搭配 MetroCluster 環境需要對 MetroCluster 系統的實體設計進行一些說明。</block>
   <block id="60359402d81f6673550c3df489efb034" category="paragraph">MetroCluster 會同步鏡射不同位置或故障網域中兩個 ONTAP 叢集之間的資料和組態。MetroCluster 會自動管理兩個目標、為應用程式提供持續可用的儲存空間：</block>
   <block id="abf0aedf685f58c3cf3abe3e41ca549c" category="list-text">透過同步鏡射寫入叢集的資料、將還原點目標（ RPO ）歸零。</block>
@@ -5557,7 +5533,6 @@
   <block id="9aa45379205d52916f2958359e92c1c8" category="paragraph">MetroCluster 可在兩個站台的兩個不同叢集之間自動鏡射資料和組態、提供簡易性。在一個叢集內配置儲存設備時、會自動鏡射到第二個站台的第二個叢集。NetApp SyncMirror ® 以零 RPO 提供所有資料的完整複本。這表示來自單一站台的工作負載可隨時切換至另一站台、並持續提供資料而不會遺失資料。MetroCluster 可管理切換程序、以便在第二個站台存取 NAS 和 SAN 資源配置的資料。MetroCluster 的驗證解決方案設計包含規模調整和組態、可在通訊協定逾時期間或更快（通常少於 120 秒）內執行轉換。這會導致接近零的 RPO 、應用程式可以繼續存取資料而不會發生故障。 MetroCluster 有多種由後端儲存架構定義的變化。</block>
   <block id="47985b72c36de8197de21d06517f1a03" category="paragraph">使用 MetroCluster 保護 SQL Server 是以 SyncMirror 為基礎、提供最高效能的橫向擴充同步鏡射技術。</block>
   <block id="96a36329b3e96b1619b1d635a806bb3f" category="summary">Microsoft SQL Server 搭配 NetApp MetroCluster</block>
-  <block id="bde226c7f65dad7eb996a1eb0ee152ec" category="doc">Microsoft SQL Server 搭配 MetroCluster</block>
   <block id="9fcf1f7a4c16b536048dc5875b61d4b1" category="paragraph">使用零 RPO 來保護 SQL Server 資料庫的其中一個選項是 MetroCluster 。MetroCluster 是一項簡單、高效能的 RPO = 0 複寫技術、可讓您輕鬆複寫整個基礎架構到各個站台。</block>
   <block id="8a7f9ca86b522c62318d9b1eb5b51625" category="paragraph">SQL Server 可在單一 MetroCluster 系統上擴充至數千個資料庫。可能有 SQL Server 獨立執行個體或容錯移轉叢集執行個體、 MetroCluster 系統不一定會新增或變更管理資料庫的任何最佳實務做法。</block>
   <block id="43135677cc98d0d6872d9ec24bef82e4" category="paragraph">MetroCluster 的完整說明不在本文件的範圍內、但原則很簡單。MetroCluster 可提供 RPO=0 複寫解決方案、並可快速容錯移轉。您在這個基礎上建置的內容取決於您的需求。</block>
@@ -5750,20 +5725,17 @@
   <block id="93d235b3b3adb1fcc631cc9720911156" category="paragraph">在此設計中，假設站台 A 是在設定的<block ref="0a07e9e6141ed78f0b7013768c76c4a9" category="inline-link-macro-rx"></block>。</block>
   <block id="3f35d87b783da3d0c6ab04c2222e88cc" category="inline-image-macro">SM 上的 Oracle 設計範例</block>
   <block id="65d5312cbb5d7497db9571af7d19e76d" category="paragraph"><block ref="65d5312cbb5d7497db9571af7d19e76d" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="1526748ec7d98ab0b9113ed80ada8aea" category="summary">Oracle 與 SnapMirror 主動式同步：連線中斷的總次數</block>
   <block id="af82c537bd0f6778b9916dc78da8c55a" category="paragraph">儲存系統或站台故障的結果與遺失複寫連結的結果幾乎相同。當仍在運作的站台寫入時、 IO 應該會暫停約 15 秒。一旦超過 15 秒、 IO 就會像往常一樣繼續在該站台上進行。</block>
   <block id="24f2945a7c742e126cdf5dcdfb08ec89" category="paragraph">如果只有儲存系統受到影響、故障站台上的 Oracle RAC 節點將會遺失儲存服務、並在遷離和後續重新開機之前、輸入相同的 200 秒磁碟逾時倒數。</block>
   <block id="0cff2ae5f5c305f11d8d8a333bd1da2c" category="paragraph">RAC 節點上遺失儲存服務的 SAN 路徑狀態如下：</block>
   <block id="e33921fb5e166f433573176882c09294" category="paragraph">Linux 主機偵測到路徑遺失速度快於 200 秒、但從資料庫的角度來看、故障站台上的用戶端連線仍會在預設 Oracle RAC 設定下凍結 200 秒。完整資料庫作業只會在遷離完成後恢復。</block>
   <block id="db34db4ac9bd7910a9eded83e1ff30f9" category="paragraph">同時、另一個站台上的 Oracle RAC 節點會記錄其他 RAC 節點的遺失。否則、它會繼續如常運作。</block>
-  <block id="79fdeb5bad7fdaa67ac32cdf3b8f3bfd" category="doc">SnapMirror 主動式同步： SnapMirror 連線中斷</block>
   <block id="ad08bdae586fc05e13eff6bd6d9f0ee2" category="paragraph">如果 SnapMirror 主動式同步複寫連結、則無法完成寫入 IO 、因為叢集無法將變更複寫到另一個站台。</block>
   <block id="564a95e2696af68aa1c3a4953ecd1ce9" category="section-title">站台A</block>
   <block id="18fe52a46fad1fa4c9873ea81b6e885f" category="paragraph">複寫連結失敗的站台 A 在寫入 IO 處理中會暫停約 15 秒、因為 ONTAP 會在判斷複寫連結確實無法運作之前、嘗試複寫寫入內容。經過 15 秒後、站台 A 上的 ONTAP 叢集會恢復讀寫 IO 處理。SAN 路徑不會變更、 LUN 也會保持連線。</block>
   <block id="657e60cc43634129c8f9314afdd5c48b" category="paragraph">複寫連結的時間是 15 ： 19 ： 44 。Oracle RAC 的第一個警告會在 200 秒逾時（由 Oracle RAC 參數 disktimeout 控制）接近 100 秒後到達。</block>
   <block id="f29d4b902de1f9de93b8673047367cb3" category="paragraph">達到 200 秒投票磁碟逾時後、此 Oracle RAC 節點將自行從叢集移除並重新開機。</block>
   <block id="b864ca7c3ca6173547e4a66ba059c688" category="summary">Oracle 、 SM-as 、主動同步、中介</block>
-  <block id="4a39cd880cb1fd0c6ef8d8c4be8d1535" category="doc">Oracle 與 ONTAP 中介</block>
   <block id="01682ebdcacbc827e3ef8083e7b4c060" category="summary">Oracle 和 SM － as 非統一存取</block>
   <block id="f6dbb06140585fe45ddeaf49cae9418e" category="summary">Oracle 和 SnapMirror 主動同步</block>
   <block id="d6e7dde9799f39cece01cbc4b2728cdf" category="paragraph">SnapMirror 主動式同步可讓您建置超高可用度的 Oracle 資料庫環境、其中 LUN 可從兩個不同的儲存叢集取得。</block>
@@ -5772,7 +5744,6 @@
   <block id="d1a363496283d60774ff9c9c51ffe653" category="paragraph">在正常作業中、 SnapMirror 主動式同步可隨時提供 RPO = 0 同步複本、但有一個例外。如果資料無法複寫、 ONTAP 將釋出複寫資料的需求、並在另一個站台上的 LUN 離線時、繼續在一個站台上提供 IO 服務。</block>
   <block id="72f31f711b37dc7ce7b34e00dd56b5ae" category="paragraph">ONTAP Mediator 是從 NetApp 支援下載的軟體應用程式、通常部署在小型虛擬機器上。ONTAP Mediator 與 SnapMirror 主動式同步搭配使用時、並不是一種斷路器。它是參與 SnapMirror 主動同步複寫之兩個叢集的替代通訊通道。自動化作業由 ONTAP 根據合作夥伴透過直接連線和協調員所收到的回應來驅動。</block>
   <block id="b06e5b68abe4f23a716133f1fa1a4472" category="summary">Oracle 和 SM 為慣用站台</block>
-  <block id="eb6b2d88c5e066cdcb4eb45167707940" category="summary">Oracle 與 SM ：統一存取</block>
   <block id="6d14548094c3b2a5b0a69049f8497fa8" category="doc">Oracle 和 SM-as 統一存取</block>
   <block id="36ba939f32969ddc6751427944e3569d" category="paragraph">最重要的需求是將資料檔案隔離到一個或多個專用磁碟區。它們必須不受任何其他檔案類型的污染。原因在於確保資料檔案複寫完全不受其他資料類型複寫的影響、例如歸檔記錄。如需檔案配置的其他資訊、以及確保儲存配置適合快照的重要詳細資料<block ref="c87a7212960b8cc2aca49adb1795e291" category="inline-link-macro-rx"></block>、請參閱。</block>
   <block id="64c93f87be857cf43f66e341a377693a" category="paragraph">作業系統可以偵測並<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>位於同一個磁碟區（即相同的來源檔案系統）上的事實<block ref="9ad16912cc0ba54a259b1a15d233c264" prefix=" " category="inline-code"></block>。作業系統接著會使用相同的裝置控制代碼來存取資料。這樣做可以改善 OS 快取和某些其他作業的使用、但會干擾 DNFS 。如果 DNFS 必須存取上的<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>檔案<block ref="1737629d60b511cf45957529a8f046e2" prefix=" " category="inline-code"></block>，可能會錯誤地嘗試使用錯誤的資料路徑。結果是 I/O 作業失敗。在這些組態中、將裝載選項新增<block ref="4740c034d97ca90a96b8050082816605" prefix=" " category="inline-code"></block>至任何與該主機上其他 NFS 檔案系統共用來源 Volume 的 NFS 檔案系統。這樣做會強制 Linux 作業系統為該檔案系統分配獨立的裝置控制代碼。</block>
@@ -5895,4 +5866,65 @@
   <block id="6be050126f2df5ae7cd944ce446241c2" category="paragraph">如果無法接受 30 秒的逾時、您可以選擇延長租用期。</block>
   <block id="38d530634a8d32e8775a37109fc08542" category="paragraph">如果您想要將租用逾時延長至 60 秒，以因應 60 秒的網路中斷，您也必須增加寬限期。這表示您將會在控制器容錯移轉期間經歷更長的 IO 暫停時間。</block>
   <block id="ac76821692fdb2dae1d98babe804fb8f" category="paragraph">這通常不是問題。一般使用者每年只會更新 ONTAP 控制器一或兩次、而且由於硬體故障而造成的非計畫性容錯移轉極少。此外、如果您的網路發生 60 秒網路中斷的可能性、而您需要將租用逾時時間延長至 60 秒、那麼您可能不會反對罕見的儲存系統容錯移轉、導致暫停時間也達 61 秒。您已確認網路暫停超過 60 秒、而且速度較快。</block>
+  <block id="66bb028b9d7030985c1ce3bb4f5a27e9" category="searchtitle">= Microsoft SQL Server CPU 組態</block>
+  <block id="73f7848a74f8a1b6c78ac0dfbca44874" category="searchtitle">使用 NetApp 管理軟體保護 Microsoft SQL Server 資料</block>
+  <block id="fa67fb4719e92db117cccfc693cf2a40" category="searchtitle">Microsoft SQL Server tempdb 檔案</block>
+  <block id="3a80e1e29c96d0837b12aef65785a41a" category="doc">組態參數</block>
+  <block id="4bb9f72180425717a416a5037a100cca" category="searchtitle">MySQL 和 InnoDB 檔案結構</block>
+  <block id="9a41c04f55c43c1bfac6d1e3fb0992de" category="doc">NFSv3 插槽表</block>
+  <block id="dce12836eeccf070f53590dc5d86633d" category="doc">區塊大小</block>
+  <block id="b4aa7c0127688b4c623685cfeed4ab97" category="searchtitle">Oracle Real Application 叢集逾時</block>
+  <block id="6fae8d228f324e0e0a9c817b746b9bd0" category="doc">RAC 逾時</block>
+  <block id="b64e3a0dc81f710f886a442e1a397bb9" category="doc">資料庫管理與自動化工具</block>
+  <block id="87921e5ee2cf87589874871f0d361694" category="doc">資料庫可用度</block>
+  <block id="accd3900cbd3e4d55a38c8518052015c" category="doc">Checksum 與資料完整性</block>
+  <block id="5611150a7a2a706d09d267b466f083d6" category="paragraph">使用真正的儲存陣列、資料完整性可在多個層級上使用校驗和加以保護。如果 IP 型網路中的資料毀損、傳輸控制傳輸協定（ TCP ）層會拒絕封包資料並要求重新傳輸。FC 傳輸協定包括校驗和、封裝的 SCSI 資料也一樣。在陣列上之後、 ONTAP 就有 RAID 和 Checksum 保護。可能會發生毀損、但如同大多數企業陣列一樣、系統會偵測並修正毀損。一般而言、整個磁碟機都會故障、導致 RAID 重建、資料庫完整性也不會受到影響。磁碟機上的個別位元組仍可能受到宇宙輻射或故障的 Flash 儲存格損壞。如果發生這種情況，同位檢查將會失敗，磁碟機將會故障，並開始 RAID 重建。資料完整性再次不受影響。最後一道防線是使用校驗和。例如，如果磁碟機毀損資料發生災難性的韌體錯誤，而 RAID 同位檢查無法偵測到該錯誤，則 Checksum 將不相符， ONTAP 會在 Oracle 資料庫收到毀損的區塊之前，阻止該區塊的傳輸。</block>
+  <block id="cd985f59320d95026288fa5ff6dcf58a" category="doc">線上備份</block>
+  <block id="9c030078e0f444e80ad1c24e215220a4" category="doc">使用 ONTAP 保護資料</block>
+  <block id="6bb9a5aec98309d1414b32f7e0751415" category="doc">資料保護規劃</block>
+  <block id="06db8225d3ec2b43755ddc9358302450" category="doc">RTO ， RPO 和 SLA 規劃</block>
+  <block id="5d827e5d4c92779310224878dc408813" category="summary">Oracle 資料庫 DR 搭配 MetroCluster</block>
+  <block id="f0b223afb696335287bc2ed9501b5b33" category="doc">使用 MetroCluster 進行災難恢復</block>
+  <block id="67be2475945283126e261087dcc833b7" category="doc">MetroCluster 和 NVFAIL</block>
+  <block id="13262509535baae73d0cc7ab06de1fc6" category="searchtitle">MetroCluster 上的 Oracle Extended RAC</block>
+  <block id="7993038617c805a663d50702c4494b68" category="doc">Oracle Extended RAC</block>
+  <block id="75b233b87417347976ef489e09961c77" category="doc">Oracle 單一執行個體</block>
+  <block id="aa51324dbf5137dc80d29f127e7265f1" category="doc">Oracle 單一執行個體</block>
+  <block id="254742fbeffe659f98f802792b541c45" category="doc">RAC tiebreaker</block>
+  <block id="aeee9c92b22d6f18b8670c9f330ea7c9" category="doc">網路互連性總故障</block>
+  <block id="0ef819e6ae8a74f9c8ac0158a24b1627" category="doc">服務還原</block>
+  <block id="8367f9ef79397d7d8f1367cb4392c602" category="summary">Oracle 和 SnapMirror 主動同步 - 站台故障</block>
+  <block id="5c8784e46ac32f6b1c9b78f954c1a473" category="summary">SnapMirror 主動式同步 - SnapMirror 通訊失敗</block>
+  <block id="7ed82538ab967cd6e2949aa971158dc9" category="searchtitle">Oracle ， SnapMirror 主動同步和 ONTAP 調解器</block>
+  <block id="db2170f38b52c13c31e0572c709b6f8a" category="searchtitle">Oracle 與 SnapMirror 主動式同步總覽</block>
+  <block id="e9a673980d8df30ed4173e4b7c4ecd2c" category="searchtitle">Oracle 和 SnapMirror 主動同步慣用站台</block>
+  <block id="45d97b0c2ca342ad882153a1245f9897" category="doc">SnapMirror 主動式同步偏好的站台</block>
+  <block id="0bb4536e921f4d96dd701c1afe746457" category="doc">ASMLib/AFD （ ASM 篩選器驅動程式）</block>
+  <block id="3ee9e6a595247d1965be0d0c6cd0f22e" category="doc">資料檔案移轉</block>
+  <block id="a9761df551af398a0fc2974288502d8a" category="doc">主機資料複製</block>
+  <block id="d437e7d8b6513f91bbd58e0b1e08c90b" category="doc">移轉規劃</block>
+  <block id="4c7e0d612a5f0e09f272083633991979" category="doc">TCP/IP 和乙太網路組態</block>
+  <block id="9f2dc5f476d250d879dc58a583f93fd1" category="searchtitle">用於 Oracle 資料庫的 FC SAN 組態</block>
+  <block id="08f606415b4ad7fb864651eac04fcd8e" category="searchtitle">Oracle 資料庫效能最佳化與基準測試</block>
+  <block id="b30e3ef968d39d109aea4a92750c9792" category="doc">過時的 NFSv3 鎖定</block>
+  <block id="1d19e21de0f93b11f5ceb8b535a3afc2" category="doc">容量管理</block>
+  <block id="8d409dbefa8e76403d7adf4cbd315d3d" category="doc">ONTAP 容錯移轉 / 切換</block>
+  <block id="0f03a4e25b68a1a67d3be8f0d989ef8b" category="doc">透過 ONTAP QoS 進行效能管理</block>
+  <block id="555472a0fed2f80e0848845e538a08af" category="doc">Oracle Direct NFS （ DNFS ）</block>
+  <block id="92d0288d9e0c6ed5ffd8dcd2e0900101" category="paragraph">寫入時， DNFS 多重路徑功能無法與 NFSv4.1 搭配最新版本的 Oracle 資料庫一起使用。將 NFSv4.1 指定為傳輸協定的 oranFstab 檔案只能使用單一路徑陳述式進行指定的匯出。原因是 ONTAP 不支援用戶端 ID 主幹。解決此限制的 Oracle 資料庫修補程式可能會在未來推出。</block>
+  <block id="3fdf18c0210b51691df97c8be74021a3" category="doc">ASM 回收公用程式（ ASMRU ）</block>
+  <block id="d63f66214ae30c5b9b10653f1e503492" category="doc">LUN 對齊</block>
+  <block id="38baeef7dc11ad9438aa5b211745d9f6" category="searchtitle">Oracle 資料庫 LUN 調整大小和 LVM 調整大小</block>
+  <block id="f447f8c9180e11bc4219ace93e7431fb" category="doc">LUN 調整大小和 LVM 調整大小</block>
+  <block id="c8d869d733bd5299001f9d90b9f00d90" category="doc">LUN 規模調整和 LUN 數量</block>
+  <block id="4ee97146242ed12473141d7ecad00ee1" category="doc">備份分層</block>
+  <block id="e7cba09a05ca3e6ccdd30a1aa0a7d3af" category="doc">歸檔記錄分層</block>
+  <block id="c1affdf2bd2e606557f2bf12c69af8f8" category="doc">部分檔案分層</block>
+  <block id="3bf6f5a455b1889775d79713ad4e19ed" category="doc">擷取原則</block>
+  <block id="636d94f9e0fb52c5d7560661b059b203" category="doc">快照分層</block>
+  <block id="bf5f70c9080724ef27b09203705b1abc" category="doc">完整檔案分層</block>
+  <block id="acf5662e9defb6f8df644e0d8b4caa28" category="doc">初始化參數</block>
+  <block id="03095e209912bbf8e40f883c88befe49" category="searchtitle">PostgreSQL 原生資料保護</block>
+  <block id="300e5ea4a0c7d02b8a4efeba5a1f6faf" category="doc">原生 Ddta 保護</block>
+  <block id="1c3ee6977dcad0709502549dd7b111f3" category="sidebar">Oracle DR 搭配 MetroCluster</block>
 </blocks>

@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-dp-planning.html 
 keywords: data protection, DR, snapshots, CG 
 summary: Oracle 資料庫的資料保護規劃 
+searchtitle: Oracle 資料庫的資料保護規劃 
 ---
-= Oracle 資料庫的資料保護規劃
+= 資料保護規劃
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

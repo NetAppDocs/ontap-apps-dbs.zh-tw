@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-migration-procedures-overview.html 
 keywords: migration, oracle 
 summary: Oracle 移轉程序 
+searchtitle: Oracle 移轉程序概述 
 ---
-= Oracle 移轉程序概述
+= 總覽
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

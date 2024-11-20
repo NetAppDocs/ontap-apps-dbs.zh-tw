@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-migration-sample-scripts.html 
 keywords: oracle, Scripts 
 summary: 用於自動化 Oracle 移轉作業的範例指令碼 
+searchtitle: Oracle 移轉程序範例指令碼 
 ---
-= Oracle 移轉程序範例指令碼
+= 範例指令碼
 :allow-uri-read: 
 
 

@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-migration-fli-completion.html 
 keywords: migration, oracle, FLI 
 summary: Oracle 移轉與 FLI ：完成 
+searchtitle: Oracle 移轉與 FLI ：完成 
 ---
-= Oracle 移轉與 FLI ：完成
+= 完成
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

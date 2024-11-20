@@ -3,8 +3,9 @@ sidebar: sidebar
 permalink: oracle/oracle-host-config-windows.html 
 keywords: oracle, database, ontap, windows 
 summary: 使用 Microsoft Windows 的 Oracle 資料庫 
+searchtitle: 使用 Microsoft Windows 的 Oracle 資料庫 
 ---
-= 使用 Microsoft Windows 的 Oracle 資料庫
+= Microsoft Windows
 :allow-uri-read: 
 
 

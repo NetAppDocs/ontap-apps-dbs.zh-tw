@@ -2,9 +2,10 @@
 sidebar: sidebar 
 permalink: oracle/oracle-dr-smas-fail-snapmirror.html 
 keywords: Oracle, SnapMirror active sync, SMBC, failover 
-summary: Oracle 與 SnapMirror 主動同步容錯移轉 
+summary: SnapMirror 主動式同步 - SnapMirror 通訊失敗 
+searchtitle: SnapMirror 主動式同步 - SnapMirror 通訊失敗 
 ---
-= SnapMirror 主動式同步： SnapMirror 連線中斷
+= SnapMirror 通訊失敗
 :allow-uri-read: 
 :imagesdir: ../media/
 

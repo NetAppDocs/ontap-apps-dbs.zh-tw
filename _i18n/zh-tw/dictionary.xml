@@ -5272,25 +5272,12 @@
   <block id="e7a8be60cff2fec7b8ed793c4d2dddfe" category="summary">EPIC LUN 和 Volume 組態</block>
   <block id="acdbb325faec5e3e2d86b3dbbaf90c54" category="paragraph">Epic 資料庫儲存配置建議文件提供每個資料庫 LUN 大小和數量的指引。</block>
   <block id="a620ecf0a73eb209a145eb913a29bc5a" category="paragraph">請務必與 Epic DBA 和 Epic 支援人員一起檢閱本文件、並確定 LUN 和 LUN 大小的數量、因為它們可能需要調整。這些儲存建議對於 HBA 佇列深度、儲存效能、操作簡易性和擴充簡易性都很重要。</block>
-  <block id="4442aab15395384af6aee974a5a581bc" category="paragraph">針對伺服器作業系統佇列深度考量、資料庫至少要使用八個 LUN （每個磁碟區一個 LUN ）。將 LUN 數量增加八倍。對於較大型的環境、可能需要更多 LUN ；請使用相同數量的磁碟區（總共八個、每個節點四個）、並以八個的倍數新增 LUN 。Epic 建議保留 LUN &lt; 8TB 、 LUN 數量 &lt; 32 。此方法可讓您輕鬆擴充 Epic 環境。</block>
   <block id="21ebeea1f14a138dfebb1b9599a4c3dd" category="paragraph">為了最大化工作負載的效能、例如 Epic odb 或 Clarity 、每種配置也最適合 NetApp 儲存設備。使用八個磁碟區時、寫入 IO 會平均分散在各個控制器上、以最大化 CPU 使用率。對於複寫和備份、最好將磁碟區數量限制在八個、以簡化作業。</block>
   <block id="90adf331b7868c7af46ad6e035e93844" category="section-title">擴充選項</block>
-  <block id="68b3c97d7d89bcf19218f4db828d1f62" category="paragraph">如果伺服器需要更多儲存設備、最簡單的選項就是擴充包含磁碟區的 LUN 。第二個選項是一次將 LUN 以八倍的倍數新增至磁碟區群組（每個現有磁碟區一個）。只新增一或兩個 LUN 就能建立熱點並影響效能。</block>
   <block id="b323bb297a66afc2eea7b89dd4019798" category="section-title">Volume 和 8-LUN 配置</block>
   <block id="66d125e77a6185ef5cf43b2a6bffea80" category="inline-image-macro">EPIC 8-LUN 配置</block>
   <block id="99a54ac1eaa5bd57b4c4c29d6a63f1ac" category="paragraph"><block ref="99a54ac1eaa5bd57b4c4c29d6a63f1ac" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="671393f63bb9ef1dfab4931884d7598d" category="section-title">Volume 和 16-LUN 配置</block>
-  <block id="0c02643253fbb18be382d4c1ad110e4f" category="inline-image-macro">EPIC 16-LUN 配置</block>
-  <block id="3a69aefd67fab9412b92fa902b37d20e" category="paragraph"><block ref="3a69aefd67fab9412b92fa902b37d20e" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="f7b18cfcf87c0f98b439b4c7b3c92c97" category="section-title">Volume 和 24 LUN 配置</block>
-  <block id="6fc8903e912275e630ffd2c72a17adcb" category="inline-image-macro">EPIC 24-LUN 配置</block>
-  <block id="c07e1713e37928ebf0d4e02dbd302844" category="paragraph"><block ref="c07e1713e37928ebf0d4e02dbd302844" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="b7e595df4f29c46e9a8f1aa1c32fd1bf" category="section-title">Volume 和 32-LUN 配置</block>
-  <block id="7ae005614524eafc3188227a0e2095bb" category="inline-image-macro">EPIC 32-LUN 配置</block>
-  <block id="45c0c385be9c9d903ed267e0455dc156" category="paragraph"><block ref="45c0c385be9c9d903ed267e0455dc156" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="3d120048605480bd8cf2a834fe477bb8" category="list-text">在 8 個磁碟區中使用 8 、 16 、 24 或 32 個 LUN 。</block>
   <block id="bad4d79343f04d8b64999875ad328086" category="list-text">平衡 HA 配對中的工作負載、以最大化效能與效率。</block>
-  <block id="cd4b8ea65e0732fcfa8614a31fb02e8f" category="list-text">以預期的 3 年成長規模建立 LUN 、以避免達到 LUN 擴充限制的 10 倍。</block>
   <block id="26b591a32a8a235db7f742995589a455" category="list-text">使用精簡配置的磁碟區和 LUN 。</block>
   <block id="9fb0aaeb125238e83485971ae6b7e2fc" category="list-text">使用至少八個 DB LUN 、兩個日誌 LUN 和兩個應用程式 LUN 。此組態可將儲存效能和作業系統佇列深度最大化。如果需要容量或其他原因、可以使用更多資源。</block>
   <block id="ba5e00554d1ba1b8ca0fc2eaeda44672" category="list-text">如果您確實需要將 LUN 新增至磁碟區群組、請一次新增八個 LUN 。</block>
@@ -5927,4 +5914,14 @@
   <block id="03095e209912bbf8e40f883c88befe49" category="searchtitle">PostgreSQL 原生資料保護</block>
   <block id="300e5ea4a0c7d02b8a4efeba5a1f6faf" category="doc">原生 Ddta 保護</block>
   <block id="1c3ee6977dcad0709502549dd7b111f3" category="sidebar">Oracle DR 搭配 MetroCluster</block>
+  <block id="662637dadb14be675de52ed993629bcd" category="paragraph">針對伺服器作業系統佇列深度考量、資料庫至少要使用八個 LUN （每個磁碟區一個 LUN ）。根據 ONTAP 叢集中的節點數量來增加 LUN 數量。例如，使用 4 節點（ 2 HA 配對）叢集時，請新增 4 個 LUN 。對於較大型的環境，可能需要更多 LUN ；使用相同數量的磁碟區（總共八個，分散於儲存節點），並在叢集節點和磁碟區之間以兩個的倍數新增 LUN 。此方法可讓您輕鬆擴充 Epic 環境。</block>
+  <block id="f73f987e4ea887ccfd1bf297bad46e22" category="paragraph">* 範例 1 ： 2 節點 ONTAP 叢集 *</block>
+  <block id="f08ea6531fe21723a28ec9f89ea3e451" category="paragraph">2 個節點， 1 個 HA 配對 8 個磁碟區，每個節點 4 個磁碟區 8 個 LUN ，每個磁碟區 1 個 LUN ，新增 2 個 LUN ，一個位於 volume01 的 node1 ，一個位於 volume02 的 node02 。</block>
+  <block id="fd52d4fb0b6e3cfb46cae3e012d26c20" category="paragraph">* 範例 2 ： 4 節點 ONTAP 叢集 *</block>
+  <block id="489d5412107ca7c901de568b7c7dcce3" category="paragraph">4 個節點， 2 個 HA 配對 8 個磁碟區，每個節點 2 個磁碟區 8 個 LUN ，每個磁碟區 1 個 LUN 新增 4 個 LUN ，一個位於 vole01 的 node1 ，一個位於 vole02 的 node02 ，一個位於 volume03 的 node03 ，一個位於 volume04 的 node04 。</block>
+  <block id="2feec0f4e37d9566d4cf292116430adb" category="paragraph">如果伺服器需要更多儲存設備、最簡單的選項就是擴充包含磁碟區的 LUN 。第二個選項是一次以兩個的倍數（每個節點一個磁碟區）將 LUN 新增至磁碟區群組。</block>
+  <block id="c338b7a4eb0c6f0bb88b444f6c195b01" category="admonition">如果在需要 4 個以上節點或 8 個 LUN 的大型環境中，請諮詢 Epic 聯盟團隊以確認 LUN 設計。您可以在 EPIC @ NetApp .com 聯絡團隊。</block>
+  <block id="e9afc81d3b8e2990f966bb247fa75a6b" category="list-text">在 8 個磁碟區中使用 8 個 LUN 來啟動，一次在叢集的所有節點上新增 2 個 LUN 。</block>
+  <block id="eb75aeb3b4b2b9734ba3e52f5483f0b2" category="inline-link-macro">ONTAP 文件</block>
+  <block id="c5432110ad66f4e2e624118b88a48126" category="list-text">以預期的 3 年成長規模建立 LUN 。（如需最大 LUN 大小，請參閱<block ref="2a57767dbf71d600f009b2fefab6360d" category="inline-link-macro-rx"></block>。）</block>
 </blocks>

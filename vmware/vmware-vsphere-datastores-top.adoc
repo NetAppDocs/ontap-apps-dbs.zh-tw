@@ -26,7 +26,7 @@ summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案
 
 FCP ， NVMe / FC ， NVMe / TCP 和 iSCSI 是區塊傳輸協定，使用 vSphere 虛擬機器檔案系統（ VMFS ）將 VM 儲存在 ONTAP FlexVol volume 中的 ONTAP LUN 或 NVMe 命名空間內。NFS是一種檔案傳輸協定、可將VM放入資料存放區（只是ONTAP 指不需要VMFS的功能）。SMB（CIFS）、iSCSI、NVMe / TCP或NFS也可直接從客體作業系統使用到ONTAP 不支援。
 
-下表提供 vSphere 支援的傳統資料存放區功能與 ONTAP 。此資訊不適用於vVols資料存放區、但通常適用於使用支援ONTAP 的版本資訊的vSphere 6.x及更新版本。您也可以參閱link:https://www.vmware.com/support/pubs/["VMware 組態上限"^]特定 vSphere 版本以確認特定限制。
+下表提供 vSphere 支援的傳統資料存放區功能與 ONTAP 。此資訊不適用於vVols資料存放區、但通常適用於使用支援ONTAP 的版本資訊的vSphere 6.x及更新版本。您也可以參閱link:https://configmax.broadcom.com/guest?vmwareproduct=vSphere&release=vSphere%208.0&categories=2-0["VMware 組態最大值工具"^]以取得特定 vSphere 版本，以確認特定限制。
 
 |===
 | 功能/特色 | FC | iSCSI | NVMe | NFS 
@@ -129,9 +129,9 @@ FCP ， NVMe / FC ， NVMe / TCP 和 iSCSI 是區塊傳輸協定，使用 vSpher
 
 | NDMP精細度 | 資料存放區 | 資料存放區 | 資料存放區 | 資料存放區或 VM 
 |===
-^1^ * NetApp 建議 * 在 Microsoft 叢集中使用來賓 iSCSI ，而非在 VMFS 資料存放區中使用啟用多寫入器的 VMDK 。Microsoft 和 VMware 完全支援這種方法，可提供 ONTAP （ SnapMirror 到 ONTAP 系統內部部署或雲端）的絕佳彈性，易於設定和自動化，並可透過 SnapCenter 加以保護。 vSphere 7 新增了叢集式 VMDK 選項。這與啟用多寫入器的VMDK不同、因為VMDK需要透過FC傳輸協定呈現資料存放區、而且此傳輸協定已啟用叢集式VMDK支援。其他限制也適用。如需組態準則，請參閱 VMware https://docs.vmware.com/en/VMware-vSphere/7.0/vsphere-esxi-vcenter-server-70-setup-wsfc.pdf["Windows Server容錯移轉叢集的設定"^] 文件。
+^1^ * NetApp 建議 * 在 Microsoft 叢集中使用來賓 iSCSI ，而非在 VMFS 資料存放區中使用啟用多寫入器的 VMDK 。Microsoft 和 VMware 完全支援這種方法，可提供 ONTAP （ SnapMirror 到 ONTAP 系統內部部署或雲端）的絕佳彈性，易於設定和自動化，並可透過 SnapCenter 加以保護。 vSphere 7 新增了叢集式 VMDK 選項。這與啟用多寫入器的VMDK不同、因為VMDK需要透過FC傳輸協定呈現資料存放區、而且此傳輸協定已啟用叢集式VMDK支援。其他限制也適用。如需組態準則，請參閱 VMware link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/setup-for-windows-server-failover-clustering.html["Windows Server容錯移轉叢集的設定"^]文件。
 
-^2^ 使用 NVMe 的資料存放區和 NFS v4.1 需要 vSphere 複寫。SRM不支援陣列型複寫。
+^2^ 使用 NVMe 的資料存放區和 NFS v4.1 需要 vSphere 複寫。SRM 目前不支援以陣列為基礎的 NFS v4.1 複寫。適用於 VMware vSphere 儲存複寫介面卡（）的 ONTAP 工具目前不支援 NVMe 型陣列複寫。
 
 
 

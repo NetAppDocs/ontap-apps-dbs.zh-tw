@@ -66,122 +66,18 @@ summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案
 
 == SAN（FC、FCoE、NVMe/FC、iSCSI）、RDM
 
-在vSphere中、有三種使用區塊儲存LUN的方法：
+ONTAP 使用傳統的 iSCSI 和光纖通道傳輸協定（ FCP ）為 VMware vSphere 提供企業級的區塊儲存設備，並支援 NVMe / FC 和 NVMe / TCP ，提供高效率和高效能的次世代區塊傳輸協定 NVMe over Fabrics （ NVMe of ）。
 
-* 使用VMFS資料存放區
-* 使用原始裝置對應（RDM）
-* 由軟體啟動器從VM客體作業系統存取及控制的LUN
-
-
-VMFS是高效能的叢集式檔案系統、可提供共用儲存資源池的資料存放區。VMFS資料存放區可設定LUN、使用NVMe / FC傳輸協定存取的FC、iSCSI、FCoE或NVMe命名空間來存取。VMFS可讓叢集中的每個ESX伺服器同時存取傳統LUN。支援的最大LUN大小通常為16TB；因此、使用四個16TB LUN（所有SAN陣列系統支援的最大VMFS LUN大小為64TB）、即可建立最大大小為64TB的VMFS 5資料存放區（請參閱本節的第一個表格）ONTAP 。由於VMware不具備小型的個別佇列深度、所以在VMware中、VMFS資料存放區的擴充程度比傳統陣列架構的擴充程度更高、而且相對簡單。ONTAP ONTAP
-
-vSphere內建多個儲存裝置路徑的支援功能、稱為原生多重路徑（NMP）。NMP可偵測支援儲存系統的儲存類型、並自動設定NMP堆疊以支援使用中儲存系統的功能。
-
-NMP 和 ONTAP 都支援非對稱邏輯單元存取（ ALUA ）、可協調最佳化和非最佳化的路徑。在本功能中、ALUA最佳化路徑會使用主控所存取LUN的節點上的目標連接埠、遵循直接資料路徑。ONTAP預設會在vSphere和ONTAP VMware中同時開啟ALUA。NMP 將 ONTAP 叢集識別為 ALUA 、並使用 ALUA 儲存陣列類型外掛程式 (`VMW_SATP_ALUA`）並選取循環路徑選擇外掛程式 (`VMW_PSP_RR`）。
-
-ESXi 6最多可支援256個LUN、並可支援多達1、024條通往LUN的總路徑。ESXi不會看到任何超出這些限制的LUN或路徑。假設LUN數量上限、則路徑限制允許每個LUN有四個路徑。在更大ONTAP 的實體叢集中、可以在LUN限制之前達到路徑限制。為了解決此限制、ONTAP 支援8.3版及更新版本中的選擇性LUN對應（SLM),
-
-對於向指定LUN通告路徑的節點、SLM會有限制。NetApp最佳實務做法是每個SVM每個節點至少有一個LIF、並使用SLM來限制通告給裝載LUN及其HA合作夥伴之節點的路徑。雖然存在其他路徑、但預設不會通告這些路徑。您可以使用新增和移除在SLMs中的報告節點引數來修改通告的路徑。請注意、在 8.3 之前版本中建立的 LUN 會通告所有路徑、而且需要修改以僅通告主控 HA 配對的路徑。有關 SLM 的詳細信息，請參閱第 5.9 節 https://www.netapp.com/pdf.html?item=/media/10680-tr4080pdf.pdf["TR-4080"^]（英文）。先前的連接埠集方法也可用於進一步減少LUN的可用路徑。PortSets可減少igroup中的啟動器可透過哪些可見路徑來查看LUN、進而提供協助。
-
-* 根據預設、會啟用SLM.除非您使用連接埠集、否則不需要額外的組態。
-* 對於在 Data ONTAP 8.3 之前建立的 LUN 、請執行手動套用 SLM `lun mapping remove-reporting-nodes` 用於移除 LUN 報告節點、並限制 LUN 存取 LUN 所屬節點及其 HA 合作夥伴的命令。
-
-
-區塊傳輸協定（iSCSI、FC和FCoE）使用LUN ID和序號以及唯一名稱來存取LUN。FC和FCoE使用全球名稱（WWNN和WWPN）、iSCSI則使用iSCSI合格名稱（IQN）。儲存設備內部的LUN路徑對區塊傳輸協定毫無意義、而且不會出現在傳輸協定的任何位置。因此、只包含LUN的磁碟區根本不需要內部掛載、而包含資料存放區所用LUN的磁碟區則不需要使用交會路徑。NVMe子系統ONTAP 的運作方式類似。
-
-其他應考慮的最佳實務做法：
-
-* 請確定ONTAP 已為叢集中每個節點上的每個SVM建立邏輯介面（LIF）、以達到最大可用度和行動性。最佳實務做法是每個節點使用兩個實體連接埠和LIF、每個光纖使用一個連接埠。ONTAPALUA可用來剖析路徑、識別作用中最佳化（直接）路徑、以及作用中未最佳化路徑。ALUA用於FC、FCoE和iSCSI。
-* 對於iSCSI網路、當存在多個虛擬交換器時、請在不同的網路子網路上使用多個VMkernel網路介面搭配NIC群組。您也可以使用多個實體NIC來連接至多個實體交換器、以提供HA並提高處理量。下圖提供多重路徑連線的範例。在 ONTAP 中、請使用單一模式介面群組、其中包含多個連結至不同交換器或具有多重模式介面群組的 LACP 、以獲得高可用度和連結集合效益。
-* 如果 ESXi 中使用挑戰握手驗證傳輸協定（ CHAP ）進行目標驗證、則也必須使用 CLI 在 ONTAP 中進行設定 (`vserver iscsi security create`）或使用 System Manager （在 Storage （儲存） > SVM （ SVM ） > SVM Settings （ SVM 設定） > Protocols （傳輸協定） > iSCSI （ iSCSI ）下編輯啟動器安全性）。
-* 使用VMware vSphere的VMware vCenter工具來建立及管理LUN和群組。ONTAP外掛程式會自動決定伺服器的WWPN、並建立適當的igroup。它也會根據最佳實務做法來設定LUN、並將其對應至正確的igroup。
-* 請謹慎使用 RDM 、因為它們可能較難管理、而且也會使用路徑、而路徑的限制如前所述。支援這兩種LUN ONTAP https://kb.vmware.com/s/article/2009226["實體與虛擬相容模式"^] RDM。
-* 如需更多關於將NVMe/FC搭配vSphere 7.0使用的資訊、請參閱此 https://docs.netapp.com/us-en/ontap-sanhost/nvme_esxi_7.html["NVMe / FC主機組態指南ONTAP"^] 和 http://www.netapp.com/us/media/tr-4684.pdf["TR-4684"^]。下圖說明從 vSphere 主機到 ONTAP LUN 的多重路徑連線能力。
-
-
-image:vsphere_ontap_image2.png["多重路徑連線能力"]
+如需使用 vSphere 和 ONTAP 實作 VM 儲存區塊傳輸協定的詳細最佳實務做法，請參閱link:vmware-vsphere-datastores-san.html["資料存放區和傳輸協定 - SAN"]
 
 
 
 == NFS
 
-vSphere可讓客戶使用企業級NFS陣列、同時存取ESXi叢集中所有節點的資料存放區。如資料存放區一節所述、在使用NFS搭配vSphere時、會有一些易於使用和儲存效率可見度的優點。
+vSphere可讓客戶使用企業級NFS陣列、同時存取ESXi叢集中所有節點的資料存放區。如一節所述link:vmware-vsphere-datastores-top.html["資料存放區"]，在搭配 vSphere 使用 NFS 時，有一些易用性和儲存效率可見度的優點。
 
-搭配ONTAP vSphere使用VMware NFS時、建議採用下列最佳實務做法：
+如需建議的最佳實務做法，請參閱link:vmware-vsphere-datastores-nfs.html["資料存放區和傳輸協定 - NFS"]
 
-* 在叢集中的每個節點上、為每個SVM使用單一邏輯介面（LIF）ONTAP 。不再需要過去針對每個資料存放區的LIF建議。雖然直接存取（同一個節點上的 LIF 和資料存放區）是最佳選擇、但別擔心間接存取、因為效能影響通常很小（微秒）。
-* 目前支援的所有 VMware vSphere 版本均可使用 NFS v3 和 v4.1 。正式支援 nconnect 已新增至 vSphere 8.0 更新 2 for NFS v3 。對於 NFS v4.1 、 vSphere 持續支援工作階段主幹、 Kerberos 驗證及完整性 Kerberos 驗證。請務必注意、工作階段主幹需要 ONTAP 9.14.1 或更新版本。您可以深入瞭解 nconnect 功能、以及它如何改善的效能 link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vmware-vsphere8-nfsv3-nconnect.html["NFSv3 nConnect 功能搭配 NetApp 和 VMware"]。
-
-
-值得注意的是、 NFSv3 和 NFSv4.1 使用不同的鎖定機制。NFSv3 使用用戶端端鎖定、而 NFSv4.1 則使用伺服器端鎖定。雖然 ONTAP 磁碟區可以透過兩種傳輸協定匯出、但 ESXi 只能透過一種傳輸協定掛載資料存放區。不過、這並不表示其他 ESXi 主機無法透過不同版本掛載相同的資料存放區。為了避免任何問題、請務必指定要在掛載時使用的通訊協定版本、確保所有主機都使用相同版本、因此使用相同的鎖定樣式。避免在主機之間混合使用 NFS 版本是非常重要的。如有可能、請使用主機設定檔來檢查法規遵循狀況。
-** 由於 NFSv3 和 NFSv4.1 之間沒有自動資料存放區轉換、因此請建立新的 NFSv4.1 資料存放區、並使用 Storage VMotion 將 VM 移轉至新的資料存放區。
-** 請參閱中的 NFS v4.1 互通性表附註 link:https://mysupport.netapp.com/matrix/["NetApp互通性對照表工具"^] 支援所需的特定ESXi修補程式層級。
-* NFS 匯出原則用於控制 vSphere 主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用NFSv3時、ESXi會使用sys（UNIX）安全樣式、並需要root掛載選項來執行VM。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意、匯出具有不同值的原則規則 `-anon` 和 `-allow-suid` 可能會導致SVM發現ONTAP 問題、因為使用這些功能。以下是範例原則：
-** 存取傳輸協定： nfs3.
-** 用戶端比對規格： 192.168.42.21
-** RO 存取規則：系統
-** RW 存取規則：系統
-** 匿名 UID
-** 超級用戶： sys
-* 如果使用 NetApp NFS 外掛程式 for VMware VAAI 、則通訊協定應設為 `nfs` 匯出原則規則建立或修改時。需要 NFSv4 傳輸協定、 VAAI 複本卸載才能運作、並將傳輸協定指定為 `nfs` 自動同時包含 NFSv3 和 NFSv4 版本。
-* NFS 資料存放區磁碟區是從 SVM 的根磁碟區連接而成、因此 ESXi 也必須擁有根磁碟區的存取權、才能瀏覽及裝載資料存放區磁碟區。根 Volume 和資料存放區磁碟區交會嵌套的任何其他磁碟區的匯出原則、都必須包含 ESXi 伺服器授予其唯讀存取權的規則或規則。以下是根 Volume 的範例原則、也使用 VAAI 外掛程式：
-** 存取傳輸協定： NFS （包括 nfs3 和 nfs4 ）
-** 用戶端比對規格： 192.168.42.21
-** RO 存取規則：系統
-** RW 存取規則：永不（ root Volume 的最佳安全性）
-** 匿名 UID
-** 超級用戶： sys （ VAAI 的 root Volume 也需要）
-* 使用適用於 VMware vSphere 的 ONTAP 工具（最重要的最佳實務做法）：
-** 使用適用於 VMware vSphere 的 ONTAP 工具來配置資料存放區、因為它能自動簡化匯出原則的管理。
-** 使用外掛程式為 VMware 叢集建立資料存放區時、請選取叢集、而非單一 ESX 伺服器。此選項會觸發IT自動將資料存放區掛載至叢集中的所有主機。
-** 使用外掛裝載功能將現有的資料存放區套用至新伺服器。
-** 如果不使用 ONTAP 工具來執行 VMware vSphere 、請針對所有伺服器或需要額外存取控制的每個伺服器叢集、使用單一匯出原則。
-* 雖然 ONTAP 提供彈性的 Volume 命名空間結構、可利用交叉路口在樹狀結構中排列磁碟區、但這種方法對 vSphere 沒有價值。無論儲存設備的命名空間階層為何、它都會在資料存放區根目錄中為每個VM建立一個目錄。因此、最佳實務做法是將vSphere磁碟區的交會路徑掛載到SVM的根磁碟區、這就是ONTAP VMware vSphere的VMware vSphere功能如何配置資料存放區。沒有巢狀結點路徑也表示除了根磁碟區之外、沒有任何磁碟區相依於任何磁碟區、即使是刻意將磁碟區離線或銷毀、也不會影響其他磁碟區的路徑。
-* 對於 NFS 資料存放區上的 NTFS 分割區、 4K 區塊大小是很好的。下圖說明從vSphere主機連線至ONTAP VMware NFS資料存放區的能力。
-
-image:vsphere_ontap_image3.png["從 vSphere 主機連線至 ONTAP NFS 資料存放區"]
-
-下表列出NFS版本及支援的功能。
-
-|===
-| vSphere功能 | NFSv3. | NFSv4.1 
-
-
-| vMotion與Storage vMotion | 是的 | 是的 
-
-
-| 高可用度 | 是的 | 是的 
-
-
-| 容錯能力 | 是的 | 是的 
-
-
-| DRS | 是的 | 是的 
-
-
-| 主機設定檔 | 是的 | 是的 
-
-
-| 儲存DRS | 是的 | 否 
-
-
-| 儲存I/O控制 | 是的 | 否 
-
-
-| SRM | 是的 | 否 
-
-
-| 虛擬磁碟區 | 是的 | 否 
-
-
-| 硬體加速（VAAI） | 是的 | 是的 
-
-
-| Kerberos驗證 | 否 | 是（vSphere 6.5及更新版本增強支援AES、krb5i） 
-
-
-| 多重路徑支援 | 否 | 有（ ONTAP 9.14.1 ） 
-|===
 
 
 == 直接連線網路

@@ -14,19 +14,23 @@ summary: 本文件討論ONTAP VMware vSphere的產品安全性功能。
 
 
 [role="lead"]
-將 VVols 搭配 ONTAP 使用的關鍵在於 VASA Provider 軟體、此軟體是 VMware vSphere 虛擬應用裝置 ONTAP 工具的一部分。
+搭配 NetApp 使用 vVols 的關鍵在於適用於 VMware vSphere 的 ONTAP 工具，這類伺服器是 NetApp ONTAP 9 系統的 VASA （ vSphere API for Storage Aware ）提供者介面。
 
-ONTAP 工具也包括 vCenter UI 擴充、 REST API 伺服器、適用於 VMware Site Recovery Manager 的儲存複寫介面卡、監控和主機組態工具、以及一系列可協助您更妥善管理 VMware 環境的報告。
+ONTAP 工具也包括 vCenter UI 擴充， REST API 服務，適用於 VMware Site Recovery Manager / 即時網站恢復的儲存複寫介面卡，監控和主機組態工具，以及一系列可協助您更妥善管理 VMware 環境的報告。
 
 
 
 == 產品與文件
 
-ONTAP FlexClone 授權（隨附於 ONTAP One ）和 ONTAP 工具應用裝置是唯一需要搭配 ONTAP 使用 vVols 的其他產品。ONTAP 工具的最新版本是以單一統一應用裝置的形式提供、可在 ESXi 上執行、提供以前三種不同應用裝置和伺服器的功能。對於 vVols 、使用 ONTAP 工具 vCenter UI 延伸或 REST API 作為 ONTAP 與 vSphere 功能的一般管理工具和使用者介面、以及提供特定 vVols 功能的 VASA 供應商、是非常重要的。SRA 元件包含在傳統資料存放區中、但 VMware Site Recovery Manager 不會將 SRA 用於 vVols 、而是在 SRM 8.3 及更新版本中實作新服務、利用 VVols 複寫的 VASA 提供者。
+ONTAP One 授權包含所有必要的授權，可搭配 ONTAP 系統使用 VVols 。唯一的額外需求是免費的 ONTAP 工具 OVA ，它是 VASA 供應商。在 vVols 環境中， VASA Provider 軟體將陣列功能轉譯為原則導向屬性，可透過 VASA API 加以運用，而 vSphere 管理員無需知道這些功能如何在幕後管理。如此可根據原則動態使用已分配的儲存容量，無需手動建立傳統的資料存放區，並管理其個別的儲存使用率。簡而言之， vVols 將管理企業儲存設備的所有複雜性都從 vSphere 管理員中擷取出來，讓他們能夠專注於虛擬化層。
+
+對於使用 VMware Cloud Foundation 搭配 vSAN 的客戶，可將 vVols 新增至任何管理或工作負載網域，做為補充儲存空間。 vVols 可透過通用的儲存原則型管理架構，與 vSAN 無縫整合。
+
+新一代 ONTAP 工具 10 版本系列採用可擴充的容器化微服務架構，可透過 ESXi 上的簡易 OVA 格式應用裝置進行部署，將先前的功能現代化。ONTAP 工具 10 將三種舊應用裝置和產品的所有功能整合到單一部署中。對於 vVols 管理，您將使用直覺式 vCenter UI 延伸功能或 REST API 來管理 ONTAP 工具 VASA Provider 。請注意， SRA 元件適用於傳統的資料存放區； VMware Site Recovery Manager 不會將 SRA 用於 vVols 。
 
 
 
-=== 使用 iSCSI 或 FCP 時的 ONTAP 工具 VASA Provider 架構
+=== ONTAP 工具 VASA Provider 架構，可搭配統一化系統使用 iSCSI 或 FCP
 
 image:vvols-image5.png["ONTAP 工具 VASA 供應商架構、 240"]
 
@@ -34,11 +38,18 @@ image:vvols-image5.png["ONTAP 工具 VASA 供應商架構、 240"]
 
 === 產品安裝
 
-若要進行新的安裝、請將虛擬應用裝置部署到 vSphere 環境中。目前版本的 ONTAP 工具會自動向 vCenter 註冊、並預設啟用 VASA Provider 。除了 ESXi 主機和 vCenter Server 資訊外、您還需要應用裝置的 IP 位址組態詳細資料。如前所述、 VASA Provider 要求 ONTAP FlexClone 授權已安裝在您計畫用於 VVols 的任何 ONTAP 叢集上。此應用裝置內建監控程式、可確保可用度、最佳實務做法是設定 VMware High Availability 及選擇性的容錯功能。如需其他詳細資料、請參閱第 4.1 節。請勿將 ONTAP 工具應用裝置或 vCenter Server 應用裝置（ VCSA ）安裝或移至 vVols 儲存設備、因為這可能會導致應用裝置無法重新啟動。
+若要進行新的安裝、請將虛擬應用裝置部署到 vSphere 環境中。部署後，您可以登入管理器 UI ，或使用其餘 API 來擴充或擴充部署，內建 vCenter （這會將外掛程式登錄至 vCenter ），內建儲存系統，以及將儲存系統與 vCenter 建立關聯。只有當您計畫將安全的多租戶共享與專用 SVM 搭配使用時，才需要在 ONTAP 工具管理器 UI 中安裝儲存系統，並將叢集與 vCenter 關聯，否則您只需在 ONTAP 工具 vCenter UI 延伸中，或使用 REST API 即可輕鬆建置所需的儲存叢集。
 
-使用 NetApp 支援網站 （ NSS ）上可供下載的升級 ISO 檔案、即可支援 ONTAP 工具的就地升級。請依照部署與設定指南的指示來升級應用裝置。
+請參閱link:vmware-vvols-deploy.html["部署 VVols Storage"^]本文件中的，或 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["適用於 VMware vSphere 的 ONTAP 工具文件"^]。
 
-如需調整虛擬應用裝置規模及瞭解組態限制、請參閱本知識庫文章： https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/VSC_and_VASA_Provider/OTV%3A_Sizing_Guide_for_ONTAP_tools_for_VMware_vSphere["VMware vSphere ONTAP 工具規模調整指南"^]
+[TIP]
+====
+最佳做法是將 ONTAP 工具和 vCenter 應用裝置儲存在傳統的 NFS 或 VMFS 資料存放區上，以避免任何相依性衝突。由於 vCenter 和 ONTAP 工具必須在 vVols 作業期間彼此通訊，因此請勿將 ONTAP 工具應用裝置或 vCenter Server 應用裝置（ VCSA ）安裝或移至他們正在管理的 vVols 儲存設備。如果發生這種情況，重新啟動 vCenter 或 ONTAP 工具應用裝置可能會導致控制面板存取中斷，以及應用裝置無法開機。
+
+====
+您可以使用 NetApp 支援網站上的升級 ISO 檔案來支援 ONTAP 工具的就地升級 https://mysupport.netapp.com/site/products/all/details/otv10/downloads-tab["適用於 VMware vSphere 10 的 ONTAP 工具 - 下載"]（需登入 NSS ）。請依照 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/upgrade/upgrade-ontap-tools.html["從適用於 VMware vSphere 10.x 的 ONTAP 工具升級至 10.3"]指南指示來升級應用裝置。您也可以從 ONTAP 工具 9.13 到 10.3 進行並排升級。請參閱 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/migrate/migrate-to-latest-ontaptools.html["從適用於 VMware vSphere 9.x 的 ONTAP 工具移轉至 10.3"]以深入瞭解該主題。
+
+如需調整虛擬應用裝置規模及瞭解組態限制，請參閱 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prerequisites.html#configuration-limits-to-deploy-ontap-tools-for-vmware-vsphere["部署 VMware vSphere ONTAP 工具的組態限制"^]
 
 
 
@@ -46,100 +57,56 @@ image:vvols-image5.png["ONTAP 工具 VASA 供應商架構、 240"]
 
 下列文件可協助您部署 ONTAP 工具。
 
-https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["如需完整的文件儲存庫與擴大機； #44 ；請造訪 docs.netapp.com 的連結"^]
+https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["適用於 VMware vSphere 的 ONTAP 工具文件"^]
 
 
 
 ==== 開始使用
 
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/release_notes.html["版本資訊"^]
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/concepts/concept_virtual_storage_console_overview.html["瞭解適用於 VMware vSphere 的 ONTAP 工具"^]
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/qsg.html["VMware工具快速入門ONTAP"^]
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/deploy/task_deploy_ontap_tools.html["部署ONTAP 各種工具"^]
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/deploy/task_upgrade_to_the_9_8_ontap_tools_for_vmware_vsphere.html["升級ONTAP 功能"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/release-notes/release-notes.html["版本資訊"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/concepts/ontap-tools-overview.html["VMware vSphere 的 ONTAP 工具總覽"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["部署ONTAP 各種工具"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/upgrade/upgrade-ontap-tools.html["升級ONTAP 功能"^]
 
 
 
 
 ==== 使用ONTAP VMware工具
 
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/task_provision_datastores.html["配置傳統資料存放區"^]
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/configure/task_provision_vvols_datastores.html["配置vVols資料存放區"^]
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/concepts/concept_vcenter_server_role_based_access_control_features_in_vsc_for_vmware_vsphere.html["設定角色型存取控制"^]
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/manage/task_configure_vasa_provider_to_use_ssh_for_remote_diag_access.html["設定遠端診斷"^]
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/concepts/concept_configure_high_availability_for_ontap_tools_for_vmware_vsphere.html["設定高可用度"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/create-vvols-datastore.html["配置資料存放區"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/configure-user-role-and-privileges.html["設定角色型存取控制"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/edit-appliance-settings.html["設定高可用度"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/edit-esxi-host-settings.html["修改ESXi主機設定"^]
 
 
 
 
 ==== 保護及管理資料存放區
 
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/protect/task_enable_storage_replication_adapter.html["保護傳統的資料存放區"^] 使用 SRM
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/protect/concept_configure_replication_for_vvols_datastore.html["保護 vVols 型虛擬機器"^] 使用 SRM
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/manage/task_monitor_datastores_using_the_traditional_dashboard.html["監控傳統的資料存放區和虛擬機器"^]
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/manage/task_monitor_vvols_datastores_and_virtual_machines_using_vvols_dashboard.html["監控vVols資料存放區和虛擬機器"^]
-
-
-除了產品文件之外、還有支援知識庫文章、這些文章可能很有用。
-
-* https://kb.netapp.com/mgmt/OTV/NetApp_VASA_Provider/How_to_perform_a_VASA_Provider_Disaster_Recovery_-_Resolution_Guide["如何執行 VASA Provider 災難恢復解決方案指南"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/protect-cluster.html["使用 ONTAP 工具和 SnapMirror Active Sync 設定 vSphere Metro Storage 叢集（ VMSC ）"^]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/protect/enable-storage-replication-adapter.html["保護虛擬機器"^]使用 SRM
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/reports.html["監控叢集，資料存放區和虛擬機器"^]
 
 
 
 
 === Vasa Provider Dashboard
 
-VASA Provider 包含儀表板、內含個別 vVols VM 的效能與容量資訊。這些資訊直接來自 VVol 檔案和 LUN 的 ONTAP 、包括前 5 名虛擬機器的延遲、 IOPS 、處理量和正常運作時間、以及前 5 名資料存放區的延遲和 IOPS 。使用 ONTAP 9.7 或更新版本時、預設會啟用此功能。擷取並顯示在儀表板中的初始資料可能需要 30 分鐘。
+VASA Provider 包含儀表板、內含個別 vVols VM 的效能與容量資訊。這些資訊直接來自 VVol 檔案和 LUN 的 ONTAP ，包括延遲， IOPS ，處理量等。使用所有目前支援的 ONTAP 9 版本時，預設會啟用此功能。請注意，初始設定後，資料可能需要 30 分鐘才能填入儀表板。
 
 
 
-==== ONTAP 工具 vVols 儀表板
-
-image:vvols-image6.png["ONTAP 工具 vVols 儀表板、 400"]
-
-
-
-== 最佳實務做法
+== 其他最佳實務做法
 
 搭配 vSphere 使用 ONTAP vVols 非常簡單、並遵循已發佈的 vSphere 方法（請參閱您的 ESXi 版本的 VMware 文件中的「在 vSphere 儲存環境下使用虛擬磁碟區」）。以下是一些與 ONTAP 一起考量的額外實務做法。
 
 * 限制 *
 
-一般而言、 ONTAP 支援 VMware 所定義的 VVols 限制（請參閱已發佈 https://configmax.esp.vmware.com/guest?vmwareproduct=vSphere&release=vSphere%207.0&categories=8-0["組態最大值"^]）。下表摘要列出 VVols 大小和數量的特定 ONTAP 限制。請務必檢查 https://hwu.netapp.com/["NetApp Hardware Universe"^] 以獲得 LUN 和檔案數量和大小的更新限制。
-
-* ONTAP VVols 限制 *
-
-|===
-| 容量/功能 | SAN （ SCSI 或 NVMe of ） | NFS 
-
-
-| VVols 大小上限 | 62 TiB* | 62 TiB* 
-
-
-| 每個 FlexVol Volume 的最大 VVols 數 | 1024 | 20 億 
-
-
-| 每個 ONTAP 節點的 VVols 數目上限 | 最多 12288** | 500 億 
-
-
-| 每個 ONTAP 配對的最大 VVols 數 | 高達 24576 個 ** | 500 億 
-
-
-| 每個 ONTAP 叢集的 VVols 數量上限 | 高達 98,304** | 沒有特定的叢集限制 
-
-
-| QoS 物件上限（共享原則群組和個別 VVols 服務層級） | 12 、 000 至 ONTAP 9.3 ； 40 、 000 、含 ONTAP 9.4 及更新版本 |  
-|===
-* 大小限制是根據執行 ONTAP 9.12.1P2 及更新版本的 ASA 系統或 AFF 和 FAS 系統而定。
-+
-** SAN vVols （ NVMe 命名空間或 LUN ）的數量會因平台而異。請務必檢查 https://hwu.netapp.com/["NetApp Hardware Universe"^] 以獲得 LUN 和檔案數量和大小的更新限制。
-
-
-
+通常， ONTAP 支持 VMware 定義的 vVols 限制（請參閱發佈的 https://configmax.esp.vmware.com/guest?vmwareproduct=vSphere&release=vSphere%207.0&categories=8-0["組態最大值"^]）。請務必檢查 https://hwu.netapp.com/["NetApp Hardware Universe"^] LUN ，命名空間和檔案數量和大小的更新限制。
 
 * 將 ONTAP 工具用於 VMware vSphere 的 UI 延伸或 REST API 、以佈建 vVols 資料存放區 * * 和傳輸協定端點 *
 
-雖然可以使用一般 vSphere 介面建立 vVols 資料存放區、但使用 ONTAP 工具會視需要自動建立傳輸協定端點、並使用 ONTAP 最佳實務做法並符合您定義的儲存功能設定檔來建立 FlexVol 磁碟區。只要在主機 / 叢集 / 資料中心上按一下滑鼠右鍵、然後選取 ONTAP tools_ 和 _Provision datastority_ 即可。您只需在精靈中選擇所需的 vVols 選項即可。
+雖然可以使用一般 vSphere 介面建立 vVols 資料存放區，但使用 ONTAP 工具會根據需要自動建立傳輸協定端點，並使用 ONTAP 最佳實務做法建立 FlexVol Volume （ ASA R2 不需要）。只要在主機 / 叢集 / 資料中心上按一下滑鼠右鍵、然後選取 ONTAP tools_ 和 _Provision datastority_ 即可。您只需在精靈中選擇所需的 vVols 選項即可。
 
 * 切勿將 ONTAP 工具應用裝置或 vCenter Server Appliance （ VCSA ）儲存在他們正在管理的 VVols 資料存放區。 *
 
@@ -149,7 +116,7 @@ image:vvols-image6.png["ONTAP 工具 vVols 儀表板、 400"]
 
 支援的儲存功能（例如 QoS 、特性設定等）已在 VASA Provider 的不同版本中有所變更、有些則視 ONTAP 版本而定。在 ONTAP 叢集中使用不同版本、或在具有不同版本的叢集之間移動 vVols 、可能會導致非預期行為或法規遵循警示。
 
-* 使用 NVMe / FC 或 FCP for vVols 之前、請先將光纖通道架構分區。 *
+* 在使用 FCP for vVols 之前，請先將光纖通道架構分區。 *
 
 ONTAP 工具 VASA 供應商負責管理 FCP 、 iSCSI 群組、以及 ONTAP 中的 NVMe 子系統、這些子系統是以受管理 ESXi 主機的探索啟動器為基礎。不過、它並未與光纖通道交換器整合以管理分區。在進行任何資源配置之前、必須根據最佳實務做法進行分區。以下是單一啟動器分區至四個 ONTAP 系統的範例：
 
@@ -165,22 +132,15 @@ https://www.netapp.com/pdf.html?item=/media/10681-tr4684.pdf["_TR-4684 使用 NV
 
 * 根據您的需求規劃您的支援 FlexVols 。 *
 
-您可以將多個備份磁碟區新增至 vVols 資料存放區、以便在 ONTAP 叢集上分散工作負載、支援不同的原則選項、或增加允許的 LUN 或檔案數量。不過、如果需要最高的儲存效率、請將所有的備份磁碟區放在單一集合體上。或者、如果需要最大的複製效能、請考慮使用單一 FlexVol 磁碟區、並將範本或內容庫保留在相同的磁碟區中。VASA Provider 將許多 VVols 儲存作業卸載至 ONTAP 、包括移轉、複製和快照。在單一 FlexVol 磁碟區內完成此作業時、會使用節省空間的檔案複本、而且幾乎可以立即使用。當跨 FlexVol 磁碟區執行此作業時、複本會快速可用、並使用即時重複資料刪除和壓縮功能、但在背景工作使用背景重複資料刪除和壓縮在磁碟區上執行之前、最大的儲存效率可能無法恢復。視來源和目的地而定、部分效率可能會降低。
+對於非 ASA R2 系統，最好將數個備份磁碟區新增至 vVols 資料存放區，以便在 ONTAP 叢集上分散工作負載，支援不同的原則選項，或增加允許的 LUN 或檔案數量。不過、如果需要最高的儲存效率、請將所有的備份磁碟區放在單一集合體上。或者、如果需要最大的複製效能、請考慮使用單一 FlexVol 磁碟區、並將範本或內容庫保留在相同的磁碟區中。VASA Provider 將許多 VVols 儲存作業卸載至 ONTAP 、包括移轉、複製和快照。在單一 FlexVol 磁碟區內完成此作業時、會使用節省空間的檔案複本、而且幾乎可以立即使用。當跨 FlexVol 磁碟區執行此作業時、複本會快速可用、並使用即時重複資料刪除和壓縮功能、但在背景工作使用背景重複資料刪除和壓縮在磁碟區上執行之前、最大的儲存效率可能無法恢復。視來源和目的地而定、部分效率可能會降低。
 
-* 讓儲存功能設定檔（ SCP ）保持簡單。 *
-
-避免將功能設定為任何、以指定不需要的功能。這可將選擇或建立 FlexVol 磁碟區時發生的問題減至最低。例如、在 VASA Provider 7.1 及更早版本中、如果將壓縮保留在預設的 SCP 設定「否」、則會嘗試停用壓縮、即使在 AFF 系統上也一樣。
-
-* 使用預設的 SCP 做為範例範本來建立您自己的範本。 *
-
-隨附的 SCP 適用於大多數一般用途、但您的需求可能有所不同。
+在 ASA R2 系統中，這種複雜度會被移除，因為磁碟區或集合體的概念會從使用者那裏抽象出來。動態放置會自動處理，並視需要建立傳輸協定端點。如果需要額外的擴充功能，則可即時自動建立其他傳輸協定端點。
 
 * 請考慮使用最大 IOPS 來控制未知虛擬機器或測試虛擬機器。 *
 
 VASA Provider 7.1 首度提供最大 IOPS 、可將未知工作負載的 IOPS 限制在特定的 vVol 、以避免對其他更重要的工作負載造成影響。如需效能管理的詳細資訊、請參閱表 4 。
 
-* 確保您擁有足夠的資料生命。 *
-每個 HA 配對每個節點至少建立兩個生命期。根據您的工作負載、可能需要更多資源。
+* 確保您擁有足夠的資料生命。 *請參閱 link:vmware-vvols-deploy.html["部署 VVols Storage"^]。
 
 * 遵循所有通訊協定最佳實務做法。 *
 

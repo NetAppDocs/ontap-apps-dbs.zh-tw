@@ -14,11 +14,36 @@ summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案
 
 
 [role="lead"]
-NetApp是VMware在開發vSphere虛擬磁碟區（vVols）方面的早期設計合作夥伴、為vVols和VMware vSphere API提供架構輸入和早期支援、以提高儲存感知（VASA）的能力。這種方法不僅將 VM 精細儲存管理帶入 VMFS 、也支援透過儲存原則型管理（ SPBM ）來自動化儲存資源配置。
+NetApp 於 2012 年首次宣布，在開發 VMware vSphere API for Storage Aware （ VASA ）方面與 VMware 合作，成為早期設計合作夥伴，這是以儲存原則為基礎的管理（ SPBM ）與企業儲存陣列的基礎。此方法為 VMFS 和 NFS 儲存帶來有限的 VM 精細儲存管理。
 
-SPBM提供一個架構、可在虛擬化環境可用的儲存服務與透過原則配置的儲存元素之間、做為抽象層。此方法可讓儲存架構設計師設計具有不同功能的儲存資源池、讓VM管理員輕鬆使用。接著系統管理員可以根據已配置的儲存資源池來比對虛擬機器工作負載需求、以便精細控制每個VM或虛擬磁碟層級的各種設定。
+ As a technology design partner, NetApp provided architectural input and in 2015 announced support for vVols. This new technology now enabled the automation of VM-granular and truly array-native storage provisioning through SPBM.
 
-這個解決方案是VVols擴充儲存產業的領導廠商、可在單一叢集內支援數十萬個vVols、而企業陣列和小型Flash陣列廠商則支援每個陣列數千個vVols。ONTAPNetApp也透過即將推出的VVols 3.0支援功能、推動VM精細管理的演進。
+
+== 虛擬磁碟區（ vVols ）
+
+VVols 是一種革命性的儲存架構，可實現 VM 精細的儲存管理，讓儲存設備不僅能以每個 VM 為基礎進行管理（包括 VM 中繼資料），還能以每個 VMDK 為基礎進行管理。 VVols 是軟體定義資料中心（ SDDC ）策略的關鍵元件，可構成 VMware Cloud Foundation （ VCF ）的基礎，為虛擬化環境提供更有效率且可擴充的儲存架構。
+
+VVols 可讓 VM 以每個 VM 為基礎來使用儲存設備，因為每個 VM 儲存物件都是 NetApp ONTAP 中的唯一實體。ASA R2 系統不再需要磁碟區管理，這表示每個 VM 儲存物件都是陣列上唯一的儲存單元（ SU ），可以獨立控制。如此一來，就能建立可套用至個別 VM 或 VMDK 的儲存原則（以及獨立式 SUS ），以精細控制效能，可用度及資料保護等儲存服務。
+
+
+
+== 儲存原則型管理（ SPBM ）
+
+SPBM提供一個架構、可在虛擬化環境可用的儲存服務與透過原則配置的儲存元素之間、做為抽象層。此方法可讓儲存架構設計師設計具有不同功能的儲存集區。VM 管理員可以輕鬆使用這些資源池。然後，系統管理員可以將虛擬機器工作負載需求與已配置的儲存資源池進行比對。這種方法簡化了儲存管理，並能更有效率地使用儲存資源。
+
+SPBM 是 vVols 的關鍵元件，提供以原則為基礎的架構來管理儲存服務。原則是由 vSphere 管理員使用廠商 VASA Provider （ VP ）公開的規則和功能來建立。可針對不同的儲存服務建立原則，例如效能，可用度和資料保護。可將原則指派給個別 VM 或 VMDK ，以精細控制儲存服務。
+
+
+
+== NetApp ONTAP 和 VVols
+
+NetApp ONTAP 在 vVols 擴充領域領導儲存產業，在單一叢集內支援數十萬個 vVols * 。相反地，企業陣列和較小的 Flash 陣列廠商每個陣列最多支援數千個 vVols 。ONTAP 為 VMware vSphere 環境提供可擴充且有效率的儲存解決方案，支援 vVols 的豐富儲存服務，包括重複資料刪除，壓縮，精簡配置和資料保護。SPBM 可與 VMware vSphere 環境無縫整合。
+
+我們先前提到， VM 管理員可以將容量當成儲存池使用。這是透過使用 vSphere 中代表為邏輯資料存放區的儲存容器來完成的。
+
+儲存容器是由儲存管理員所建立，用於群組 VM 管理員可以使用的儲存資源。根據您使用的 ONTAP 系統類型，儲存容器的建立方式可能有所不同。使用傳統的 ONTAP 9 叢集，容器會被指派一個或多個組成儲存池的 FlexVols 備份。使用 ASA R2 系統時，整個叢集就是儲存池。
 
 
 NOTE: 如需VMware vSphere虛擬磁碟區、SPBM及ONTAP VMware的詳細資訊、請參閱 link:vmware-vvols-overview.html["TR-4400: VMware vSphere虛擬Volume ONTAP with VMware"^]。
+
+ \* Depending on platform and protocol

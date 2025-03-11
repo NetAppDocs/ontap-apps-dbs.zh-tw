@@ -20,17 +20,19 @@ summary: VMSC 設計與實作準則。
 
 == NetApp 儲存組態
 
-NetApp MetroCluster 的設定指示（稱為 MCC 組態）可在以下網址取得： https://docs.netapp.com/us-en/ontap-metrocluster/["資訊文件MetroCluster"]。SnapMirror 主動同步的說明也可在以下網址取得： https://docs.netapp.com/us-en/ontap/smbc/index.html["SnapMirror營運不中斷總覽"]。
+NetApp MetroCluster 的設定說明（稱為 MCC 組態）可在 https://docs.netapp.com/us-en/ontap-metrocluster/["資訊文件MetroCluster"]取得。SnapMirror Active Sync （ SMas ）的說明也可在以下網址取得： https://docs.netapp.com/us-en/ontap/smbc/index.html["SnapMirror營運不中斷總覽"]。
 
 設定 MetroCluster 之後、管理就像管理傳統的 ONTAP 環境一樣。您可以使用命令列介面（ CLI ）、系統管理員或 Ansible 等各種工具來設定儲存虛擬機器（ SVM ）。設定 SVM 後、在叢集上建立邏輯介面（生命體）、磁碟區和邏輯單元編號（ LUN ）、以用於正常作業。這些物件將會使用叢集對等網路自動複寫到其他叢集。
 
-如果不使用 MetroCluster 、您可以使用 SnapMirror 主動式同步功能、在不同故障網域中的多個 ONTAP 叢集之間提供資料存放區精細保護和主動式存取。SnapMirror 主動式同步會使用一致性群組、確保一或多個資料存放區之間的寫入順序一致性、您可以根據應用程式和資料存放區需求、建立多個一致性群組。一致性群組對於需要在多個資料存放區之間進行資料同步的應用程式特別有用。SnapMirror 主動式同步也支援原始裝置對應（ RDM ）和來賓 iSCSI 啟動器的來賓連線儲存設備。如需更多關於一致性群組的資訊、請參閱 https://docs.netapp.com/us-en/ontap/consistency-groups/index.html["一致性群組總覽"]。
+如果不使用 MetroCluster 、您可以使用 SnapMirror 主動式同步功能、在不同故障網域中的多個 ONTAP 叢集之間提供資料存放區精細保護和主動式存取。SMas 使用一致性群組（ CGS ）來確保一個或多個資料存放區之間的寫入順序一致性，您可以根據應用程式和資料存放區需求建立多個 CGS 。一致性群組對於需要在多個資料存放區之間進行資料同步的應用程式特別有用。SMas 也支援原始裝置對應（ RDM ），以及與來賓 iSCSI 啟動器連線的來賓儲存設備。有關一致性群組的詳細資訊，請參閱 https://docs.netapp.com/us-en/ontap/consistency-groups/index.html["一致性群組總覽"]。
 
-與 MetroCluster 相比、使用 SnapMirror 主動式同步管理 VMSC 組態有一些差異。首先、這是僅限 SAN 的組態、沒有 NFS 資料存放區可以使用 SnapMirror 主動式同步進行保護。其次、您必須將兩個 LUN 複本對應到 ESXi 主機、以便它們存取兩個故障網域中的複寫資料存放區。
+ONTAP 工具現在提供一種簡單的方法來設定 VMSC 的 SnapMirror 作用中同步。您可以使用 ONTAP 工具 vCenter 外掛程式來建立和管理兩個 ONTAP 叢集之間的 SnapMirror 主動式同步關係。外掛程式提供簡單直覺的介面，可在兩個 ONTAP 叢集之間建立及管理 SnapMirror 主動式同步關係。您可以在上深入瞭解 ONTAP 工具 vCenter 外掛程式 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["VMware vSphere適用的工具ONTAP"]，或直接跳至 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/protect-cluster.html["使用主機叢集保護來保護"]。
+
+與 MetroCluster 相比、使用 SnapMirror 主動式同步管理 VMSC 組態有一些差異。首先， SMas 是僅限 SAN 的組態， SnapMirror 主動式同步無法保護任何 NFS 資料存放區。其次、您必須將兩個 LUN 複本對應到 ESXi 主機、以便它們存取兩個故障網域中的複寫資料存放區。
 
 
 
-== VMware vSphere HA
+== VMware vSphere 組態
 
 
 
@@ -39,7 +41,7 @@ NetApp MetroCluster 的設定指示（稱為 MCC 組態）可在以下網址取�
 建立 vSphere HA 叢集是一個多步驟程序、完整記錄於 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-F7818000-26E3-4E2A-93D2-FCDCE7114508.html["如何在 docs.vmware.com 上的 vSphere Client 中建立和設定叢集"]。簡言之、您必須先建立空叢集、然後使用 vCenter 新增主機、並指定叢集的 vSphere HA 和其他設定。
 
 
-NOTE: 本文檔中的任何內容均未取代 https://core.vmware.com/resource/vmware-vsphere-metro-storage-cluster-recommended-practices["VMware vSphere Metro儲存叢集建議實務做法"]
+NOTE: 本文檔中的任何內容都不能取代 https://www.vmware.com/docs/vmw-vmware-vsphere-metro-storage-cluster-recommended-practices["VMware vSphere Metro儲存叢集建議實務做法"]。本內容僅供參考，無法取代正式的 VMware 文件。
 
 若要設定 HA 叢集、請完成下列步驟：
 
@@ -133,8 +135,6 @@ image::../media/vmsc_3_6.png[自動產生電腦說明的螢幕擷取畫面,624,5
 
 === 設定進階選項
 
-* 主機故障偵測 *
-
 當 HA 叢集內的主機無法連線至網路或叢集中的其他主機時、就會發生隔離事件。根據預設、 vSphere HA 會使用其管理網路的預設閘道做為預設隔離位址。不過、您可以為主機指定其他隔離位址來執行 ping 、以判斷是否應該觸發隔離回應。新增兩個可 ping 的隔離 IP 、每個站台一個。請勿使用閘道 IP 。使用的 vSphere HA 進階設定為 das.isolationaddress 。您可以將 ONTAP 或 Mediator IP 位址用於此用途。
 
 請參閱 https://core.vmware.com/resource/vmware-vsphere-metro-storage-cluster-recommended-practices#sec2-sub5["core.vmware.com"] 以取得更多資訊
@@ -149,18 +149,13 @@ image::../media/vmsc_3_7.png[自動產生電腦說明的螢幕擷取畫面,624,5
 
 在本節中、我們會為 MetroCluster 環境中的每個站台 \ 叢集、建立 VM 和主機的 DRS 群組。然後我們設定 VM\Host 規則、使 VM 主機與本機儲存資源的關聯性一致。例如、站台 A VM 屬於 VM 群組 sitea_vms 、站台 A 主機屬於主機群組 sitea_hosts 。接下來、在 VM\Host 規則中、我們指出 sitea_vms 應該在 sitea_hosts 中的主機上執行。
 
-
-
-=== 最佳實務做法 _
-
+[TIP]
+====
 * NetApp 強烈建議在組 * 中的主機上運行規範 * ，而不是規範 * 必須在組 * 中的主機上運行。萬一站台 A 主機故障、站台 A 的 VM 需要透過 vSphere HA 在站台 B 的主機上重新啟動、但後者的規格不允許 HA 在站台 B 上重新啟動 VM 、因為這是硬規則。以前的規格是軟性規則、在 HA 發生時會違反、因此可提供可用度而非效能。
+* 您可以建立事件型警示、在虛擬機器違反 VM 主機關聯規則時觸發。在 vSphere Client 中、新增虛擬機器的警示、並選取「 VM 正在違反 VM-Host Affinity Rule 」作為事件觸發程序。如需建立及編輯警示的詳細資訊，請參閱link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-monitoring-and-performance-8-0.html["vSphere 監控與效能"^]文件。
 
 
-*[ 附註 ]
-
-* 您可以建立事件型警示、在虛擬機器違反 VM 主機關聯規則時觸發。在 vSphere Client 中、新增虛擬機器的警示、並選取「 VM 正在違反 VM-Host Affinity Rule 」作為事件觸發程序。如需建立及編輯警示的詳細資訊、請參閱 http://pubs.vmware.com/vsphere-51/topic/com.vmware.ICbase/PDF/vsphere-esxi-vcenter-server-51-monitoring-performance-guide.pdf["vSphere 監控與效能"]文件。
-
-
+====
 
 
 === 建立 DRS 主機群組
@@ -219,33 +214,25 @@ image::../media/vmsc_3_8.png[自動產生電腦說明的螢幕擷取畫面,474,3
 
 
 
-== VMware vSphere Storage DRS for NetApp MetroCluster
-
-
-
-=== 建立資料存放區叢集
+== 視需要建立資料存放區叢集
 
 若要為每個站台設定資料存放區叢集、請完成下列步驟：
 
 . 使用 vSphere Web 用戶端、瀏覽至 HA 叢集位於 Storage 下的資料中心。
 . 以滑鼠右鍵按一下資料中心物件、然後選取儲存 > 新資料存放區叢集。
-. 選取「開啟 Storage DRS 」選項、然後按一下「下一步」。
-. 將所有選項設定為「無自動化（手動模式）」、然後按一下「下一步」。
 
 
+[TIP]
+====
+* 使用 ONTAP 儲存設備時，建議停用 Storage DRS 。
+
+* 儲存 DRS 通常不需要或建議用於 ONTAP 儲存系統。
+* ONTAP 提供本身的儲存效率功能，例如重複資料刪除，壓縮和壓縮，這些功能可能會受到儲存 DRS 的影響。
+* 如果您使用的是 ONTAP 快照，則 Storage VMotion 會在快照中保留 VM 的複本，可能會增加儲存使用率，並可能影響備份應用程式，例如追蹤 VM 及其 ONTAP 快照的 NetApp SnapCenter 。
 
 
-==== 最佳實務做法 _
-
-* NetApp 建議您將儲存 DRS 設定為手動模式、以便系統管理員決定並控制何時需要移轉。
-
-
+====
 image::../media/vmsc_3_9.png[儲存DRS,528,94]
-
-. 確認已核取「啟用 SDR 建議的 I/O 度量」核取方塊；度量設定可以保留預設值。
-
-
-image::../media/vmsc_3_10.png[SDR 建議,624,241]
 
 . 選取 HA 叢集、然後按一下「下一步」。
 

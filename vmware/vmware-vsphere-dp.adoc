@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmware-vsphere-dp.html 
 keywords: Data protection, Space reclamation, VM and datastore cloning, Storage efficiency, thin provisioning, QoS, SIOC, Storage Distributed Resource Scheduler, DRS, Active IQ Unified Manager, Encryption 
-summary: 利用此功能、您可以建立可套用至多個工作的備份原則。SnapCenter這些原則可定義排程、保留、複寫及其他功能。它們持續允許選用 VM 一致的快照、利用 Hypervisor 的能力來在拍攝 VMware 快照之前、先關閉 I/O 。 
+summary: 利用此功能、您可以建立可套用至多個工作的備份原則。SnapCenter這些原則可定義排程、保留、複寫及其他功能。它們持續允許選擇性地選擇 VM 一致的快照，以利用 Hypervisor 的能力來在執行 VMware 快照之前，先關閉 I/O 。 
 ---
 = 資料保護
 :hardbreaks:
@@ -18,9 +18,9 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 
 使用快照快速複製 VM 或資料存放區、而不會影響效能、然後使用 SnapMirror 將其傳送至次要系統、以提供長期的異地資料保護。這種方法只儲存變更的資訊、可將儲存空間和網路頻寬減至最低。
 
-利用此功能、您可以建立可套用至多個工作的備份原則。SnapCenter這些原則可定義排程、保留、複寫及其他功能。它們持續允許選用 VM 一致的快照、利用 Hypervisor 的能力來在拍攝 VMware 快照之前、先關閉 I/O 。不過、由於VMware快照的效能影響、除非您需要靜止客體檔案系統、否則一般不建議使用這些快照。請改用快照來提供一般保護、並使用 SnapCenter 外掛程式等應用程式工具來保護交易資料、例如 SQL Server 或 Oracle 。這些快照與 VMware （一致性）快照不同、適合長期保護。  VMware快照僅供參考 http://pubs.vmware.com/vsphere-65/index.jsp?topic=%2Fcom.vmware.vsphere.vm_admin.doc%2FGUID-53F65726-A23B-4CF0-A7D5-48E584B88613.html["建議"^] 因效能和其他影響而短期使用。
+利用此功能、您可以建立可套用至多個工作的備份原則。SnapCenter這些原則可定義排程、保留、複寫及其他功能。它們持續允許選擇性地選擇 VM 一致的快照，以利用 Hypervisor 的能力來在執行 VMware 快照之前，先關閉 I/O 。不過、由於VMware快照的效能影響、除非您需要靜止客體檔案系統、否則一般不建議使用這些快照。請改用快照來提供一般保護、並使用 SnapCenter 外掛程式等應用程式工具來保護交易資料、例如 SQL Server 或 Oracle 。這些快照與 VMware （一致性）快照不同，適合長期保護。由於效能和其他影響，建議僅在短期內使用 VMware 快照。如link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/snapshot-limitations.html["Snapshot 限制"^]需詳細資訊、請參閱。
 
-這些外掛程式提供延伸功能、可在實體和虛擬環境中保護資料庫。有了vSphere、您可以使用它們來保護SQL Server或Oracle資料庫、其中資料儲存在RDM LUN、iSCSI LUN直接連線至來賓作業系統、或VMDK或NFS資料存放區上的VMDK檔案。外掛程式可指定不同類型的資料庫備份、支援線上或離線備份、以及保護資料庫檔案和記錄檔。除了備份與還原之外、外掛程式也支援複製資料庫以供開發或測試之用。
+這些外掛程式提供延伸功能、可在實體和虛擬環境中保護資料庫。有了vSphere、您可以使用它們來保護SQL Server或Oracle資料庫、其中資料儲存在RDM LUN、iSCSI LUN直接連線至來賓作業系統、或VMDK或NFS資料存放區上的VMDK檔案。外掛程式允許指定不同類型的資料庫備份，支援線上或離線備份，並保護資料庫檔案及記錄檔。除了備份與還原之外，外掛程式也支援用於開發或測試目的的資料庫複製。
 
 下圖說明SnapCenter 了一套功能性部署的範例。
 

@@ -42,10 +42,12 @@ entries:
     url: "/vmware/vmware-vsphere-sdrs.html"
   - title: 建議設定
     url: "/vmware/vmware-vsphere-settings.html"
-- title: 使用 ONTAP 的虛擬磁碟區（ VVols ）
+- title: 使用 ONTAP 工具的虛擬磁碟區（ vVols ） 10.
   entries:
   - title: 總覽
     url: "/vmware/vmware-vvols-overview.html"
+  - title: ONTAP 工具安裝檢查清單
+    url: "/vmware/vmware-vvols-checklist.html"
   - title: 搭配 ONTAP 使用 vVols
     url: "/vmware/vmware-vvols-ontap.html"
   - title: 部署 vVols 儲存設備

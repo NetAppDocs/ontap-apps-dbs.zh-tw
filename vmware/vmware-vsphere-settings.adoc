@@ -35,8 +35,7 @@ NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定�
 | VMFS3.EnablBlockDelete | 保留預設值（ 0 ）、但可視需要變更。如需詳細資訊、請參閱 link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage-8-0/storage-provisioning-and-space-reclamation-in-vsphere/storage-space-reclamation-in-vsphere/space-reclamation-for-guest-operating-systems.html["VMFS5 虛擬機器的空間回收"] | 否 
 
 
-| VMFS3.EnableVMFS6 取消對應 | 保留預設值（ 1 ）
-如需詳細資訊、請參閱 link:https://core.vmware.com/resource/vmware-vsphere-apis-array-integration-vaai#sec9426-sub4["VMware vSphere API ：陣列整合（ VAAI ）"] | 否 
+| VMFS3.EnableVMFS6 取消對應 | 保留預設值（ 1 ）如需詳細資訊，請參閱link:https://www.vmware.com/docs/vmw-vmware-vsphere-apis-array-integration-vaai["VMware vSphere API ：陣列整合（ VAAI ）"] | 否 
 
 
 3+| * NFS 設定 * 

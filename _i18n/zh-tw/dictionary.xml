@@ -2160,7 +2160,6 @@
   <block id="70532c0374111d897ef1176b34b6396c" category="inline-link">NVMe 和虛擬磁碟區</block>
   <block id="50ec55042a7f4e8c2c66219ac096cfb3" category="inline-link">vmware.com</block>
   <block id="113c9d4e642d1ba4cc469267fb7fd0de" category="paragraph">如需詳細資訊、請參閱<block ref="f8d477cd77073d731aafe4f52026608a" category="inline-link-rx"></block> 開啟<block ref="1f1565cca975c4a703345d21e7f273b8" category="inline-link-rx"></block></block>
-  <block id="9664cdf7951789389813facac649fec1" category="cell">VVols 是儲存在 vVols 資料存放區中的實際虛擬機器檔案和磁碟。使用術語 vVol （奇異）是指單一特定檔案、 LUN 或命名空間。ONTAP 會根據資料存放區使用的傳輸協定、建立 NVMe 命名空間、 LUN 或檔案。有幾種不同類型的 vVols ；最常見的是組態（中繼資料檔案）、資料（虛擬磁碟或 VMDK ）和交換（在 VM 開機時建立）。受 VMware VM 加密保護的 VVols 屬於其他類型。VMware VM 加密不應與 ONTAP Volume 或 Aggregate 加密混淆。</block>
   <block id="937251054fa0c1a7b946f8928cc857b9" category="section-title">原則型管理</block>
   <block id="2ce0d6ec59cca7e0b6e0bdc389301e63" category="section-title">使用儲存原則部署 VM</block>
   <block id="e0795f8b847058e171dec5a519757ece" category="image-alt">使用儲存原則部署虛擬機器</block>
@@ -2196,7 +2195,6 @@
   <block id="858d314810762abccaa7baf230e3dc18" category="list-text">訓練環境</block>
   <block id="ab7bbc294bf0f0354980a3014e8f4219" category="section-title">vVols 的常見優點</block>
   <block id="ccd6ea8c57e93a5401d07aab9c60f371" category="paragraph">在充分發揮其優勢時（例如在上述使用案例中）、 vVols 提供下列具體改善：</block>
-  <block id="13491b3af50183642ea0035b2d1f95f9" category="list-text">在單一磁碟區內或 ONTAP 叢集中的多個磁碟區之間快速建立複本、相較於傳統的 VAAI 複本、這是一項優勢。而且儲存效率也很高。磁碟區內的複製作業會使用 ONTAP 檔案複製、就像 FlexClone 磁碟區一樣、而且只會儲存來源 vVol 檔案 /LUN/ 命名空間的變更。因此、為了生產或其他應用程式的目的而建立的長期虛擬機器會迅速建立、佔用最少空間、並可從虛擬機器層級保護（使用適用於 VMware vSphere 的 NetApp SnapCenter 外掛程式、 VMware 託管快照或 VADP 備份）和效能管理（搭配 ONTAP QoS ）中獲益。</block>
   <block id="1c21847cdc5616af138ba0c03aad7adb" category="list-text">VVols 是搭配 vSphere CSI 使用 TKG 時的理想儲存技術、可提供由 vCenter 管理員管理的獨立儲存類別和容量。</block>
   <block id="d5f068caef73978a5483badd927a7e98" category="list-text">Amazon EBS 類似的服務可透過 FCD 提供、因為 FCD VMDK 就像名稱所示、是 vSphere 中的一流公民、生命週期可獨立管理、與可能附加的虛擬機器分開管理。</block>
   <block id="7e7040600922b2a78715f856613a3c08" category="doc">保護 vVols</block>
@@ -5769,7 +5767,6 @@
   <block id="d40a477cc61e319a78ef1bb36d8ea566" category="list-text">在 HA 部署中為 VM 建立反關聯規則。</block>
   <block id="4695b076293ddedd5434ae5a73b57ae2" category="list-text">如果使用 HA ，儲存 VMotion 節點二和三會分隔資料存放區（選用，但建議使用）。</block>
   <block id="fde3f7a850bbaaac2a3706bf8c7df54c" category="inline-link">設定 ONTAP 使用者角色和權限</block>
-  <block id="881528aac1f478bd0dc0bcfa47b5bb31" category="list-text"><block ref="4ccf4d83bac775854f5f0cfb549c6d86" category="inline-link-rx"></block>使用隨附的 JSON 檔案。</block>
   <block id="064719d8b0308f2a4bc89590c3becdab" category="inline-link">使用管理憑證</block>
   <block id="d59a2f6a46dd460183ac2d0c23cf6f75" category="list-text"><block ref="53fb9f19112a80479a138e84ac0182c6" category="inline-link-rx"></block>在 ONTAP 工具管理員中安裝任何必要的 CA 簽署憑證。</block>
   <block id="6245e46af5a3bdaf57696763c4214c70" category="inline-link">新增 vCenter Server 執行個體</block>
@@ -5902,7 +5899,6 @@
   <block id="256a688cc49c759f4698b8d5d1dd7b6a" category="paragraph">在 ASA R2 系統中，這種複雜度會被移除，因為磁碟區或集合體的概念會從使用者那裏抽象出來。動態放置會自動處理，並視需要建立傳輸協定端點。如果需要額外的擴充功能，則可即時自動建立其他傳輸協定端點。</block>
   <block id="66a77b29a2cc0bdf1aa1bf8f6d4dac96" category="paragraph">* 確保您擁有足夠的資料生命。 *請參閱 <block ref="d7e84668ac8db4130d4662ae6bde9c89" category="inline-link-macro-rx"></block>。</block>
   <block id="3518579aa5aedcfb4f4b83a6ccbe9cb6" category="admonition">本文件已更新，包含 vSphere 8.0 更新 3 和 ONTAP 工具 10.3 版本中的新 vVols 功能。</block>
-  <block id="c79161a37daeef2304a0236280cff223" category="paragraph">NetApp 於 2012 年開始與 VMware 合作、為 vSphere 5 支援 vSphere API for Storage Aware （ VASA ）。此早期的 VASA Provider 允許定義設定檔中的儲存功能、以便在資源配置時用來篩選資料存放區、並在之後檢查原則是否符合規定。隨著時間演進、新增新功能以實現更多自動化資源配置、並新增虛擬磁碟區或 vVols 、其中個別的儲存物件用於虛擬機器檔案和虛擬磁碟。這些物件可以是 LUN ，檔案，現在可以是 vSphere 8 - NVMe 命名空間。NetApp 與 VMware 密切合作，作為 2015 年 vSphere 6 所發佈 vVols 的參考合作夥伴，並再次成為 vSphere 8 中使用 NVMe over Fabrics 的 vVols 設計合作夥伴。NetApp 持續強化 vVols 、以充分利用 ONTAP 的最新功能。</block>
   <block id="b2dd36bd4918e00f8b2e15e6d62a4b94" category="section-title">VASA供應商</block>
   <block id="0a4ba68e118d83e29ea66516a02f1b48" category="section-title">傳輸協定端點（ PE ）</block>
   <block id="974863a1395a284a680d09e18cf6c9cc" category="section-title">虛擬傳輸協定端點（ VPE ）</block>
@@ -5911,7 +5907,6 @@
   <block id="3d947d83ddfd03d217cdfcc09be70c32" category="paragraph">VMware vSphere API for Storage Aware （ VASA ）可讓 VM 管理員輕鬆使用所需的任何儲存功能來配置 VM 、而無需與儲存團隊互動。在 VASA 之前、 VM 管理員可以定義 VM 儲存原則、但必須與儲存管理員合作、以識別適當的資料存放區、通常是使用文件或命名慣例。有了 VASA 、具有適當權限的 vCenter 管理員就能定義一系列儲存功能、 vCenter 使用者隨後可以使用這些功能來配置 VM 。VM 儲存原則與資料存放區功能之間的對應可讓 vCenter 顯示相容資料存放區清單以供選擇，並可啟用其他技術，例如 Aria （前身為 vRealize ） Automation 或 Tanzu Kubernetes Grid ，以自動從指派的原則中選取儲存區。這種方法稱為儲存原則型管理。雖然 VASA Provider 規則和 VM 儲存原則也可用於傳統的資料存放區，但我們的重點是 vVols 資料存放區。</block>
   <block id="9f1893d8db5ceaf62726d1a0aa228224" category="section-title">VM 儲存原則</block>
   <block id="0aa8052a92097a4f8ec3114e7249a0e1" category="paragraph">VM 儲存原則是在 vCenter 的原則和設定檔下建立。對於 vVols 、請使用 NetApp vVols 儲存類型供應商的規則來建立規則集。ONTAP 工具 10.X 現在提供比 ONTAP 工具 9.X 更簡單的方法，可讓您直接在 VM 儲存原則本身中指定儲存屬性。</block>
-  <block id="6f8bbed3f609d6b6a41c94fa3692df52" category="paragraph">如上所述、使用原則有助於簡化資源配置磁碟區的工作。只要選取適當的原則， VASA Provider 就會顯示支援該原則的 VVols 資料存放區，並將 VVol 置入符合法規的個別 FlexVol volume 。</block>
   <block id="2efad47a2579a212fb659be8b8101b3c" category="paragraph">VM 佈建完成後， VASA Provider 將繼續檢查法規遵循狀況，並在備份磁碟區不再符合原則時，在 vCenter 中警示 VM 管理員。</block>
   <block id="ede8e2fa9dea87dd87a82bda2b2cf090" category="paragraph">NetApp MetroCluster 的設定說明（稱為 MCC 組態）可在<block ref="2c736bccede87dae47dcf61108f083c4" category="inline-link-rx"></block>取得。SnapMirror Active Sync （ SMas ）的說明也可在以下網址取得：<block ref="14203840309dd1b6e13f73373477bb9d" category="inline-link-rx"></block>。</block>
   <block id="ea27eb943310e6748735c2b98c65f5fd" category="paragraph">如果不使用 MetroCluster 、您可以使用 SnapMirror 主動式同步功能、在不同故障網域中的多個 ONTAP 叢集之間提供資料存放區精細保護和主動式存取。SMas 使用一致性群組（ CGS ）來確保一個或多個資料存放區之間的寫入順序一致性，您可以根據應用程式和資料存放區需求建立多個 CGS 。一致性群組對於需要在多個資料存放區之間進行資料同步的應用程式特別有用。SMas 也支援原始裝置對應（ RDM ），以及與來賓 iSCSI 啟動器連線的來賓儲存設備。有關一致性群組的詳細資訊，請參閱<block ref="8bba9b5b97dba092834d7a48a07f102d" category="inline-link-rx"></block>。</block>
@@ -5957,4 +5952,13 @@
   <block id="71fc21799db94f8cae72c8732659492c" category="list-title"><block ref="6097494f0af631df68e3dcb7a6da8d2a" category="inline-image-macro-rx" type="image"></block>其他部署後工作</block>
   <block id="93da9d9a3842b9e17ab9de43211bf697" category="paragraph">如需詳細資訊，請參閱<block ref="0802e50581eb79c07178f36fed073afc" category="inline-link-rx"></block></block>
   <block id="275507174f3ab21b1a65c1d5e8446001" category="paragraph">您也應該<block ref="0802e50581eb79c07178f36fed073afc" category="inline-link-rx"></block>參閱。</block>
+  <block id="c44625cf01f743c720301c28e8461709" category="list-text">請注意，此步驟可能需要 45 分鐘才能完成</block>
+  <block id="7747c50f7bb3ac05c39d999f8d5ce43e" category="list-text">在 OVA 部署的步驟 3 中，選取「自訂此虛擬機器的硬體」選項，然後在步驟 10 中設定下列項目：</block>
+  <block id="a7510781f5c52d40e5706471809518f0" category="list-text">" 啟用 CPU Hot Add"</block>
+  <block id="5b1ae3ca31ee580e9664ebf0949a302c" category="list-text">" 記憶體熱插拔 "</block>
+  <block id="2cd9adcb9e8de7c58834011ca647797d" category="list-text"><block ref="4ccf4d83bac775854f5f0cfb549c6d86" category="inline-link-rx"></block>如果不使用 admin ，請使用隨附的 JSON 檔案。</block>
+  <block id="067561a3b92d67321174249eb7de567d" category="paragraph">NetApp 於 2012 年開始與 VMware 合作、為 vSphere 5 支援 vSphere API for Storage Aware （ VASA ）。此早期的 VASA Provider 允許定義設定檔中的儲存功能、以便在資源配置時用來篩選資料存放區、並在之後檢查原則是否符合規定。隨著時間演進、新增新功能以實現更多自動化資源配置、並新增虛擬磁碟區或 vVols 、其中個別的儲存物件用於虛擬機器檔案和虛擬磁碟。這些物件可以是 LUN ，檔案，現在可以是 vSphere 8 NVMe 命名空間（搭配 ONTAP 工具 9.13P2 使用）。NetApp 與 VMware 密切合作，作為 2015 年 vSphere 6 所發佈 vVols 的參考合作夥伴，並再次成為 vSphere 8 中使用 NVMe over Fabrics 的 vVols 設計合作夥伴。NetApp 持續強化 vVols 、以充分利用 ONTAP 的最新功能。</block>
+  <block id="e867f73e9a09d015c82be5c45264cda9" category="paragraph">VVols 是儲存在 vVols 資料存放區中的實際虛擬機器檔案和磁碟。使用術語 vVol （奇異）是指單一特定檔案、 LUN 或命名空間。ONTAP 會根據資料存放區使用的傳輸協定、建立 NVMe 命名空間、 LUN 或檔案。有幾種不同類型的 vVols ；最常見的是 Config （其中只有一個使用 VMFS ，其中包含 VM VMX 檔案等中繼資料檔案）， Data （虛擬磁碟或 VMDK ）和 Swap （在 VM 開機時建立）。受 VMware VM 加密保護的 vVols 類型為 other 。VMware VM 加密不應與 ONTAP Volume 或 Aggregate 加密混淆。</block>
+  <block id="f615a85ee8b4ffd3bdd64ab72c2cf934" category="paragraph">如上所述，使用原則可協助簡化 VM 或 VMDK 的資源配置工作。只要選取適當的原則， VASA Provider 就會顯示支援該原則的 VVols 資料存放區，並將 VVol 置入符合法規的個別 FlexVol volume 。</block>
+  <block id="d5938f26039c87ff0b18251b9b89e0ec" category="list-text">在單一磁碟區內或 ONTAP 叢集中的多個磁碟區之間快速建立複本、相較於傳統的 VAAI 複本、這是一項優勢。而且儲存效率也很高。磁碟區內的複製作業會使用 ONTAP 檔案複製、就像 FlexClone 磁碟區一樣、而且只會儲存來源 vVol 檔案 /LUN/ 命名空間的變更。因此、為了生產或其他應用程式的目的而建立的長期虛擬機器會迅速建立、佔用最少空間、並可從虛擬機器層級保護（使用適用於 VMware vSphere 的 NetApp SnapCenter 外掛程式、 VMware 託管快照或 VADP 備份）和效能管理（搭配 ONTAP QoS ）中獲益。VVols 的跨磁碟區複製速度比 VAAI 備份 VASA 快得多，我們可以建立複本，並在複本完成之前，允許在目的地存取複本。資料區塊會以背景程序複製，以填入目的地 vVol 。這類似於 ONTAP 不中斷運作的 LUN 移動對傳統 LUN 的運作方式。</block>
 </blocks>

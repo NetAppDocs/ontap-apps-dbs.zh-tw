@@ -61,7 +61,11 @@ summary: ONTAP 工具 10 安裝檢查清單
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["五"]部署 OVA
 [role="quick-margin-list"]
+* 請注意，此步驟可能需要 45 分鐘才能完成
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["部署 OVA"]使用 vSphere 用戶端。
+* 在 OVA 部署的步驟 3 中，選取「自訂此虛擬機器的硬體」選項，然後在步驟 10 中設定下列項目：
+* " 啟用 CPU Hot Add"
+* " 記憶體熱插拔 "
 
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png["六"]將 vCenter 新增至 ONTAP 工具
@@ -71,6 +75,7 @@ summary: ONTAP 工具 10 安裝檢查清單
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png["七"]將儲存設備後端新增至 ONTAP 工具
 [role="quick-margin-list"]
+* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/configure-user-role-and-privileges.html["設定 ONTAP 使用者角色和權限"]如果不使用 admin ，請使用隨附的 JSON 檔案。
 * 如果使用 If 搭配 SVM 使用儲存多租戶共享
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["內建叢集"]在 ONTAP 工具管理程式中，將其與 vCenter 建立關聯。
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["內建 SVM"]在 ONTAP 工具 vCenter UI 中。
@@ -96,7 +101,6 @@ summary: ONTAP 工具 10 安裝檢查清單
 [role="quick-margin-list"]
 * 在 HA 部署中為 VM 建立反關聯規則。
 * 如果使用 HA ，儲存 VMotion 節點二和三會分隔資料存放區（選用，但建議使用）。
-* https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/configure-user-role-and-privileges.html["設定 ONTAP 使用者角色和權限"]使用隨附的 JSON 檔案。
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/certificate-manage.html["使用管理憑證"]在 ONTAP 工具管理員中安裝任何必要的 CA 簽署憑證。
 * 如果您爲 SRM/VSR 啓用了 SRA 以保護傳統的數據存儲，請參閱 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/protect/configure-on-srm-appliance.html["在 VMware Live Site Recovery 應用裝置上設定 SRA"]。
 * 設定的原生備份 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/enable-backup.html["接近零 RPO"]。

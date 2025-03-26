@@ -3,10 +3,13 @@ sidebar: sidebar
 permalink: mysql/mysql-innodb_flush_method.html 
 keywords: MySQL,MariaDB,innodb_flush_method 
 summary: MySQL 和 InnoDB_Flush 方法 
+searchtitle: MySQL 和 InnoDB_Flush 方法 
 ---
 = InnoDB_Flush 方法
+:hardbreaks:
 :allow-uri-read: 
 :icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

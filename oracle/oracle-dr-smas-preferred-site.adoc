@@ -19,7 +19,7 @@ SnapMirror 作用中同步將一個站台視為「來源」、另一個則視為
 
 來源 / 目的地組態可透過 SystemManager 檢視：
 
-image:smas-source-systemmanager.png["SM 來源的螢幕擷取畫面"]
+image:../media/smas-source-systemmanager.png["SM 來源的螢幕擷取畫面"]
 
 或在 CLI ：
 

@@ -44,7 +44,7 @@ HA 配對 MetroCluster IP 組態每個站台使用兩或四個節點。此組態
 
 如需其他資訊、請參閱 ONTAP 正式文件和 https://www.netapp.com/pdf.html?item=/media/13481-tr4689.pdf["SIP解決方案架構與設計MetroCluster"^]。
 
-image:mccip.png["錯誤：缺少圖形影像"]
+image:../media/mccip.png["MetroCluster IP 架構"]
 
 
 
@@ -52,7 +52,7 @@ image:mccip.png["錯誤：缺少圖形影像"]
 
 HA 配對 MetroCluster FC 組態每個站台使用兩個或四個節點。此組態選項可增加與雙節點選項相關的複雜度和成本、但它提供重要的優點：站台內備援。簡單的控制器故障不需要透過 WAN 存取資料。透過替代本機控制器、資料存取仍保持在本機狀態。
 
-image:mcc-4-node.png["錯誤：缺少圖形影像"]
+image:../media/mcc-4-node.png["四節點 MetroCluster"]
 
 有些多站台基礎架構並非設計用於主動式作業、而是更多用於主要站台和災難恢復站台。在這種情況下、 HA 配對 MetroCluster 選項通常較為理想、原因如下：
 
@@ -67,7 +67,7 @@ image:mcc-4-node.png["錯誤：缺少圖形影像"]
 
 雙節點 MetroCluster 組態每個站台僅使用一個節點。此設計比 HA 配對選項簡單、因為要設定和維護的元件較少。此外、它也降低了佈線和 FC 交換方面的基礎架構需求。最後、它能降低成本。
 
-image:mcc-2-node.png["錯誤：缺少圖形影像"]
+image:../media/mcc-2-node.png["雙節點 MetroCluster"]
 
 這項設計的明顯影響是、控制器在單一站台上故障、表示資料可從另一個站台取得。這種限制不一定是個問題。許多企業都有多站台資料中心作業、並有延伸、高速、低延遲的網路、基本上是一個基礎架構。在這些情況下、 MetroCluster 的雙節點版本是慣用的組態。多家服務供應商目前以 PB 規模使用雙節點系統。
 

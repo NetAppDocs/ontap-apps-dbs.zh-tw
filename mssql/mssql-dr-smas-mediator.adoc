@@ -2,20 +2,23 @@
 sidebar: sidebar 
 permalink: mssql/mssql-dr-smas-mediator.html 
 keywords: MSSQL,SQL Server, SnapMirror active sync, SMBC, overview 
-summary: Microsoft SQL Server 和 ONTAP 中介 
-searchtitle: Microsoft SQL Server 和 ONTAP 中介 
+summary: Microsoft SQL Server 和 ONTAP Mediator 
+searchtitle: Microsoft SQL Server 和 ONTAP Mediator 
 ---
 = 中間器ONTAP
+:hardbreaks:
 :allow-uri-read: 
+:icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 
 [role="lead"]
-安全自動化容錯移轉需要中介程序。理想情況下、它會放置在獨立的第三站台、但如果與參與複寫的叢集之一共存、則仍能滿足大多數需求。
+安全地自動化容錯移轉需要 Mediator 。理想情況下、它會放置在獨立的第三站台、但如果與參與複寫的叢集之一共存、則仍能滿足大多數需求。
 
 調解器並不是真正的斷路器、但這實際上正是它所提供的功能。它不會採取任何行動、而是提供替代的通訊通道、讓叢集與叢集之間能進行通訊。
 
-image:smas-mediator.png["SnapMirror 主動式同步圖表與中介器"]
+image:../media/smas-mediator.png["SnapMirror 主動式同步圖表與中介器"]
 
 自動化容錯移轉的第一項挑戰是大腦分離問題、如果兩個站台彼此之間的連線中斷、就會發生這個問題。應該發生什麼事？您不想讓兩個不同的網站自行指定為資料的保存複本、但如何讓單一網站分辨相對網站的實際損失與無法與相對網站通訊的差異？
 

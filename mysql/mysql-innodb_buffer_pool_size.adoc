@@ -3,10 +3,13 @@ sidebar: sidebar
 permalink: mysql/mysql-innodb_buffer_pool_size.html 
 keywords: MySQL,MariaDB,innodb_buffer_pool_size 
 summary: MySQL 和 InnoDB_緩 衝區 Pool 大小 
+searchtitle: MySQL 和 InnoDB_緩 衝區 Pool 大小 
 ---
 = InnoDB_緩 衝區 _Pool_size
+:hardbreaks:
 :allow-uri-read: 
 :icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

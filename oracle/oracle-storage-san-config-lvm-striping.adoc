@@ -29,4 +29,4 @@ LVM 分拆是指在多個 LUN 之間分配資料。如此一來、許多資料�
 
 下圖顯示等量磁碟區大小和寬度調校的三個可能選項。選擇 LUN 數量以滿足上述效能需求、但在所有情況下、單一等量磁碟區內的總資料為 1MB 。
 
-image:ontap-lvm-striping.png["錯誤：缺少圖形影像"]
+image:../media/ontap-lvm-striping.png["LVM 分拆"]

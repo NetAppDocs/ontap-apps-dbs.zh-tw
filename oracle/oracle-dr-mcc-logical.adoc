@@ -39,7 +39,7 @@ SyncMirror 是一項鏡射技術、可增強但不取代 RAID DP 或 RAID-TEC �
 . 指定站台上的每組磁碟機都會自動設定為一個或多個完全備援的 RAID DP 或 RAID-TEC 群組、而不受鏡像的使用影響。在鏡射下使用 RAID 、即使在站台遺失之後、也能提供資料保護。
 
 
-image:syncmirror.png["錯誤：缺少圖形影像"]
+image:../media/syncmirror.png["SyncMirror 組態"]
 
 上圖說明 SyncMirror 組態範例。在控制器上建立了 24 個磁碟機的集合體、其中 12 個磁碟機來自於站台 A 上配置的機櫃、 12 個磁碟機來自站台 B 上配置的機櫃磁碟機分為兩個鏡射 RAID 群組。RAID 群組 0 包含站台 A 的 6 磁碟機叢、鏡射到站台 B 的 6 磁碟機叢同樣地、 RAID 群組 1 也包含站台 A 的 6 磁碟叢叢、鏡射到站台 B 的 6 磁碟叢叢
 
@@ -121,13 +121,14 @@ MetroCluster 叢集存在於站台之間、節點對節點通訊和磁碟存取�
 
 === MetroCluster tiebreaker 搭配網路附加 MetroCluster
 
-。 https://library.netapp.com/ecmdocs/ECMP12007400/html/GUID-3662A7CE-3AF2-4562-A11C-5C37DE0E3A87.html["NetApp MetroCluster tiebreaker"^] 軟體可在第三個站台上執行、以監控 MetroCluster 環境的健全狀況、傳送通知、並在災難情況下強制切換。如需有關斷路器的完整說明、請參閱 http://mysupport.netapp.com["NetApp 支援網站"^]但 MetroCluster 斷路器的主要用途是偵測站台遺失。它還必須區分站台遺失和連線中斷。例如、不應因為斷路器無法到達主要站台而進行切入、這就是為什麼斷路器也會監控遠端站台與主要站台聯絡的能力。
+此link:https://docs.netapp.com/us-en/ontap-metrocluster/install-ip/task_sw_config_configure_mediator.html["NetApp MetroCluster tiebreaker"^]軟體可在第三個站台上執行，以監控 MetroCluster 環境的健全狀況，傳送通知，並在災難情況下強制切換。您可以在上找到link:http://mysupport.netapp.com["NetApp 支援網站"^]有關 tiebreaker 的完整說明，但 MetroCluster tiebreaker 的主要用途是偵測站台遺失。它還必須區分站台遺失和連線中斷。例如、不應因為斷路器無法到達主要站台而進行切入、這就是為什麼斷路器也會監控遠端站台與主要站台聯絡的能力。
 
 與 AUSO 的自動切換功能也相容於 MCTB 。AUSO 反應非常迅速、因為它的設計是偵測特定故障事件、然後只有在 NVRAM 和 SyncMirror 叢同步時才叫用切入。
 
 相反地、斷路器位於遠端位置、因此必須等到定時器結束後才會宣告站台停機。tiebreaker 最終會偵測 AUSO 涵蓋的控制器故障類型、但一般而言、 AUSO 已經開始進行開關作業、而且可能會在 tiebreaker 運作之前完成開關作業。產生的第二個來自 tiebreaker 的切換命令將會遭到拒絕。
 
-* 注意： * 強制切入時、 MCTB 軟體無法驗證 NVRAM 是否與 / 或叢同步。如果已設定自動切換、則應在維護活動期間停用、導致 NVRAM 或 SyncMirror 叢同步中斷。
+
+CAUTION: 當強制切入時， MCTB 軟體無法驗證 NVRAM 是否與 / 或叢同步。如果已設定自動切換、則應在維護活動期間停用、導致 NVRAM 或 SyncMirror 叢同步中斷。
 
 此外、 MCTB 可能無法因應導致下列事件順序的滾動災難：
 
@@ -146,7 +147,7 @@ MetroCluster 叢集存在於站台之間、節點對節點通訊和磁碟存取�
 
 === ONTAP Mediator 搭配 MetroCluster IP
 
-ONTAP Mediator 可搭配 MetroCluster IP 和某些其他 ONTAP 解決方案使用。它是一項傳統的斷路器服務、就像上述的 MetroCluster tiebreaker 軟體一樣、但也包含一項重要功能、即執行自動無人值守的移除。
+ONTAP Mediator 可搭配 MetroCluster IP 和某些其他 ONTAP 解決方案使用。它是一項傳統的斷路器服務，就像上述的 MetroCluster tiebreaker 軟體一樣，但也包含一項重要功能，即執行自動無人值守的移除。
 
 光纖連接的 MetroCluster 可直接存取位於相對站台的儲存裝置。這可讓一個 MetroCluster 控制器從磁碟機讀取心跳資料、以監控其他控制器的健全狀況。這可讓一個控制器辨識另一個控制器的故障、並執行切換。
 
@@ -158,7 +159,7 @@ ONTAP Mediator 可搭配 MetroCluster IP 和某些其他 ONTAP 解決方案使�
 
 ClusterLion 是一款先進的 MetroCluster 監控設備、可作為虛擬第三站點使用。此方法可讓 MetroCluster 安全部署在雙站台組態中、並具備全自動的轉換功能。此外、 ClusterLion 還能執行額外的網路層級監控、並執行後置作業。完整文件可從 ProLion 取得。
 
-image:clusterlion.png["錯誤：缺少圖形影像"]
+image:../media/clusterlion.png["ClusterLion 圖表"]
 
 * ClusterLion 設備會使用直接連接的乙太網路和序列纜線來監控控制器的健全狀況。
 * 這兩台設備透過備援的 3G 無線連線彼此連線。

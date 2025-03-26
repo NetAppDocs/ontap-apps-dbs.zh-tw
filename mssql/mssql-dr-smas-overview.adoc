@@ -3,10 +3,13 @@ sidebar: sidebar
 permalink: mssql/mssql-dr-smas-overview.html 
 keywords: MSSQL,SQL Server, SnapMirror active sync, SMBC, overview 
 summary: Microsoft SQL Server 和 SnapMirror 主動式同步 
-searchtitle: SQL Server 和 SnapMirror 主動式同步 
+searchtitle: Microsoft SQL Server 和 SnapMirror 主動式同步 
 ---
 = 總覽
+:hardbreaks:
 :allow-uri-read: 
+:icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 
@@ -19,9 +22,9 @@ SQL Server 主機使用光纖通道（ FC ）或 iSCSI LUN 存取儲存設備。
 
 
 
-== 具有對稱主動 / 主動式的 SnapMirror 主動式架構
+== SnapMirror 主動式與對稱式主動 / 主動式同步的架構
 
-image:mssql-smas-architecture.png["錯誤：缺少圖形影像"]
+image:../media/mssql-smas-architecture.png["SnapMirror 主動同步架構"]
 
 ** 同步複寫 **
 

@@ -24,7 +24,7 @@ SM － as 的一項重要功能是能夠設定儲存系統、以瞭解主機的�
 
 在 AFF 系統中、設定主機鄰近時、路徑會如下所示。
 
-image:smas-uniform-aff.png["SnapMirror Active Sync AFF 統一網路"]
+image:../media/smas-uniform-aff.png["SnapMirror Active Sync AFF 統一網路"]
 
 在正常作業中、所有 IO 都是本機 IO 。從本機儲存陣列提供讀取和寫入服務。寫入 IO 當然也需要由本機控制器複寫到遠端系統、然後才會被確認、但所有讀取 IO 都會在本機上提供服務、而且不會因在站台之間瀏覽 SAN 連結而產生額外延遲。
 
@@ -38,7 +38,7 @@ image:smas-uniform-aff.png["SnapMirror Active Sync AFF 統一網路"]
 
 NetApp ASA 系統可跨叢集上的所有路徑提供雙主動式多重路徑。這也適用於 SM-AS 組態。
 
-image:smas-uniform-asa.png["SnapMirror Active Sync ASA 統一網路"]
+image:../media/smas-uniform-asa.png["SnapMirror Active Sync ASA 統一網路"]
 
 具有非統一存取權的 ASA 組態、其運作方式與 AFF 大致相同。透過統一存取、 IO 就能跨越 WAN 。這可能是或不理想的做法。
 

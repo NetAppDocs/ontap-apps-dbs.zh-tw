@@ -35,4 +35,4 @@ searchtitle: 具有 SAN 檔案系統的 PostgreSQL
 
 下圖顯示等量磁碟區大小和寬度調校的三個可能選項。選擇 LUN 數量以滿足上述效能需求、但在所有情況下、單一等量磁碟區內的總資料為 1MB 。
 
-image:ontap-lvm-striping.png["錯誤：缺少圖形影像"]
+image:../media/ontap-lvm-striping.png["LVM 分拆"]

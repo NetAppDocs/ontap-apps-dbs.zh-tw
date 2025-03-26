@@ -3,11 +3,13 @@ sidebar: sidebar
 permalink: mysql/mysql-schedulers.html 
 keywords: MySQL,MariaDB,schedulers 
 summary: MySQL 和 IO 排程器 
-searchtitle: I/O 排程器和 MySQL 
+searchtitle: MySQL 和 IO 排程器 
 ---
 = I/O 排程器
+:hardbreaks:
 :allow-uri-read: 
 :icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

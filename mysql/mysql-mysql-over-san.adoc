@@ -6,13 +6,17 @@ summary: MySQL 搭配 SAN
 searchtitle: MySQL 搭配 SAN 
 ---
 = SAN
+:hardbreaks:
 :allow-uri-read: 
 :icons: font
+:linkattrs: 
 :imagesdir: ../media/
+:firstname: [.lead]
+:author: [.lead]
+:authorinitials: [
+:authors: [.lead]
+:revdate: There are two options to configure MySQL with SAN using the usual two-volume model.
 
-
-[role="lead"]
-有兩個選項可以使用常見的雙磁碟區模型、來設定 MySQL 與 SAN 。
 
 只要 I/O 和容量需求在單一 LUN 檔案系統的限制範圍內、就可以將較小的資料庫放在一對標準 LUN 上。例如、需要大約 2K 隨機 IOPS 的資料庫、可以裝載在單一 LUN 上的單一檔案系統上。同樣地、只有 100GB 大小的資料庫也能放在單一 LUN 上、而不會造成管理問題。
 

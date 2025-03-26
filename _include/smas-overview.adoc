@@ -16,11 +16,11 @@ SnapMirror 主動式同步（ SM-AS ）是以 SnapMirror 同步為基礎。兩�
 
 SnapMirror 主動式同步可提供存在於兩個不同站台上的 LUN 。在正常作業中、沒有「來源」或「目的地」。方向是雙向的。針對指定 LUN 路徑的所有讀取 IO 、將由本機控制器使用其本機資料複本來提供服務。所有寫入作業都會複寫到遠端合作夥伴、並在確認之前在本機寫入。
 
-image:smas-overview.png["SnapMirror 主動式同步總覽"]
+image:../media/smas-overview.png["SnapMirror 主動式同步總覽"]
 
 從邏輯上來說、這種行為就像一組 LUN 。IO 可透過位於兩個不同叢集上的 SAN 路徑導向這些邏輯 LUN 、但資料永遠相同。IO 行為是對稱的、對許多主動式應用程式組態而言、這是至關重要的。
 
-image:smas-logical.png["SnapMirror 主動式同步邏輯設計"]
+image:../media/smas-logical.png["SnapMirror 主動式同步邏輯設計"]
 
 
 

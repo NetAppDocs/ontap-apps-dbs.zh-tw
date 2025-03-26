@@ -3,10 +3,13 @@ sidebar: sidebar
 permalink: mssql/mssql-dr-smas-sql.html 
 keywords: MSSQL,SQL Server, SnapMirror active sync, ONTAP, SMBC, SMas, SnapMirror Business Continuity 
 summary: Microsoft SQL Server 和 SnapMirror 主動式同步 
-searchtitle: Microsoft SQL Server 搭配 SnapMirror 主動式同步 
+searchtitle: Microsoft SQL Server 和 SnapMirror 主動式同步 
 ---
 = 總覽
+:hardbreaks:
 :allow-uri-read: 
+:icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 
@@ -21,7 +24,7 @@ SQL Server 可設定為以多種方式搭配 SnapMirror 作用中同步處理。
 
 有了獨立安裝程式、 SQL Server 只能在一個站台上執行。可能link:mssql-dr-smas-uniform.html["統一"]會使用存取權。
 
-image:smas-onehost.png["具有統一存取的單一主機"]
+image:../media/smas-onehost.png["具有統一存取的單一主機"]
 
 在統一存取的情況下、任一站台的儲存設備故障都不會中斷資料庫作業。包含資料庫伺服器的站台發生完整的站台故障、當然會導致停機。
 

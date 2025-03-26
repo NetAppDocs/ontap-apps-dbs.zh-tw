@@ -3,10 +3,13 @@ sidebar: sidebar
 permalink: mssql/mssql-storage-efficiency.html 
 keywords: MSSQL,SQL Server, efficiency, compression, deduplication 
 summary: Microsoft SQL Server 和 ONTAP 儲存效率 
-searchtitle: Microsoft SQL Server 與儲存效率 
+searchtitle: Microsoft SQL Server 和 ONTAP 儲存效率 
 ---
 = 儲存效率
+:hardbreaks:
 :allow-uri-read: 
+:icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 
@@ -94,13 +97,14 @@ VMware 來賓開機 LUN 等資料通常會極好地刪除重複資料、因為�
 
 有些客戶偏好針對特定工作負載使用完整資源配置、或是根據既定的營運和採購實務做法。
 
-* 注意： * 如果磁碟區是完整配置的磁碟區、則必須小心將該磁碟區的所有效率功能完全停用、包括使用解壓縮和移除重複資料刪除 `sis undo` 命令。Volume 不應出現在中 `volume efficiency show` 輸出。如果有、則磁碟區仍會部分設定為使用效率功能。因此、覆寫保證會以不同的方式運作、這會增加組態超視導致磁碟區意外用盡空間的機會、進而導致資料庫 I/O 錯誤。
+
+CAUTION: 如果磁碟區是完整配置的，則必須注意完全停用該磁碟區的所有效率功能，包括使用命令解壓縮及移除重複資料刪除 `sis undo`。輸出中不應出現 Volume `volume efficiency show` 。如果有、則磁碟區仍會部分設定為使用效率功能。因此、覆寫保證會以不同的方式運作、這會增加組態超視導致磁碟區意外用盡空間的機會、進而導致資料庫 I/O 錯誤。
 
 
 
 == 效率最佳實務做法
 
-NetApp 建議：
+* NetApp 建議 * 下列事項：
 
 
 

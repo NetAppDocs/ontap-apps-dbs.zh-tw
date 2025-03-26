@@ -1,12 +1,15 @@
 ---
 sidebar: sidebar 
 permalink: mssql/mssql-cpu-configuration.html 
-keywords: MSSQL,SQL Server, CPU, ONTAP 
+keywords: MSSQL, SQL Server, CPU, ONTAP 
 summary: Microsoft SQL Server CPU 組態 
 searchtitle: Microsoft SQL Server CPU 組態 
 ---
 = CPU 組態
+:hardbreaks:
 :allow-uri-read: 
+:icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 
@@ -17,9 +20,9 @@ SQL Server 效能對 CPU 和核心組態有多項相依性。
 
 == 超執行緒
 
-超執行緒是指同時執行多執行緒（ SMT ）、可改善在 x86 處理器上執行運算的平行化。Intel 和 AMD 處理器均提供 SMT 。
+超執行緒是指同步多執行緒（ SMT ）實作，可改善在 x86 處理器上執行運算的平行化。Intel 和 AMD 處理器均提供 SMT 。
 
-超執行緒會產生邏輯 CPU 、在作業系統中顯示為實體 CPU 。SQL Server 接著會看到這些額外的 CPU 、並使用這些 CPU 、就好像核心數量比實際存在的數量還多。這可以透過增加平行化來大幅改善效能。
+超執行緒會產生邏輯 CPU ，在作業系統中顯示為實體 CPU 。SQL Server 接著會看到這些額外的 CPU 、並使用這些 CPU 、就好像核心數量比實際存在的數量還多。這可以透過增加平行化來大幅改善效能。
 
 此處的注意點是、每個 SQL Server 版本都有自己的運算能力限制。如需詳細資訊、請參閱依 SQL Server 版本計算容量限制。
 
@@ -31,7 +34,7 @@ SQL Server 授權有兩個選項。第一個稱為伺服器 + 用戶端存取授
 
 下圖顯示啟動後的 SQL Server 記錄訊息、指出核心限制的強制執行。
 
-image:mssql-hyperthreading.png["錯誤：缺少圖形影像"]
+image:../media/mssql-hyperthreading.png["SQL Server 記錄訊息"]
 
 因此、若要使用所有 CPU 、您應該使用每個處理器核心授權。如需 SQL Server 授權的詳細資訊、請參閱 link:https://www.microsoft.com/en-us/sql-server/sql-server-2022-comparison["SQL Server 2022 ：現代化的資料平台"^]。
 
@@ -57,7 +60,7 @@ SQL Server 會使用作業系統提供的所有 CPU （如果選擇了每個處�
 
 根據預設、如果選擇個別處理器核心授權、 SQL Server 會在查詢執行期間使用所有可用的 CPU 。
 
-雖然這對大型查詢很有幫助、但可能會造成效能問題並限制並行處理。更好的方法是將平行度限制在單一 CPU 插槽中的實體核心數量。例如、在具有兩個實體 CPU 插槽、每個插槽有 12 個核心的伺服器上、無論超執行緒為何、都 `MAXDOP`應設為 12 。 `MAXDOP`無法限制或指定要使用的 CPU 。而是限制單一批次查詢可以使用的 CPU 數量。
+雖然這對大型查詢很有幫助、但可能會造成效能問題並限制並行處理。更好的方法是將平行度限制在單一 CPU 插槽中的實體核心數量。例如，在具有兩個實體 CPU 插槽，每個插槽有 12 個核心的伺服器上，無論超執行緒為何，都 `MAXDOP`應該設定為 12 。 `MAXDOP`無法限制或指定要使用的 CPU 。而是限制單一批次查詢可以使用的 CPU 數量。
 
 
 TIP: * NetApp 推薦 * 適用於資料倉儲等 DSS 、從 50 開始 `MAXDOP`、視需要探索調校或調校。進行變更時、請務必測量應用程式中的關鍵查詢。
@@ -72,9 +75,9 @@ TIP: * NetApp 推薦 * 適用於資料倉儲等 DSS 、從 50 開始 `MAXDOP`、
 
 預設值為 0 、可讓 SQL Server 在啟動時自動設定工作執行緒數量。這適用於大多數系統。Max Worker 執行緒是進階選項、如果沒有經驗豐富的資料庫管理員（ DBA ）的協助、就不應變更。
 
-何時應設定 SQL Server 使用更多工作執行緒？如果每個排程器的平均工作佇列長度超過 1 、您可能會因為在系統中新增更多執行緒而受益、但前提是負載未受 CPU 限制或遇到任何其他繁重的等待。如果發生上述任一種情況、新增更多執行緒並不會有幫助、因為它們最終會等待其他系統瓶頸。如需工作者執行緒上限的詳細資訊、請參閱 link:https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-the-max-worker-threads-server-configuration-option?view=sql-server-ver16&redirectedfrom=MSDN["設定最大工作執行緒伺服器組態選項"^]。
+何時應設定 SQL Server 使用更多工作執行緒？如果每個排程器的平均工作佇列長度超過 1 、您可能會因為在系統中新增更多執行緒而受益、但前提是負載未受 CPU 限制或遇到任何其他繁重的等待。如果發生上述任一種情況、新增更多執行緒並不會有幫助、因為它們最終會等待其他系統瓶頸。如需工作者執行緒上限的詳細資訊，請參閱link:https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-the-max-worker-threads-server-configuration-option?view=sql-server-ver16&redirectedfrom=MSDN["設定最大工作執行緒伺服器組態選項"^]。
 
-image:mssql-max-worker-threads.png["錯誤：缺少圖形影像"]
+image:../media/mssql-max-worker-threads.png["最大工作執行緒數"]
 
 
 

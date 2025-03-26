@@ -6,8 +6,10 @@ summary: MySQL 組態參數
 searchtitle: MySQL 組態參數 
 ---
 = 組態參數
+:hardbreaks:
 :allow-uri-read: 
 :icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

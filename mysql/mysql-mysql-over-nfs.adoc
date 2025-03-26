@@ -6,8 +6,10 @@ summary: 使用 NFS 的 MySQL
 searchtitle: 使用 NFS 的 MySQL 
 ---
 = NFS
+:hardbreaks:
 :allow-uri-read: 
 :icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

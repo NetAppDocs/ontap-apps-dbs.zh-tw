@@ -3,9 +3,13 @@ sidebar: sidebar
 permalink: mssql/mssql-dr-mcc-sql.html 
 keywords: MSSQL,SQL Server, MetroCluster 
 summary: Microsoft SQL Server 搭配 NetApp MetroCluster 
+searchtitle: Microsoft SQL Server 搭配 NetApp MetroCluster 
 ---
 = SQL Server 搭配 MetroCluster
+:hardbreaks:
 :allow-uri-read: 
+:icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 
@@ -26,4 +30,4 @@ MetroCluster 的完整說明不在本文件的範圍內、但原則很簡單。M
 
 此方法的主要需求是在遠端站台上執行作業系統。它必須預先設定 SQL Server 安裝程式、並應以同等版本進行更新。SQL Server 系統資料庫也可以鏡射到遠端站台、並在宣告災難時掛載。
 
-如果在切換之前、主控虛擬化資料庫的磁碟區、檔案系統和資料存放區並未在災難恢復站台上使用、則不需要在相關的磁碟區上設定 `dr-force- nvfail`。
+如果在切換之前、主控虛擬化資料庫的磁碟區、檔案系統和資料存放區並未在災難恢復站台上使用、則不需要在相關的磁碟區上設定 `dr-force-nvfail`。

@@ -6,8 +6,10 @@ summary: MySQL 檔案描述元
 searchtitle: MySQL 檔案描述元 
 ---
 = 檔案描述元
+:hardbreaks:
 :allow-uri-read: 
 :icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

@@ -3,10 +3,13 @@ sidebar: sidebar
 permalink: mysql/mysql-innodb_log_file_size.html 
 keywords: MySQL,MariaDB,innodb_log_file_size 
 summary: MySQL 和 InnoDB_log_file_size 
+searchtitle: MySQL 和 InnoDB_log_file_size 
 ---
 = InnoDB_log_file_size
+:hardbreaks:
 :allow-uri-read: 
 :icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

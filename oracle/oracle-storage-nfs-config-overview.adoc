@@ -52,12 +52,9 @@ sunrpc.tcp_slot_table_entries = 128
 ....
 所有 Linux 系統都應該包括在內 `sunrpc.tcp_slot_table_entries`但只有部分包含在內 `sunrpc.tcp_max_slot_table_entries`。兩者都應設為 128 。
 
-|===
-| 注意 
 
+CAUTION: 若未設定這些參數、可能會對效能造成重大影響。在某些情況下、效能會受到限制、因為 Linux 作業系統沒有發出足夠的 I/O在其他情況下、隨著 Linux 作業系統嘗試發出的 I/O 數量超過可服務的數量、 I/O 延遲也會增加。
 
-| 若未設定這些參數、可能會對效能造成重大影響。在某些情況下、效能會受到限制、因為 Linux 作業系統沒有發出足夠的 I/O在其他情況下、隨著 Linux 作業系統嘗試發出的 I/O 數量超過可服務的數量、 I/O 延遲也會增加。 
-|===
 
 
 == ADR 和 NFS

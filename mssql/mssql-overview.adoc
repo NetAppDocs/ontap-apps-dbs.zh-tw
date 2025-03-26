@@ -6,7 +6,10 @@ summary: ONTAP 上的 Microsoft SQL Server
 searchtitle: ONTAP 上的 Microsoft SQL Server 
 ---
 = 總覽
+:hardbreaks:
 :allow-uri-read: 
+:icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

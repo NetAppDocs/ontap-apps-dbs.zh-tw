@@ -6,7 +6,10 @@ summary: Microsoft SQL Server 記憶體組態
 searchtitle: Microsoft SQL Server 記憶體組態 
 ---
 = 記憶體組態
+:hardbreaks:
 :allow-uri-read: 
+:icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

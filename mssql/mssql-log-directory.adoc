@@ -6,7 +6,10 @@ summary: Microsoft SQL Server 記錄目錄
 searchtitle: Microsoft SQL Server 記錄目錄 
 ---
 = 記錄目錄
+:hardbreaks:
 :allow-uri-read: 
+:icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 

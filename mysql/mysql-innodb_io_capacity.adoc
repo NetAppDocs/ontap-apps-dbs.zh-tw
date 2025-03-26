@@ -3,10 +3,13 @@ sidebar: sidebar
 permalink: mysql/mysql-innodb_io_capacity.html 
 keywords: MySQL,MariaDB,innodb_io_capacity 
 summary: MySQL 和 InnoDB_IO_capACure 
+searchtitle: MySQL 和 InnoDB_IO_capACure 
 ---
 = InnoDB_IO_capAC
+:hardbreaks:
 :allow-uri-read: 
 :icons: font
+:linkattrs: 
 :imagesdir: ../media/
 
 
@@ -26,4 +29,4 @@ CAUTION: 除非您證明較低的值不足以應付工作負載、否則請勿�
 InnoDB_IO_capACure. 參數可規範排清率和相關 I/O
 
 
-CAUTION: 您可以將此參數或 InnoDB_IO_capACure_max 參數設定得太高、並以提早排清的方式浪費 I/O 作業、進而嚴重損害效能。
+CAUTION: 您可以將此參數或 InnoDB_IO_capACure_max 參數設定得太高且浪費，嚴重損害效能

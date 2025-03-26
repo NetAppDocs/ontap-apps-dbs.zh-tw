@@ -140,7 +140,6 @@
   <block id="1c237d1ebcdeff13ae0145c741d9401d" category="admonition">此方法可協助使用者更有效率地管理備份所需的空間、但 FabricPool 本身並不是備份技術。將備份檔案分層至物件存放區可簡化管理、因為檔案仍可在原始儲存系統上看到、但物件存放區目的地中的資料區塊則取決於原始儲存系統。如果來源磁碟區遺失、物件儲存區資料將無法再使用。</block>
   <block id="a19665c8f7c0210f96ad2934ad0ee361" category="paragraph">在 ONTAP 系統上、儲存設備是以 4KB 為單位進行組織。資料庫或檔案系統 8KB 區塊應對應至兩個 4KB 區塊。如果 LUN 組態發生錯誤、在任一方向將對齊移至 1KB 、則每個 8KB 區塊會存在於三個不同的 4KB 儲存區塊、而非兩個。這種安排會導致延遲增加、並導致在儲存系統中執行額外的 I/O 。</block>
   <block id="211a9fe299057fe8665b591dddbac56d" category="paragraph">對齊也會影響 LVM 架構。如果在整個磁碟機裝置上定義邏輯磁碟區群組內的實體磁碟區（不建立分割區）、 LUN 上的前 4KB 區塊會與儲存系統上的前 4KB 區塊對齊。這是正確的對齊方式。磁碟分割發生問題、因為它們會移轉作業系統使用 LUN 的起始位置。只要偏移量以 4KB 的整體單位移動、 LUN 就會對齊。</block>
-  <block id="7c8a0aad1f59988f8160921a07203bb4" category="paragraph">在 Linux 環境中、在整個磁碟機裝置上建立邏輯磁碟區群組。當需要磁碟分割時、請執行檢查對齊<block ref="16ae8c2dc7757a3180ce37bad780251a" prefix=" " category="inline-code"></block> 並驗證每個分割區的開始時間為八個之倍數。這表示分割區從八個 512 位元組磁區的倍數開始、即 4KB 。</block>
   <block id="e98a692d783d8d778aab49ed4c55e214" category="doc">站台故障保護： NVRAM 和 MetroCluster</block>
   <block id="186577daf29184ed8a55cf899ba2979c" category="paragraph">MetroCluster 以下列方式擴充 NVRAM 資料保護：</block>
   <block id="679f5a5873d7d3378cf4b3035fd5cb13" category="list-text">在雙節點組態中、 NVRAM 資料會使用交換器間連結（ ISL ）複寫到遠端合作夥伴。</block>
@@ -184,10 +183,8 @@
   <block id="8e7705fe4aea384d7f6a99ab6dc0f408" category="section-title">MetroCluster tiebreaker 搭配網路附加 MetroCluster</block>
   <block id="897b7698cb343dbc3452e845705ab0f3" category="inline-link">NetApp MetroCluster tiebreaker</block>
   <block id="9c093f14319e8253b8c9b37290597239" category="inline-link">NetApp 支援網站</block>
-  <block id="a1d9fc4fb49119a9fe9b39abec0a769b" category="paragraph">。<block ref="9332969062716487f0feefe076babf99" category="inline-link-rx"></block> 軟體可在第三個站台上執行、以監控 MetroCluster 環境的健全狀況、傳送通知、並在災難情況下強制切換。如需有關斷路器的完整說明、請參閱<block ref="c21658567f794984b03c21186a56713d" category="inline-link-rx"></block>但 MetroCluster 斷路器的主要用途是偵測站台遺失。它還必須區分站台遺失和連線中斷。例如、不應因為斷路器無法到達主要站台而進行切入、這就是為什麼斷路器也會監控遠端站台與主要站台聯絡的能力。</block>
   <block id="6f29b1849750ceee5eb7f6f02d100e6b" category="paragraph">與 AUSO 的自動切換功能也相容於 MCTB 。AUSO 反應非常迅速、因為它的設計是偵測特定故障事件、然後只有在 NVRAM 和 SyncMirror 叢同步時才叫用切入。</block>
   <block id="6f5c7ae76595eca2ca83c5dd30cd8e9f" category="paragraph">相反地、斷路器位於遠端位置、因此必須等到定時器結束後才會宣告站台停機。tiebreaker 最終會偵測 AUSO 涵蓋的控制器故障類型、但一般而言、 AUSO 已經開始進行開關作業、而且可能會在 tiebreaker 運作之前完成開關作業。產生的第二個來自 tiebreaker 的切換命令將會遭到拒絕。</block>
-  <block id="842547e1622bb12d9201167b0c39cf6d" category="paragraph">* 注意： * 強制切入時、 MCTB 軟體無法驗證 NVRAM 是否與 / 或叢同步。如果已設定自動切換、則應在維護活動期間停用、導致 NVRAM 或 SyncMirror 叢同步中斷。</block>
   <block id="7110edd59c3d0f25a584723f6fea26a0" category="paragraph">此外、 MCTB 可能無法因應導致下列事件順序的滾動災難：</block>
   <block id="93d732b784eaf1a323f191e75c10f233" category="list-text">站台之間的連線中斷超過 30 秒。</block>
   <block id="81d4275cc3534a9fa8cfdcdb5172eb94" category="list-text">SyncMirror 複寫逾時、且作業會繼續在主要站台上執行、使遠端複本過時。</block>
@@ -196,12 +193,10 @@
   <block id="86de4e3737e3d871dacf8ffef353fc31" category="list-text">當站台遺失時、使用主要站台上儲存資源的仍在運作中站台上的應用程式可能已快取資料。切入會導致資料的過時版本與快取不相符。</block>
   <block id="dbb2a01afe28c8310daf781bb80b795f" category="list-text">當發生站台遺失時、使用主要站台上儲存資源的仍在運作中站台上的作業系統、可能已快取資料。切入會導致資料的過時版本與快取不相符。最安全的選項是將斷路器設定為在偵測到站台故障時傳送警示、然後讓人員決定是否強制進行轉換。應用程式和（或）作業系統可能需要先關機、才能清除任何快取資料。此外、 NVFAIL 設定也可用於新增進一步的保護、並協助簡化容錯移轉程序。</block>
   <block id="ec6b0ea9c511479c118aa0f028f6519d" category="section-title">ONTAP Mediator 搭配 MetroCluster IP</block>
-  <block id="8ada6a626a475d631df231bbb3a88ac9" category="paragraph">ONTAP Mediator 可搭配 MetroCluster IP 和某些其他 ONTAP 解決方案使用。它是一項傳統的斷路器服務、就像上述的 MetroCluster tiebreaker 軟體一樣、但也包含一項重要功能、即執行自動無人值守的移除。</block>
   <block id="991d7d7d7388ccdd87c65ca09aa804f2" category="paragraph">光纖連接的 MetroCluster 可直接存取位於相對站台的儲存裝置。這可讓一個 MetroCluster 控制器從磁碟機讀取心跳資料、以監控其他控制器的健全狀況。這可讓一個控制器辨識另一個控制器的故障、並執行切換。</block>
   <block id="db2e932a11478bcf14c75d38e8b9a170" category="paragraph">相反地、 MetroCluster IP 架構只會透過控制器控制器連線路由所有 I/O 、而無法直接存取遠端站台上的儲存裝置。這會限制控制器偵測故障和執行轉換的能力。因此、 ONTAP Mediator 必須作為斷路器裝置、才能偵測站台遺失並自動執行轉換。</block>
   <block id="8004e6d63f487a456290225b74768a6c" category="section-title">使用 ClusterLion 的虛擬第三站點</block>
   <block id="f1d5a7305654a402a719675fbec810e7" category="paragraph">ClusterLion 是一款先進的 MetroCluster 監控設備、可作為虛擬第三站點使用。此方法可讓 MetroCluster 安全部署在雙站台組態中、並具備全自動的轉換功能。此外、 ClusterLion 還能執行額外的網路層級監控、並執行後置作業。完整文件可從 ProLion 取得。</block>
-  <block id="a60b8f728a13371898fea9947ef1e0dc" category="paragraph"><block ref="a60b8f728a13371898fea9947ef1e0dc" category="inline-image-macro-rx" type="image"></block></block>
   <block id="f8aae92ec17ec82868ef9ffc767dbd03" category="list-text">ClusterLion 設備會使用直接連接的乙太網路和序列纜線來監控控制器的健全狀況。</block>
   <block id="c5f8963a91e3d8e7ac0abda2eab9f17d" category="list-text">這兩台設備透過備援的 3G 無線連線彼此連線。</block>
   <block id="24de16a13a1b584832d19117982cbfa6" category="list-text">ONTAP 控制器的電源會透過內部中繼路由傳送。發生站台故障時、包含內部 UPS 系統的 ClusterLion 會先切斷電源連線、然後再啟動切入。此程序可確保不會發生任何大腦分割狀況。</block>
@@ -227,10 +222,6 @@
   <block id="8a467b35326e4738b1bd39865c3b21a0" category="admonition">任何類型的資料存取都會重設熱圖資料。病毒掃描、索引甚至是讀取來源檔案的備份活動、都會因為必要而防止分層<block ref="e5e88684921dd21f3f86c28343a3082f" prefix=" " category="inline-code"></block> 從未達到臨界值。</block>
   <block id="7a1920d61156abc05a60135aefe8bc67" category="doc">預設</block>
   <block id="5ba46d288640832c345e169b04a7458a" category="paragraph">所有 FabricPool 磁碟區的初始設定為<block ref="c21f969b5f03d33d43e04f8f136e7682" prefix=" " category="inline-code"></block>這表示行為是由「雲端擷取原則」所控制。「確切的行為取決於所使用的分層原則。</block>
-  <block id="5ec354970d7934d92ba67ccaa0de0121" category="list-text"><block ref="9df22f196a33acd0b372fe502de51211" prefix="" category="inline-code"></block>–僅擷取隨機讀取的資料</block>
-  <block id="74092cfa5efab8e6ddc5c2991ee2cfc9" category="list-text"><block ref="8805d416ce540c5f2df34af5b18d742b" prefix="" category="inline-code"></block>–擷取所有依序或隨機讀取的資料</block>
-  <block id="2de036541477f953c6fd33d14a8db0e8" category="list-text"><block ref="334c4a4c42fdb79d7ebc3e73b517e6f8" prefix="" category="inline-code"></block>–擷取所有依序或隨機讀取的資料</block>
-  <block id="b6ffdb7ccf86e99ecf73899ec23bdd46" category="list-text"><block ref="a181a603769c1f98ad927e7367c7aa51" prefix="" category="inline-code"></block>–請勿從容量層擷取資料</block>
   <block id="d556a0d2cad80695d1d803ebb49de9cd" category="section-title">讀取中</block>
   <block id="7c39eb141ca855e5a211b468bd67636c" category="paragraph">設定<block ref="d253e682212338dd6cbe577947f0511e" prefix=" " category="inline-code"></block> 對讀取會覆寫預設行為、因此讀取任何階層資料會導致資料傳回效能層。</block>
   <block id="e07df43ea07fecb178484ef278644eb2" category="paragraph">例如、在的下、一個 Volume 可能已被輕度使用了很長時間<block ref="9df22f196a33acd0b372fe502de51211" prefix=" " category="inline-code"></block> 分層原則和大多數區塊現在都是分層的。</block>
@@ -244,7 +235,6 @@
   <block id="2d242bb36ec91b32005f9296ff03a912" category="doc">架構</block>
   <block id="ac30d4a74ecef302adab70e9669a4bf2" category="paragraph">FabricPool 是一項分層技術、將區塊歸類為熱區塊或冷卻區塊、並將其置於最適當的儲存層。效能層最常位於 SSD 儲存設備上、並裝載熱資料區塊。容量層位於物件存放區、並裝載 Cool 資料區塊。物件儲存支援包括 NetApp StorageGRID 、 ONTAP S3 、 Microsoft Azure Blob 儲存設備、 Alibaba 雲端物件儲存服務、 IBM 雲端物件儲存設備、 Google 雲端儲存設備和 Amazon AWS S3 。</block>
   <block id="f9f5fe2f7456d37c955f3291744c93b6" category="paragraph">有多個分層原則可供使用、可控制區塊如何分類為熱或冷區、並可針對每個磁碟區設定原則、並視需要進行變更。只有資料區塊會在效能層和容量層之間移動。定義 LUN 和檔案系統結構的中繼資料一律保留在效能層上。因此、管理作業會集中在 ONTAP 上。檔案和 LUN 與儲存在任何其他 ONTAP 組態上的資料並無不同。NetApp AFF 或 FAS 控制器會套用定義的原則、將資料移至適當的層級。</block>
-  <block id="156a1cf692c4ba9a4f9574fb16428b01" category="paragraph"><block ref="156a1cf692c4ba9a4f9574fb16428b01" category="inline-image-macro-rx" type="image"></block></block>
   <block id="616ce0475334fe37834d13972a168ca5" category="section-title">物件存放區提供者</block>
   <block id="71e79501cc067e6b35ac3d3e97c940a4" category="paragraph">物件儲存傳輸協定使用簡單的 HTTP 或 HTTPS 要求來儲存大量的資料物件。物件儲存設備的存取必須可靠、因為 ONTAP 的資料存取取決於要求的即時服務。選項包括 Amazon S3 Standard 和 In常用 存取選項、以及 Microsoft Azure Hot 和 Cool Blob Storage 、 IBM Cloud 和 Google Cloud 。不支援 Amazon Glacier 和 Amazon Archive 等歸檔選項、因為擷取資料所需的時間可能超過主機作業系統和應用程式的容許值。</block>
   <block id="e114e830308285cd9085063fad91662c" category="paragraph">NetApp StorageGRID 也受到支援、是最佳的企業級解決方案。它是高效能、可擴充且高度安全的物件儲存系統、可為 FabricPool 資料及其他物件儲存應用程式提供地理上的備援、這些應用程式越來越可能成為企業應用程式環境的一部分。</block>
@@ -276,7 +266,6 @@
   <block id="32aeb47267cb2045610b468115f3ae0e" category="section-title">效率與精簡配置</block>
   <block id="3381946611f34fb44ad8a38a0c44e0a8" category="paragraph">效率功能是精簡配置的形式。例如、佔用 100GB 磁碟區的 100GB LUN 可能會壓縮至 50GB 。由於磁碟區仍為 100GB 、因此尚未實現實際節省。必須先縮小磁碟區的大小、才能將儲存的空間用於系統的其他位置。如果稍後變更為 100GB LUN 、則資料的壓縮性會降低、 LUN 的大小會增加、而且磁碟區可能會填滿。</block>
   <block id="38ef8b6f2fc332958c293d93c61d7756" category="paragraph">有些客戶偏好針對特定工作負載使用完整資源配置、或是根據既定的營運和採購實務做法。</block>
-  <block id="f8ea8eaa5ca0e58c6a43ec0117b7bd8d" category="paragraph">* 注意： * 如果磁碟區是完整配置的磁碟區、則必須小心將該磁碟區的所有效率功能完全停用、包括使用解壓縮和移除重複資料刪除<block ref="3cfeff511a11b8c5f54ce9749a719a58" prefix=" " category="inline-code"></block> 命令。Volume 不應出現在中<block ref="df899f2d908ec33afe1d01ee26b3dd47" prefix=" " category="inline-code"></block> 輸出。如果有、則磁碟區仍會部分設定為使用效率功能。因此、覆寫保證會以不同的方式運作、這會增加組態超視導致磁碟區意外用盡空間的機會、進而導致資料庫 I/O 錯誤。</block>
   <block id="0e7c78164adb6d4650ea685a79d8e99e" category="section-title">效率最佳實務做法</block>
   <block id="ec499ad25fa5a765ba43ec2c87819623" category="section-title">AFF 預設值</block>
   <block id="9f7127e69d50bf7b844ff3723b86fbd1" category="section-title">一般建議</block>
@@ -325,17 +314,14 @@
   <block id="b28c5a429800ea9669a191a402a72b49" category="paragraph">由於唯一的跨站台連線適用於控制器、因此架構也更簡單。在 FC SAN 附加 MetroCluster 中、控制器會直接寫入另一個站台上的磁碟機、因此需要額外的 SAN 連線、交換器和橋接器。相反地、 IP 組態中的控制器會透過控制器寫入相對的磁碟機。</block>
   <block id="457b0075e8f0333975a8e2aaeaceb149" category="inline-link">SIP解決方案架構與設計MetroCluster</block>
   <block id="82aa44c8aa5ebe78f1496c8fc80cb954" category="paragraph">如需其他資訊、請參閱 ONTAP 正式文件和<block ref="03a3c76178d2d43147a2756857a0985e" category="inline-link-rx"></block>。</block>
-  <block id="68cf128ce140240c63e9a47e2a82a333" category="paragraph"><block ref="68cf128ce140240c63e9a47e2a82a333" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0d2d438a72f6c558744351265fa49a62" category="section-title">HA 配對 FC SAN 附加 MetroCluster</block>
   <block id="3e9133ff590581b29a911d9631ab1737" category="paragraph">HA 配對 MetroCluster FC 組態每個站台使用兩個或四個節點。此組態選項可增加與雙節點選項相關的複雜度和成本、但它提供重要的優點：站台內備援。簡單的控制器故障不需要透過 WAN 存取資料。透過替代本機控制器、資料存取仍保持在本機狀態。</block>
-  <block id="7ea740801794ba8a2ce3f87db010c319" category="paragraph"><block ref="7ea740801794ba8a2ce3f87db010c319" category="inline-image-macro-rx" type="image"></block></block>
   <block id="4bc2926f030255369db3e4435de5c774" category="paragraph">有些多站台基礎架構並非設計用於主動式作業、而是更多用於主要站台和災難恢復站台。在這種情況下、 HA 配對 MetroCluster 選項通常較為理想、原因如下：</block>
   <block id="5f49f48dd22b405a813e2ef7cc02e9f8" category="list-text">雖然雙節點 MetroCluster 叢集是 HA 系統、但控制器意外故障或規劃的維護作業需要資料服務必須在相反的站台上線。如果站台之間的網路連線能力不支援所需的頻寬、效能就會受到影響。唯一的選項是將各種主機作業系統和相關服務容錯移轉至替代站台。HA 配對 MetroCluster 叢集可消除此問題、因為遺失控制器會導致同一個站台內的簡單容錯移轉。</block>
   <block id="0ce798a4f2e77d6aa1a6e0d718fa8e98" category="list-text">有些網路拓撲並非設計用於跨站台存取、而是使用不同的子網路或隔離的 FC SAN 。在這種情況下、雙節點 MetroCluster 叢集不再作為 HA 系統運作、因為替代控制器無法將資料提供給位於相反站台的伺服器。HA 配對 MetroCluster 選項是提供完整備援的必要條件。</block>
   <block id="098fa44ef37572e0f8ea717199ac72e6" category="list-text">如果將雙站台基礎架構視為單一的高可用度基礎架構、則雙節點 MetroCluster 組態很適合。不過、如果系統在站台故障後必須長時間運作、則最好使用 HA 配對、因為它會繼續在單一站台內提供 HA 。</block>
   <block id="ea8bb3e5a357ca97851352f6944342c9" category="section-title">雙節點 FC SAN 附加 MetroCluster</block>
   <block id="b759079fef92c80eca80e7349bf84363" category="paragraph">雙節點 MetroCluster 組態每個站台僅使用一個節點。此設計比 HA 配對選項簡單、因為要設定和維護的元件較少。此外、它也降低了佈線和 FC 交換方面的基礎架構需求。最後、它能降低成本。</block>
-  <block id="5bfcbf762ac959212294cdf71bbec2b5" category="paragraph"><block ref="5bfcbf762ac959212294cdf71bbec2b5" category="inline-image-macro-rx" type="image"></block></block>
   <block id="bcf549481eb36a62594e938bca6a10bb" category="paragraph">這項設計的明顯影響是、控制器在單一站台上故障、表示資料可從另一個站台取得。這種限制不一定是個問題。許多企業都有多站台資料中心作業、並有延伸、高速、低延遲的網路、基本上是一個基礎架構。在這些情況下、 MetroCluster 的雙節點版本是慣用的組態。多家服務供應商目前以 PB 規模使用雙節點系統。</block>
   <block id="78558542e724655ba80fc4879399f103" category="section-title">MetroCluster 恢復功能</block>
   <block id="5427d2eb91f25a425f13544e56fb12c4" category="paragraph">MetroCluster 解決方案沒有單點故障：</block>
@@ -456,7 +442,6 @@
   <block id="0c2f3b2ec9d90baa0a0a0b6fb673a113" category="paragraph">效能密集的應用程式 I/O 幾乎總是（ a ）以基本區塊大小為單位、或（ b ） 1 MB 。</block>
   <block id="804d5b1f06570b4d242be0c2f0c3392c" category="paragraph">等量分配組態的主要目標是確保單一檔案 I/O 可作為單一單元執行、而多區塊 I/O 的大小應為 1MB 、可在等量磁碟區中的所有 LUN 之間平均平行處理。這表示等量磁碟區大小不得小於資料庫區塊大小、且等量磁碟區大小乘以 LUN 數量應為 1MB 。</block>
   <block id="0598f393baefd05d48b48076cc7df606" category="paragraph">下圖顯示等量磁碟區大小和寬度調校的三個可能選項。選擇 LUN 數量以滿足上述效能需求、但在所有情況下、單一等量磁碟區內的總資料為 1MB 。</block>
-  <block id="9ca503fae9ccd4d6d8e67806b23adfa0" category="paragraph"><block ref="9ca503fae9ccd4d6d8e67806b23adfa0" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0353522b39b87d54d40d3f09ec668851" category="doc">組態ONTAP</block>
   <block id="8e52de0d4b03d5fe87dc88da09616c7f" category="inline-link-macro">請按這裡。</block>
   <block id="337c62c6b6eb7319bae58701105e889c" category="doc">分層</block>
@@ -547,7 +532,6 @@
   <block id="0a01e6837f5c691536f0b6cbdd0232ec" category="inline-link-macro">TR-4015 ： ONTAP 9 的 SnapMirror 組態與最佳實務做法指南</block>
   <block id="1cca1a3fad8c6dd7e2dadbd2aa08bf07" category="paragraph">如需 SnapMirror 的詳細資訊、請參閱 <block ref="64b916f792bad525a069a243c092b62e" category="inline-link-macro-rx"></block>。</block>
   <block id="77641f4a3e4406855e878235cbd89b87" category="doc">CPU 組態</block>
-  <block id="a51adad5719779145ac252822e328611" category="section-title">超執行緒</block>
   <block id="673c216e20d1cf8827f347c01dace664" category="paragraph">此處的注意點是、每個 SQL Server 版本都有自己的運算能力限制。如需詳細資訊、請參閱依 SQL Server 版本計算容量限制。</block>
   <block id="cf0e2551e639758cc3c4d82df655eccd" category="inline-link-macro">SQL Server 2022 ：現代化的資料平台</block>
   <block id="809c9e1f6ce0bc82bf42fae361c6f43e" category="paragraph">因此、若要使用所有 CPU 、您應該使用每個處理器核心授權。如需 SQL Server 授權的詳細資訊、請參閱 <block ref="457abfaf1083b1cbfc49f2783069c6cd" category="inline-link-macro-rx"></block>。</block>
@@ -559,8 +543,6 @@
   <block id="a99f7ebb3b0f5b0ecea93ed586b2a17d" category="section-title">最大工作執行緒數</block>
   <block id="aff27140f50a549b1331add8d5025f7e" category="paragraph">當大量用戶端連線至 SQL Server 時、最大工作執行緒選項可協助最佳化效能。</block>
   <block id="decd79137325e1efbc7b994f946ea24f" category="paragraph">預設值為 0 、可讓 SQL Server 在啟動時自動設定工作執行緒數量。這適用於大多數系統。Max Worker 執行緒是進階選項、如果沒有經驗豐富的資料庫管理員（ DBA ）的協助、就不應變更。</block>
-  <block id="030a270970f70c1bd91d3689b6f95f3f" category="inline-link-macro">設定最大工作執行緒伺服器組態選項</block>
-  <block id="2a0c648df721b9bc2643d59c4a3a310a" category="paragraph">何時應設定 SQL Server 使用更多工作執行緒？如果每個排程器的平均工作佇列長度超過 1 、您可能會因為在系統中新增更多執行緒而受益、但前提是負載未受 CPU 限制或遇到任何其他繁重的等待。如果發生上述任一種情況、新增更多執行緒並不會有幫助、因為它們最終會等待其他系統瓶頸。如需工作者執行緒上限的詳細資訊、請參閱 <block ref="77c391df5f9f06cdf367c2a7314ce351" category="inline-link-macro-rx"></block>。</block>
   <block id="29d04e616d2293c4c7538dd6226feac5" category="section-title">使用 SQL Server Management Studio 設定最大工作執行緒。</block>
   <block id="44dbc82801d84781083ed9e23b63be00" category="list-text">對於 &lt; 或 = 至 8 核心： tempdb 資料檔案 = 核心數</block>
   <block id="6203fcdbdad10bb603fd00edd2f0fcf5" category="list-text">若為 &gt; 8 核心： 8 個 tempdb 資料檔案</block>
@@ -628,7 +610,6 @@
   <block id="a7a2496066febda8d325e0964e434481" category="inline-link-macro">瞭解 T-SQL 快照的 Microsoft 文件</block>
   <block id="bf06f3f95c5b653499bb4ac53ba44c95" category="paragraph">若要深入瞭解、請參閱 <block ref="2ba8392a398067f6d2e5f6e4167e9d00" category="inline-link-macro-rx"></block>。</block>
   <block id="450eb6d84ec721a20f17b7778b24b457" category="doc">Microsoft SQL Server 工作負載</block>
-  <block id="1b1b4c822e9c1b28b845dcc038fec08e" category="doc">Microsoft SQL Server 資料庫檔案和檔案群組</block>
   <block id="5306de2e4bff067a10c1c9b5aafe5920" category="paragraph">理論上、 SQL Server （ 64 位元）支援每個執行個體 32,767 個資料庫、以及 524272TB 的資料庫大小、雖然一般安裝通常有多個資料庫。不過 SQL Server 可以處理的資料庫數量取決於負載和硬體。看到 SQL Server 執行個體託管數十個、數百個甚至數千個小型資料庫、並不罕見。</block>
   <block id="9a3f42cec243006996ab4580d3ce5d56" category="paragraph">每個資料庫都包含一或多個資料檔案、以及一或多個交易記錄檔。交易記錄會儲存資料庫交易的相關資訊、以及每個工作階段所做的所有資料修改。每次修改資料時、 SQL Server 都會在交易記錄中儲存足夠的資訊、以復原（復原）或重做（重新執行）動作。SQL Server 交易記錄是 SQL Server 在資料完整性和健全性方面聲譽的重要一環。交易記錄對於 SQL Server 的原子性、一致性、隔離和耐用性（ ACID ）功能至關重要。一旦資料頁發生任何變更、 SQL Server 就會立即寫入交易記錄檔。每個 Data 操縱語言（ DML ）陳述式（例如、 SELECT 、 INSERT 、 UPDATE 或 DELETE ）都是完整的交易、而且交易記錄會確保整個以 Set 為基礎的作業都能進行、確保交易的完整性。</block>
   <block id="cbe6958e46fbab53cdbdb9deb2d75938" category="paragraph">每個資料庫都有一個主要資料檔案、預設會有 .mdf 副檔名。此外、每個資料庫都可以有次要資料庫檔案。根據預設、這些檔案的副檔名為 .NDF 。</block>
@@ -641,7 +622,6 @@
   <block id="2b222ad4000e6e966783fd7bc480180e" category="paragraph">您可以將 SA_SA_SAM_VOLUM_NAME 權限（也稱為「執行 Volume 維護工作」）新增至 SQL Server 啟動帳戶、以啟用即時檔案初始化。您可以在本機安全性原則管理應用程式（ secpol.msc ）下執行此動作、如下圖所示。開啟「執行 Volume 維護工作」權限的內容、並將 SQL Server 啟動帳戶新增至該處的使用者清單。</block>
   <block id="c622e0142ed854a10f98fcaa8b3487f8" category="paragraph">若要檢查權限是否已啟用、您可以使用下列範例中的程式碼。此程式碼會設定兩個追蹤旗標、強制 SQL Server 將其他資訊寫入錯誤記錄檔、建立小型資料庫、以及讀取記錄內容。</block>
   <block id="eba8c32bde087b29aaa1fe0d3bb32ef3" category="paragraph">如果未啟用即時檔案初始化、 SQL Server 錯誤記錄會顯示 SQL Server 除了將 ldf 記錄檔歸零之外、還會將 MDF 資料檔案歸零、如下例所示。當啟用即時檔案初始化時、它只會顯示記錄檔的零位。</block>
-  <block id="3b6c913908f5844ccb31a4d3775cb34e" category="doc">Microsoft SQL Server 共用執行個體與專用執行個體的比較</block>
   <block id="37fbf1be337695452699ab9df948aa25" category="paragraph">疑難排解效能問題可能很複雜、因為您必須找出哪個執行個體是根本原因。此問題與作業系統授權和 SQL Server 授權的成本相比較。如果應用程式效能至關重要、則強烈建議使用專用執行個體。</block>
   <block id="c840abede1d1bcf78e7b3e30048c08b1" category="paragraph">Microsoft 在伺服器層級的每個核心授權 SQL Server 、而非每個執行個體授權。因此、資料庫管理員想要安裝伺服器能處理的 SQL Server 執行個體數量、以節省授權成本、這可能會導致日後發生重大效能問題。</block>
   <block id="8a77155b45f0f2313c8ebf3d755463e5" category="admonition">* NetApp 建議 * 盡可能選擇專屬的 SQL Server 執行個體、以獲得最佳效能。</block>
@@ -2941,7 +2921,6 @@
   <block id="b61bad6f7bf48bf9abda0c86c9beed79" category="paragraph">由於有這麼多交易登入檔案、因此記錄檔大小對於寫入作業非常重要。修改記錄時、變更不會立即回寫到表格區。相反地、變更會記錄在記錄檔的結尾、而且頁面會標示為「髒污」。InnoDB 使用其記錄檔將隨機 I/O 轉換成連續 I/O</block>
   <block id="e87d83a3c0af4df83efb4784b5182f8f" category="paragraph">當記錄檔已滿時、會依序將不完整頁面寫入資料表空間、以釋放記錄檔中的空間。例如、假設某個伺服器在交易過程中當機、而且寫入作業只會記錄在記錄檔中。伺服器必須經過復原階段、記錄檔中記錄的變更會重新播放、才能重新上線。記錄檔中的項目越多、伺服器恢復所需的時間就越長。</block>
   <block id="8321756b7fedf72543a1b0917bf92613" category="paragraph">在此範例中、記錄檔大小會同時影響還原時間和寫入效能。為記錄檔大小選擇正確的數字時、請平衡恢復時間與寫入效能。一般而言、 128M 和 512M 之間的任何項目都是物超所值的。</block>
-  <block id="d4ae77cd65c244ceb4277b27553d6931" category="doc">ONTAP 上的 MySQL 資料庫</block>
   <block id="598132a821e8cc696fbbae934047d991" category="paragraph">MySQL 及其變種、包括 MariaDB 和 Percona MySQL 、是全球最受歡迎的資料庫。</block>
   <block id="35701e1bcd40c8e1a520fc33d0e14842" category="doc">InnoDB_Flush 方法</block>
   <block id="138738e11d5fda5c496edaa92e32e158" category="paragraph">InnoDB_flush_method 參數指定 InnoDB 如何開啟及排清記錄檔和資料檔。</block>
@@ -2995,8 +2974,6 @@
   <block id="668b6acc98c3469094062ed50b43e43a" category="admonition">* NetApp 建議 * 如果在 NFS 上使用此設定、請分析 IOPS （ Sys台 / Fio ）的測試結果、並據此設定參數。除非您在 InnoDB 緩衝資源池中看到比您想要的更多修改或不乾淨頁面、否則請使用最小的值來進行排清和清除。</block>
   <block id="038b11d42ee14bd77b6370c575c63b16" category="admonition">除非您證明較低的值不足以應付工作負載、否則請勿使用極端值、例如 20,000 或更多。</block>
   <block id="62385f5ceb285bca676cb0561555d719" category="paragraph">InnoDB_IO_capACure. 參數可規範排清率和相關 I/O</block>
-  <block id="c957ef06af970a7526a73e741b47fef1" category="admonition">您可以將此參數或 InnoDB_IO_capACure_max 參數設定得太高、並以提早排清的方式浪費 I/O 作業、進而嚴重損害效能。</block>
-  <block id="b238d5dd75fe5ed855c5b3047e074050" category="paragraph">有兩個選項可以使用常見的雙磁碟區模型、來設定 MySQL 與 SAN 。</block>
   <block id="58d94bb6e53e154e2f4b16efa09f4c0d" category="paragraph">只要 I/O 和容量需求在單一 LUN 檔案系統的限制範圍內、就可以將較小的資料庫放在一對標準 LUN 上。例如、需要大約 2K 隨機 IOPS 的資料庫、可以裝載在單一 LUN 上的單一檔案系統上。同樣地、只有 100GB 大小的資料庫也能放在單一 LUN 上、而不會造成管理問題。</block>
   <block id="c33bcb4f520265bb106616e844397ffb" category="paragraph">大型資料庫需要多個 LUN 。例如、需要 10 萬 IOPS 的資料庫最可能需要至少八個 LUN 。由於磁碟機的 SCSI 通道數量不足、單一 LUN 將成為瓶頸。10TB 資料庫同樣難以在單一 10TB LUN 上進行管理。邏輯磁碟區管理程式的設計旨在將多個 LUN 的效能和容量功能結合在一起、以改善效能和管理能力。</block>
   <block id="428e88a1415b00f5eb396829b4bd9a2c" category="paragraph">在這兩種情況下、一對 ONTAP 磁碟區應該足夠。透過簡單的組態、資料檔案 LUN 會與記錄 LUN 一樣置於專用磁碟區中。在邏輯 Volume Manager 組態下、資料檔案 Volume 群組中的所有 LUN 都將位於專用磁碟區、而記錄 Volume 群組的 LUN 則位於第二個專用磁碟區。</block>
@@ -3037,7 +3014,6 @@
   <block id="b8c3891a902a70c4f7f774363652f4b4" category="summary">MySQL 檔案結構</block>
   <block id="5713a921d815fd7d19875846450f8ea8" category="doc">檔案結構</block>
   <block id="4955922857da5499a2f1be602a96b0ff" category="paragraph">InnoDB 是儲存設備和 MySQL 伺服器之間的中間層、可將資料儲存到磁碟機中。</block>
-  <block id="8a6fab0b8bb36427eda4071adfd7780b" category="inline-image-macro">錯誤：找不到圖形影像</block>
   <block id="5d416cf65dd1e2c908bf430f957c89f8" category="paragraph">MySQL I/O 分為兩種類型：</block>
   <block id="e8a320970c929abda9ae744b0b9e8f5f" category="list-text">隨機檔案 I/O</block>
   <block id="85430c0aa096ec282f2a14156baa312e" category="list-text">連續檔案 I/O</block>
@@ -3154,8 +3130,6 @@
   <block id="c80b3cc8b5013bd4039769fb0f783e60" category="paragraph"><block ref="c80b3cc8b5013bd4039769fb0f783e60" category="inline-image-macro-rx" type="image"></block></block>
   <block id="dee28dd6d1a9ef7bf399f642fd9d588f" category="section-title">NFS 傳輸大小</block>
   <block id="d8299d00f914e35b80644e5781e47a77" category="paragraph"><block ref="d8299d00f914e35b80644e5781e47a77" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="861f074a1ecd9d1cc088d2fe81903565" category="paragraph"><block ref="861f074a1ecd9d1cc088d2fe81903565" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="710e9cd79e3865d47122a799f425b31f" category="paragraph"><block ref="710e9cd79e3865d47122a799f425b31f" category="inline-image-macro-rx" type="image"></block></block>
   <block id="5a656ddcc72bacc3a5900c23edf7a08e" category="paragraph"><block ref="5a656ddcc72bacc3a5900c23edf7a08e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="073ce0a0568adc64d52dd9b1d8c02c54" category="paragraph"><block ref="073ce0a0568adc64d52dd9b1d8c02c54" category="inline-image-macro-rx" type="image"></block></block>
   <block id="3401a9880dfc322da8a56c4d632361f6" category="paragraph"><block ref="3401a9880dfc322da8a56c4d632361f6" category="inline-image-macro-rx" type="image"></block></block>
@@ -3164,8 +3138,6 @@
   <block id="3105b4c0642b9710179c18edcf8e8718" category="paragraph"><block ref="3105b4c0642b9710179c18edcf8e8718" category="inline-image-macro-rx" type="image"></block></block>
   <block id="1a43000eb9893bff7ab7b1ce1d3fd6a8" category="paragraph"><block ref="1a43000eb9893bff7ab7b1ce1d3fd6a8" category="inline-image-macro-rx" type="image"></block></block>
   <block id="4b7a8562c98b8c652bdfb6aa79788222" category="paragraph"><block ref="4b7a8562c98b8c652bdfb6aa79788222" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="38ac6f4e1538397bd4f659237ec03ebf" category="paragraph"><block ref="38ac6f4e1538397bd4f659237ec03ebf" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="f01518e5f3b18a9ea241bc63a3475dbd" category="paragraph"><block ref="f01518e5f3b18a9ea241bc63a3475dbd" category="inline-image-macro-rx" type="image"></block></block>
   <block id="acce752526553bfa73c92799accd9cb8" category="summary">Oracle 資料保護總覽</block>
   <block id="deb8cb7644231cae002f5f37c725b86f" category="paragraph">遠距離移轉通常需要更具創意的方法、例如中所說明的記錄傳送程序 <block ref="86efe12ea0d3a769a4b7cfc2b6362f49" category="inline-link-macro-rx"></block>。遠距 IP 網路在任何接近 LAN 或 SAN 速度的地方、都很少會有頻寬。在某種情況下、 NetApp 協助 220 TB 資料庫進行遠距移轉、而且產生的歸檔記錄率非常高。所選的資料傳輸方法是每天運送磁帶、因為這種方法提供最大可能的頻寬。</block>
   <block id="055362c7082175c34483772a43b776cf" category="paragraph">例如、複製 10TB 資料庫通常需要大約七小時才能完成。如果企業需要中斷七小時、檔案複製是輕鬆安全的移轉選項。如果五小時不可接受、則只需簡單的記錄傳送程序（請參閱 <block ref="eee8a7589b6555fc3411165c58a62ca5" category="inline-link-macro-rx"></block>）只需最少的努力就能設定、將轉換時間縮短至約 15 分鐘。在此期間、資料庫管理員可以完成此程序。如果 15 分鐘是不可接受的、則可透過指令碼將最後的轉換程序自動化、將轉換時間縮短至幾分鐘。您可以隨時加快移轉速度、但這樣做的代價是時間和精力。轉換時間目標應以企業可接受的內容為基礎。</block>
@@ -3205,29 +3177,17 @@
   <block id="92d0a1aef2134a70d5c0f0279dc22ec6" category="doc">Snapshot複本</block>
   <block id="0c47b4eb567b018e3d2e5882b88eaca9" category="paragraph">儲存快照是目標資料的時間點複本。ONTAP 的實作功能包括設定各種原則、每個磁碟區最多可儲存 1024 個快照。ONTAP 中的快照具有極高的空間效率。空間只會在原始資料集變更時使用。它們也是唯讀的。快照可以刪除、但無法變更。</block>
   <block id="7986a4827296ca9cd0b991ded9f8a10d" category="paragraph">在某些情況下、可以直接在 ONTAP 上排程快照。在其他情況下、在建立快照之前、可能需要 SnapCenter 等軟體來協調應用程式或作業系統的作業。無論哪種方法最適合您的工作負載、積極的快照策略都能透過頻繁且容易存取的方式、來提供資料安全性、從開機 LUN 到關鍵任務資料庫、都能備份所有資料。</block>
-  <block id="210c45246ad11e0b53bdb20b64266780" category="paragraph">* 注意 * ： ONTAP 彈性 Volume （或更簡單的）磁碟區與 LUN 並不等同。Volume 是管理容器、用於儲存檔案或 LUN 等資料。例如、資料庫可能放置在 8-LUN 等量磁碟區集上、而所有 LUN 都包含在單一磁碟區中。</block>
-  <block id="ad590deba1cd4423ee565e822c3a91d1" category="paragraph">如需快照的詳細資訊、請按一下 <block ref="211d7effcac0cb0488144c6fc8b3cb7c" category="inline-link-macro-rx"></block></block>
   <block id="c4bf0f56feeec9a45e973768fbc4f47e" category="section-title">防竄改快照</block>
-  <block id="d2e783db61d20da61c761d4d473bed14" category="paragraph">從 ONTAP 9.12.1 開始、快照不只是唯讀的、也可以防止意外或刻意刪除。此功能稱為防竄改快照。您可以透過快照原則設定及強制執行保留期間。產生的快照必須等到到期日才會刪除。沒有系統管理或支援中心覆寫。</block>
   <block id="38fef959179f8d3eb79a68a5ce747bdc" category="paragraph">如此可確保入侵者、惡意內部人員、甚至勒索軟體攻擊都無法入侵備份、即使備份導致存取 ONTAP 系統本身也是如此。如果結合頻繁的快照排程、就能以極低的 RPO 提供極強大的資料保護功能。</block>
-  <block id="c64db0c79e66c1c0e5b932c5d2dedfea" category="paragraph">如需防竄改快照的詳細資訊、請按一下 <block ref="134603be635c039f9224bff191c6103c" category="inline-link-macro-rx"></block></block>
   <block id="a1f41e52e9ddbd9f87ecd032c237b1c0" category="section-title">SnapMirror 複寫</block>
-  <block id="1bb837ddfb635c39a6c6e23d847823f9" category="paragraph">快照也可以複寫到遠端系統。這包括防竄改快照、在遠端系統上套用及強制執行保留期間。因此資料保護效益與本機快照相同、但資料位於第二個儲存陣列上。如此可確保原始陣列的毀損不會影響備份。</block>
   <block id="18d315ae923785b3f9c5234724b0ab42" category="paragraph">第二個系統也會開啟新的管理安全選項。例如、某些 NetApp 客戶會將主要和次要儲存系統的驗證認證資料加以分隔。沒有單一管理使用者可以存取這兩個系統、這表示惡意系統管理員無法刪除所有資料複本。</block>
-  <block id="e805272dcce51c35975e830e5ee9ecaf" category="paragraph">如需 SnapMirror 的詳細資訊、請按一下 <block ref="9abdfd5d94773cf0a996248d1d722cac" category="inline-link-macro-rx"></block></block>
   <block id="500569e3cc0764260a592cb176921ca3" category="section-title">儲存虛擬機器</block>
-  <block id="d5174dd4c760ef1a826b3e5bc22215e5" category="paragraph">新設定的 ONTAP 儲存系統類似於新佈建的 VMware ESX 伺服器、因為在建立虛擬機器之前、兩者都無法支援任何使用者。透過 ONTAP 、您可以建立儲存虛擬機器（ SVM ）、成為最基本的儲存管理單元。每個 SVM 都有自己的儲存資源、傳輸協定組態、 IP 位址和 FCP WWN 。  這是 ONTAP 多租戶的基礎。</block>
   <block id="597cb258dd509add7cd999794c60d430" category="paragraph">例如、您可以為關鍵的正式作業工作負載設定一個 SVM 、並在不同的網路區段上設定第二個 SVM 以進行開發活動。然後、您可以限制特定管理員存取正式作業 SVM 、同時讓開發人員更廣泛地控制開發 SVM 中的儲存資源。您可能也需要為財務和人力資源團隊提供第三個 SVM 、以儲存特別重要的純眼資料。</block>
-  <block id="18519d16720b1e13890c2639657b5bf8" category="paragraph">如需有關 SVM 的詳細資訊、請按一下 <block ref="a06a0fd566387240178b1c926e07cb7b" category="inline-link-macro-rx"></block></block>
   <block id="7d0fc71fe28e011ca49b06214469d484" category="section-title">管理 RBAC</block>
   <block id="4f0dae2ba2fd11c533349d6ade4f81de" category="paragraph">ONTAP 提供強大的角色型存取控制（ RBAC ）功能、可用於管理登入。某些管理員可能需要完整的叢集存取權、而其他管理員可能只需要存取特定的 SVM 。進階服務台人員可能需要增加磁碟區大小的能力。因此、您可以授予系統管理使用者執行工作職責所需的存取權限、而無需再提供其他權限。此外、您可以使用來自不同廠商的 PKI 來保護這些登入安全、僅限制對 ssh 金鑰的存取、並強制執行失敗的登入嘗試鎖定。</block>
-  <block id="6ae13b0198daa7d13d79a8631297e64d" category="paragraph">如需管理存取控制的詳細資訊、請按一下 <block ref="db5be08b697b5ef26e0e94da1d5f4970" category="inline-link-macro-rx"></block></block>
-  <block id="671a94a08dff3cf44fad087e2346c8b0" category="section-title">Multfactor 驗證</block>
-  <block id="945c88a63c229c39ee73ab5592b3ef63" category="paragraph">如需詳細資訊、請按一下 <block ref="03628d0cd13b6640ef56c399aa1c2070" category="inline-link-macro-rx"></block></block>
   <block id="852741d2a7fb0a8a1a5dd748dbbd6734" category="section-title">API RBAC</block>
   <block id="bbbea5fec67f15424fa77aa563754c49" category="paragraph">自動化需要 API 呼叫、但並非所有工具都需要完整的管理存取權。為了協助保護自動化系統的安全、 API 層級也提供 RBAC 。您可以將自動化使用者帳戶限制為所需的 API 呼叫。例如、監控軟體不需要變更存取權、只需要讀取存取權。配置儲存設備的工作流程不需要刪除儲存設備的能力。</block>
   <block id="7604bad489eaec7e27d112c63d3e2936" category="paragraph">若要進一步進行多重「因素」驗證、需要兩位不同的管理員（每位管理員都有自己的認證）來核准某些活動。這包括變更登入權限、執行診斷命令和刪除資料。</block>
-  <block id="e890d04cd745ac382688bbb307655e81" category="paragraph">如需多管理驗證（ MAV ）的詳細資訊、請按一下 <block ref="88f84d4fec0424d978600980bf11baf0" category="inline-link-macro-rx"></block></block>
   <block id="b39c0496b44447232912303246b46aaa" category="paragraph">如果需要大量連續 IO 、則可依照下節所述增加 NFS 傳輸大小。</block>
   <block id="959e8f746f4ff03f6225b95cf646e65f" category="admonition">本文件取代先前發佈的技術報告 _TR-4590 ： Microsoft SQL Server 與 ONTAP 的最佳實務做法指南</block>
   <block id="36d72286c0ef70108b2f7791b73fdc6d" category="list-text">先前的指南建議建立 LIF 至資料位置。也就是說、務必使用實體擁有磁碟區的節點上的LIF來掛載資料存放區。這已不再是ONTAP 現今版本的更新要求。只要可能、而且如果提供叢集範圍的認證、 ONTAP 工具仍會選擇在資料的本機生命體之間平衡負載、但這並不是高可用度或高效能的需求。</block>
@@ -3276,11 +3236,9 @@
   <block id="ae14ab6d1e5edd0e782d8897d1721eb4" category="summary">MySQL 和 InnoDB_doublewrite</block>
   <block id="689c52e3f5db5d2dafccd7d93cf1abc4" category="summary">MySQL 和 InnoDB_Fling_log_AT_TRx_commi</block>
   <block id="639600080c225673dfdfa012fdbd6146" category="summary">MySQL 和 IO 排程器</block>
-  <block id="32e3724e2b54692cbef969373fbfe040" category="doc">I/O 排程器和 MySQL</block>
   <block id="72985ac51e91797345b2437088a4362e" category="summary">MySQL 搭配 SAN</block>
   <block id="d5ef0a45fe252b03f538bfd134b168db" category="summary">MySQL 和 InnoDB_LRU_SCAN_depth</block>
   <block id="df657260453f6ef228ee0ca22dd7a415" category="summary">MySQL 容器化</block>
-  <block id="885b1b5a90f898c89b664ec58a42121c" category="doc">MySQL 容器化</block>
   <block id="2828450fc6669c8df75f937e227996f1" category="doc">MySQL 檔案描述元</block>
   <block id="9420010a756fb6d3ddeadfa63d2170f6" category="paragraph">若要執行、 MySQL 伺服器需要檔案描述元、而且預設值不足。</block>
   <block id="62414a5a9c0e2fc12a8d028ad29164b8" category="summary">MySQL 和 InnoDB_IO_capACure</block>
@@ -3594,11 +3552,7 @@
   <block id="ea7df930bd6bec6222e23d2b3af02a50" category="paragraph">SnapMirror 主動式同步支援兩種儲存容錯移轉作業：計畫性和非計畫性、運作方式略有不同。系統管理員會手動啟動計畫性容錯移轉、以快速切換至遠端站台、而非計畫性容錯移轉則由第三站台的協調員自動啟動。計畫性容錯移轉的主要目的是執行漸進式修補與升級、執行災難恢復測試、或是採用正式的原則、在一年內在站台之間切換作業、以證明完整的主動式同步功能。</block>
   <block id="f7c8b0ba16967990d91c2ca78d655eaa" category="paragraph">下圖顯示正常、容錯移轉及容錯回復作業期間的情況。為了便於說明、它們描述了複寫的 LUN 。在實際的 SnapMirror 主動式同步組態中、複寫是以磁碟區為基礎、其中每個磁碟區都包含一個或多個 LUN 、但為了讓圖片更簡單、磁碟區層已經移除。</block>
   <block id="cfa86460b638615878bbee89b1b6d4c7" category="paragraph">綠線是一條活動路徑，但由於該路徑上的 IO 需要通過 SnapMirror 活動同步路徑傳遞，因此會產生更多延遲。額外的延遲時間取決於用於 SnapMirror 主動同步的站台之間互連的速度。</block>
-  <block id="175d350addf4717d454787f950938adf" category="paragraph"><block ref="175d350addf4717d454787f950938adf" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="033e21b9b80fa06986d25123f3025db5" category="paragraph"><block ref="033e21b9b80fa06986d25123f3025db5" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="f4d4f8b4d1153d0a9894be19e1f52e4e" category="paragraph"><block ref="f4d4f8b4d1153d0a9894be19e1f52e4e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="22ea45ef5d49a1b807d571799d80613d" category="paragraph">一旦來源系統恢復服務、 SnapMirror 主動式同步就能重新同步複寫、但會執行其他方向。現在的組態基本上與起點相同、只是主動鏡射站台已經翻轉。</block>
-  <block id="3dd37fdc28ae50bae909f461c8eae979" category="paragraph"><block ref="3dd37fdc28ae50bae909f461c8eae979" category="inline-image-macro-rx" type="image"></block></block>
   <block id="2702e101c97ce9a58738b1a4089319df" category="summary">MetroCluster 邏輯架構和 Oracle 資料庫</block>
   <block id="784fdd6bf0ebb9c00eaefafc3f9a9cee" category="doc">RAID 和 Oracle 資料庫</block>
   <block id="204d288bf0e9d1ee9912d68d6282d7a9" category="summary">Oracle 資料庫與 AIX</block>
@@ -3682,15 +3636,12 @@
   <block id="82116b39cd4d0d1920fab1ab4515603b" category="paragraph">節省的程度各不相同。已壓縮或加密的資料通常無法進一步壓縮、因此資料集無法從資料壓縮中獲益。相反地、新初始化的資料檔案僅包含區塊中繼資料和零、最多可壓縮至 80 ： 1 。</block>
   <block id="2608473fa5767385d01f256eccbc1cc4" category="paragraph">許多競爭陣列都宣稱能夠根據資料庫複製多次的假設來刪除重複的資料庫。在這方面，也可以使用 NetApp 重複資料刪除技術，但 ONTAP 提供更好的選擇： NetApp FlexClone 技術。最終結果相同；資料庫的多個複本會建立共用大部分基礎實體區塊。使用 FlexClone 比花時間複製資料庫檔案然後刪除複製檔案更有效率。實際上，它是不重複數據刪除，而不是重複數據刪除，因爲從一開始就不會創建重複數據。</block>
   <block id="7e96c1b651af3f28c27b78807f0310e2" category="paragraph">強烈建議採用精簡配置、因為它可以簡化管理、同時大幅改善可用容量、並節省相關成本。原因很簡單：資料庫環境通常包含大量的空空間、大量的磁碟區和 LUN 、以及可壓縮的資料。如果磁碟區和 LUN 的儲存空間有一天 100% 滿、而且包含 100% 不可壓縮的資料、則大量資源配置會導致保留空間。這種情況不太可能發生。精簡配置可回收空間並在其他地方使用、並可讓容量管理以儲存系統本身為基礎、而非許多較小的磁碟區和 LUN 。</block>
-  <block id="0f55b43344575cc268bf51ae032d47c2" category="paragraph">NetApp 建議：</block>
   <block id="f67b854e2d644480b0ec40d7de2b773d" category="paragraph">在 All Flash AFF 系統上執行的 ONTAP 上建立的磁碟區會自動精簡佈建、並啟用所有的內嵌效率功能。雖然資料庫通常無法從重複資料刪除中獲益、而且可能包含不可壓縮的資料、但預設設定仍適用於幾乎所有的工作負載。ONTAP 旨在有效處理所有類型的資料和 I/O 模式、無論是否能節省成本。只有在充分瞭解理由且有偏離的好處時、才應變更預設值。</block>
   <block id="649141c6b8267ea3df10949a853d22cb" category="list-text">請勿將 32KB 壓縮和重複資料刪除同時用於資料庫備份。請參閱一節 <block ref="57ee2712afc5e59236f86db0537b05dc" category="inline-xref-macro-rx"></block> 以取得詳細資料。</block>
   <block id="5059ada12bae6c7e7fac9338d88301b5" category="doc">Oracle 資料庫歸檔記錄分層</block>
-  <block id="b7e89b3a1ff13c93cc5c038440e48f58" category="paragraph">若要深入瞭解、請啟動 https://docs.netapp.com/us-en/ontap-automation/rest/rbac_overview.html[here.]</block>
   <block id="4abda684ecc952239d7800547dcf2995" category="sidebar">MetroCluster 上的 Oracle SI</block>
   <block id="bdebc59bb8c11012c00a4be61b8bdb5d" category="summary">Microsoft SQL Server 執行個體部署</block>
   <block id="030194212f0e1890126b205fdbcfe852" category="summary">保護 ONTAP 上的 Microsoft SQL Server 安全</block>
-  <block id="76e6e519036ed33c414d681e342c73be" category="paragraph">確保 SQL Server 資料庫環境的安全性是一項不只是管理資料庫本身的多維工作。ONTAP 提供數項獨特功能、旨在保護資料庫基礎架構的儲存層面。</block>
   <block id="972d09960af01a5f3831f2eac1c75d12" category="summary">使用 ONTAP 進行 Microsoft SQL Server 災難恢復</block>
   <block id="db78788a721b9a9a669c4935d455a593" category="paragraph">企業資料庫和應用程式基礎架構通常需要複寫、才能在最短的停機時間內、避免自然災難或非預期的業務中斷。</block>
   <block id="fad02ab7a45b438ba1a4c024b9edb2be" category="paragraph">以下是 SnapMirror for SQL Server 的建議：</block>
@@ -3708,7 +3659,6 @@
   <block id="d8969d8106a5ac08f38277a3c0b813dc" category="paragraph">將多個資料檔案放入檔案群組的功能可讓您將負載分散到不同的儲存裝置、有助於改善系統的 I/O 效能。與此相反的是、由於 SQL Server 會循序寫入交易記錄檔、因此無法從多個檔案中獲益。</block>
   <block id="bd87ed7f70b7f9173319df18e5b5b751" category="paragraph">每次 SQL Server 增加檔案時、都會以零填滿新分配的空間。該程序會封鎖所有需要寫入對應檔案的工作階段、或在交易記錄增加時產生交易記錄。</block>
   <block id="7a64f7e9c9b5737a434bdcc8f935c5ce" category="summary">Microsoft SQL Server 和 ONTAP 儲存效率</block>
-  <block id="20f0346a9d65f2fba1523d3343d7c6e7" category="doc">Microsoft SQL Server 與儲存效率</block>
   <block id="9df29e7c756637e30b37f014d02117ef" category="paragraph">SQL Server 本身也具備可壓縮及有效管理資料的功能。SQL Server 目前支援兩種類型的資料壓縮：資料列壓縮和頁面壓縮。</block>
   <block id="09ddfa236e0fa1173f8d86a5ad0c148f" category="summary">Microsoft SQL Server 記錄目錄</block>
   <block id="cc2c23339c0ad05c5ae1704b4a0ecb37" category="paragraph">記錄目錄是在 SQL Server 中指定、用於在主機層級儲存交易記錄備份資料。如果您使用 SnapCenter 來備份記錄檔、則 SnapCenter 使用的每個 SQL Server 主機都必須設定一個主機記錄目錄、才能執行記錄備份。由於包含資料庫儲存庫、因此與備份、還原或複製作業相關的中繼資料會儲存在中央資料庫儲存庫中SnapCenter 。</block>
@@ -3725,7 +3675,6 @@
   <block id="8a3aceb6ed4b21af2f2c00ecb032f75f" category="paragraph">在 SQL Server 2022 中、 Microsoft 推出了 T-SQL 快照、可提供建立指令碼和自動化備份作業的路徑。您可以為資料庫準備快照、而非執行完整大小的複本。資料庫準備好備份之後、您就可以利用 ONTAP REST API 來建立快照。</block>
   <block id="eeeb4e610a7896c1b1f2e2ea9b3f52a0" category="list-text">使用 ALTER 命令凍結資料庫。如此一來、資料庫就能在基礎儲存設備上準備一致的快照。凍結之後、您可以使用備份命令來解凍資料庫並記錄快照。</block>
   <block id="fd95362fecccbbb7b017317e8bede3b5" category="admonition">ONTAP 和 MySQL 資料庫上的本文件取代先前發佈的 _TR-4722 ： ONTAP 最佳實務做法的 MySQL 資料庫。 _</block>
-  <block id="03591504f4566055ad54d9422f8a0488" category="paragraph">NetApp 提供 Astra Trident 、可提供進階的儲存管理功能。例如、 Astra Trident 可讓在 Kubernetes 中建立的容器自動在適當的層級上配置儲存設備、套用匯出原則、設定快照原則、甚至將一個容器複製到另一個容器。如需其他資訊、請參閱 <block ref="2b8a155fc083396b96b18cee0ba5eab0" category="inline-link-macro-rx"></block>。</block>
   <block id="887757e2405372a0b9e17cc054ab38f3" category="paragraph">SnapRestore 之所以能如此快速有效地運作、是因為快照的本質、基本上是在特定時間點對磁碟區內容進行平行唯讀檢視。作用中區塊是可以變更的實際區塊、而快照則是建立快照時構成檔案和 LUN 之區塊狀態的唯讀檢視。</block>
   <block id="f9b673452d1da030fef3f976bbbbb103" category="paragraph">在此範例中、來源資料庫位於 ONTAP 系統上。建立資料庫備份最簡單的方法是使用快照。將資料庫置於熱備份模式幾秒鐘<block ref="252ce13e6c150af4d3e7eea5fca266bc" prefix=" " category="inline-code"></block> 在託管資料檔案的磁碟區上執行作業。</block>
   <block id="630a571b99791968d41f9caba4a3e39c" category="paragraph">結果是磁碟上的快照稱為<block ref="a8b3bc9f12cd194b80d404c30e9015ee" prefix=" " category="inline-code"></block> 包含處於熱備份模式時的資料檔案映像。如果結合適當的歸檔記錄以使資料檔案一致、則此快照中的資料可作為還原或複製的基礎。在這種情況下、它會複寫到新的伺服器。</block>
@@ -4772,7 +4721,6 @@
   <block id="afe62727c9717a186ce014753f902c8a" category="paragraph">變更偏好的站台需要簡單的操作。IO 會暫停一秒或兩秒、作為叢集之間複寫行為切換的權限、但 IO 不會受到影響。</block>
   <block id="2d430e41b39275608ed6816ee435f2c4" category="paragraph">調解器並不是真正的斷路器、但這實際上正是它所提供的功能。它不會採取任何行動、而是提供替代的通訊通道、讓叢集與叢集之間能進行通訊。</block>
   <block id="caeb8c810d4965bfc8ad369332977e54" category="inline-image-macro">SnapMirror 主動式同步圖表與中介器</block>
-  <block id="4c67fbe8dcb303fbb7a06384a1e166ff" category="paragraph"><block ref="4c67fbe8dcb303fbb7a06384a1e166ff" category="inline-image-macro-rx" type="image"></block></block>
   <block id="2767cf2bbeaf5540c1e615745cfead81" category="paragraph">自動化容錯移轉的第一項挑戰是大腦分離問題、如果兩個站台彼此之間的連線中斷、就會發生這個問題。應該發生什麼事？您不想讓兩個不同的網站自行指定為資料的保存複本、但如何讓單一網站分辨相對網站的實際損失與無法與相對網站通訊的差異？</block>
   <block id="661d0a9679d7d1af0f76f646c941e5cc" category="paragraph">這是調解者輸入圖片的地方。如果放置在第三個站台上、而且每個站台都有與該站台的個別網路連線、則每個站台都有額外的路徑來驗證對方的健全狀況。請再次查看上圖、並思考下列案例。</block>
   <block id="d0c23d9c3fc0a960d3362e7ba10243f5" category="list-text">如果調解器故障或無法從一個或兩個站台連線、會發生什麼情況？</block>
@@ -4790,10 +4738,8 @@
   <block id="700cb79deb6ef819c0aacbb228c5a16b" category="paragraph">SnapMirror 主動式同步（ SM-AS ）是以 SnapMirror 同步為基礎。兩者都能提供 RPO=0 同步資料複寫、但 SMAS 可為 SAN 資料提供接近零的 RTO 可用度、進一步提升解決方案。這是透過管理 SAN 路徑的自動化來完成、以保持資料可用。站台、控制器和通訊故障均由 ONTAP 自動處理。</block>
   <block id="c159224eea5fb4a30b3cc9be6e90cd6c" category="paragraph">SnapMirror 主動式同步可提供存在於兩個不同站台上的 LUN 。在正常作業中、沒有「來源」或「目的地」。方向是雙向的。針對指定 LUN 路徑的所有讀取 IO 、將由本機控制器使用其本機資料複本來提供服務。所有寫入作業都會複寫到遠端合作夥伴、並在確認之前在本機寫入。</block>
   <block id="4a85397e66688e4e619ffe832e627548" category="inline-image-macro">SnapMirror 主動式同步總覽</block>
-  <block id="773253d9f54d4d8d3d596bef999303fa" category="paragraph"><block ref="773253d9f54d4d8d3d596bef999303fa" category="inline-image-macro-rx" type="image"></block></block>
   <block id="ddc1e5dc440806435445e7a532ad1198" category="paragraph">從邏輯上來說、這種行為就像一組 LUN 。IO 可透過位於兩個不同叢集上的 SAN 路徑導向這些邏輯 LUN 、但資料永遠相同。IO 行為是對稱的、對許多主動式應用程式組態而言、這是至關重要的。</block>
   <block id="ddc5ca7c74db522011a3b2ddccda5b40" category="inline-image-macro">SnapMirror 主動式同步邏輯設計</block>
-  <block id="a91ae760520ff89a08c2f2db6a6c2ebd" category="paragraph"><block ref="a91ae760520ff89a08c2f2db6a6c2ebd" category="inline-image-macro-rx" type="image"></block></block>
   <block id="daadd24f5163a10f9a2f016019883886" category="section-title">路徑管理</block>
   <block id="9bb9bee58b329761e36c7d9bf8900d6f" category="paragraph">SnapMirror 同步網路拓撲有兩種方法：統一和不統一。在統一存取和非統一存取之間選擇時、主要考量的因素是您是否可以或必須將 SAN 延伸至不同的站台。SnapMirror 主動式同步可在這兩種情況下使用。</block>
   <block id="1f46c4a6c97a8add22ae7c23181c23d8" category="paragraph">ONTAP Mediator 是從 NetApp 支援網站下載的軟體應用程式、通常部署在虛擬機器上。</block>
@@ -4803,24 +4749,19 @@
   <block id="e5086daa5843466ff5f04f20d4c19d74" category="paragraph"><block ref="36cd38f49b9afa08222c0dc9ebfe35eb" prefix=" " category="inline-code"></block>指定是控制偏好的站台。如果複寫連結遺失、來源複本上的 LUN 路徑將繼續提供資料、而目的地複本上的 LUN 路徑將無法使用、直到 SnapMirror 重新建立複寫並重新進入同步狀態為止。然後路徑將恢復服務資料。</block>
   <block id="a0bbe7bd1e93252f1267d98703905552" category="paragraph">來源 / 目的地組態可透過 SystemManager 檢視：</block>
   <block id="13d0a54956b2dd09d5e909acadfb1694" category="inline-image-macro">SM 來源的螢幕擷取畫面</block>
-  <block id="70547bc22a604012e7d30f238d3ab5c8" category="paragraph"><block ref="70547bc22a604012e7d30f238d3ab5c8" category="inline-image-macro-rx" type="image"></block></block>
   <block id="5b53b7d18b58af25bcf47dc21678038f" category="paragraph">或在 CLI ：</block>
   <block id="498b1bbe0e017f1ad405fe4c77fb8ea1" category="paragraph">關鍵在於來源為叢集 1 上的 SVM 。如上所述、「來源」和「目的地」兩詞並未說明複寫資料的流程。這兩個站台都可以處理寫入作業、並將其複寫到另一個站台。實際上、兩個叢集都是來源和目的地。將一個叢集指定為來源的效果、只是控制在複寫連結遺失時、哪個叢集仍保留為讀寫儲存系統。</block>
   <block id="18a07170e14f5cbc26533f0a136dfdd0" category="inline-image-macro">SnapMirror 主動式同步不一致的網路</block>
-  <block id="9347dda18b33bf2c717916c013eb47bc" category="paragraph"><block ref="9347dda18b33bf2c717916c013eb47bc" category="inline-image-macro-rx" type="image"></block></block>
   <block id="9532c9e7afcd43c7d9bb5740695fc259" category="paragraph">這種方法的主要優點是 SAN 簡易性、您無需透過網路擴充 SAN 。有些客戶在站台之間沒有足夠的低延遲連線、或缺乏基礎架構、無法透過站台間網路來通道 FC SAN 流量。</block>
   <block id="439caacb19fa16f2c21563703ed645d7" category="paragraph">不一致存取的缺點是、某些失敗情況（包括遺失複寫連結）會導致部分主機失去儲存設備的存取權。以單一執行個體執行的應用程式、例如原本只在任何指定掛載的單一主機上執行的非叢集資料庫、如果本機儲存連線中斷、就會失敗。資料仍會受到保護、但資料庫伺服器將無法再存取。需要在遠端站台上重新啟動、最好是透過自動化程序來重新啟動。例如、 VMware HA 可偵測一部伺服器上的所有路徑停機情況、並在另一部可用路徑的伺服器上重新啟動 VM 。</block>
-  <block id="5a2e2e33df9734d8ef57bcb93643d89a" category="paragraph">相反地、叢集式應用程式（例如 Oracle RAC ）可提供在兩個不同站台同時可用的服務。失去站台並不代表整個應用程式服務都會遺失。執行個體仍可在仍正常運作的站台上執行。</block>
   <block id="9fad44ede04fb95c16ea64be5e51836c" category="paragraph">在許多情況下、透過站台對站台連結存取儲存設備的應用程式額外延遲成本是不可接受的。這表示統一網路的可用度提升到最低、因為站台上的儲存設備遺失、可能導致仍需要關閉該故障站台上的服務。</block>
   <block id="15da96ce40136a3259e04ae0dc25fc95" category="paragraph">由於簡單起見、本機叢集有多個備援路徑未顯示在這些圖表中。ONTAP 儲存系統本身就是 HA 、因此控制器故障不應導致站台故障。只會導致受影響網站上使用本機路徑的變更。</block>
   <block id="bb12626aefb7c36f9b13694d35dadd5d" category="paragraph">SM － as 的一項重要功能是能夠設定儲存系統、以瞭解主機的位置。將 LUN 對應至指定主機時、您可以指出 LUN 是否接近指定的儲存系統。</block>
   <block id="4590bab77464ba1a9c8ee6b8095eef60" category="inline-image-macro">SnapMirror Active Sync AFF 統一網路</block>
-  <block id="988f5836c7a60d1374a4804da23d51e4" category="paragraph"><block ref="988f5836c7a60d1374a4804da23d51e4" category="inline-image-macro-rx" type="image"></block></block>
   <block id="2b2fdfa824f1319cc47992b1277faa78" category="paragraph">在正常作業中、所有 IO 都是本機 IO 。從本機儲存陣列提供讀取和寫入服務。寫入 IO 當然也需要由本機控制器複寫到遠端系統、然後才會被確認、但所有讀取 IO 都會在本機上提供服務、而且不會因在站台之間瀏覽 SAN 連結而產生額外延遲。</block>
   <block id="97b2bb0cfbae3fe49433caf537e819ec" category="paragraph">只有當所有主動 / 最佳化路徑都遺失時、才會使用非最佳化路徑。例如、如果站台 A 上的整個陣列失去電力、站台 A 的主機仍能存取站台 B 上陣列的路徑、因此仍可繼續運作、雖然延遲會較高。</block>
   <block id="5ab085bf88338486e590861594d3947a" category="paragraph">NetApp ASA 系統可跨叢集上的所有路徑提供雙主動式多重路徑。這也適用於 SM-AS 組態。</block>
   <block id="6511f0e2589c08e82bc8dd3e9bc93185" category="inline-image-macro">SnapMirror Active Sync ASA 統一網路</block>
-  <block id="1d818a68fead665559afc9e582394a7d" category="paragraph"><block ref="1d818a68fead665559afc9e582394a7d" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c3fe6771b27ffcb15a75ae88f6d57c4b" category="paragraph">具有非統一存取權的 ASA 組態、其運作方式與 AFF 大致相同。透過統一存取、 IO 就能跨越 WAN 。這可能是或不理想的做法。</block>
   <block id="498a9faf271a73dcf026b1041b66ef2a" category="paragraph">如果兩個站台相距 100 公尺、且具備光纖連線能力、則不應偵測到透過 WAN 的額外延遲、但如果站台相距很遠、則兩個站台的讀取效能都會受到影響。與此相反、 AFF 只有在沒有可用的本機路徑時、才會使用這些 WAN 路徑、而且因為所有 IO 都是本機 IO 、所以日常效能會更好。使用非統一存取網路的 ASA 可讓您選擇取得 ASA 的成本和功能效益、而不會造成跨站台延遲存取的損失。</block>
   <block id="15ab92b8042738f6acc912e2d98ae17a" category="paragraph">採用低延遲組態的 ASA 具有兩項有趣的優點。首先、它基本上是 * 任何單一主機的效能加倍 * 、因為 IO 可以由兩倍多的控制器使用兩倍的路徑來提供服務。其次、在單一站台環境中、它提供極高的可用度、因為整個儲存系統可能會遺失、而不會中斷主機存取。</block>
@@ -5199,13 +5140,10 @@
   <block id="ab2d1dd1b024fd7be648c22c4a43997b" category="list-text">某些 CIFS 管理工作可以使用 Microsoft Management Console （ MMC ）來執行。在執行這些工作之前、您必須使用 MMC 功能表命令、將 MMC 連接至 ONTAP 儲存設備。</block>
   <block id="1d5ba6202d85466a95188b58c37dccc8" category="list-text">NetApp 建議您將 Hyper-V 主機與 ONTAP 儲存設備連線至 10GB 網路（如果有的話）。如果是 1GB 網路連線、 NetApp 建議您建立由多個 1GB 連接埠組成的介面群組。</block>
   <block id="79d467fa842b9015f2f12ada4fa1c7fc" category="paragraph">SQL Server 效能對 CPU 和核心組態有多項相依性。</block>
-  <block id="dcfe06c0ddbb3b395286872a95182eb3" category="paragraph">超執行緒是指同時執行多執行緒（ SMT ）、可改善在 x86 處理器上執行運算的平行化。Intel 和 AMD 處理器均提供 SMT 。</block>
-  <block id="2e84c18998d7c7a831a62718e10a98c5" category="paragraph">超執行緒會產生邏輯 CPU 、在作業系統中顯示為實體 CPU 。SQL Server 接著會看到這些額外的 CPU 、並使用這些 CPU 、就好像核心數量比實際存在的數量還多。這可以透過增加平行化來大幅改善效能。</block>
   <block id="4403546c5938500562a9d8677deb1c38" category="section-title">核心與授權</block>
   <block id="c325fde2d51a1ea2ddd8c9dd51cfdf9c" category="paragraph">下圖顯示啟動後的 SQL Server 記錄訊息、指出核心限制的強制執行。</block>
   <block id="e59dc8056170cddb696ba9bff812c325" category="paragraph">SQL Server 會使用作業系統提供的所有 CPU （如果選擇了每個處理器核心授權）。它也會建立排程器 f0r 每個 CPU 、以充分利用任何指定工作負載的資源。當多工處理時、伺服器上的作業系統或其他應用程式可以將處理執行緒從一個處理器切換至另一個處理器。SQL Server 是一種資源密集的應用程式、發生這種情況時、效能可能會受到影響。為了將影響降至最低、您可以設定處理器、以便將所有 SQL Server 負載導向預先選定的處理器群組。這是透過使用 CPU 關聯性遮罩來達成的。</block>
   <block id="e40a45aed8142e74026f5aa7a6ee1122" category="paragraph">關聯性 I/O 遮罩選項會將 SQL Server 磁碟 I/O 繫結至 CPU 子集。在 SQL Server OLTP 環境中、此延伸功能可大幅提升 SQL Server 執行緒的效能、以執行 I/O 作業。</block>
-  <block id="a58930419c1b1a276791665c876f8f80" category="paragraph">雖然這對大型查詢很有幫助、但可能會造成效能問題並限制並行處理。更好的方法是將平行度限制在單一 CPU 插槽中的實體核心數量。例如、在具有兩個實體 CPU 插槽、每個插槽有 12 個核心的伺服器上、無論超執行緒為何、都<block ref="1abedc5f6ab369ab9fcd16d6b7990638" prefix=" " category="inline-code"></block>應設為 12 。<block ref="1abedc5f6ab369ab9fcd16d6b7990638" prefix=" " category="inline-code"></block>無法限制或指定要使用的 CPU 。而是限制單一批次查詢可以使用的 CPU 數量。</block>
   <block id="16dce493fdad96fe48148f47dc552bfb" category="admonition">* NetApp 推薦 * 適用於資料倉儲等 DSS 、從 50 開始<block ref="1abedc5f6ab369ab9fcd16d6b7990638" prefix=" " category="inline-code"></block>、視需要探索調校或調校。進行變更時、請務必測量應用程式中的關鍵查詢。</block>
   <block id="0add8d6e7be42a854cd7e0161c7f9bcc" category="paragraph">通常會為每個查詢建立個別的作業系統執行緒。如果數百個同時連線到 SQL Server 、則每個查詢的單執行緒組態可能會消耗過多的系統資源。此<block ref="a9233738c364090bbc418d8a0e08a79e" prefix=" " category="inline-code"></block>選項可讓 SQL Server 建立一個工作執行緒集區、以共同為大量查詢要求提供服務、進而協助改善效能。</block>
   <block id="29daf9697a41a463dbe76855a2053a87" category="paragraph">下列範例說明如何使用 T-SQL 設定最大工作執行緒選項。</block>
@@ -5231,36 +5169,27 @@
   <block id="89c617c4ed9cac275e572a67b1c52b29" category="list-text">掛載檔案系統</block>
   <block id="f08329445e69fa49a8223bf365f09e47" category="list-text">啟動 SQL Services</block>
   <block id="b7aabeea5e06b7371d4372fd7f698f88" category="paragraph">此方法的主要需求是在遠端站台上執行作業系統。它必須預先設定 SQL Server 安裝程式、並應以同等版本進行更新。SQL Server 系統資料庫也可以鏡射到遠端站台、並在宣告災難時掛載。</block>
-  <block id="a61003199d91214045b9d3344f527cbd" category="paragraph">如果在切換之前、主控虛擬化資料庫的磁碟區、檔案系統和資料存放區並未在災難恢復站台上使用、則不需要在相關的磁碟區上設定<block ref="3b93661df04b698b1340ff2da3238d16" prefix=" " category="inline-code"></block>。</block>
   <block id="2b963bb5f627aa0ffda026b4d97b6474" category="summary">Microsoft SQL Server 和 SM-as 容錯移轉案例</block>
-  <block id="bdd8b094b65ec8544e0ad9724a1984ad" category="doc">Microsoft SQL Server 和 SnapMirror 主動式同步容錯移轉</block>
   <block id="b0bb805a1ea68ad43ceacf65954b4b4b" category="paragraph">規劃完整的 SnapMirror 主動式同步應用程式架構時、需要瞭解 SM-AS 在各種計畫性和非計畫性容錯移轉案例中的回應方式。</block>
-  <block id="3fc36a3b35bb877723ed17d69c3d57fb" category="summary">Microsoft SQL Server 和 ONTAP 中介</block>
   <block id="511d40fa1b50f901027391480dff9c67" category="paragraph">安全自動化容錯移轉需要中介程序。理想情況下、它會放置在獨立的第三站台、但如果與參與複寫的叢集之一共存、則仍能滿足大多數需求。</block>
   <block id="cef962a099d3ff2b834420d0c97f5bc1" category="summary">Microsoft SQL Server 和 SM-as 非統一存取</block>
   <block id="3ef2650b3e4d89df6ea0248f432e6c2c" category="paragraph">非統一存取網路表示每部主機只能存取本機儲存系統上的連接埠。SAN 不會延伸至站台（或同一站台內的故障網域）。</block>
   <block id="7c58b14cf1e27ff24a5b6a0656848380" category="summary">Microsoft SQL Server 和 SnapMirror 主動式同步</block>
-  <block id="a87e788e43169f3df56a7eee4e9bd79c" category="doc">SQL Server 和 SnapMirror 主動式同步</block>
   <block id="64affc06244780af1f97a68438460989" category="paragraph">SnapMirror 主動式同步功能可讓個別 SQL Server 資料庫和應用程式在儲存設備和網路中斷期間繼續作業、並可透過透明的儲存容錯移轉、無需任何手動介入。</block>
   <block id="0a19f1ca74616d0d4972b2c02c3f7fee" category="paragraph">從 ONTAP 9 。 15.1 開始、 SnapMirror 主動式同步除了支援現有的非對稱組態之外、還支援對稱式主動 / 主動式架構。對稱式主動 / 主動式功能可提供同步雙向複寫、以利業務持續運作和災難恢復。它可協助您保護關鍵 SAN 工作負載的資料存取、同時跨多個故障網域同時讀寫資料、確保不中斷營運、並將災難或系統故障期間的停機時間降至最低。</block>
   <block id="d17dae030927ab027095c1e44df8fbf1" category="paragraph">SQL Server 主機使用光纖通道（ FC ）或 iSCSI LUN 存取儲存設備。在每個託管複寫資料複本的叢集之間進行複寫。由於此功能是儲存層級複寫、因此在獨立主機或容錯移轉叢集執行個體上執行的 SQL Server 執行個體可以執行任何叢集的讀取 / 寫入作業。有關規劃和組態步驟、請參閱<block ref="44f5d8051247437425911d96f84db248" category="inline-link-macro-rx"></block>。</block>
-  <block id="3fa280b2a8840046be265109ff9f0696" category="section-title">具有對稱主動 / 主動式的 SnapMirror 主動式架構</block>
-  <block id="a93a13dd139e6bb0629cd0ace446c595" category="paragraph"><block ref="a93a13dd139e6bb0629cd0ace446c595" category="inline-image-macro-rx" type="image"></block></block>
   <block id="b2f689709f901a51858096aaf9637eb4" category="paragraph">** 同步複寫 **</block>
   <block id="71ed2e619a97a27f6fe533714a412725" category="paragraph">在正常作業中、每個複本都是 RPO=0 同步複本、但有一個例外。如果資料無法複寫、 ONTAP 將釋出複寫資料的需求、並在另一個站台上的 LUN 離線時、繼續在一個站台上提供 IO 服務。</block>
   <block id="331b5c7e8c01ec1e37b60de5a5efba6c" category="paragraph">** 儲存硬體 **</block>
-  <block id="c2048364072b2c53688aeb273047e068" category="paragraph">** ONTAP 調解器 **</block>
   <block id="588068838f06fe39dec548e2210ddf2f" category="paragraph">ONTAP Mediator 是從 NetApp 支援下載的軟體應用程式、通常部署在小型虛擬機器上。ONTAP Mediator 不是一種斷路器。它是參與 SnapMirror 主動同步複寫之兩個叢集的替代通訊通道。自動化作業由 ONTAP 根據合作夥伴透過直接連線和協調員所收到的回應來驅動。</block>
   <block id="6fda40460e9cbbefd704b9c01ea2c18c" category="summary">Microsoft SQL Server 和 SM 做為慣用站台</block>
   <block id="ac420a2d1b21182a80148191683bc9f7" category="paragraph">SnapMirror 主動式同步處理行為是對稱的、但有一個重要的例外是偏好的站台組態。</block>
-  <block id="309d61d5c343d8fd53c2c585c64587b6" category="doc">Microsoft SQL Server 搭配 SnapMirror 主動式同步</block>
   <block id="3ccf31c781c6df95109107d66199a8f6" category="section-title">SQL Server 獨立執行個體</block>
   <block id="bd53ef250bf6f7a012cc7ed01c62f8cd" category="inline-link-macro">ONTAP 上的 SQL Server</block>
   <block id="d0d5aa4f66a3624a91ad4b11bbc2250f" category="paragraph">檔案配置和伺服器組態的最佳實務做法與文件中建議的做法相同<block ref="c89905de54b32eb552c83786b7590df9" category="inline-link-macro-rx"></block>。</block>
   <block id="a489ffed938ef1b9e86889bc413501ee" category="inline-link-macro">統一</block>
   <block id="ee289d07b4c3d14dcc9cc162df065f99" category="paragraph">有了獨立安裝程式、 SQL Server 只能在一個站台上執行。可能<block ref="b88135502d93a28469d0c520f73e7e7d" category="inline-link-macro-rx"></block>會使用存取權。</block>
   <block id="50c137c2af8db8930fd9881b4ece5d99" category="inline-image-macro">具有統一存取的單一主機</block>
-  <block id="60ee5124219a8203e5bacd7d5a1f38fa" category="paragraph"><block ref="60ee5124219a8203e5bacd7d5a1f38fa" category="inline-image-macro-rx" type="image"></block></block>
   <block id="327efeeabe7ad30552ef39a61284b93b" category="paragraph">在統一存取的情況下、任一站台的儲存設備故障都不會中斷資料庫作業。包含資料庫伺服器的站台發生完整的站台故障、當然會導致停機。</block>
   <block id="5bc465d840f8a329d264340f938ab253" category="paragraph">有些客戶可以使用預先設定的 SQL Server 安裝程式來設定在遠端站台上執行的作業系統、並以與正式作業執行個體相同的建置版本進行更新。容錯移轉需要在替代站台上啟動該 SQL Server 獨立執行個體、探索 LUN 、以及啟動資料庫。完整程序可透過 Windows PowerShell Cmdlet 自動化、因為儲存端不需要任何作業。</block>
   <block id="ea7bbefe18f9ad7af62904dd6da19c33" category="inline-link-macro">不一致</block>
@@ -5270,7 +5199,6 @@
   <block id="21fd4631916f5c0e63ef67f98d413d6a" category="paragraph">SQL Server 容錯移轉執行個體也可以裝載在實體伺服器或虛擬伺服器上執行的 Windows 容錯移轉叢集上、做為客體作業系統。這種多主機架構可提供 SQL Server 執行個體和儲存恢復能力。這類部署在尋求健全容錯移轉程序、同時維持強化效能的高需求環境中非常有用。在容錯移轉叢集設定中、當主機或主要儲存設備受到影響時、 SQL Services 會容錯移轉至次要主機、同時次要儲存設備也可用於 IO 。無需自動化指令碼或系統管理員介入。</block>
   <block id="58daef667c5e83ded89d712a683c532b" category="summary">Microsoft SQL Server 和 SM-as 統一存取</block>
   <block id="b8c5c455d22a62b43bd58615af0a569e" category="paragraph">統一存取網路意味著主機可以存取兩個站台（或同一個站台內的故障網域）上的路徑。</block>
-  <block id="b7986b8213ecdd63004689cc2dedb163" category="doc">使用 SnapMirror 進行 Microsoft SQL Server 災難恢復</block>
   <block id="fdbd6bb11fa9bf15b9e53c8f359e821c" category="list-text">如果使用 SMB 、目的地 SVM 必須是來源 SVM 所屬 Active Directory 網域的成員、如此一來、在從災難恢復期間、 NAS 檔案中儲存的存取控制清單（ ACL ）就不會中斷。</block>
   <block id="d5a7d81e3f495111d65621aede2e26a4" category="list-text">不需要使用與來源 Volume 名稱相同的目的地 Volume 名稱、但可讓將目的地 Volume 掛載至目的地的程序更容易管理。如果使用 SMB 、您必須在來源命名空間的路徑和目錄結構中、使目的地 NAS 命名空間相同。</block>
   <block id="4dd0779e2b7f46c37eb5ec38cdde3bb6" category="list-text">在需要快速資料恢復的情況下使用同步複寫、而非同步解決方案則可在 RPO 中靈活運用。</block>
@@ -5545,7 +5473,6 @@
   <block id="6be050126f2df5ae7cd944ce446241c2" category="paragraph">如果無法接受 30 秒的逾時、您可以選擇延長租用期。</block>
   <block id="38d530634a8d32e8775a37109fc08542" category="paragraph">如果您想要將租用逾時延長至 60 秒，以因應 60 秒的網路中斷，您也必須增加寬限期。這表示您將會在控制器容錯移轉期間經歷更長的 IO 暫停時間。</block>
   <block id="ac76821692fdb2dae1d98babe804fb8f" category="paragraph">這通常不是問題。一般使用者每年只會更新 ONTAP 控制器一或兩次、而且由於硬體故障而造成的非計畫性容錯移轉極少。此外、如果您的網路發生 60 秒網路中斷的可能性、而您需要將租用逾時時間延長至 60 秒、那麼您可能不會反對罕見的儲存系統容錯移轉、導致暫停時間也達 61 秒。您已確認網路暫停超過 60 秒、而且速度較快。</block>
-  <block id="73f7848a74f8a1b6c78ac0dfbca44874" category="searchtitle">使用 NetApp 管理軟體保護 Microsoft SQL Server 資料</block>
   <block id="3a80e1e29c96d0837b12aef65785a41a" category="doc">組態參數</block>
   <block id="4bb9f72180425717a416a5037a100cca" category="searchtitle">MySQL 和 InnoDB 檔案結構</block>
   <block id="9a41c04f55c43c1bfac6d1e3fb0992de" category="doc">NFSv3 插槽表</block>
@@ -5634,7 +5561,6 @@
   <block id="d4b27e1b61577e2e3dfeebd3b8129da5" category="list-text">避免在主機之間共用磁碟區。例如、雖然可以在單一磁碟區中建立 2 個 LUN 、並將每個 LUN 共用至不同的主機、但這應該避免、因為這樣可能會使管理複雜化。在同一主機上執行多個 SQL Server 執行個體的情況下，除非您接近節點上的磁碟區限制，否則請避免共用磁碟區，而每個主機的每個執行個體都有個別的磁碟區，以便於進行資料管理。</block>
   <block id="e3ea9105e22caf8aa06aee0279a968bb" category="list-text">適當時、請設定 Volume 自動調整大小原則、以協助避免空間不足的情況。</block>
   <block id="72a9733bd5929d30a93ea680e0c3fad1" category="list-text">將資料庫次要檔案（作為檔案群組的一部分）放置在不同的磁碟區、可改善 SQL Server 資料庫的效能。只有當資料庫的檔案未與任何其他檔案共用其 LUN<block ref="937f38432beb92fdba3d47780720bdf7" prefix=" " category="inline-code"></block> 時、此分隔才有效<block ref="937f38432beb92fdba3d47780720bdf7" prefix=" " category="inline-code"></block>。</block>
-  <block id="5962130d833e0408cf58a87e342bc1f9" category="searchtitle">Microsoft SQL Server tempdb 檔案</block>
   <block id="82d9655a27436534991360ea4c0dc680" category="paragraph">Tempdb 資料庫可能會過度使用。除了在 ONTAP 上最佳放置使用者資料庫檔案之外， tempdb 資料檔案放置位置也是減少分配爭用的關鍵。tempdb 應放置在不同的磁碟上，而非與使用者資料檔案共用。</block>
   <block id="5c4a7832da0e9f8799089fdc985bb9b3" category="list-text">應以相同大小建立 tempdb 資料檔</block>
   <block id="20453a1c8627ad0bc536be210636fa41" category="paragraph">下列範例指令碼會建立八個大小相同的 tempdb 檔案，並將 tempdb 移至 SQL Server 2012 及更新版本的裝載點，以修改 tempdb<block ref="ae6fbe62f3ddc46fa9a9885244d23675" prefix=" " category="inline-code"></block> 。</block>
@@ -5961,4 +5887,84 @@
   <block id="e867f73e9a09d015c82be5c45264cda9" category="paragraph">VVols 是儲存在 vVols 資料存放區中的實際虛擬機器檔案和磁碟。使用術語 vVol （奇異）是指單一特定檔案、 LUN 或命名空間。ONTAP 會根據資料存放區使用的傳輸協定、建立 NVMe 命名空間、 LUN 或檔案。有幾種不同類型的 vVols ；最常見的是 Config （其中只有一個使用 VMFS ，其中包含 VM VMX 檔案等中繼資料檔案）， Data （虛擬磁碟或 VMDK ）和 Swap （在 VM 開機時建立）。受 VMware VM 加密保護的 vVols 類型為 other 。VMware VM 加密不應與 ONTAP Volume 或 Aggregate 加密混淆。</block>
   <block id="f615a85ee8b4ffd3bdd64ab72c2cf934" category="paragraph">如上所述，使用原則可協助簡化 VM 或 VMDK 的資源配置工作。只要選取適當的原則， VASA Provider 就會顯示支援該原則的 VVols 資料存放區，並將 VVol 置入符合法規的個別 FlexVol volume 。</block>
   <block id="d5938f26039c87ff0b18251b9b89e0ec" category="list-text">在單一磁碟區內或 ONTAP 叢集中的多個磁碟區之間快速建立複本、相較於傳統的 VAAI 複本、這是一項優勢。而且儲存效率也很高。磁碟區內的複製作業會使用 ONTAP 檔案複製、就像 FlexClone 磁碟區一樣、而且只會儲存來源 vVol 檔案 /LUN/ 命名空間的變更。因此、為了生產或其他應用程式的目的而建立的長期虛擬機器會迅速建立、佔用最少空間、並可從虛擬機器層級保護（使用適用於 VMware vSphere 的 NetApp SnapCenter 外掛程式、 VMware 託管快照或 VADP 備份）和效能管理（搭配 ONTAP QoS ）中獲益。VVols 的跨磁碟區複製速度比 VAAI 備份 VASA 快得多，我們可以建立複本，並在複本完成之前，允許在目的地存取複本。資料區塊會以背景程序複製，以填入目的地 vVol 。這類似於 ONTAP 不中斷運作的 LUN 移動對傳統 LUN 的運作方式。</block>
+  <block id="5c2620ed6abb266a7824246fc409e405" category="admonition">如果磁碟區是完整配置的，則必須注意完全停用該磁碟區的所有效率功能，包括使用命令解壓縮及移除重複資料刪除<block ref="3cfeff511a11b8c5f54ce9749a719a58" prefix=" " category="inline-code"></block>。輸出中不應出現 Volume<block ref="df899f2d908ec33afe1d01ee26b3dd47" prefix=" " category="inline-code"></block> 。如果有、則磁碟區仍會部分設定為使用效率功能。因此、覆寫保證會以不同的方式運作、這會增加組態超視導致磁碟區意外用盡空間的機會、進而導致資料庫 I/O 錯誤。</block>
+  <block id="d276d666f03c049a59433c8727efaa6e" category="paragraph">在 Linux 環境中、在整個磁碟機裝置上建立邏輯磁碟區群組。當需要磁碟分割時，請執行並驗證每個磁碟分割的開頭是否為八個的倍數，以檢查對齊<block ref="ab425294b9ef9f9c8acbc3f08f92b37d" prefix=" " category="inline-code"></block>。這表示分割區從八個 512 位元組磁區的倍數開始、即 4KB 。</block>
+  <block id="e23f5b5639a79ab22ace94b51b47872d" category="paragraph"><block ref="e23f5b5639a79ab22ace94b51b47872d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="39e45e79eb595c951cff8267572302f1" category="inline-image-macro">SyncMirror 組態</block>
+  <block id="8c91b2538377a2c3400ec4694ba15e2e" category="paragraph"><block ref="8c91b2538377a2c3400ec4694ba15e2e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="073b52a996437eabf93f7783b02e2fe9" category="paragraph">此<block ref="fe3ee14511b9b1e5dfd5af1f82ac3216" category="inline-link-macro-rx"></block>軟體可在第三個站台上執行，以監控 MetroCluster 環境的健全狀況，傳送通知，並在災難情況下強制切換。您可以在上找到<block ref="2acc94a061be1196588f7f734d193bf6" category="inline-link-macro-rx"></block>有關 tiebreaker 的完整說明，但 MetroCluster tiebreaker 的主要用途是偵測站台遺失。它還必須區分站台遺失和連線中斷。例如、不應因為斷路器無法到達主要站台而進行切入、這就是為什麼斷路器也會監控遠端站台與主要站台聯絡的能力。</block>
+  <block id="007bfe897ab1dfc6713daff4c13130e2" category="admonition">當強制切入時， MCTB 軟體無法驗證 NVRAM 是否與 / 或叢同步。如果已設定自動切換、則應在維護活動期間停用、導致 NVRAM 或 SyncMirror 叢同步中斷。</block>
+  <block id="d5e917df8e0b7f1db3996ead2cbeb2ac" category="paragraph">ONTAP Mediator 可搭配 MetroCluster IP 和某些其他 ONTAP 解決方案使用。它是一項傳統的斷路器服務，就像上述的 MetroCluster tiebreaker 軟體一樣，但也包含一項重要功能，即執行自動無人值守的移除。</block>
+  <block id="bf74d7de09985a8ef553e5122b5d0f7c" category="inline-image-macro">ClusterLion 圖表</block>
+  <block id="0354d54d7a567ab0e86cd8a04f4919a1" category="paragraph"><block ref="0354d54d7a567ab0e86cd8a04f4919a1" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="0db380344593268d0331dffbd0e53491" category="inline-image-macro">MetroCluster IP 架構</block>
+  <block id="207f169ffa50efdada53e61e95be500f" category="paragraph"><block ref="207f169ffa50efdada53e61e95be500f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="d012707a79628e35e35aa78aae04ba03" category="inline-image-macro">四節點 MetroCluster</block>
+  <block id="d2d10d2707ff9930a55b8735ba28ca8b" category="paragraph"><block ref="d2d10d2707ff9930a55b8735ba28ca8b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f76fa4fd08c3d58e5591281c16d5c61b" category="inline-image-macro">雙節點 MetroCluster</block>
+  <block id="4cc7f7e2eae466068330e3136b2e786f" category="paragraph"><block ref="4cc7f7e2eae466068330e3136b2e786f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="57d3154f4afcd986d4f30b4e06c1c434" category="paragraph">ONTAP Flexible Volume （或更簡單地說，磁碟區）與 LUN 並不等同。Volume 是管理容器、用於儲存檔案或 LUN 等資料。例如、資料庫可能放置在 8-LUN 等量磁碟區集上、而所有 LUN 都包含在單一磁碟區中。</block>
+  <block id="05ef9b22209f0e35efc9b6f875ad3c55" category="inline-link-macro">ONTAP 文件。</block>
+  <block id="a9f5ed6c3fb24e75b9bbfde2801f43c5" category="paragraph">如需快照的詳細資訊，請參閱<block ref="8f47a9b0ccec19c7f5d940ab138ea0b4" category="inline-link-macro-rx"></block></block>
+  <block id="7509bd2cfd7821f433d962315cc50a57" category="paragraph">從 ONTAP 9.12.1 開始，快照不只是唯讀的，也能防止意外或刻意刪除。此功能稱為防竄改快照。您可以透過快照原則設定及強制執行保留期間。產生的快照必須等到到期日才會刪除。沒有系統管理或支援中心覆寫。</block>
+  <block id="287130f9ebd13d6ed68dd04d8d2a295e" category="admonition">防竄改快照無法使用 Fabric Pool 進行階層式管理。</block>
+  <block id="c2f55c662895ff4fac4100a2a0852e43" category="paragraph">如需防竄改快照的詳細資訊，請參閱<block ref="fd5bfd16d2f3d4d67a500529a5ee8cad" category="inline-link-macro-rx"></block></block>
+  <block id="be7dc70d98bcb6099a5c94c0eb263502" category="paragraph">快照也可以複寫到遠端系統。這包括防竄改快照，在遠端系統上套用及強制執行保留期間。因此資料保護效益與本機快照相同、但資料位於第二個儲存陣列上。如此可確保原始陣列的毀損不會影響備份。</block>
+  <block id="170814cc5599dd2691018c487b6c756b" category="paragraph">如需 SnapMirror 的詳細資訊，請參閱<block ref="3a921b7bc4d1ecfb45f8d64003b59241" category="inline-link-macro-rx"></block></block>
+  <block id="f1e054edf08e67911f64f3d6bc85055c" category="paragraph">新設定的 ONTAP 儲存系統類似於新佈建的 VMware ESX 伺服器、因為在建立虛擬機器之前、兩者都無法支援任何使用者。透過 ONTAP 、您可以建立儲存虛擬機器（ SVM ）、成為最基本的儲存管理單元。每個 SVM 都有自己的儲存資源、傳輸協定組態、 IP 位址和 FCP WWN 。這是 ONTAP 多租戶共享的基礎。</block>
+  <block id="9f531561663c2d70601e59d0a2a97e22" category="paragraph">如需 SVM 的詳細資訊，請參閱<block ref="49f63552efbf93d6a834173c0aa523ad" category="inline-link-macro-rx"></block></block>
+  <block id="7995495e3afeef685b0a0bcf51360d6c" category="paragraph">如需管理存取控制的詳細資訊，請參閱<block ref="a0740fbcbe9ba6690a7ab99ab89cd2c9" category="inline-link-macro-rx"></block></block>
+  <block id="19fd31cbf45473230fbcebf8392cc91e" category="section-title">多因素驗證（ MFA ）</block>
+  <block id="96654aef2c50a23153b1537b5229776f" category="paragraph">如需更多關於多因素驗證（ MFA ）的資訊，請參閱<block ref="1786169af27633b737f29186948225e1" category="inline-link-macro-rx"></block></block>
+  <block id="e888b1b74bec5238c3c604159ac1d53a" category="paragraph">如需 API RBAC 的詳細資訊，請參閱<block ref="e61ba9faf8dbe169378ea875c9b479b4" category="inline-link-macro-rx"></block></block>
+  <block id="6e09a67fb21def2cb508cbfe0d7c0794" category="paragraph">如需更多有關多重管理驗證（ MAV ）的資訊，請參閱<block ref="88147b7c4319c7463e1de20879284ceb" category="inline-link-macro-rx"></block></block>
+  <block id="d682e5055f8368ad42d44e0de5e75ed3" category="inline-image-macro">SnapMirror 作用中同步正常作業</block>
+  <block id="a61d348ee21d7fdf1a9da822a79df846" category="paragraph"><block ref="a61d348ee21d7fdf1a9da822a79df846" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3fe281f607d85b52408e82cb2d7aef71" category="inline-image-macro">SnapMirror 作用中同步失敗</block>
+  <block id="c5ff28a15762db1ce9589bc45fe42a83" category="paragraph"><block ref="c5ff28a15762db1ce9589bc45fe42a83" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a98433bfbc9755650778888be2e155c8" category="inline-image-macro">SnapMirror 主動式同步容錯移轉</block>
+  <block id="5fe2be834f0686a9a02a2872ecb20f91" category="paragraph"><block ref="5fe2be834f0686a9a02a2872ecb20f91" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="40685542fb725d5516910c5721538340" category="inline-image-macro">SnapMirror 主動式同步修復</block>
+  <block id="67e60a13c39559320bab1f6f456824d0" category="paragraph"><block ref="67e60a13c39559320bab1f6f456824d0" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="217536ed57b639cdf05f688cf8ddaca1" category="inline-image-macro">SnapMirror 作用中同步容錯回復</block>
+  <block id="362b862a6b72622be34b2904dcbf413b" category="paragraph"><block ref="362b862a6b72622be34b2904dcbf413b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f060f17ec7a3fc2a182a4759545d4cb3" category="paragraph"><block ref="f060f17ec7a3fc2a182a4759545d4cb3" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="3d25a1eebebf538e68ea79a21fdeb31c" category="paragraph"><block ref="3d25a1eebebf538e68ea79a21fdeb31c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="1cf9d22584fea5a10f4ed164a871a45f" category="paragraph"><block ref="1cf9d22584fea5a10f4ed164a871a45f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="4be3d396256a7548ce446a9a03183122" category="paragraph"><block ref="4be3d396256a7548ce446a9a03183122" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="05933557921f3e80d9d78fff7d9532d6" category="paragraph"><block ref="05933557921f3e80d9d78fff7d9532d6" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="2a5e066e529edd11b35f46c161170620" category="paragraph">相反地、叢集式應用程式（例如 Oracle RAC ）可提供在兩個不同站台同時可用的服務。失去站台並不代表整個應用程式服務都會遺失。執行個體仍可在仍正常運作的站台上執行。</block>
+  <block id="d629eadf33041c24ee81c3752a895f8d" category="paragraph"><block ref="d629eadf33041c24ee81c3752a895f8d" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="267017761cb9de7ce4e0ea9f0e078628" category="paragraph"><block ref="267017761cb9de7ce4e0ea9f0e078628" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="fd994146b555ce2a39038a16098a6e3e" category="list-text"><block ref="9df22f196a33acd0b372fe502de51211" prefix="" category="inline-code"></block>- 僅擷取隨機讀取的資料</block>
+  <block id="0c65a737281c49235c3058020e81f7b9" category="list-text"><block ref="8805d416ce540c5f2df34af5b18d742b" prefix="" category="inline-code"></block>- 擷取所有依序或隨機讀取的資料</block>
+  <block id="deea309eeb62f907bfa37ca436857255" category="list-text"><block ref="334c4a4c42fdb79d7ebc3e73b517e6f8" prefix="" category="inline-code"></block>- 擷取所有依序或隨機讀取的資料</block>
+  <block id="c4216ce97dadec9cf3de76609a5a07de" category="list-text"><block ref="a181a603769c1f98ad927e7367c7aa51" prefix="" category="inline-code"></block>- 請勿從容量層擷取資料</block>
+  <block id="47f64097ec44c9f18f4025941f2e4436" category="inline-image-macro">分層FabricPool</block>
+  <block id="0a5778c8b17c5df28190c8f022c4e11a" category="paragraph"><block ref="0a5778c8b17c5df28190c8f022c4e11a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="e6edcd80dc55ce70fb5c4fa1c13c9bc6" category="section-title">超執行緒</block>
+  <block id="7e4c522ec8e0c58e24f493765888ed54" category="paragraph">超執行緒是指同步多執行緒（ SMT ）實作，可改善在 x86 處理器上執行運算的平行化。Intel 和 AMD 處理器均提供 SMT 。</block>
+  <block id="4114d233d42e1381db8a36ed5a76930b" category="paragraph">超執行緒會產生邏輯 CPU ，在作業系統中顯示為實體 CPU 。SQL Server 接著會看到這些額外的 CPU 、並使用這些 CPU 、就好像核心數量比實際存在的數量還多。這可以透過增加平行化來大幅改善效能。</block>
+  <block id="fbb6d18b081bfa69df40139eb4b0213b" category="inline-image-macro">SQL Server 記錄訊息</block>
+  <block id="d78202a5fb91002bb31924c80636beee" category="paragraph"><block ref="d78202a5fb91002bb31924c80636beee" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="8f2b07811863589142fb500958a93aef" category="paragraph">雖然這對大型查詢很有幫助、但可能會造成效能問題並限制並行處理。更好的方法是將平行度限制在單一 CPU 插槽中的實體核心數量。例如，在具有兩個實體 CPU 插槽，每個插槽有 12 個核心的伺服器上，無論超執行緒為何，都<block ref="1abedc5f6ab369ab9fcd16d6b7990638" prefix=" " category="inline-code"></block>應該設定為 12 。<block ref="1abedc5f6ab369ab9fcd16d6b7990638" prefix=" " category="inline-code"></block>無法限制或指定要使用的 CPU 。而是限制單一批次查詢可以使用的 CPU 數量。</block>
+  <block id="2bcdfd16d227f0659d58f9c368f92311" category="inline-link-macro">設定最大工作執行緒伺服器組態選項</block>
+  <block id="784d03ae991a0cc4ef7f8b5318d0643e" category="paragraph">何時應設定 SQL Server 使用更多工作執行緒？如果每個排程器的平均工作佇列長度超過 1 、您可能會因為在系統中新增更多執行緒而受益、但前提是負載未受 CPU 限制或遇到任何其他繁重的等待。如果發生上述任一種情況、新增更多執行緒並不會有幫助、因為它們最終會等待其他系統瓶頸。如需工作者執行緒上限的詳細資訊，請參閱<block ref="516f4431a9f331f442450f80b5638a9d" category="inline-link-macro-rx"></block>。</block>
+  <block id="a5ee78f6f06a355d893076bd00799f33" category="inline-image-macro">最大工作執行緒數</block>
+  <block id="06a7934dd21e03f634b6cd9fc8dfafd5" category="paragraph"><block ref="06a7934dd21e03f634b6cd9fc8dfafd5" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c7acc2cdcff9c9156a99e4f37871f0b3" category="searchtitle">使用 SnapCenter 和 T-SQL 命令保護 ONTAP 上的 Microsoft SQL Server 資料庫</block>
+  <block id="d56a13248537a908d7fb7730827a3ea8" category="paragraph">保護 SQL Server 資料庫環境是一項多層面的工作，不只是管理資料庫本身而已。ONTAP 提供數項獨特功能、旨在保護資料庫基礎架構的儲存層面。</block>
+  <block id="1fdd8a4c4832d13ddabbb02c424cf87d" category="paragraph">如果在切換之前、主控虛擬化資料庫的磁碟區、檔案系統和資料存放區並未在災難恢復站台上使用、則不需要在相關的磁碟區上設定<block ref="a2626552f293b2377efe829e69d14daa" prefix=" " category="inline-code"></block>。</block>
+  <block id="358f73eb3e0830400b47b849dd1ff244" category="summary">Microsoft SQL Server 和 ONTAP Mediator</block>
+  <block id="d7b47db08dce16a62f9ea97613e8f704" category="paragraph">安全地自動化容錯移轉需要 Mediator 。理想情況下、它會放置在獨立的第三站台、但如果與參與複寫的叢集之一共存、則仍能滿足大多數需求。</block>
+  <block id="f9619e52c7cdde4c0b1a97530a47dd35" category="section-title">SnapMirror 主動式與對稱式主動 / 主動式同步的架構</block>
+  <block id="19faeb7ab81d5f28227fc1778d55ff90" category="inline-image-macro">SnapMirror 主動同步架構</block>
+  <block id="133eca4b24d6c05606859c2288c8ac7f" category="paragraph"><block ref="133eca4b24d6c05606859c2288c8ac7f" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="441756ba9f536a754940c70c53cb3b13" category="paragraph">** ONTAP 調解器 **</block>
+  <block id="b41efcb6893de373f77e07be9a8e0d32" category="paragraph"><block ref="b41efcb6893de373f77e07be9a8e0d32" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="f830e7995cd120ac203db751bdb1174b" category="paragraph">NetApp 提供 Astra Trident 、可提供進階的儲存管理功能。例如、 Astra Trident 可讓在 Kubernetes 中建立的容器自動在適當的層級上配置儲存設備、套用匯出原則、設定快照原則、甚至將一個容器複製到另一個容器。如需其他資訊，請參閱<block ref="d243cca937364184efa824b0525b876a" category="inline-link-macro-rx"></block>。</block>
+  <block id="e5f3f995b3e054f0d6bfdd13c3597e2c" category="paragraph"><block ref="e5f3f995b3e054f0d6bfdd13c3597e2c" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="9b87cb3e85b59ad2d04537560673f94b" category="inline-image-macro">I/O 類型</block>
+  <block id="977d1017b39374152ac0d18ac3267ca2" category="paragraph"><block ref="977d1017b39374152ac0d18ac3267ca2" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="77ea00d93c10244a077ab55be57f5c28" category="admonition">您可以將此參數或 InnoDB_IO_capACure_max 參數設定得太高且浪費，嚴重損害效能</block>
 </blocks>

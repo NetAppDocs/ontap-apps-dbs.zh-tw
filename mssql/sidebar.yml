@@ -13,50 +13,81 @@ entries:
     url: "/mssql/mssql-memory-configuration.html"
   - title: 共享執行個體與專用執行個體
     url: "/mssql/mssql-shared-vs-dedicated.html"
-- title: 儲存組態
-  pdf-filename: Microsoft SQL Server 的儲存組態
+  - title: tempdb 檔案
+    url: "/mssql/mssql-tempdb.html"
+- title: AFF / FAS 系統上的儲存組態
+  pdf-filename: AFF / FAS 系統上的 Microsoft SQL Server
   entries:
   - title: 總覽
     url: "/mssql/mssql-storage-considerations.html"
   - title: 資料庫檔案和檔案群組
     url: "/mssql/mssql-files-and-filegroups.html"
-  - title: 記錄目錄
-    url: "/mssql/mssql-log-directory.html"
-  - title: tempdb 檔案
-    url: "/mssql/mssql-tempdb.html"
   - title: 儲存效率
     url: "/mssql/mssql-storage-efficiency.html"
-- title: 資料保護
-  url: "/mssql/mssql-data-protection.html"
-- title: 災難恢復
-  entries:
-  - title: 總覽
-    url: "/mssql/mssql-disaster-recovery.html"
-  - title: SnapMirror
-    url: "/mssql/mssql-dr-snapmirror.html"
-  - title: MetroCluster
-    entries:
-    - title: MetroCluster 架構
-      url: "/mssql/mssql-dr-mcc-overview.html"
-    - title: SQL Server 搭配 MetroCluster
-      url: "/mssql/mssql-dr-mcc-sql.html"
-  - title: SnapMirror 主動同步
+  - title: 資料保護
+    url: "/mssql/mssql-data-protection.html"
+  - title: 災難恢復
     entries:
     - title: 總覽
-      url: "/mssql/mssql-dr-smas-overview.html"
-    - title: 資訊媒體ONTAP
-      url: "/mssql/mssql-dr-smas-mediator.html"
-    - title: 偏好的網站
-      url: "/mssql/mssql-dr-smas-preferred-site.html"
-    - title: 網路拓撲
+      url: "/mssql/mssql-disaster-recovery.html"
+    - title: SnapMirror
+      url: "/mssql/mssql-dr-snapmirror.html"
+    - title: MetroCluster
       entries:
-      - title: 統一存取
-        url: "/mssql/mssql-dr-smas-uniform.html"
-      - title: 不一致的存取
-        url: "/mssql/mssql-dr-smas-nonuniform.html"
-    - title: SQL Server 搭配 SM
-      url: "/mssql/mssql-dr-smas-sql.html"
-    - title: 故障案例
-      url: "/mssql/mssql-dr-smas-failure-scenarios.html"
+      - title: MetroCluster 架構
+        url: "/mssql/mssql-dr-mcc-overview.html"
+      - title: SQL Server 搭配 MetroCluster
+        url: "/mssql/mssql-dr-mcc-sql.html"
+    - title: SnapMirror 主動同步
+      entries:
+      - title: 總覽
+        url: "/mssql/mssql-dr-smas-overview.html"
+      - title: 資訊媒體ONTAP
+        url: "/mssql/mssql-dr-smas-mediator.html"
+      - title: 偏好的網站
+        url: "/mssql/mssql-dr-smas-preferred-site.html"
+      - title: 網路拓撲
+        entries:
+        - title: 統一存取
+          url: "/mssql/mssql-dr-smas-uniform.html"
+        - title: 不一致的存取
+          url: "/mssql/mssql-dr-smas-nonuniform.html"
+      - title: SQL Server 搭配 SM
+        url: "/mssql/mssql-dr-smas-sql.html"
+      - title: 故障案例
+        url: "/mssql/mssql-dr-smas-failure-scenarios.html"
+- title: ASA R2 系統上的儲存組態
+  pdf-filename: ASA 系統上的 Microsoft SQL Server
+  entries:
+  - title: 總覽
+    url: "/mssql/mssql-storage-considerations-ASA.html"
+  - title: 資料庫檔案和檔案群組
+    url: "/mssql/mssql-files-and-filegroups-ASA.html"
+  - title: 資料保護
+    url: "/mssql/mssql-data-protection-ASA.html"
+  - title: 災難恢復
+    entries:
+    - title: 總覽
+      url: "/mssql/mssql-disaster-recovery-ASA.html"
+    - title: SnapMirror
+      url: "/mssql/mssql-dr-snapmirror-ASA.html"
+    - title: SnapMirror 主動同步
+      entries:
+      - title: 總覽
+        url: "/mssql/mssql-dr-smas-overview-ASA.html"
+      - title: 資訊媒體ONTAP
+        url: "/mssql/mssql-dr-smas-mediator-ASA.html"
+      - title: 偏好的網站
+        url: "/mssql/mssql-dr-smas-preferred-site-ASA.html"
+      - title: 網路拓撲
+        entries:
+        - title: 統一存取
+          url: "/mssql/mssql-dr-smas-uniform-ASA.html"
+        - title: 不一致的存取
+          url: "/mssql/mssql-dr-smas-nonuniform-ASA.html"
+      - title: SQL Server 搭配 SM
+        url: "/mssql/mssql-dr-smas-sql-ASA.html"
+      - title: 故障案例
+        url: "/mssql/mssql-dr-smas-failure-scenarios-ASA.html"
 - title: 資料安全
   url: "/mssql/mssql-data-security.html"

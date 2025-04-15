@@ -1,15 +1,12 @@
 ---
 sidebar: sidebar 
-permalink: mssql/mssql-dr-smas-uniform.html 
+permalink: mssql/mssql-dr-smas-uniform-ASA.html 
 keywords: MSSQL,SQL Server, SnapMirror active sync, SMBC, overview 
 summary: Microsoft SQL Server 和 SM-as 統一存取 
 searchtitle: Microsoft SQL Server 和 SM-as 統一存取 
 ---
 = 統一存取
-:hardbreaks:
 :allow-uri-read: 
-:icons: font
-:linkattrs: 
 :imagesdir: ../media/
 
 
@@ -17,6 +14,16 @@ searchtitle: Microsoft SQL Server 和 SM-as 統一存取
 統一存取網路意味著主機可以存取兩個站台（或同一個站台內的故障網域）上的路徑。
 
 SM － as 的一項重要功能是能夠設定儲存系統、以瞭解主機的位置。將 LUN 對應至指定主機時、您可以指出 LUN 是否接近指定的儲存系統。
+
+NetApp ASA 系統可跨叢集上的所有路徑提供雙主動式多重路徑。這也適用於 SM-AS 組態。
+
+image:smas-uniform-SQL-ASA.png["SnapMirror Active Sync ASA 統一網路"]
+
+透過統一存取、 IO 就能跨越 WAN 。它是全網狀網路叢集，可能是或不適合所有使用案例。
+
+如果兩個站台相距 100 公尺、且具備光纖連線能力、則不應偵測到透過 WAN 的額外延遲、但如果站台相距很遠、則兩個站台的讀取效能都會受到影響。使用非統一存取網路的 ASA 可讓您選擇取得 ASA 的成本和功能效益，而不會造成跨站台延遲存取的影響，或是使用主機鄰近功能，讓兩個站台都能存取站台本機讀寫。
+
+採用低延遲組態的 ASA 具有兩項有趣的優點。首先、它基本上是 * 任何單一主機的效能加倍 * 、因為 IO 可以由兩倍多的控制器使用兩倍的路徑來提供服務。其次、在單一站台環境中、它提供極高的可用度、因為整個儲存系統可能會遺失、而不會中斷主機存取。
 
 
 
@@ -32,16 +39,6 @@ SM － as 的一項重要功能是能夠設定儲存系統、以瞭解主機的�
 
 如果沒有特殊警示點設定、則該主機會同時使用兩個儲存系統、因為這兩個儲存系統都會通告主動 / 最佳化的路徑。如果站台之間的 SAN 延遲和 / 或頻寬受到限制、這可能無法進行設計、您可能希望確保在正常作業期間、每個主機都優先使用本機儲存系統的路徑。這是透過將主機 WWN/iSCSI ID 新增至本機叢集做為近端主機來設定的。這可以在 CLI 或 SystemManager 上完成。
 
+設定主機鄰近時，路徑會如下所示。
 
-
-== AFF
-
-在 AFF 系統中、設定主機鄰近時、路徑會如下所示。
-
-image:smas-uniform-aff.png["SnapMirror Active Sync AFF 統一網路"]
-
-在正常作業中、所有 IO 都是本機 IO 。從本機儲存陣列提供讀取和寫入服務。寫入 IO 當然也需要由本機控制器複寫到遠端系統、然後才會被確認、但所有讀取 IO 都會在本機上提供服務、而且不會因在站台之間瀏覽 SAN 連結而產生額外延遲。
-
-只有當所有主動 / 最佳化路徑都遺失時、才會使用非最佳化路徑。例如、如果站台 A 上的整個陣列失去電力、站台 A 的主機仍能存取站台 B 上陣列的路徑、因此仍可繼續運作、雖然延遲會較高。
-
-由於簡單起見、本機叢集有多個備援路徑未顯示在這些圖表中。ONTAP 儲存系統本身就是 HA 、因此控制器故障不應導致站台故障。只會導致受影響網站上使用本機路徑的變更。
+image:smas-uniform-SQL-ASA-Proximity.png["SnapMirror Active Sync ASA 與鄰近環境的統一網路連線"]

@@ -23,7 +23,6 @@ NetApp 假設讀者具備下列工作知識：
 
 * ONTAP
 * Microsoft SQL Server 架構與管理
-* SnapCenter 備份軟體、包括下列元件：
 * NetApp SnapCenter 做為備份軟體、包括：
 +
 ** 適用於Microsoft Windows的解決方案SnapCenter

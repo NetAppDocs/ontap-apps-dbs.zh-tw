@@ -31,6 +31,9 @@ NOTE: 防竄改快照無法使用 Fabric Pool 進行階層式管理。
 如需防竄改快照的詳細資訊，請參閱link:https://docs.netapp.com/us-en/ontap/snaplock/snapshot-lock-concept.html["ONTAP 文件。"]
 
 
+NOTE: 在新的 ASA 平台中，使用 _Vault_ 原則將快照複寫到遠端叢集，然後鎖定目的地，使快照防竄改。
+
+
 
 == SnapMirror 複寫
 

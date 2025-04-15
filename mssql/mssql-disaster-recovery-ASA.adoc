@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: mssql/mssql-disaster-recovery-ASA.html 
+keywords: MSSQL,SQL Server, disaster recovery, snapmirror 
+summary: 使用 ONTAP 進行 Microsoft SQL Server 災難恢復 
+searchtitle: 使用 ONTAP 進行 Microsoft SQL Server 災難恢復 
+---
+= 災難恢復
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+企業資料庫和應用程式基礎架構通常需要複寫、才能在最短的停機時間內、避免自然災難或非預期的業務中斷。
+
+SQL Server 全年無休可用性群組複寫功能是絕佳的選項、 NetApp 提供多種選項、可將資料保護與全年無休整合。不過，在某些情況下，您可能會想要使用下列選項來考慮 ONTAP 複寫技術。
+
+
+
+== SnapMirror
+
+SnapMirror 技術提供快速靈活的企業解決方案、可在 LAN 和 WAN 上複寫資料。SnapMirror 技術只會在建立初始鏡射後、將變更的資料區塊傳輸到目的地、大幅降低網路頻寬需求。可以在同步或非同步模式中設定。NetApp ASA 中的 SnapMirror 同步複寫是使用 SnapMirror 作用中同步進行設定。
+
+
+
+== SnapMirror 主動同步
+
+對於許多客戶而言，業務持續運作不只需要擁有遠端資料複本，還需要能夠使用 SnapMirror Active Sync 在 NetApp ONTAP 中快速使用該資料
+
+有了 SnapMirror 主動式同步、您基本上擁有兩個不同的 ONTAP 系統、可維護 LUN 資料的獨立複本、但可以合作呈現該 LUN 的單一執行個體。從主機的角度來看、這是單一 LUN 實體。SnapMirror 主動式同步功能支援 iSCSI / FC 型 LUN 。
+
+SnapMirror 主動式同步可提供 RPO=0 複寫，而且在兩個個別叢集之間實作也很容易。一旦兩個資料複本同步，兩個叢集只需鏡射寫入即可。當某個叢集發生寫入時，它會複寫到另一個叢集。只有當兩個站台的寫入作業完成時，才會將寫入內容確認給主機。除了這種傳輸協定分割行為之外，這兩個叢集都是正常的 ONTAP 叢集。
+
+SMAS 的一個關鍵使用案例是精細複寫。有時候您不想將所有資料複寫為單一單元，或者您需要選擇性地容錯移轉特定工作負載。
+
+另一個用於 SM-AS 的重要使用案例是用於雙主動式作業，您想要在兩個不同位置的兩個不同叢集上提供完全可用的資料複本，而且效能特性相同，如果需要，也不需要在各個站台之間擴充 SAN 。您可以在兩個站台上執行應用程式，但前提是支援應用程式，因此可在容錯移轉作業期間降低整體 RTO 。

@@ -532,7 +532,6 @@
   <block id="0a01e6837f5c691536f0b6cbdd0232ec" category="inline-link-macro">TR-4015 ： ONTAP 9 的 SnapMirror 組態與最佳實務做法指南</block>
   <block id="1cca1a3fad8c6dd7e2dadbd2aa08bf07" category="paragraph">如需 SnapMirror 的詳細資訊、請參閱 <block ref="64b916f792bad525a069a243c092b62e" category="inline-link-macro-rx"></block>。</block>
   <block id="77641f4a3e4406855e878235cbd89b87" category="doc">CPU 組態</block>
-  <block id="673c216e20d1cf8827f347c01dace664" category="paragraph">此處的注意點是、每個 SQL Server 版本都有自己的運算能力限制。如需詳細資訊、請參閱依 SQL Server 版本計算容量限制。</block>
   <block id="cf0e2551e639758cc3c4d82df655eccd" category="inline-link-macro">SQL Server 2022 ：現代化的資料平台</block>
   <block id="809c9e1f6ce0bc82bf42fae361c6f43e" category="paragraph">因此、若要使用所有 CPU 、您應該使用每個處理器核心授權。如需 SQL Server 授權的詳細資訊、請參閱 <block ref="457abfaf1083b1cbfc49f2783069c6cd" category="inline-link-macro-rx"></block>。</block>
   <block id="cb8d56a3511d402b7355db8502a54c5a" category="section-title">CPU 親和性</block>
@@ -3154,7 +3153,6 @@
   <block id="9852487272d9b2aa9026d0fddc0616fc" category="sidebar">PostgreSQL 的儲存組態</block>
   <block id="bc237072428e0e4c415160b898946d4c" category="sidebar">PostgreSQL 的資料保護</block>
   <block id="3423582eed75b4bd6632c18238fd78e4" category="sidebar">Microsoft SQL Server 的資料庫組態</block>
-  <block id="6e97cf67ec5979ab5828852639efa208" category="sidebar">Microsoft SQL Server 的儲存組態</block>
   <block id="5a4517368fb2ab5498fc2108c2ea64c5" category="sidebar">Oracle 資料庫的資料庫組態</block>
   <block id="e483c0ecf3a2b1a60f886d4a5ac553ff" category="sidebar">Oracle 資料庫的主機組態</block>
   <block id="06b078afa802a679ad4694d13a8a2495" category="sidebar">Oracle 資料庫的網路組態</block>
@@ -5148,7 +5146,6 @@
   <block id="0add8d6e7be42a854cd7e0161c7f9bcc" category="paragraph">通常會為每個查詢建立個別的作業系統執行緒。如果數百個同時連線到 SQL Server 、則每個查詢的單執行緒組態可能會消耗過多的系統資源。此<block ref="a9233738c364090bbc418d8a0e08a79e" prefix=" " category="inline-code"></block>選項可讓 SQL Server 建立一個工作執行緒集區、以共同為大量查詢要求提供服務、進而協助改善效能。</block>
   <block id="29daf9697a41a463dbe76855a2053a87" category="paragraph">下列範例說明如何使用 T-SQL 設定最大工作執行緒選項。</block>
   <block id="7039e99a0fdcc0d3ef80074ed42bf4e4" category="paragraph">資料庫備份策略應以確定的業務需求為基礎、而非理論能力。透過結合 ONTAP 的 Snapshot 技術並運用 Microsoft SQL Server API 、無論使用者資料庫的大小為何、您都能快速進行應用程式一致的備份。如需更進階或橫向擴充的資料管理需求、 NetApp 提供 SnapCenter 。</block>
-  <block id="4cd6720df070a1784bae9c6f525f483d" category="admonition">* NetApp 建議 * 使用 SnapCenter 來建立 Snapshot 複本。以下所述的 T-SQL 方法也能正常運作、但 SnapCenter 提供完整的備份、還原及複製程序自動化功能。它也會執行探索、以確保建立正確的快照。不需要預先設定。</block>
   <block id="97e73fdb42ddecb63ed519a484ff3c9b" category="paragraph">SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立時快照中有正確的資料。在大多數情況下、唯一安全的方法是使用 SnapCenter 或 T-SQL 。在沒有這種額外協調的情況下建立的快照、可能無法可靠地恢復。</block>
   <block id="9d831cc4c73b8a2915ce6d8928d55915" category="paragraph">SQL Server 全年無休可用性群組複寫功能是絕佳的選項、 NetApp 提供多種選項、可將資料保護與全年無休整合。不過、在某些情況下、您可能會想要考慮使用 ONTAP 複寫技術。有三個基本選項。</block>
   <block id="dd432f8769e4d3db8acf8bf9df94680a" category="paragraph">SnapMirror 技術提供快速靈活的企業解決方案、可在 LAN 和 WAN 上複寫資料。SnapMirror 技術只會在建立初始鏡射後、將變更的資料區塊傳輸到目的地、大幅降低網路頻寬需求。可以在同步或非同步模式中設定。</block>
@@ -5214,7 +5211,6 @@
   <block id="87dfe44a851d25873ee6bd0691ac0c6e" category="paragraph">如果在安裝 SQL Server 的伺服器上設定 NUMA 、則不需要額外的組態、因為 SQL Server 可感知 NUMA 並在 NUMA 硬體上執行良好。</block>
   <block id="7cf384150f5c5317f48125af9bf68c31" category="paragraph">索引建立記憶體選項是另一個進階選項、通常不需要變更為預設值。</block>
   <block id="64e199b7fb089ffb63f4c4396bac2cd1" category="paragraph">根據預設， [ 每個查詢的最小記憶體 ] 設定會為每個要執行的查詢分配 &gt;= 至 1024KB 。最佳做法是將此設定保留為預設值、以便 SQL Server 能夠動態管理分配給索引建立作業的記憶體量。不過、如果 SQL Server 的 RAM 超過有效執行所需的容量、則如果您增加此設定、某些查詢的效能可能會大幅提升。因此、只要 SQL Server 、任何其他應用程式或作業系統未使用的伺服器上有可用的記憶體、則提升此設定有助於整體 SQL Server 效能。如果沒有可用的可用記憶體、增加此設定可能會影響整體效能。</block>
-  <block id="d4b44030b0eb9280a0e984cd6565e3b3" category="list-text">SnapCenter 備份軟體、包括下列元件：</block>
   <block id="95a3a11e77f5071b2a97b611548b866c" category="paragraph">本最佳實務做法一節的範圍僅限於根據 NetApp 建議的儲存基礎架構原則和偏好的標準進行技術設計。端點對端點實作超出範圍。</block>
   <block id="133dcf168b09b98ab4e6c6f77a743a14" category="paragraph">如需 NetApp 產品的相容性資訊，請參閱<block ref="18e7fcfe606d6d0912191de7fd9eb56a" category="inline-link-macro-rx"></block>。</block>
   <block id="961963c19132b001c6c7289519292be5" category="paragraph">部署 SQL Server 之前、您必須先瞭解 SQL Server 資料庫執行個體所支援之應用程式的工作負載需求。每個應用程式對於容量、效能和可用度的需求各不相同、因此每個資料庫都應該設計成能以最佳方式支援這些需求。許多組織會使用應用程式需求來定義 SLA 、將資料庫分類為多個管理層。SQL Server 工作負載通常分類如下：</block>
@@ -5967,4 +5963,81 @@
   <block id="9b87cb3e85b59ad2d04537560673f94b" category="inline-image-macro">I/O 類型</block>
   <block id="977d1017b39374152ac0d18ac3267ca2" category="paragraph"><block ref="977d1017b39374152ac0d18ac3267ca2" category="inline-image-macro-rx" type="image"></block></block>
   <block id="77ea00d93c10244a077ab55be57f5c28" category="admonition">您可以將此參數或 InnoDB_IO_capACure_max 參數設定得太高且浪費，嚴重損害效能</block>
+  <block id="04a3449528520ec35e2bce9c433ee1a4" category="admonition">在新的 ASA 平台中，使用 _Vault_ 原則將快照複寫到遠端叢集，然後鎖定目的地，使快照防竄改。</block>
+  <block id="c1a5c6240b77f4bda50ebb9ea018010b" category="paragraph"><block ref="c1a5c6240b77f4bda50ebb9ea018010b" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="a1fb4e9793df0c2c759586b0d4cc9a59" category="inline-link-macro">依 SQL Server 版本計算容量限制</block>
+  <block id="c637f2ccb4ed04efecb5d430f9b8e9fa" category="paragraph">此處的注意點是、每個 SQL Server 版本都有自己的運算能力限制。如需更多資訊、請參閱 <block ref="5f7d6b9101e39b0f89ce2a4419443b58" category="inline-link-macro-rx"></block>。</block>
+  <block id="027202a07b43ba49311d98b7812a6c84" category="searchtitle">使用 NetApp 管理軟體保護 Microsoft SQL Server 資料</block>
+  <block id="a6612611980ab8001eb37d9b0d21fc8b" category="list-text">使用新的備份群組和備份伺服器命令，在儲存單元上同時執行多個資料庫的快照。</block>
+  <block id="0dedd2c3e15900b4f533838e17976dab" category="list-text">如果資料庫工作負載橫跨多個儲存單元，請建立一致性群組以簡化管理工作。一致性群組是以單一單元管理的儲存單元集合。</block>
+  <block id="7f9d52f3748a3a0f2854076ed4952d80" category="admonition">* NetApp 建議 * 使用 SnapCenter 來建立 Snapshot 複本。上述 T-SQL 方法也能正常運作，但 SnapCenter 提供完整的備份，還原及複製程序自動化功能。它也會執行探索、以確保建立正確的快照。</block>
+  <block id="e158a020500bd25736fbcb79dbd57ef0" category="admonition">如果 SQL Server 資料庫是託管在 VMware 虛擬化環境中執行的虛擬磁碟上，請使用 SnapCenter 。如果資料庫裝載於裸機實體伺服器或來賓連線 SCSI 上，請使用 T-SQL Snapshot 命令備份資料庫。</block>
+  <block id="19f005706f432809f0c867f9d97c05b0" category="admonition">* NetApp 建議 * 使用 SnapCenter 來建立 Snapshot 複本。上述 T-SQL 方法也能正常運作，但 SnapCenter 提供完整的備份，還原及複製程序自動化功能。它也會執行探索、以確保建立正確的快照。不需要預先設定。</block>
+  <block id="88db39456c39e1de4d937d721ec1f2fc" category="doc">資料庫檔案與檔案群組</block>
+  <block id="2bcb2e2e60d655aca12a6062bc99f69c" category="section-title">資料庫執行個體檔案初始化</block>
+  <block id="44f4b94c8c1ceb120fb9fb9a843fbc0b" category="paragraph">SQL Server 全年無休可用性群組複寫功能是絕佳的選項、 NetApp 提供多種選項、可將資料保護與全年無休整合。不過，在某些情況下，您可能會想要使用下列選項來考慮 ONTAP 複寫技術。</block>
+  <block id="5698ceeb808e1afe078605b6dbb0a4cb" category="paragraph">SnapMirror 技術提供快速靈活的企業解決方案、可在 LAN 和 WAN 上複寫資料。SnapMirror 技術只會在建立初始鏡射後、將變更的資料區塊傳輸到目的地、大幅降低網路頻寬需求。可以在同步或非同步模式中設定。NetApp ASA 中的 SnapMirror 同步複寫是使用 SnapMirror 作用中同步進行設定。</block>
+  <block id="8d4bad202645c8ab15f054b63fe34160" category="paragraph">對於許多客戶而言，業務持續運作不只需要擁有遠端資料複本，還需要能夠使用 SnapMirror Active Sync 在 NetApp ONTAP 中快速使用該資料</block>
+  <block id="07b431b6fdd20fcb79eababc436bc39b" category="paragraph">有了 SnapMirror 主動式同步、您基本上擁有兩個不同的 ONTAP 系統、可維護 LUN 資料的獨立複本、但可以合作呈現該 LUN 的單一執行個體。從主機的角度來看、這是單一 LUN 實體。SnapMirror 主動式同步功能支援 iSCSI / FC 型 LUN 。</block>
+  <block id="2ae812ab75c34451d9dd11549d394f2a" category="paragraph">SnapMirror 主動式同步可提供 RPO=0 複寫，而且在兩個個別叢集之間實作也很容易。一旦兩個資料複本同步，兩個叢集只需鏡射寫入即可。當某個叢集發生寫入時，它會複寫到另一個叢集。只有當兩個站台的寫入作業完成時，才會將寫入內容確認給主機。除了這種傳輸協定分割行為之外，這兩個叢集都是正常的 ONTAP 叢集。</block>
+  <block id="1848ac209b4ee9b7c68bbc4a1711a45d" category="paragraph">另一個用於 SM-AS 的重要使用案例是用於雙主動式作業，您想要在兩個不同位置的兩個不同叢集上提供完全可用的資料複本，而且效能特性相同，如果需要，也不需要在各個站台之間擴充 SAN 。您可以在兩個站台上執行應用程式，但前提是支援應用程式，因此可在容錯移轉作業期間降低整體 RTO 。</block>
+  <block id="bdd8b094b65ec8544e0ad9724a1984ad" category="searchtitle">Microsoft SQL Server 和 SnapMirror 主動式同步容錯移轉</block>
+  <block id="3fc36a3b35bb877723ed17d69c3d57fb" category="summary">Microsoft SQL Server 和 ONTAP 中介</block>
+  <block id="b029689b71622a39b3564f8800798f34" category="paragraph"><block ref="b029689b71622a39b3564f8800798f34" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="5a2e2e33df9734d8ef57bcb93643d89a" category="paragraph">相反地、叢集式應用程式（例如 Oracle RAC ）可提供在兩個不同站台同時可用的服務。失去站台並不代表整個應用程式服務都會遺失。執行個體仍可在仍正常運作的站台上執行。</block>
+  <block id="a87e788e43169f3df56a7eee4e9bd79c" category="searchtitle">SQL Server 和 SnapMirror 主動式同步</block>
+  <block id="5181c0b41b072fc878e6ffdb78976292" category="paragraph">SnapMirror 主動式同步支援對稱式主動 / 主動式架構，可提供同步雙向複寫功能，以利業務持續運作及災難恢復。它可協助您保護關鍵 SAN 工作負載的資料存取、同時跨多個故障網域同時讀寫資料、確保不中斷營運、並將災難或系統故障期間的停機時間降至最低。</block>
+  <block id="3fa280b2a8840046be265109ff9f0696" category="section-title">具有對稱主動 / 主動式的 SnapMirror 主動式架構</block>
+  <block id="a93a13dd139e6bb0629cd0ace446c595" category="paragraph"><block ref="a93a13dd139e6bb0629cd0ace446c595" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c2048364072b2c53688aeb273047e068" category="paragraph">** ONTAP 調解器 **</block>
+  <block id="309d61d5c343d8fd53c2c585c64587b6" category="searchtitle">Microsoft SQL Server 搭配 SnapMirror 主動式同步</block>
+  <block id="c3764435b077d7aa876e89575fe5dd64" category="paragraph"><block ref="c3764435b077d7aa876e89575fe5dd64" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="335b6de9aebdde6ff1e76f9688ff7ff7" category="paragraph"><block ref="335b6de9aebdde6ff1e76f9688ff7ff7" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="481a499afea5f44d3d3173e0504a6ee5" category="paragraph">透過統一存取、 IO 就能跨越 WAN 。它是全網狀網路叢集，可能是或不適合所有使用案例。</block>
+  <block id="e7de94b63ec3b4535a16228dd6f49119" category="paragraph">如果兩個站台相距 100 公尺、且具備光纖連線能力、則不應偵測到透過 WAN 的額外延遲、但如果站台相距很遠、則兩個站台的讀取效能都會受到影響。使用非統一存取網路的 ASA 可讓您選擇取得 ASA 的成本和功能效益，而不會造成跨站台延遲存取的影響，或是使用主機鄰近功能，讓兩個站台都能存取站台本機讀寫。</block>
+  <block id="cb2187a7d951edc5247ba9c129fee8f3" category="paragraph">設定主機鄰近時，路徑會如下所示。</block>
+  <block id="277d64d9a84f721cc341e91f0de1dcae" category="inline-image-macro">SnapMirror Active Sync ASA 與鄰近環境的統一網路連線</block>
+  <block id="7ee14065ea840a8b3d77ca1b09cd0d68" category="paragraph"><block ref="7ee14065ea840a8b3d77ca1b09cd0d68" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="988f5836c7a60d1374a4804da23d51e4" category="paragraph"><block ref="988f5836c7a60d1374a4804da23d51e4" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="b7986b8213ecdd63004689cc2dedb163" category="searchtitle">使用 SnapMirror 進行 Microsoft SQL Server 災難恢復</block>
+  <block id="f10483e265b11816545d508fc76923ed" category="list-text">使用同步複寫搭配 SnapMirror 主動式同步，以滿足快速資料恢復的需求，而非同步解決方案則可在 RPO 中提供靈活彈性。</block>
+  <block id="76deb86c7bf1ea33d737ef060d9ffff6" category="list-text">如果您使用 SnapCenter 來備份資料庫並將快照複寫到遠端叢集，請勿排程控制器的 SnapMirror 更新以確保一致性。而是在完整備份或記錄備份完成後、從 SnapCenter 啟用 SnapMirror 更新以更新 SnapMirror 。</block>
+  <block id="ad2a53b49c8e7cc0e22f4346908a1866" category="list-text">平衡叢集中不同節點之間包含 SQL Server 資料的儲存單元，以允許所有叢集節點共用 SnapMirror 複寫活動。此套裝作業系統可最佳化節點資源的使用。</block>
+  <block id="98b161980bf5831bfe65c048b46d0439" category="summary">ASA 上的 Microsoft SQL Server 資料庫檔案放置位置</block>
+  <block id="1b1b4c822e9c1b28b845dcc038fec08e" category="searchtitle">Microsoft SQL Server 資料庫檔案和檔案群組</block>
+  <block id="ba25a3e50659c5e29996ff4f5d42a259" category="paragraph">記錄目錄是在 SQL Server 中指定、用於在主機層級儲存交易記錄備份資料。如果您使用 SnapCenter 來備份記錄檔、則 SnapCenter 使用的每個 SQL Server 主機都必須設定一個主機記錄目錄、才能執行記錄備份。</block>
+  <block id="c05ca2066a3b729016e386c067cd91b4" category="paragraph">將記錄目錄放在專用儲存單元上。主機記錄目錄中的資料量取決於備份的大小和保留備份的天數。SnapCenter 每個 SQL Server 主機只允許一個主機記錄目錄。您可以在 SnapCenter --&gt; 主機 --&gt; 組態外掛程式中設定主機記錄目錄。</block>
+  <block id="74432d98a78bf2e3e3b497b91dc1c516" category="list-text">在 SnapCenter 複製交易記錄的專用儲存單元上建立主機記錄目錄。</block>
+  <block id="00b0277b7e21cfea83e1cd6202498b9e" category="list-text">如果您使用的是 Always on 容錯移轉叢集執行個體，則用於主機記錄目錄的儲存單元必須是與在 SnapCenter 中備份的 SQL Server 執行個體位於同一個叢集群組中的叢集磁碟資源。</block>
+  <block id="c42f502d6a45acd6c1d2a13f44016270" category="summary">ASA 系統上的 Microsoft SQL Server 儲存考量</block>
+  <block id="e7a0b265e1ae7c0bf7047bd4770bc53d" category="paragraph">NetApp ASA R2 為僅限執行關鍵任務工作負載的 SAN 客戶，提供簡化且功能強大的解決方案。執行 ONTAP 儲存解決方案的 ASA R2 平台與 Microsoft SQL Server 的結合，可實現企業級資料庫儲存設計，滿足現今最嚴苛的應用程式需求。</block>
+  <block id="95cc7be66d78a646c5ee563f83198ab4" category="paragraph">下列 ASA 平台歸類為支援所有 SAN 傳輸協定（ iSCSI ， FC ， NVMe / FC ， NVMe / TCP ）的 ASA R2 系統。iSCSI ， FC ， NVMe / FC 和 NVMe / TCP 傳輸協定支援對稱的雙主動式架構，可執行多重路徑，讓主機和儲存設備之間的所有路徑都處於主動 / 最佳化狀態：</block>
+  <block id="5d6a7459a3583d9e29f4b486d809b6a1" category="list-text">ASA A1K</block>
+  <block id="009f19d7e9e80eda1c7dbf7374519e58" category="list-text">ASA A90</block>
+  <block id="cd527b2aadf2bebf28ba082002724ab0" category="list-text">ASA A70</block>
+  <block id="3ee9bc9a210bd85fa921ca63bdeef612" category="list-text">ASA A50</block>
+  <block id="e21bdbd552261278be0a5ad02fbc6fa7" category="list-text">ASA A30</block>
+  <block id="3c609b480f1311eaec9774146ac50e79" category="list-text">ASA A20</block>
+  <block id="2b304856171196502641312a496c6d54" category="inline-link-macro">NetApp ASA</block>
+  <block id="4dd59f71d7cf036df0941aa4fcd50443" category="paragraph">如需詳細資訊、請參閱 <block ref="a37d9d52d65391d0ce6c582426431be1" category="inline-link-macro-rx"></block></block>
+  <block id="bb9a4cadd83e3ce26b592d1a9eeafb2e" category="paragraph">在 ONTAP 解決方案上最佳化 SQL Server 需要瞭解 SQL Server I/O 模式和特性。SQL Server 資料庫設計完善的儲存配置必須支援 SQL Server 的效能需求、同時提供整個基礎架構的最大管理能力。良好的儲存配置也能讓初始部署成功、並隨著業務成長、環境隨時間而順利成長。</block>
+  <block id="bfdf538d8298e1c20008ee59ebb494a0" category="paragraph">Microsoft 建議將資料和記錄檔放在不同的磁碟機上。對於同時更新和要求資料的應用程式、記錄檔會密集寫入、而且資料檔（視應用程式而定）會密集讀寫。對於資料擷取、不需要記錄檔。因此、您可以從放在自己磁碟機上的資料檔案來滿足資料要求。</block>
+  <block id="801afe45de7db517b57f747a8973280a" category="section-title">儲存單元考量</block>
+  <block id="5e64d69892f623826e85a5239abf0607" category="paragraph">ASA 中的儲存單元是指 SCSI/FC 主機的 LUN ，或 NVMe 主機的 NVMe 命名空間。根據支援的傳輸協定，系統會提示您建立 LUN ， NVMe 命名空間或兩者。在您建立資料庫部署的儲存單元之前，請務必瞭解 SQL Server I/O 模式和特性的差異，視工作負載及備份與還原需求而定。請參閱下列儲存單元的 NetApp 建議：</block>
+  <block id="506a88168c6bdfeb32f8fae8409c1eba" category="list-text">避免在同一主機上執行的多個 SQL Server 之間共用相同的儲存單元，以避免複雜的管理作業。在同一主機上執行多個 SQL Server 執行個體的情況下，除非您接近節點上的儲存單元限制，否則請避免共用，而每個主機的每個執行個體都有個別的儲存單元，以便於資料管理。</block>
+  <block id="3c00c0b1042b695af03e498424f2ee1e" category="list-text">請使用 NTFS 掛載點而非磁碟機代號、以超越 Windows 中 26 個磁碟機代號的限制。</block>
+  <block id="216443bb5f5d2545cc1881816458e899" category="list-text">停用快照排程和保留原則。而是使用 SnapCenter 來協調 SQL Server 資料儲存單元的 Snapshot 複本。</block>
+  <block id="44d48620d1d725aaad54d642f73970a9" category="list-text">將 SQL Server 系統資料庫放在專用的儲存單元上。</block>
+  <block id="5375f513e791de754ec7d070bbf5512c" category="list-text">Tempdb 是 SQL Server 用來做為暫用工作區的系統資料庫，特別是用於 I/O 密集型 DBCC CHECKDB 作業。因此，請將此資料庫放在專用的儲存單元上。在儲存單元數是一項挑戰的大型環境中，您可以在仔細規劃之後，將 tempdb 與系統資料庫整合到同一個儲存單元中。對 tempdb 的資料保護不是高優先順序、因為每次重新啟動 SQL Server 時都會重新建立此資料庫。</block>
+  <block id="5b2b825a890a5ed31984f174b5420a05" category="list-text">將使用者資料檔案放<block ref="937f38432beb92fdba3d47780720bdf7" prefix="(" category="inline-code"></block>在不同的儲存單元上，因為它們是隨機讀取 / 寫入工作負載。建立交易記錄備份的頻率通常高於資料庫備份。因此<block ref="cb15b9539ae0d984ff8740c68b52561c" prefix="(" category="inline-code"></block>，請將交易記錄檔放在不同的儲存單元或 VMDK 上，以建立每個儲存單元的獨立備份排程。這種分隔方式也能將記錄檔的連續寫入I/O與資料檔案的隨機讀寫I/O隔離、大幅提升SQL Server效能。</block>
+  <block id="892e3db84641b51931ab0dac9977d1bf" category="list-text">請確定要儲存記錄備份的使用者資料庫檔案和記錄目錄位於不同的儲存單元上，以防止保留原則在將快照與 SnapMirror 功能搭配資料保險箱原則使用時覆寫快照。</block>
+  <block id="d3bcdc884b8b6c9a2e038e5aca8eb201" category="list-text">請勿在同一個儲存單元上混合使用資料庫和非資料庫檔案，例如全文搜尋相關檔案。</block>
+  <block id="c7b140168b3cdc8eaaa3041ffa0d954a" category="list-text">將資料庫次要檔案（作為檔案群組的一部分）放置在不同的儲存單元上，可改善 SQL Server 資料庫的效能。只有當資料庫的檔案未與任何其他檔案共用其儲存單元<block ref="937f38432beb92fdba3d47780720bdf7" prefix=" " category="inline-code"></block>時，此分隔才有效<block ref="937f38432beb92fdba3d47780720bdf7" prefix=" " category="inline-code"></block>。</block>
+  <block id="47d411a79b7445f424218bb5a6265a1a" category="list-text">在 Windows 伺服器中使用磁碟管理程式格式化磁碟時，請確定分割區的分配單元大小設為 64K 。</block>
+  <block id="b1d3c04670a31b00b47ed2f54cef4f19" category="list-text">請勿將使用者資料庫或系統資料庫放置在裝載點的儲存單元上。</block>
+  <block id="995050bacc63636e91e211836cab350a" category="list-text">如果您使用的是 Always on 容錯移轉叢集執行個體，則使用者資料庫必須放置在跨 Windows 伺服器容錯移轉叢集節點共用的儲存單元上，而且實體磁碟叢集資源會指派給與 SQL Server 執行個體相關聯的叢集群組。</block>
+  <block id="79b0cf2c987928face3999e45504752c" category="sidebar">AFF / FAS 系統上的儲存組態</block>
+  <block id="120f8cb87e8ceb36804a526419a5803a" category="sidebar">AFF / FAS 系統上的 Microsoft SQL Server</block>
+  <block id="fc5b2b3c5350dcd6f3cc1cc3cdf1a13f" category="sidebar">ASA R2 系統上的儲存組態</block>
+  <block id="8bdbdec629db36efc1c9bdbf743dd56a" category="sidebar">ASA 系統上的 Microsoft SQL Server</block>
 </blocks>

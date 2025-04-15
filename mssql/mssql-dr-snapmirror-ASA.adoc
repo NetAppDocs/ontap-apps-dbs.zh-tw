@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: mssql/mssql-dr-snapmirror-ASA.html 
+keywords: MSSQL,SQL Server, disaster recovery, snapmirror 
+summary: 使用 ONTAP 進行 Microsoft SQL Server 災難恢復 
+searchtitle: 使用 SnapMirror 進行 Microsoft SQL Server 災難恢復 
+---
+= SnapMirror
+:allow-uri-read: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+以下是 SnapMirror for SQL Server 的建議：
+
+* 使用同步複寫搭配 SnapMirror 主動式同步，以滿足快速資料恢復的需求，而非同步解決方案則可在 RPO 中提供靈活彈性。
+* 如果您使用 SnapCenter 來備份資料庫並將快照複寫到遠端叢集，請勿排程控制器的 SnapMirror 更新以確保一致性。而是在完整備份或記錄備份完成後、從 SnapCenter 啟用 SnapMirror 更新以更新 SnapMirror 。
+* 平衡叢集中不同節點之間包含 SQL Server 資料的儲存單元，以允許所有叢集節點共用 SnapMirror 複寫活動。此套裝作業系統可最佳化節點資源的使用。
+
+
+如需 SnapMirror 的詳細資訊、請參閱 link:https://www.netapp.com/us/media/tr-4015.pdf["TR-4015 ： ONTAP 9 的 SnapMirror 組態與最佳實務做法指南"^]。

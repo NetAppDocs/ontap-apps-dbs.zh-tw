@@ -1,16 +1,5 @@
----
-sidebar: sidebar 
-permalink: mssql/mssql-data-protection.html 
-keywords: MSSQL,SQL Server, SnapCenter, data protection, app-consistent backup, ONTAP 
-summary: 使用 SnapCenter 和 T-SQL 命令保護 ONTAP 上的 Microsoft SQL Server 資料庫。 
-searchtitle: 使用 SnapCenter 和 T-SQL 命令保護 ONTAP 上的 Microsoft SQL Server 資料庫 
----
-= 資料保護
-:hardbreaks:
+= SnapCenter
 :allow-uri-read: 
-:icons: font
-:linkattrs: 
-:imagesdir: ../media/
 
 
 [role="lead"]
@@ -37,7 +26,8 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
 以下是備份工作流程範例：
 
 . 使用 ALTER 命令凍結資料庫。如此一來、資料庫就能在基礎儲存設備上準備一致的快照。凍結之後、您可以使用備份命令來解凍資料庫並記錄快照。
-. 使用新的備份群組和備份伺服器命令、同時在儲存磁碟區上執行多個資料庫的快照。
+. 使用新的備份群組和備份伺服器命令，在儲存單元上同時執行多個資料庫的快照。
+. 如果資料庫工作負載橫跨多個儲存單元，請建立一致性群組以簡化管理工作。一致性群組是以單一單元管理的儲存單元集合。
 . 執行完整備份或僅複製完整備份。這些備份也會記錄在 msdb 中。
 . 使用快照完整備份後以正常串流方式進行的記錄備份、執行時間點還原。如果需要、也支援串流差異備份。
 
@@ -45,4 +35,4 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
 若要深入瞭解、請參閱 link:https://learn.microsoft.com/en-us/sql/relational-databases/databases/create-a-database-snapshot-transact-sql?view=sql-server-ver16["瞭解 T-SQL 快照的 Microsoft 文件"^]。
 
 
-TIP: * NetApp 建議 * 使用 SnapCenter 來建立 Snapshot 複本。上述 T-SQL 方法也能正常運作，但 SnapCenter 提供完整的備份，還原及複製程序自動化功能。它也會執行探索、以確保建立正確的快照。不需要預先設定。
+TIP: * NetApp 建議 * 使用 SnapCenter 來建立 Snapshot 複本。上述 T-SQL 方法也能正常運作，但 SnapCenter 提供完整的備份，還原及複製程序自動化功能。它也會執行探索、以確保建立正確的快照。

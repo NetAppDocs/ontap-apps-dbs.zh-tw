@@ -26,6 +26,9 @@ entries:
     url: "/mssql/mssql-storage-efficiency.html"
   - title: 資料保護
     url: "/mssql/mssql-data-protection.html"
+    entries:
+    - title: SQL Server 可用度群組搭配 SnapCenter
+      url: "/mssql/mssql-ag-snapcenter.html"
   - title: 災難恢復
     entries:
     - title: 總覽

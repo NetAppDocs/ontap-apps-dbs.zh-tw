@@ -269,7 +269,6 @@
   <block id="0e7c78164adb6d4650ea685a79d8e99e" category="section-title">效率最佳實務做法</block>
   <block id="ec499ad25fa5a765ba43ec2c87819623" category="section-title">AFF 預設值</block>
   <block id="9f7127e69d50bf7b844ff3723b86fbd1" category="section-title">一般建議</block>
-  <block id="2c24e4751310e03f119a4df187a3bc08" category="list-text">如果磁碟區和（或） LUN 並未精簡配置、您必須停用所有效率設定、因為使用這些功能並不會節省成本、而將複雜資源配置與啟用空間效率的組合、可能會導致非預期的行為、包括空間不足的錯誤。</block>
   <block id="4922fe547c351d6a121465da036d478e" category="list-text">如果資料不需要覆寫、例如備份或資料庫交易記錄檔、您可以在冷卻週期較短的情況下啟用 TSSE 、以達到更高的效率。</block>
   <block id="e75fd383e4106eb78482b18896975daf" category="list-text">某些檔案可能包含大量不可壓縮的資料、例如、當檔案的應用程式層級已啟用壓縮時、就會進行加密。如果上述任何情況屬實、請考慮停用壓縮、以便在包含可壓縮資料的其他磁碟區上執行更有效率的作業。</block>
   <block id="64d5def835c194cac8afe4fafded756e" category="doc">原則 - 本機快照</block>
@@ -5225,7 +5224,6 @@
   <block id="b0874893f6e3e7030833ec488dc9da90" category="list-text">將使用者資料檔案放<block ref="937f38432beb92fdba3d47780720bdf7" prefix="(" category="inline-code"></block>在不同的磁碟區上、因為它們是隨機讀取 / 寫入工作負載。建立交易記錄備份的頻率通常高於資料庫備份。因此<block ref="cb15b9539ae0d984ff8740c68b52561c" prefix="(" category="inline-code"></block>、請將交易記錄檔放在不同的磁碟區或 VMDK 上、以便為每個資料檔案建立獨立的備份排程。這種分隔方式也能將記錄檔的連續寫入I/O與資料檔案的隨機讀寫I/O隔離、大幅提升SQL Server效能。</block>
   <block id="f7f1cb17ab4960f1a8e4c28a7fbccb0d" category="list-text">請勿在同一個 LUN 上混合使用資料庫和非資料庫檔案、例如與全文搜尋相關的檔案。</block>
   <block id="58ccb3e2006ffa82c78944061df94b30" category="paragraph">ONTAP 儲存效率經過最佳化、可儲存及管理 SQL Server 資料、但所需的儲存空間最少、而且不會影響效能。</block>
-  <block id="f250d23ef016c3e48436a679c5dab1df" category="list-text">請勿在任何包含 SQL Server 資料檔案的磁碟區上啟用重複資料刪除功能、除非已知該磁碟區包含相同資料的多個複本、例如將資料庫從備份還原至單一磁碟區。</block>
   <block id="6f80e9146e2184b9ec3c46b6d7dd903f" category="paragraph">當 SQL Server 必須寫入特殊系統頁面以分配新物件時、頁面爭用可能會發生在通用分配對應（ GAM ）、共用全域分配對應（ SGAM ）或頁面可用空間（ PFS ）頁面上。鎖條會將這些頁面鎖定在記憶體中。在忙碌的 SQL Server 執行個體上、在 tempdb 的系統頁面上取得鎖定可能需要很長時間。這會導致查詢執行時間變慢、也稱為鎖定爭用。請參閱下列建立 tempdb 資料檔案的最佳實務做法：</block>
   <block id="255bd5c00b8de4b2f998369f766b2b5e" category="paragraph">本節說明遠端資料保護、將資料複寫到遠端站台、以保護異地儲存和災難恢復的安全。請注意、這些表格並未解決同步鏡射資料保護問題。如需此需求、請參閱 NetApp MetroCluster 文件、包括<block ref="06d0604733fc7f7e3f9befaa1239278d" category="inline-link-macro-rx"></block>和<block ref="87f167af2516b222ddeec7405581e8b8" category="inline-link-macro-rx"></block></block>
   <block id="ad8d77efdce72d372a83929b50a127d1" category="paragraph">資料集的損毀一致備份是指在單一時間點擷取整個資料集結構。如果資料集儲存在單一磁碟區中、則程序很簡單；您可以隨時建立 Snapshot 。如果資料集橫跨多個磁碟區、則必須建立一致性群組（ CG ）快照。建立 CG 快照有多種選項、包括 NetApp SnapCenter 軟體、原生 ONTAP 一致性群組功能、以及使用者維護的指令碼。</block>
@@ -6040,4 +6038,29 @@
   <block id="120f8cb87e8ceb36804a526419a5803a" category="sidebar">AFF / FAS 系統上的 Microsoft SQL Server</block>
   <block id="fc5b2b3c5350dcd6f3cc1cc3cdf1a13f" category="sidebar">ASA R2 系統上的儲存組態</block>
   <block id="8bdbdec629db36efc1c9bdbf743dd56a" category="sidebar">ASA 系統上的 Microsoft SQL Server</block>
+  <block id="3e2b4674c9afc41f9c3a0311b458ed23" category="list-text">如果磁碟區和（或） LUN 並未精簡配置，您必須停用所有效率設定，因為使用這些功能並不會節省成本，而將複雜資源配置與啟用空間效率的組合，可能會導致非預期的行為，包括空間不足的錯誤。</block>
+  <block id="c2dc7d465f4be5df7a663820063fe07c" category="summary">Microsoft SQL Server 可用度群組搭配 SnapCenter</block>
+  <block id="b474dc2fb6ce60c11ecdfbe0a373bf34" category="doc">SQL Server 可用度群組搭配 SnapCenter</block>
+  <block id="0a1151b962e7b34ea7fa78538961cc63" category="paragraph">SnapCenter 支援備份使用 Windows 容錯移轉叢集設定的 SQL Server 可用性群組資料庫。</block>
+  <block id="55876228853abf632dec9346a4f372ec" category="inline-link-macro">文件</block>
+  <block id="19bc77c28d506c79f4e3acd767956f68" category="paragraph">Microsoft SQL Server 的 SnapCenter 外掛程式必須安裝在 Windows 伺服器容錯移轉叢集的所有節點上。請參閱<block ref="7ea17b48fc658598752bd1b70818d0c2" category="inline-link-macro-rx"></block>先決條件和設定 SnapCenter 外掛程式的步驟。</block>
+  <block id="878026ceb11256fd34df776a768794b2" category="paragraph">SnapCenter 會探索 Windows 主機中的所有資料庫，執行個體和可用度群組，並在 SnapCenter 資源頁面上列舉資源。</block>
+  <block id="feb288d4161a267b78f781ef497c33f6" category="section-title">保護 Always On Availability 群組中的資料庫</block>
+  <block id="6493759953e55bc95c88e42046f8c8e1" category="paragraph">可用度群組中的資料庫可透過多種方式受到保護。</block>
+  <block id="71903a5ca626286195e8839f74b46627" category="list-text">資料庫層級備份：選取資料庫資源頁面的可用度資料庫，新增包含完整 / 記錄備份的原則，排程備份。無論資料庫角色是主要複本或次要複本， SnapCenter 都會進行備份。您也可以將資料庫新增至資源群組來設定保護。</block>
+  <block id="402962f18d83fc2e3da0155e7c85d340" category="list-text">執行個體層級備份：選取執行個體，並根據選取的原則保護執行個體上執行的所有資料庫。所有資料庫，包括執行為主要或次要複本的可用度資料庫，都會使用 SnapCenter 進行備份。也可以將執行個體新增至資源群組來設定保護。</block>
+  <block id="4eea6cb4e656587b45ce878e96aced6c" category="list-text">可用度群組層級備份：在設定原則時， SnapCenter 有進階選項可用於可用性群組層級備份。原則中的可用性群組設定可讓使用者選取備份的複本喜好設定。您可以選取主要複本，次要複本或全部複本。預設選項是根據 SQL Server 可用性群組組組態中的備份複本集。</block>
+  <block id="df79a1b2903886af697a431a42cecd61" category="paragraph">只有在使用可用性群組層級備份來保護可用性群組資料庫，且不適用於資料庫或執行個體層級備份時， SnapCenter 原則中的可用性群組設定才會套用。</block>
+  <block id="2b371d66d8eda6963cd085c7a884f4d7" category="admonition">* NetApp 建議 * 使用可用度層級備份，在 NetApp ONTAP 儲存設備上執行的所有複本之間進行備份。</block>
+  <block id="5c0ae1f6e89ffad82dfe5e7773da2fd6" category="section-title">在 SnapCenter 中設定記錄備份</block>
+  <block id="b3b9b1046ddf8efb1b774f35855a0d1c" category="paragraph">如果可用性群組是在獨立式 SQL Server 安裝程式上設定，則必須在 Windows 伺服器容錯移轉叢集的每個節點上掛載專用磁碟。應使用專用磁碟來設定記錄目錄，以儲存交易記錄備份。</block>
+  <block id="ac3f0583ff584e6a0d60cd070d6edce2" category="paragraph">如果在 SQL Server 容錯移轉叢集上設定可用性群組，則應在 SQL Server 容錯移轉叢集執行個體上建立叢集磁碟，以將其移轉至主機記錄目錄。</block>
+  <block id="57194431a839a253461e94f7d15e0d30" category="section-title">使用 SnapCenter 還原可用度群組設定中的資料庫</block>
+  <block id="cb66b1b1ce1e9f56d0a1572ba3dcccdd" category="list-text">SnapCenter 提供重新植入選項，可從次複本可用的最新快照中自動恢復資料庫。重新連上的作業會自動還原，並將資料庫備份加入可用性群組。</block>
+  <block id="4c25cf6fd81e138392692e0a7e5523f3" category="list-text">在可用性群組中還原複本資料庫的另一種方法是中斷可用性群組並執行完整的完整和記錄還原。使用 SnapCenter 以 NORECOVERY 模式還原資料庫，然後使用 SQL Server Management Studio 或 T-SQL 將資料庫加入可用性群組。</block>
+  <block id="533d3de92f8337e84aa0eccec7e4698f" category="list-text">若要只恢復資料子集，可以使用 SnapCenter 的複製功能來建立資料庫的複本。資料庫複本是使用 SnapCenter 在幾分鐘內建立，然後使用 SQL Server 原生工具將資料匯出至主要複本。</block>
+  <block id="f652b77e8bd5ef106d3fbeec02a874c5" category="inline-link-macro">TR-4714 使用 NetApp SnapCenter 的 Microsoft SQL Server 最佳實務做法</block>
+  <block id="9cc210a8901b58403ed2b299b9f87ac9" category="paragraph">如需設定資料庫儲存配置以符合 RTO 和 RPO 需求的最佳實務做法<block ref="4619ebf0116b8a67a7bd991a2d661c12" category="inline-link-macro-rx"></block>，請參閱。</block>
+  <block id="724394156ac637a07abed4b02026424a" category="admonition">SnapCenter 不支援分散式可用性群組和內含可用性群組。</block>
+  <block id="f9feae8e1753d6486bf95d4403f7d5a7" category="list-text">請勿在包含 SQL Server 資料檔案的 FAS 上的任何磁碟區上啟用重複資料刪除功能，除非已知該磁碟區包含相同資料的多個複本，例如將資料庫從備份還原至單一磁碟區。</block>
 </blocks>

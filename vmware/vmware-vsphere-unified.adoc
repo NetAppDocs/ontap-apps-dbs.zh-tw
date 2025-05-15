@@ -16,7 +16,7 @@ summary: ONTAP 在將近 20 年來一直是 VMware vSphere 環境的領先儲存
 [role="lead"]
 ONTAP 透過簡化的軟體定義方法、統一化儲存設備、實現安全高效的管理、更高的效能、以及無縫的擴充性。這種方法可加強資料保護、並有效運用雲端資源。
 
-這種統一化方法原本是指在單一儲存系統上同時支援 NAS 和 SAN 傳輸協定、而 ONTAP 則是 SAN 的領先平台、同時也是 NAS 的原始優勢。ONTAP 現在也提供 S3 物件傳輸協定支援。雖然 S3 不用於資料存放區、但您可以將它用於來賓應用程式。您可以在中深入瞭解 ONTAP 中的 S3 傳輸協定支援 link:https://docs.netapp.com/us-en/ontap/s3-config/index.html["S3組態總覽"]。
+這種統一化方法原本是指在單一儲存系統上同時支援 NAS 和 SAN 傳輸協定、而 ONTAP 則是 SAN 的領先平台、同時也是 NAS 的原始優勢。ONTAP 現在也提供 S3 物件傳輸協定支援。雖然 S3 不用於資料存放區、但您可以將它用於來賓應用程式。您可以在中的 ONTAP 中深入瞭解 S3 link:https://docs.netapp.com/us-en/ontap/s3-config/index.html["S3組態總覽"]傳輸協定支援。統一化儲存技術這個詞彙已演變成統一化的儲存管理方法，包括從單一介面管理所有儲存資源的能力。這包括能夠同時管理內部部署和雲端儲存資源，最新的 All SAN Array （ ASA ）系統，以及從單一介面管理多個儲存系統的能力。
 
 儲存虛擬機器（ SVM ）是 ONTAP 中安全的多租戶共享單元。這是一種邏輯結構、可讓用戶端存取執行 ONTAP 的系統。SVM可透過邏輯介面（LIF）、透過多種資料存取傳輸協定同時提供資料。SVM透過NAS傳輸協定（例如CIFS和NFS）提供檔案層級的資料存取、並透過SAN傳輸協定（例如iSCSI、FC/FCoE和NVMe）提供區塊層級的資料存取。SVM 可以同時將資料單獨提供給 SAN 和 NAS 用戶端、也可以搭配 S3 使用。
 

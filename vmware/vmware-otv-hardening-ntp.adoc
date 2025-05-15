@@ -4,7 +4,7 @@ permalink: vmware/vmware-otv-hardening-ntp.html
 keywords: VMware, Data protection, security, OTV, Hardening, ONTAP Tools 
 summary: 適用於 VMware vSphere 的 ONTAP 工具安全強化指南、 NTP 組態。 
 ---
-= 網路時間傳輸協定（ NTP ）組態
+= ONTAP 工具 9.13 的網路時間傳輸協定（ NTP ）組態
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

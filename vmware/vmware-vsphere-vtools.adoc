@@ -14,19 +14,19 @@ summary: 支援所有用於虛擬化的主要儲存傳輸協定、例如適用�
 
 
 [role="lead"]
-NetApp提供數種獨立式軟體工具、可搭配ONTAP 使用以管理您的虛擬化環境。
+NetApp 提供數種獨立式軟體工具，可與傳統的 ONTAP 和 ASA 系統相容，並整合 vSphere ，有效管理虛擬化環境。
 
-下列工具隨ONTAP 附於VMware授權中、不需額外付費。請參閱圖1、瞭解這些工具如何在vSphere環境中共同運作。
+ONTAP ONE 授權隨附下列工具，無需額外付費。請參閱圖1、瞭解這些工具如何在vSphere環境中共同運作。
 
 
 
 == VMware vSphere適用的工具ONTAP
 
-VMware vSphere的VMware vSphere工具是一套搭配vSphere使用VMware vCenter儲存設備的工具。ONTAP ONTAPvCenter外掛程式先前稱為虛擬儲存主控台（VSC）、可簡化儲存管理與效率功能、增強可用度、並降低儲存成本與營運成本、無論您使用SAN或NAS。它採用最佳實務做法來配置資料存放區、並針對NFS和區塊儲存環境最佳化ESXi主機設定。針對所有這些優點、 NetApp 建議在搭配執行 ONTAP 的系統使用 vSphere 時、使用這些 ONTAP 工具作為最佳實務做法。其中包括伺服器應用裝置、vCenter的使用者介面擴充、VASA Provider及儲存複寫介面卡。幾乎所有的功能都可以透過簡單的REST API來自動化、而大多數的現代化自動化工具都能耗用這些API ONTAP 。
+https://mysupport.netapp.com/site/products/all/details/otv10/docs-tab["VMware vSphere適用的工具ONTAP"]是一組工具，可搭配 vSphere 使用 ONTAP 儲存設備。vCenter外掛程式先前稱為虛擬儲存主控台（VSC）、可簡化儲存管理與效率功能、增強可用度、並降低儲存成本與營運成本、無論您使用SAN或NAS。它採用最佳實務做法來配置資料存放區、並針對NFS和區塊儲存環境最佳化ESXi主機設定。針對所有這些優點、 NetApp 建議在搭配執行 ONTAP 的系統使用 vSphere 時、使用這些 ONTAP 工具作為最佳實務做法。其中包括伺服器應用裝置， vCenter 的 UI 擴充， VASA Provider 和 Storage Replication Adapter 。幾乎所有的功能都可以透過簡單的REST API來自動化、而大多數的現代化自動化工具都能耗用這些API ONTAP 。
 
-* * vCenter UI延伸功能* ONTAP 此功能可簡化營運團隊和vCenter管理員的工作。*此功能可在vCenter UI中、直接使用易於使用的內容相關功能表來管理主機和儲存設備、資訊入口小程式和原生警示功能、以利簡化工作流程。
+* * vCenter UI 延伸。 *ONTAP 工具的 UI 延伸功能可將易於使用的內容相關功能表嵌入到 vCenter UI 中，以簡化工作流程，簡化作業團隊和 vCenter 管理員的工作。這些功能表可用於管理主機和儲存設備，資訊入口小工具和原生警示功能。
 * *適用於ONTAP VMware的VASA Provider for Sfor Sfor the。*適用於ONTAP VMware的VASA Provider支援VMware vStorage API for Storage Aware（VASA）架構。它是ONTAP VMware vSphere的VMware vSphere配套工具、可做為單一虛擬應用裝置、方便部署。VASA Provider將vCenter Server與ONTAP VMware連線、以協助資源配置及監控VM儲存設備。它可支援VMware虛擬磁碟區（vVols）、管理儲存功能設定檔和個別VM vVols效能、以及監控容量和設定檔法規遵循的警示。
-* *儲存複寫介面卡。* SRA與VMware Site Recovery Manager（SRM）搭配使用、可在正式作業與災難恢復站台之間管理資料複寫、並在不中斷營運的情況下測試DR複本。它有助於自動化探索、還原及重新保護等工作。其中包括適用於Windows SRM伺服器和SRM應用裝置的SRA伺服器應用裝置和SRA介面卡。
+* * 儲存複寫介面卡。 *可搭配 VMware Live Site Recovery （ VSR ） / Site Recovery Manager （ SRM ）一起使用，使用 SnapMirror 來管理線上與災難恢復站台之間的資料複寫，以進行陣列式複寫。它可以在發生災難時自動執行容錯移轉工作，並可協助測試災難恢復複本，不中斷營運，確保您對災難恢復解決方案的信心。
 
 
 下圖說明ONTAP vSphere的各項功能。
@@ -35,6 +35,18 @@ image:vsphere_ontap_image1.png["適用於 vSphere 的 ONTAP 工具"]
 
 
 
+== 適用於 VMware vSphere 的 SnapCenter 外掛程式
+
+ https://mysupport.netapp.com/site/products/all/details/scv/docs-tab["適用於 VMware vSphere 的 SnapCenter 外掛程式"]是 vCenter Server 的外掛程式，可讓您管理虛擬機器（ VM ）和資料存放區的備份與還原。它提供單一介面，可在多個 ONTAP 系統上管理虛擬機器和資料存放區的備份，還原和複本。SnapCenter 支援使用 SnapMirror 複寫到次要站台及從次要站台恢復。最新版本也支援 SnapMirror 對雲端（ S3 ），防竄改快照， SnapLock 和 SnapMirror Active Sync 。SnapCenter Plug-in for VMware vSphere 可與 SnapCenter 應用程式外掛程式整合，提供應用程式一致的備份。
+
+
+
 == 適用於VMware VAAI的NFS外掛程式
 
-適用於VMware VAAI的NetApp NFS外掛程式是ESXi主機的外掛程式、可讓ESXi主機在ONTAP 支援VMware的NFS資料存放區時、使用VAAI功能。它支援複製卸載、以進行複製作業、保留大型虛擬磁碟檔案的空間、以及快照卸載。將複本作業卸載到儲存設備並不一定能更快完成、但它確實能降低網路頻寬需求、並卸載CPU週期、緩衝區和佇列等主機資源。您可以使用ONTAP VMware vSphere的支援功能、在ESXi主機上安裝外掛程式、或是在支援的情況下安裝vSphere Lifecycle Manager（vLCM）。
+ https://mysupport.netapp.com/site/products/all/details/nfsplugin-vmware-vaai/about-tab["適用於 VMware VAAI 的 NetApp NFS 外掛程式"]是 ESXi 主機的外掛程式，可讓主機使用 VAAI 功能搭配 ONTAP 上的 NFS 資料存放區。它支援複製卸載、以進行複製作業、保留大型虛擬磁碟檔案的空間、以及快照卸載。將複本作業卸載到儲存設備並不一定能更快完成、但它確實能降低網路頻寬需求、並卸載CPU週期、緩衝區和佇列等主機資源。您可以使用ONTAP VMware vSphere的支援功能、在ESXi主機上安裝外掛程式、或是在支援的情況下安裝vSphere Lifecycle Manager（vLCM）。
+
+
+
+== 優質軟體選項
+
+NetApp 提供下列優質軟體產品。ONTAP ONE 授權不隨附這些軟體，必須另行購買。* https://www.netapp.com/data-services/disaster-recovery/["BlueXP  災難恢復（ DR ）"] 適用於 VMware vSphere 。這是一項雲端型服務，可為 VMware 環境提供災難恢復與備份。它可搭配或不搭配 SnapCenter 使用，並使用 SAN 或 NAS 支援內部部署到內部部署 DR ，以及使用 NFS 在支援的情況下，在內部部署到 / 從雲端。 https://www.netapp.com/data-infrastructure-insights/["資料基礎架構洞見（ DII ）"]* 。這是一項雲端型服務，可為 VMware 環境提供監控與分析功能。它支援異質儲存環境中的其他儲存廠商，以及多家交換器廠商和其他 Hypervisor 。DII 提供完整的端對端洞見，讓您深入瞭解 VMware 環境的效能，容量和健全狀況。

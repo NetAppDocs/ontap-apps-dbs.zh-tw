@@ -37,7 +37,7 @@ NOTE: * 本文件取代先前發佈的技術報告 _TR-4568 ： NetApp 部署指
 
 
 
-ONTAP 提供 NetApp 儲存效率功能、例如 NetApp Snapshot （ R ）技術、複製、重複資料刪除、精簡配置、精簡複寫、 壓縮、虛擬儲存分層等多項功能、都能提升效能與效率。
+ONTAP 提供 NetApp 儲存效率功能，例如 NetApp 快照技術，複製，重複資料刪除，精簡配置，精簡複寫，壓縮，虛擬儲存分層等，並提供更高的效能與效率。
 
 Windows Server 和 ONTAP 可在大型環境中共同運作、為資料中心整合和私有雲或混合雲部署帶來巨大價值。這種組合也能有效率地提供不中斷營運的工作負載、並支援無縫擴充。
 
@@ -54,4 +54,4 @@ Windows Server 和 ONTAP 可在大型環境中共同運作、為資料中心整�
 * 讀者對 Windows Server 作業系統和 Hyper-V 有廣泛的瞭解
 
 
-如需完整且定期更新的已測試及支援 SAN 和 NAS 組態對照表、請參閱 http://mysupport.netapp.com/matrix/["互通性對照表工具IMT （不含）"] 在 NetApp 支援網站 上。有了 IMT 、您就能判斷特定環境所支援的確切產品和功能版本。NetApp IMT 定義與 NetApp 支援組態相容的產品元件和版本。具體結果取決於每位客戶依照已發佈規格所安裝的產品。
+如需完整且定期更新的已測試及支援 SAN 和 NAS 組態對照表，請參閱 http://mysupport.netapp.com/matrix/["互通性對照表工具IMT （不含）"] NetApp 支援網站上的。有了 IMT 、您就能判斷特定環境所支援的確切產品和功能版本。NetApp IMT 定義與 NetApp 支援組態相容的產品元件和版本。具體結果取決於每位客戶依照已發佈規格所安裝的產品。

@@ -16,13 +16,11 @@ summary: 本文件會對建議的儲存設備和網路設定進行分類及列�
 [role="lead"]
 NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定。此外、我們也針對多重路徑和 HBA 逾時設定提供具體指引、以根據 NetApp 和 VMware 內部測試、讓 ONTAP 正常運作。
 
-使用適用於 VMware vSphere 的 ONTAP 工具可輕鬆設定這些值：從摘要儀表板、按一下主機系統 Portlet 中的「編輯設定」、或在 vCenter 中的主機上按一下滑鼠右鍵、然後瀏覽至 ONTAP 工具 > 設定建議值。
+使用適用於 VMware vSphere 的 ONTAP 工具輕鬆設定這些值：從 ONTAP 工具總覽頁面向下捲動至底部，然後按一下 ESXi 主機相容性 Portlet 中的套用建議設定。
 
 以下是所有目前支援版本 ONTAP 的建議主機設定。
 
 |===
-
-
 | *主機設定* | * NetApp推薦價值* | *需要重新開機* 
 
 
@@ -39,6 +37,9 @@ NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定�
 
 
 3+| * NFS 設定 * 
+
+
+| newSyncInterval.NewSyncs | 如果您不使用 vSphere CSI for Kubernetes ，請依設定 https://knowledge.broadcom.com/external/article/386364/reducing-excessive-vsan-cnssync-warnings.html["VMware知識庫386364"^] | 否 
 
 
 | net.TcpipHeapSize. | vSphere 6.0或更新版本、設定為32。
@@ -108,7 +109,7 @@ NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定�
 設定此值有助於避免I/O錯誤。 | 否 
 |===
 
-NOTE: 1 -使用VMware vSphere ESXi 7.0.1和VMware vSphere ESXi 7.0.2時、NFS進階組態選項MaxQuesteDepth可能無法如預期運作。請參閱 link:https://kb.vmware.com/s/article/86331?lang=en_US["VMware KB 86331"] 以取得更多資訊。
+NOTE: 使用 VMware vSphere ESXi 7.0.1 和 VMware vSphere ESXi 7.0.2 時， NFS 進階組態選項 MaxQueueDepth 可能無法正常運作。如需詳細資訊，請參閱link:https://kb.vmware.com/s/article/86331?lang=en_US["VMware KB 86331"]。
 
 建立完等量磁碟區和LUN時、也會指定特定的預設設定：ONTAP ONTAP FlexVol
 

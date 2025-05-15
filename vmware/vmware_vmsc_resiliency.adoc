@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmware_vmsc_resiliency.html 
-keywords: VMware, Data protection, MetroCluster, SMBC, SnapMirror active sync, vMSC 
+keywords: VMware, Data protection, MetroCluster, SMBC, SMas, SnapMirror active sync, vMSC, metro storage cluster, vSphere, vCenter, business continuity, disaster recovery, ONTAP 
 summary: 瞭解 vSphere Metro Storage Cluster with ONTAP 
 ---
 = 計畫性和非計畫性事件的恢復能力
@@ -16,7 +16,7 @@ summary: 瞭解 vSphere Metro Storage Cluster with ONTAP
 [role="lead"]
 NetApp MetroCluster 和 SnapMirror 主動同步是強大的工具、可增強 NetApp 硬體和 ONTAP ® 軟體的高可用度和不中斷營運。
 
-這些工具可為整個儲存環境提供全站台保護、確保資料永遠可用。無論您是使用獨立式伺服器、高可用度伺服器叢集、 Docker 容器或虛擬化伺服器、 NetApp 技術都能在電力中斷、冷卻或網路連線中斷、儲存陣列關機或作業錯誤等情況下、無縫維持儲存可用度。
+這些工具可為整個儲存環境提供全站台保護、確保資料永遠可用。無論您是使用獨立式伺服器，高可用度伺服器叢集，容器或虛擬化伺服器， NetApp 技術都能在電力中斷，冷卻或網路連線中斷，儲存陣列關機或作業錯誤等情況下，無縫維持儲存可用度。
 
 MetroCluster 和 SnapMirror 主動式同步提供三種基本方法、可在發生計畫性或非計畫性事件時維持資料連續性：
 
@@ -31,10 +31,10 @@ MetroCluster 和 SnapMirror 主動式同步提供三種基本方法、可在發�
 
 接管是一種自動化程序、其中一個節點會接管另一個節點的儲存設備、以維護資料服務。GiveBack 是還原正常作業的反向程序。可以規劃接管、例如執行硬體維護或 ONTAP 升級、或是因節點緊急或硬體故障而非計畫性地進行。
 
-在接管期間、 MetroCluster 組態中的網路附加儲存邏輯介面（ NAS 生命期）會自動容錯移轉。但是、儲存區域網路生命（ SAN 生命）不會容錯移轉；它們會繼續使用邏輯單元編號（ LUN ）的直接路徑。
+在接管期間， MetroCluster 組態中的 NAS 生命期會自動容錯移轉。不過， SAN 生命期不會容錯移轉，而是會繼續使用邏輯單元編號（ LUN ）的直接路徑。
 
-如需 HA 接管與恢復的詳細資訊、請參閱 https://docs.netapp.com/us-en/ontap/high-availability/index.html["HA配對管理總覽"]。值得一提的是、這項功能並非 MetroCluster 或 SnapMirror 主動式同步的專屬功能。
+有關 HA 接管和恢復的詳細信息，請參閱 https://docs.netapp.com/us-en/ontap/high-availability/index.html["HA配對管理總覽"]。值得一提的是、這項功能並非 MetroCluster 或 SnapMirror 主動式同步的專屬功能。
 
 當某個站台離線、或是作為整個站台維護的計畫活動時、就會使用 MetroCluster 進行站台切換。其餘站台則假設擁有離線叢集的儲存資源（磁碟和集合體）、而故障站台上的 SVM 則會在災難站台上線並重新啟動、保留其完整身分以供用戶端和主機存取。
 
-有了 SnapMirror 主動式同步、由於兩個複本都是同時使用的、因此您現有的主機將繼續運作。NetApp Mediator 是確保站台容錯移轉正確進行所需的工具。
+有了 SnapMirror 主動式同步、由於兩個複本都是同時使用的、因此您現有的主機將繼續運作。ONTAP Mediator 是確保站台容錯移轉正確進行所需的工具。

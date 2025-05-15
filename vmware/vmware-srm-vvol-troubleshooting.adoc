@@ -1,10 +1,10 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmware-srm-vvol-troubleshooting.html 
-keywords: vmware, site, recovery manager, vsrm, hybrid, cloud, srm, vvols, replication 
+keywords: vmware, site, recovery manager, vlsr, hybrid, cloud, srm, vvols, replication 
 summary: 與 SRA 和傳統資料存放區相比、 VVols 複寫搭配 VASA 提供獨特的功能。 
 ---
-= 使用vVols複寫時疑難排解SRM
+= 使用 VVols 複寫時疑難排解 VSRM/SRM
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,7 +14,7 @@ summary: 與 SRA 和傳統資料存放區相比、 VVols 複寫搭配 VASA 提�
 
 
 [role="lead"]
-使用vVols複寫時、SRM內部的工作流程與SRA和傳統資料存放區使用的工作流程大不相同。例如、沒有Array Manager概念。因此、 `discoverarrays` 和 `discoverdevices` 從未見過命令。
+當使用 ONTAP 工具 9.13P2 時，使用 VVols 複寫時， VSR 和 SRM 中的工作流程與使用 SRA 和傳統資料存放區的工作流程大不相同。例如、沒有Array Manager概念。因此， `discoverarrays`和 `discoverdevices`命令永遠不會出現。
 
 疑難排解時、瞭解下列新工作流程會有所助益：
 

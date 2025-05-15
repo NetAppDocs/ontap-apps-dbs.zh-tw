@@ -26,7 +26,7 @@ summary: 瞭解如何部署 Microsoft Windows Nano Server
 . 將 Windows Server ISO 中的 \NanoServer 資料夾中的 NanoServerImageGenerator 資料夾複製到本機硬碟。
 . 若要建立奈米伺服器 VHD/VHDX 、請完成下列步驟：
 +
-.. 以系統管理員身分啟動 Windows PowerShell 、瀏覽至本機硬碟上複製的 NanoServerImageGenerator 資料夾、然後執行下列 Cmdlet ：
+.. 以系統管理員身分啟動 Windows PowerShell ，瀏覽至本機硬碟上複製的 NanoServerImageGenerator 資料夾，然後執行下列 Cmdlet ：
 +
 ....
 Set-ExecutionPolicy RemoteSigned

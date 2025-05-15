@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmware-vsphere-datastores-nfs.html 
-keywords: vSphere, datastore, VMFS, FC, FCoE, NVMe/FC, iSCSI, NFS, vVols, NFSv3, NFSv4.1 
+keywords: vSphere, datastore, NFS, vVols, NFSv3, NFSv4.1 
 summary: 本頁說明使用 ONTAP 和 NFS 連線的資料存放區實作 VMware vSphere 的最佳實務做法。 
 ---
 = NFS
@@ -27,6 +27,7 @@ ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能
 
 
 * 在叢集中的每個節點上、為每個SVM使用單一邏輯介面（LIF）ONTAP 。不再需要過去針對每個資料存放區的LIF建議。雖然直接存取（同一個節點上的 LIF 和資料存放區）是最佳選擇、但別擔心間接存取、因為效能影響通常很小（微秒）。
+* 如果您使用 fpolicy ，請務必排除 .lck 檔案，因為每當 VM 開機時， vSphere 都會使用這些檔案來鎖定。
 * 目前支援的所有 VMware vSphere 版本均可使用 NFS v3 和 v4.1 。正式支援 nconnect 已新增至 vSphere 8.0 更新 2 for NFS v3 ，以及更新 3 for NFS v4.1 。對於 NFS v4.1 、 vSphere 持續支援工作階段主幹、 Kerberos 驗證及完整性 Kerberos 驗證。請務必注意、工作階段主幹需要 ONTAP 9.14.1 或更新版本。您可以在link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vmware-vsphere8-nfsv3-nconnect.html["使用 NetApp 和 VMware 的 NFSv3 nconnect 功能"]中深入瞭解 nconnect 功能及其如何改善效能。
 
 
@@ -42,9 +43,10 @@ ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能
 * 值得注意的是、 NFSv3 和 NFSv4.1 使用不同的鎖定機制。NFSv3 使用用戶端端鎖定、而 NFSv4.1 則使用伺服器端鎖定。雖然 ONTAP 磁碟區可以透過兩種傳輸協定匯出、但 ESXi 只能透過一種傳輸協定掛載資料存放區。不過、這並不表示其他 ESXi 主機無法透過不同版本掛載相同的資料存放區。為了避免任何問題、請務必指定要在掛載時使用的通訊協定版本、確保所有主機都使用相同版本、因此使用相同的鎖定樣式。避免在主機之間混合使用 NFS 版本是非常重要的。如有可能、請使用主機設定檔來檢查法規遵循狀況。
 +
 ** 由於NFSv3與NFSv4.1之間沒有自動資料存放區轉換、因此請建立新的NFSv4.1資料存放區、並使用Storage VMotion將VM移轉至新的資料存放區。
-** 請參閱中的NFS v4.1互通性表附註 link:https://mysupport.netapp.com/matrix/["NetApp互通性對照表工具"^] 支援所需的特定ESXi修補程式層級。
+** 如需支援所需的特定 ESXi 修補程式層級，請參閱中的 NFS v4.1 互通性表附註link:https://mysupport.netapp.com/matrix/["NetApp 互通性對照表工具"^]。
 
 
+* 如中所述link:vmware/vmware-vsphere-settings.html["設定"]，如果您不使用 vSphere CSI for Kubernetes ，則應設定 newSyncInterval per https://knowledge.broadcom.com/external/article/386364/reducing-excessive-vsan-cnssync-warnings.html["VMware知識庫386364"^]
 * NFS 匯出原則規則用於控制 vSphere 主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用 NFS 時， ESXi 會使用 sys （ UNIX ）安全樣式，並需要根掛載選項來執行 VM 。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意，匯出具有不同值的原則規則 `-anon`， `-allow-suid`可能會導致 ONTAP 工具發生 SVM 探索問題。IP 位址應該是以逗號分隔的清單，不含安裝資料存放區的 vmkernel 連接埠位址空間。以下是原則規則範例：
 +
 ** 存取傳輸協定：NFS（包括nfs3和nfs4）

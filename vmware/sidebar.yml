@@ -6,6 +6,8 @@ entries:
   entries:
   - title: 總覽
     url: "/vmware/vmware-vsphere-overview.html"
+  - title: 為何選擇 ONTAP for VMware
+    url: "/vmware/vmware-vsphere-why.html"
   - title: 統一化儲存設備
     url: "/vmware/vmware-vsphere-unified.html"
   - title: 虛擬化工具

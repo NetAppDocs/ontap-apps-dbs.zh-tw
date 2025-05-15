@@ -23,7 +23,7 @@ NOTE: 本文件將先前發佈的技術報告 _TR-4400: VMware vSphere 虛擬磁
 最佳實務做法是輔助其他文件、例如指南和相容性清單。這些技術是根據實驗室測試和NetApp工程師與客戶廣泛的現場經驗所開發。它們可能不是唯一可行或受支援的實務做法、但通常是最簡單的解決方案、可滿足大多數客戶的需求。
 
 
-TIP: 本文件已更新，包含 vSphere 8.0 更新 3 和 ONTAP 工具 10.3 版本中的新 vVols 功能。
+NOTE: 本文件已更新，包含 vSphere 8.0 更新 3 ， ONTAP 工具 10.4 版本和新 NetApp ASA 系統中的新 vVols 功能。
 
 
 
@@ -71,7 +71,7 @@ VVols 是儲存在 vVols 資料存放區中的實際虛擬機器檔案和磁碟�
 
 == 原則型管理
 
-VMware vSphere API for Storage Aware （ VASA ）可讓 VM 管理員輕鬆使用所需的任何儲存功能來配置 VM 、而無需與儲存團隊互動。在 VASA 之前、 VM 管理員可以定義 VM 儲存原則、但必須與儲存管理員合作、以識別適當的資料存放區、通常是使用文件或命名慣例。有了 VASA 、具有適當權限的 vCenter 管理員就能定義一系列儲存功能、 vCenter 使用者隨後可以使用這些功能來配置 VM 。VM 儲存原則與資料存放區功能之間的對應可讓 vCenter 顯示相容資料存放區清單以供選擇，並可啟用其他技術，例如 Aria （前身為 vRealize ） Automation 或 Tanzu Kubernetes Grid ，以自動從指派的原則中選取儲存區。這種方法稱為儲存原則型管理。雖然 VASA Provider 規則和 VM 儲存原則也可用於傳統的資料存放區，但我們的重點是 vVols 資料存放區。
+VMware vSphere API for Storage Aware （ VASA ）可讓 VM 管理員輕鬆使用所需的任何儲存功能來配置 VM 、而無需與儲存團隊互動。在 VASA 之前， VM 管理員可以定義 VM 儲存原則，但必須與儲存管理員一起找出適當的資料存放區，通常是使用文件或命名慣例。有了 VASA 、具有適當權限的 vCenter 管理員就能定義一系列儲存功能、 vCenter 使用者隨後可以使用這些功能來配置 VM 。VM 儲存原則與資料存放區功能之間的對應可讓 vCenter 顯示相容資料存放區清單以供選擇，並可啟用其他技術，例如 Aria （前身為 vRealize ） Automation 或 Tanzu Kubernetes Grid ，以自動從指派的原則中選取儲存區。這種方法稱為儲存原則型管理。雖然 VASA Provider 規則和 VM 儲存原則也可用於傳統的資料存放區，但我們的重點是 vVols 資料存放區。
 
 
 
@@ -117,7 +117,7 @@ _ 如需 ONTAP 和 VMware vSphere 最佳實務做法的詳細資訊、請參閱 
 
 == 搭配 ONTAP 使用 vVols 的優點
 
-當 VMware 在 2015 年推出 VVols 支援 VASA 2.0 時、他們將其描述為「整合與管理架構、為外部儲存設備（ SAN/NAS ）提供全新的作業模式」。 此作業模式可提供多項優點、搭配 ONTAP 儲存設備使用。
+當 VMware 在 2015 年推出 VVols 支援 VASA 2.0 時，他們將其描述為「整合與管理架構，為外部儲存設備（ SAN/NAS ）提供全新的作業模式」。此作業模式可提供多項優點，搭配 ONTAP 儲存設備使用。
 
 
 
@@ -155,7 +155,7 @@ _ 如需 ONTAP 和 VMware vSphere 最佳實務做法的詳細資訊、請參閱 
 * * 隨選虛擬機器資源配置 *
 +
 ** 私有雲或服務供應商 IaaS 。
-** 透過 Aria （前身為 vRealize ）套件、 OpenStack 等、充分運用自動化與協調功能
+** 透過 Aria （前身為 vRealize ）套件， OpenStack 等，充分運用自動化與協調功能。
 
 
 * * 一流磁碟（ FCD ） *

@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmware_vmsc_solution.html 
-keywords: VMware, Data protection, MetroCluster, SMBC, SnapMirror active sync, vMSC 
+keywords: VMware, Data protection, MetroCluster, SMBC, SMas, SnapMirror active sync, vMSC, metro storage cluster, vSphere, vCenter, business continuity, disaster recovery, ONTAP 
 summary: VMware vSphere 解決方案概觀 
 ---
 = VMware vSphere 解決方案概觀
@@ -20,13 +20,13 @@ vCenter Server Appliance （ VCSA ）是強大的集中式管理系統、也是 
 
 == vSphere 高可用度
 
-VMware 的叢集技術可將 ESXi 伺服器分組到虛擬機器的共用資源集區中、並提供 vSphere High Availability （ HA ）。vSphere HA 可為在虛擬機器中執行的應用程式提供易於使用的高可用度。當叢集上啟用 HA 功能時、每部 ESXi 伺服器都會與其他主機保持通訊、以便在任何 ESXi 主機無回應或隔離時、 HA 叢集可在叢集中的未運作主機之間、協調在該 ESXi 主機上執行的虛擬機器的還原作業。萬一來賓作業系統發生故障、 vSphere HA 會在同一部實體伺服器上重新啟動受影響的虛擬機器。vSphere HA 可減少計畫性停機、避免非計畫性停機、並快速從停機中恢復。
+VMware 的叢集技術可將 ESXi 伺服器分組為虛擬機器的共用資源集區，並提供 vSphere High Availability （ HA ）。 vSphere HA 可為在虛擬機器中執行的應用程式提供易於使用的高可用度。當叢集上啟用 HA 功能時、每部 ESXi 伺服器都會與其他主機保持通訊、以便在任何 ESXi 主機無回應或隔離時、 HA 叢集可在叢集中的未運作主機之間、協調在該 ESXi 主機上執行的虛擬機器的還原作業。萬一來賓作業系統發生故障， vSphere HA 可在同一部實體伺服器上重新啟動受影響的虛擬機器。 vSphere HA 可減少計畫性停機，避免非計畫性停機，並快速從停機中恢復。
 
 vSphere HA 叢集可從故障伺服器還原 VM 。
 
 image::../media/vmsc_2_1.png[VMSC 圖表,624,301]
 
-請務必瞭解 VMware vSphere 不知道 NetApp MetroCluster 或 SnapMirror 主動同步、並視主機和 VM 群組關聯性組態而定、將 vSphere 叢集中的所有 ESXi 主機視為 HA 叢集作業的合格主機。
+請務必瞭解 VMware vSphere 不知道 NetApp MetroCluster 或 SnapMirror 主動式同步，並視主機和 VM 群組關聯性組態而定，將 vSphere 叢集中的所有 ESXi 主機視為 HA 叢集作業的合格主機。
 
 
 
@@ -54,15 +54,15 @@ NetApp 建議指定至少兩個額外的隔離位址、而且每個位址都是�
 
 == 主機隔離回應
 
-隔離回應是 vSphere HA 中的一項設定、可決定當 vSphere HA 叢集中的主機失去管理網路連線但仍繼續執行時、在虛擬機器上觸發的動作。此設定有三個選項：「已停用」、「關機並重新啟動 VM 」和「關機並重新啟動 VM 」。
+隔離回應是 vSphere HA 中的一項設定、可決定當 vSphere HA 叢集中的主機失去管理網路連線但仍繼續執行時、在虛擬機器上觸發的動作。此設定有三個選項：「已停用」，「關機並重新啟動 VM 」和「關機並重新啟動 VM 」。
 
-「關機」比「關機」好、因為「關機」無法清除磁碟或認可交易的最新變更。如果虛擬機器在 300 秒內未關機、則會關閉電源。若要變更等待時間、請使用進階選項 das.isolationshutdowntimeout 。
+「關機」比「關機」好，因為「關機」無法清除磁碟或提交交易的最新變更。如果虛擬機器在 300 秒內未關機、則會關閉電源。若要變更等待時間、請使用進階選項 das.isolationshutdowntimeout 。
 
 在 HA 起始隔離回應之前、會先檢查 vSphere HA 主要代理程式是否擁有包含 VM 組態檔案的資料存放區。如果沒有、則主機不會觸發隔離回應、因為沒有主節點可重新啟動 VM 。主機會定期檢查資料存放區狀態、以判斷是否由擁有主角色的 vSphere HA 代理程式宣告。
 
 [TIP]
 ====
-NetApp 建議將「主機隔離回應」設定為「已停用」。
+NetApp 建議將「主機隔離回應」設為「已停用」。
 
 ====
 如果主機與 vSphere HA 主主機隔離或分割、而主主機無法透過心跳資料存放區或 ping 進行通訊、就可能發生分割腦部狀況。主機會宣告隔離的主機當機、並在叢集中的其他主機上重新啟動 VM 。現在存在分割腦狀況、因為有兩個執行中的虛擬機器執行個體、只有其中一個執行個體可以讀取或寫入虛擬磁碟。現在可以透過設定 VM 元件保護（ VMCP ）來避免發生大腦分裂的情況。
@@ -81,7 +81,7 @@ NetApp 建議將「主機隔離回應」設定為「已停用」。
 
 [TIP]
 ====
-NetApp 建議將「使用 PDL 的資料存放區回應」設定為「 * 關閉並重新啟動 VM* 」。偵測到這種情況時、將會在 vSphere HA 叢集中的健全主機上立即重新啟動 VM 。
+NetApp 建議將「使用 PDL 回應資料存放區」設定為「 * 關閉並重新啟動 VM* 」。偵測到這種情況時、將會在 vSphere HA 叢集中的健全主機上立即重新啟動 VM 。
 
 ====
 
@@ -96,17 +96,22 @@ NetApp 建議將「使用 PDL 的資料存放區回應」設定為「 * 關閉�
 ====
 * NetApp 建議將「使用 APD 的資料存放區回應」設定為「 * 關閉並重新啟動 VM （保守） * 」。
 * 保守是指 HA 能夠重新啟動 VM 的可能性。如果設為保守、 HA 只會重新啟動受 APD 影響的 VM 、前提是它知道其他主機可以重新啟動。在積極的情況下、 HA 會嘗試重新啟動 VM 、即使它不知道其他主機的狀態。如果沒有可存取其所在資料存放區的主機、這可能導致 VM 無法重新啟動。
-* 如果 APD 狀態已解決、且在逾時之前已還原對儲存設備的存取、則 HA 不會不必要地重新啟動虛擬機器、除非您明確將其設定為如此。如果即使環境已從 APD 條件恢復、仍需要回應、則 APD 逾時後的 APD 恢復回應應設定為重設虛擬機器。
+* 如果 APD 狀態已解決，且在逾時之前已還原對儲存設備的存取，則除非您明確設定 HA ，否則 HA 不會不必要地重新啟動虛擬機器。如果即使環境已從 APD 條件恢復、仍需要回應、則 APD 逾時後的 APD 恢復回應應設定為重設虛擬機器。
 * NetApp 建議將 APD 逾時後的 APD 恢復回應設定為停用。
 
 
 ====
 
 
+== 適用於 NetApp SnapMirror Active Sync 的 VMware DRS 實作
+
+VMware DRS 是一項功能、可將叢集中的主機資源集合在一起、主要用於在虛擬基礎架構中的叢集內進行負載平衡。VMware DRS 主要會計算 CPU 和記憶體資源、以便在叢集中執行負載平衡。由於 vSphere 不知道延伸叢集、因此在負載平衡時會考慮兩個站台中的所有主機。
+
+
+
 == 適用於 NetApp MetroCluster 的 VMware DRS 實作
 
-VMware DRS 是一項功能、可將叢集中的主機資源集合在一起、主要用於在虛擬基礎架構中的叢集內進行負載平衡。VMware DRS 主要會計算 CPU 和記憶體資源、以便在叢集中執行負載平衡。由於 vSphere 不知道延伸叢集、因此在負載平衡時會考慮兩個站台中的所有主機。為了避免跨站台流量、 NetApp 建議您設定 DRS 關聯性規則、以管理虛擬機器的邏輯分隔。這可確保除非發生完整的站台故障、否則 HA 和 DRS 只會使用本機主機。
-
+ To avoid cross-site traffic, NetApp recommends configuring DRS affinity rules to manage a logical separation of VMs. This will ensure that unless there is a complete site failure, HA and DRS will only use local hosts.
 如果您為叢集建立 DRS 關聯性規則、您可以指定 vSphere 如何在虛擬機器容錯移轉期間套用該規則。
 
 您可以指定 vSphere HA 容錯移轉行為的規則有兩種類型：
@@ -125,9 +130,9 @@ image::../media/vmsc_2_2.png[VM 主機群組和關聯規則,528,369]
 
 === 最佳實務做法 _
 
-NetApp 建議實作「應該」規則、而非「必須」規則、因為在發生故障時、 vSphere HA 會違反這些規則。使用「必須」規則可能導致服務中斷。
+NetApp 建議實作「應該」規則，而非「必須」規則，因為在發生故障時 vSphere HA 會違反這些規則。使用「必須」規則可能導致服務中斷。
 
-服務的可用度應永遠高於效能。在完整資料中心故障的情況下、「必須」規則必須從 VM 主機關聯群組中選擇主機、而當資料中心無法使用時、虛擬機器將不會重新啟動。
+服務的可用度應永遠高於效能。在完整資料中心故障的情況下，「必須」規則必須從 VM 主機關聯群組中選擇主機，而當資料中心無法使用時，虛擬機器將不會重新啟動。
 
 
 

@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: vmware/vmware_vmsc_design.html 
-keywords: VMware, Data protection, MetroCluster, SMBC, SnapMirror active sync, vMSC 
+keywords: VMware, Data protection, MetroCluster, SMBC, SMas, SnapMirror active sync, vMSC, metro storage cluster, vSphere, vCenter, business continuity, disaster recovery, ONTAP 
 summary: VMSC 設計與實作準則。 
 ---
 = VMSC 設計與實作準則
@@ -20,15 +20,19 @@ summary: VMSC 設計與實作準則。
 
 == NetApp 儲存組態
 
-NetApp MetroCluster 的設定說明（稱為 MCC 組態）可在 https://docs.netapp.com/us-en/ontap-metrocluster/["資訊文件MetroCluster"]取得。SnapMirror Active Sync （ SMas ）的說明也可在以下網址取得： https://docs.netapp.com/us-en/ontap/smbc/index.html["SnapMirror營運不中斷總覽"]。
+NetApp MetroCluster 的設定說明請參閱 https://docs.netapp.com/us-en/ontap-metrocluster/["資訊文件MetroCluster"]。SnapMirror Active Sync （ SMas ）的說明也可在以下網址取得： https://docs.netapp.com/us-en/ontap/smbc/index.html["SnapMirror營運不中斷總覽"]。
 
 設定 MetroCluster 之後、管理就像管理傳統的 ONTAP 環境一樣。您可以使用命令列介面（ CLI ）、系統管理員或 Ansible 等各種工具來設定儲存虛擬機器（ SVM ）。設定 SVM 後、在叢集上建立邏輯介面（生命體）、磁碟區和邏輯單元編號（ LUN ）、以用於正常作業。這些物件將會使用叢集對等網路自動複寫到其他叢集。
 
-如果不使用 MetroCluster 、您可以使用 SnapMirror 主動式同步功能、在不同故障網域中的多個 ONTAP 叢集之間提供資料存放區精細保護和主動式存取。SMas 使用一致性群組（ CGS ）來確保一個或多個資料存放區之間的寫入順序一致性，您可以根據應用程式和資料存放區需求建立多個 CGS 。一致性群組對於需要在多個資料存放區之間進行資料同步的應用程式特別有用。SMas 也支援原始裝置對應（ RDM ），以及與來賓 iSCSI 啟動器連線的來賓儲存設備。有關一致性群組的詳細資訊，請參閱 https://docs.netapp.com/us-en/ontap/consistency-groups/index.html["一致性群組總覽"]。
+如果未使用 MetroCluster ，或是您的 ONTAP 系統不支援 MetroCluster ，例如 ASA R2 系統，則可以使用 SnapMirror 主動式同步功能，在不同故障網域中的多個 ONTAP 叢集上提供資料存放區精細保護和主動式存取。SMas 使用一致性群組（ CGS ）來確保一個或多個資料存放區之間的寫入順序一致性，您可以根據應用程式和資料存放區需求建立多個 CGS 。一致性群組對於需要在多個資料存放區之間進行資料同步的應用程式特別有用。例如，分散在資料存放區之間的客體 LVM 。SMas 也支援原始裝置對應（ RDM ），以及與來賓 iSCSI 啟動器連線的來賓儲存設備。有關一致性群組的詳細資訊，請參閱 https://docs.netapp.com/us-en/ontap/consistency-groups/index.html["一致性群組總覽"]。
 
-ONTAP 工具現在提供一種簡單的方法來設定 VMSC 的 SnapMirror 作用中同步。您可以使用 ONTAP 工具 vCenter 外掛程式來建立和管理兩個 ONTAP 叢集之間的 SnapMirror 主動式同步關係。外掛程式提供簡單直覺的介面，可在兩個 ONTAP 叢集之間建立及管理 SnapMirror 主動式同步關係。您可以在上深入瞭解 ONTAP 工具 vCenter 外掛程式 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["VMware vSphere適用的工具ONTAP"]，或直接跳至 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/protect-cluster.html["使用主機叢集保護來保護"]。
+與 MetroCluster 相比、使用 SnapMirror 主動式同步管理 VMSC 組態有一些差異。首先， SMas 是僅限 SAN 的組態， SnapMirror 主動式同步無法保護任何 NFS 資料存放區。其次、您必須將兩個 LUN 複本對應到 ESXi 主機、以便它們存取兩個故障網域中的複寫資料存放區。第三，您必須針對要使用 SnapMirror 主動式同步保護的資料存放區，建立一或多個一致性群組。最後，您必須為建立的一致性群組建立 SnapMirror 原則。您可以使用 ONTAP 工具 vCenter 外掛程式中的「保護叢集」精靈，或使用 ONTAP CLI 或系統管理員手動完成所有這些工作。
 
-與 MetroCluster 相比、使用 SnapMirror 主動式同步管理 VMSC 組態有一些差異。首先， SMas 是僅限 SAN 的組態， SnapMirror 主動式同步無法保護任何 NFS 資料存放區。其次、您必須將兩個 LUN 複本對應到 ESXi 主機、以便它們存取兩個故障網域中的複寫資料存放區。
+
+
+== 使用 ONTAP Tools vCenter Plugin for SnapMirror Active Sync
+
+ONTAP 工具 vCenter 外掛程式提供簡單且直覺的方式，可為 VMSC 設定 SnapMirror 主動式同步。您可以使用 ONTAP 工具 vCenter 外掛程式來建立和管理兩個 ONTAP 叢集之間的 SnapMirror 主動式同步關係。此外掛程式提供易於使用的介面，可有效建立及管理這些關係。您可以在上深入瞭解 ONTAP 工具 vCenter 外掛程式 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["VMware vSphere適用的工具ONTAP"]，或直接跳至 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/protect-cluster.html["使用主機叢集保護來保護"]。
 
 
 
@@ -76,7 +80,7 @@ image::../media/vmsc_3_4.png[接入控制,624,479]
 image::../media/vmsc_3_5.png[VMSC 3 5.,624,336]
 
 . 啟用 VM 元件保護、請參閱 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-availability/GUID-F01F7EB8-FF9D-45E2-A093-5F56A788D027.html["docs.vmware.com"]。
-. 建議使用 MCC 的 VMSC 使用下列其他 vSphere HA 設定：
+. 建議搭配 MetroCluster 的 VMSC 使用下列其他 vSphere HA 設定：
 
 
 [cols="50%,50%"]
@@ -141,7 +145,7 @@ image::../media/vmsc_3_6.png[自動產生電腦說明的螢幕擷取畫面,624,5
 
 image::../media/vmsc_3_7.png[自動產生電腦說明的螢幕擷取畫面,624,545]
 
-新增稱為 das.心跳 DsPerHost 的進階設定、可能會增加心跳資料存放區的數量。使用四個心跳資料存放區（ HB DSS ）、每個站台兩個。使用「從清單中選取但輔助」選項。這是必要的、因為如果某個站台發生故障、您仍需要兩個 HB DSS 。但是、這些不需要透過 MCC 或 SnapMirror 主動同步來保護。
+新增稱為 das.心跳 DsPerHost 的進階設定、可能會增加心跳資料存放區的數量。使用四個心跳資料存放區（ HB DSS ）、每個站台兩個。使用「從清單中選取但輔助」選項。這是必要的、因為如果某個站台發生故障、您仍需要兩個 HB DSS 。不過，這些不一定要使用 MetroCluster 或 SnapMirror 主動式同步來保護。
 
 如需詳細資訊，請參閱 https://www.vmware.com/docs/vmw-vmware-vsphere-metro-storage-cluster-recommended-practices["VMware vSphere Metro儲存叢集建議實務做法"]
 
@@ -152,7 +156,7 @@ image::../media/vmsc_3_7.png[自動產生電腦說明的螢幕擷取畫面,624,5
 [TIP]
 ====
 * NetApp 強烈建議在組 * 中的主機上運行規範 * ，而不是規範 * 必須在組 * 中的主機上運行。萬一站台 A 主機故障、站台 A 的 VM 需要透過 vSphere HA 在站台 B 的主機上重新啟動、但後者的規格不允許 HA 在站台 B 上重新啟動 VM 、因為這是硬規則。以前的規格是軟性規則、在 HA 發生時會違反、因此可提供可用度而非效能。
-* 您可以建立事件型警示、在虛擬機器違反 VM 主機關聯規則時觸發。在 vSphere Client 中、新增虛擬機器的警示、並選取「 VM 正在違反 VM-Host Affinity Rule 」作為事件觸發程序。如需建立及編輯警示的詳細資訊，請參閱link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-monitoring-and-performance-8-0.html["vSphere 監控與效能"^]文件。
+* 您可以建立事件型警示、在虛擬機器違反 VM 主機關聯規則時觸發。在 vSphere Client 中，新增虛擬機器的警示，並選取「 VM 正在違反 VM-Host 關聯規則」作為事件觸發程序。如需建立及編輯警示的詳細資訊，請參閱link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-monitoring-and-performance-8-0.html["vSphere 監控與效能"^]文件。
 
 
 ====

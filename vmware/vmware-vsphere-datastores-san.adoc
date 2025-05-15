@@ -14,31 +14,40 @@ summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案
 
 
 [role="lead"]
-在vSphere中、有三種使用區塊儲存LUN的方法：
+在 vSphere 中，有四種使用區塊儲存裝置的方法：
 
 * 使用VMFS資料存放區
 * 使用原始裝置對應（RDM）
 * 做為連接 iSCSI 的 LUN 或連接至 NVMe / TCP 的命名空間，可由軟體啟動器從 VM 來賓作業系統存取和控制
+* 做為 vVols 資料存放區
 
 
 VMFS是高效能的叢集式檔案系統、可提供共用儲存資源池的資料存放區。VMFS 資料存放區可設定為使用 FC 、 iSCSI 、 FCoE 或 NVMe 命名空間存取 LUN 、使用 NVMe / FC 或 NVMe / TCP 通訊協定存取。VMFS 可讓叢集中的每個 ESX 伺服器同時存取儲存設備。從 ONTAP 9.12.1P2 開始、 LUN 大小上限通常為 128TB （ ASA 系統則為較早版本）；因此、使用單一 LUN 可建立最大大小為 64TB 的 VMFS 5 或 6 資料存放區。
 
-vSphere內建多個儲存裝置路徑的支援功能、稱為原生多重路徑（NMP）。NMP可偵測支援儲存系統的儲存類型、並自動設定NMP堆疊以支援使用中儲存系統的功能。
 
-NMP 和 ONTAP 都支援非對稱邏輯單元存取（ ALUA ）、可協調最佳化和非最佳化的路徑。在本功能中、ALUA最佳化路徑會使用主控所存取LUN的節點上的目標連接埠、遵循直接資料路徑。ONTAP預設會在vSphere和ONTAP VMware中同時開啟ALUA。NMP 將 ONTAP 叢集識別為 ALUA 、並使用 ALUA 儲存陣列類型外掛程式 (`VMW_SATP_ALUA`）並選取循環路徑選擇外掛程式 (`VMW_PSP_RR`）。
+TIP: extents 是 vSphere 儲存概念，您可以將多個 LUN 「拼接」在一起，以建立單一較大的資料存放區。切勿使用範圍來達到所需的資料存放區大小。單一 LUN 是 VMFS 資料存放區的最佳實務做法。
 
-ESXi 6 新增支援最多 256 個 LUN ，以及最多 1 ， 024 個通往 LUN 的路徑。ESXi 不會看到超出這些限制的任何 LUN 或路徑。假設LUN數量上限、則路徑限制允許每個LUN有四個路徑。在更大ONTAP 的實體叢集中、可以在LUN限制之前達到路徑限制。為了解決此限制、ONTAP 支援8.3版及更新版本中的選擇性LUN對應（SLM),
+vSphere 內建支援多個儲存裝置路徑。 vSphere 可偵測支援儲存系統的儲存裝置類型，並自動設定多重路徑堆疊，以支援使用中儲存系統的功能，所使用的傳輸協定的完整版本，或是使用 ASA ， AFF ， FAS 或軟體定義的 ONTAP 。
+
+vSphere 和 ONTAP 都支援非對稱邏輯單元存取（ ALUA ），可為光纖通道和 iSCSI 建立主動 / 最佳化和主動 / 非最佳化的路徑，以及使用 NVMe / FC 和 NVMe / TCP 的非對稱命名空間存取（ ANA ）。在 ONTAP 中， ALUA 或全日空最佳化路徑會使用位於要存取之 LUN 或命名空間的節點上的目標連接埠，沿著直接資料路徑前進。在 vSphere 和 ONTAP 中， ALUA/ANA 預設為開啟。vSphere 中的多重路徑軟體可將 ONTAP 叢集識別為 ALUA 或 ANA ，並使用適當的原生外掛程式搭配循環資源負載平衡原則。
+
+使用 NetApp 的 ASA 系統， LUN 和命名空間會呈現給具有對稱路徑的 ESXi 主機。這表示所有路徑都是主動且最佳化的。vSphere 中的多重路徑軟體可將 ASA 系統辨識為對稱，並使用適當的原生外掛程式搭配循環負載平衡原則。
+
+
+TIP: 如需最佳化的多重路徑設定，請參閱link:vmware-vsphere-settings.html["建議的ESXi主機和其他ONTAP 功能設定"^]。
+
+ESXi 不會看到任何超出其限制的 LUN ，命名空間或路徑。在更大ONTAP 的實體叢集中、可以在LUN限制之前達到路徑限制。為了解決此限制、ONTAP 支援8.3版及更新版本中的選擇性LUN對應（SLM),
 
 
 NOTE: 如需 ESXi 支援的最新限制，請參閱link:https://configmax.broadcom.com/guest?vmwareproduct=vSphere&release=vSphere%208.0&categories=2-0["VMware 組態最大值工具"^]。
 
-對於向指定LUN通告路徑的節點、SLM會有限制。NetApp最佳實務做法是每個SVM每個節點至少有一個LIF、並使用SLM來限制通告給裝載LUN及其HA合作夥伴之節點的路徑。雖然存在其他路徑、但預設不會通告這些路徑。您可以使用新增和移除在SLMs中的報告節點引數來修改通告的路徑。請注意、在8.3之前的版本中建立的LUN會通告所有路徑、而且必須加以修改、才能只向主機HA配對通告路徑。有關 SLM 的詳細信息，請參閱第 5.9 節 https://www.netapp.com/pdf.html?item=/media/10680-tr4080pdf.pdf["TR-4080"^]（英文）。先前的連接埠集方法也可用於進一步減少LUN的可用路徑。PortSets可減少igroup中的啟動器可透過哪些可見路徑來查看LUN、進而提供協助。
+對於向指定LUN通告路徑的節點、SLM會有限制。NetApp 最佳做法是每個 SVM 每個節點至少有兩個生命期，並使用 SLM 來限制通告給裝載 LUN 及其 HA 合作夥伴之節點的路徑。雖然存在其他路徑、但預設不會通告這些路徑。您可以使用新增和移除在SLMs中的報告節點引數來修改通告的路徑。請注意、在 8.3 之前版本中建立的 LUN 會通告所有路徑、而且需要修改以僅通告主控 HA 配對的路徑。有關 SLM 的詳細信息，請參閱第 5.9 節 https://www.netapp.com/pdf.html?item=/media/10680-tr4080pdf.pdf["TR-4080"^]（英文）。先前的連接埠集方法也可用於進一步減少LUN的可用路徑。PortSets可減少igroup中的啟動器可透過哪些可見路徑來查看LUN、進而提供協助。
 
 * 根據預設、會啟用SLM.除非您使用連接埠集、否則不需要額外的組態。
-* 對於在 Data ONTAP 8.3 之前建立的 LUN 、請執行手動套用 SLM `lun mapping remove-reporting-nodes` 用於移除 LUN 報告節點、並限制 LUN 存取 LUN 所屬節點及其 HA 合作夥伴的命令。
+* 對於在 Data ONTAP 8.3 之前建立的 LUN ，請執行命令來移除 LUN 報告節點，並限制 LUN 存取 LUN 所屬節點及其 HA 合作夥伴，以手動套用 SLM `lun mapping remove-reporting-nodes` 。
 
 
-區塊傳輸協定（iSCSI、FC和FCoE）使用LUN ID和序號以及唯一名稱來存取LUN。FC和FCoE使用全球名稱（WWNN和WWPN）、iSCSI則使用iSCSI合格名稱（IQN）。儲存設備內部的LUN路徑對區塊傳輸協定毫無意義、而且不會出現在傳輸協定的任何位置。因此、只包含LUN的磁碟區根本不需要內部掛載、而包含資料存放區所用LUN的磁碟區則不需要使用交會路徑。NVMe子系統ONTAP 的運作方式類似。
+SCSI 型區塊傳輸協定（ iSCSI ， FC 和 FCoE ）會使用 LUN ID 和序號以及唯一名稱來存取 LUN 。FC 和 FCoE 使用全球名稱（ WWNN 和 WWPN ），而 iSCSI 則使用 iSCSI 合格名稱（ IQN ），根據 LUN 建立路徑，以根據 PortSet 和 SLM 篩選的 igroup 對應。NVMe 型區塊傳輸協定是透過將具有自動產生命名空間 ID 的命名空間指派給 NVMe 子系統來管理，並將該子系統對應至主機的 NVMe 合格名稱（ NQN ）。無論 FC 或 TCP 為何， NVMe 命名空間都會使用 NQN 來對應，而非 WWPN 或 WWNN 。然後，主機會建立軟體定義控制器，讓對應的子系統存取其命名空間。ONTAP 內部的 LUN 和命名空間路徑對區塊傳輸協定毫無意義，而且不會出現在傳輸協定的任何位置。因此、只包含LUN的磁碟區根本不需要內部掛載、而包含資料存放區所用LUN的磁碟區則不需要使用交會路徑。
 
 其他應考慮的最佳實務做法：
 

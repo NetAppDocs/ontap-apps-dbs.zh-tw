@@ -25,7 +25,7 @@ summary: 瞭解 NetApp 儲存設備和 Windows Server 環境
 * 其他應用程式工作負載
 
 
-此外、 NetApp 儲存效率功能、例如重複資料刪除、 NetApp FlexClone （ R ）複本、 NetApp Snapshot 技術、精簡配置、壓縮、 而儲存分層功能可為在 Windows Server 上執行的工作負載提供顯著的價值。
+此外，重複資料刪除， NetApp FlexClone （ R ）複本， NetApp 快照技術，精簡配置，壓縮及儲存分層等 NetApp 儲存效率功能，也為在 Windows Server 上執行的工作負載帶來可觀的價值。
 
 
 
@@ -33,9 +33,9 @@ summary: 瞭解 NetApp 儲存設備和 Windows Server 環境
 
 ONTAP 是在 NetApp 儲存控制器上執行的管理軟體。NetApp 儲存控制器稱為節點、是一種硬體裝置、內含處理器、 RAM 和 NVRAM 。節點可以連接至 SATA 、 SAS 或 SSD 磁碟機、或是這些磁碟機的組合。
 
-將多個節點彙總至叢集式系統。叢集中的節點會持續彼此通訊、以協調叢集活動。節點也可以使用備援路徑、將資料透明地從節點移至節點、然後移至由兩個 10Gb 乙太網路交換器組成的專用叢集網路。叢集中的節點可以互相接管、在任何容錯移轉案例中提供高可用度。叢集是在整個叢集上進行管理、而非以每個節點為基礎、而且資料是從一或多個儲存虛擬機器（ SVM ）提供。叢集必須至少有一個 SVM 才能提供資料。
+將多個節點彙總至叢集式系統。叢集中的節點會持續彼此通訊、以協調叢集活動。節點也可以使用備援路徑，將資料透明地從節點移至節點，以連接由兩個 10Gb 乙太網路交換器組成的專用叢集互連。叢集中的節點可以互相接管、在任何容錯移轉案例中提供高可用度。叢集是在整個叢集上進行管理、而非以每個節點為基礎、而且資料是從一或多個儲存虛擬機器（ SVM ）提供。叢集必須至少有一個 SVM 才能提供資料。
 
-叢集的基本單元是節點、節點會新增至叢集、作為高可用度（ HA ）配對的一部分。HA 配對可透過 HA 互連（與專用叢集網路分開）彼此通訊、並維持與 HA 配對磁碟的備援連線、實現高可用度。雖然磁碟櫃可能包含屬於 HA 配對任一成員的磁碟、但磁碟不會在 HA 配對之間共用。下圖說明 Windows Server 環境中的 NetApp 儲存部署。
+叢集的基本單元是節點、節點會新增至叢集、作為高可用度（ HA ）配對的一部分。HA 配對可透過 HA 互連（與專用叢集互連分開）彼此通訊，並維持與 HA 配對磁碟的備援連線，實現高可用度。雖然磁碟櫃可能包含屬於 HA 配對任一成員的磁碟、但磁碟不會在 HA 配對之間共用。下圖說明 Windows Server 環境中的 NetApp 儲存部署。
 
 image:win_image1.png["Windows Server 環境中的 NetApp 儲存部署、寬度 =624 、高度 =479"]
 
@@ -77,7 +77,7 @@ image:win_image2.png["ONTAP 儲存虛擬機器、寬度 = 572 、高度 = 443"]
 
 == NetApp PowerShell 工具套件
 
-NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端點對端自動化、並可讓您管理 ONTAP 的儲存設備。ONTAP 模組包含超過 2 、 000 個 Cmdlet 、可協助管理 FAS 、 NetApp All Flash FAS （ AFF ）、市售硬體和雲端資源。
+NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端點對端自動化、並可讓您管理 ONTAP 的儲存設備。ONTAP 模組包含超過 2 ， 000 個 Cmdlet ，可協助管理 NetApp AFF ， FAS ，市售硬體和雲端資源。
 
 
 

@@ -16,17 +16,17 @@ summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP FlexGroup Volume �
 [role="lead"]
 將 ONTAP 和 FlexGroup Volume 搭配 VMware vSphere 使用、即可建立簡單且可擴充的資料存放區、充分發揮整個 ONTAP 叢集的完整功能。
 
-ONTAP 9.8 搭配適用於 VMware vSphere 9.8 的 ONTAP 工具、以及適用於 VMware 4.4 版本的 SnapCenter 外掛程式、新增了對 vSphere 中 FlexGroup Volume 備份資料存放區的支援。FlexGroup Volume 可簡化大型資料存放區的建立、並在 ONTAP 叢集上自動建立必要的分散式組成磁碟區、讓 ONTAP 系統發揮最大效能。
+ONTAP 9.8 搭配適用於 VMware vSphere 9.8% 至 9.13 的 ONTAP 工具，以及適用於 VMware 4.4 及更新版本的 SnapCenter 外掛程式，新增了對 vSphere 中 FlexGroup Volume 備份資料存放區的支援。FlexGroup Volume 可簡化大型資料存放區的建立、並在 ONTAP 叢集上自動建立必要的分散式組成磁碟區、讓 ONTAP 系統發揮最大效能。
 
-如果您需要具備完整 ONTAP 叢集功能的單一可擴充 vSphere 資料存放區、或是擁有可從全新 FlexGroup 複製機制獲益的大型複製工作負載、請將 FlexGroup Volume 搭配 vSphere 一起使用。
+如果您需要具備完整 ONTAP 叢集功能的單一可擴充 vSphere 資料存放區，或是擁有非常龐大的複製工作負載，而這些工作負載可透過持續保持複製快取的溫控，從 FlexGroup 複製機制中獲益，請將 FlexGroup Volume 搭配 vSphere 一起使用。
 
 
 
 == 複本卸載
 
-除了針對 vSphere 工作負載進行廣泛的系統測試之外、 ONTAP 9.8 也為 FlexGroup 資料存放區新增了複本卸載機制。這套新系統使用改良的複製引擎、在背景中的成員之間複寫檔案、同時允許存取來源和目的地。然後使用此本機快取、根據需要快速產生 VM 複本。
+除了針對 vSphere 工作負載進行廣泛的系統測試之外、 ONTAP 9.8 也為 FlexGroup 資料存放區新增了複本卸載機制。這套新系統使用改良的複製引擎、在背景中的成員之間複寫檔案、同時允許存取來源和目的地。然後使用這種組成本機快取，根據需要快速產生 VM 複本。
 
-若要啟用 FlexGroup 最佳化複本卸載、請參閱 https://kb.netapp.com/onprem/ontap/dm/VAAI/How_to_Configure_ONTAP_FlexGroups_to_allow_VAAI_copy_offload["如何設定 ONTAP FlexGroups 以允許 VAAI 複本卸載"]
+若要啟用 FlexGroup 最佳化複本卸載，請參閱 https://kb.netapp.com/onprem/ontap/dm/VAAI/How_to_Configure_ONTAP_FlexGroups_to_allow_VAAI_copy_offload["如何設定 ONTAP FlexGroup 磁碟區以允許 VAAI 複本卸載"]
 
 您可能會發現、如果您使用的是 VAAI 複製、但複製的複製量不足以保持快取溫暖、則您的複本可能不會比主機複本快。如果是這種情況、您可以調整快取逾時、以更符合您的需求。
 
@@ -40,7 +40,7 @@ ONTAP 9.8 搭配適用於 VMware vSphere 9.8 的 ONTAP 工具、以及適用於 
 
 Volume 接收的每個新複製工作都會重設逾時。如果範例 FlexGroup 中的組成磁碟區在逾時之前未收到複製要求、則會清除該特定 VM 的快取、而且需要再次填入該磁碟區。此外、如果原始複本的來源變更（例如、您已更新範本）、則每個成分的本機快取都會失效、以避免任何衝突。如前所述、快取是可調整的、可設定以符合您環境的需求。
 
-如需搭配 VAAI 使用 FlexGroups 的詳細資訊、請參閱知識庫文章： https://kb.netapp.com/?title=onprem%2Fontap%2Fdm%2FVAAI%2FVAAI%3A_How_does_caching_work_with_FlexGroups%253F["VAAI ：快取如何與 FlexGroup 磁碟區搭配運作？"^]
+如需搭配 VAAI 使用 FlexGroup Volume 的詳細資訊，請參閱此知識庫文章： https://kb.netapp.com/?title=onprem%2Fontap%2Fdm%2FVAAI%2FVAAI%3A_How_does_caching_work_with_FlexGroups%253F["VAAI ：快取如何與 FlexGroup 磁碟區搭配運作？"^]
 
 在無法充分利用 FlexGroup 快取、但仍需要快速跨磁碟區複製的環境中、請考慮使用 vVols 。使用 vVols 進行跨磁碟區複製的速度比使用傳統資料存放區快得多、而且不依賴快取。
 
@@ -52,7 +52,7 @@ Volume 接收的每個新複製工作都會重設逾時。如果範例 FlexGroup
 
 QoS （最大 / 最小 IOPS ）可在 vCenter UI 中的個別虛擬機器或當時資料存放區中的所有虛擬機器上設定、或使用 ONTAP 工具透過 REST API 設定。在所有VM上設定QoS會取代任何個別VM設定。設定未來不會延伸至新的或移轉的VM；您可以在新的VM上設定QoS、或是將QoS重新套用至資料存放區中的所有VM。
 
-請注意、 VMware vSphere 會將 NFS 資料存放區的所有 IO 視為每個主機的單一佇列、而一個 VM 上的 QoS 節流會影響同一個資料存放區中其他 VM 的效能。這與 vVols 形成對照、 vVols 可在移轉至其他資料存放區時維持其 QoS 原則設定、並在節流時不會影響其他 VM 的 IO 。
+請注意， VMware vSphere 會將 NFS 資料存放區的所有 IO 視為每個主機的單一佇列，而一個 VM 上的 QoS 節流會影響該主機同一資料存放區中其他 VM 的效能。這與 vVols 形成對照、 vVols 可在移轉至其他資料存放區時維持其 QoS 原則設定、並在節流時不會影響其他 VM 的 IO 。
 
 
 
@@ -66,8 +66,8 @@ ONTAP 9.8 也為 FlexGroup 檔案新增了檔案型效能指標（ IOPS 、處�
 
 * 使用 ONTAP 工具來建立 FlexGroup 資料存放區、以確保以最佳方式建立 FlexGroup 、並將匯出原則設定為符合您的 vSphere 環境。不過、使用 ONTAP 工具建立 FlexGroup Volume 之後、您會發現 vSphere 叢集中的所有節點都使用單一 IP 位址來掛載資料存放區。這可能導致網路連接埠出現瓶頸。若要避免此問題、請卸載資料存放區、然後使用標準 vSphere 資料存放區精靈、使用在 SVM 上的整個生命體之間進行負載平衡的循環 DNS 名稱來重新掛載資料存放區。重新掛載之後、 ONTAP 工具將再次能夠管理資料存放區。如果 ONTAP 工具無法使用、請使用 FlexGroup 預設值、並依照中的準則建立匯出原則 link:vmware-vsphere-datastores-nfs.html["資料存放區和傳輸協定 - NFS"]。
 * 調整FlexGroup VMware資料存放區規模時、請記住FlexGroup 、此功能包含FlexVol 多個較小的、可建立較大命名空間的支援區。因此、將資料存放區大小調整為至少 8 倍（假設預設為 8 個組成要素）、即最大 VMDK 檔案的大小、加上 10-20% 的未使用保留空間、以便靈活地重新平衡。例如、如果您的環境中有 6TB VMDK 、請將 FlexGroup 資料存放區大小調整為不小於 52.8 TB （ 6X8+10% ）。
-* VMware 和 NetApp 支援從 ONTAP 9.14.1 開始的 NFSv4.1 工作階段主幹。如需特定版本詳細資料、請參閱 NetApp NFS 4.1 互通性對照表附註。NFSv3 不支援多個實體路徑到一個 Volume 、但支援從 vSphere 8.0U2 開始的 nconnect 。如需 nconnect 的詳細資訊、請參閱 link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vmware-vsphere8-nfsv3-nconnect.html["NFSv3 nConnect 功能搭配 NetApp 和 VMware"]。
-* 使用適用於VMware VAAI的NFS外掛程式進行複本卸載。請注意、雖然如前所述、在 FlexGroup 資料存放區內增強複製功能、但在 FlexVol 和 / 或 FlexGroup 磁碟區之間複製 VM 時、 ONTAP 並未提供與 ESXi 主機複本相比的顯著效能優勢。因此、在決定使用 VAAI 或 FlexGroups 時、請考慮您的複製工作負載。修改組成磁碟區數量是最佳化 FlexGroup 型複製的一種方法。如同調整先前提到的快取逾時。
-* 使用適用於 VMware vSphere 9.8 或更新版本的 ONTAP 工具、使用 ONTAP 度量（儀表板和 VM 報告）來監控 FlexGroup VM 的效能、並在個別 VM 上管理 QoS 。目前無法透過ONTAP REST指令或API取得這些指標。
+* VMware 和 NetApp 支援從 ONTAP 9.14.1 開始的 NFSv4.1 工作階段主幹。如需特定版本詳細資料，請參閱 NetApp NFS 4.1 互通性對照表工具（ IMT ）注意事項。NFSv3 不支援多個實體路徑到一個 Volume 、但支援從 vSphere 8.0U2 開始的 nconnect 。有關 nconnect 的詳細資訊link:https://docs.netapp.com/us-en/netapp-solutions/vmware/vmware-vsphere8-nfs-nconnect.html["NFSv3 nConnect 功能搭配 NetApp 和 VMware"]，請參閱。
+* 使用適用於VMware VAAI的NFS外掛程式進行複本卸載。請注意、雖然如前所述、在 FlexGroup 資料存放區內增強複製功能、但在 FlexVol 和 / 或 FlexGroup 磁碟區之間複製 VM 時、 ONTAP 並未提供與 ESXi 主機複本相比的顯著效能優勢。因此，在決定使用 VAAI 或 FlexGroup 磁碟區時，請考慮您的複製工作負載。修改組成磁碟區數量是最佳化 FlexGroup 型複製的一種方法。如同調整先前提到的快取逾時。
+* 使用適用於 VMware vSphere 9.8% 至 9.13 的 ONTAP 工具，使用 ONTAP 度量（儀表板和 VM 報告）來監控 FlexGroup VM 的效能，並在個別 VM 上管理 QoS 。目前無法透過ONTAP REST指令或API取得這些指標。
 * SnapCenter Plug-in for VMware vSphere 4.4 版及更新版本支援在主要儲存系統上的 FlexGroup 資料存放區中備份及還原 VM 。4 ． 6 號選擇控制閥增加了對基於 FlexGroup 的數據存儲的 SnapMirror 支持。使用陣列型快照和複寫是保護資料的最有效方法。
 

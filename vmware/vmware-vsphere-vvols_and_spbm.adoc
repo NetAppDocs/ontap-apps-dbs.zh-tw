@@ -16,7 +16,8 @@ summary: 本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案
 [role="lead"]
 NetApp 於 2012 年首次宣布，在開發 VMware vSphere API for Storage Aware （ VASA ）方面與 VMware 合作，成為早期設計合作夥伴，這是以儲存原則為基礎的管理（ SPBM ）與企業儲存陣列的基礎。此方法為 VMFS 和 NFS 儲存帶來有限的 VM 精細儲存管理。
 
- As a technology design partner, NetApp provided architectural input and in 2015 announced support for vVols. This new technology now enabled the automation of VM-granular and truly array-native storage provisioning through SPBM.
+作為技術設計合作夥伴， NetApp 提供架構意見，並於 2015 年宣布支援 VVols 。這項新技術現在可透過 SPBM 將 VM 精細且真正的陣列原生儲存資源配置自動化。
+
 
 
 == 虛擬磁碟區（ vVols ）
@@ -41,9 +42,9 @@ NetApp ONTAP 在 vVols 擴充領域領導儲存產業，在單一叢集內支援
 
 我們先前提到， VM 管理員可以將容量當成儲存池使用。這是透過使用 vSphere 中代表為邏輯資料存放區的儲存容器來完成的。
 
-儲存容器是由儲存管理員所建立，用於群組 VM 管理員可以使用的儲存資源。根據您使用的 ONTAP 系統類型，儲存容器的建立方式可能有所不同。使用傳統的 ONTAP 9 叢集，容器會被指派一個或多個組成儲存池的 FlexVols 備份。使用 ASA R2 系統時，整個叢集就是儲存池。
+儲存容器是由儲存管理員所建立，用於群組 VM 管理員可以使用的儲存資源。根據您使用的 ONTAP 系統類型，儲存容器的建立方式可能有所不同。使用傳統的 ONTAP 9 叢集，容器會被指派一個或多個組成儲存池的備份 FlexVol 磁碟區。使用 ASA R2 系統時，整個叢集就是儲存池。
 
 
 NOTE: 如需VMware vSphere虛擬磁碟區、SPBM及ONTAP VMware的詳細資訊、請參閱 link:vmware-vvols-overview.html["TR-4400: VMware vSphere虛擬Volume ONTAP with VMware"^]。
 
- \* Depending on platform and protocol
+* 視平台和傳輸協定而定

@@ -53,7 +53,7 @@ NetApp 儲存控制器可以與 Windows Server 類似、在 Active Directory 中
 
 ....
 $domainControllerIP = "<input IP Address of windows domain controller>"
-cluster::> system services ntp server create â€“server $domainControllerIP
+cluster::> system services ntp server create -server $domainControllerIP
 ....
 
 

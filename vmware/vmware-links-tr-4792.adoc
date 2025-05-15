@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: vmware/vmware-links-tr-4792.html 
 keywords: design, HCI, computing, vmware, cloud, graphics, virtualization 
-summary: TR-4792 提供在採用 NVIDIA 圖形處理單元（ GPU ）和虛擬化軟體的 VMware Horizon 環境中、將 NetApp HCI 615C 用於 3D 圖形工作負載的指引。 
+summary: TR-4792 提供在採用 NVIDIA 圖形處理單元（ GPU ）和虛擬化軟體的 VMware Horizon 環境中，將 NetApp 615C 用於 3D 圖形工作負載的指引。 
 ---
 = NetApp HCI for virtual desktop Infrastructure with VMware Horizon 7 - 利用 3D 圖形為進階使用者提供強大功能
 :hardbreaks:

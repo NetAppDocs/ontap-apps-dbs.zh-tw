@@ -81,9 +81,9 @@ Windows Server 上 iSCSI 的 IQN 也可以在 iSCSI 啟動器內容的組態中�
 
 Windows Server 使用非對稱式邏輯單元存取（ ALUA ）擴充 MPIO 來判斷通往 LUN 的直接和間接路徑。雖然 SVM 擁有的每個 LIF 都接受其 LUN 的讀取 / 寫入要求、但在任何指定時刻、只有其中一個叢集節點實際擁有支援該 LUN 的磁碟。這會將通往 LUN 的可用路徑分為兩種類型、直接或間接、如下圖所示。
 
-LUN 的直接路徑是指 SVM 的生命和要存取的 LUN 位於同一個節點上的路徑。若要從實體目標連接埠移至磁碟、就不需要周遊叢集網路。
+LUN 的直接路徑是指 SVM 的生命和要存取的 LUN 位於同一個節點上的路徑。若要從實體目標連接埠移至磁碟，就不需要周遊叢集互連。
 
-間接路徑是指 SVM 的生命與 LUN 位於不同節點上的資料路徑。資料必須穿越叢集網路、才能從實體目標連接埠移至磁碟。
+間接路徑是指 SVM 的生命與 LUN 位於不同節點上的資料路徑。資料必須周遊叢集互連，才能從實體目標連接埠移至磁碟。
 
 image:win_image3.png["SAN 環境中的多重路徑、寬度 = 624 、高度 = 232"]
 
@@ -196,7 +196,7 @@ Start-Service msiscsi
 +
 ....
 # Create a new iSCSI target portal
-New-IscsiTargetPortal â€“TargetPortalAddress <SVM LIF>
+New-IscsiTargetPortal -TargetPortalAddress <SVM LIF>
 ....
 +
 ....
@@ -242,12 +242,12 @@ Enable-WindowsOptionalFeature -Online -FeatureName MultipathIo
 +
 ....
 # Get the Network adapters and their IPs
-Get-NetIPAddress â€“AddressFamily IPv4 â€“PrefixOrigin <Dhcp or Manual>
+Get-NetIPAddress -AddressFamily IPv4 -PrefixOrigin <Dhcp or Manual>
 ....
 +
 ....
 # Create one MPIO-enabled iSCSI connection per network adapter
-Connect-IscsiTarget -NodeAddress <NodeAddress> -IsPersistent $True â€“IsMultipathEnabled $True â€“InitiatorPortalAddress <IP Address of ethernet adapter>
+Connect-IscsiTarget -NodeAddress <NodeAddress> -IsPersistent $True -IsMultipathEnabled $True -InitiatorPortalAddress <IP Address of ethernet adapter>
 ....
 +
 ....

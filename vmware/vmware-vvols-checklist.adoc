@@ -17,9 +17,9 @@ summary: ONTAP 工具 10 安裝檢查清單
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一"]初步規劃
 [role="quick-margin-list"]
-* 在開始安裝之前，您應該檢查 https://imt.netapp.com/matrix/#search["互通性對照表工具"]以確保您的部署已通過認證。
+* 在開始安裝之前，您應該檢查 https://imt.netapp.com/matrix/#search["互通性對照表工具IMT （不含）"^]以確保您的部署已通過認證。
 * 判斷您環境所需的 ONTAP 工具組態大小和類型。如需詳細資訊，請參閱 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/prerequisites.html["部署 VMware vSphere ONTAP 工具的組態限制"]。
-* 判斷您是使用多租戶 SVM ，還是允許完整的叢集存取。如果使用多租戶 SVM ，您需要在每個要使用的 SVM 上都有 SVM 管理 LIF 。此 LIF 必須透過連接埠 443 由 ONTAP 工具存取。
+* 判斷您是否要使用多租戶 SVM 或允許完整叢集存取。如果使用多租戶 SVM ，您需要在每個要使用的 SVM 上都有 SVM 管理 LIF 。此 LIF 必須透過連接埠 443 由 ONTAP 工具存取。
 * 判斷您是否將使用光纖通道（ FC ）進行儲存連線。如果是，您必須 https://docs.netapp.com/us-en/ontap/san-config/fibre-channel-fcoe-zoning-concept.html["設定分區"]在 FC 交換器上啟用 ESXi 主機與 SVM FC 生命期之間的連線。
 * 判斷您將使用適用於 VMware Site Recovery Manager （ SRM ）或即時網站恢復（ VLSR ）的 ONTAP 工具儲存複寫介面卡（ SRA ）。如果是，您將需要存取 SRM/VSRR 伺服器管理介面，才能安裝 SRA 。
 * 如果您將使用由 ONTAP 工具管理的 SnapMirror 複寫（包括但不限於 SnapMirror 作用中同步），則您的 ONTAP 管理員必須 https://docs.netapp.com/us-en/ontap/peering/create-cluster-relationship-93-later-task.html["在 ONTAP 中建立叢集對等關係"] https://docs.netapp.com/us-en/ontap/peering/create-intercluster-svm-peer-relationship-93-later-task.html["在 ONTAP 中建立叢集間 SVM 對等關係"]先使用 ONTAP 工具搭配 SnapMirror 。
@@ -76,7 +76,7 @@ summary: ONTAP 工具 10 安裝檢查清單
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png["七"]將儲存設備後端新增至 ONTAP 工具
 [role="quick-margin-list"]
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/configure-user-role-and-privileges.html["設定 ONTAP 使用者角色和權限"]如果不使用 admin ，請使用隨附的 JSON 檔案。
-* 如果使用 If 搭配 SVM 使用儲存多租戶共享
+* 如果使用 If 搭配 SVM 使用儲存設備多租戶共享
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["內建叢集"]在 ONTAP 工具管理程式中，將其與 vCenter 建立關聯。
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["內建 SVM"]在 ONTAP 工具 vCenter UI 中。
 * 如果 * 不 * 使用多租戶 SVM

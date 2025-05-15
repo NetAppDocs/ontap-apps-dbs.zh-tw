@@ -4,7 +4,7 @@ permalink: vmware/vmware-otv-hardening-timeout.html
 keywords: VMware, Data protection, security, OTV, Hardening, ONTAP Tools 
 summary: 適用於 VMware vSphere 的 ONTAP 工具安全強化指南。 
 ---
-= 閒置逾時
+= ONTAP 工具的閒置逾時 9.13
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

@@ -19,7 +19,7 @@ summary: 更多 vVols 資源
 
 == NetApp 支援網站
 
-除了 NetApp 虛擬化產品的各種知識庫文章之外、 NetApp 支援網站 也提供方便的登陸頁面 https://mysupport.netapp.com/site/products/all/details/otv/docs-tab["VMware vSphere適用的工具ONTAP"] 產品。此入口網站提供 NetApp 社群文章、下載、技術報告及 VMware 解決方案討論的連結。您可以在以下網址取得：
+除了 NetApp 虛擬化產品的各種知識庫文章之外， NetApp 支援網站也提供產品的便利登陸頁面 https://mysupport.netapp.com/site/products/all/details/otv/docs-tab["VMware vSphere適用的工具ONTAP"]。此入口網站提供 NetApp 社群文章、下載、技術報告及 VMware 解決方案討論的連結。您可以在以下網址取得：
 
 https://mysupport.netapp.com/site/products/all/details/otv/docs-tab["NetApp 支援網站"]
 

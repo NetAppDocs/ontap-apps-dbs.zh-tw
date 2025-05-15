@@ -52,7 +52,7 @@ Hyper-V 中的每個虛擬機器也可隨附提供給實體主機的 NetApp LUN 
 === 最佳實務做法
 
 * 當 VM 及其資料儲存在 NetApp 儲存設備上時、 NetApp 建議定期在 Volume 層級執行 NetApp 重複資料刪除。當相同的 VM 託管在 CSV 或 SMB 共享上時、這種做法可大幅節省空間。重複資料刪除功能會在儲存控制器上執行、不會影響主機系統和 VM 的效能。
-* 在 Hyper-V 使用 iSCSI LUN 時、請務必啟用 `iSCSI Service (TCP-In) for Inbound` 和 `iSCSI Service (TCP-Out) for Outbound` 在 Hyper-V 主機的防火牆設定中。如此一來、 iSCSI 流量就能往返於 Hyper-V 主機和 NetApp 控制器。
+* 在 Hyper-V 使用 iSCSI LUN 時，請務必在 Hyper-V 主機的防火牆設定中啟用「 iSCSI Service （ TCP 輸入） for Inbound 」和「 iSCSI Service （ TCP 輸出） for Outbound 」。如此一來、 iSCSI 流量就能往返於 Hyper-V 主機和 NetApp 控制器。
 * NetApp 建議取消勾選允許管理作業系統共用 Hyper-V 虛擬交換器的此網路介面卡選項。這樣做可為 VM 建立專用網路。
 
 
@@ -60,7 +60,7 @@ Hyper-V 中的每個虛擬機器也可隨附提供給實體主機的 NetApp LUN 
 
 === 值得記住的事項
 
-* 使用虛擬光纖通道來配置 VM 需要啟用 N_Port ID 虛擬化功能的 FC HBA 。最多支援四個 FC 連接埠。
+* 使用虛擬光纖通道來佈建 VM 需要啟用 N_Port ID 虛擬化的 FC HBA 。最多支援四個 FC 連接埠。
 * 如果主機系統已設定多個 FC 連接埠並呈現給 VM 、則必須在 VM 中安裝 MPIO 才能啟用多重路徑功能。
 * 如果在該主機上使用 MPIO 、則無法將直接移轉磁碟配置至主機、因為直接移轉磁碟不支援 MPIO 。
 * 用於 VHD/VHD 檔案的磁碟應該使用 64K 格式進行配置。
@@ -70,7 +70,7 @@ Hyper-V 中的每個虛擬機器也可隨附提供給實體主機的 NetApp LUN 
 
 === 進一步閱讀
 
-* 如需 FC HBA 的相關資訊、請參閱 http://mysupport.netapp.com/matrix/["NetApp 互通性對照表"]。
+* 有關 FC HBA 的信息，請參閱 http://mysupport.netapp.com/matrix/["互通性對照表工具IMT （不含）"]。
 * 如需虛擬光纖通道的詳細資訊、請參閱 Microsoft https://technet.microsoft.com/en-us/library/hh831413.aspx["Hyper-V 虛擬光纖通道總覽"] 頁面。
 
 
@@ -134,7 +134,7 @@ cluster::> set privilege admin
 
 容錯移轉叢集可為 Hyper-V 伺服器提供高可用度和擴充性。容錯移轉叢集是一組相互支援的 Hyper-V 伺服器、可一起提高 VM 的可用度和擴充性。
 
-Hyper-V 叢集式伺服器（稱為節點）是由實體網路和叢集軟體所連接。這些節點使用共用儲存設備來儲存 VM 檔案、包括組態、虛擬硬碟（ VHD ）檔案和 Snapshot 複本。共享儲存設備可以是 NetApp SMB/CIFS 共用區、或是 NetApp LUN 上的 CSV 、如下所示。此共享儲存設備提供一致且分散的命名空間、可由叢集中的所有節點同時存取。因此、如果叢集中有一個節點發生故障、另一個節點會透過稱為容錯移轉的程序來提供服務。您可以使用容錯移轉叢集管理單元和容錯移轉叢集 Windows PowerShell Cmdlet 來管理容錯移轉叢集。
+Hyper-V 叢集式伺服器（稱為節點）是由實體網路和叢集軟體所連接。這些節點使用共用儲存設備來儲存 VM 檔案，包括組態，虛擬硬碟（ VHD ）檔案和快照。共享儲存設備可以是 NetApp SMB/CIFS 共用區、或是 NetApp LUN 上的 CSV 、如下所示。此共享儲存設備提供一致且分散的命名空間、可由叢集中的所有節點同時存取。因此、如果叢集中有一個節點發生故障、另一個節點會透過稱為容錯移轉的程序來提供服務。您可以使用容錯移轉叢集管理單元和容錯移轉叢集 Windows PowerShell Cmdlet 來管理容錯移轉叢集。
 
 
 

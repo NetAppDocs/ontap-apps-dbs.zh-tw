@@ -16,9 +16,9 @@ summary: ONTAP 廣泛支援混合雲。
 [role="lead"]
 另一ONTAP 項優勢是廣泛支援混合雲、將內部部署私有雲中的系統與公有雲功能合併在一起。以下是一些可搭配vSphere使用的NetApp雲端解決方案：
 
-* * 第一方產品。 * Amazon FSX for NetApp ONTAP 、 Google Cloud NetApp Volumes 和 Azure NetApp Files for anf 在領先業界的公有雲環境中、提供高效能、多重傳輸協定的託管儲存服務。VMware Cloud 可直接用於 AWS （ AWS 上的 VMC ）、 Azure VMware Solution （ AVS ）和 Google Cloud VMware Engine （ GCVE ）、做為客體作業系統（ GOS ）和運算執行個體的資料存放區或儲存區。
+* * 第一方產品。 *Amazon FSX for NetApp ONTAP ， Google Cloud NetApp Volumes 和 Azure NetApp Files 可在領先業界的公有雲環境中，提供高效能，多重傳輸協定的託管儲存服務。VMware Cloud 可直接用於 AWS （ AWS 上的 VMC ）、 Azure VMware Solution （ AVS ）和 Google Cloud VMware Engine （ GCVE ）、做為客體作業系統（ GOS ）和運算執行個體的資料存放區或儲存區。
 * *《NetApp》資料管理軟體可在您選擇的雲端上、為您的資料提供控制、保護、靈活度及效率。Cloud Volumes ONTAP Cloud Volumes ONTAPCloud Volumes ONTAP 是以 ONTAP 儲存設備為基礎的雲端原生資料管理軟體。搭配Cloud Manager一起使用、即可部署Cloud Volumes ONTAP 及管理包含ONTAP 內部部署的各種系統的不二執行個體。利用先進的 NAS 和 iSCSI SAN 功能、搭配整合式資料管理、包括快照和 SnapMirror 複寫。
-* * 雲端服務。 * 使用 BlueXP 備份與還原或 SnapMirror Cloud 、使用公有雲儲存設備保護內部部署系統的資料。可協助您在NAS、物件儲存區和物件儲存區之間移轉及保持資料同步。Cloud Sync Cloud Volumes ServiceBlueXP 災難恢復提供具成本效益且高效率的解決方案、可將 NetApp 技術作為基礎、為災難恢復至雲端、災難恢復至內部部署、以及內部部署至內部部署提供強大且功能強大的災難恢復解決方案。
+* * 雲端服務。 *使用 BlueXP  備份與還原或 SnapMirror 雲端，使用公有雲儲存設備保護內部部署系統的資料。Cloud Sync 可協助您在 NAS ，物件存放區和 Cloud Volumes Service 儲存設備之間移轉及保持資料同步。BlueXP 災難恢復提供具成本效益且高效率的解決方案、可將 NetApp 技術作為基礎、為災難恢復至雲端、災難恢復至內部部署、以及內部部署至內部部署提供強大且功能強大的災難恢復解決方案。
 * * FabricPool 《*》FabricPool *《*》*《*》提供快速且簡單的ONTAP 資料分層功能。冷區塊可移轉至公有雲或私有 StorageGRID 物件存放區中的物件存放區、並在再次存取 ONTAP 資料時自動重新叫用。或是將物件層用作SnapVault 已由效益管理的資料的第三層保護。您可以使用這種方法 https://www.linkedin.com/pulse/rethink-vmware-backup-again-keith-aasen/["儲存更多 VM 快照"^] 在一線ONTAP 和/或二線的不二元儲存系統上。
 * *《*》。*使用NetApp軟體定義的儲存設備、將您的私有雲端延伸至遠端設施和辦公室、您可以使用《》來支援區塊和檔案服務、以及您在企業資料中心擁有的相同vSphere資料管理功能。ONTAP Select ONTAP Select
 

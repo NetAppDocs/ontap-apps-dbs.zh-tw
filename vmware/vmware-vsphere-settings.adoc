@@ -69,7 +69,7 @@ NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定�
 | NFS.Heartbeattimeout | 針對所有 NFS 組態設定為 5 。 | 否 
 
 
-| SUNPC。MaxConnPerIP | vSphere 7.0 或更新版本、設定為 128 。 | 否 
+| SUNPC。MaxConnPerIP | vSphere 7.0 到 8.0，設定為 128。  ESXi 8.0 之後的版本中將忽略此設定。 | 否 
 
 
 3+| * FC/FCoE設定* 
@@ -154,8 +154,8 @@ NOTE: 使用 VMware vSphere ESXi 7.0.1 和 VMware vSphere ESXi 7.0.2 時， NFS 
 
 雖然目前未由可用的 ONTAP 工具進行設定、 NetApp 仍會建議下列組態選項：
 
-* 在高效能環境中或使用單一LUN資料存放區測試效能時、請考慮將循環配置資源（VMW_PSP_RR）路徑選擇原則（PSP）的負載平衡設定、從預設的IOPS設定1000變更為1。如需詳細資訊，請參閱link:https://knowledge.broadcom.com/external/article?legacyId=2069356["VMware知識庫2069356"^]。
-* 在vSphere 6.7 Update 1中、VMware為Round Robin PSP引進新的延遲負載平衡機制。新選項會在選取I/O最佳路徑時、考量I/O頻寬和路徑延遲您可以在具有非對等路徑連線能力的環境中使用它，例如在一條路徑上有比另一條路徑上有更多網路躍點的情況，或是在使用 NetApp All SAN Array （ ASA ）系統時使用。如需詳細資訊、請參閱 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage-8-0/understanding-multipathing-and-failover-in-the-esxi-environment/viewing-and-managing-storage-paths-on-esxi-hosts.html#GUID-1940AE9E-04CF-40BE-BB71-398621F0642E-en["變更延遲循環配置資源的預設參數"^] 。
+* 在高效能環境中使用非ASA系統或使用單一 LUN 資料儲存測試效能時，請考慮將循環 (VMW_PSP_RR) 路徑選擇策略 (PSP) 的負載平衡設定從預設 IOPS 設定 1000 變更為值 1。看link:https://knowledge.broadcom.com/external/article?legacyId=2069356["VMware知識庫2069356"^]了解更多。
+* 在 vSphere 6.7 Update 1 中，VMware 為 Round Robin PSP 引進了一種新的延遲負載平衡機制。現在，當使用具有 NVMe 命名空間的 HPP（高效能插件）以及 vSphere 8.0u2 及更高版本、iSCSI 和 FCP 連接的 LUN 時，也可以使用延遲選項。新選項在選擇 I/O 最佳路徑時會考慮 I/O 頻寬和路徑延遲。 NetApp建議在具有非等效路徑連接的環境中使用延遲選項，例如一條路徑上的網路跳數比另一條路徑上的網路跳數更多的情況，或使用NetApp ASA系統時。看 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-storage-8-0/understanding-multipathing-and-failover-in-the-esxi-environment/viewing-and-managing-storage-paths-on-esxi-hosts.html#GUID-1940AE9E-04CF-40BE-BB71-398621F0642E-en["變更延遲循環配置資源的預設參數"^]了解更多。
 
 
 

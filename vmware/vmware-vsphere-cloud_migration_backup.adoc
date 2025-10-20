@@ -17,8 +17,7 @@ summary: ONTAP 廣泛支援混合雲。
 另一ONTAP 項優勢是廣泛支援混合雲、將內部部署私有雲中的系統與公有雲功能合併在一起。以下是一些可搭配vSphere使用的NetApp雲端解決方案：
 
 * *第一方產品。 *Amazon FSx for NetApp ONTAP、 Google Cloud NetApp Volumes和Azure NetApp Files在領先的公有雲環境中提供高效能、多協定託管儲存服務。VMware Cloud on AWS（VMC on AWS）、Azure VMware Solution（AVS）和 Google Cloud VMware Engine（GCVE）可以直接將它們用作客戶作業系統（GOS）和運算執行個體的資料儲存或儲存。
-* *《NetApp》資料管理軟體可在您選擇的雲端上、為您的資料提供控制、保護、靈活度及效率。Cloud Volumes ONTAP Cloud Volumes ONTAPCloud Volumes ONTAP 是以 ONTAP 儲存設備為基礎的雲端原生資料管理軟體。搭配Cloud Manager一起使用、即可部署Cloud Volumes ONTAP 及管理包含ONTAP 內部部署的各種系統的不二執行個體。利用先進的 NAS 和 iSCSI SAN 功能、搭配整合式資料管理、包括快照和 SnapMirror 複寫。
-* *雲端服務。 *使用NetApp Backup and Recovery或SnapMirror Cloud 透過公有雲儲存保護來自本機系統的資料。Cloud Sync有助於在 NAS、物件儲存和Cloud Volumes Service儲存之間遷移並保持資料同步。NetApp Disaster Recovery提供了一種經濟高效的解決方案，利用NetApp技術作為強大且功能強大的災難復原解決方案的基礎，適用於 DR 到雲端、DR 到本地以及本地到本地。
+* *雲端服務。 *使用NetApp Backup and Recovery或SnapMirror Cloud 透過公有雲儲存保護來自本機系統的資料。NetApp Copy and Sync有助於在 NAS 和物件儲存之間遷移資料並保持資料同步。NetApp Disaster Recovery提供了一種經濟高效的解決方案，利用NetApp技術作為強大且功能強大的災難復原解決方案的基礎，適用於 DR 到雲端、DR 到本地以及本地到本地。
 * * FabricPool 《*》FabricPool *《*》*《*》提供快速且簡單的ONTAP 資料分層功能。冷區塊可移轉至公有雲或私有 StorageGRID 物件存放區中的物件存放區、並在再次存取 ONTAP 資料時自動重新叫用。或是將物件層用作SnapVault 已由效益管理的資料的第三層保護。您可以使用這種方法 https://www.linkedin.com/pulse/rethink-vmware-backup-again-keith-aasen/["儲存更多 VM 快照"^] 在一線ONTAP 和/或二線的不二元儲存系統上。
 * *《*》。*使用NetApp軟體定義的儲存設備、將您的私有雲端延伸至遠端設施和辦公室、您可以使用《》來支援區塊和檔案服務、以及您在企業資料中心擁有的相同vSphere資料管理功能。ONTAP Select ONTAP Select
 
@@ -27,14 +26,12 @@ summary: ONTAP 廣泛支援混合雲。
 
 如需深入探討更多安全性主題、請參閱下列資源。
 
-* link:https://docs.netapp.com/us-en/storage-management-cloud-volumes-ontap/index.html["本文檔Cloud Volumes ONTAP"]
 * link:https://docs.netapp.com/us-en/ontap-select/["本文檔ONTAP Select"]
 * link:https://docs.netapp.com/us-en/data-services-backup-recovery/index.html["備份和恢復文檔"]
 * link:https://docs.netapp.com/us-en/data-services-disaster-recovery/index.html["災難復原文檔"]
 * link:https://aws.amazon.com/fsx/netapp-ontap/["Amazon FSX for NetApp ONTAP 產品"]
 * link:https://www.vmware.com/products/vmc-on-aws.html["AWS上的VMware Cloud"]
-* link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-introduction["什麼是 Azure NetApp Files ？
-"]
+* link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-introduction["什麼是Azure NetApp Files？"]
 * link:https://azure.microsoft.com/en-us/products/azure-vmware/["Azure VMware解決方案"]
 * link:https://cloud.google.com/vmware-engine["Google Cloud VMware Engine"]
 * link:https://cloud.google.com/netapp/volumes/docs/discover/overview["什麼是 Google Cloud NetApp Volumes ？"]

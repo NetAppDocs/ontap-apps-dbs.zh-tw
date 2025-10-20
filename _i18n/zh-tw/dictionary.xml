@@ -4061,9 +4061,7 @@
   <block id="674c41ba00ec77fc9d294abbba7e7b7d" category="paragraph">ONTAP 在過去二十多年來一直是 VMware vSphere 環境的領先儲存解決方案、並持續新增創新功能來簡化管理、同時降低成本。</block>
   <block id="ae7454da5e20b82b7fe67eb1ff88c923" category="admonition">本文件將先前發佈的技術報告 _TR-4400: VMware vSphere 虛擬磁碟區（ vVols ）取代為 ONTAP</block>
   <block id="ee82b7a98212a75a2397dd9c5f9b1ab4" category="paragraph">ONTAP 自 2012 年首次推出 VASA 規格以來、就一直提供支援。雖然其他 NetApp 儲存系統可能支援 VASA 、但本文件著重於目前支援的 ONTAP 9 版本。</block>
-  <block id="669b30b7e6d5ef1d862fe65880b816a8" category="paragraph">除了 AFF 、 ASA 和 FAS 系統上的 ONTAP 9 之外、 NetApp 還支援 ONTAP Select 上的 VMware 工作負載、適用於 NetApp 的 Amazon FSX 搭配 AWS 上的 VMware Cloud 、 Azure NetApp Files 搭配 Azure VMware 解決方案、 Cloud Volumes Service 搭配 Google Cloud VMware Engine 、以及 Equinix 中的 NetApp 私有儲存設備、 但具體功能可能會因服務供應商和可用的網路連線而異。也可從 vSphere 來賓存取儲存在這些組態中的資料、以及 Cloud Volumes ONTAP 。</block>
   <block id="afd715f07b1ec06fe77bf23a2d7bf185" category="paragraph">_ 如需 ONTAP 和 VMware vSphere 最佳實務做法的詳細資訊、請參閱 <block ref="5dbb4949ffa7cb97fe4eaffc517a1111" category="inline-link-macro-rx"></block>_</block>
-  <block id="bfdc61fd18bd1a23d9660561bc8999b7" category="list-text">*《NetApp》資料管理軟體可在您選擇的雲端上、為您的資料提供控制、保護、靈活度及效率。Cloud Volumes ONTAP Cloud Volumes ONTAPCloud Volumes ONTAP 是以 ONTAP 儲存設備為基礎的雲端原生資料管理軟體。搭配Cloud Manager一起使用、即可部署Cloud Volumes ONTAP 及管理包含ONTAP 內部部署的各種系統的不二執行個體。利用先進的 NAS 和 iSCSI SAN 功能、搭配整合式資料管理、包括快照和 SnapMirror 複寫。</block>
   <block id="e88c947a5d8f4c0daec271a8595604a7" category="inline-image-macro">Active IQ Unified Manager 虛擬機器檢視</block>
   <block id="9078040b61fc8a9bd0215e8f35ff788c" category="paragraph"><block ref="9078040b61fc8a9bd0215e8f35ff788c" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0ef2f850d3f17cacfbd404bade7eed5b" category="inline-image-macro">AIQUM 擴充拓撲</block>
@@ -4395,15 +4393,11 @@
   <block id="589b1ebfaed268e1548717208be6131f" category="list-text"><block ref="589b1ebfaed268e1548717208be6131f" category="inline-link-macro-rx"></block></block>
   <block id="e44de13cc4b452eccde9961bbe9da42b" category="inline-link-macro">ONTAP 安全性與資料加密產品文件</block>
   <block id="c76e848365d3a2199dfced47ddbf8690" category="list-text"><block ref="c76e848365d3a2199dfced47ddbf8690" category="inline-link-macro-rx"></block></block>
-  <block id="1a523ba4ece9125275b92ebb41e3cf23" category="inline-link-macro">本文檔Cloud Volumes ONTAP</block>
   <block id="7436b418bed093768e360d32105591d2" category="inline-link-macro">本文檔ONTAP Select</block>
   <block id="82fe32c89de73116e2188701ca735c39" category="list-text"><block ref="82fe32c89de73116e2188701ca735c39" category="inline-link-macro-rx"></block></block>
   <block id="f5c286d9dc4cdaffcb8e5c86388e6ed8" category="list-text"><block ref="f5c286d9dc4cdaffcb8e5c86388e6ed8" category="inline-link-macro-rx"></block></block>
   <block id="4dab2f9796b0af6304d00e21e2b9dfb4" category="inline-link-macro">AWS上的VMware Cloud</block>
   <block id="560d5b2cd40977bd7b77b31d7088f657" category="list-text"><block ref="560d5b2cd40977bd7b77b31d7088f657" category="inline-link-macro-rx"></block></block>
-  <block id="e6aa20b5d3923ee0466f5d7e7bfed821" category="inline-link-macro">什麼是 Azure NetApp Files ？
-</block>
-  <block id="810dc5c2e801b56b11325dd2aca0775c" category="list-text"><block ref="810dc5c2e801b56b11325dd2aca0775c" category="inline-link-macro-rx"></block></block>
   <block id="9789f0612fda153726aa8ad87265e4b9" category="inline-link-macro">Azure VMware解決方案</block>
   <block id="f068ad668d317d445bc0da61125c318f" category="list-text"><block ref="f068ad668d317d445bc0da61125c318f" category="inline-link-macro-rx"></block></block>
   <block id="8cb69aa5b1609d0a39f0fcd576c07df6" category="inline-link-macro">Google Cloud VMware Engine</block>
@@ -4746,7 +4740,6 @@
   <block id="bbd68bf55ab562da30e73449f1b87424" category="summary">EPIC on ONTAP 範例部署 - 通訊協定</block>
   <block id="589b83bd3c7696acc0086c7f233e64e3" category="doc">EPIC on ONTAP 範例部署 - 平台</block>
   <block id="05f72896244a448167caa4a410eb4ecf" category="paragraph">對於 Epic odb 資料庫、日誌和應用程式工作負載、 Epic 建議將儲存設備以 FCP LUN 的形式呈現給伺服器。</block>
-  <block id="d2ec366dff0b7a3eda35e6acf91f6898" category="paragraph">NetApp 客戶已在 Azure 雲端成功執行所有 Epic 工作負載。AWS 也能執行 Epic 工作負載。透過 NetApp Cloud Volumes ONTAP 和 NetApp Cloud Volumes Services 、 NetApp 提供企業級功能和效能、讓您在雲端中有效執行 Epic 。NetApp 雲端選項可透過 iSCSI 提供區塊、並透過 NFS 或 SMB 提供檔案。</block>
   <block id="a3a5d01a736b2f5bc994d2ff7b0da8c5" category="summary">EPIC on ONTAP 範例部署 - FCP 傳輸協定</block>
   <block id="dc0e595680f18844673c0930ecf1ca6b" category="paragraph">建立 SVM 之後、您需要在其中新增通訊協定。</block>
   <block id="263a628397d3f78e3b61f40863b0868f" category="paragraph">若要建立 FCP 資料生命、請按一下<block ref="8f46d074b2d46f416cb36dce6f8bd76d" category="inline-link-macro-rx"></block>。</block>
@@ -6078,10 +6071,7 @@
   <block id="d27c7eb1b19cbebab6552ca4574e51e5" category="paragraph">一些例子可能是柏林和漢堡的網站受 SMas 保護，第三個網站副本使用SnapMirror非同步並受 VLSR 保護。另一個例子可能是使用 SMas 保護紐約和新澤西的站點，並保護芝加哥的第三個站點。</block>
   <block id="3b2b0ebfa27de38f05b20b21651ca265" category="inline-image-macro">SMas佈局</block>
   <block id="65e70274fc1f803a54b1efd4b9ef1df0" category="paragraph"><block ref="65e70274fc1f803a54b1efd4b9ef1df0" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="c8749d248615e8d7d496cc56d369068d" category="list-text">*第一方產品。 *Amazon FSx for NetApp ONTAP、 Google Cloud NetApp Volumes和Azure NetApp Files在領先的公有雲環境中提供高效能、多協定託管儲存服務。VMware Cloud on AWS（VMC on AWS）、Azure VMware Solution（AVS）和 Google Cloud VMware Engine（GCVE）可以直接將它們用作客戶作業系統（GOS）和運算執行個體的資料儲存或儲存。</block>
-  <block id="ac3d641f5a8a83a77a11b6feae2a2368" category="list-text">*雲端服務。 *使用NetApp Backup and Recovery或SnapMirror Cloud 透過公有雲儲存保護來自本機系統的資料。Cloud Sync有助於在 NAS、物件儲存和Cloud Volumes Service儲存之間遷移並保持資料同步。NetApp Disaster Recovery提供了一種經濟高效的解決方案，利用NetApp技術作為強大且功能強大的災難復原解決方案的基礎，適用於 DR 到雲端、DR 到本地以及本地到本地。</block>
   <block id="aff39d99fde3099978b06c2121c26bd9" category="paragraph">在設計基於虛擬機器的應用程式時，請考慮未來的雲端移動性。例如，不要將應用程式和資料檔案放在一起，而是對資料使用單獨的 LUN 或 NFS 匯出。這使您可以將虛擬機器和資料分別遷移到雲端服務。</block>
-  <block id="3f42091db773b0aae7161e4d74acb758" category="list-text"><block ref="3f42091db773b0aae7161e4d74acb758" category="inline-link-macro-rx"></block></block>
   <block id="a34428791f8c5ce4b1184d505db69402" category="inline-link-macro">備份和恢復文檔</block>
   <block id="48f148d7f57b20a6060d03bbcf7335ad" category="list-text"><block ref="48f148d7f57b20a6060d03bbcf7335ad" category="inline-link-macro-rx"></block></block>
   <block id="e198d5cba43e1161bc035f28e60cc161" category="inline-link-macro">災難復原文檔</block>
@@ -6093,9 +6083,17 @@
   <block id="c256d43e8fa2b8e01df9b9333e730677" category="list-text">*儲存複製適配器。 *SRA 與 VMware Live Site Recovery (VLSR)/Site Recovery Manager (SRM) 一起使用，使用SnapMirror進行基於陣列的複製，管理生產站點和災難復原站點之間的資料複製。它可以在災難發生時自動執行故障轉移任務，並可以幫助無中斷地測試 DR 副本，以確保對 DR 解決方案的信心。</block>
   <block id="78dea62c276f3a86642777c27b42218f" category="paragraph">這<block ref="df7f63ec4790cd7696ac38c73a72d254" category="inline-link-rx"></block> 是 vCenter Server 的插件，可讓您管理虛擬機器 (VM) 和資料儲存區的備份和還原。它提供了一個單一介面來管理跨多個ONTAP系統的虛擬機器和資料儲存庫的備份、復原和複製。SnapCenter支援使用SnapMirror複製到輔助站點以及從輔助站點恢復。最新版本也支援SnapMirror到雲端（S3）、防篡改快照、 SnapLock和SnapMirror主動同步。適用於 VMware vSphere 的SnapCenter插件可以與SnapCenter應用程式插件集成，以提供應用程式一致的備份。</block>
   <block id="1e3f6786e57985e5818c765f46508ca6" category="inline-link">NetApp Disaster Recovery(DR)</block>
-  <block id="420046e382e2e07d599fd36d475ab881" category="paragraph">NetApp提供以下優質軟體產品。它們不包含在ONTAP One 許可證中，必須單獨購買。*<block ref="0a0bd4d1f113d075351e4eec418259a3" category="inline-link-rx"></block> 適用於 VMware vSphere。這是一項基於雲端的服務，為 VMware 環境提供災難復原和備份。它可以與SnapCenter一起使用，也可以單獨使用，並且支援使用 SAN 或 NAS 進行本地到本地的 DR，以及使用 NFS 進行本地到雲端/從雲端（如果支援）。*<block ref="7c477508804cee468db4a7dd703b8ca2" category="inline-link-rx"></block>。這是一項基於雲端的服務，為 VMware 環境提供監控和分析。它支援異質儲存環境中的其他儲存供應商，以及多個交換器供應商和其他虛擬機器管理程式。DII 提供 VMware 環境的效能、容量和健康狀況的完整端到端洞察。</block>
   <block id="9469e1759c7e42bfeb74f9c90db108cb" category="list-text">如果您打算使用儲存多租用戶而不是使用 vCenter 中的ONTAP叢集憑證將特定 SVM 指派給 vCenter，請依照下列步驟操作：</block>
   <block id="617275a68b9e63b5c1bdbaedd18295fb" category="list-text">如果*不*在 vCenter 中使用多租用戶 SVM：</block>
   <block id="618f681cdba2c4c2fc4bbcbf50528810" category="paragraph">ONTAP架構是一個靈活且可擴充的儲存平台，為資料儲存提供 SAN（FCP、iSCSI 和 NVMe-oF）和 NAS（NFS v3 和 v4.1）服務。NetApp AFF、 ASA和FAS儲存系統使用ONTAP作業系統為客戶儲存存取提供附加協議，如 S3 和 SMB/CIFS。</block>
   <block id="dece980ac7b814fce6a3ac5ab9c2c18d" category="paragraph">vSphere Metro Storage Cluster (vMSC) 是一種經過認證的配置，可保護虛擬機器 (VM) 和容器免受故障影響。這是透過使用延伸儲存概念以及 ESXi 主機叢集來實現的，這些叢集分佈在不同的故障域中，例如機架、建築物、校園甚至城市。NetApp MetroCluster和SnapMirror主動同步儲存技術用於為主機叢集提供零恢復點目標 (RPO=0) 保護。vMSC 配置旨在確保即使整個實體或邏輯「站點」發生故障，資料也始終可用。作為 vMSC 設定一部分的儲存設備必須在成功完成 vMSC 認證流程後進行認證。所有支援的儲存設備都可以在<block ref="34bc39e238eb497134ec6f46ab689fb0" category="inline-link-rx"></block>。</block>
+  <block id="fd480a9146da7f38fc6111c24d64620e" category="paragraph">NetApp客戶已成功在 Azure 雲端執行所有 Epic 工作負載。  AWS 和 Google Cloud 也能夠運行 Epic 工作負載。  NetApp提供企業級功能和在雲端中有效運作 Epic 所需的效能。  NetApp雲端選項透過 iSCSI 提供區塊並透過 NFS 或 SMB 提供檔案。</block>
+  <block id="c4a18a844b0430569f6e8b2d7bfc02b5" category="list-text">*第一方產品。 *Amazon FSx for NetApp ONTAP、 Google Cloud NetApp Volumes和Azure NetApp Files在領先的公有雲環境中提供高效能、多協定託管儲存服務。VMware Cloud on AWS（VMC on AWS）、Azure VMware Solution（AVS）和 Google Cloud VMware Engine（GCVE）可以直接將它們用作客戶作業系統（GOS）和運算執行個體的資料儲存或儲存。</block>
+  <block id="e465d3a307ef6903982ceaea5de22f9a" category="list-text">*雲端服務。 *使用NetApp Backup and Recovery或SnapMirror Cloud 透過公有雲儲存保護來自本機系統的資料。NetApp Copy and Sync有助於在 NAS 和物件儲存之間遷移資料並保持資料同步。NetApp Disaster Recovery提供了一種經濟高效的解決方案，利用NetApp技術作為強大且功能強大的災難復原解決方案的基礎，適用於 DR 到雲端、DR 到本地以及本地到本地。</block>
+  <block id="1e8675e287bf96049d13eb5bf5b6fac6" category="inline-link-macro">什麼是Azure NetApp Files？</block>
+  <block id="0756abbe79f45685a93dcbd06502741d" category="list-text"><block ref="0756abbe79f45685a93dcbd06502741d" category="inline-link-macro-rx"></block></block>
+  <block id="1e813c9851ad8226497585cd68a9aa1c" category="paragraph">NetApp提供以下優質軟體產品。它們不包含在ONTAP One 許可證中，必須單獨購買。</block>
+  <block id="46aee8859cf7d350c8d57a3c97362a07" category="list-text"><block ref="84f74eb2e2d8d303e0cb7d49d5faf63f" category="inline-link-rx"></block>適用於 VMware vSphere。這是一項基於雲端的服務，為 VMware 環境提供災難復原和備份。它可以與SnapCenter一起使用，也可以單獨使用，並且支援使用 SAN 或 NAS 進行本地到本地的 DR，以及使用 NFS 進行本地到雲端/從雲端（如果支援）。</block>
+  <block id="f2f7b54edfb5972f4e3e57e3873f8a6f" category="list-text"><block ref="32ac26eb0ba8de4f2245bdaa97bc7e60" category="inline-link-rx"></block>。這是一項基於雲端的服務，為 VMware 環境提供監控和分析。它支援異質儲存環境中的其他儲存供應商，以及多個交換器供應商和其他虛擬機器管理程式。DII 提供 VMware 環境的效能、容量和健康狀況的完整端到端洞察。</block>
+  <block id="2d025755c29d2044d54015979818fb44" category="paragraph">除了AFF、 ASA和FAS系統上的ONTAP 9 之外， NetApp還支援ONTAP Select上的 VMware 工作負載、帶有 VMware Cloud on AWS 的Amazon FSx for NetApp 、帶有 Azure VMware Solution 的Azure NetApp Files 、具有 Google VMware Engine Cloud VMware Engine的 Cloudware Solution 、Google Cloud NetApp Volumes的Storage，但具體功能可能會因服務提供者和可用的網路連線而異。</block>
 </blocks>

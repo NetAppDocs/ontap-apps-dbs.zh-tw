@@ -49,4 +49,8 @@ image:vsphere_ontap_image1.png["適用於 vSphere 的 ONTAP 工具"]
 
 == 優質軟體選項
 
-NetApp提供以下優質軟體產品。它們不包含在ONTAP One 許可證中，必須單獨購買。* https://www.netapp.com/data-services/disaster-recovery/["NetApp Disaster Recovery(DR)"] 適用於 VMware vSphere。這是一項基於雲端的服務，為 VMware 環境提供災難復原和備份。它可以與SnapCenter一起使用，也可以單獨使用，並且支援使用 SAN 或 NAS 進行本地到本地的 DR，以及使用 NFS 進行本地到雲端/從雲端（如果支援）。* https://www.netapp.com/data-infrastructure-insights/["資料基礎架構洞見（ DII ）"]。這是一項基於雲端的服務，為 VMware 環境提供監控和分析。它支援異質儲存環境中的其他儲存供應商，以及多個交換器供應商和其他虛擬機器管理程式。DII 提供 VMware 環境的效能、容量和健康狀況的完整端到端洞察。
+NetApp提供以下優質軟體產品。它們不包含在ONTAP One 許可證中，必須單獨購買。
+
+* https://www.netapp.com/data-services/disaster-recovery/["NetApp Disaster Recovery(DR)"]適用於 VMware vSphere。這是一項基於雲端的服務，為 VMware 環境提供災難復原和備份。它可以與SnapCenter一起使用，也可以單獨使用，並且支援使用 SAN 或 NAS 進行本地到本地的 DR，以及使用 NFS 進行本地到雲端/從雲端（如果支援）。
+* https://www.netapp.com/data-infrastructure-insights/["資料基礎架構洞見（ DII ）"]。這是一項基於雲端的服務，為 VMware 環境提供監控和分析。它支援異質儲存環境中的其他儲存供應商，以及多個交換器供應商和其他虛擬機器管理程式。DII 提供 VMware 環境的效能、容量和健康狀況的完整端到端洞察。
+

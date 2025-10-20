@@ -105,7 +105,7 @@ ONTAP 自 2012 年首次推出 VASA 規格以來、就一直提供支援。雖�
 
 === ONTAP
 
-除了 AFF 、 ASA 和 FAS 系統上的 ONTAP 9 之外、 NetApp 還支援 ONTAP Select 上的 VMware 工作負載、適用於 NetApp 的 Amazon FSX 搭配 AWS 上的 VMware Cloud 、 Azure NetApp Files 搭配 Azure VMware 解決方案、 Cloud Volumes Service 搭配 Google Cloud VMware Engine 、以及 Equinix 中的 NetApp 私有儲存設備、 但具體功能可能會因服務供應商和可用的網路連線而異。也可從 vSphere 來賓存取儲存在這些組態中的資料、以及 Cloud Volumes ONTAP 。
+除了AFF、 ASA和FAS系統上的ONTAP 9 之外， NetApp還支援ONTAP Select上的 VMware 工作負載、帶有 VMware Cloud on AWS 的Amazon FSx for NetApp 、帶有 Azure VMware Solution 的Azure NetApp Files 、具有 Google VMware Engine Cloud VMware Engine的 Cloudware Solution 、Google Cloud NetApp Volumes的Storage，但具體功能可能會因服務提供者和可用的網路連線而異。
 
 在發佈時、超大規模環境僅限於傳統的 NFS v3 資料存放區、因此 VVols 僅適用於內部部署 ONTAP 系統、或雲端連線系統、這些系統提供內部部署系統的完整功能、例如由全球各地的 NetApp 合作夥伴和服務供應商代管的系統。
 

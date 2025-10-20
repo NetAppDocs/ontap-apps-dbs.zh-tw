@@ -60,7 +60,7 @@ image:vsphere_ontap_image4.png["SnapCenter 部署"]
 
 == NetApp Disaster Recovery
 
-災難復原 (DR) 是一種基於雲端的服務，可在災難發生時提供保護您的資料和應用程式的全面解決方案。它提供了一系列功能，包括自動故障轉移和故障復原、多個時間點復原點、應用程式一致的災難復原以及對本地和基於雲端的ONTAP系統的支援。BlueXP DR 旨在與ONTAP和您的 VMware vSphere 環境無縫協作，為災難復原提供統一的解決方案。
+災難復原 (DR) 是一種基於雲端的服務，可在災難發生時提供保護您的資料和應用程式的全面解決方案。它提供了一系列功能，包括自動故障轉移和故障復原、多個時間點復原點、應用程式一致的災難復原以及對本地和基於雲端的ONTAP系統的支援。NetApp Disaster Recovery旨在與ONTAP和您的 VMware vSphere 環境無縫協作，提供統一的災難復原解決方案。
 
 
 

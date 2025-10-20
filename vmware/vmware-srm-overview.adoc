@@ -61,7 +61,7 @@ NOTE: 雖然 ONTAP 系統可讓您將同一個叢集中的 SVM 配對，以進�
 
 == VLSR搭配ONTAP 功能完善和其他使用案例：混合雲和移轉
 
-將 VLSR 部署與ONTAP高級資料管理功能相集成，與本地儲存選項相比，可大幅提高規模和效能。但更重要的是，它帶來了混合雲的靈活性。混合雲可讓您透過使用FabricPool將高效能陣列中未使用的資料塊分層到您首選的超大規模器（可以是本地 S3 存儲，例如NetApp StorageGRID ）來節省資金。您也可以將SnapMirror用於基於邊緣的系統，並使用軟體定義的ONTAP Select或基於雲端的 DR，使用Cloud Volumes ONTAP (CVO) 或 https://www.equinix.com/partners/netapp["Equinix Metal? 上的 NetApp 儲存設備"^]或其他託管ONTAP服務。
+將 VLSR 部署與ONTAP高級資料管理功能相集成，與本地儲存選項相比，可大幅提高規模和效能。但更重要的是，它帶來了混合雲的靈活性。混合雲可讓您透過使用FabricPool將高效能陣列中未使用的資料塊分層到您首選的超大規模器（可以是本地 S3 存儲，例如NetApp StorageGRID ）來節省資金。您也可以將SnapMirror用於基於邊緣的系統，並使用軟體定義的ONTAP Select或基於雲端的 DR https://www.equinix.com/partners/netapp["Equinix Metal 上的NetApp存儲"^]或其他託管ONTAP服務。
 
 接著、您可以在雲端服務供應商的資料中心內執行測試容錯移轉、因為 FlexClone 的儲存佔用空間接近零。保護組織的成本現在比以往更低。
 

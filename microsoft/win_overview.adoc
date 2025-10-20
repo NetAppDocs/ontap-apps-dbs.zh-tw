@@ -25,7 +25,6 @@ NOTE: * 本文件取代先前發佈的技術報告 _TR-4568 ： NetApp 部署指
 * 軟體定義的統一化架構
 +
 ** 在 VMware vSphere 或 KVM 上執行的 ONTAP Select
-** Cloud Volumes ONTAP 以雲端原生執行個體執行
 
 
 * 來自超大規模雲端供應商的第一方產品

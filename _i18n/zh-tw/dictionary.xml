@@ -4026,7 +4026,6 @@
   <block id="23748de0bc860150d3c6b27a4d472042" category="list-text">All SAN Array （ ASA ）僅著重於區塊傳輸協定、並透過為連線主機新增對稱的雙主動式多重路徑功能、將 I/O 恢復時間（ IORT ）最佳化</block>
   <block id="d0114359083804284c542907b2f8cd60" category="list-text">軟體定義的統一化架構</block>
   <block id="30063e1e8c837a5b52057909e747b2d8" category="list-text">在 VMware vSphere 或 KVM 上執行的 ONTAP Select</block>
-  <block id="0f76eddbf2cd8ceb8e89447591876ab9" category="list-text">Cloud Volumes ONTAP 以雲端原生執行個體執行</block>
   <block id="f7d26dbdc8e2b21b211abf2157e73536" category="list-text">來自超大規模雲端供應商的第一方產品</block>
   <block id="4d82a1ec1af02725042c8c785564ee7a" category="list-text">Amazon FSX for NetApp ONTAP 產品</block>
   <block id="7450cfde7058dc5e1f7909d0280fd7ae" category="list-text">Azure NetApp Files</block>
@@ -5840,7 +5839,6 @@
   <block id="1590566734d497290ef7dec19c83ae27" category="paragraph">如果發生真正的災難、甚至是計畫性的移轉、VLSR可讓您透過最終的SnapMirror更新（如果您選擇這樣做）、將任何最後一分鐘的變更傳送至資料集。然後中斷鏡射、並將資料存放區掛載至DR主機。此時、您的VM可以根據預先規劃的策略、以任何順序自動開機。</block>
   <block id="ad84b24a08fcf7b630aabbaa227285e4" category="admonition">雖然 ONTAP 系統可讓您將同一個叢集中的 SVM 配對，以進行 SnapMirror 複寫，但該案例並未通過 VLSR 的測試和認證。因此，建議您在使用 VLSR 時，僅使用不同叢集的 SVM 。</block>
   <block id="7c4dce5fd159dd8fdded222a89550c4b" category="section-title">VLSR搭配ONTAP 功能完善和其他使用案例：混合雲和移轉</block>
-  <block id="99a06707f3209b90d504a54a5ea6d69f" category="inline-link">Equinix Metal? 上的 NetApp 儲存設備</block>
   <block id="8fff56a05881c6f706c3ed3a782050f2" category="paragraph">VLSR也可利用SnapMirror、將VM從一個資料中心有效地傳輸到另一個資料中心、甚至是同一個資料中心內、無論您是自己、或是透過任何數量的NetApp合作夥伴服務供應商、來執行計畫性的移轉作業。</block>
   <block id="d274b8ae04172dec40c6aa0549b00986" category="summary">使用 ONTAP 搭配 SnapMirror ， VMware VSR 和 SRM 的複寫拓撲。</block>
   <block id="08db3b842a4cb2c270982436a350d96f" category="paragraph">單一VM無法在多個VLSR陣列上擁有資料（虛擬機器磁碟（VMDK）或RDM）、原因如下：</block>
@@ -6050,7 +6048,6 @@
   <block id="e6e16bd7b0eb9a9b6d1b84b252dfef52" category="paragraph">無論您使用的是傳統的 NFS、iSCSI 或光纖通道連接的資料儲存（現在支援vVols資料儲存），VLSR 都能提供強大的第一方產品，利用ONTAP的最佳功能進行災難復原或資料中心遷移規劃和編排。</block>
   <block id="34ae253d12dacf4256947aab08d2797a" category="paragraph">在 VLSR 伺服器上安裝並設定 SRA 適配器以保護非 vVols 資料儲存區後，您可以開始設定 vSphere 環境以進行災難復原的任務。</block>
   <block id="aa1408f10ab599451ceb8278538aceb3" category="paragraph">VLSR 可以使用 NetApp 專有的FlexClone技術無中斷地測試您的 DR 計劃，以便在您的 DR 站點幾乎即時地克隆受保護的資料儲存。  VLSR 創建了一個沙箱來進行安全測試，以便在發生真正的災難時保護您的組織和客戶，讓您對組織在災難期間執行故障轉移的能力充滿信心。</block>
-  <block id="761230ac1da327ae663fa55be5b71899" category="paragraph">將 VLSR 部署與ONTAP高級資料管理功能相集成，與本地儲存選項相比，可大幅提高規模和效能。但更重要的是，它帶來了混合雲的靈活性。混合雲可讓您透過使用FabricPool將高效能陣列中未使用的資料塊分層到您首選的超大規模器（可以是本地 S3 存儲，例如NetApp StorageGRID ）來節省資金。您也可以將SnapMirror用於基於邊緣的系統，並使用軟體定義的ONTAP Select或基於雲端的 DR，使用Cloud Volumes ONTAP (CVO) 或<block ref="c7af35041041143315810379f153ee16" category="inline-link-rx"></block>或其他託管ONTAP服務。</block>
   <block id="4a3ecc4c037b88a5dd4a78c48aa300b8" category="cell">vSphere 7.0 到 8.0，設定為 128。  ESXi 8.0 之後的版本中將忽略此設定。</block>
   <block id="4ca458329416c6834c4fcde7d851a203" category="list-text">在高效能環境中使用非ASA系統或使用單一 LUN 資料儲存測試效能時，請考慮將循環 (VMW_PSP_RR) 路徑選擇策略 (PSP) 的負載平衡設定從預設 IOPS 設定 1000 變更為值 1。看<block ref="1687988694c35db61b845d7b15620672" category="inline-link-macro-rx"></block>了解更多。</block>
   <block id="b236a2de8d4b9a7647b4e38da0f41f0f" category="list-text">在 vSphere 6.7 Update 1 中，VMware 為 Round Robin PSP 引進了一種新的延遲負載平衡機制。現在，當使用具有 NVMe 命名空間的 HPP（高效能插件）以及 vSphere 8.0u2 及更高版本、iSCSI 和 FCP 連接的 LUN 時，也可以使用延遲選項。新選項在選擇 I/O 最佳路徑時會考慮 I/O 頻寬和路徑延遲。 NetApp建議在具有非等效路徑連接的環境中使用延遲選項，例如一條路徑上的網路跳數比另一條路徑上的網路跳數更多的情況，或使用NetApp ASA系統時。看<block ref="d244127cef9364538ba1012ad8871adc" category="inline-link-rx"></block>了解更多。</block>
@@ -6079,7 +6076,6 @@
   <block id="0da690016e4be64638cdfef258418203" category="inline-link">NetApp Backup and Recovery</block>
   <block id="cd7147239f56f957d4a7cc78ef256227" category="paragraph">此外，適用於 VMware 的SnapCenter插件可以與<block ref="ea219d297aff06b5ddbb99bc32d2e25b" category="inline-link-rx"></block>，為大多數ONTAP系統提供有效的 3-2-1 備份解決方案。請注意，如果使用具有高級服務的虛擬機器備份和恢復，可能會收取一些費用，例如用於額外備份儲存的物件儲存。本節概述了可用於保護虛擬機器和資料儲存的各種選項。</block>
   <block id="19cbafc0246850c97323cac4fb786794" category="section-title">NetApp Disaster Recovery</block>
-  <block id="dac1f09dc4b67b2074c1794d98339876" category="paragraph">災難復原 (DR) 是一種基於雲端的服務，可在災難發生時提供保護您的資料和應用程式的全面解決方案。它提供了一系列功能，包括自動故障轉移和故障復原、多個時間點復原點、應用程式一致的災難復原以及對本地和基於雲端的ONTAP系統的支援。BlueXP DR 旨在與ONTAP和您的 VMware vSphere 環境無縫協作，為災難復原提供統一的解決方案。</block>
   <block id="c256d43e8fa2b8e01df9b9333e730677" category="list-text">*儲存複製適配器。 *SRA 與 VMware Live Site Recovery (VLSR)/Site Recovery Manager (SRM) 一起使用，使用SnapMirror進行基於陣列的複製，管理生產站點和災難復原站點之間的資料複製。它可以在災難發生時自動執行故障轉移任務，並可以幫助無中斷地測試 DR 副本，以確保對 DR 解決方案的信心。</block>
   <block id="78dea62c276f3a86642777c27b42218f" category="paragraph">這<block ref="df7f63ec4790cd7696ac38c73a72d254" category="inline-link-rx"></block> 是 vCenter Server 的插件，可讓您管理虛擬機器 (VM) 和資料儲存區的備份和還原。它提供了一個單一介面來管理跨多個ONTAP系統的虛擬機器和資料儲存庫的備份、復原和複製。SnapCenter支援使用SnapMirror複製到輔助站點以及從輔助站點恢復。最新版本也支援SnapMirror到雲端（S3）、防篡改快照、 SnapLock和SnapMirror主動同步。適用於 VMware vSphere 的SnapCenter插件可以與SnapCenter應用程式插件集成，以提供應用程式一致的備份。</block>
   <block id="1e3f6786e57985e5818c765f46508ca6" category="inline-link">NetApp Disaster Recovery(DR)</block>
@@ -6096,4 +6092,7 @@
   <block id="46aee8859cf7d350c8d57a3c97362a07" category="list-text"><block ref="84f74eb2e2d8d303e0cb7d49d5faf63f" category="inline-link-rx"></block>適用於 VMware vSphere。這是一項基於雲端的服務，為 VMware 環境提供災難復原和備份。它可以與SnapCenter一起使用，也可以單獨使用，並且支援使用 SAN 或 NAS 進行本地到本地的 DR，以及使用 NFS 進行本地到雲端/從雲端（如果支援）。</block>
   <block id="f2f7b54edfb5972f4e3e57e3873f8a6f" category="list-text"><block ref="32ac26eb0ba8de4f2245bdaa97bc7e60" category="inline-link-rx"></block>。這是一項基於雲端的服務，為 VMware 環境提供監控和分析。它支援異質儲存環境中的其他儲存供應商，以及多個交換器供應商和其他虛擬機器管理程式。DII 提供 VMware 環境的效能、容量和健康狀況的完整端到端洞察。</block>
   <block id="2d025755c29d2044d54015979818fb44" category="paragraph">除了AFF、 ASA和FAS系統上的ONTAP 9 之外， NetApp還支援ONTAP Select上的 VMware 工作負載、帶有 VMware Cloud on AWS 的Amazon FSx for NetApp 、帶有 Azure VMware Solution 的Azure NetApp Files 、具有 Google VMware Engine Cloud VMware Engine的 Cloudware Solution 、Google Cloud NetApp Volumes的Storage，但具體功能可能會因服務提供者和可用的網路連線而異。</block>
+  <block id="2ee606af5da3062695cabb75a160eb48" category="inline-link">Equinix Metal 上的NetApp存儲</block>
+  <block id="fea612aa54d66a179c5538c5cd1b8525" category="paragraph">將 VLSR 部署與ONTAP高級資料管理功能相集成，與本地儲存選項相比，可大幅提高規模和效能。但更重要的是，它帶來了混合雲的靈活性。混合雲可讓您透過使用FabricPool將高效能陣列中未使用的資料塊分層到您首選的超大規模器（可以是本地 S3 存儲，例如NetApp StorageGRID ）來節省資金。您也可以將SnapMirror用於基於邊緣的系統，並使用軟體定義的ONTAP Select或基於雲端的 DR<block ref="48f4ab00daadfbd5f3a95d2ba27ed047" category="inline-link-rx"></block>或其他託管ONTAP服務。</block>
+  <block id="0fc9a0e7b30259b88ee28dc36905dc46" category="paragraph">災難復原 (DR) 是一種基於雲端的服務，可在災難發生時提供保護您的資料和應用程式的全面解決方案。它提供了一系列功能，包括自動故障轉移和故障復原、多個時間點復原點、應用程式一致的災難復原以及對本地和基於雲端的ONTAP系統的支援。NetApp Disaster Recovery旨在與ONTAP和您的 VMware vSphere 環境無縫協作，提供統一的災難復原解決方案。</block>
 </blocks>

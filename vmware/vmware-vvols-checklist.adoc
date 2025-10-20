@@ -76,10 +76,10 @@ summary: ONTAP 工具 10 安裝檢查清單
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png["七"]將儲存設備後端新增至 ONTAP 工具
 [role="quick-margin-list"]
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/configure-user-role-and-privileges.html["設定 ONTAP 使用者角色和權限"]如果不使用 admin ，請使用隨附的 JSON 檔案。
-* 如果使用 If 搭配 SVM 使用儲存設備多租戶共享
+* 如果您打算使用儲存多租用戶而不是使用 vCenter 中的ONTAP叢集憑證將特定 SVM 指派給 vCenter，請依照下列步驟操作：
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["內建叢集"]在 ONTAP 工具管理程式中，將其與 vCenter 建立關聯。
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["內建 SVM"]在 ONTAP 工具 vCenter UI 中。
-* 如果 * 不 * 使用多租戶 SVM
+* 如果*不*在 vCenter 中使用多租用戶 SVM：
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["內建叢集"]直接在 ONTAP 工具 vCenter UI 中。或者，在此案例中，您可以在不使用 vVols 時直接新增 SVM 。
 
 

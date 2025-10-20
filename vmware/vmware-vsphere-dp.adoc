@@ -16,7 +16,7 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 [role="lead"]
 備份及快速還原虛擬機器（ VM ）是使用 ONTAP for vSphere 的主要優點。此功能可透過適用於 VMware vSphere 的 SnapCenter 外掛程式，在 vCenter 內輕鬆管理。許多客戶使用 SnapCenter 來強化第三方備份解決方案，以運用 ONTAP 的快照技術，因為它提供了使用 ONTAP 最快，最直接的方法來還原 VM 。擁有 ONTAP One 授權的客戶可免費取得 SnapCenter ，也可取得其他授權套裝組合。
 
-此外，適用於 VMware 的 SnapCenter 外掛程式可與整合 https://docs.netapp.com/us-en/bluexp-backup-recovery/concept-protect-vm-data.html["用於備份和恢復虛擬機的 BlueXP "^]，為大多數 ONTAP 系統提供有效的 3-2-1 備份解決方案。請注意，如果使用 BlueXP  備份與還原功能來為具有優質服務的虛擬機器進行備份與還原，可能需要支付一些費用，例如物件儲存區以提供額外的備份儲存設備。本節概述各種可用於保護 VM 和資料存放區的選項。
+此外，適用於 VMware 的SnapCenter插件可以與 https://docs.netapp.com/us-en/data-services-backup-recovery/concept-protect-vm-data.html["NetApp Backup and Recovery"^]，為大多數ONTAP系統提供有效的 3-2-1 備份解決方案。請注意，如果使用具有高級服務的虛擬機器備份和恢復，可能會收取一些費用，例如用於額外備份儲存的物件儲存。本節概述了可用於保護虛擬機器和資料儲存的各種選項。
 
 
 
@@ -58,9 +58,9 @@ image:vsphere_ontap_image4.png["SnapCenter 部署"]
 
 
 
-== BlueXP  災難恢復
+== NetApp Disaster Recovery
 
-BlueXP  災難恢復（ DR ）是一項雲端型服務，可提供全方位的解決方案，在發生災難時保護資料和應用程式。它提供多種功能，包括自動容錯移轉和容錯回復，多點時間恢復點，應用程式一致的災難恢復，以及內部部署和雲端型 ONTAP 系統的支援。BlueXP  DR 的設計可與 ONTAP 和 VMware vSphere 環境無縫搭配運作，為災難恢復提供統一的解決方案。
+災難復原 (DR) 是一種基於雲端的服務，可在災難發生時提供保護您的資料和應用程式的全面解決方案。它提供了一系列功能，包括自動故障轉移和故障復原、多個時間點復原點、應用程式一致的災難復原以及對本地和基於雲端的ONTAP系統的支援。BlueXP DR 旨在與ONTAP和您的 VMware vSphere 環境無縫協作，為災難復原提供統一的解決方案。
 
 
 

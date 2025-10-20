@@ -2498,7 +2498,6 @@
   <block id="99c6c4d349151c1f4a6694e424aef741" category="inline-link">儲存更多 VM 快照</block>
   <block id="01fa297dbdab5aceb83a45a98161efe0" category="list-text">* FabricPool 《*》FabricPool *《*》*《*》提供快速且簡單的ONTAP 資料分層功能。冷區塊可移轉至公有雲或私有 StorageGRID 物件存放區中的物件存放區、並在再次存取 ONTAP 資料時自動重新叫用。或是將物件層用作SnapVault 已由效益管理的資料的第三層保護。您可以使用這種方法<block ref="60d027dbb3c3f076cbb70c6b246eb433" category="inline-link-rx"></block> 在一線ONTAP 和/或二線的不二元儲存系統上。</block>
   <block id="1a7072854c9dd945a98f4314b3f77408" category="list-text">*《*》。*使用NetApp軟體定義的儲存設備、將您的私有雲端延伸至遠端設施和辦公室、您可以使用《》來支援區塊和檔案服務、以及您在企業資料中心擁有的相同vSphere資料管理功能。ONTAP Select ONTAP Select</block>
-  <block id="79aec220098057ef8c0e46281a45d6c2" category="paragraph">在設計VM型應用程式時、請考慮未來的雲端行動力。例如、應用程式和資料檔案不會放在一起、而是使用個別的LUN或NFS匯出來匯出資料。這可讓您將VM和資料分別移轉至雲端服務。</block>
   <block id="af63597853dc0983258c8f86a12aae0b" category="section-title">vSphere資料加密</block>
   <block id="63a07ab9352c9297cea3894d6cd41c3f" category="paragraph">如今、透過加密保護閒置資料的需求與日俱增。雖然最初的重點是財務和醫療資訊、但無論資訊儲存在檔案、資料庫或其他資料類型中、都越來越有興趣保護所有資訊。</block>
   <block id="937a352e0f824ff55e4cd50c8e3b051e" category="paragraph">有幾種方法可以保護在VMware vSphere上執行的虛擬化應用程式資料。其中一種方法是在客體作業系統層級使用VM內部的軟體來保護資料。vSphere 6.5等較新的Hypervisor現在也支援VM層級的加密、這是另一種替代方案。不過、NetApp軟體加密既簡單又簡單、而且具有下列優點：</block>
@@ -4397,13 +4396,8 @@
   <block id="e44de13cc4b452eccde9961bbe9da42b" category="inline-link-macro">ONTAP 安全性與資料加密產品文件</block>
   <block id="c76e848365d3a2199dfced47ddbf8690" category="list-text"><block ref="c76e848365d3a2199dfced47ddbf8690" category="inline-link-macro-rx"></block></block>
   <block id="1a523ba4ece9125275b92ebb41e3cf23" category="inline-link-macro">本文檔Cloud Volumes ONTAP</block>
-  <block id="e4501a9ef639002a658af0113906add9" category="list-text"><block ref="e4501a9ef639002a658af0113906add9" category="inline-link-macro-rx"></block></block>
   <block id="7436b418bed093768e360d32105591d2" category="inline-link-macro">本文檔ONTAP Select</block>
   <block id="82fe32c89de73116e2188701ca735c39" category="list-text"><block ref="82fe32c89de73116e2188701ca735c39" category="inline-link-macro-rx"></block></block>
-  <block id="c756b6b1ba6b752239a8d49eda5ad2a4" category="inline-link-macro">BlueXP 備份與還原文件</block>
-  <block id="f99b2e5828a20fe99efc9b8c25b42d83" category="list-text"><block ref="f99b2e5828a20fe99efc9b8c25b42d83" category="inline-link-macro-rx"></block></block>
-  <block id="b044111e167403664c9e3432eca1f25a" category="inline-link-macro">BlueXP 災難恢復文件</block>
-  <block id="ec39a9c8e559c87efc4a1ac3c8dfd136" category="list-text"><block ref="ec39a9c8e559c87efc4a1ac3c8dfd136" category="inline-link-macro-rx"></block></block>
   <block id="f5c286d9dc4cdaffcb8e5c86388e6ed8" category="list-text"><block ref="f5c286d9dc4cdaffcb8e5c86388e6ed8" category="inline-link-macro-rx"></block></block>
   <block id="4dab2f9796b0af6304d00e21e2b9dfb4" category="inline-link-macro">AWS上的VMware Cloud</block>
   <block id="560d5b2cd40977bd7b77b31d7088f657" category="list-text"><block ref="560d5b2cd40977bd7b77b31d7088f657" category="inline-link-macro-rx"></block></block>
@@ -5555,7 +5549,6 @@
   <block id="8525b77695e58a3254731f53ce2b2162" category="list-text">ONTAP 提供本身的儲存效率功能，例如重複資料刪除，壓縮和壓縮，這些功能可能會受到儲存 DRS 的影響。</block>
   <block id="c9a841ce409cdc722c7bdd080f0f88de" category="list-text">如果您使用的是 ONTAP 快照，則 Storage VMotion 會在快照中保留 VM 的複本，可能會增加儲存使用率，並可能影響備份應用程式，例如追蹤 VM 及其 ONTAP 快照的 NetApp SnapCenter 。</block>
   <block id="e5239709587bb3ebb34629be6c41ac7b" category="paragraph">NetApp ® MetroCluster ™和 SnapMirror 主動同步（以前稱爲 SnapMirror 業務連續性或 SMBC ）均支持 VMSC 解決方案，如果一個或多個故障域發生整體中斷，則可提供高級業務連續性。不同故障模式的恢復能力取決於您選擇的組態選項。</block>
-  <block id="5c6034b4452ec29d83cf38ddf5f9e2f6" category="paragraph">ONTAP 架構是靈活且可擴充的儲存平台、可為資料存放區提供 SAN （ FCP 、 iSCSI 和 NVMe of ）和 NAS （ NFS v3 和 v4.1 ）服務。NetApp AFF 、 ASA 和 FAS 儲存系統使用 ONTAP 作業系統來提供額外的通訊協定、以供 S3 和 SMB/CIFS 等來賓儲存設備存取。</block>
   <block id="1e1566860cb6afbc338f9fba32c4e5e5" category="list-text">對稱 Active Sync （ ONTAP 9.15.1 ）</block>
   <block id="b9ca5ba97cf75d3dafb51f78e073770a" category="inline-link">NetApp文件</block>
   <block id="1c71125ba0668792e46d93c17dc6c428" category="paragraph">如需 SnapMirror 主動式同步的特定設計與部署資訊，請參閱<block ref="9ace5d3ebe2fe57037322de54ac9a869" category="inline-link-rx"></block>。</block>
@@ -5857,7 +5850,6 @@
   <block id="99a06707f3209b90d504a54a5ea6d69f" category="inline-link">Equinix Metal? 上的 NetApp 儲存設備</block>
   <block id="8fff56a05881c6f706c3ed3a782050f2" category="paragraph">VLSR也可利用SnapMirror、將VM從一個資料中心有效地傳輸到另一個資料中心、甚至是同一個資料中心內、無論您是自己、或是透過任何數量的NetApp合作夥伴服務供應商、來執行計畫性的移轉作業。</block>
   <block id="d274b8ae04172dec40c6aa0549b00986" category="summary">使用 ONTAP 搭配 SnapMirror ， VMware VSR 和 SRM 的複寫拓撲。</block>
-  <block id="10140c04b3ae3f49aedaf52f157363d3" category="paragraph">在VMware vCenter Site Recovery Manager中、每個NetApp SVM都被視為陣列。VLSR支援特定的陣列對陣列（或SVM對SVM）複寫配置。</block>
   <block id="08db3b842a4cb2c270982436a350d96f" category="paragraph">單一VM無法在多個VLSR陣列上擁有資料（虛擬機器磁碟（VMDK）或RDM）、原因如下：</block>
   <block id="d8a9d635a5de68d706349e0ba1582a33" category="list-text">VLSR只能看到SVM、而非個別的實體控制器。</block>
   <block id="03a2d94e9dd3faa9d1c2ba5048e50ff5" category="cell">若要判斷可支援性、請謹記此規則：若要使用VLSR和NetApp SRA來保護VM、VM的所有部分都必須只存在於一個SVM上。此規則同時適用於受保護的站台和恢復站台。</block>
@@ -5882,8 +5874,6 @@
   <block id="f6f2c5686cc4f0cddb9b97a821855375" category="list-text">SRA （與 VMware Live Site Recovery/Site Recovery Manager 搭配使用）。在此、複本可用來在不中斷營運的情況下測試災難恢復複本的還原。</block>
   <block id="ab145b0c5bc936679238040b42d242a8" category="list-text">使用SnapCenter NetApp工具（如VMware）進行備份與恢復。VM 複本可用來驗證備份作業，以及掛載 VM 備份，以便還原個別檔案。</block>
   <block id="b1fd904929f16090f01753d2728346c6" category="paragraph">VMware、NetApp及協力廠商工具可叫用不需載入的複製。ONTAP卸載至ONTAP 不完整的複本有多項優點。在大多數情況下、它們都能節省空間、只需要儲存設備來變更物件；讀取和寫入時不會產生額外的效能影響、在某些情況下、透過在高速快取中共用區塊來改善效能。此外、也會從ESXi伺服器卸載CPU週期和網路I/O。使用 FlexVol volume 在傳統資料存放區內進行複製卸載，可透過 FlexClone 授權（包含在 ONTAP One 授權中）快速有效，但 FlexVol 磁碟區之間的複本速度可能較慢。如果您將VM範本保留為複製來源、請考慮將其放在資料存放區磁碟區內（使用資料夾或內容程式庫來組織它們）、以獲得快速且具空間效益的複本。</block>
-  <block id="ebd95a7e5bdcc4b40ab6f7413106b3f2" category="list-text">* 第一方產品。 *Amazon FSX for NetApp ONTAP ， Google Cloud NetApp Volumes 和 Azure NetApp Files 可在領先業界的公有雲環境中，提供高效能，多重傳輸協定的託管儲存服務。VMware Cloud 可直接用於 AWS （ AWS 上的 VMC ）、 Azure VMware Solution （ AVS ）和 Google Cloud VMware Engine （ GCVE ）、做為客體作業系統（ GOS ）和運算執行個體的資料存放區或儲存區。</block>
-  <block id="4fa2b20fbe14dd41ca86a9f5b4c5bfcb" category="list-text">* 雲端服務。 *使用 BlueXP  備份與還原或 SnapMirror 雲端，使用公有雲儲存設備保護內部部署系統的資料。Cloud Sync 可協助您在 NAS ，物件存放區和 Cloud Volumes Service 儲存設備之間移轉及保持資料同步。BlueXP 災難恢復提供具成本效益且高效率的解決方案、可將 NetApp 技術作為基礎、為災難恢復至雲端、災難恢復至內部部署、以及內部部署至內部部署提供強大且功能強大的災難恢復解決方案。</block>
   <block id="706253931ccf2225bbabb539eead1ee1" category="paragraph">ONTAP 9.8 搭配適用於 VMware vSphere 9.8% 至 9.13 的 ONTAP 工具，以及適用於 VMware 4.4 及更新版本的 SnapCenter 外掛程式，新增了對 vSphere 中 FlexGroup Volume 備份資料存放區的支援。FlexGroup Volume 可簡化大型資料存放區的建立、並在 ONTAP 叢集上自動建立必要的分散式組成磁碟區、讓 ONTAP 系統發揮最大效能。</block>
   <block id="fea36c6d0158f7614a47593cee5c4381" category="paragraph">如果您需要具備完整 ONTAP 叢集功能的單一可擴充 vSphere 資料存放區，或是擁有非常龐大的複製工作負載，而這些工作負載可透過持續保持複製快取的溫控，從 FlexGroup 複製機制中獲益，請將 FlexGroup Volume 搭配 vSphere 一起使用。</block>
   <block id="4b2e7f21f2ab284dbe47715a088a87e4" category="paragraph">除了針對 vSphere 工作負載進行廣泛的系統測試之外、 ONTAP 9.8 也為 FlexGroup 資料存放區新增了複本卸載機制。這套新系統使用改良的複製引擎、在背景中的成員之間複寫檔案、同時允許存取來源和目的地。然後使用這種組成本機快取，根據需要快速產生 VM 複本。</block>
@@ -5935,8 +5925,6 @@
   <block id="279b6091a0ac82b44d1b55974e5be84e" category="paragraph">ONTAP 工具也是 VASA Provider for ONTAP 許多功能的管理介面，可支援以 vVols 為基礎的儲存原則管理。</block>
   <block id="56de38ee4f3cd70309ddc44c00acb1fb" category="list-text">NetApp 僅建議停用 ONTAP 叢集內叢集互連連接埠上的網路流程控制。對於用於資料流量的其餘網路連接埠、NetApp並未提出其他最佳實務做法建議。您應視需要啟用或停用。如需流程控制的更多背景資訊、請參閱<block ref="3455dc2b3e7cd12a38e508bec690aa67" category="inline-link-rx"></block>。</block>
   <block id="3a04c6fe53e84b0859143746f9b8b3bc" category="paragraph">備份及快速還原虛擬機器（ VM ）是使用 ONTAP for vSphere 的主要優點。此功能可透過適用於 VMware vSphere 的 SnapCenter 外掛程式，在 vCenter 內輕鬆管理。許多客戶使用 SnapCenter 來強化第三方備份解決方案，以運用 ONTAP 的快照技術，因為它提供了使用 ONTAP 最快，最直接的方法來還原 VM 。擁有 ONTAP One 授權的客戶可免費取得 SnapCenter ，也可取得其他授權套裝組合。</block>
-  <block id="67d2d8d1dc0c08c63452e2a455c1bf3d" category="inline-link">用於備份和恢復虛擬機的 BlueXP </block>
-  <block id="4ea1273c8c926cd862a042dc3ea5ea79" category="paragraph">此外，適用於 VMware 的 SnapCenter 外掛程式可與整合<block ref="1cc430bf00ff724bb248ae086da62e35" category="inline-link-rx"></block>，為大多數 ONTAP 系統提供有效的 3-2-1 備份解決方案。請注意，如果使用 BlueXP  備份與還原功能來為具有優質服務的虛擬機器進行備份與還原，可能需要支付一些費用，例如物件儲存區以提供額外的備份儲存設備。本節概述各種可用於保護 VM 和資料存放區的選項。</block>
   <block id="17d20b1dcedfc04c7879e9675412b0db" category="section-title">NetApp ONTAP Volume 快照</block>
   <block id="424a2b394957a69a3a605706153f9539" category="paragraph">快照是 ONTAP 的重要功能，可讓您建立資料的時間點複本。它們不僅節省空間，而且可以快速建立，因此非常適合用來保護 VM 和資料存放區。快照可用於多種用途，包括備份，恢復和測試。這些快照與 VMware （一致性）快照不同，適合長期保護。由於效能和其他影響，僅建議短期使用 VMware vCenter 管理的快照。如<block ref="edb84c63886608dd2a747873a2732130" category="inline-link-macro-rx"></block>需詳細資訊、請參閱。</block>
   <block id="9fe3ffc9df0f8a5c691d2ed0c67a5b03" category="paragraph">快照是在磁碟區層級建立，可用於保護該磁碟區內的所有 VM 和資料存放區。這表示您可以建立整個資料存放區的快照，其中包括該資料存放區內的所有 VM 。</block>
@@ -5953,8 +5941,6 @@
   <block id="555f2327888d8e7cf50068fd301b189d" category="section-title">適用於 VMware vSphere 的 ONTAP 工具與 VMware Live Site Recovery</block>
   <block id="bdfe900673edfc6634c23bde843c6420" category="paragraph">適用於 VMware vSphere 的 ONTAP 工具（ OT4VS ）是免費的外掛程式，可在 VMware vSphere 和 NetApp ONTAP 之間提供無縫整合。它可讓您直接從 vSphere Web Client 管理 ONTAP 儲存設備，讓您更輕鬆地執行資源配置儲存，管理複寫及監控效能等工作。</block>
   <block id="d6c59a18f3b83d8486f9527e20ea1941" category="paragraph">若要改善災難恢復功能，請考慮使用 ONTAP 的 NetApp ，這是適用於 VMware vSphere 的 ONTAP 工具的一部分，以及 VMware Live Site Recovery （原稱為 Site Recovery Manager ）。此工具不僅支援使用 SnapMirror 將資料存放區複寫到災難恢復站台，也可透過複製資料存放區，在災難恢復環境中進行不中斷的測試。此外，內建自動化功能可簡化災難恢復，並在解決停電後重新保護生產環境。</block>
-  <block id="79a1fdb37699dfdc15254e04268351a9" category="section-title">BlueXP  災難恢復</block>
-  <block id="7016de5d1fb67d54b51ad6574763fd9a" category="paragraph">BlueXP  災難恢復（ DR ）是一項雲端型服務，可提供全方位的解決方案，在發生災難時保護資料和應用程式。它提供多種功能，包括自動容錯移轉和容錯回復，多點時間恢復點，應用程式一致的災難恢復，以及內部部署和雲端型 ONTAP 系統的支援。BlueXP  DR 的設計可與 ONTAP 和 VMware vSphere 環境無縫搭配運作，為災難恢復提供統一的解決方案。</block>
   <block id="d223a7adee575c4956124c0868f0825f" category="section-title">vSphere Metro 儲存叢集（ VMSC ），搭配 NetApp MetroCluster 和 SnapMirror 主動式同步</block>
   <block id="85abd770c37e6b8f0dd32bb10e63df19" category="paragraph">最後，若要獲得最高層級的資料保護，請考慮使用 NetApp MetroCluster 的 VMware vSphere Metro Storage Cluster （ VMSC ）組態。 VMSC 是 VMware 認證的 NetApp 支援解決方案，使用同步複寫，提供高可用度叢集的相同效益，但分散於不同站台，以避免站台災難。NetApp SnapMirror Active Sync 與 AFF ， AFF 及 MetroCluster with ASA 可提供具成本效益的同步複寫組態，可從任何單一儲存元件故障進行透明還原，並可在 SnapMirror 主動式同步或單一命令還原時使用 MetroCluster 進行透明還原。 VMSC 的詳細說明請參閱。<block ref="252912db8b98e51588a897ab91b985e0" category="inline-link-rx"></block></block>
   <block id="99f033ca163a880d3ebaf5192a303bf9" category="paragraph">執行 ONTAP 的系統可利用靜態加密輕鬆保護任何資料。NetApp 儲存加密（ NSE ）使用 ONTAP 的自我加密磁碟機（ SED ）來保護 SAN 和 NAS 資料。NetApp也提供NetApp Volume Encryption和NetApp Aggregate Encryption、這是一種簡單、以軟體為基礎的方法、可加密任何磁碟機上的磁碟區。此軟體加密不需要特殊的磁碟機或外部金鑰管理員、 ONTAP 客戶可免費使用。您可以在不中斷用戶端或應用程式的情況下進行升級並開始使用，這些應用程式已通過 FIPS 140-2 第 1 級標準驗證，包括 Onboard Key Manager 。</block>
@@ -5990,14 +5976,10 @@
   <block id="9955c42610092bf7a7dbb035ba2362df" category="paragraph">ONTAP ONE 授權隨附下列工具，無需額外付費。請參閱圖1、瞭解這些工具如何在vSphere環境中共同運作。</block>
   <block id="28c25b3bd0941927acf5da7cedf09056" category="paragraph"><block ref="b4726a9e2d7c67e5d20fb7588efe2682" category="inline-link-rx"></block>是一組工具，可搭配 vSphere 使用 ONTAP 儲存設備。vCenter外掛程式先前稱為虛擬儲存主控台（VSC）、可簡化儲存管理與效率功能、增強可用度、並降低儲存成本與營運成本、無論您使用SAN或NAS。它採用最佳實務做法來配置資料存放區、並針對NFS和區塊儲存環境最佳化ESXi主機設定。針對所有這些優點、 NetApp 建議在搭配執行 ONTAP 的系統使用 vSphere 時、使用這些 ONTAP 工具作為最佳實務做法。其中包括伺服器應用裝置， vCenter 的 UI 擴充， VASA Provider 和 Storage Replication Adapter 。幾乎所有的功能都可以透過簡單的REST API來自動化、而大多數的現代化自動化工具都能耗用這些API ONTAP 。</block>
   <block id="88450f60f7fbe5f503e1fecfcab9fb4d" category="list-text">* vCenter UI 延伸。 *ONTAP 工具的 UI 延伸功能可將易於使用的內容相關功能表嵌入到 vCenter UI 中，以簡化工作流程，簡化作業團隊和 vCenter 管理員的工作。這些功能表可用於管理主機和儲存設備，資訊入口小工具和原生警示功能。</block>
-  <block id="c8e653ada77ce95f09e584738b7cf6bf" category="list-text">* 儲存複寫介面卡。 *可搭配 VMware Live Site Recovery （ VSR ） / Site Recovery Manager （ SRM ）一起使用，使用 SnapMirror 來管理線上與災難恢復站台之間的資料複寫，以進行陣列式複寫。它可以在發生災難時自動執行容錯移轉工作，並可協助測試災難恢復複本，不中斷營運，確保您對災難恢復解決方案的信心。</block>
-  <block id="e94c7ddc81c8b496a2e0b9c41f3a0d27" category="paragraph"><block ref="df7f63ec4790cd7696ac38c73a72d254" category="inline-link-rx"></block>是 vCenter Server 的外掛程式，可讓您管理虛擬機器（ VM ）和資料存放區的備份與還原。它提供單一介面，可在多個 ONTAP 系統上管理虛擬機器和資料存放區的備份，還原和複本。SnapCenter 支援使用 SnapMirror 複寫到次要站台及從次要站台恢復。最新版本也支援 SnapMirror 對雲端（ S3 ），防竄改快照， SnapLock 和 SnapMirror Active Sync 。SnapCenter Plug-in for VMware vSphere 可與 SnapCenter 應用程式外掛程式整合，提供應用程式一致的備份。</block>
   <block id="8fc0876b17dbd4327218c6365f4d3ed1" category="inline-link">適用於 VMware VAAI 的 NetApp NFS 外掛程式</block>
   <block id="6b7f9103f91020461893e7625153d87c" category="paragraph"><block ref="e56b6fbfc57db1f13007ad438701316e" category="inline-link-rx"></block>是 ESXi 主機的外掛程式，可讓主機使用 VAAI 功能搭配 ONTAP 上的 NFS 資料存放區。它支援複製卸載、以進行複製作業、保留大型虛擬磁碟檔案的空間、以及快照卸載。將複本作業卸載到儲存設備並不一定能更快完成、但它確實能降低網路頻寬需求、並卸載CPU週期、緩衝區和佇列等主機資源。您可以使用ONTAP VMware vSphere的支援功能、在ESXi主機上安裝外掛程式、或是在支援的情況下安裝vSphere Lifecycle Manager（vLCM）。</block>
   <block id="662df1486cbd8ddf1909b804fde3b122" category="section-title">優質軟體選項</block>
-  <block id="754f31315c54f74cb54fc3931b77bc4e" category="inline-link">BlueXP  災難恢復（ DR ）</block>
   <block id="89a13650cc26099f24645b3ebabd8681" category="inline-link">資料基礎架構洞見（ DII ）</block>
-  <block id="99d0a5a8bf2f7f9a2f986e018accdd63" category="paragraph">NetApp 提供下列優質軟體產品。ONTAP ONE 授權不隨附這些軟體，必須另行購買。*<block ref="051ef9ea109551a5c499e15c7ed416cd" category="inline-link-rx"></block> 適用於 VMware vSphere 。這是一項雲端型服務，可為 VMware 環境提供災難恢復與備份。它可搭配或不搭配 SnapCenter 使用，並使用 SAN 或 NAS 支援內部部署到內部部署 DR ，以及使用 NFS 在支援的情況下，在內部部署到 / 從雲端。<block ref="7c477508804cee468db4a7dd703b8ca2" category="inline-link-rx"></block>* 。這是一項雲端型服務，可為 VMware 環境提供監控與分析功能。它支援異質儲存環境中的其他儲存廠商，以及多家交換器廠商和其他 Hypervisor 。DII 提供完整的端對端洞見，讓您深入瞭解 VMware 環境的效能，容量和健全狀況。</block>
   <block id="7449970110f98c992170b6bbd68252f9" category="paragraph">作為技術設計合作夥伴， NetApp 提供架構意見，並於 2015 年宣布支援 VVols 。這項新技術現在可透過 SPBM 將 VM 精細且真正的陣列原生儲存資源配置自動化。</block>
   <block id="09807314260bef27b90345fd0212a57f" category="paragraph">儲存容器是由儲存管理員所建立，用於群組 VM 管理員可以使用的儲存資源。根據您使用的 ONTAP 系統類型，儲存容器的建立方式可能有所不同。使用傳統的 ONTAP 9 叢集，容器會被指派一個或多個組成儲存池的備份 FlexVol 磁碟區。使用 ASA R2 系統時，整個叢集就是儲存池。</block>
   <block id="660bee009f0ed31eb05e51ba93850f4d" category="paragraph">* 視平台和傳輸協定而定</block>
@@ -6009,8 +5991,6 @@
   <block id="9406fb3af0e8e2bf8446823785c0e069" category="inline-link">資料基礎架構洞見</block>
   <block id="1c951601876e4daa83bce02aba074440" category="list-text">在開始安裝之前，您應該檢查<block ref="ab7acb1690084e25996646d49d4a381e" category="inline-link-rx"></block>以確保您的部署已通過認證。</block>
   <block id="ef30f0c0c266a8b9be1816aa72a0f58f" category="list-text">判斷您是否要使用多租戶 SVM 或允許完整叢集存取。如果使用多租戶 SVM ，您需要在每個要使用的 SVM 上都有 SVM 管理 LIF 。此 LIF 必須透過連接埠 443 由 ONTAP 工具存取。</block>
-  <block id="9822a79db54f54873c45b9060e0caedf" category="list-text">如果使用 If 搭配 SVM 使用儲存設備多租戶共享</block>
-  <block id="7d895ca5b825b3c5a05a52e7d39c803c" category="list-text">如果 * 不 * 使用多租戶 SVM</block>
   <block id="4050ff4d6d35bffd46dbff7fad4e6941" category="doc">在 AFF ， ASA ， ASA R2 和 FAS 系統上部署 vVols</block>
   <block id="8a440842662a6052845e4abd1f7d5dec" category="paragraph">資源配置 vVols 資料存放區涉及數個步驟。NetApp 的 ASA R2 系統專為 VMware 工作負載所設計，提供與傳統 ONTAP 系統不同的使用者體驗。使用 ASA R2 系統時， ONTAP 工具 10.3 版或更新版本需要較少的步驟來設定，並納入針對新儲存架構最佳化的 UI 延伸和 REST API 支援。</block>
   <block id="3164e4b18dd8dcc542a3c18024fc82b6" category="inline-link-macro">檢查清單</block>
@@ -6044,7 +6024,6 @@
   <block id="d34c2eaf11cfea5ea00aa0943b8fcfab" category="admonition">本文件取代先前發佈的技術報告 _TR-4128 ： NetApp MetroCluster 上的 vSphere</block>
   <block id="2483a165b6002a92b0e076050cb48ea0" category="paragraph">NetApp MetroCluster 使用 NetApp 的 HA （控制器容錯移轉或 CFO ）功能來防範控制器故障。它也包括本機 SyncMirror 技術，災難時的叢集容錯移轉（災難時的叢集容錯移轉或 CFOD ），硬體備援，以及地理區隔，以達到高可用度。SyncMirror 會將資料寫入兩個叢中、以同步鏡射 MetroCluster 組態的兩個部份資料：本機叢（位於本機櫃上）主動提供資料、而遠端叢（位於遠端機櫃上）通常不會提供資料。所有 MetroCluster 元件（例如控制器、儲存設備、纜線、交換器（與 Fabric MetroCluster 搭配使用）和介面卡）均具備硬體備援功能。</block>
   <block id="4e7a787aaa9321ad4106d26a88e54252" category="paragraph">NetApp SnapMirror 主動式同步可在非 MetroCluster 系統和 ASA R2 系統上使用，透過 FCP 和 iSCSI SAN 傳輸協定提供資料存放區精細保護。它可讓您保護整個 VMSC ，或選擇性地保護高優先順序工作負載。它提供對本機和遠端站台的主動式存取、而 NetApp MetroCluster 則是主動式待命解決方案。從 ONTAP 9.15.1 開始， SnapMirror 主動式同步支援對稱式主動 / 主動式功能，可從受保護 LUN 的兩個複本進行讀取和寫入 I/O 作業，並提供雙向同步複寫功能，讓兩個 LUN 複本都能在本機執行 I/O 作業。在 ONTAP 9.15.1 之前， SnapMirror 主動式同步僅支援非對稱式主動 / 主動式組態，其中次要站台上的資料會代理至 LUN 的主要複本。</block>
-  <block id="2462481c7f95cdbb29fa1b2e3a5263ca" category="paragraph">vSphere Metro Storage Cluster （ VMSC ）是經過認證的組態、可保護虛擬機器（ VM ）和容器免於故障。這是透過使用延伸儲存概念和 ESXi 主機叢集來達成的、這些主機分佈在不同的故障網域、例如機架、建築物、校園或甚至城市。NetApp MetroCluster 和 SnapMirror 主動式同步儲存技術用於為主機叢集提供零恢復點目標（ RPO = 0 ）保護。VMSC 組態的設計，是為了確保即使完整的實體或邏輯「站台」故障，資料仍可隨時使用。在成功通過 VMSC 認證程序之後、必須通過 VMSC 組態一部分的儲存裝置認證。所有支援的儲存裝置都可以在中找到<block ref="293ceee3268d7991d7fe245e02c1c5c9" category="inline-link-rx"></block>。</block>
   <block id="0e050612c89bbe89c4a1f2c79db93a7f" category="paragraph">NetApp MetroCluster 可部署在兩種不同的組態中，以搭配 vSphere 使用：</block>
   <block id="bb74c883034be56ad2c714b34888809d" category="image-alt">使用 MetroCluster 的 VMSC 圖表</block>
   <block id="2a36d659f1adb408dfdab4248eac6770" category="image-alt">使用 ONTAP 和管理服務器的 VMSC 圖表</block>
@@ -6090,4 +6069,33 @@
   <block id="6876f82e64fd9d6a64f99665e3913906" category="list-text">*儲存效率。 *儘管NetApp是第一個為生產工作負載提供重複資料刪除功能的公司，但這項創新並不是該領域的第一次或最後一次創新。它從快照開始，這是一種節省空間且不會影響效能的資料保護機制，同時結合FlexClone技術，可立即為生產和備份使用製作虛擬機器的讀取/寫入副本。  NetApp繼續提供內聯功能，包括重複資料刪除、壓縮和零區塊重複資料刪除，以從昂貴的 SSD 中榨取最多的儲存空間。 ONTAP還增加了使用壓縮將較小的 I/O 操作和檔案打包到磁碟區塊中的功能。這些功能的結合使得客戶普遍看到 VSI 節省高達 5:1，VDI 節省高達 30:1。最新一代ONTAP系統還包括硬體加速壓縮和重複資料刪除功能，可進一步提高儲存效率並降低成本。這種方法可讓您在更少的空間內儲存更多數據，從而降低整體儲存成本並提高效能。  NetApp對其儲存效率功能非常有信心，因此提供了一個連結： https://www.netapp.com/pdf.html?item=/media/79014-ng-937-Efficiency-Guarantee-Customer-Flyer.pdf item=/media/79014-ng-937-Efficiency-Guarantee-Customer-Flyer.pdf [效率保證^]。</block>
   <block id="a54f2a3da40d66f7a06b1a0b6fdfa9a8" category="list-text">*多租戶* ONTAP長期以來一直是多租戶領域的領導者，可讓您在單一叢集上建立多個儲存虛擬機器 (SVM)。這種方法可讓您隔離工作負載並為不同的租戶提供不同等級的服務，使其成為服務提供者和大型企業的理想選擇。最新一代ONTAP系統還包括對租戶容量管理的支援。此功能可讓您為每個租用戶設定容量限制，確保沒有單一租用戶可以消耗所有可用資源。這種方法有助於確保所有租戶都能獲得他們期望的服務級別，同時也能在租戶之間提供高級別的安全性和隔離。此外，ONTAP 的多租戶功能與 VMware 的 vSphere 平台集成，讓您可以透過以下方式輕鬆管理和監控虛擬化環境<block ref="238135431b1a2d25dda1f29146112b60" category="inline-link-rx"></block>和<block ref="409cf7667ac8df435e8d9883234935b9" category="inline-link-rx"></block>。</block>
   <block id="2a2939154778c60691f9f31e86248f82" category="list-text">*混合雲。 *無論用於本地私有雲、公有雲基礎架構或結合兩者優點的混合雲， ONTAP解決方案都可以協助您建置資料結構以簡化和最佳化資料管理。從高效能全快閃系統開始，然後將它們與磁碟或雲端儲存系統結合，以實現資料保護和雲端運算。從 Azure、AWS、IBM 或 Google Cloud 中選擇，以優化成本並避免鎖定。根據需要利用對 OpenStack 和容器技術的進階支援。  NetApp還為ONTAP提供基於雲端的備份（ SnapMirror Cloud、 Cloud Backup Service和Cloud Sync）以及儲存分層和歸檔工具（FabricPool ），以協助降低營運費用並利用雲端的廣泛覆蓋範圍。</block>
+  <block id="ea286565525af4dcaa423ad23150249f" category="paragraph">每個NetApp SVM 在 Site Recovery Manager 中都被視為唯一陣列。VLSR 支援某些陣列到陣列（或 SVM 到 SVM）複製佈局。</block>
+  <block id="229406b7ca97303faec1240cf4a1fc11" category="section-title">VMFS 支援SnapMirror主動同步</block>
+  <block id="1843642fc06043e7400ba7901fad582a" category="paragraph">ONTAP工具 10.3 及更高版本也支援使用SnapMirror主動同步 (SMas) 保護您的 VMFS 資料儲存庫。這使得兩個相對較近的資料中心（稱為故障域）之間的業務連續性能夠實現透明的故障轉移。然後可以透過 VLSR 的ONTAP工具 SRA 使用非同步SnapMirror來協調遠距離災難復原。</block>
+  <block id="eb9f146fc1b0b4bc5e3804fa7d20b1a5" category="inline-link">了解ONTAP SnapMirror主動同步</block>
+  <block id="7bcca325804b87edcbde47da8ec3bb3c" category="paragraph"><block ref="7bcca325804b87edcbde47da8ec3bb3c" category="inline-link-rx"></block></block>
+  <block id="a0b90d1e79d4aef818085b3423183ae7" category="paragraph">資料儲存區被收集在一個一致性群組 (CG) 中，並且所有資料儲存區的虛擬機器都將作為相同 CG 的成員保持寫入順序一致。</block>
+  <block id="d27c7eb1b19cbebab6552ca4574e51e5" category="paragraph">一些例子可能是柏林和漢堡的網站受 SMas 保護，第三個網站副本使用SnapMirror非同步並受 VLSR 保護。另一個例子可能是使用 SMas 保護紐約和新澤西的站點，並保護芝加哥的第三個站點。</block>
+  <block id="3b2b0ebfa27de38f05b20b21651ca265" category="inline-image-macro">SMas佈局</block>
+  <block id="65e70274fc1f803a54b1efd4b9ef1df0" category="paragraph"><block ref="65e70274fc1f803a54b1efd4b9ef1df0" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="c8749d248615e8d7d496cc56d369068d" category="list-text">*第一方產品。 *Amazon FSx for NetApp ONTAP、 Google Cloud NetApp Volumes和Azure NetApp Files在領先的公有雲環境中提供高效能、多協定託管儲存服務。VMware Cloud on AWS（VMC on AWS）、Azure VMware Solution（AVS）和 Google Cloud VMware Engine（GCVE）可以直接將它們用作客戶作業系統（GOS）和運算執行個體的資料儲存或儲存。</block>
+  <block id="ac3d641f5a8a83a77a11b6feae2a2368" category="list-text">*雲端服務。 *使用NetApp Backup and Recovery或SnapMirror Cloud 透過公有雲儲存保護來自本機系統的資料。Cloud Sync有助於在 NAS、物件儲存和Cloud Volumes Service儲存之間遷移並保持資料同步。NetApp Disaster Recovery提供了一種經濟高效的解決方案，利用NetApp技術作為強大且功能強大的災難復原解決方案的基礎，適用於 DR 到雲端、DR 到本地以及本地到本地。</block>
+  <block id="aff39d99fde3099978b06c2121c26bd9" category="paragraph">在設計基於虛擬機器的應用程式時，請考慮未來的雲端移動性。例如，不要將應用程式和資料檔案放在一起，而是對資料使用單獨的 LUN 或 NFS 匯出。這使您可以將虛擬機器和資料分別遷移到雲端服務。</block>
+  <block id="3f42091db773b0aae7161e4d74acb758" category="list-text"><block ref="3f42091db773b0aae7161e4d74acb758" category="inline-link-macro-rx"></block></block>
+  <block id="a34428791f8c5ce4b1184d505db69402" category="inline-link-macro">備份和恢復文檔</block>
+  <block id="48f148d7f57b20a6060d03bbcf7335ad" category="list-text"><block ref="48f148d7f57b20a6060d03bbcf7335ad" category="inline-link-macro-rx"></block></block>
+  <block id="e198d5cba43e1161bc035f28e60cc161" category="inline-link-macro">災難復原文檔</block>
+  <block id="d39786efdbd499fa740dd3765a7d5cf9" category="list-text"><block ref="d39786efdbd499fa740dd3765a7d5cf9" category="inline-link-macro-rx"></block></block>
+  <block id="0da690016e4be64638cdfef258418203" category="inline-link">NetApp Backup and Recovery</block>
+  <block id="cd7147239f56f957d4a7cc78ef256227" category="paragraph">此外，適用於 VMware 的SnapCenter插件可以與<block ref="ea219d297aff06b5ddbb99bc32d2e25b" category="inline-link-rx"></block>，為大多數ONTAP系統提供有效的 3-2-1 備份解決方案。請注意，如果使用具有高級服務的虛擬機器備份和恢復，可能會收取一些費用，例如用於額外備份儲存的物件儲存。本節概述了可用於保護虛擬機器和資料儲存的各種選項。</block>
+  <block id="19cbafc0246850c97323cac4fb786794" category="section-title">NetApp Disaster Recovery</block>
+  <block id="dac1f09dc4b67b2074c1794d98339876" category="paragraph">災難復原 (DR) 是一種基於雲端的服務，可在災難發生時提供保護您的資料和應用程式的全面解決方案。它提供了一系列功能，包括自動故障轉移和故障復原、多個時間點復原點、應用程式一致的災難復原以及對本地和基於雲端的ONTAP系統的支援。BlueXP DR 旨在與ONTAP和您的 VMware vSphere 環境無縫協作，為災難復原提供統一的解決方案。</block>
+  <block id="c256d43e8fa2b8e01df9b9333e730677" category="list-text">*儲存複製適配器。 *SRA 與 VMware Live Site Recovery (VLSR)/Site Recovery Manager (SRM) 一起使用，使用SnapMirror進行基於陣列的複製，管理生產站點和災難復原站點之間的資料複製。它可以在災難發生時自動執行故障轉移任務，並可以幫助無中斷地測試 DR 副本，以確保對 DR 解決方案的信心。</block>
+  <block id="78dea62c276f3a86642777c27b42218f" category="paragraph">這<block ref="df7f63ec4790cd7696ac38c73a72d254" category="inline-link-rx"></block> 是 vCenter Server 的插件，可讓您管理虛擬機器 (VM) 和資料儲存區的備份和還原。它提供了一個單一介面來管理跨多個ONTAP系統的虛擬機器和資料儲存庫的備份、復原和複製。SnapCenter支援使用SnapMirror複製到輔助站點以及從輔助站點恢復。最新版本也支援SnapMirror到雲端（S3）、防篡改快照、 SnapLock和SnapMirror主動同步。適用於 VMware vSphere 的SnapCenter插件可以與SnapCenter應用程式插件集成，以提供應用程式一致的備份。</block>
+  <block id="1e3f6786e57985e5818c765f46508ca6" category="inline-link">NetApp Disaster Recovery(DR)</block>
+  <block id="420046e382e2e07d599fd36d475ab881" category="paragraph">NetApp提供以下優質軟體產品。它們不包含在ONTAP One 許可證中，必須單獨購買。*<block ref="0a0bd4d1f113d075351e4eec418259a3" category="inline-link-rx"></block> 適用於 VMware vSphere。這是一項基於雲端的服務，為 VMware 環境提供災難復原和備份。它可以與SnapCenter一起使用，也可以單獨使用，並且支援使用 SAN 或 NAS 進行本地到本地的 DR，以及使用 NFS 進行本地到雲端/從雲端（如果支援）。*<block ref="7c477508804cee468db4a7dd703b8ca2" category="inline-link-rx"></block>。這是一項基於雲端的服務，為 VMware 環境提供監控和分析。它支援異質儲存環境中的其他儲存供應商，以及多個交換器供應商和其他虛擬機器管理程式。DII 提供 VMware 環境的效能、容量和健康狀況的完整端到端洞察。</block>
+  <block id="9469e1759c7e42bfeb74f9c90db108cb" category="list-text">如果您打算使用儲存多租用戶而不是使用 vCenter 中的ONTAP叢集憑證將特定 SVM 指派給 vCenter，請依照下列步驟操作：</block>
+  <block id="617275a68b9e63b5c1bdbaedd18295fb" category="list-text">如果*不*在 vCenter 中使用多租用戶 SVM：</block>
+  <block id="618f681cdba2c4c2fc4bbcbf50528810" category="paragraph">ONTAP架構是一個靈活且可擴充的儲存平台，為資料儲存提供 SAN（FCP、iSCSI 和 NVMe-oF）和 NAS（NFS v3 和 v4.1）服務。NetApp AFF、 ASA和FAS儲存系統使用ONTAP作業系統為客戶儲存存取提供附加協議，如 S3 和 SMB/CIFS。</block>
+  <block id="dece980ac7b814fce6a3ac5ab9c2c18d" category="paragraph">vSphere Metro Storage Cluster (vMSC) 是一種經過認證的配置，可保護虛擬機器 (VM) 和容器免受故障影響。這是透過使用延伸儲存概念以及 ESXi 主機叢集來實現的，這些叢集分佈在不同的故障域中，例如機架、建築物、校園甚至城市。NetApp MetroCluster和SnapMirror主動同步儲存技術用於為主機叢集提供零恢復點目標 (RPO=0) 保護。vMSC 配置旨在確保即使整個實體或邏輯「站點」發生故障，資料也始終可用。作為 vMSC 設定一部分的儲存設備必須在成功完成 vMSC 認證流程後進行認證。所有支援的儲存設備都可以在<block ref="34bc39e238eb497134ec6f46ab689fb0" category="inline-link-rx"></block>。</block>
 </blocks>

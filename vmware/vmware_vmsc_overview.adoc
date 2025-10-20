@@ -25,7 +25,7 @@ NOTE: 本文件取代先前發佈的技術報告 _TR-4128 ： NetApp MetroCluste
 
 == 適用於 vSphere 環境的持續可用度解決方案
 
-ONTAP 架構是靈活且可擴充的儲存平台、可為資料存放區提供 SAN （ FCP 、 iSCSI 和 NVMe of ）和 NAS （ NFS v3 和 v4.1 ）服務。NetApp AFF 、 ASA 和 FAS 儲存系統使用 ONTAP 作業系統來提供額外的通訊協定、以供 S3 和 SMB/CIFS 等來賓儲存設備存取。
+ONTAP架構是一個靈活且可擴充的儲存平台，為資料儲存提供 SAN（FCP、iSCSI 和 NVMe-oF）和 NAS（NFS v3 和 v4.1）服務。NetApp AFF、 ASA和FAS儲存系統使用ONTAP作業系統為客戶儲存存取提供附加協議，如 S3 和 SMB/CIFS。
 
 NetApp MetroCluster 使用 NetApp 的 HA （控制器容錯移轉或 CFO ）功能來防範控制器故障。它也包括本機 SyncMirror 技術，災難時的叢集容錯移轉（災難時的叢集容錯移轉或 CFOD ），硬體備援，以及地理區隔，以達到高可用度。SyncMirror 會將資料寫入兩個叢中、以同步鏡射 MetroCluster 組態的兩個部份資料：本機叢（位於本機櫃上）主動提供資料、而遠端叢（位於遠端機櫃上）通常不會提供資料。所有 MetroCluster 元件（例如控制器、儲存設備、纜線、交換器（與 Fabric MetroCluster 搭配使用）和介面卡）均具備硬體備援功能。
 
@@ -41,7 +41,7 @@ NetApp SnapMirror 主動式同步可在非 MetroCluster 系統和 ASA R2 系統�
 
 == 什麼是 vSphere Metro Storage Cluster ？
 
-vSphere Metro Storage Cluster （ VMSC ）是經過認證的組態、可保護虛擬機器（ VM ）和容器免於故障。這是透過使用延伸儲存概念和 ESXi 主機叢集來達成的、這些主機分佈在不同的故障網域、例如機架、建築物、校園或甚至城市。NetApp MetroCluster 和 SnapMirror 主動式同步儲存技術用於為主機叢集提供零恢復點目標（ RPO = 0 ）保護。VMSC 組態的設計，是為了確保即使完整的實體或邏輯「站台」故障，資料仍可隨時使用。在成功通過 VMSC 認證程序之後、必須通過 VMSC 組態一部分的儲存裝置認證。所有支援的儲存裝置都可以在中找到 https://www.vmware.com/resources/compatibility/search.php["VMware 儲存相容性指南"]。
+vSphere Metro Storage Cluster (vMSC) 是一種經過認證的配置，可保護虛擬機器 (VM) 和容器免受故障影響。這是透過使用延伸儲存概念以及 ESXi 主機叢集來實現的，這些叢集分佈在不同的故障域中，例如機架、建築物、校園甚至城市。NetApp MetroCluster和SnapMirror主動同步儲存技術用於為主機叢集提供零恢復點目標 (RPO=0) 保護。vMSC 配置旨在確保即使整個實體或邏輯「站點」發生故障，資料也始終可用。作為 vMSC 設定一部分的儲存設備必須在成功完成 vMSC 認證流程後進行認證。所有支援的儲存設備都可以在 https://compatibilityguide.broadcom.com/["VMware 儲存相容性指南"]。
 
 如果您想要更多有關 vSphere Metro Storage 叢集設計準則的資訊、請參閱下列文件：
 

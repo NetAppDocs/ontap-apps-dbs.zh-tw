@@ -16,7 +16,7 @@ summary: 使用 ONTAP 搭配 SnapMirror ， VMware VSR 和 SRM 的複寫拓撲�
 [role="lead"]
 在流程9中ONTAP 、叢集管理員可以看到叢集的實體元件、但使用叢集的應用程式和主機無法直接看到這些元件。實體元件提供一個共享資源集區、用於建構邏輯叢集資源。應用程式和主機只能透過含有磁碟區和LIF的SVM存取資料。
 
-在VMware vCenter Site Recovery Manager中、每個NetApp SVM都被視為陣列。VLSR支援特定的陣列對陣列（或SVM對SVM）複寫配置。
+每個NetApp SVM 在 Site Recovery Manager 中都被視為唯一陣列。VLSR 支援某些陣列到陣列（或 SVM 到 SVM）複製佈局。
 
 單一VM無法在多個VLSR陣列上擁有資料（虛擬機器磁碟（VMDK）或RDM）、原因如下：
 
@@ -43,6 +43,20 @@ image:vsrm-ontap9_image8.png["SnapMirror 關係配置"]
 image:vsrm-ontap9_image9.png["SnapMirror 關係配置"]
 
 image:vsrm-ontap9_image10.png["SnapMirror 關係配置"]
+
+
+
+== VMFS 支援SnapMirror主動同步
+
+ONTAP工具 10.3 及更高版本也支援使用SnapMirror主動同步 (SMas) 保護您的 VMFS 資料儲存庫。這使得兩個相對較近的資料中心（稱為故障域）之間的業務連續性能夠實現透明的故障轉移。然後可以透過 VLSR 的ONTAP工具 SRA 使用非同步SnapMirror來協調遠距離災難復原。
+
+https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/["了解ONTAP SnapMirror主動同步"]
+
+資料儲存區被收集在一個一致性群組 (CG) 中，並且所有資料儲存區的虛擬機器都將作為相同 CG 的成員保持寫入順序一致。
+
+一些例子可能是柏林和漢堡的網站受 SMas 保護，第三個網站副本使用SnapMirror非同步並受 VLSR 保護。另一個例子可能是使用 SMas 保護紐約和新澤西的站點，並保護芝加哥的第三個站點。
+
+image:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-104/media/fan-out-protection.png["SMas佈局"]
 
 
 

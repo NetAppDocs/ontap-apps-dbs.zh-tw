@@ -44,6 +44,3 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
 
 
 TIP: * NetApp 建議 * 使用 SnapCenter 來建立 Snapshot 複本。上述 T-SQL 方法也能正常運作，但 SnapCenter 提供完整的備份，還原及複製程序自動化功能。它也會執行探索、以確保建立正確的快照。
-
-
-NOTE: 如果 SQL Server 資料庫是託管在 VMware 虛擬化環境中執行的虛擬磁碟上，請使用 SnapCenter 。如果資料庫裝載於裸機實體伺服器或來賓連線 SCSI 上，請使用 T-SQL Snapshot 命令備份資料庫。

@@ -14,7 +14,7 @@ summary: VMware vSphere 解決方案概觀
 
 
 [role="lead"]
-vCenter Server Appliance （ VCSA ）是強大的集中式管理系統、也是 vSphere 的單一窗口、可讓管理員有效操作 ESXi 叢集。它有助於執行重要功能、例如 VM 資源配置、 VMotion 作業、高可用度（ HA ）、分散式資源排程器（ DRS ）、 Tanzu Kubernetes Grid 等。它是 VMware 雲端環境中的重要元件、設計時應考慮到服務可用度。
+vCenter Server Appliance (VCSA) 是一個功能強大的集中式管理系統和 vSphere 的單一管理介面，使管理員能夠有效地操作 ESXi 叢集。它支援虛擬機器配置、vMotion 操作、高可用性 (HA)、分散式資源調度器 (DRS)、VMware vSphere Kubernetes 服務 (VKS) 等關鍵功能。它是 VMware 雲端環境中的重要組成部分，在設計時應考慮到服務的可用性。
 
 
 
@@ -22,7 +22,7 @@ vCenter Server Appliance （ VCSA ）是強大的集中式管理系統、也是 
 
 VMware 的叢集技術可將 ESXi 伺服器分組為虛擬機器的共用資源集區，並提供 vSphere High Availability （ HA ）。 vSphere HA 可為在虛擬機器中執行的應用程式提供易於使用的高可用度。當叢集上啟用 HA 功能時、每部 ESXi 伺服器都會與其他主機保持通訊、以便在任何 ESXi 主機無回應或隔離時、 HA 叢集可在叢集中的未運作主機之間、協調在該 ESXi 主機上執行的虛擬機器的還原作業。萬一來賓作業系統發生故障， vSphere HA 可在同一部實體伺服器上重新啟動受影響的虛擬機器。 vSphere HA 可減少計畫性停機，避免非計畫性停機，並快速從停機中恢復。
 
-vSphere HA 叢集可從故障伺服器還原 VM 。
+vSphere HA 叢集從故障伺服器還原虛擬機器。
 
 image::../media/vmsc_2_1.png[VMSC 圖表,624,301]
 
@@ -32,7 +32,7 @@ image::../media/vmsc_2_1.png[VMSC 圖表,624,301]
 
 == 主機故障偵測
 
-建立 HA 叢集之後、叢集中的所有主機都會參與選舉、其中一部主機即成為主主機。每個從屬設備都會對主主機執行網路活動訊號、而主設備則會在所有從屬主機上執行網路活動訊號。vSphere HA 叢集的主要主機負責偵測從屬主機的故障。
+HA叢集建立完成後，叢集中的所有主機都會參與選舉，其中一台主機將成為主主機。每個從設備都會向主設備發送網路心跳訊號，而主設備反過來也會向所有從設備主機發送網路心跳訊號。vSphere HA 叢集的主主機負責偵測從主機的故障。
 
 視偵測到的故障類型而定、在主機上執行的虛擬機器可能需要容錯移轉。
 
@@ -54,9 +54,9 @@ NetApp 建議指定至少兩個額外的隔離位址、而且每個位址都是�
 
 == 主機隔離回應
 
-隔離回應是 vSphere HA 中的一項設定、可決定當 vSphere HA 叢集中的主機失去管理網路連線但仍繼續執行時、在虛擬機器上觸發的動作。此設定有三個選項：「已停用」，「關機並重新啟動 VM 」和「關機並重新啟動 VM 」。
+隔離回應是 vSphere HA 中的一項設置，用於確定當 vSphere HA 叢集中的主機失去其管理網路連線但仍繼續執行時，在虛擬機器上觸發的操作。此設定有三個選項：「停用」、「關閉並重新啟動虛擬機器」和「關閉電源並重新啟動虛擬機器」。
 
-「關機」比「關機」好，因為「關機」無法清除磁碟或提交交易的最新變更。如果虛擬機器在 300 秒內未關機、則會關閉電源。若要變更等待時間、請使用進階選項 das.isolationshutdowntimeout 。
+「關機」比「斷電」更好，「斷電」不會將最近的變更刷新到磁碟或提交事務。如果虛擬機器在 300 秒內沒有關閉，則會將其斷電。若要變更等待時間，請使用進階選項 das.isolationshutdowntimeout。
 
 在 HA 起始隔離回應之前、會先檢查 vSphere HA 主要代理程式是否擁有包含 VM 組態檔案的資料存放區。如果沒有、則主機不會觸發隔離回應、因為沒有主節點可重新啟動 VM 。主機會定期檢查資料存放區狀態、以判斷是否由擁有主角色的 vSphere HA 代理程式宣告。
 
@@ -77,25 +77,25 @@ NetApp 建議將「主機隔離回應」設為「已停用」。
 
 === 永久裝置遺失（ PDL ）
 
-當儲存設備永久故障或被管理性移除、且不預期返回時、會發生 PDL 狀況。NetApp 儲存陣列會向 ESXi 發出 SCSI Sense 程式碼、聲明該裝置已永久遺失。在 vSphere HA 的「故障條件和 VM 回應」區段中、您可以設定在偵測到 PDL 條件後應回應的內容。
+PDL 是指儲存設備永久發生故障或被管理員移除且預計不會恢復的情況。NetApp儲存陣列向 ESXi 發出 SCSI Sense 代碼，聲明該裝置已永久遺失。在 vSphere HA 的「故障條件和 VM 回應」部分，您可以設定偵測到 PDL 條件後應採取的回應。
 
 [TIP]
 ====
-NetApp 建議將「使用 PDL 回應資料存放區」設定為「 * 關閉並重新啟動 VM* 」。偵測到這種情況時、將會在 vSphere HA 叢集中的健全主機上立即重新啟動 VM 。
+NetApp建議將「具有 PDL 的資料儲存的回應」設定為「*關閉電源並重新啟動虛擬機器*」。當偵測到此情況時，虛擬機器將在 vSphere HA 叢集中運作正常的宿主機器上立即重新啟動。
 
 ====
 
 
 === 所有下行路徑（ APD ）
 
-當主機無法存取儲存裝置、且沒有通往陣列的路徑可用時、便會發生 APD 狀況。ESXi 認為這是裝置的暫時性問題、因此預期裝置會再次出現。
+APD 是指儲存設備對主機不可見，且沒有通往陣列的路徑時發生的情況。ESXi 認為這是設備的暫時性問題，預計該設備將再次可用。
 
 偵測到 APD 狀況時、會啟動定時器。140 秒後、 APD 條件會正式宣告、且裝置會標示為 APD 逾時。140 秒過後、 HA 會開始計算 VM 容錯移轉 APD 延遲中指定的分鐘數。指定時間過後、 HA 會重新啟動受影響的虛擬機器。您可以設定 VMCP 在需要時以不同的方式回應（停用、問題事件、或關機和重新啟動 VM ）。
 
 [TIP]
 ====
 * NetApp 建議將「使用 APD 的資料存放區回應」設定為「 * 關閉並重新啟動 VM （保守） * 」。
-* 保守是指 HA 能夠重新啟動 VM 的可能性。如果設為保守、 HA 只會重新啟動受 APD 影響的 VM 、前提是它知道其他主機可以重新啟動。在積極的情況下、 HA 會嘗試重新啟動 VM 、即使它不知道其他主機的狀態。如果沒有可存取其所在資料存放區的主機、這可能導致 VM 無法重新啟動。
+* 保守性是指 HA 能夠重啟虛擬機器的可能性。當設定為保守模式時，HA 僅在知道另一台主機可以重新啟動受 APD 影響的虛擬機器時才會重新啟動該虛擬機器。對於「積極型」HA，即使不知道其他主機的狀態，它也會嘗試重新啟動虛擬機器。如果沒有主機可以存取虛擬機器所在的儲存區域，則可能導致虛擬機器無法重新啟動。
 * 如果 APD 狀態已解決，且在逾時之前已還原對儲存設備的存取，則除非您明確設定 HA ，否則 HA 不會不必要地重新啟動虛擬機器。如果即使環境已從 APD 條件恢復、仍需要回應、則 APD 逾時後的 APD 恢復回應應設定為重設虛擬機器。
 * NetApp 建議將 APD 逾時後的 APD 恢復回應設定為停用。
 
@@ -111,10 +111,10 @@ VMware DRS 是一項功能、可將叢集中的主機資源集合在一起、主
 
 == 適用於 NetApp MetroCluster 的 VMware DRS 實作
 
- To avoid cross-site traffic, NetApp recommends configuring DRS affinity rules to manage a logical separation of VMs. This will ensure that unless there is a complete site failure, HA and DRS will only use local hosts.
+ To avoid cross-site traffic, NetApp recommends configuring DRS affinity rules to manage a logical separation of VMs. This will ensure that, unless there is a complete site failure, HA and DRS will only use local hosts.
 如果您為叢集建立 DRS 關聯性規則、您可以指定 vSphere 如何在虛擬機器容錯移轉期間套用該規則。
 
-您可以指定 vSphere HA 容錯移轉行為的規則有兩種類型：
+您可以為 vSphere HA 故障轉移行為指定兩種類型的規則：
 
 * VM 反關聯性規則會強制指定的虛擬機器在容錯移轉動作期間保持分離。
 * VM 主機關聯性規則會在容錯移轉動作期間、將指定的虛擬機器放置在特定主機或已定義主機群組的成員上。
@@ -132,7 +132,7 @@ image::../media/vmsc_2_2.png[VM 主機群組和關聯規則,528,369]
 
 NetApp 建議實作「應該」規則，而非「必須」規則，因為在發生故障時 vSphere HA 會違反這些規則。使用「必須」規則可能導致服務中斷。
 
-服務的可用度應永遠高於效能。在完整資料中心故障的情況下，「必須」規則必須從 VM 主機關聯群組中選擇主機，而當資料中心無法使用時，虛擬機器將不會重新啟動。
+服務的可用性應始終優先於服務的效能。如果整個資料中心發生故障，「必須」規則必須從 VM 主機親緣性群組中選擇主機，且當資料中心無法使用時，虛擬機器將不會重新啟動。
 
 
 
@@ -150,7 +150,7 @@ Storage DRS 使用 Storage VMotion 將虛擬機器移轉至資料存放區叢集
 
 * 儲存 DRS 通常不需要或建議用於 ONTAP 儲存系統。
 * ONTAP 提供本身的儲存效率功能，例如重複資料刪除，壓縮和壓縮，這些功能可能會受到儲存 DRS 的影響。
-* 如果您使用的是 ONTAP 快照，則 Storage VMotion 會在快照中保留 VM 的複本，可能會增加儲存使用率，並可能影響備份應用程式，例如追蹤 VM 及其 ONTAP 快照的 NetApp SnapCenter 。
+* 如果您正在使用ONTAP快照，則儲存 vMotion 會在快照中留下 VM 的副本，這可能會增加儲存利用率，並可能影響NetApp SnapCenter等備份應用程序，這些應用程式會追蹤 VM 及其ONTAP快照。
 
 
 ====

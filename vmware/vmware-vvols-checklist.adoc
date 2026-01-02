@@ -103,6 +103,6 @@ summary: ONTAP 工具 10 安裝檢查清單
 * 如果使用 HA ，儲存 VMotion 節點二和三會分隔資料存放區（選用，但建議使用）。
 * https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/certificate-manage.html["使用管理憑證"]在 ONTAP 工具管理員中安裝任何必要的 CA 簽署憑證。
 * 如果您爲 SRM/VSR 啓用了 SRA 以保護傳統的數據存儲，請參閱 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/protect/configure-on-srm-appliance.html["在 VMware Live Site Recovery 應用裝置上設定 SRA"]。
-* 設定的原生備份 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/enable-backup.html["接近零 RPO"]。
+* 配置本地備份 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/backup-settings.html["接近零 RPO"]。
 * 設定定期備份至其他儲存媒體。
 

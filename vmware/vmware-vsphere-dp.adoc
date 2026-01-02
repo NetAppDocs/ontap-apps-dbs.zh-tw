@@ -32,7 +32,7 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 
 對於 VMFS 資料存放區，您可以根據所需的快照來建立資料存放區的 FlexClone 。這可讓您建立以快照為基礎的新資料存放區，用於測試或開發用途。FlexClone 只會佔用快照執行後所做變更的空間，因此是建立資料存放區複本的極具空間效益的方法。建立 FlexClone 之後，您可以將 LUN 或命名空間對應至 ESXi 主機，就像一般的資料存放區一樣。這不僅能讓您還原特定的 VM 檔案，還能讓您根據正式作業資料快速建立測試或開發環境，而不會影響正式作業環境的效能。
 
-如需快照的詳細資訊，請參閱 ONTAP 文件。下列連結提供其他詳細資料：https://docs.netapp.com/us-en/ontap/data-protection/manage-local-snapshot-copies-concept.html["ONTAP 本機快照複本"^] https://docs.netapp.com/us-en/ontap/data-protection/manage-snapmirror-replication.html["ONTAP SnapMirror 複寫"^]
+有關快照的更多信息，請參閱ONTAP文件。以下連結提供了更多詳細資訊： https://docs.netapp.com/us-en/ontap/data-protection/manage-local-snapshot-copies-concept.html["ONTAP 本機快照複本"^] https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-workflow-concept.html["ONTAP SnapMirror複製工作流程"^]
 
 
 

@@ -23,31 +23,31 @@ summary:
 
 如果您已經使用 ONTAP 工具來管理，自動化及報告現有的 VMFS 或傳統 NFS 型儲存設備，則可以略過部署程序的前兩個步驟。您也可以參閱本完整文件link:vmware-vvols-checklist.html["檢查清單"]，瞭解如何部署及設定 ONTAP 工具。
 
-. 建立儲存虛擬機器（ SVM ）及其傳輸協定組態。請注意， ASA R2 系統可能不需要這項功能，因為它們通常已經有單一 SVM 用於資料服務。您可以選擇 NVMe / FC （僅限 ONTAP 工具 9.13 ）， NFSv3 ， NFSv4.1 ， iSCSI ， FCP ，或這些選項的組合。NVMe / TCP 和 NVMe / FC 也可用於傳統的含 ONTAP 工具 10.3 及更新版本的 VMFS 資料存放區。您可以使用 ONTAP 系統管理員精靈或叢集 Shell 命令列。
+. 建立儲存虛擬機器（SVM）及其協定配置。請注意， ASA r2 系統可能不需要這樣做，因為它們通常已經有一個用於資料服務的 SVM。您可以選擇 NVMe/FC（僅限ONTAP工具 9.13）、NFSv3、NFSv4.1、iSCSI、FCP 或這些選項的組合。NVMe/TCP 和 NVMe/FC 也可與ONTAP工具 10.3 及更高版本搭配使用，用於傳統的 VMFS 資料儲存。您可以使用ONTAP系統管理器精靈或叢集 shell 命令列。
 +
 ** https://docs.netapp.com/us-en/ontap/disks-aggregates/assign-aggregates-svms-task.html["將本機層（集合體）指派給 SVM"]適用於所有非 ASA R2 系統。
 ** 每個節點至少有一個 LIF 用於每個交換器 / 架構連線。最佳做法是為 FCP 、 iSCSI 或 NVMe 型傳輸協定、每個節點建立兩個以上的資料傳輸協定。每個節點只需一個 LIF 就能容納 NFS 型 VVols ，但 LIF 應該受到 LACP ifgroup 的保護。如需詳細資訊，請參閱 https://docs.netapp.com/us-en/ontap/networking/configure_lifs_cluster_administrators_only_overview.html["設定生命總覽"]和 https://docs.netapp.com/us-en/ontap/networking/combine_physical_ports_to_create_interface_groups.html["結合實體連接埠以建立介面群組"]。
-** 如果您打算為租戶 vCenter 使用 SVM 範圍認證，則每個 SVM 至少要有一個管理 LIF 。
+** 如果您打算對租用戶 vCenter 使用 SVM 範圍的憑證，則每個 SVM 至少需要一個管理 LIF。
 ** 如果您打算使用 SnapMirror ，請確定來源和目標 https://docs.netapp.com/us-en/ontap/peering/["ONTAP 叢集和 SVM 已被對等執行"]。
-** 對於非 ASA R2 系統，目前可能會建立磁碟區，但最佳做法是讓 ONTAP 工具中的 _ 資源存放區 _ 精靈建立這些磁碟區。此規則唯一的例外是，您打算將 vVols 複寫搭配 VMware Site Recovery Manager 和 ONTAP 工具 9.13 使用。使用現有的 FlexVol 磁碟區與現有的 SnapMirror 關係、更容易設定。請注意、不要在任何磁碟區上啟用用於 VVols 的 QoS 、因為這是由 SPBM 和 ONTAP 工具管理的。
+** 對於非ASA r2 系統，此時可以建立磁碟區，但最佳實務是讓ONTAP工具中的 _Provision Datastore_ 精靈建立它們。唯一的例外是，如果您打算將vVols複製與 VMware Site Recovery Manager 和ONTAP工具 9.13 一起使用。使用已存在的FlexVol捲和已建立的SnapMirror關係，設定起來會更容易。請注意不要在任何用於vVols 的磁碟區上啟用 QoS，因為這將由 SPBM 和ONTAP工具進行管理。
 
 
 . https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/deploy/ontap-tools-deployment.html["部署適用於 VMware vSphere 的 ONTAP 工具"]使用從 NetApp 支援網站下載的 OVA 。
 +
-** ONTAP 工具 10.0 及更新版本支援每個應用裝置多個 vCenter 伺服器，您不再需要在每個 vCenter 部署一個 ONTAP 工具應用裝置。
+** ONTAP tools 10.0 及更高版本支援每個設備運行多個 vCenter 伺服器；您不再需要為每個 vCenter 部署一個ONTAP tools 設備。
 +
-*** 如果您計畫將多個 vCenter 連線至單一 ONTAP 工具執行個體，則必須建立並安裝 CA 簽署的憑證。請參閱 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/certificate-manage.html["管理憑證"]以取得步驟。
+*** 如果您打算將多個 vCenter 連線到單一ONTAP工具實例，則必須建立並安裝 CA 簽署的憑證。請參閱 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/certificate-manage.html["管理憑證"] 步驟如下。
 
 
-** 從 10.3 開始， ONTAP 工具現在就部署為單一節點的小型應用裝置，適合大多數非 vVols 工作負載。
+** 從 10.3 版本開始， ONTAP工具現在可以部署為單節點小型設備，適用於大多數非 vVols 工作負載。
 
 
 
 
 [TIP]
 ====
-* 建議的最佳實務做法是 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/edit-appliance-settings.html["橫向擴充 ONTAP 工具"]將所有正式作業工作負載的 10.3 及更新版本設定為 3 節點高可用度（ HA ）組態。為了實驗室或測試目的，您可以使用單一節點部署。
-* 建議使用正式版 VVols 的最佳實務做法是消除任何單點故障。建立反關聯規則，以防止 ONTAP 工具 VM 在同一部主機上一起執行。在初始部署之後，也建議使用 Storage VMotion 將 ONTAP 工具 VM 放置在不同的資料存放區中。瞭解有關或 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-resource-management-8-0/using-drs-clusters-to-manage-resources/create-a-vm-vm-affinity-rule.html["建立 VM-VM 關聯規則"]的更多信息 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-resource-management-8-0/using-drs-clusters-to-manage-resources/using-affinity-rules-without-vsphere-drs.html["在沒有 vSphere DRS 的情況下使用關聯規則"]。您也應該排程頻繁備份和 / 或 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/enable-backup.html#create-backup-and-download-the-backup-file["使用內建的組態備份公用程式"]。
+* 推薦的最佳實踐是 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/edit-appliance-settings.html["橫向擴充 ONTAP 工具"] 10.3 及更高版本對所有生產工作負載採用 3 節點高可用性 (HA) 配置。對於實驗室或測試目的，可以使用單節點部署。
+* 生產環境中使用vVols的最佳實踐建議是消除任何單點故障。建立反親和性規則，防止ONTAP工具虛擬機器在同一台主機上同時運作。初始部署後，也建議使用儲存 vMotion 將ONTAP工具 VM 放入不同的資料儲存中。了解更多 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-resource-management-8-0/using-drs-clusters-to-manage-resources/using-affinity-rules-without-vsphere-drs.html["在沒有 vSphere DRS 的情況下使用關聯規則"] 或者 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-resource-management-8-0/using-drs-clusters-to-manage-resources/create-a-vm-vm-affinity-rule.html["建立 VM-VM 關聯規則"]。您還應該安排定期備份，和/或 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/manage/backup-settings.html["使用內建的組態備份公用程式"]。
 
 
 ====
@@ -60,7 +60,7 @@ summary:
 *** 登入 ONTAP 工具管理員 UI
 *** https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/add-storage-backend.html["內建儲存叢集"]
 *** https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/associate-storage-backend.html["將儲存後端與 vCenter Server 執行個體建立關聯"]
-*** 將特定 SVM 認證提供給 vCenter 管理員，然後將 SVM 新增為 vCenter 的 ONTAP 工具儲存設備後端功能表中的儲存後端。
+*** 向 vCenter 管理員提供特定的 SVM 憑證，管理員隨後會將 SVM 新增為 vCenter 中ONTAP工具儲存後端選單中的儲存後端。
 
 
 
@@ -70,13 +70,13 @@ summary:
 [TIP]
 ====
 * 最佳做法是為儲存帳戶建立 RBAC 角色。
-* ONTAP 工具包含 JSON 檔案，其中包含 ONTAP 工具儲存設備帳戶所需的角色權限。您可以將 JSON 檔案上傳至 ONTAP 系統管理員，以簡化 RBAC 角色和使用者的建立。
+* ONTAP工具包含一個 JSON 文件，其中包含ONTAP工具儲存帳戶所需的必要角色權限。您可以將 JSON 檔案上傳到ONTAP系統管理器，以簡化 RBAC 角色和使用者的建立。
 * 如需ONTAP RBAC 角色的詳細資訊，請參閱 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/configure-user-role-and-privileges.html#svm-aggregate-mapping-requirements["設定 ONTAP 使用者角色和權限"]。
 
 
 ====
 
-NOTE: 整個叢集必須在 ONTAP 工具管理員 UI 中建立的原因，是因為許多用於 vVols 的 API 只能在叢集層級上使用。
+NOTE: 之所以需要在ONTAP工具管理器 UI 中對整個叢集進行配置，是因為用於vVols的許多 API 僅在叢集層級可用。
 
 
 
@@ -107,7 +107,7 @@ image:vvols-deploy-4.png["role =\"thum\" \"Provision datastore wizard\" ， 300"
 
 * 就是這麼簡單！
 +
-** ONTAP 工具 10.3 搭配 ONTAP FAS ， AFF 和 ASA PRIOR ASA R2 。
+** ONTAP工具 10.3，以及ASA r2 之前的ONTAP FAS、 AFF和ASA 。
 
 
 * 選取傳輸協定
@@ -120,7 +120,7 @@ image:vvols-deploy-5.png["role =\"thum\" \"Provision datastore wizard\" ， 300"
 
 image:vvols-deploy-5a.png["role =\"thum\" \"Provision datastore wizard\" ， 300"]
 
-* 按一下新增磁碟區 _ 或使用現有的磁碟區 _ ，然後指定屬性。請注意，在 ONTAP 工具 10.3 中，您可以要求同時建立多個磁碟區。您也可以手動新增多個磁碟區，以便在 ONTAP 叢集之間取得平衡。按一下 _NEXT
+* 按一下“新增磁碟區”或“使用現有磁碟區”，然後指定屬性。請注意，在ONTAP工具 10.3 中，您可以同時要求建立多個磁碟區。您也可以手動新增多個卷，以在ONTAP叢集中實現卷的平衡。點擊“下一步”
 
 
 image:vvols-deploy-6.png["role =\"thum\" \"Provision datastore wizard\" ， 300"]
@@ -150,7 +150,7 @@ image:vvols-deploy-9.png["role =\"thum\" \"Provision datastore wizard\" ， 300"
 
 == 使用原則管理 VM
 
-若要使用原則型管理來自動化儲存資源配置，您需要建立對應至所需儲存功能的 VM 儲存原則。
+若要透過基於策略的管理實現儲存配置自動化，您需要建立與所需儲存功能相對應的虛擬機器儲存策略。
 
 
 NOTE: ONTAP 工具 10.0 及更新版本不再像舊版一樣使用儲存功能設定檔。而是直接在 VM 儲存原則本身中定義儲存功能。
@@ -159,7 +159,7 @@ NOTE: ONTAP 工具 10.0 及更新版本不再像舊版一樣使用儲存功能�
 
 === 建立 VM 儲存原則
 
-vSphere 中使用 VM 儲存原則來管理儲存 I/O 控制或 vSphere 加密等選用功能。它們也可與 vVols 搭配使用、將特定的儲存功能套用至 VM 。請使用「 NetApp ． clustered ． ONTAP ． VP ． VVOL 」儲存類型。請參閱連結： vmware-vols-ontap.html#Best Practices [ 透過 NFS v3 使用 vVols 的範例網路組態 ] 、以瞭解 ONTAP 工具 VASA Provider 的範例。「 NetApp ， ONTAP ， VP.VASA10 」儲存設備的規則將用於非 VVols 型資料存放區。
+vSphere 中使用 VM 儲存策略來管理選用功能，例如儲存 I/O 控製或 vSphere 加密。它們也與vVols一起使用，以便為虛擬機器應用特定的儲存功能。使用“ NetApp ”儲存類型。有關使用ONTAP工具 VASA Provider 的範例，請參閱連結：vmware-vvols-ontap.html#Best Practices[使用 NFS v3 上的vVols進行網路設定的範例]。「 NetApp.clustered.Data. ONTAP.VP.VASA10」儲存的規則將與非基於 vVols 的資料儲存一起使用。
 
 建立儲存原則之後，即可在佈建新 VM 時使用。
 
@@ -171,12 +171,12 @@ image:vmware-vvols-deploy-vmsp-01.png["role = 「使用 ONTAP 工具建立 VM �
 
 ONTAP 工具使用其本身的平衡放置演算法，將新的 vVol 置入具有統一或傳統 ASA 系統的 Best FlexVol volume ，或是在 vVols 資料存放區內搭配 ASA R2 系統的儲存可用性區域（ SAZ ）。放置方式是根據將備份儲存設備與 VM 儲存原則配對而定。如此可確保資料存放區和備份儲存設備符合指定的效能需求。
 
-變更效能功能（例如最小和最大 IOPS ）需要特別注意特定組態。
+更改效能功能（例如最小和最大 IOPS）需要注意特定的配置。
 
 * * 虛擬機器原則可指定最小和最大 IOPS * 。
 +
-** 在將 VM 原則重新套用至使用它的 VM 之前，變更原則中的 IOPS 並不會變更 vVols 上的 QoS 。或者，您也可以建立具有所需 IOPS 的新原則，並將其套用至目標 VM 。一般而言，建議您只為不同服務層級定義個別的 VM 儲存原則，然後只需變更 VM 上的 VM 儲存原則即可。
-** ASA ， ASA R2 ， AFF 和 FAS 特性設定具有不同的 IOPs 設定。所有快閃系統皆可使用最小和最大值；不過，非 AFF 系統只能使用最大 IOPs 設定。
+** 變更策略中的 IOPS 不會改變vVols上的 QoS，直到將 VM 策略重新套用到使用該策略的 VM。或者，您可以建立具有所需 IOPS 的新策略，並將其應用於目標虛擬機器。一般來說，建議為不同的服務層級定義單獨的虛擬機器儲存策略，然後在虛擬機器上變更虛擬機器儲存策略即可。
+** ASA、 ASA r2、 AFF和FAS人格類型有不同的 IOP 設定。所有閃光燈系統都支援最小和最大 IOP 設定；但是，非AFF系統只能使用最大 IOP 設定。
 
 
 * ONTAP 工具會使用目前支援的 ONTAP 版本來建立個別的非共用 QoS 原則。因此、每個個別的 VMDK 都會收到自己的 IOP 分配。

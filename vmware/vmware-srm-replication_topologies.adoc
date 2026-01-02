@@ -105,7 +105,7 @@ NOTE: NetApp 支援 `mirror-vault` 原則類型。
 
 您可以在串聯組態中建立來源Volume、將磁碟區複寫到DR站台的SnapMirror目的地、然後從該磁碟區保存到SnapVault 一個目的地。來源Volume也可建立在連出關係中、其中一個目的地是SnapMirror目的地、另一個目的地SnapVault 是一個目的地。不過、SRA不會在SnapVault 發生VLSR容錯移轉或複寫反轉時、自動重新設定「還原」關係、以使用SnapMirror目的地Volume作為資料庫的來源。
 
-如需SnapMirror和SnapVault 適用於ONTAP SnapMirror的更新資訊、請參閱 https://www.netapp.com/media/17229-tr4015.pdf?v=127202175503P["TR-4015《SnapMirror組態最佳實務指南ONTAP 》（英文）。"^]
+有關ONTAP 9 的SnapMirror和SnapVault的最新信息，請參閱 https://www.netapp.com/pdf.html?item=/media/17229-tr-4015-snapmirror-configuration-ontap.pdf["TR-4015《SnapMirror組態最佳實務指南ONTAP 》（英文）。"^]
 
 |===
 | 最佳實務做法 

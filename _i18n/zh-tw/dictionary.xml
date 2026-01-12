@@ -441,7 +441,6 @@
   <block id="0c2f3b2ec9d90baa0a0a0b6fb673a113" category="paragraph">效能密集的應用程式 I/O 幾乎總是（ a ）以基本區塊大小為單位、或（ b ） 1 MB 。</block>
   <block id="804d5b1f06570b4d242be0c2f0c3392c" category="paragraph">等量分配組態的主要目標是確保單一檔案 I/O 可作為單一單元執行、而多區塊 I/O 的大小應為 1MB 、可在等量磁碟區中的所有 LUN 之間平均平行處理。這表示等量磁碟區大小不得小於資料庫區塊大小、且等量磁碟區大小乘以 LUN 數量應為 1MB 。</block>
   <block id="0598f393baefd05d48b48076cc7df606" category="paragraph">下圖顯示等量磁碟區大小和寬度調校的三個可能選項。選擇 LUN 數量以滿足上述效能需求、但在所有情況下、單一等量磁碟區內的總資料為 1MB 。</block>
-  <block id="0353522b39b87d54d40d3f09ec668851" category="doc">組態ONTAP</block>
   <block id="8e52de0d4b03d5fe87dc88da09616c7f" category="inline-link-macro">請按這裡。</block>
   <block id="337c62c6b6eb7319bae58701105e889c" category="doc">分層</block>
   <block id="3493794b3ccb587f71a663f51f4484ef" category="summary">ONTAP 上的 PostgreSQL 資料庫</block>
@@ -5089,9 +5088,7 @@
   <block id="17ed98f652bb960b10b3357e44785f38" category="inline-image-macro">移轉流程圖</block>
   <block id="f420007a3c90420b30780388a0e05dbc" category="paragraph"><block ref="6ee66f70cd2b82e9dd03128a50a38de9" category="inline-image-macro-rx" type="image"></block>。</block>
   <block id="fb3e908ec44ab0657a364e90a649adee" category="admonition">如需可產生異常結果的 Linux 特定 DNFS 問題、請參閱中的<block ref="6ada863f3548cecdf5d7a06e9c4201cd" category="inline-link-macro-rx"></block>說明<block ref="4740c034d97ca90a96b8050082816605" prefix=" " category="inline-code"></block>。</block>
-  <block id="7dde30333f2f14b8935a6f394318dd19" category="paragraph">&lt;stdin&gt; 中未解析的指令 - 包括： lun-aligns.adoc []</block>
   <block id="baeaebf1ec4083a8b5a2278617a67479" category="paragraph">另請參閱一節中有關壓縮區塊對齊<block ref="936e7f76dd05eeca0e082776361dee38" category="inline-link-macro-rx"></block>的討論。任何與 8KB 壓縮區塊邊界對齊的配置、也會與 4KB 邊界對齊。</block>
-  <block id="62cc2062c0bb14fd9ee41267e11b9824" category="paragraph">&lt;stdin&gt; 中未解析的指令 - 包括： database-misarge-warnations.adoc []</block>
   <block id="0452707f6213531bbf4f41e5f16cdead" category="paragraph">可透過多種機制將複製卸載至執行 ONTAP 的系統、通常是在 VM 、 vVol 或資料存放區層級。其中包括：</block>
   <block id="a4ec3dfc79c8493b1e9fcaee6b06b5a8" category="summary">ONTAP 廣泛支援混合雲。</block>
   <block id="14f3c0fa1399e57b5998b528cc5f3515" category="paragraph">ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能。ONTAP 讓 VMware vSphere 能夠從許多 ESXi 主機同時存取 NFS 連線的資料存放區、遠超出對 VMFS 檔案系統的限制。如一節所述、將 NFS 與 vSphere 搭配使用可提供一些易用性和儲存效率可見度優勢<block ref="72b655a9973dbed02099f5e63762d591" category="inline-link-macro-rx"></block>。</block>
@@ -6095,4 +6092,310 @@
   <block id="7fce4a8e4d875aacc44e3d2ed8580a5d" category="paragraph">您可以為 vSphere HA 故障轉移行為指定兩種類型的規則：</block>
   <block id="26cc6fc2decc1bcfa2c0a112114e3acc" category="paragraph">服務的可用性應始終優先於服務的效能。如果整個資料中心發生故障，「必須」規則必須從 VM 主機親緣性群組中選擇主機，且當資料中心無法使用時，虛擬機器將不會重新啟動。</block>
   <block id="81430f9750a817293c793dd7958f44fa" category="list-text">如果您正在使用ONTAP快照，則儲存 vMotion 會在快照中留下 VM 的副本，這可能會增加儲存利用率，並可能影響NetApp SnapCenter等備份應用程序，這些應用程式會追蹤 VM 及其ONTAP快照。</block>
+  <block id="f51e6cb0023f640f3e441b33ea6d90b2" category="summary">使用ASA r2 的 Oracle 資料庫區塊大小</block>
+  <block id="b74e31875db8b4ffb64a32f6af8a00c3" category="paragraph">ONTAP內部使用可變區塊大小，這表示 Oracle 資料庫可以配置為所需的任何區塊大小。然而，檔案系統區塊大小會影響效能，在某些情況下，更大的重做區塊大小可以提高效能。</block>
+  <block id="25efcd88d2bb8d1c51866688d59b6df0" category="paragraph">與AFF/ FAS系統相比， ASA r2 對 Oracle 區塊大小建議沒有任何改變。ONTAP在所有平台上的行為保持一致。</block>
+  <block id="45dfed63ad9cfaef8f16e45163f1ddcb" category="summary">Oracle 資料庫參數 - filesystemio_options（ ASA r2）</block>
+  <block id="29967c867552a538cee57e0fefdb1612" category="paragraph">ASA r2 上的 filesystemio_options 的行為和建議與AFF/ FAS系統相同，因為此參數是 Oracle 特有的，與儲存平台無關。ASA r2 和AFF/ FAS一樣使用ONTAP ，因此相同的最佳實務也適用。</block>
+  <block id="4725bcfd9454b799bd0d8edf9880b9c6" category="admonition">在 ASM 環境中，Oracle 會自動對 ASM 管理的磁碟使用直接 I/O 和非同步 I/O，因此<block ref="f1110589be196c2310808482067fce1b" prefix=" " category="inline-code"></block> 對 ASM 磁碟組沒有影響。對於非 ASM 部署（例如，SAN LUN 上的檔案系統），請設定：<block ref="6a1623be7d673ed665d6446f22dbb37c" prefix=" " category="inline-code"></block>。這樣既可以實現非同步 I/O，也可以實現直接 I/O，從而獲得最佳效能。</block>
+  <block id="11277a7f8d508b5b546ee39af32e9b34" category="paragraph">一些較舊的作業系統在非同步 I/O 方面存在問題，導致一些過時的建議認為應該避免使用非同步 I/O。但是，非同步 I/O 穩定可靠，並且在所有目前的作業系統上都得到全面支援。除非發現特定的作業系統漏洞，否則沒有理由禁用它。</block>
+  <block id="3d1060d19355a79188cebceddfe20cac" category="admonition">NetApp建議設定<block ref="f1110589be196c2310808482067fce1b" prefix=" " category="inline-code"></block> 到<block ref="aef8f91b1e026cc1bb55e8b08c491d35" prefix=" " category="inline-code"></block>但請注意，在某些情況下，主機緩衝區快取的遺失可能需要增加 Oracle SGA。ASA r2 系統針對低延遲的 SAN 工作負載進行了最佳化，因此使用 setall 與 ASA 的高效能 Oracle 部署設計完美契合。</block>
+  <block id="cc9bafe604d9f828f9e50b888b5af83a" category="summary">Oracle 資料庫參數 - db_file_multiblock_read_count（ ASA r2）</block>
+  <block id="77da25139302fac7c4678c7feff95328" category="paragraph">與AFF/ FAS系統相比，建議沒有變化。ONTAP 的行為和 Oracle 最佳實務在ASA r2、 AFF和FAS平台上保持不變。</block>
+  <block id="7a6b7a0812fd796dcb806fd5b0c2b6c7" category="summary">Oracle RAC 逾時與ASA r2</block>
+  <block id="f034ddba34805dbfe68b7f48ca895681" category="searchtitle">Oracle Real Application Clusters 與ASA r2 出現逾時問題</block>
+  <block id="6ee77b798f308781373f865ac29cba09" category="paragraph">ASA r2 系統與AFF/ FAS一樣使用ONTAP ，因此相同的原則也適用於 Oracle RAC 逾時參數。ASA沒有針對磁碟逾時或錯誤計數建議的特定變更。然而， ASA r2 針對 SAN 工作負載和低延遲故障轉移進行了最佳化，這使得這些最佳實務變得更加重要。</block>
+  <block id="9f7a41723dc84c90511cb0c3007557cc" category="admonition">訊息中 <block ref="9cd17d807316d35ef47b12cbecab4ec8" category="inline-link-macro-rx"></block> 本節包含使用網路儲存的 Oracle RAC 環境的關鍵訊息，在許多情況下，需要更改預設的 Oracle RAC 設定，以確保 RAC 叢集在網路路徑更改和儲存故障轉移操作後仍能正常運作。</block>
+  <block id="c03d1b47221ed5a173395512ed362d44" category="list-text"><block ref="ff4a008470319a22d9cf3d14af485977" prefix="" category="inline-code"></block> 二進位檔案位於網路附加磁碟機上，包括 iSCSI、FC 和基於資料儲存的磁碟機。</block>
+  <block id="543df3f730045fd30ce4af77abea11e1" category="list-text">ASA r2 的 SAN 最佳化設計降低了故障轉移延遲，但對於網路啟動或網格二進位文件，逾時時間仍需進行調整。</block>
+  <block id="82106d3b2ed91a254d7c6d4d5342cbc1" category="list-text">對於擴展的 RAC 或主動-主動設定（例如， SnapMirror主動同步），逾時調整對於零 RPO 架構仍然至關重要。</block>
+  <block id="6c7de758773bd93ee212e9116ff23b70" category="summary">資料庫和ASA r2 ONTAP儲存容量以及ASA r2 上的可用空間</block>
+  <block id="0ba26eed20c7a72b7557b1dca31463f8" category="searchtitle">ASA r2 上的 Oracle 資料庫和儲存容量管理</block>
+  <block id="fec46d85c88737d5c6bc3c8fb9d31d07" category="paragraph">ASA r2 使用儲存可用區 (SAZ) 而不是聚合，但原理仍然相同：可用空間包括未被實際資料、快照或系統開銷佔用的任何實體容量。也必須考慮精簡配置－邏輯分配並不能反映真實的實體使用。</block>
+  <block id="fd3c3ddb6afa0f19ccd103893bdfff01" category="paragraph">NetApp對企業應用的ASA r2 儲存系統的建議如下：</block>
+  <block id="b117f27a635613ecfcbec6e1b094b82f" category="section-title">ASA r2 系統中的 SSD 池</block>
+  <block id="286282b47dd388584f0b47bb531e0c18" category="admonition">NetApp建議在ASA r2 環境中保持至少 10% 的可用實體空間。本指南適用於ASA r2 系統所使用的僅限 SSD 的儲存池，包括 SAZ 和儲存單元內的所有未使用空間。邏輯空間並不重要；重點在於可用於資料儲存的實際實體空間。</block>
+  <block id="e44f572dc67206f5fe79649b7a71ea39" category="paragraph">雖然ASA r2 可以維持高利用率而不降低效能，但在接近滿載運轉時，擴充儲存時會增加空間耗盡和管理開銷的風險。驅動器利用率超過 90% 可能不會影響效能，但會使管理複雜化並延遲額外驅動器的配置。</block>
+  <block id="0d0fe41e4cffbd1cbbfd0ff604e5847a" category="paragraph">ASA r2 系統支援高達 128TB 的儲存單元和高達 2PB 的 SAZ 大小（每個 HA 對）， ONTAP會自動在節點之間平衡容量。監控叢集、SAZ 和儲存單元層級的使用率對於確保快照、精簡配置工作負載和未來成長有足夠的可用空間至關重要。如果容量接近臨界閾值（~90% 利用率），則應分組（至少六個驅動器）添加額外的 SSD，以保持效能和彈性。</block>
+  <block id="9c4d6eff4aaa2da2a41a618d4e6308e6" category="summary">使用ASA r2 提升 Oracle 資料庫與儲存效率</block>
+  <block id="eaad7dcfc067b66ed2d62d108f314eaa" category="searchtitle">Oracle 資料庫與ONTAP與ASA r2 的效率特性</block>
+  <block id="97c9a5fb8d9dca6d787d486fae38909e" category="paragraph">ONTAP 的空間效率功能已得到全面支持，並針對ASA r2 系統進行了最佳化。在幾乎所有情況下，最佳做法是保留預設設定並啟用所有效率功能。</block>
+  <block id="29e5740ae1265e0ae9ddc367075a430d" category="paragraph">ASA r2 系統是全快閃 SAN 平台，因此壓縮、精簡和重複資料刪除等效率技術對於最大限度地提高可用容量和降低成本至關重要。</block>
+  <block id="0e607e6969928c8f0be851b17df35b7c" category="paragraph">壓縮透過對資料中的模式進行編碼來減少空間需求。採用基於 SSD 的ASA r2 系統，壓縮可顯著節省成本，因為快閃記憶體消除了為提高效能而過度配置的需要。ONTAP自適應壓縮預設為啟用，並已使用企業工作負載（包括 Oracle 資料庫）進行了全面測試，即使在延遲以微秒為單位測量的環境中，也沒有可衡量的效能影響。在某些情況下，由於壓縮資料佔用較少的快取空間，效能會得到提升。</block>
+  <block id="acf1c3f0880b3b517ae9c08198c3313c" category="admonition">溫度敏感儲存效率 (TSSE) 不適用於ASA r2 系統。在ASA r2 系統中，壓縮不是基於熱資料（經常存取的資料）或冷資料（不經常存取的資料）。壓縮無需等待資料冷卻即可開始。</block>
+  <block id="c9359b028210c16d749a4ad44ceef2fe" category="paragraph">自適應壓縮預設使用 8KB 的區塊大小，與關聯式資料庫常用的區塊大小相符。較大的區塊大小（16KB 或 32KB）可以提高順序資料（如交易日誌或備份）的效率，但對於活動資料庫應謹慎使用，以避免在覆蓋期間產生開銷。</block>
+  <block id="47e17029663cd0a26bc74c23a15916f1" category="admonition">對於日誌或備份等靜止文件，區塊大小可以增加到 32KB。更改預設設定前，請先查閱NetApp指南。</block>
+  <block id="fb88d498aeb61ef7dc46cf0183899e05" category="admonition">不要對串流備份使用 32KB 壓縮和去重功能。使用 8KB 壓縮以維持去重效率。</block>
+  <block id="fce01c72f00048fc766f0b547b80b0c1" category="paragraph">對於隨機覆蓋，壓縮對齊很重要。確保 LUN 類型正確、分割偏移量（8KB 的倍數）以及檔案系統區塊大小與資料庫區塊大小一致。備份或日誌等順序資料不需要考慮對齊問題。</block>
+  <block id="2f096f341d922649f5787ac9dc67736f" category="paragraph">壓縮技術透過允許多個壓縮塊共享同一個實體塊來補充壓縮技術。例如，如果一個 8KB 的資料塊壓縮到 1KB，壓縮可以確保剩餘空間不會被浪費。此功能為內聯功能，不會造成效能損失。</block>
+  <block id="6d6c415da1e0bfc92ede47ea457bacfe" category="paragraph">去重操作會移除資料集中的重複資料區塊。雖然 Oracle 資料庫由於具有獨特的區塊頭和區塊尾，通常只能節省極少的重複數據，但ONTAP重複資料刪除仍然可以從零區塊和重複模式中回收空間。</block>
+  <block id="afe06725d3e8e69f957d42e07a4d2ac6" category="paragraph">ASA r2 系統預設使用精簡配置。效率特性與精簡配置相輔相成，可最大限度地利用可用容量。</block>
+  <block id="3ae7feb5d9cb2335f10922aa1130319d" category="admonition">在ASA r2 儲存系統上，儲存單元始終採用精簡配置。不支援厚配置。</block>
+  <block id="b562c9523a15796f6734824c6906ea4b" category="section-title">快速輔助科技（QAT）</block>
+  <block id="9d501bcd94601848e35a4581445c16ae" category="paragraph">在NetApp ASA r2 平台上，Intel QuickAssist 技術 (QAT) 提供硬體加速的效率，這與沒有 QAT 的軟體為基礎的溫度敏感儲存效率 (TSSE) 有很大不同。</block>
+  <block id="a5b1922762277348e395a0f5bb63a066" category="paragraph">*支援硬體加速的快速存取終端 (QAT)：*</block>
+  <block id="7f061561c79fda3cf285f802ab1df9dd" category="list-text">將壓縮和加密任務從 CPU 核心卸載。</block>
+  <block id="daf76bc97dc262e8534a7d1b39c594b8" category="list-text">能夠立即提高熱數據（頻繁存取的數據）和冷數據（不頻繁存取的數據）的線上處理效率。</block>
+  <block id="e0f81090ab3cc33731ea0afa51ad04be" category="list-text">顯著降低CPU佔用率。</block>
+  <block id="ea763c657dce8d1d285478f80caeaa58" category="list-text">提供更高的吞吐量和更低的延遲。</block>
+  <block id="96458f7ac4191be2139fef330262c1f1" category="list-text">提高了對效能要求較高的操作（例如 TLS 和 VPN 加密）的可擴充性。</block>
+  <block id="1121032714cb05a8acd4182211a3d959" category="paragraph">*不含QAT的TSSE：*</block>
+  <block id="87dd7a76029eb48dc4829ef2fb0998f1" category="list-text">依靠CPU驅動的進程來實現高效運作。</block>
+  <block id="cc16c02975ac3a8fc5a6760ee8b59086" category="list-text">僅對延遲後的冷數據應用效率優化。</block>
+  <block id="dbb9a4d9b6afe5a22a188b05e2c55aca" category="list-text">消耗更多CPU資源。</block>
+  <block id="15c9489f22847ad34cca043b0d3781d9" category="list-text">與 QAT 加速系統相比，整體效能受到限制。</block>
+  <block id="7f0fa9ea3b1bfd8171845c4fd64b045b" category="paragraph">因此，現代ASA r2 系統比舊式的僅支援 TSSE 的平台具有更快的硬體加速效率和更好的系統利用率。</block>
+  <block id="17d46209898416a0271a7a40a040fa62" category="section-title">ASA r2 的效率最佳實踐</block>
+  <block id="52101fec2ca49d6ad57b390b63e72b67" category="section-title">ASA r2 預設值</block>
+  <block id="1dc9bf51a5f61b552c5fb6db7bd754ab" category="paragraph">在ASA r2 系統上執行的ONTAP上建立的儲存單元採用精簡配置，預設啟用所有內聯效率功能，包括壓縮、精簡和重複資料刪除。儘管 Oracle 資料庫通常不會從重複資料刪除中獲益匪淺，並且可能包含不可壓縮的數據，但這些預設設定幾乎適用於所有工作負載。ONTAP旨在有效處理所有類型的資料和 I/O 模式，無論它們是否能帶來節省。只有在完全了解原因並且偏離預設設定有明顯好處的情況下，才應該更改預設設定。</block>
+  <block id="db430188d143b5480822ddee760e1628" category="list-text">停用加密或應用程式壓縮資料的壓縮：如果檔案已經在應用程式層級壓縮或加密，請停用壓縮以優化效能並允許在其他儲存單元上更有效率地運作。</block>
+  <block id="629e6580aba1cbe6cff5a2d11fd73f2b" category="list-text">避免將大壓縮區塊與重複資料刪除結合使用：不要在資料庫備份中同時使用 32KB 壓縮和重複資料刪除。對於串流備份，請使用 8KB 壓縮以保持去重效率。</block>
+  <block id="339bd8b6442c9bc710297e62b92fe61c" category="list-text">監控效率節省：使用ONTAP工具（系統管理員、 Active IQ）追蹤實際的空間節省情況，並在需要時調整策略。</block>
+  <block id="5e9589652c75095a75909065d8a0d93f" category="summary">要確保 Oracle 資料庫操作不會因這些操作而中斷，就需要了解儲存接管功能。此外，收購操作中使用的參數如果使用不當，可能會影響資料完整性。</block>
+  <block id="73561d6c3983a6b603417a787cf17ce9" category="searchtitle">ASA r2 中的 Oracle 資料庫和ONTAP控制器故障轉移</block>
+  <block id="817dbb89ea186ed07c38e66cc3f11ad2" category="doc">ONTAP故障轉移</block>
+  <block id="6217c84a6fec75785f109083aaaa4617" category="paragraph">要確保 Oracle 資料庫操作在這些操作期間不會中斷，就需要了解儲存接管功能。此外，收購操作中使用的論點如果使用不當，可能會影響資料完整性。</block>
+  <block id="0ee72c88d56aef3026c4fb8a22263fb4" category="paragraph">正常情況下，寫入給定控制器的傳入資料會同步鏡像到其高可用性夥伴。在具有SnapMirror Active Sync (SM-as) 的ASA r2 環境中，寫入作業也會鏡像到輔助站台的遠端控制器。只有當寫入操作在所有位置都儲存在非揮發性媒體中時，主機應用程式才能收到確認。</block>
+  <block id="8729e9a956b08f3fe788c6d911ba78fa" category="paragraph">儲存寫入資料的媒體稱為非揮發性記憶體（NVMEM）。它有時被稱為非揮發性隨機存取記憶體（NVRAM），可以將其視為寫入日誌而不是快取。正常運作期間，不會讀取NVMEM中的資料；它僅用於在軟體或硬體發生故障時保護資料。當資料寫入驅動器時，資料是從系統 RAM 傳輸的，而不是從NVMEM傳輸的。</block>
+  <block id="3b95fd9bb9e3f2ccc9cb80f0a533d06e" category="paragraph">在接手操作期間，HA 對中的一個節點從其夥伴節點接手操作。在ASA r2 中，由於不支援MetroCluster ，因此無法進行切換；取而代之的是， SnapMirror Active Sync 提供網站層級冗餘。例行維護期間的儲存接管操作應該是透明的，除了網路路徑改變時操作會短暫暫停之外。網路可能很複雜，而且很容易出錯，因此NetApp強烈建議在將儲存系統投入生產之前徹底測試接管操作。這樣做是確保所有網路路徑都正確配置的唯一方法。在 SAN 環境中，使用下列命令驗證路徑狀態<block ref="41dc2c94e82e1c56ba876085acf5a974" prefix=" " category="inline-code"></block> 或使用作業系統自帶的多路徑工具，以確保所有預期路徑都可用。ASA r2 系統為 LUN 提供所有活動的最佳化路徑，使用 NVMe 命名空間的客戶應依賴作業系統原生工具，因為 sanlun 不涵蓋 NVMe 路徑。</block>
+  <block id="fbd1162054dfcc75279eb74994c81fc2" category="paragraph">強制收購時必須謹慎行事。強制更改儲存配置意味著忽略擁有驅動器的控制器的狀態，備用節點強制接管驅動器的控制權。強制接管操作不當可能導致資料遺失或損壞，因為強制接管操作可能會丟棄NVMEM的內容。接管完成後，資料遺失意味著從資料庫的角度來看，儲存在磁碟機上的資料可能會恢復到稍舊的狀態。</block>
+  <block id="417180065e1db56271a50819dfc8d77a" category="paragraph">使用普通HA對進行強制接管的情況應該很少發生。在幾乎所有故障情況下，節點都會關閉並通知合作夥伴，以便進行自動故障轉移。有些極端情況，例如滾動故障，其中節點之間的互連丟失，然後一個控制器發生故障，在這種情況下需要強制接管。在這種情況下，節點之間的鏡像會在控制器發生故障之前遺失，這意味著倖存的控制器不再擁有正在進行的寫入操作的副本。收購必須強制執行，這意味著資料可能會遺失。</block>
+  <block id="eac9e01dcafe5df31549db862e4b5e12" category="paragraph">NetApp建議採取以下預防措施：</block>
+  <block id="a0033c4526f3231e5c7e8c2c6461cbe2" category="list-text">務必小心，不要意外地促成收購。通常情況下，不應該強制執行更改，強制更改可能會導致資料遺失。</block>
+  <block id="9215c7ac58dee80cff52c5d5fa62a977" category="list-text">如果需要強制接管，請確保應用程式已關閉，所有檔案系統已卸載，並且邏輯磁碟區管理器 (LVM) 磁碟區組已關閉。必須卸載 ASM 磁碟組。</block>
+  <block id="5ebade231442483b3d9dd2848baa6ccc" category="inline-link">ASA r2 系統上的SnapMirror主動同步</block>
+  <block id="fd360c79cec2c6ecdbf2a17c6ad2be7f" category="list-text">在使用 SM-as 時，如果發生站點級故障， ONTAP Mediator 輔助的自動非計劃故障轉移將在倖存叢集上啟動，這將導致短暫的 I/O 暫停，然後資料庫轉換將從倖存叢集繼續進行。更多資訊請參見<block ref="e60237ff925f4fb2924a96cecb00f215" category="inline-link-rx"></block> 詳細配置步驟請見下文。</block>
+  <block id="20b465cc6f734e64de0fc141d799a08b" category="summary">在ASA r2 上使用ONTAP QoS 進行 Oracle 資料庫效能管理</block>
+  <block id="2579c376f51f8f990ad0da35fad7b27f" category="doc">在ASA r2 系統上使用ONTAP QoS 進行效能管理</block>
+  <block id="f35a95ecdbc736cf5efbd3ffed0758e4" category="paragraph">在ASA r2 上安全且有效率地管理多個 Oracle 資料庫需要有效的 QoS 策略。這一點尤其重要，因為ASA r2 系統是全快閃 SAN 平台，專為極高的效能和工作負載整合而設計。</block>
+  <block id="fb0f677afb501d6e6b186ff048005ff0" category="paragraph">即使是最強大的控制器，相對較少的 SSD 也可能使其達到飽和，因此 QoS 控制對於確保跨多個工作負載的可預測效能至關重要。作為參考， ASA r2 系統（例如ASA A1K 或 A90）可以提供數十萬到超過一百萬的 IOPS，延遲低於毫秒級。很少有單一工作負載會消耗如此高的效能，因此要充分利用效能通常需要託管多個資料庫或應用程式。安全地執行此操作需要 QoS 策略來防止資源爭用。</block>
+  <block id="56f97482820208f3d16d39528cfb6570" category="paragraph">ONTAP QoS 在ASA r2 上的工作原理與在AFF/ FAS系統上相同，主要有兩種類型的控制：IOPS 和頻寬。QoS 控制可以套用於 SVM 和 LUN。</block>
+  <block id="2e6032fca80b51e97df45f1a5170bd68" category="paragraph">基於 IOPS 的服務品質限制了給定資源的總 IOPS。在ASA r2 中，QoS 策略可以套用於 SVM 層級和單一儲存物件（例如 LUN）。當工作負載達到其 IOPS 限制時，額外的 I/O 請求會排隊等待令牌，從而引入延遲。這是預期行為，可以防止任何單一工作負載壟斷系統資源。</block>
+  <block id="3edd2c44fe87d2162de06be373a31a13" category="admonition">將 QoS 控制應用於資料庫事務/重做日誌資料時要謹慎。這些工作負載具有突發性，對於平均活動看似合理的 QoS 限制可能對於尖峰突發而言過低，從而導致嚴重的效能問題。一般而言，重做日誌和歸檔日誌不應受服務品質 (QoS) 的限制。</block>
+  <block id="31aa78c338ede606cfe715629f639a6b" category="paragraph">基於頻寬的服務品質限制吞吐量（以Mbps為單位）。當工作負載執行大塊讀取或寫入作業（例如全表掃描或備份作業）時，這非常有用，因為這些操作會消耗大量頻寬，但 IOPS 相對較少。結合 IOPS 和頻寬限制可以提供更精細的控制。</block>
+  <block id="d7800d36c7fddb11c98fb31a8c1d5d50" category="paragraph">最低服務品質策略將效能保留給關鍵工作負載。例如，在生產資料庫和開發資料庫混合的環境中，對開發工作負載應用最大 QoS，對生產工作負載套用最小 QoS，以確保效能可預測。</block>
+  <block id="4602ec11783dd2c5a8ddc1a6a89c04f9" category="paragraph">自適應 QoS 會根據儲存物件的大小調整限制。雖然很少用於資料庫（因為大小與效能需求不相關），但對於效能要求隨容量擴展的虛擬化工作負載來說，它可能很有用。</block>
+  <block id="6edda6968105d6954b5256694e3649bb" category="summary">RAID 與 Oracle 資料庫與ASA r2</block>
+  <block id="fce02cd425679718f604302e0d536227" category="searchtitle">RAID 與 Oracle 資料庫與ASA r2</block>
+  <block id="a939d6e21a6c89c72af6e1899ba41b70" category="paragraph">RAID 指的是利用基於奇偶校驗的冗餘技術來保護資料免受硬碟故障的影響。ASA r2 使用與AFF和FAS系統相同的ONTAP RAID 技術，可有效防止多塊磁碟故障。</block>
+  <block id="a4769c5e44f0e97f11cb16b39f1a1a0a" category="paragraph">ONTAP會自動為ASA r2 系統執行 RAID 設定。這是ASA r2 特性所引入的簡化儲存管理體驗的核心組成部分。</block>
+  <block id="747e44d761ad33b2eb88ebaad70815e6" category="paragraph">ASA r2 自動 RAID 設定的關鍵細節包括：</block>
+  <block id="86b1e9f406f275d55d8bdbd97ba561d9" category="list-text">儲存可用區 (SAZ)： ASA r2 使用儲存可用區 (SAZ) 來取代手動管理傳統的聚合和 RAID 群組。這些是 HA 對共享的、受 RAID 保護的磁碟池，其中兩個節點可以完全存取相同的儲存。</block>
+  <block id="ff90b3e28ca02df77a6681a0efbd5741" category="list-text">自動放置：建立儲存單元（LUN 或 NVMe 命名空間）時， ONTAP會自動在 SAZ 內建立一個磁碟區，並將其放置在最佳效能和容量平衡的位置。</block>
+  <block id="27712ac508d43c6818eadfc8acc10e0e" category="list-text">不支援手動聚合管理： ASA r2 不支援傳統的聚合和 RAID 群組管理指令。這樣就無需管理員手動規劃 RAID 群組大小、奇偶校驗盤或節點分配了。</block>
+  <block id="070b455242b96e245be06bac031a00b6" category="list-text">簡化配置：配置透過系統管理員或簡化的 CLI 命令進行處理，這些命令著重於儲存單元，而不是底層的實體 RAID 佈局。</block>
+  <block id="27c8bb95e41f4dcc96c3db322fd90359" category="list-text">工作負載重新平衡：從 2025 年版本（ONTAP 9.17.1）開始， ONTAP會自動在 HA 對中的節點之間重新平衡工作負載，以確保效能和空間利用率保持平衡，而無需人工幹預。</block>
+  <block id="156a4db35771b9cfbf2f3357b9e08916" category="paragraph">ASA r2 會自動使用 ONTAP 的預設 RAID 技術：大多數設定使用RAID DP ，非常大的 SSD 池使用RAID-TEC 。這樣就省去了手動選擇 RAID 的麻煩。這些基於奇偶校驗的 RAID 等級比鏡像提供更好的儲存效率和可靠性，雖然舊的 Oracle 最佳實務通常建議鏡像，但鏡像與ASA r2 無關。ONTAP透過WAFL整合避免了傳統的 RAID 寫入懲罰，從而確保 Oracle 工作負載（例如重做日誌記錄和隨機資料檔案寫入）的最佳效能。結合自動化 RAID 管理和儲存可用區， ASA r2 為 Oracle 資料庫提供高可用性和企業級保護。</block>
+  <block id="7ba55adf8707a9ea679db22769a025ca" category="summary">使用ASA r2 為 Oracle 資料庫設定 SVM</block>
+  <block id="d4aa9e950ef36e360271594778cbca0b" category="searchtitle">Oracle 資料庫與儲存虛擬機器與ASA r2</block>
+  <block id="2f715c6e6aa91757f50ff512d56b2a12" category="paragraph">ASA r2 系統上的 Oracle 資料庫儲存管理也集中在儲存虛擬機器 (SVM) 上，在ONTAP CLI 中稱為 vserver。</block>
+  <block id="fb6310455e0908df1c6dd824a7609791" category="paragraph">SVM 是ONTAP中儲存配置和安全性的基本單元，類似於 VMware ESX 伺服器上的客戶虛擬機器。當ONTAP首次安裝在ASA r2 上時，在建立 SVM 之前，它不具備資料服務能力。SVM 定義了 SAN 環境的個性和資料服務。</block>
+  <block id="ef7aca175aba92d84bbc0ea32b9f26da" category="paragraph">ASA r2 系統採用僅限 SAN 的ONTAP特性，該特性經過簡化，支援區塊協定（FC、iSCSI、NVMe/FC、NVMe/TCP），並移除了與 NAS 相關的功能。這簡化了管理，並確保所有 SVM 配置都針對 SAN 工作負載進行了最佳化。與AFF/ FAS系統不同， ASA r2 不提供 NAS 服務選項，例如主目錄或 NFS 共用。</block>
+  <block id="146a5691df8cfb757d7eda2981b3b7f3" category="paragraph">建立叢集時， ASA r2 會自動設定一個名為 svm1 的預設資料 SVM，並啟用 SAN 協定。此SVM無需手動配置協定服務即可進行區塊儲存操作。預設情況下，此 SVM 中的 IP 資料 LIF 支援 iSCSI 和 NVMe/TCP 協議，並使用預設資料區塊服務策略，從而簡化了 SAN 工作負載的初始設定。管理員之後可以根據效能、安全性或多租用戶要求建立額外的 SVM 或自訂 LIF 配置。</block>
+  <block id="5e8ecb21f02df615400fabb622919767" category="inline-link">僅支援 iSCSI 的 LIF</block>
+  <block id="fcfc982506d2f40ecc714c466f201d61" category="admonition">SAN 協定的邏輯介面 (LIF) 應根據效能和可用性要求進行設計。ASA r2 支援 iSCSI、FC 和 NVMe LIF，但請注意，預設未啟用自動 iSCSI LIF 故障轉移，因為ASA r2 對 NVMe 和 SCSI 主機使用共用網路。若要啟用自動故障轉移，請建立<block ref="dd448f10ba2739ef2cba9a955f730acc" category="inline-link-rx"></block>。</block>
+  <block id="01991e7e8fe0103fe2e08fb4a06fbb42" category="paragraph">與其他ONTAP平台一樣，對於要創建的 SVM 數量沒有官方的最佳實踐；該決定取決於管理和安全要求。</block>
+  <block id="c9b46b0decb2ff8d931995e958aac2fa" category="paragraph">大多數客戶日常營運只使用一台主SVM，並根據特殊需求建立額外的SVM，例如：</block>
+  <block id="7296e471f26dfae6081a67aab939b8eb" category="list-text">由專業團隊管理的專用支援虛擬機，用於關鍵業務資料庫。</block>
+  <block id="e3c2829fad1bbce26c8d52d257268905" category="list-text">具有委託管理控制權的開發小組的支援向量機</block>
+  <block id="1a8aadbbefcd940de4217d51d39c26b0" category="list-text">用於處理需要受限管理存取權限的敏感資料的 SVM</block>
+  <block id="83993ee11718fbb27918bc9918e00456" category="paragraph">在多租用戶環境中，每個租用戶都可以分配一個專用的 SVM。每個叢集、HA 對和節點的 SVM 和 LIF 數量的限制取決於所使用的協定、節點模型和ONTAP版本。請諮詢 <block ref="41f66f34b3a905f864500c9319fdff8f" category="inline-link-macro-rx"></block> 在這些限制條件下。</block>
+  <block id="9166ee55eb1a0be8fa4f050e48a01084" category="admonition">從ONTAP 9.18.1 開始， ASA r2 每個叢集和每個 HA 對最多支援 256 個 SVM（早期版本中為 32 個）。</block>
+  <block id="d60202b60a3d35c578e974e24bb90e86" category="summary">Oracle 與ONTAP與ASA r2 的精簡配置</block>
+  <block id="0382550e451d7d7be20bbfe79e2675ff" category="searchtitle">在ASA r2 上使用 Oracle 資料庫進行精簡配置</block>
+  <block id="5db8916695aa627be657a119d435e622" category="paragraph">在ASA r2 上對 Oracle 資料庫進行精簡配置需要仔細規劃，因為它涉及配置比實體可用空間更多的邏輯空間。如果實施得當，精簡配置可以顯著節省成本並提高可管理性。</block>
+  <block id="67e76662b290c7bb7ddf8c8a381fc486" category="paragraph">精簡配置是ASA r2 的組成部分，並且與ONTAP效率技術密切相關，因為兩者都允許儲存比系統物理容量更多的邏輯資料。ASA r2 系統僅限 SAN，精簡配置適用於儲存可用區 (SAZ) 內的儲存單元和 LUN。</block>
+  <block id="3d54b31e7b15e5ca1f9174de08508c48" category="admonition">ASA r2 儲存單元預設採用精簡配置。</block>
+  <block id="e95dcb4757cac01a8bf2901588dcfc87" category="paragraph">幾乎所有快照的使用都涉及精簡配置。例如，一個典型的 10 TiB 資料庫，包含 30 天的快照，可能會顯示為 310 TiB 的邏輯數據，但實際上只佔用 12 TiB 到 15 TiB 的實體空間，因為快照只儲存已變更的資料區塊。</block>
+  <block id="70f4fe0bb63801388d4cd14e6d6bbf05" category="paragraph">同樣，克隆也是精簡配置的另一種形式。一個開發環境，如果完全寫入 80 TiB 資料庫的 40 個克隆，則需要 3.2 PiB 的空間，但實際上消耗的空間要少得多，因為只儲存變更。</block>
+  <block id="05472458ee0330f07697b2632e7a917a" category="paragraph">在應用程式環境中採用精簡配置時必須格外小心，因為資料變更率可能會意外增加。例如，如果對資料庫表進行重新索引，或對 VMware 用戶端進行大規模修補，則快照導致的空間消耗可能會迅速成長。備份檔案遺失可能會在很短的時間內寫入大量資料。最後，如果 LUN 意外耗盡可用空間，則某些應用程式可能難以復原。</block>
+  <block id="5db9d3525c3598e18d4bb1ea2db8cc18" category="paragraph">在ASA r2 中，這些風險是透過精簡配置、主動監控和 LUN 調整大小策略來緩解的，而不是透過ONTAP 的捲自動增長或快照自動刪除等功能來緩解的。管理員應該：</block>
+  <block id="9609344ef7cd19a1a5460b6f51e139c4" category="list-text">啟用 LUN 上的精簡配置 <block ref="fa1fdc365b74d5b14cab89cd4c2cc7cc" prefix="(" category="inline-code"></block>這是ASA r2 中的預設值。</block>
+  <block id="ac53c0ea3204288de3a2c2522bb85398" category="list-text">使用系統管理器警報或基於 API 的自動化方式監控容量</block>
+  <block id="d07ab9395151c8b26ab66a9772523f52" category="list-text">使用計劃或腳本化的 LUN 調整大小來適應成長</block>
+  <block id="cd8bb089e11224111755a57f499c8ea5" category="list-text">透過系統管理員（圖形使用者介面）配置快照保留和自動快照刪除</block>
+  <block id="224e45482a3dbc2d7cadd78a8463e91a" category="admonition">由於ASA r2 不支援自動捲增長或 CLI 驅動的快照刪除，因此仔細規劃空間閾值和自動化腳本至關重要。</block>
+  <block id="d53a5e27c9f806298b719e63b60e4d4d" category="paragraph">ASA r2 不使用部分儲備設置，因為它是一個僅支援 SAN 的架構，抽象化了基於WAFL 的磁碟區選項。相反，空間效率和覆蓋保護是在 LUN 層級進行管理的。例如，如果您從儲存單元配置了 250 GiB 的 LUN，快照會根據實際區塊變更消耗空間，而不是預先預留等量的空間。這樣就無需進行大量的靜態預留，而這種預留在傳統的ONTAP環境中使用部分預留時很常見。</block>
+  <block id="141cd2097fb78575737b1bfd31b06f02" category="admonition">如果需要確保覆蓋保護且監控不可行，管理員應在儲存單元中提供足夠的容量並適當設定快照保留。然而， ASA r2 的設計使得大多數工作負載不需要部分備用容量。</block>
+  <block id="351f6ae6656f0bf997a0922ec06a6218" category="paragraph">ASA r2 中的壓縮和去重是空間效率技術，而不是傳統的精簡配置機制。這些特性透過消除冗餘資料和壓縮資料區塊來減少實體儲存佔用空間，從而允許儲存比原始容量所允許的更多的邏輯資料。</block>
+  <block id="5ef42f934d63cddc5a96f971a94b7429" category="paragraph">例如，一個 50 TiB 的資料集可以壓縮到 30 TiB，從而節省 20 TiB 的實體空間。從應用程式的角度來看，雖然磁碟上只佔用 30 TiB，但仍有 50 TiB 的資料。</block>
+  <block id="5ebf328c9cae7faff1019b087db64713" category="admonition">資料集的可壓縮性會隨時間變化，這可能會增加物理空間的消耗。因此，必須透過監控和容量規劃來主動管理壓縮和去重。</block>
+  <block id="8fecfb85db5fdf8ae66c3e9a061aa518" category="paragraph">在ASA r2 環境中，如果刪除的資料區塊沒有被回收，精簡配置的效率會隨著時間的推移而降低。除非使用 TRIM/UNMAP 釋放空間或用零覆蓋（透過 ASMRU - 自動空間管理和回收實用程式），否則已刪除的資料將繼續佔用實體容量。在許多 Oracle 資料庫環境中，精簡配置的優勢有限，因為資料檔案通常在建立時就預先分配到其全部大小。</block>
+  <block id="374b240506a11f9564274703d9a9aaa6" category="paragraph">精心規劃 LVM 配置可以提高效率，並最大限度地減少儲存配置和 LUN 調整大小的需求。當使用 Veritas VxVM 或 Oracle ASM 等 LVM 時，底層 LUN 被劃分為僅在需要時才使用的擴充區。例如，如果資料集最初大小為 2 TiB，但隨著時間的推移可能會成長到 10 TiB，則可以將此資料集放置在 10 TiB 的精簡配置 LUN 上，這些 LUN 組織成 LVM 磁碟組。創建時僅佔用 2 TiB 的空間，並且只有在分配擴展區以適應資料增長時才會佔用額外的空間。只要對空間進行監控，這個過程就是安全的。</block>
+  <block id="aba3acce9bf977db783a1f3a099fd0a2" category="summary">設定 NVFAIL 以保護ASA r2 上的 Oracle 資料庫</block>
+  <block id="5510f46c151cfb15d45e4ba8a9a86738" category="searchtitle">Oracle 資料庫和ASA r2 上的 NVFAIL</block>
+  <block id="5726149f7f17e93d987e963b1a9815aa" category="paragraph">NVFAIL 是ONTAP 的一項功能，可在災難性故障轉移情況下確保資料完整性。</block>
+  <block id="5b44cc6bdb59c7fcd5800e8ca4e8de88" category="paragraph">即使ASA r2 系統採用簡化的 SAN 架構（SAZ 和儲存單元而非磁碟區），此功能仍適用於ASA r2 系統。</block>
+  <block id="b7a2b4c7beb39acbf30964be233d43b6" category="paragraph">由於資料庫維護大量的內部緩存，因此在儲存故障轉移事件期間容易發生資料損壞。如果發生災難性事件需要強制ONTAP故障轉移，無論整體配置的健康狀況如何，結果都是先前已確認的變更可能會被有效地丟棄。儲存陣列的內容向前跳躍，資料庫快取的狀態不再反映磁碟上的資料狀態。這種不一致會導致資料損壞。</block>
+  <block id="d529f1699059fd775d38daec404c9709" category="paragraph">快取可以在應用程式層或伺服器層進行。例如，Oracle Real Application Cluster (RAC) 配置中，伺服器在主站點和遠端站點上都處於活動狀態，並將資料快取在 Oracle SGA 中。強制故障轉移操作導致資料遺失，會使資料庫面臨損壞的風險，因為儲存在 SGA 中的資料區塊可能與磁碟上的資料區塊不符。</block>
+  <block id="ad67299b81080b42995c6a5aa870ca24" category="paragraph">快取還有一個不太明顯的用途，那就是在作業系統檔案系統層。基於位於主站點的 LUN 的叢集檔案系統可以掛載到遠端站點的伺服器上，並且可以再次快取資料。在這些情況下， NVRAM故障或強制接管可能會導致檔案系統損壞。</block>
+  <block id="3ddb6c813a50856a003faa943d94ca24" category="paragraph">ONTAP使用 NVFAIL 及其相關設定來保護資料庫和作業系統免受此情況的影響，這些設定會向主機發出訊號，使快取資料失效，並在故障轉移後重新掛載受影響的檔案系統。此機制適用於ASA r2 LUN 和命名空間，就像適用於AFF/ FAS一樣。</block>
+  <block id="cb43a7910131c4a9b54ee4527f41584a" category="paragraph">ASA r2 的關鍵考量：</block>
+  <block id="760178473b2704cd5e111e8ac1c4ae81" category="list-text">NVFAIL 在 LUN 層級（儲存單元）運行，而不是在 SAZ 層級運行。</block>
+  <block id="c87084320a0d119d921d77b65b487a40" category="list-text">對於 Oracle 資料庫，應在所有託管關鍵元件（資料檔案、重做日誌、控制檔案）的 LUN 上啟用 NVFAIL。</block>
+  <block id="2619eb12ebcaa2f4223907a04c8b3e6a" category="list-text">ASA r2 不支援MetroCluster ，因此 NVFAIL 主要適用於本地 HA 故障轉移場景。</block>
+  <block id="ed28739e6688c1c56caa21d8f4e83fa0" category="list-text">ASA r2 不支援 NFS，因此 NVFAIL 注意事項僅適用於基於 SAN 的工作負載（FC/iSCSI/NVMe）。</block>
+  <block id="e519d6eb34dfc47edf5072f1a0a920e0" category="summary">在ASA r2 上使用 AIX 的 Oracle 資料庫</block>
+  <block id="fcb9fe371de92b4141a475f18125a2e7" category="searchtitle">在ASA r2 上使用 IBM AIX 的 Oracle 資料庫</block>
+  <block id="14590776a7ec5f76f6c0dbaf12aea82d" category="paragraph">IBM AIX 上 Oracle 資料庫與ASA r2 ONTAP的設定主題。</block>
+  <block id="e21c6d7d6ce64b744e1b3dfc9f3dbb12" category="paragraph">AIX 支援使用NetApp ASA r2 託管 Oracle 資料庫，前提是：</block>
+  <block id="61cc31cc32fc76833bf9b697fedcd7b5" category="list-text">您已正確配置 Oracle 以支援並發 I/O。</block>
+  <block id="9dfe407ff2ee9c174cce1d9f12a01c51" category="list-text">您使用受支援的 SAN 協定（FC/iSCSI/NVMe）。</block>
+  <block id="5dbad350303c2f9f6c54a25478f708e6" category="list-text">您在ASA r2 上執行ONTAP 9.16.x 或更高版本。</block>
+  <block id="ef37a2ddad88a2a152b9948feb73bc4b" category="paragraph">在 IBM AIX 上使用ASA r2 實現最佳效能需要使用並發 I/O。如果沒有並發 I/O，性能可能會受到限制，因為 AIX 執行的是串行原子 I/O，這會產生很大的開銷。</block>
+  <block id="6edb8857a5df843ec36fc2b3a863d730" category="paragraph">最初， NetApp建議使用<block ref="4482571a249db31b3abed938e4567a15" prefix=" " category="inline-code"></block> 掛載選項可以強製檔案系統進行並發 I/O，但此過程有缺點，現在已不再需要。自 AIX 5.2 和 Oracle 10gR1 推出以來，AIX 上的 Oracle 可以開啟單一檔案進行並發 I/O，而不是強制對整個檔案系統進行並發 I/O。</block>
+  <block id="eda28eaca3dbfe13d6de344928f25e81" category="paragraph">使用 cio 作為掛載選項會強制使用並發 I/O，這可能會產生負面影響。例如，強制並發 I/O 會停用檔案系統上的預讀功能，這可能會損害 Oracle 資料庫軟體外部發生的 I/O 的效能，例如複製檔案和執行磁帶備份。此外，Oracle GoldenGate 和 SAP BR*Tools 等產品與某些版本的 Oracle 使用 cio mount 選項不相容。</block>
+  <block id="c3fcaa918acdb778a4e2f846c030c0a9" category="list-text">僅使用<block ref="4482571a249db31b3abed938e4567a15" prefix=" " category="inline-code"></block> 如果無法設定掛載選項，則進行設定<block ref="b6a2b868e8bebfc19497b406a12a1071" prefix=" " category="inline-code"></block>。</block>
+  <block id="4ad5c7879e9856926d647b1c4108aa1a" category="admonition">由於ASA r2 不支援 NAS，因此 AIX 上的所有 Oracle 部署都必須使用區塊協定。</block>
+  <block id="8ae7510e454410710230296d25e27ce1" category="cell">控製文件</block>
+  <block id="d41de13d4f13727ba8bcfa0e4b6f43d3" category="cell">資料檔案</block>
+  <block id="823272d72b3248694e3df021ef8cf5d4" category="cell">重做日誌</block>
+  <block id="36287b7fc9193c5febdd31bfd37adb9e" category="paragraph">在使用 AIX 之前<block ref="b7cc91287fc99a8937a55e79376c6f54" prefix=" " category="inline-code"></block> 在任何環境（包括資料庫）中的設備，檢查參數<block ref="9d51746070ef554ad4e93a16de4aed0f" prefix=" " category="inline-code"></block>。此參數並非HBA佇列深度；而是與單一SCSI卡的佇列深度相關。<block ref="b1835b2bc8fe4eebb5093da8087b01e9" prefix=" " category="inline-code"></block>。根據ASA r2 LUN 的設定方式，該值會有所不同。<block ref="9d51746070ef554ad4e93a16de4aed0f" prefix=" " category="inline-code"></block> 可能太低，無法獲得良好的性能。測試表明最佳值為 64。</block>
+  <block id="d79502074cc6e7e5a364f270a466f90a" category="summary">在ASA r2 上使用 Linux 和 ASMlib/ASM 過濾器驅動程式的 Oracle 資料庫</block>
+  <block id="1b8322dc9ddcf0f0884dea2005af98a4" category="searchtitle">在ASA r2 上使用 ASMLib/AFD（ASM 過濾器驅動程式）的 Oracle 資料庫</block>
+  <block id="3488d46993d5a8378c20ef8680693299" category="paragraph">使用 AFD 和 ASMlib 的ASA r2 ONTAP的 Linux 作業系統特有的設定主題。</block>
+  <block id="d096e0a6df0924614163a540b2214971" category="paragraph">ASMlib 是一個可選的 ASM 管理函式庫和相關實用程式。它的主要價值在於能夠將 LUN 標記為 ASM 資源，並帶有人類可讀的標籤。</block>
+  <block id="d19e24337b54fcc70e96e05114ad22a2" category="summary">在ASA r2 上使用 HP-UX 的 Oracle 資料庫</block>
+  <block id="20c8ba6aea292789ef2e6f1b4b89ae77" category="paragraph">HP-UX 上 Oracle 資料庫與ASA r2 ONTAP的設定主題。</block>
+  <block id="e9b7342441652011904ff65fb1193d74" category="paragraph">HP-UX 支援與NetApp ASA r2 搭配使用，用於託管 Oracle 資料庫，前提是：</block>
+  <block id="4f24e0afbf75599b5597e3a2be666094" category="list-text">ONTAP版本為 9.16.x 或更高版本。</block>
+  <block id="3b97f328d0018662389a71edcacbc5a0" category="list-text">使用 SAN 協定（FC/iSCSI/NVMe）。ASA r2 不支援 NAS。</block>
+  <block id="36995f50a8bb9428c17eabad17a9e21e" category="list-text">應用HP-UX特有的掛載和I/O調優最佳實務。</block>
+  <block id="b6c1b0f6914791454ede96b6820e724b" category="summary">在ASA r2 上使用 Linux 的 Oracle 資料庫</block>
+  <block id="735da48e08399aff4389f7645ad63008" category="paragraph">針對 Linux 作業系統和ASA r2 ONTAP 的設定主題。</block>
+  <block id="cc72f8ba70e23d17e4898b2d817c7775" category="paragraph">ASA r2 支援 Oracle 資料庫，並相容於 Linux（Oracle Linux、RHEL、SUSE）。使用 SAN 協議，正確配置多路徑，並應用 Oracle 最佳實務進行 ASM 和 I/O 調優。</block>
+  <block id="1f0e7d8c686c998d847b6b6b0524d0db" category="paragraph">例如，RHEL 9.7 上的多路徑守護程式的預設配置可能如下所示：</block>
+  <block id="17d641ba9ac890f75d4c292b06bb7b94" category="section-title">隊列深度</block>
+  <block id="409778175ac5dff7ebc33d3a237112c3" category="paragraph">為 SAN 設備設定適當的佇列深度，以避免 I/O 瓶頸。Linux 上的預設佇列深度通常設定為 128，這可能會導致 Oracle 資料庫出現效能問題。佇列深度設定過高會導致 I/O 排隊過多，從而導致延遲增加和吞吐量降低。設定得太低會限制未完成的 I/O 請求數量，從而降低整體效能。對於ASA r2 上的 Oracle 資料庫工作負載，佇列深度 64 通常是一個不錯的起點，但可能需要根據特定的工作負載特性和效能測試進行調整。</block>
+  <block id="af911470a92a15ef9be3fd8bf911b56d" category="paragraph">對於支援主動-主動多路徑的ASA r2 系統，應調整這些多路徑設定。由於所有路徑都處於活動狀態並進行了負載平衡，因此不需要無限期排隊。相反，多路徑參數應優先考慮效能和快速故障復原。這種行為對於 ASM 鏡像很重要，因為 ASM 必須收到 I/O 失敗才能在備用 LUN 上重試 I/O。如果 I/O 無限期地排隊，ASM 無法觸發故障轉移。</block>
+  <block id="a202cf3983184d1ce3e7056d7305d01f" category="admonition">NetApp建議使用預設掛載選項。在 LUN 上建立檔案系統時，請確保正確對齊。</block>
+  <block id="0fc668638a672a7d830afec06b27d782" category="summary">在ASA r2 上使用 Solaris 的 Oracle 資料庫</block>
+  <block id="40dff793103aa25077d6225eb96d92b6" category="paragraph">適用於 Solaris 作業系統和ASA r2 ONTAP 的設定主題。</block>
+  <block id="5979a32a9c62ecee74c171ed5cc2d6e7" category="summary">在ASA r2 上使用 Microsoft Windows 的 Oracle 資料庫</block>
+  <block id="59c2890ecd2c8d54b1be7b5075c7d55a" category="paragraph">在 Microsoft Windows 上使用ASA r2 ONTAP 的Oracle 資料庫設定主題。</block>
+  <block id="41dc5a1bfa78463990313337562fc0a9" category="summary">Oracle 資料庫與ONTAP直連與ASA r2 的連接</block>
+  <block id="e7e1bbfbb8e743a965e762dfa3e234f9" category="paragraph">使用 iSCSI 或 NVMe/TCP 的主機可以直接連接到ASA r2 儲存系統並正常運作。原因在於路徑規劃。直接連接到兩個不同的儲存控制器，會產生兩條獨立的資料流路徑。只要多路徑配置正確，路徑、連接埠或控制器的遺失並不會阻止使用其他路徑。</block>
+  <block id="35a14cf200b3e6049eeb29738ad4711e" category="paragraph">使用 FC 協定無法將主機直接連線到ASA r2 儲存系統。原因與AFF/ FAS系統相同，即使用 NPIV。用於識別 FC 網路中ONTAP FC 連接埠的 WWN 使用一種稱為 NPIV 的虛擬化類型。任何連接到ONTAP系統的設備都必須能夠識別 NPIV WWN。目前還沒有任何 HBA 供應商提供可以安裝在能夠支援 IV 目標的宿主機上的 HBA。</block>
+  <block id="4d2361ac0de1401ab0ff03a54ff4a137" category="summary">ASA r2 系統上的 Oracle、TCP/IP 和乙太網路配置</block>
+  <block id="3c80c484426036630d6eb8389c2ac11d" category="searchtitle">使用ASA r2 設定 Oracle 資料庫的 TCP/IP 和乙太網路</block>
+  <block id="5db9438e726eacde259e400997b7ad50" category="paragraph">許多 Oracle on ASA r2 ONTAP客戶使用乙太網路、iSCSI 網路協定和 NVMe/TCP。</block>
+  <block id="b9859abe854650d97cc9443efe8bacae" category="paragraph">對於僅限 SAN 的ASA r2 系統，乙太網路流量控制考量主要適用於 iSCSI 和 NVMe/TCP 流量。</block>
+  <block id="391bb22eb81aa6a08c067e17fdc19f3a" category="admonition">NetApp建議確保NetApp ASA r2 儲存控制器不會接收乙太網路串流控制資料包。這通常可以透過設定控制器所連接的交換器連接埠來實現，但某些交換器硬體有限制，可能需要進行客戶端變更。</block>
+  <block id="208fb28dae4318ca1f947bab31f1c824" category="paragraph">對於僅限 SAN 的ASA r2 系統，巨型幀僅適用於基於乙太網路的 SAN 協定（iSCSI 和 NVMe/TCP）。</block>
+  <block id="d65d3c32ef266ba55e2378bbd9a6b317" category="paragraph">NetApp建議在ASA r2 SAN 環境中設定以下內容：</block>
+  <block id="84519fb5c01a2679ca254670c9be6802" category="list-text">對於 1GbE 來說，巨型幀是可取的，但並非必要。</block>
+  <block id="db7fb2373c0f2187e6de7e956e29cfed" category="list-text">對於 10GbE 而言，巨型幀是實現最佳效能的必要條件；對於 iSCSI 和 NVMe/TCP 流量而言，巨型幀的速度更快。</block>
+  <block id="1ce271de40e24ab8a63800ce42e0a92a" category="summary">使用ASA r2 配置 Oracle 資料庫的 FC 網絡</block>
+  <block id="8a0dcf3ef73899d99ab6e7a82434404d" category="searchtitle">使用ASA r2 設定 Oracle 資料庫的 FC SAN</block>
+  <block id="d2bdcae397f14f23d178639b4a3449f1" category="paragraph">在ASA r2 系統上為 Oracle 資料庫設定 FC SAN 主要在於遵循標準的 SAN 最佳實務。</block>
+  <block id="e731c4d7f31dd741c0d10f0333c324be" category="paragraph">ASA r2 針對僅限 SAN 的工作負載進行了最佳化，因此其原理與AFF/ FAS相同，重點在於效能、彈性和簡單性。這包括典型的規劃措施，例如確保主機和儲存系統之間的 SAN 有足夠的頻寬，檢查所有必需設備之間是否存在所有 SAN 路徑，使用 FC 交換器供應商要求的 FC 連接埠設置，避免 ISL 連接，以及使用適當的 SAN 結構監控。</block>
+  <block id="517d60dbcaa0d6b23a9f47fbd0edaa39" category="list-text">ASA r2 使用儲存可用區而不是聚合，但這並不會改變 FC 分區原則。</block>
+  <block id="c39ca1d0b43d0baae5362c1cde3ee38c" category="list-text">多路徑 (MPIO) 仍然是主要的彈性機制；然而，對於支援對稱主動-主動多路徑的ASA r2 系統，到 LUN 的所有路徑都是活動的，並同時用於 I/O。</block>
+  <block id="2209a1d9b2ca24fe83599efabcbffce1" category="summary">使用ASA r2 的 Oracle 資料庫邏輯介面設計</block>
+  <block id="3af46ba2ee5090e4c4e7846e7b132945" category="paragraph">本節概述了ASA r2 系統的關鍵 LIF 設計原則，該系統針對僅限 SAN 環境進行了最佳化。如需更全面的文檔，請參閱 <block ref="a3e6361e1a52d384f542a2f2d8bc9bb1" category="inline-link-macro-rx"></block>。與資料庫架構的其他方面一樣，儲存虛擬機器 (SVM，在 CLI 中稱為 vserver) 和邏輯介面 (LIF) 設計的最佳選擇很大程度上取決於擴充要求和業務需求。</block>
+  <block id="21799093fc4cfb791dfe32dc663f4f8b" category="list-text">*表現。 *網路頻寬是否足以滿足Oracle工作負載的需求？</block>
+  <block id="111dbd10ee2308ce64978a8e5e7d7304" category="list-text">*數據 LIF。 *僅支援 SAN 協定的介面：FC、iSCSI、NVMe/FC、NVMe/TCP。ASA r2 系統不支援 NAS 協定（NFS、SMB/CIFS）。</block>
+  <block id="eb7b64f9138ff27678062103f7c70882" category="admonition">儘管 iSCSI（或 NVMe/TCP）和管理流量都使用 IP 協議，但無法為兩者配置同一個介面。在 iSCSI 或 NVMe/TCP 環境中，需要單獨的管理 LIF。為了提高彈性和效能，每個節點每個協定配置多個 SAN 資料 LIF，並將它們分佈在不同的實體連接埠和結構上。與AFF/ FAS系統不同， ASA r2 不允許 NFS 或 SMB 流量，因此無法將 NAS 資料 LIF 重新用於管理。</block>
+  <block id="fbd9cbd3f29c4cfd273ea6e2c6e2ea2e" category="paragraph">在 SAN 環境中，影響 LIF 效能的最重要因素是頻寬。例如，一個雙節點ASA r2 集群，每個節點有兩個 32Gb FC 端口，每個節點最多可提供 64Gb 的頻寬。同樣，對於 NVMe/TCP 或 iSCSI，請確保 Oracle 工作負載有足夠的 25GbE 或 100GbE 連線。</block>
+  <block id="df8a61f03f4995a39442d2a271415832" category="paragraph">SAN LIF 的故障轉移方式與ASA LIF 不同。 ASA r2 系統依賴主機多路徑（MPIO/ALUA）來實現彈性復原。如果由於控制器故障轉移導致 SAN LIF 不可用，用戶端的多路徑軟體會偵測到路徑遺失，並將 I/O 重新導向至備用路徑。ASA r2 可能會在短暫延遲後執行 LIF 重定位以恢復完整路徑的可用性，但這不會中斷 I/O，因為夥伴節點上已經存在活動路徑。故障轉移過程是為了恢復所有已定義連接埠上的主機存取權限。</block>
+  <block id="a16d6c41318f3de1eb13c1844f304422" category="paragraph">在 SAN 環境中，當 HA 對內的磁碟區被重新定位時，無需遷移 LIF。這是因為，磁碟區遷移完成後， ONTAP會向 SAN 發送路徑變更通知，SAN 用戶端會自動重新最佳化。使用 SAN 進行 LIF 遷移主要與重大的實體硬體變更相關。例如，如果需要對控制器進行無中斷升級，則 SAN LIF 會遷移到新硬體。如果發現 FC 連接埠發生故障，可以將 LIF 遷移到未使用的連接埠。</block>
+  <block id="9828810f7fcace78de1d1de0e576c84e" category="paragraph">NetApp針對ASA r2 SAN環境提出以下建議：</block>
+  <block id="f83001332c7becf3e61981f64091d862" category="list-text">使用選擇性 LUN 對應 (SLM) 功能，此功能預設為啟用。使用 SLM，任何新的 LUN 都會從擁有底層聚合的節點和該節點的 HA 夥伴自動發布。這種安排避免了建立連接埠集或配置區域來限制連接埠存取權限的需求。每個 LUN 都部署在滿足最佳效能和彈性所需的最少節點上。</block>
+  <block id="9bd683ce8a75eb3cef3454ed97d056e9" category="list-text">如果需要將 LUN 遷移到兩個控制器之外，則可以使用以下方式新增額外的節點：<block ref="02d0bbdc14988c85bbd7994723f4dd7f" prefix=" " category="inline-code"></block> 指令將 LUN 通告到新節點上。這樣做會為 LUN 遷移建立額外的 SAN 路徑。但是，主機必須執行發現操作才能使用新路徑。</block>
+  <block id="90f4c30336e9921dc9f790199b80a26c" category="summary">在ASA r2 上使用ONTAP零塊檢測的 ASM 回收實用程序</block>
+  <block id="68b277e79eb0e18f7699090c7f597833" category="searchtitle">ASM 回收實用程式 (ASRU) 與ASA r2 上的ONTAP</block>
+  <block id="bfbea40daf6eff16b91d4b7d3bd13b21" category="doc">ASM 回收公用程式 (ASRU)</block>
+  <block id="8c18218e2429b3c0e71cfb77a5486907" category="paragraph">當啟用線上壓縮時， ONTAP on ASA r2 可以有效地刪除寫入 LUN（儲存單元）的零區塊。Oracle ASM 回收公用程式 (ASRU) 等公用程式的工作原理是將零寫入未使用的 ASM 區段。</block>
+  <block id="9dc9cfea7e02e83a3b766a99a9b3b25c" category="paragraph">這樣，資料庫管理員就可以在資料刪除後回收儲存陣列上的空間。ONTAP攔截零值並從 LUN 釋放空間。由於儲存系統中沒有實際寫入任何數據，因此回收過程非常快。</block>
+  <block id="96564d0673d8b56c565c6c6ef3de2ca7" category="paragraph">使用ASA r2 ONTAP需要考慮的關鍵 ASRU 因素：</block>
+  <block id="c6455a89096acca814d31fecbec23bf9" category="list-text">由於ASA r2 僅支援區塊存儲，因此其工作方式與AFF/ FAS相同，適用於 SAN 工作負載。</block>
+  <block id="ce11aa3271c53b3bab6765e2d48951ac" category="list-text">適用於在 SAZ 內設定的 LUN 和 NVMe 命名空間。</block>
+  <block id="5c9e99714e3d57e5572281b0e41e2cc6" category="list-text">FlexVol磁碟區不存在，但零塊回收行為是相同的。</block>
+  <block id="203be0c11c79d2c1a42df2c5bab9a460" category="summary">在ASA r2 上與 Oracle 資料庫進行 LUN 對齊</block>
+  <block id="7b349eb0f9d2f474d9ab9cc5118eb5d6" category="searchtitle">使用ASA r2 進行 Oracle 資料庫 I/O 的 LUN 對齊</block>
+  <block id="93f6837f6081de07a7906f5c0941bc8d" category="paragraph">ASA r2 系統使用與AFF/ FAS相同的ONTAP架構，但配置模型更簡化。ASA r2 系統使用儲存可用區 (SAZ) 而不是聚合，但對齊原則保持不變，因為ONTAP跨平台一致地管理區塊佈局。但是，請注意以下ASA特有的幾點：</block>
+  <block id="8a19d2cf9991d8821095e34703361c32" category="list-text">ASA r2 系統為所有 LUN 提供主動-主動對稱路徑，從而消除了對齊期間的路徑不對稱問題。</block>
+  <block id="95c89bde38b17ca0c2652e49f027682e" category="list-text">儲存單元 (LUN) 預設採用精簡配置；對齊方式不會改變此行為。</block>
+  <block id="4c58090f7a610a39283889bddaa74a38" category="list-text">在建立 LUN 期間可以設定快照保留和自動快照刪除（ONTAP 9.18.1 及更高版本）。</block>
+  <block id="1734f57e94713f0a032bc6c907c9bdcb" category="paragraph">使用諸如此類的工具來驗證對齊情況。<block ref="40883add63f1fbabc7fe6158f93c1246" prefix=" " category="inline-code"></block> 或者<block ref="1aabac6d068eef6a7bad3fdf50a05cc8" prefix=" " category="inline-code"></block> 能夠以規定的區塊大小產生 I/O。可以使用以下命令查看儲存系統的 I/O 對齊統計資料：<block ref="446501053769c06c565094b26d26e8ef" prefix=" " category="inline-code"></block> 命令。看 <block ref="ebccec7997af507c87f985ec4ccec634" category="inline-link-macro-rx"></block> 了解更多。</block>
+  <block id="05a449cce434ca63ba5e47373b9d1f49" category="paragraph">其他最佳實踐：</block>
+  <block id="fcfa58ba93830f78edfcf9fa0d9fc8f0" category="list-text">使用NetApp互通矩陣工具 (IMT) 驗證 HBA 韌體和作業系統設定。</block>
+  <block id="a169b081fb2875694e9e5e4fc00c909c" category="list-text">使用 sanlun 工具確認路徑健康狀況和對齊情況。</block>
+  <block id="cc8928f2af9f0fae6ef3d8017126cfc4" category="list-text">對於 Oracle ASM 和 LVM，請確保設定檔（/etc/lvm/lvm.conf、/etc/sysconfig/oracleasm）設定正確，以避免對齊問題。</block>
+  <block id="f12a09107ad4162f57baf9c752a518f2" category="summary">使用ASA r2 進行 Oracle 和ONTAP LUN 部署</block>
+  <block id="aaa76fde2acba4d974e5e81148765b08" category="searchtitle">使用ASA r2 進行 Oracle 資料庫 LUN 部署</block>
+  <block id="92ed1004aa7bc12d2dc43469c67ca8cd" category="paragraph">ASA r2 系統中資料庫 LUN 的最佳放置位置主要取決於ONTAP 的各種功能將如何使用。</block>
+  <block id="e3908755a901bd8b390fca0586e5d01b" category="paragraph">在ASA r2 系統中，儲存單元（LUN 或 NVMe 命名空間）由稱為儲存可用性區域 (SAZ) 的簡化儲存層創建，SAZ 充當 HA 對的公共儲存池。</block>
+  <block id="4882324a7fb3b029e3afbfa4ea1996f7" category="admonition">通常每個 HA 對只有一個儲存可用區 (SAZ)。</block>
+  <block id="90015b4a4947685eab609edee413af64" category="section-title">儲存可用區 (SAZ)</block>
+  <block id="95eeff3469b684d29e14c8c7ed95c6e1" category="paragraph">在ASA r2 系統中，磁碟區仍然存在，但它們會在建立儲存單元時自動建立。儲存單元（LUN 或 NVMe 命名空間）直接在儲存可用區 (SAZ) 中自動建立的磁碟區內進行設定。這種設計消除了手動捲管理的需要，使 Oracle 資料庫等區塊工作負載的配置更加直接和精簡。</block>
+  <block id="20ccc13be8bc94c50c99ae571eabbf3d" category="section-title">安全區域區和儲存單元</block>
+  <block id="c8e0228d7d981590c271f1ebd7928f14" category="paragraph">相關儲存單元（LUN 或 NVMe 命名空間）通常位於同一個儲存可用區 (SAZ) 內。例如，一個需要 10 個儲存單元 (LUN) 的資料庫，通常會將所有 10 個單元放置在同一個 SAZ 中，以簡化操作並提高效能。</block>
+  <block id="0c6b3219675d75f631c2a5c116fc5051" category="list-text">使用 1:1 的儲存單元與磁碟區的比例，即每個磁碟區對應一個儲存單元 (LUN)，是ASA r2 的預設行為。</block>
+  <block id="4e198a8d880a904a00df60812b1e1b01" category="list-text">如果ASA r2 系統中存在多個 HA 對，則給定資料庫的儲存單元 (LUN) 可以分散在多個 SAZ 中，以最佳化控制器利用率和效能。</block>
+  <block id="4cdd51ddfeccf85bb8dd182e9f83f00d" category="admonition">在 FC SAN 的上下文中，儲存單元指的是 LUN。</block>
+  <block id="cd57cb5c212b19d23633017bc53cc4e7" category="section-title">一致性組 (CG)、LUN 和快照</block>
+  <block id="ef7a7d977f1a63e641a7fce414bb7e47" category="paragraph">在ASA r2 中，快照策略和計劃是在一致性群組層級應用的，一致性群組是一個邏輯結構，它將多個 LUN 或 NVMe 命名空間分組，以實現協調的資料保護。由 10 個 LUN 組成的資料集只需要一個快照策略，前提是這些 LUN 屬於同一個一致性組。</block>
+  <block id="7d17b1c72d96ef2be6eb824b79d17c09" category="paragraph">一致性群組確保所有包含的 LUN 上的原子快照操作。例如，如果將底層 LUN 分組到同一個一致性群組中，則可以將駐留在 10 個 LUN 上的資料庫或由 10 個不同作業系統組成的基於 VMware 的應用程式環境作為單一一致的物件進行保護。如果快照被放置在不同的一致性群組中，即使在同一時間安排，快照也可能無法完全同步。</block>
+  <block id="893cac1ea1cce31311a3726c0d553033" category="paragraph">在某些情況下，由於復原要求，可能需要將一組相關的 LUN 分成兩個不同的一致性群組。例如，一個資料庫可能有四個 LUN 用於資料文件，兩個 LUN 用於日誌。在這種情況下，包含 4 個 LUN 的資料檔案一致性群組和包含 2 個 LUN 的日誌一致性群組可能是最佳選擇。原因在於獨立可恢復性：資料檔案一致性群組可以選擇性地恢復到較早的狀態，這意味著所有四個 LUN 都將恢復到快照的狀態，而包含關鍵資料的日誌一致性群組將不受影響。</block>
+  <block id="c630ef12bf3956117cddb1064fc3d361" category="section-title">CG、LUN 和SnapMirror</block>
+  <block id="6a824f9a12117a2a6895290867e086df" category="paragraph">SnapMirror策略和操作與快照操作一樣，是在一致性群組上執行的，而不是在 LUN 上執行的。</block>
+  <block id="13fa8b6e8b3be69f7fe58ff3630ccb35" category="paragraph">將相關的 LUN 放在同一個一致性群組中，可以建立單一SnapMirror關係，並透過一次更新更新所有包含的資料。與快照一樣，此次更新也將是一個原子操作。SnapMirror目標位置將保證擁有來源 LUN 的單一時間點副本。如果 LUN 分佈在多個一致性組中，則副本之間可能一致，也可能不一致。</block>
+  <block id="403e3c031b4cfa6e3fe3dae9c8c5fe13" category="paragraph">在ASA r2 系統上使用SnapMirror複製有以下限制：</block>
+  <block id="387dae8bc04454e56a9780e8507821e5" category="list-text">不支援SnapMirror同步複製。</block>
+  <block id="74618c54a0d6a05f0dbccbfa9f4bc480" category="list-text">SnapMirror主動同步僅支援在兩個ASA r2 系統之間進行。</block>
+  <block id="b24c01ad6773e01500470565f30e6c7e" category="list-text">SnapMirror非同步複製僅支援在兩個ASA r2系統之間進行。</block>
+  <block id="760e533cef4cb07e928f9667b4337a91" category="list-text">SnapMirror非同步複製不支援在ASA r2 系統與ASA、 AFF或FAS系統或雲端之間進行。</block>
+  <block id="91986d95992f1ad825d4163f8cc66a27" category="inline-link">ASA r2 系統支援SnapMirror複製策略</block>
+  <block id="2280c599c5e817601b252f1594e3c4b2" category="paragraph">了解更多<block ref="2475b888e80612096ae52a0122ee018c" category="inline-link-rx"></block>。</block>
+  <block id="8ca2b03f914c6e1c468a2cd13b3c8b3d" category="section-title">CG、LUN 和 QoS</block>
+  <block id="7f2da44f6bd7c9356e63d179a440809d" category="paragraph">雖然 QoS 可以選擇性地應用於單一 LUN，但通常在一致性群組層級設定 QoS 更容易。例如，可以將給定 ESX 伺服器中所有客戶機使用的所有 LUN 放在一個一致性群組中，然後套用ONTAP自適應 QoS 原則。最終結果是，每 TiB 的 IOPS 具有自擴展性，適用於所有 LUN。</block>
+  <block id="9a463c1574f65dcc765615800d99e581" category="paragraph">同樣地，如果一個資料庫需要 100K IOPS 並佔用 10 個 LUN，那麼在單一一致性群組上設定一個 100K IOPS 限制比在每個 LUN 上設定 10 個單獨的 10K IOPS 限制要容易得多。</block>
+  <block id="410329240fb2d429a85eaa5a8949cc3d" category="section-title">多種CG佈局</block>
+  <block id="5d754c13781487993a2059f802f22ba4" category="paragraph">在某些情況下，將 LUN 分佈到多個一致性組中可能是有益的。主要原因是控制器條帶化。例如，HA ASA r2 儲存系統可能託管單一 Oracle 資料庫，此時需要每個控制器的全部處理和快取能力。在這種情況下，典型的設計是將一半的 LUN 放在控制器 1 上的一個一致性群組中，將另一半 LUN 放在控制器 2 上的一個一致性群組中。</block>
+  <block id="7f8f628b8a7fd8f111de2978da131f9d" category="paragraph">同樣地，對於託管多個資料庫的環境，將 LUN 分佈在多個一致性群組中可以確保控制器使用率的均衡。例如，一個 HA 系統託管 100 個資料庫，每個資料庫有 10 個 LUN，則每個資料庫可能將 5 個 LUN 指派給控制器 1 上的一個一致性群組，將 5 個 LUN 指派給控制器 2 上的一個一致性群組。這樣可以保證在配置更多資料庫時實現對稱載入。</block>
+  <block id="ae306759adf36251b055c76a41fa02d8" category="paragraph">不過，這些例子都不涉及 1:1 LUN 與一致性組的比例。目標仍然是透過將相關的 LUN 在邏輯上分組到一致性群組中來優化可管理性。</block>
+  <block id="09ff91a9a7ddab76a6eac2cd43acf9a1" category="paragraph">1:1 LUN 與一致性組比例的一個合理例子是容器化工作負載，其中每個 LUN 實際上可能代表單獨的工作負載，需要單獨的快照和複製策略，因此需要單獨管理。在這種情況下，1:1 的比例可能是最佳選擇。</block>
+  <block id="ef2e36dfa6fb12cf1c8a7a0ae0c88d52" category="summary">在ASA r2 上使用 Oracle 資料庫調整 LUN 和 LVM 大小</block>
+  <block id="aea1f5a276c7b54d6172243c8b548bb2" category="searchtitle">使用ASA r2 調整 Oracle 資料庫 LUN 和 LVM 的大小</block>
+  <block id="70092e467b0294964d44a44d52d770f2" category="paragraph">當基於 SAN 的檔案系統或 Oracle ASM 磁碟組在ASA r2 上達到容量限制時，有兩種方法可以增加可用空間：</block>
+  <block id="8abbd05e0a227c599291f20b646a134d" category="list-text">增加現有 LUN（儲存單元）的容量</block>
+  <block id="735f16a4a3b88e32076ada50e5286ae7" category="list-text">在現有 ASM 磁碟組或 LVM 磁碟區組中新增新的 LUN，並擴充其包含的邏輯磁碟區。</block>
+  <block id="40ad3147cef36b9d1a82d15d59687f65" category="paragraph">雖然ASA r2 支援 LUN 調整大小，但通常最好使用邏輯磁碟區管理器 (LVM)，例如 Oracle ASM。LVM 存在的主要原因之一是避免頻繁調整 LUN 大小。使用 LVM，可以將多個 LUN 組合成一個虛擬儲存池。從此儲存池中劃分出的邏輯磁碟區可以輕鬆調整大小，而不會影響底層儲存配置。</block>
+  <block id="be47566c8372059834f1fc8385d4ac38" category="paragraph">使用 LVM 或 ASM 的其他好處包括：</block>
+  <block id="f04f7fcd9aefa6cc6cfcacbeef712d68" category="list-text">效能最佳化：將 I/O 分佈到多個 LUN 上，減少熱點。</block>
+  <block id="1abd7acfc8d1a1b656234e216fc629f5" category="list-text">靈活性：新增新的 LUN 而不會中斷現有工作負載。</block>
+  <block id="dc417c507b436d9dcf6e3dbb977f40b7" category="list-text">透明遷移：ASM 或 LVM 可以將擴充區域遷移到新的 LUN 以進行均衡或分層，而無需主機停機。</block>
+  <block id="c73b873ea9167a593bee299b16d12b06" category="list-text">LUN 調整大小是在儲存虛擬機器 (SVM) 內的儲存單元層級執行的，使用來自儲存可用區 (SAZ) 的容量。</block>
+  <block id="1b691366b4a3ac901464c48c9d4d8bff" category="list-text">對於 Oracle 而言，最佳實踐是將 LUN 新增至 ASM 磁碟群組，而不是調整現有 LUN 的大小，以保持條帶化和平行性。</block>
+  <block id="58cb14b122b3d785a1a321856cc92c3f" category="summary">Oracle 資料庫 LUN 大小調整和 LUN 數量指南（ ASA r2）</block>
+  <block id="cf15b0ae7bdc6d8834b7e6418ffef6cf" category="searchtitle">使用ASA r2 進行 Oracle 資料庫 LUN 大小調整和 LUN 計數</block>
+  <block id="49521166939155a64490ecd7f6957360" category="paragraph">LUN 是ONTAP上的虛擬化對象，它存在於ASA r2 系統上託管儲存可用區 (SAZ) 的所有磁碟機中。因此，LUN 的效能不受其大小的影響，因為無論選擇什麼大小，LUN 都能充分利用 SAZ 的全部效能潛力。</block>
+  <block id="d25613c7fbbaea4aab9e21e2b21ad490" category="paragraph">* ASA r2 注意事項：*</block>
+  <block id="5f929ae9afccf8d55896b9978ea77cf9" category="list-text">ASA r2 的最大 LUN 大小為 128TB，這允許使用更少但更大的 LUN，而不會影響效能。</block>
+  <block id="717d9e18e5ee8ee018a606f9bdf7aef7" category="list-text">ASA r2 使用儲存可用區 (SAZ) 而不是聚合，但這並不會改變 Oracle 工作負載的 LUN 大小調整邏輯。</block>
+  <block id="8dd6202dd76a4a6b4230a20ff09f6fac" category="list-text">預設啟用精簡配置；調整 LUN 大小不會造成中斷，也不需要將其離線。</block>
+  <block id="cc7c6c6a526f7d2cb13c2fd2a0b9e839" category="paragraph">對於ASA r2，LUN 計數的原則與AFF/ FAS相同，因為ONTAP在跨平台處理並行 I/O 的方式類似。然而， ASA r2 的 SAN 專用架構和主動-主動對稱路徑確保了所有 LUN 的一致性能。</block>
+  <block id="1b3bc440bdc4148abaecc010852b3e48" category="paragraph">一般來說，4 到 16 個 LUN 足以滿足任何給定 Oracle 資料庫工作負載的 I/O 需求。由於主機 SCSI 實作方面的限制，少於四個 LUN 可能會造成效能限制。除了極端情況（例如非常高的隨機 I/O SSD 工作負載）之外，將 LUN 數量增加到 16 個以上很少能提高效能。</block>
+  <block id="32a9cc09d7b28dad1bdac19dfa8defca" category="summary">適用於配備ASA r2 的 Oracle 資料庫的 LVM 條帶化配置</block>
+  <block id="84337c2f0bd3b367c079858b351c1519" category="searchtitle">在ASA r2 上使用 Oracle 資料庫進行 LVM 條帶化</block>
+  <block id="9dc44bcf4c4a65f757ee2d4f417fb802" category="paragraph">使用旋轉硬碟進行條帶化更加困難，因為必須預先知道 I/O 模式。如果條帶化沒有針對真實的 I/O 模式進行正確調整，則條帶化配置可能會損害效能。對於 Oracle 資料庫，尤其是全快閃儲存配置，條帶化配置起來要容易得多，並且已被證明可以顯著提高效能。</block>
+  <block id="3fcb47409d533bbc0f1dedd640536c4e" category="paragraph">Oracle 資料庫 LVM 條帶化的最佳實務：</block>
+  <block id="1ee9d08de424307c5b0c68e2cae8b964" category="list-text">條帶大小≥資料庫塊大小。</block>
+  <block id="fb7356b0e5eebd52996145ea92edb38c" category="list-text">條帶大小 * LUN 數量 ≈ 1MB，以達到最佳並行性。</block>
+  <block id="77ad8db55bb3aef8186b8f78c53a25b3" category="list-text">每個 ASM 磁碟組使用多個 LUN 以最大限度地提高吞吐量並避免熱點。</block>
+  <block id="e9846a743cf48ba63b998c13227ca620" category="sidebar">AFF/ FAS系統上的ONTAP配置</block>
+  <block id="a5cbfd8d8aee880e78887fb902e5c440" category="sidebar">Oracle 資料庫的ONTAP配置</block>
+  <block id="19dcc7d0feb41b8b247042f6b5c839cb" category="sidebar">ASA r2 系統上的ONTAP配置</block>
+  <block id="4239635e98cf1c9aade3e99963b47f3e" category="sidebar">適用於配備ASA r2 系統的 Oracle 資料庫的ONTAP配置</block>
+  <block id="83059bc9b08eac1413f80049818a551a" category="sidebar">使用AFF/ FAS系統進行資料庫配置</block>
+  <block id="9cbfcdc7f6207e881eb9efa080cb634a" category="sidebar">使用ASA r2 系統進行資料庫配置</block>
+  <block id="3072f08a47d3ebf5a6bb93d196fc3d0c" category="sidebar">適用於ASA r2 系統的 Oracle 資料庫配置</block>
+  <block id="cf3d30b3a2769e5a42ca691fedc13a7a" category="sidebar">主機配置與AFF/ FAS系統</block>
+  <block id="dc224317c322fd5cc85a7517df62ebbd" category="sidebar">使用ASA r2 系統的主機配置</block>
+  <block id="67e9cfbd67f63687103cc996b36d89a3" category="sidebar">適用於配備ASA r2 系統的 Oracle 資料庫主機配置</block>
+  <block id="7f63d60cb330bfa4e266460c2678e3e5" category="sidebar">AFF/ FAS系統的網路配置</block>
+  <block id="d9c561cf68fdc77bb1da849869a07f1c" category="sidebar">ASA r2 系統上的網路配置</block>
+  <block id="38e7ae928dc580caab650dc5df5d2fc1" category="sidebar">Oracle 資料庫與ASA r2 系統的網路配置</block>
+  <block id="8637dea0297332b772f83909e4341446" category="sidebar">Oracle 資料庫與ASA r2 系統的儲存配置</block>
 </blocks>

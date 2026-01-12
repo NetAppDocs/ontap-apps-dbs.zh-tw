@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-asar2-dp-nvfail.html 
+keywords: oracle, nvfail, ASA r2 
+summary: 設定 NVFAIL 以保護ASA r2 上的 Oracle 資料庫 
+searchtitle: Oracle 資料庫和ASA r2 上的 NVFAIL 
+---
+= NVFAIL
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NVFAIL 是ONTAP 的一項功能，可在災難性故障轉移情況下確保資料完整性。
+
+即使ASA r2 系統採用簡化的 SAN 架構（SAZ 和儲存單元而非磁碟區），此功能仍適用於ASA r2 系統。
+
+由於資料庫維護大量的內部緩存，因此在儲存故障轉移事件期間容易發生資料損壞。如果發生災難性事件需要強制ONTAP故障轉移，無論整體配置的健康狀況如何，結果都是先前已確認的變更可能會被有效地丟棄。儲存陣列的內容向前跳躍，資料庫快取的狀態不再反映磁碟上的資料狀態。這種不一致會導致資料損壞。
+
+快取可以在應用程式層或伺服器層進行。例如，Oracle Real Application Cluster (RAC) 配置中，伺服器在主站點和遠端站點上都處於活動狀態，並將資料快取在 Oracle SGA 中。強制故障轉移操作導致資料遺失，會使資料庫面臨損壞的風險，因為儲存在 SGA 中的資料區塊可能與磁碟上的資料區塊不符。
+
+快取還有一個不太明顯的用途，那就是在作業系統檔案系統層。基於位於主站點的 LUN 的叢集檔案系統可以掛載到遠端站點的伺服器上，並且可以再次快取資料。在這些情況下， NVRAM故障或強制接管可能會導致檔案系統損壞。
+
+ONTAP使用 NVFAIL 及其相關設定來保護資料庫和作業系統免受此情況的影響，這些設定會向主機發出訊號，使快取資料失效，並在故障轉移後重新掛載受影響的檔案系統。此機制適用於ASA r2 LUN 和命名空間，就像適用於AFF/ FAS一樣。
+
+[NOTE]
+====
+ASA r2 的關鍵考量：
+
+* NVFAIL 在 LUN 層級（儲存單元）運行，而不是在 SAZ 層級運行。
+* 對於 Oracle 資料庫，應在所有託管關鍵元件（資料檔案、重做日誌、控制檔案）的 LUN 上啟用 NVFAIL。
+* ASA r2 不支援MetroCluster ，因此 NVFAIL 主要適用於本地 HA 故障轉移場景。
+* ASA r2 不支援 NFS，因此 NVFAIL 注意事項僅適用於基於 SAN 的工作負載（FC/iSCSI/NVMe）。
+
+
+====

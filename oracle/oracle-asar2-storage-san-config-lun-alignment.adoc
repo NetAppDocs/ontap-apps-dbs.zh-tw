@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-asar2-storage-san-config-lun-alignment.html 
+keywords: SAN, ASM, LVM, oracle, ASA r2 
+summary: 在ASA r2 上與 Oracle 資料庫進行 LUN 對齊 
+searchtitle: 使用ASA r2 進行 Oracle 資料庫 I/O 的 LUN 對齊 
+---
+= LUN 對齊
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+LUN 對齊是指針對基礎檔案系統配置最佳化 I/O 。
+
+ASA r2 系統使用與AFF/ FAS相同的ONTAP架構，但配置模型更簡化。ASA r2 系統使用儲存可用區 (SAZ) 而不是聚合，但對齊原則保持不變，因為ONTAP跨平台一致地管理區塊佈局。但是，請注意以下ASA特有的幾點：
+
+* ASA r2 系統為所有 LUN 提供主動-主動對稱路徑，從而消除了對齊期間的路徑不對稱問題。
+* 儲存單元 (LUN) 預設採用精簡配置；對齊方式不會改變此行為。
+* 在建立 LUN 期間可以設定快照保留和自動快照刪除（ONTAP 9.18.1 及更高版本）。
+
+
+在 ONTAP 系統上、儲存設備是以 4KB 為單位進行組織。資料庫或檔案系統 8KB 區塊應對應至兩個 4KB 區塊。如果 LUN 組態發生錯誤、在任一方向將對齊移至 1KB 、則每個 8KB 區塊會存在於三個不同的 4KB 儲存區塊、而非兩個。這種安排會導致延遲增加、並導致在儲存系統中執行額外的 I/O 。
+
+對齊也會影響 LVM 架構。如果在整個磁碟機裝置上定義邏輯磁碟區群組內的實體磁碟區（不建立分割區）、 LUN 上的前 4KB 區塊會與儲存系統上的前 4KB 區塊對齊。這是正確的對齊方式。磁碟分割發生問題、因為它們會移轉作業系統使用 LUN 的起始位置。只要偏移量以 4KB 的整體單位移動、 LUN 就會對齊。
+
+在 Linux 環境中、在整個磁碟機裝置上建立邏輯磁碟區群組。當需要磁碟分割時，請執行並驗證每個磁碟分割的開頭是否為八個的倍數，以檢查對齊 `fdisk -u`。這表示分割區從八個 512 位元組磁區的倍數開始、即 4KB 。
+
+另請參閱一節中有關壓縮區塊對齊link:oracle-ontap-config-efficiency.html["效率"]的討論。任何與 8KB 壓縮區塊邊界對齊的配置、也會與 4KB 邊界對齊。
+
+
+
+== 錯誤對齊警告
+
+資料庫重做 / 交易記錄通常會產生未對齊的 I/O 、導致 ONTAP 上未對齊 LUN 的錯誤警告。
+
+記錄會以不同大小的寫入方式、連續寫入記錄檔。不符合 4KB 界限的記錄寫入作業通常不會造成效能問題、因為下一個記錄寫入作業會完成區塊。結果是 ONTAP 幾乎能將所有寫入作業視為完整的 4KB 區塊來處理、即使某些 4KB 區塊中的資料是以兩個不同的作業來寫入。
+
+使用諸如此類的工具來驗證對齊情況。 `sio` 或者 `dd` 能夠以規定的區塊大小產生 I/O。可以使用以下命令查看儲存系統的 I/O 對齊統計資料： `stats` 命令。看 link:../notes/wafl_alignment_verification.html["WAFL 對齊驗證"] 了解更多。
+
+在 Solaris 環境中進行對齊更為複雜。請參閱 http://support.netapp.com/documentation/productlibrary/index.html?productID=61343["SAN主機組態ONTAP"^] 以取得更多資訊。
+
+[CAUTION]
+====
+在 Solaris x86 環境中、由於大多數組態都有多層分割區、因此請格外注意正確的對齊方式。Solaris x86 分割區磁碟片通常位於標準主開機記錄分割區表格的上方。
+
+====
+其他最佳實踐：
+
+* 使用NetApp互通矩陣工具 (IMT) 驗證 HBA 韌體和作業系統設定。
+* 使用 sanlun 工具確認路徑健康狀況和對齊情況。
+* 對於 Oracle ASM 和 LVM，請確保設定檔（/etc/lvm/lvm.conf、/etc/sysconfig/oracleasm）設定正確，以避免對齊問題。
+

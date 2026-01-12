@@ -1,0 +1,29 @@
+---
+permalink: oracle/oracle-asar2-app-config-mbr.html 
+sidebar: sidebar 
+keywords: oracle, database, ASA r2, ontap, db_file_multiblock_read_count, multiblock 
+summary: Oracle 資料庫參數 - db_file_multiblock_read_count（ ASA r2） 
+searchtitle: Oracle 資料庫參數 - db_file_multiblock_read_count（ ASA r2） 
+---
+= DB_FILE_multimblock_read_count
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+。 `db_file_multiblock_read_count` 參數控制 Oracle 在連續 I/O 期間讀取為單一作業的 Oracle 資料庫區塊數量上限
+
+與AFF/ FAS系統相比，建議沒有變化。ONTAP 的行為和 Oracle 最佳實務在ASA r2、 AFF和FAS平台上保持不變。
+
+不過、此參數不會影響 Oracle 在任何及所有讀取作業期間讀取的區塊數、也不會影響隨機 I/O只有連續 I/O 的區塊大小會受到影響。
+
+Oracle 建議使用者不要設定此參數。如此可讓資料庫軟體自動設定最佳值。這通常表示此參數設為可產生 1MB I/O 大小的值。例如、 1MB 讀取 8KB 區塊需要 128 個區塊才能讀取、因此此參數的預設值為 128 。
+
+NetApp 在客戶站台上觀察到的大多數資料庫效能問題、都涉及此參數的設定不正確。使用 Oracle 版本 8 和 9 變更此值的理由是正確的。因此、參數可能會在不知情的情況下出現在中 `init.ora` 檔案、因為資料庫已就地升級至 Oracle 10 及更新版本。傳統設定為 8 或 16 、而預設值為 128 、會大幅損害連續 I/O 效能。
+
+
+TIP: * NetApp 建議 * 設定 `db_file_multiblock_read_count` 參數不應出現在中 `init.ora` 檔案：NetApp 從未遇到過變更此參數可改善效能的情況、但在許多情況下、它會對連續 I/O 處理量造成明顯損害。

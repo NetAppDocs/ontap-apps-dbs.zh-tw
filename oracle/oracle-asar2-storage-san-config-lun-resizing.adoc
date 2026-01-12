@@ -1,0 +1,41 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-asar2-storage-san-config-lun-resizing.html 
+keywords: SAN, ASM, LVM, oracle, LUN, ASA r2 
+summary: 在ASA r2 上使用 Oracle 資料庫調整 LUN 和 LVM 大小 
+searchtitle: 使用ASA r2 調整 Oracle 資料庫 LUN 和 LVM 的大小 
+---
+= LUN 調整大小和 LVM 調整大小
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+當基於 SAN 的檔案系統或 Oracle ASM 磁碟組在ASA r2 上達到容量限制時，有兩種方法可以增加可用空間：
+
+* 增加現有 LUN（儲存單元）的容量
+* 在現有 ASM 磁碟組或 LVM 磁碟區組中新增新的 LUN，並擴充其包含的邏輯磁碟區。
+
+
+雖然ASA r2 支援 LUN 調整大小，但通常最好使用邏輯磁碟區管理器 (LVM)，例如 Oracle ASM。LVM 存在的主要原因之一是避免頻繁調整 LUN 大小。使用 LVM，可以將多個 LUN 組合成一個虛擬儲存池。從此儲存池中劃分出的邏輯磁碟區可以輕鬆調整大小，而不會影響底層儲存配置。
+
+使用 LVM 或 ASM 的其他好處包括：
+
+* 效能最佳化：將 I/O 分佈到多個 LUN 上，減少熱點。
+* 靈活性：新增新的 LUN 而不會中斷現有工作負載。
+* 透明遷移：ASM 或 LVM 可以將擴充區域遷移到新的 LUN 以進行均衡或分層，而無需主機停機。
+
+
+[NOTE]
+====
+ASA r2 的關鍵考量：
+
+* LUN 調整大小是在儲存虛擬機器 (SVM) 內的儲存單元層級執行的，使用來自儲存可用區 (SAZ) 的容量。
+* 對於 Oracle 而言，最佳實踐是將 LUN 新增至 ASM 磁碟群組，而不是調整現有 LUN 的大小，以保持條帶化和平行性。
+
+
+====

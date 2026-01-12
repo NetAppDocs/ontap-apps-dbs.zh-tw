@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-asar2-network-config-fc.html 
+keywords: SAN, zoning, ASA r2 
+summary: 使用ASA r2 配置 Oracle 資料庫的 FC 網絡 
+searchtitle: 使用ASA r2 設定 Oracle 資料庫的 FC SAN 
+---
+= FC SAN 組態
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在ASA r2 系統上為 Oracle 資料庫設定 FC SAN 主要在於遵循標準的 SAN 最佳實務。
+
+ASA r2 針對僅限 SAN 的工作負載進行了最佳化，因此其原理與AFF/ FAS相同，重點在於效能、彈性和簡單性。這包括典型的規劃措施，例如確保主機和儲存系統之間的 SAN 有足夠的頻寬，檢查所有必需設備之間是否存在所有 SAN 路徑，使用 FC 交換器供應商要求的 FC 連接埠設置，避免 ISL 連接，以及使用適當的 SAN 結構監控。
+
+
+
+== 分區
+
+FC 區域不得包含多個啟動器。這種安排一開始可能會運作、但啟動器之間的串擾最終會影響效能和穩定性。
+
+雖然在極少數情況下、來自不同廠商的 FC 目標連接埠行為造成問題、但多目標區域通常被視為安全區域。例如、避免將 NetApp 和非 NetApp 儲存陣列的目標連接埠同時納入同一區域。此外、將 NetApp 儲存系統和磁帶裝置置於同一個區域、更有可能造成問題。
+
+[NOTE]
+====
+* ASA r2 使用儲存可用區而不是聚合，但這並不會改變 FC 分區原則。
+* 多路徑 (MPIO) 仍然是主要的彈性機制；然而，對於支援對稱主動-主動多路徑的ASA r2 系統，到 LUN 的所有路徑都是活動的，並同時用於 I/O。
+
+
+====

@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-asar2-host-config-hp-ux.html 
+keywords: oracle, database, ASA r2, ontap, hp-ux 
+summary: 在ASA r2 上使用 HP-UX 的 Oracle 資料庫 
+searchtitle: 在ASA r2 上使用 HP-UX 的 Oracle 資料庫 
+---
+= HP-UX
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+HP-UX 上 Oracle 資料庫與ASA r2 ONTAP的設定主題。
+
+[NOTE]
+====
+HP-UX 支援與NetApp ASA r2 搭配使用，用於託管 Oracle 資料庫，前提是：
+
+* ONTAP版本為 9.16.x 或更高版本。
+* 使用 SAN 協定（FC/iSCSI/NVMe）。ASA r2 不支援 NAS。
+* 應用HP-UX特有的掛載和I/O調優最佳實務。
+
+
+====
+
+
+== HP-UX VxFS 掛載選項
+
+對於託管 Oracle 二進位檔的檔案系統、請使用下列掛載選項：
+
+....
+delaylog,nodatainlog
+....
+對於包含資料檔案、重做記錄檔、歸檔記錄檔和控制檔的檔案系統、若 HP-UX 版本不支援並行 I/O 、請使用下列掛載選項：
+
+....
+nodatainlog,mincache=direct,convosync=direct
+....
+支援並行 I/O （ VxFS 5.0.1 及更新版本、或 ServiceGuard Storage Management Suite ）時、請針對包含資料檔案、重作記錄檔、歸檔記錄檔和控制檔的檔案系統、使用這些掛載選項：
+
+....
+delaylog,cio
+....
+
+NOTE: 參數 `db_file_multiblock_read_count` 在 VxFS 環境中尤其重要。Oracle 建議在 Oracle 10g R1 及更新版本中保留此參數、除非另有特別指示。Oracle 8KB 區塊大小的預設值為 128 。如果此參數的值強制為 16 或更少、請移除 `convosync=direct` 裝載選項、因為它可能會損害連續 I/O 效能。此步驟會損害其他效能層面、只有在的價值下才應採取 `db_file_multiblock_read_count` 必須從預設值變更。

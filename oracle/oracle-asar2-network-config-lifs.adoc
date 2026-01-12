@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-asar2-network-config-lifs.html 
+keywords: LIF, multipath, multipathing, ASA r2, oracle 
+summary: 使用ASA r2 的 Oracle 資料庫邏輯介面設計 
+searchtitle: 使用ASA r2 的 Oracle 資料庫邏輯介面設計 
+---
+= 邏輯介面
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Oracle 資料庫需要存取儲存設備。邏輯介面（ Lifs ）是將儲存虛擬機器（ SVM ）連接到網路、然後再連接到資料庫的網路配送。需要適當的 LIF 設計、才能確保每個資料庫工作負載都有足夠的頻寬、而且容錯移轉不會導致儲存服務遺失。
+
+本節概述了ASA r2 系統的關鍵 LIF 設計原則，該系統針對僅限 SAN 環境進行了最佳化。如需更全面的文檔，請參閱 link:https://docs.netapp.com/us-en/ontap/network-management/index.html["ONTAP 網路管理文件"]。與資料庫架構的其他方面一樣，儲存虛擬機器 (SVM，在 CLI 中稱為 vserver) 和邏輯介面 (LIF) 設計的最佳選擇很大程度上取決於擴充要求和業務需求。
+
+建置 LIF 策略時、請考量下列主要主題：
+
+* *表現。 *網路頻寬是否足以滿足Oracle工作負載的需求？
+* * 恢復能力。 * 設計中是否有任何單點故障？
+* * 管理能力。 * 網路是否能不中斷地擴充？
+
+
+這些主題適用於端點對端點解決方案、從主機到交換器、再到儲存系統。
+
+
+
+== LIF 類型
+
+有多種 LIF 類型。 link:https://docs.netapp.com/us-en/ontap/networking/lif_compatibility_with_port_types.html["LIF 類型的 ONTAP 文件"] 提供更完整的本主題資訊、但從功能觀點來看、生命可分為下列群組：
+
+* * 用於管理儲存叢集的叢集與節點管理生命期 * 。
+* * SVM 管理階層。 * 允許透過 REST API 或 ONTAPI （也稱為 ZAPI ）存取 SVM 的介面、以執行快照建立或磁碟區調整大小等功能。SnapManager for Oracle （ SMO ）等產品必須能夠存取 SVM 管理 LIF 。
+* *數據 LIF。 *僅支援 SAN 協定的介面：FC、iSCSI、NVMe/FC、NVMe/TCP。ASA r2 系統不支援 NAS 協定（NFS、SMB/CIFS）。
+
+
+
+NOTE: 儘管 iSCSI（或 NVMe/TCP）和管理流量都使用 IP 協議，但無法為兩者配置同一個介面。在 iSCSI 或 NVMe/TCP 環境中，需要單獨的管理 LIF。為了提高彈性和效能，每個節點每個協定配置多個 SAN 資料 LIF，並將它們分佈在不同的實體連接埠和結構上。與AFF/ FAS系統不同， ASA r2 不允許 NFS 或 SMB 流量，因此無法將 NAS 資料 LIF 重新用於管理。
+
+
+
+== SAN LIF 設計
+
+SAN 環境中的 LIF 設計相對簡單、原因有一：多重路徑。所有現代化的 SAN 實作均可讓用戶端透過多個、不受限制的網路路徑存取資料、並選擇最佳的存取路徑或路徑。因此、 LIF 設計的效能更容易因應、因為 SAN 用戶端會在最佳可用路徑之間自動平衡 I/O 負載。
+
+如果路徑無法使用、用戶端會自動選取不同的路徑。因此設計簡易性讓 SAN 的工作更容易管理。這並不表示 SAN 環境總是更容易管理、因為 SAN 儲存設備還有許多其他層面比 NFS 複雜得多。這只是表示 SAN LIF 設計更簡單。
+
+
+
+=== 效能
+
+在 SAN 環境中，影響 LIF 效能的最重要因素是頻寬。例如，一個雙節點ASA r2 集群，每個節點有兩個 32Gb FC 端口，每個節點最多可提供 64Gb 的頻寬。同樣，對於 NVMe/TCP 或 iSCSI，請確保 Oracle 工作負載有足夠的 25GbE 或 100GbE 連線。
+
+
+
+=== 恢復能力
+
+SAN LIF 的故障轉移方式與ASA LIF 不同。 ASA r2 系統依賴主機多路徑（MPIO/ALUA）來實現彈性復原。如果由於控制器故障轉移導致 SAN LIF 不可用，用戶端的多路徑軟體會偵測到路徑遺失，並將 I/O 重新導向至備用路徑。ASA r2 可能會在短暫延遲後執行 LIF 重定位以恢復完整路徑的可用性，但這不會中斷 I/O，因為夥伴節點上已經存在活動路徑。故障轉移過程是為了恢復所有已定義連接埠上的主機存取權限。
+
+
+
+=== 管理能力
+
+在 SAN 環境中，當 HA 對內的磁碟區被重新定位時，無需遷移 LIF。這是因為，磁碟區遷移完成後， ONTAP會向 SAN 發送路徑變更通知，SAN 用戶端會自動重新最佳化。使用 SAN 進行 LIF 遷移主要與重大的實體硬體變更相關。例如，如果需要對控制器進行無中斷升級，則 SAN LIF 會遷移到新硬體。如果發現 FC 連接埠發生故障，可以將 LIF 遷移到未使用的連接埠。
+
+
+
+=== 設計建議
+
+NetApp針對ASA r2 SAN環境提出以下建議：
+
+* 請勿建立超過所需的路徑。過多的路徑會使整體管理更為複雜、並可能導致部分主機上路徑容錯移轉的問題。此外、有些主機對 SAN 開機等組態有非預期的路徑限制。
+* 極少數組態需要四條以上的路徑才能連接到 LUN 。如果擁有 LUN 的節點及其 HA 合作夥伴故障、則無法存取主控 LUN 的集合、因此限制將超過兩個節點的路徑通告至 LUN 的價值。在非主要 HA 配對的節點上建立路徑、在這種情況下並無幫助。
+* 雖然可視 LUN 路徑的數量可以透過選擇 FC 區域中包含哪些連接埠來進行管理、但通常較容易在 FC 區域中包含所有潛在目標點、並控制 ONTAP 層級的 LUN 可見度。
+* 使用選擇性 LUN 對應 (SLM) 功能，此功能預設為啟用。使用 SLM，任何新的 LUN 都會從擁有底層聚合的節點和該節點的 HA 夥伴自動發布。這種安排避免了建立連接埠集或配置區域來限制連接埠存取權限的需求。每個 LUN 都部署在滿足最佳效能和彈性所需的最少節點上。
+* 如果需要將 LUN 遷移到兩個控制器之外，則可以使用以下方式新增額外的節點： `lun mapping add-reporting-nodes` 指令將 LUN 通告到新節點上。這樣做會為 LUN 遷移建立額外的 SAN 路徑。但是，主機必須執行發現操作才能使用新路徑。
+* 不要過度擔心間接流量。最好在 I/O 密集環境中避免間接流量、因為每微秒的延遲都是關鍵、但對於一般工作負載而言、可見的效能影響卻微不足道。
+

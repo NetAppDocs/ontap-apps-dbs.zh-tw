@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-asar2-config-svm.html 
+keywords: svm, ASA r2, oracle 
+summary: 使用ASA r2 為 Oracle 資料庫設定 SVM 
+searchtitle: Oracle 資料庫與儲存虛擬機器與ASA r2 
+---
+= 儲存虛擬機器
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+ASA r2 系統上的 Oracle 資料庫儲存管理也集中在儲存虛擬機器 (SVM) 上，在ONTAP CLI 中稱為 vserver。
+
+SVM 是ONTAP中儲存配置和安全性的基本單元，類似於 VMware ESX 伺服器上的客戶虛擬機器。當ONTAP首次安裝在ASA r2 上時，在建立 SVM 之前，它不具備資料服務能力。SVM 定義了 SAN 環境的個性和資料服務。
+
+ASA r2 系統採用僅限 SAN 的ONTAP特性，該特性經過簡化，支援區塊協定（FC、iSCSI、NVMe/FC、NVMe/TCP），並移除了與 NAS 相關的功能。這簡化了管理，並確保所有 SVM 配置都針對 SAN 工作負載進行了最佳化。與AFF/ FAS系統不同， ASA r2 不提供 NAS 服務選項，例如主目錄或 NFS 共用。
+
+建立叢集時， ASA r2 會自動設定一個名為 svm1 的預設資料 SVM，並啟用 SAN 協定。此SVM無需手動配置協定服務即可進行區塊儲存操作。預設情況下，此 SVM 中的 IP 資料 LIF 支援 iSCSI 和 NVMe/TCP 協議，並使用預設資料區塊服務策略，從而簡化了 SAN 工作負載的初始設定。管理員之後可以根據效能、安全性或多租用戶要求建立額外的 SVM 或自訂 LIF 配置。
+
+
+NOTE: SAN 協定的邏輯介面 (LIF) 應根據效能和可用性要求進行設計。ASA r2 支援 iSCSI、FC 和 NVMe LIF，但請注意，預設未啟用自動 iSCSI LIF 故障轉移，因為ASA r2 對 NVMe 和 SCSI 主機使用共用網路。若要啟用自動故障轉移，請建立 https://docs.netapp.com/us-en/asa-r2/administer/manage-client-vm-access.html#create-a-lif-network-interface["僅支援 iSCSI 的 LIF"]。
+
+
+
+== SVM
+
+與其他ONTAP平台一樣，對於要創建的 SVM 數量沒有官方的最佳實踐；該決定取決於管理和安全要求。
+
+大多數客戶日常營運只使用一台主SVM，並根據特殊需求建立額外的SVM，例如：
+
+* 由專業團隊管理的專用支援虛擬機，用於關鍵業務資料庫。
+* 具有委託管理控制權的開發小組的支援向量機
+* 用於處理需要受限管理存取權限的敏感資料的 SVM
+
+
+在多租用戶環境中，每個租用戶都可以分配一個專用的 SVM。每個叢集、HA 對和節點的 SVM 和 LIF 數量的限制取決於所使用的協定、節點模型和ONTAP版本。請諮詢 link:https://hwu.netapp.com/["NetApp Hardware Universe"^] 在這些限制條件下。
+
+
+NOTE: 從ONTAP 9.18.1 開始， ASA r2 每個叢集和每個 HA 對最多支援 256 個 SVM（早期版本中為 32 個）。

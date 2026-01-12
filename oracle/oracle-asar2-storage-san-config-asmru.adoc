@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: oracle/oracle-asar2-storage-san-config-asru.html 
+keywords: ontap, thin provisioning, oracle, ASRU, ASA r2 
+summary: 在ASA r2 上使用ONTAP零塊檢測的 ASM 回收實用程序 
+searchtitle: 'ASM 回收實用程式 (ASRU) 與ASA r2 上的ONTAP' 
+---
+= ASM 回收公用程式 (ASRU)
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+當啟用線上壓縮時， ONTAP on ASA r2 可以有效地刪除寫入 LUN（儲存單元）的零區塊。Oracle ASM 回收公用程式 (ASRU) 等公用程式的工作原理是將零寫入未使用的 ASM 區段。
+
+這樣，資料庫管理員就可以在資料刪除後回收儲存陣列上的空間。ONTAP攔截零值並從 LUN 釋放空間。由於儲存系統中沒有實際寫入任何數據，因此回收過程非常快。
+
+從資料庫的角度來看、 ASM 磁碟群組包含零、讀取 LUN 的這些區域會產生零串流、但 ONTAP 不會將零儲存在磁碟機上。而是進行簡單的中繼資料變更、在內部將 LUN 的歸零區域標記為任何資料的空白。
+
+由於類似的原因、涉及零位資料的效能測試無效、因為零區塊實際上並未在儲存陣列內以寫入方式處理。
+
+使用ASA r2 ONTAP需要考慮的關鍵 ASRU 因素：
+
+* 由於ASA r2 僅支援區塊存儲，因此其工作方式與AFF/ FAS相同，適用於 SAN 工作負載。
+* 適用於在 SAZ 內設定的 LUN 和 NVMe 命名空間。
+* FlexVol磁碟區不存在，但零塊回收行為是相同的。
+
+
+
+NOTE: 使用 ASRU 時、請確定已安裝所有 Oracle 建議的修補程式。

@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: /oracle/oracle-asar2-config-raid.html 
+keywords: oracle, ASA r2, raid, mirroring 
+summary: RAID 與 Oracle 資料庫與ASA r2 
+searchtitle: RAID 與 Oracle 資料庫與ASA r2 
+---
+= RAID
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+RAID 指的是利用基於奇偶校驗的冗餘技術來保護資料免受硬碟故障的影響。ASA r2 使用與AFF和FAS系統相同的ONTAP RAID 技術，可有效防止多塊磁碟故障。
+
+ONTAP會自動為ASA r2 系統執行 RAID 設定。這是ASA r2 特性所引入的簡化儲存管理體驗的核心組成部分。
+
+ASA r2 自動 RAID 設定的關鍵細節包括：
+
+* 儲存可用區 (SAZ)： ASA r2 使用儲存可用區 (SAZ) 來取代手動管理傳統的聚合和 RAID 群組。這些是 HA 對共享的、受 RAID 保護的磁碟池，其中兩個節點可以完全存取相同的儲存。
+* 自動放置：建立儲存單元（LUN 或 NVMe 命名空間）時， ONTAP會自動在 SAZ 內建立一個磁碟區，並將其放置在最佳效能和容量平衡的位置。
+* 不支援手動聚合管理： ASA r2 不支援傳統的聚合和 RAID 群組管理指令。這樣就無需管理員手動規劃 RAID 群組大小、奇偶校驗盤或節點分配了。
+* 簡化配置：配置透過系統管理員或簡化的 CLI 命令進行處理，這些命令著重於儲存單元，而不是底層的實體 RAID 佈局。
+* 工作負載重新平衡：從 2025 年版本（ONTAP 9.17.1）開始， ONTAP會自動在 HA 對中的節點之間重新平衡工作負載，以確保效能和空間利用率保持平衡，而無需人工幹預。
+
+
+ASA r2 會自動使用 ONTAP 的預設 RAID 技術：大多數設定使用RAID DP ，非常大的 SSD 池使用RAID-TEC 。這樣就省去了手動選擇 RAID 的麻煩。這些基於奇偶校驗的 RAID 等級比鏡像提供更好的儲存效率和可靠性，雖然舊的 Oracle 最佳實務通常建議鏡像，但鏡像與ASA r2 無關。ONTAP透過WAFL整合避免了傳統的 RAID 寫入懲罰，從而確保 Oracle 工作負載（例如重做日誌記錄和隨機資料檔案寫入）的最佳效能。結合自動化 RAID 管理和儲存可用區， ASA r2 為 Oracle 資料庫提供高可用性和企業級保護。

@@ -4207,8 +4207,6 @@
   <block id="4cd2d5d8d873ad1f707d88334324153a" category="paragraph">不過、這些範例都不涉及 1 ： 1 的磁碟區對 LUN 比率。目標仍然是透過在磁碟區中共同定位相關 LUN 來最佳化管理性。</block>
   <block id="a9fd7be1f3363701ad1b35b16af02c9e" category="paragraph">其中一個例子是、 1 ： 1 LUN 對磁碟區比率非常合理、其中每個 LUN 可能真正代表單一工作負載、而且每個工作負載都需要個別管理。在這種情況下、 1 ： 1 的比率可能是最佳的。</block>
   <block id="64e5a77897fe6326f14436eaaaf5432b" category="section-title">可用空間和 LVM 空間分配</block>
-  <block id="702db8f3db66a0eec35817fe5d2e4544" category="inline-link-macro">ASMRU</block>
-  <block id="096ca5ad0b3774fee4699e2da1bfa884" category="paragraph">在檔案系統環境中自動精簡配置作用中 LUN 的效率、可能會隨著資料刪除而隨時間而喪失。除非刪除的資料會以零覆寫（另請參閱 <block ref="5b58c4ec517e475a59d0a785f87cabdc" category="inline-link-macro-rx"></block> 或是隨著修剪 / 取消對應空間回收而釋放空間、「清除」資料會佔用檔案系統中越來越多的未分配空白空間。此外、在許多資料庫環境中、主動式 LUN 的精簡配置功能有限、因為資料檔案會在建立時初始化為全尺寸。</block>
   <block id="ceb8ec6ec593174c2c6f33be2ca966eb" category="summary">Oracle 和 ONTAP 磁碟區和 LUN 配置</block>
   <block id="0724b56ced27e0a66fb4692a57fb1436" category="doc">Oracle 資料庫 LUN 放置</block>
   <block id="f595bf3bf71ab0c91a5503ba4efb8ea4" category="paragraph">資料庫 LUN 在 ONTAP 磁碟區內的最佳放置方式、主要取決於如何使用各種 ONTAP 功能。</block>
@@ -6398,4 +6396,5 @@
   <block id="d9c561cf68fdc77bb1da849869a07f1c" category="sidebar">ASA r2 系統上的網路配置</block>
   <block id="38e7ae928dc580caab650dc5df5d2fc1" category="sidebar">Oracle 資料庫與ASA r2 系統的網路配置</block>
   <block id="8637dea0297332b772f83909e4341446" category="sidebar">Oracle 資料庫與ASA r2 系統的儲存配置</block>
+  <block id="bf9da0db0cba95abeb9d604e28d6fae5" category="paragraph">在檔案系統環境中，隨著資料的刪除，活動 LUN 的精簡配置效率可能會逐漸降低。除非刪除的資料被零覆蓋（另請參閱連結：oracle-storage-san-config-asm ru.html[ASMRU]）或使用 TRIM/UNMAP 空間回收釋放空間，否則「擦除」的資料會在檔案系統中佔用越來越多未分配的空白空間。此外，在許多資料庫環境中，活動 LUN 的精簡配置用途有限，因為資料檔案在建立時會初始化為全部大小。</block>
 </blocks>

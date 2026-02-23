@@ -5,7 +5,7 @@ keywords: PostgreSQL,database,postgres
 summary: PostgreSQL 資料保護 
 searchtitle: PostgreSQL 原生資料保護 
 ---
-= 原生 Ddta 保護
+= 原生資料保護
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

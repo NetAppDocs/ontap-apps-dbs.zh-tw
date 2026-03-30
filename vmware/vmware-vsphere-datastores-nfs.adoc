@@ -26,17 +26,17 @@ ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能
 ** 如果不使用ONTAP VMware vSphere的VMware vSphere功能、請針對所有伺服器或需要額外存取控制的每個伺服器叢集、使用單一匯出原則。
 
 
-* 在叢集中的每個節點上、為每個SVM使用單一邏輯介面（LIF）ONTAP 。不再需要過去針對每個資料存放區的LIF建議。雖然直接存取（同一個節點上的 LIF 和資料存放區）是最佳選擇、但別擔心間接存取、因為效能影響通常很小（微秒）。
+* 在 ONTAP 叢集的每個節點上，每個 SVM 都應使用單一邏輯介面（LIF）。先前建議每個資料儲存使用一個 LIF 的做法已不再必要。雖然直接存取（LIF 和資料儲存位於同一節點上）效果最佳，但不必擔心間接存取，因為其效能影響通常微乎其微（僅幾微秒）。
 * 如果您使用 fpolicy ，請務必排除 .lck 檔案，因為每當 VM 開機時， vSphere 都會使用這些檔案來鎖定。
 * 目前支援的所有 VMware vSphere 版本均可使用 NFS v3 和 v4.1 。正式支援 nconnect 已新增至 vSphere 8.0 更新 2 for NFS v3 ，以及更新 3 for NFS v4.1 。對於 NFS v4.1 、 vSphere 持續支援工作階段主幹、 Kerberos 驗證及完整性 Kerberos 驗證。請務必注意、工作階段主幹需要 ONTAP 9.14.1 或更新版本。您可以在link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vmware-vsphere8-nfsv3-nconnect.html["使用 NetApp 和 VMware 的 NFSv3 nconnect 功能"]中深入瞭解 nconnect 功能及其如何改善效能。
 
 
 [TIP]
 ====
-* vSphere 8 中 nconnect 的最大值為 4 ，預設值為 1 。vSphere 中的最大值上限可透過進階設定，以每部主機為基礎提高，但通常不需要。
+* nconnect 在 vSphere 8 的最大值為 4，預設值為 1。vSphere 中的最大值限制可以透過進階設定在每個主機上提高，雖然通常不需要。
 * 對於需要比單一 TCP 連線更高效能的環境，建議使用值 4 。
-* 請注意， ESXi 的 NFS 連線數量上限為 256 個，每個 nconnect 連線數量都會計入該總數。例如，兩個 nconnect=4 的資料存放區將計為八個總連線。
-* 在正式作業環境中實作大規模變更之前，請務必先測試 nconnect 對環境的效能影響。
+* 請注意、ESXi 的 NFS 連線數上限為 256 個、每個 nconnect 連線都會計入這個總數。例如、兩個資料存放區的 nconnect=4 會計為總共 8 個連線。
+* 在生產環境中實施大規模變更之前，請務必測試 nconnect 對您環境的效能影響。
 
 
 ====
@@ -46,7 +46,7 @@ ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能
 ** 如需支援所需的特定 ESXi 修補程式層級，請參閱中的 NFS v4.1 互通性表附註link:https://mysupport.netapp.com/matrix/["NetApp 互通性對照表工具"^]。
 
 
-* 如中所述link:vmware/vmware-vsphere-settings.html["設定"]，如果您不使用 vSphere CSI for Kubernetes ，則應設定 newSyncInterval per https://knowledge.broadcom.com/external/article/386364/reducing-excessive-vsan-cnssync-warnings.html["VMware知識庫386364"^]
+* 如 link:vmware-vsphere-settings.html["設定"] 所述，如果您未使用 vSphere CSI for Kubernetes，則應依照  https://knowledge.broadcom.com/external/article/386364/reducing-excessive-vsan-cnssync-warnings.html["VMware知識庫386364"^] 設定 newSyncInterval
 * NFS 匯出原則規則用於控制 vSphere 主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用 NFS 時， ESXi 會使用 sys （ UNIX ）安全樣式，並需要根掛載選項來執行 VM 。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意，匯出具有不同值的原則規則 `-anon`， `-allow-suid`可能會導致 ONTAP 工具發生 SVM 探索問題。IP 位址應該是以逗號分隔的清單，不含安裝資料存放區的 vmkernel 連接埠位址空間。以下是原則規則範例：
 +
 ** 存取傳輸協定：NFS（包括nfs3和nfs4）
@@ -70,7 +70,7 @@ ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能
 ** 超級使用者：sys（也適用於採用VAAI的根Volume）
 
 
-* 雖然供應彈性的Volume命名空間結構、可利用交會在樹狀結構中排列磁碟區、但這種方法對vSphere沒有任何價值。ONTAP無論儲存設備的命名空間階層為何、它都會在資料存放區根目錄中為每個VM建立一個目錄。因此、最佳實務做法是將vSphere磁碟區的交會路徑掛載到SVM的根磁碟區、這就是ONTAP VMware vSphere的VMware vSphere功能如何配置資料存放區。沒有巢狀結點路徑也表示除了根磁碟區之外、沒有任何磁碟區相依於任何磁碟區、即使是刻意將磁碟區離線或銷毀、也不會影響其他磁碟區的路徑。
+* 儘管 ONTAP 提供了一種靈活的磁碟區命名空間結構，允許使用連接點將磁碟區排列成樹狀，但這種方法對於 vSphere 並無價值。它會在資料儲存區的根目錄中為每個 VM 建立一個目錄，而不考慮儲存設備的命名空間階層。因此，最佳實務做法是將 vSphere 磁碟區的連接點路徑直接掛載到 SVM 的根磁碟區上，這也是 ONTAP tools for VMware vSphere 配置資料儲存區的方式。沒有巢狀連接點路徑也意味著除了根磁碟區之外，任何磁碟區都不依賴其他磁碟區，並且即使是刻意將磁碟區離線或銷毀，也不會影響到其他磁碟區的路徑。
 * 對於NFS資料存放區上的NTFS分割區、4K區塊大小是可以的。下圖說明從vSphere主機連線至ONTAP VMware NFS資料存放區的能力。
 
 

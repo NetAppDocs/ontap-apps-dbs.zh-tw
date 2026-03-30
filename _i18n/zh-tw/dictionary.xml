@@ -2403,7 +2403,6 @@
   <block id="4157f0c23fc104508f492dc846f187f3" category="list-text">根據預設、會啟用SLM.除非您使用連接埠集、否則不需要額外的組態。</block>
   <block id="ed0e76ed86e852bd7317a09d856ec4e8" category="paragraph">其他應考慮的最佳實務做法：</block>
   <block id="93586ad57931e0f16fff61cdba9d77df" category="list-text">請確定ONTAP 已為叢集中每個節點上的每個SVM建立邏輯介面（LIF）、以達到最大可用度和行動性。最佳實務做法是每個節點使用兩個實體連接埠和LIF、每個光纖使用一個連接埠。ONTAPALUA可用來剖析路徑、識別作用中最佳化（直接）路徑、以及作用中未最佳化路徑。ALUA用於FC、FCoE和iSCSI。</block>
-  <block id="b3cebb7381bddbabb1e950a46d264190" category="list-text">對於iSCSI網路、當存在多個虛擬交換器時、請在不同的網路子網路上使用多個VMkernel網路介面搭配NIC群組。您也可以使用多個實體NIC來連接至多個實體交換器、以提供HA並提高處理量。下圖提供多重路徑連線的範例。在靜態中ONTAP 、設定單一模式介面群組以容錯移轉兩個或多個連結連接至兩個或多個交換器、或使用LACP或其他連結集合技術搭配多重模式介面群組、以提供HA及連結集合的優點。</block>
   <block id="2968b9f3c141bf23bc73d0e6e15a174a" category="list-text">如果 ESXi 中使用挑戰握手驗證傳輸協定（ CHAP ）進行目標驗證、則也必須使用 CLI 在 ONTAP 中進行設定 <block ref="199c9b970eacf1c35d84a383b7ceb210" prefix="(" category="inline-code"></block>）或使用 System Manager （在 Storage （儲存） &gt; SVM （ SVM ） &gt; SVM Settings （ SVM 設定） &gt; Protocols （傳輸協定） &gt; iSCSI （ iSCSI ）下編輯啟動器安全性）。</block>
   <block id="d31f2e075df4ca75ca0874fa08f74b12" category="list-text">使用VMware vSphere的VMware vCenter工具來建立及管理LUN和群組。ONTAP外掛程式會自動決定伺服器的WWPN、並建立適當的igroup。它也會根據最佳實務做法來設定LUN、並將其對應至正確的igroup。</block>
   <block id="de78559e8aed2cd62fbf852f73dc58c2" category="inline-link">實體與虛擬相容模式</block>
@@ -2422,7 +2421,6 @@
   <block id="4c571520a8128d1692fc709ffbfb2b1e" category="list-text">使用ONTAP VMware vSphere的VMware Infrastructure（最重要的最佳實務做法）：</block>
   <block id="23aa7b9aeed3fba2a1ec43e630313af7" category="list-text">使用外掛程式為VMware叢集建立資料存放區時、請選取叢集而非單一ESX伺服器。此選項會觸發IT自動將資料存放區掛載至叢集中的所有主機。</block>
   <block id="928562eb576ed6ae31cb1a149d3e751a" category="list-text">如果不使用ONTAP VMware vSphere的VMware vSphere功能、請針對所有伺服器或需要額外存取控制的每個伺服器叢集、使用單一匯出原則。</block>
-  <block id="7bccab0fa4c0864835c645c9fde7ebf6" category="list-text">雖然供應彈性的Volume命名空間結構、可利用交會在樹狀結構中排列磁碟區、但這種方法對vSphere沒有任何價值。ONTAP無論儲存設備的命名空間階層為何、它都會在資料存放區根目錄中為每個VM建立一個目錄。因此、最佳實務做法是將vSphere磁碟區的交會路徑掛載到SVM的根磁碟區、這就是ONTAP VMware vSphere的VMware vSphere功能如何配置資料存放區。沒有巢狀結點路徑也表示除了根磁碟區之外、沒有任何磁碟區相依於任何磁碟區、即使是刻意將磁碟區離線或銷毀、也不會影響其他磁碟區的路徑。</block>
   <block id="ea6fc1288f1d3b21238d29ff28cb867a" category="list-text">對於NFS資料存放區上的NTFS分割區、4K區塊大小是可以的。下圖說明從vSphere主機連線至ONTAP VMware NFS資料存放區的能力。</block>
   <block id="e54433644e830ed1503561b778e9ded4" category="paragraph">下表列出NFS版本及支援的功能。</block>
   <block id="9fb9dac7513c7ef8452aade8a52ad40d" category="cell">vSphere功能</block>
@@ -4074,7 +4072,6 @@
   <block id="570bfadf5783125790b6c87f55842fb2" category="inline-image-macro">SnapCenter 部署</block>
   <block id="71ca4878111d253f9883f471e5de9594" category="paragraph"><block ref="71ca4878111d253f9883f471e5de9594" category="inline-image-macro-rx" type="image"></block></block>
   <block id="bd90e11d4c9fc73f37adda8029276215" category="summary">本頁說明在 VMware vSphere 環境中實作 ONTAP 儲存解決方案的最佳實務做法。</block>
-  <block id="ab906277df9ce070b1e11724f8ccf589" category="list-text">在叢集中的每個節點上、為每個SVM使用單一邏輯介面（LIF）ONTAP 。不再需要過去針對每個資料存放區的LIF建議。雖然直接存取（同一個節點上的 LIF 和資料存放區）是最佳選擇、但別擔心間接存取、因為效能影響通常很小（微秒）。</block>
   <block id="8dc90de75c19a4114217f443b0ca2866" category="inline-image-macro">從 vSphere 主機連線至 ONTAP NFS 資料存放區</block>
   <block id="36b9a8da16a1d2fad06b788e662b7c4a" category="paragraph"><block ref="36b9a8da16a1d2fad06b788e662b7c4a" category="inline-image-macro-rx" type="image"></block></block>
   <block id="bb6d2d52dfe07f9662232c444256aece" category="paragraph">使用 iSCSI 或 NVMe / TCP 的主機可以直接連線至儲存系統、並正常運作。原因是路徑。直接連線至兩個不同的儲存控制器、可產生兩個不同的資料流路徑。遺失路徑、連接埠或控制器並不會妨礙其他路徑的使用。</block>
@@ -4099,7 +4096,6 @@
   <block id="2fa76de41291847c8d191ea664c53395" category="summary">瞭解 vSphere Metro Storage Cluster with ONTAP</block>
   <block id="0ecd760f5e697e57a60b2f1597be9d54" category="admonition">如需VMware vSphere虛擬磁碟區、SPBM及ONTAP VMware的詳細資訊、請參閱 <block ref="2e6ec19fbf81081d6cc68364fb2fb656" category="inline-link-macro-rx"></block>。</block>
   <block id="7dbbfa4d228c6ffe9a64c938bc057b0d" category="inline-image-macro">多重路徑連線</block>
-  <block id="4525956d57ef52f4b2a4f341fbeec28e" category="paragraph"><block ref="4525956d57ef52f4b2a4f341fbeec28e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="8692ff2ea8c35b5c4c7cea90481e416c" category="summary">本文件會對建議的儲存設備和網路設定進行分類及列舉。</block>
   <block id="ff6fdc6e7749c69219fc26d54c625bd5" category="paragraph">NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定。此外、我們也針對多重路徑和 HBA 逾時設定提供具體指引、以根據 NetApp 和 VMware 內部測試、讓 ONTAP 正常運作。</block>
   <block id="baee97fad9d55c529dc7a7eb07fd1ba4" category="cell">vSphere 6.0 或更新版本、設定為 256
@@ -5224,7 +5220,6 @@
   <block id="bf5f70c9080724ef27b09203705b1abc" category="doc">完整檔案分層</block>
   <block id="acf5662e9defb6f8df644e0d8b4caa28" category="doc">初始化參數</block>
   <block id="03095e209912bbf8e40f883c88befe49" category="searchtitle">PostgreSQL 原生資料保護</block>
-  <block id="300e5ea4a0c7d02b8a4efeba5a1f6faf" category="doc">原生 Ddta 保護</block>
   <block id="1c3ee6977dcad0709502549dd7b111f3" category="sidebar">Oracle DR 搭配 MetroCluster</block>
   <block id="662637dadb14be675de52ed993629bcd" category="paragraph">針對伺服器作業系統佇列深度考量、資料庫至少要使用八個 LUN （每個磁碟區一個 LUN ）。根據 ONTAP 叢集中的節點數量來增加 LUN 數量。例如，使用 4 節點（ 2 HA 配對）叢集時，請新增 4 個 LUN 。對於較大型的環境，可能需要更多 LUN ；使用相同數量的磁碟區（總共八個，分散於儲存節點），並在叢集節點和磁碟區之間以兩個的倍數新增 LUN 。此方法可讓您輕鬆擴充 Epic 環境。</block>
   <block id="f73f987e4ea887ccfd1bf297bad46e22" category="paragraph">* 範例 1 ： 2 節點 ONTAP 叢集 *</block>
@@ -5269,10 +5264,7 @@
   <block id="4ac7ffa40244bc8345591768f8411745" category="list-text">使用外掛安裝功能，將現有的資料存放區套用至新伺服器。</block>
   <block id="adf5380025d4004543deef73a471bbd5" category="inline-link-macro">使用 NetApp 和 VMware 的 NFSv3 nconnect 功能</block>
   <block id="f9f508df0fe89d92476e598965812f69" category="list-text">目前支援的所有 VMware vSphere 版本均可使用 NFS v3 和 v4.1 。正式支援 nconnect 已新增至 vSphere 8.0 更新 2 for NFS v3 ，以及更新 3 for NFS v4.1 。對於 NFS v4.1 、 vSphere 持續支援工作階段主幹、 Kerberos 驗證及完整性 Kerberos 驗證。請務必注意、工作階段主幹需要 ONTAP 9.14.1 或更新版本。您可以在<block ref="8bbf9cc2e5403eec56b8cc2f4bd74d68" category="inline-link-macro-rx"></block>中深入瞭解 nconnect 功能及其如何改善效能。</block>
-  <block id="81439479f2f4c0fa8c28668334fa82bd" category="list-text">vSphere 8 中 nconnect 的最大值為 4 ，預設值為 1 。vSphere 中的最大值上限可透過進階設定，以每部主機為基礎提高，但通常不需要。</block>
   <block id="b279126f58fd7f43a55f5efc8596bcea" category="list-text">對於需要比單一 TCP 連線更高效能的環境，建議使用值 4 。</block>
-  <block id="9d676095b7ff8ea1b1779bc58fb32a92" category="list-text">請注意， ESXi 的 NFS 連線數量上限為 256 個，每個 nconnect 連線數量都會計入該總數。例如，兩個 nconnect=4 的資料存放區將計為八個總連線。</block>
-  <block id="efdc45c7bd15d84f5bcb4df0560d6d3a" category="list-text">在正式作業環境中實作大規模變更之前，請務必先測試 nconnect 對環境的效能影響。</block>
   <block id="d1801a2d87a0325c6c691a74f5d1ffef" category="list-text">值得注意的是、 NFSv3 和 NFSv4.1 使用不同的鎖定機制。NFSv3 使用用戶端端鎖定、而 NFSv4.1 則使用伺服器端鎖定。雖然 ONTAP 磁碟區可以透過兩種傳輸協定匯出、但 ESXi 只能透過一種傳輸協定掛載資料存放區。不過、這並不表示其他 ESXi 主機無法透過不同版本掛載相同的資料存放區。為了避免任何問題、請務必指定要在掛載時使用的通訊協定版本、確保所有主機都使用相同版本、因此使用相同的鎖定樣式。避免在主機之間混合使用 NFS 版本是非常重要的。如有可能、請使用主機設定檔來檢查法規遵循狀況。</block>
   <block id="c17658fd7af3bb19a0f047cb1e006186" category="list-text">NFS 匯出原則規則用於控制 vSphere 主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用 NFS 時， ESXi 會使用 sys （ UNIX ）安全樣式，並需要根掛載選項來執行 VM 。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意，匯出具有不同值的原則規則<block ref="ea72d12ecaa06afdb0c8a3b15e485e95" prefix=" " category="inline-code"></block>，<block ref="df809a941c1287d18c08bb5927b639dc" prefix=" " category="inline-code"></block>可能會導致 ONTAP 工具發生 SVM 探索問題。IP 位址應該是以逗號分隔的清單，不含安裝資料存放區的 vmkernel 連接埠位址空間。以下是原則規則範例：</block>
   <block id="a001b05a0a70d03d708c133c88072a2b" category="list-text">用戶端符合主機名稱， IP 位址，網路群組或網域的清單： 192.168.42.221192.168.42.22</block>
@@ -5287,7 +5279,6 @@
   <block id="4d6306be791d29381011bb901e0351d5" category="list-text">用戶端比對規格： 192.168.42.21192.168.42.22</block>
   <block id="62297138e048f9159339e4709b23cd2f" category="list-text">做為連接 iSCSI 的 LUN 或連接至 NVMe / TCP 的命名空間，可由軟體啟動器從 VM 來賓作業系統存取和控制</block>
   <block id="7eae63bf83e6298ab64a2dd5e2544df9" category="inline-link-macro">VMware 組態最大值工具</block>
-  <block id="ee1c3928454779ec08bd2d50271b6621" category="admonition">如需 ESXi 支援的最新限制，請參閱<block ref="ca32979bcc653e1966d3624ee8d76604" category="inline-link-macro-rx"></block>。</block>
   <block id="387b349695476180bf90cc1891288318" category="list-text">檢查 <block ref="1f38ac07598dbb4b06912539aafa4211" category="inline-link-macro-rx"></block>NetApp 與 VMware 合作所建議的設定。</block>
   <block id="27071f484b59aa9ce5f5cffcefefd481" category="paragraph">^2^ 使用 NVMe 的資料存放區和 NFS v4.1 需要 vSphere 複寫。SRM 目前不支援以陣列為基礎的 NFS v4.1 複寫。適用於 VMware vSphere 儲存複寫介面卡（）的 ONTAP 工具目前不支援 NVMe 型陣列複寫。</block>
   <block id="f992800e6b8aa5ca675e5d1c9fd9950c" category="summary">利用此功能、您可以建立可套用至多個工作的備份原則。SnapCenter這些原則可定義排程、保留、複寫及其他功能。它們持續允許選擇性地選擇 VM 一致的快照，以利用 Hypervisor 的能力來在執行 VMware 快照之前，先關閉 I/O 。</block>
@@ -5827,11 +5818,9 @@
   <block id="d76b03755162bf8402fea0ef97d95c2b" category="list-text">如需支援所需的特定 ESXi 修補程式層級，請參閱中的 NFS v4.1 互通性表附註<block ref="aaa18d9ccb38f09094f0c241a8585efd" category="inline-link-macro-rx"></block>。</block>
   <block id="2e5d8aa3dfa8ef34ca5131d20f9dad51" category="inline-link-macro">設定</block>
   <block id="428a818039f2f00961fdd9e4de07b721" category="inline-link">VMware知識庫386364</block>
-  <block id="e43e8e9d4a1f6f9dbd56154ac2df4c6a" category="list-text">如中所述<block ref="5c427f7294fd54c254262776a96b148a" category="inline-link-macro-rx"></block>，如果您不使用 vSphere CSI for Kubernetes ，則應設定 newSyncInterval per<block ref="e3529737a3b4eef7cff2c05dcd47fcdc" category="inline-link-rx"></block></block>
   <block id="686d950560445531708a511e6ad1567c" category="paragraph">在 vSphere 中，有四種使用區塊儲存裝置的方法：</block>
   <block id="8f3179360beae87966e6fc5f46edfb7b" category="list-text">做為 vVols 資料存放區</block>
   <block id="041c0652f0218403d2721d2ddd9260df" category="admonition">extents 是 vSphere 儲存概念，您可以將多個 LUN 「拼接」在一起，以建立單一較大的資料存放區。切勿使用範圍來達到所需的資料存放區大小。單一 LUN 是 VMFS 資料存放區的最佳實務做法。</block>
-  <block id="9d6605bbb339340832866d8bab7bf7e5" category="paragraph">vSphere 內建支援多個儲存裝置路徑。 vSphere 可偵測支援儲存系統的儲存裝置類型，並自動設定多重路徑堆疊，以支援使用中儲存系統的功能，所使用的傳輸協定的完整版本，或是使用 ASA ， AFF ， FAS 或軟體定義的 ONTAP 。</block>
   <block id="4dbfcd0fae38bf4e35602557a83d9ea3" category="paragraph">vSphere 和 ONTAP 都支援非對稱邏輯單元存取（ ALUA ），可為光纖通道和 iSCSI 建立主動 / 最佳化和主動 / 非最佳化的路徑，以及使用 NVMe / FC 和 NVMe / TCP 的非對稱命名空間存取（ ANA ）。在 ONTAP 中， ALUA 或全日空最佳化路徑會使用位於要存取之 LUN 或命名空間的節點上的目標連接埠，沿著直接資料路徑前進。在 vSphere 和 ONTAP 中， ALUA/ANA 預設為開啟。vSphere 中的多重路徑軟體可將 ONTAP 叢集識別為 ALUA 或 ANA ，並使用適當的原生外掛程式搭配循環資源負載平衡原則。</block>
   <block id="c35f72eea36b7f94209ed29c1e457501" category="paragraph">使用 NetApp 的 ASA 系統， LUN 和命名空間會呈現給具有對稱路徑的 ESXi 主機。這表示所有路徑都是主動且最佳化的。vSphere 中的多重路徑軟體可將 ASA 系統辨識為對稱，並使用適當的原生外掛程式搭配循環負載平衡原則。</block>
   <block id="719d3c21fd388bea9bc6e0ae1f7aead3" category="admonition">如需最佳化的多重路徑設定，請參閱<block ref="1f38ac07598dbb4b06912539aafa4211" category="inline-link-macro-rx"></block>。</block>
@@ -6397,4 +6386,38 @@
   <block id="b93377fb4bda41543174fb8ecd3cb919" category="admonition">對於基於映像的 vSphere 叢集，您仍然需要將 NFS Plug-In 新增至您的映像中，這樣在使用 ONTAP tools 安裝時就不會出現不合規的情況。</block>
   <block id="1c4918b7146682fe9d3aa87a0931f802" category="paragraph">在執行 ONTAP 的系統上使用 vSphere 時設定網路設定非常簡單，與其他網路設定類似。以下是一些需要考慮的事項：</block>
   <block id="8889f7d5ff12388c0709bd9da619557b" category="list-text">使用支援鏈路聚合的交換器，透過多機箱鏈路聚合群組方法，將兩個獨立交換器機箱上的連接埠進行鏈路聚合，例如 Cisco 的 Virtual PortChannel（vPC）。</block>
+  <block id="4e245e798376a5b37ffc5db716f3b086" category="summary">本頁介紹了為 VMware 資料儲存區實作 FabricPool 的最佳實務做法。</block>
+  <block id="7ab22e2f2de052af5cee5bca000e441f" category="doc">FabricPool 適用於 VMware 資料存放區</block>
+  <block id="71a60e2e5410bf56dbceeb8098874aa7" category="paragraph">虛擬機器儲存從客戶作業系統和虛擬機器管理程式層向下流入 ONTAP，其中 FabricPool 分層和 WAFL 可實現效能、效率和成本最佳化。</block>
+  <block id="5af5e565ac31c45c517d497c227544e3" category="paragraph">從 ONTAP 9.6 版本開始、FabricPool 已支援虛擬化工作負載、包括 VMware 資料存放區。現在、您可以將支援 VMware 資料存放區的 FlexVol 磁碟區中的冷區塊（VM 範本、已關閉電源的 VM 、快照、備份等）分層至物件儲存設備、同時將熱資料保留在本機。</block>
+  <block id="b6fdb64fc9d75f582d6368d2766c14b9" category="paragraph">話雖如此、您還是需要注意一些細微差別。</block>
+  <block id="a885cb68eb11c4e7a0497f0905ed2f92" category="inline-image-macro">alt=具有 FabricPool 的 Hypervisor 儲存堆疊，寬度=525，高度=500</block>
+  <block id="177876afc9e936972ca9e8c000a1165a" category="paragraph"><block ref="177876afc9e936972ca9e8c000a1165a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="35d56aae7cd91e9e8193f6d49d885b58" category="section-title">運算層和虛擬磁碟層</block>
+  <block id="449f5490ffe1384e4cde9e34cc50c386" category="paragraph">客體作業系統在 VMDK、QCOW2 或 VHDX 等虛擬磁碟格式上執行，這些格式會建立應用程式和使用者可存取的運算層和區塊裝置層。</block>
+  <block id="63fc0b6c5a6af18fda47bab943be77bf" category="paragraph">值得注意的是，客體作業系統將虛擬磁碟視為區塊裝置；因此，在規劃非中斷性升級、硬體故障或其他計畫外事件期間的容錯能力時，必須考慮客體內部區塊裝置逾時。</block>
+  <block id="6dc00e1bbdeea3ffaca45fe746b95325" category="inline-link-macro">FabricPool 最佳實務做法</block>
+  <block id="ed1555304c325bb1f664bcd0573e1e86" category="admonition">根據<block ref="00f9967175c7057dcbe3073e12bc4bf7" category="inline-link-macro-rx"></block>，即使使用 NAS 傳輸協定，您也應該將裝載虛擬機器資料存放區的 FlexVol 磁碟區視為 SAN 儲存設備，因為虛擬磁碟檔案與客體作業系統相關的區塊性質。因此、NetApp 建議使用僅快照分層原則。自動原則可用於非關鍵資料、但請注意、與雲端層中斷連線可能會導致機器當機或進入唯讀狀態。</block>
+  <block id="228ae3437e4e29519984be18be0754ba" category="section-title">Hypervisor 角色</block>
+  <block id="4676d7f0ba935d0fbf86fe98cefe1b95" category="paragraph">虛擬機器管理程式負責協調其運行的虛擬機器與實體資源（例如 CPU、記憶體和儲存）之間的關係。在 NAS 應用場景中，虛擬機器管理程式掛載 NAS 共享，並將虛擬磁碟檔案作為區塊裝置呈現給虛擬機器。</block>
+  <block id="3cb9f5f31bf25c1ca21080d336c175ee" category="paragraph">Hypervisor 檔案系統路徑涉及透過 iSCSI/FCP 連接的 LUN 或 NVMe 命名空間進行 VM 儲存，這些 LUN 或命名空間由 hypervisor 特定的檔案系統（如 VMFS、NTFS、EXT4 等）格式化。</block>
+  <block id="c8be919dfb48a8947d7df8bb8a4c1d91" category="paragraph">NAS 檔案系統路徑使用 NFS 或 SMB 傳輸協定、針對虛擬機器儲存設備提供直接檔案層級存取 ONTAP 磁碟區。</block>
+  <block id="47b501c121acfe4b5b80ddcc842d68fc" category="paragraph">兩條路徑在 ONTAP 的 WAFL 層匯合，從而實現快照和元資料管理等一致的資料服務。</block>
+  <block id="4f5968e18493ed4e7cd091f3b40b58fb" category="section-title">FabricPool 分層整合</block>
+  <block id="3dfb44517de28f576cb07c1acf28cae0" category="paragraph">FabricPool 智慧管理高效能本機儲存設備和低成本雲端物件層之間的資料放置。</block>
+  <block id="3ea06724bb52333ff274532b9b8177c0" category="paragraph">FabricPool 根據套用於資料集的 FabricPool 分層原則，自動在本機高效能儲存設備與可擴充的雲端物件儲存設備之間分層資料。</block>
+  <block id="8b5a4af68c39a8bf71e5de79be732d27" category="paragraph">ONTAP 的 FabricPool 整合實現了跨混合雲環境的高效資料放置，同時又不犧牲本地讀取的效能。</block>
+  <block id="4d5141ae08b6592ee7977f0b4bf6639e" category="section-title">儲存效率與管理</block>
+  <block id="87a99c1e6517a3242abe29be11c0c63a" category="paragraph">在啟用 FabricPool 之前，請務必了解其運作方式。正確的組態設定有助於將正確的資料儲存在正確的層級，從而提升效能、降低風險並優化 TCO。</block>
+  <block id="f7de91a0c588f1007997811f78f62033" category="paragraph">SAN/NVMe 和 NAS 檔案協定路徑最終在 WAFL 層匯合。WAFL 檔案系統確保元資料一致性，支援快照和克隆，並針對 SSD、HDD 和物件儲存媒體最佳化寫入操作。</block>
+  <block id="433b8ed0ceac00d5f9cf64b906915ce3" category="list-text">在 ONTAP 叢集的每個節點上，每個 SVM 都應使用單一邏輯介面（LIF）。先前建議每個資料儲存使用一個 LIF 的做法已不再必要。雖然直接存取（LIF 和資料儲存位於同一節點上）效果最佳，但不必擔心間接存取，因為其效能影響通常微乎其微（僅幾微秒）。</block>
+  <block id="9fe81acff7fb8895c38d1841c4b911be" category="list-text">nconnect 在 vSphere 8 的最大值為 4，預設值為 1。vSphere 中的最大值限制可以透過進階設定在每個主機上提高，雖然通常不需要。</block>
+  <block id="76324e8deda86b52136d14ec0de2958c" category="list-text">請注意、ESXi 的 NFS 連線數上限為 256 個、每個 nconnect 連線都會計入這個總數。例如、兩個資料存放區的 nconnect=4 會計為總共 8 個連線。</block>
+  <block id="c36803c3f7afe8f4e847f86bb28eeedb" category="list-text">在生產環境中實施大規模變更之前，請務必測試 nconnect 對您環境的效能影響。</block>
+  <block id="01e2d9b910b8e5a36373f31296c1c1d3" category="list-text">如 <block ref="3e0c9147a1a4f5c9489f3907f576c0bf" category="inline-link-macro-rx"></block> 所述，如果您未使用 vSphere CSI for Kubernetes，則應依照 <block ref="e3529737a3b4eef7cff2c05dcd47fcdc" category="inline-link-rx"></block> 設定 newSyncInterval</block>
+  <block id="ddea579695eb36fd924c9d3a8c5bb5bf" category="list-text">儘管 ONTAP 提供了一種靈活的磁碟區命名空間結構，允許使用連接點將磁碟區排列成樹狀，但這種方法對於 vSphere 並無價值。它會在資料儲存區的根目錄中為每個 VM 建立一個目錄，而不考慮儲存設備的命名空間階層。因此，最佳實務做法是將 vSphere 磁碟區的連接點路徑直接掛載到 SVM 的根磁碟區上，這也是 ONTAP tools for VMware vSphere 配置資料儲存區的方式。沒有巢狀連接點路徑也意味著除了根磁碟區之外，任何磁碟區都不依賴其他磁碟區，並且即使是刻意將磁碟區離線或銷毀，也不會影響到其他磁碟區的路徑。</block>
+  <block id="3980a1d1c9ccdad9d36206a7457e9643" category="paragraph">vSphere 內建支援多條通往儲存設備的路徑。vSphere 可偵測受支援儲存系統的儲存裝置類型，並自動配置多路徑堆疊以支援正在使用的儲存系統的功能，無論使用何種協議，或是否使用 ASA、AFF、FAS 或軟體定義的 ONTAP。</block>
+  <block id="24e63af66b386fd7126b59dd7fe341db" category="admonition">請參閱 <block ref="ca32979bcc653e1966d3624ee8d76604" category="inline-link-macro-rx"></block> 以瞭解 ESXi 中支援的最新限制。</block>
+  <block id="a0f1d2336326e29837b7fc7cada7a377" category="list-text">對於 iSCSI 或 NVMe/TCP 網路，當存在多個虛擬交換器時，應在不同的未路由網路子網路上使用多個 VMkernel 網路介面，並啟用 NIC 群組。您還可以使用連接到多個實體交換器的多個實體 NIC 來提供 HA 並提高處理量。在 ONTAP 中，設定單一模式介面群組以進行容錯移轉，其中包含連接到兩個或多個交換器的兩個或多個連結，或使用 LACP 或其他連結彙總技術搭配多模式介面群組，以提供 HA 和連結彙總的優勢。請注意，必須在每個 VMkernel 連接埠和每個實體介面上啟用 NVMe/TCP，而且您必須對齊它們，以便 NVMe/TCP VMkernel 連接埠能夠存取已啟用 NVMe/TCP 的實體 NIC。下圖說明使用 IP 型 SAN 傳輸協定的多重路徑連線。<block ref="4525956d57ef52f4b2a4f341fbeec28e" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="58826bba5b6c0010e4915ab23035b67d" category="doc">VMware vSphere 與 ONTAP 最佳實務指南</block>
 </blocks>

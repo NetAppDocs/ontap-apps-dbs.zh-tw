@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmware-vsphere-datastores-fp.html 
+keywords: vSphere, datastore, FabricPool 
+summary: 本頁介紹了為 VMware 資料儲存區實作 FabricPool 的最佳實務做法。 
+---
+= FabricPool 適用於 VMware 資料存放區
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+虛擬機器儲存從客戶作業系統和虛擬機器管理程式層向下流入 ONTAP，其中 FabricPool 分層和 WAFL 可實現效能、效率和成本最佳化。
+
+從 ONTAP 9.6 版本開始、FabricPool 已支援虛擬化工作負載、包括 VMware 資料存放區。現在、您可以將支援 VMware 資料存放區的 FlexVol 磁碟區中的冷區塊（VM 範本、已關閉電源的 VM 、快照、備份等）分層至物件儲存設備、同時將熱資料保留在本機。
+
+話雖如此、您還是需要注意一些細微差別。
+
+image:vmware-vsphere-datastores-fp-1.png["alt=具有 FabricPool 的 Hypervisor 儲存堆疊，寬度=525，高度=500"]
+
+
+
+== 運算層和虛擬磁碟層
+
+客體作業系統在 VMDK、QCOW2 或 VHDX 等虛擬磁碟格式上執行，這些格式會建立應用程式和使用者可存取的運算層和區塊裝置層。
+
+值得注意的是，客體作業系統將虛擬磁碟視為區塊裝置；因此，在規劃非中斷性升級、硬體故障或其他計畫外事件期間的容錯能力時，必須考慮客體內部區塊裝置逾時。
+
+
+TIP: 根據link:https://www.netapp.com/pdf.html?item=/media/17239-tr-4598.pdf["FabricPool 最佳實務做法"]，即使使用 NAS 傳輸協定，您也應該將裝載虛擬機器資料存放區的 FlexVol 磁碟區視為 SAN 儲存設備，因為虛擬磁碟檔案與客體作業系統相關的區塊性質。因此、NetApp 建議使用僅快照分層原則。自動原則可用於非關鍵資料、但請注意、與雲端層中斷連線可能會導致機器當機或進入唯讀狀態。
+
+
+
+== Hypervisor 角色
+
+虛擬機器管理程式負責協調其運行的虛擬機器與實體資源（例如 CPU、記憶體和儲存）之間的關係。在 NAS 應用場景中，虛擬機器管理程式掛載 NAS 共享，並將虛擬磁碟檔案作為區塊裝置呈現給虛擬機器。
+
+Hypervisor 檔案系統路徑涉及透過 iSCSI/FCP 連接的 LUN 或 NVMe 命名空間進行 VM 儲存，這些 LUN 或命名空間由 hypervisor 特定的檔案系統（如 VMFS、NTFS、EXT4 等）格式化。
+
+NAS 檔案系統路徑使用 NFS 或 SMB 傳輸協定、針對虛擬機器儲存設備提供直接檔案層級存取 ONTAP 磁碟區。
+
+兩條路徑在 ONTAP 的 WAFL 層匯合，從而實現快照和元資料管理等一致的資料服務。
+
+
+
+== FabricPool 分層整合
+
+FabricPool 智慧管理高效能本機儲存設備和低成本雲端物件層之間的資料放置。
+
+FabricPool 根據套用於資料集的 FabricPool 分層原則，自動在本機高效能儲存設備與可擴充的雲端物件儲存設備之間分層資料。
+
+ONTAP 的 FabricPool 整合實現了跨混合雲環境的高效資料放置，同時又不犧牲本地讀取的效能。
+
+
+
+== 儲存效率與管理
+
+在啟用 FabricPool 之前，請務必了解其運作方式。正確的組態設定有助於將正確的資料儲存在正確的層級，從而提升效能、降低風險並優化 TCO。
+
+SAN/NVMe 和 NAS 檔案協定路徑最終在 WAFL 層匯合。WAFL 檔案系統確保元資料一致性，支援快照和克隆，並針對 SSD、HDD 和物件儲存媒體最佳化寫入操作。

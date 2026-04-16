@@ -15,8 +15,15 @@ searchtitle: Oracle 資料庫 LUN 放置
 
 
 [role="lead"]
-資料庫 LUN 在 ONTAP 磁碟區內的最佳放置方式、主要取決於如何使用各種 ONTAP 功能。
+在 AFF 和 FAS 系統上，ONTAP 磁碟區中資料庫 LUN 的最佳放置主要取決於如何使用各種 ONTAP 功能。
 
+[]
+====
+* 本節適用於 AFF 和 FAS 系統。
+* ASA 是一個精簡的 SAN 平台，不提供磁碟區抽象層，
+
+
+====
 
 
 == 磁碟區

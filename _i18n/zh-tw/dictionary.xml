@@ -128,8 +128,6 @@
   <block id="0e10f2715884f3538282397d69b2cd00" category="list-text">開發群組的 SVM 已獲得完整的管理控制權、可讓他們獨立管理自己的儲存設備</block>
   <block id="7624156e307247e4ea1ec8bf574136a1" category="list-text">必須限制管理團隊的 SVM 、用於處理敏感業務資料、例如人力資源或財務報告資料</block>
   <block id="e5e09031843479ef9ef8cbbd4c2f404c" category="inline-link-macro">NetApp Hardware Universe</block>
-  <block id="fb012f1e7970d8285bd5d6c5a7f7d523" category="doc">SSD 集合體、包括 AFF 系統</block>
-  <block id="cb8e4651c457f71d5788f38eac01471f" category="paragraph">可用空間定義為任何不用於實際資料的空間、並包括集合體本身的未分配空間、以及組成磁碟區內的未使用空間。也必須考慮精簡配置。例如、某個磁碟區可能包含 1TB LUN 、其中只有 50% 被實際資料使用。在精簡佈建的環境中、這似乎是消耗 500GB 的空間。不過、在完全佈建的環境中、 1TB 的完整容量似乎正在使用中。500GB 的未分配空間會隱藏起來。實際資料未使用此空間、因此應納入總可用空間的計算。</block>
   <block id="d3487661d9a0702bd5915d49070f62dc" category="paragraph">NetApp 對於企業應用程式所使用的儲存系統建議如下：</block>
   <block id="678e476783bceae80094bcb4c1f32969" category="admonition">* NetApp 建議 * 至少有 10% 的可用空間。這包括所有未使用的空間、包括集合體或磁碟區內的可用空間、以及因使用完整資源配置而分配但實際資料未使用的任何可用空間。邏輯空間並不重要、問題在於實際可用的實體空間可用於資料儲存。</block>
   <block id="2171d172d184f1202a686849c85dce91" category="paragraph">10% 可用空間的建議非常保守。SSD 集合體可支援使用率更高的工作負載、而不會對效能造成任何影響。不過、隨著 Aggregate 的使用率增加、如果未仔細監控使用率、則用盡空間的風險也會增加。此外、當系統的容量達到 99% 時、可能不會導致效能降低、但在訂購額外硬體時、可能需要管理人員努力避免系統完全裝滿、而且可能需要一些時間來採購和安裝額外的磁碟機。</block>
@@ -216,7 +214,6 @@
   <block id="0c99cedb6f39d8ac16d5b4c01c162c23" category="paragraph">資料庫重做 / 交易記錄通常會產生未對齊的 I/O 、導致 ONTAP 上未對齊 LUN 的錯誤警告。</block>
   <block id="b2f7bb8e75b21ee3e883141c6ac1defe" category="paragraph">記錄會以不同大小的寫入方式、連續寫入記錄檔。不符合 4KB 界限的記錄寫入作業通常不會造成效能問題、因為下一個記錄寫入作業會完成區塊。結果是 ONTAP 幾乎能將所有寫入作業視為完整的 4KB 區塊來處理、即使某些 4KB 區塊中的資料是以兩個不同的作業來寫入。</block>
   <block id="0e635e1f8ffad809203304cf41ed45c4" category="inline-link-macro">WAFL 對齊驗證</block>
-  <block id="bf837d24f10c904e697e3c0092da43b9" category="paragraph">使用公用程式（例如）來驗證對齊<block ref="40883add63f1fbabc7fe6158f93c1246" prefix=" " category="inline-code"></block> 或<block ref="1aabac6d068eef6a7bad3fdf50a05cc8" prefix=" " category="inline-code"></block> 可在定義的區塊大小下產生 I/O 。您可以使用檢視儲存系統上的 I/O 對齊統計資料<block ref="446501053769c06c565094b26d26e8ef" prefix=" " category="inline-code"></block> 命令。請參閱 <block ref="ebccec7997af507c87f985ec4ccec634" category="inline-link-macro-rx"></block> 以取得更多資訊。</block>
   <block id="b5ffbfb0c082804ad41d0f61c87525ed" category="paragraph">許多應用程式資料集都是按日期組織、而且隨著時間的演進、存取這些資料的可能性通常會越來越小。例如、某家銀行可能會有包含五年客戶對帳單的 PDF 檔案儲存庫、但只有最近幾個月是有效的。FabricPool 可用於將較舊的資料檔案重新放置到容量層。14 天的冷卻期可確保最近 14 天的 PDF 檔案仍保留在效能層級上。此外、至少每 14 天讀取一次的檔案仍會很熱、因此會保留在效能層級上。</block>
   <block id="ed7e2cc7ff107d4b2032fe65cf4e756a" category="paragraph">若要實作檔案型分層方法、您必須有已寫入且未隨後修改的檔案。。<block ref="e5e88684921dd21f3f86c28343a3082f" prefix=" " category="inline-code"></block> 原則應該設定得足夠高、以便您可能需要的檔案保留在效能層。例如、需要最近 60 天資料的資料集、且需要設定最佳效能<block ref="e5e88684921dd21f3f86c28343a3082f" prefix=" " category="inline-code"></block> 期間為 60 。也可以根據檔案存取模式來達成類似的結果。例如、如果需要最近 90 天的資料、而應用程式正在存取該 90 天的資料範圍、則資料會保留在效能層。設定<block ref="e5e88684921dd21f3f86c28343a3082f" prefix=" " category="inline-code"></block> 期間為 2 、資料變少後、系統會提示您分層。</block>
   <block id="8a467b35326e4738b1bd39865c3b21a0" category="admonition">任何類型的資料存取都會重設熱圖資料。病毒掃描、索引甚至是讀取來源檔案的備份活動、都會因為必要而防止分層<block ref="e5e88684921dd21f3f86c28343a3082f" prefix=" " category="inline-code"></block> 從未達到臨界值。</block>
@@ -267,7 +264,6 @@
   <block id="3381946611f34fb44ad8a38a0c44e0a8" category="paragraph">效率功能是精簡配置的形式。例如、佔用 100GB 磁碟區的 100GB LUN 可能會壓縮至 50GB 。由於磁碟區仍為 100GB 、因此尚未實現實際節省。必須先縮小磁碟區的大小、才能將儲存的空間用於系統的其他位置。如果稍後變更為 100GB LUN 、則資料的壓縮性會降低、 LUN 的大小會增加、而且磁碟區可能會填滿。</block>
   <block id="38ef8b6f2fc332958c293d93c61d7756" category="paragraph">有些客戶偏好針對特定工作負載使用完整資源配置、或是根據既定的營運和採購實務做法。</block>
   <block id="0e7c78164adb6d4650ea685a79d8e99e" category="section-title">效率最佳實務做法</block>
-  <block id="ec499ad25fa5a765ba43ec2c87819623" category="section-title">AFF 預設值</block>
   <block id="9f7127e69d50bf7b844ff3723b86fbd1" category="section-title">一般建議</block>
   <block id="4922fe547c351d6a121465da036d478e" category="list-text">如果資料不需要覆寫、例如備份或資料庫交易記錄檔、您可以在冷卻週期較短的情況下啟用 TSSE 、以達到更高的效率。</block>
   <block id="e75fd383e4106eb78482b18896975daf" category="list-text">某些檔案可能包含大量不可壓縮的資料、例如、當檔案的應用程式層級已啟用壓縮時、就會進行加密。如果上述任何情況屬實、請考慮停用壓縮、以便在包含可壓縮資料的其他磁碟區上執行更有效率的作業。</block>
@@ -280,8 +276,6 @@
   <block id="639e481de0ffe002bd83251b26a2540a" category="paragraph">如果複製的資料也要用於複製、則會使用<block ref="9df22f196a33acd0b372fe502de51211" prefix=" " category="inline-code"></block> 原則比較適當、請使用<block ref="e5e88684921dd21f3f86c28343a3082f" prefix=" " category="inline-code"></block> 包含預期在複製環境中經常使用的資料的值。例如、資料庫的作用中工作集可能包含前三天讀取或寫入的資料、但也可能包含另外 6 個月的歷史資料。如果是、則是<block ref="9df22f196a33acd0b372fe502de51211" prefix=" " category="inline-code"></block> SnapMirror 目的地的原則可讓工作集在效能層上使用。</block>
   <block id="ace0bd0c1be3a9e17d9736d93e7a1da2" category="doc">IOPS QoS</block>
   <block id="786ee59e0cdaa09335e12fea3a168653" category="paragraph">具體而言、由於採用 All Flash 儲存設備的情況增加、因此能夠整合工作負載。依賴旋轉媒體的儲存陣列往往只支援有限數量的 I/O 密集工作負載、因為舊版旋轉式磁碟機技術的 IOPS 功能有限。一或兩個高作用中的資料庫會在儲存控制器達到限制之前、使基礎磁碟機飽和。這種情況已經改變。即使是功能最強大的儲存控制器、相對少數 SSD 磁碟機的效能也能達到飽和。這意味著控制器的完整功能可以充分發揮、而不會因為旋轉媒體延遲尖峰而突然降低效能。</block>
-  <block id="270d79669200ef485add1ecc1833cc94" category="paragraph">舉例來說、簡單的雙節點 HA AFF A800 系統能夠在延遲超過 1 毫秒之前、提供高達 100 萬次的隨機 IOPS 服務。只有很少單一工作負載會達到這類層級。充分利用此 AFF A800 系統陣列、將需要託管多個工作負載、同時確保可預測性、這需要 QoS 控制。</block>
-  <block id="4dca0c3547523a2e5bd1b8d0e2ff8de5" category="paragraph">ONTAP 中有兩種服務品質（ QoS ）： IOPS 和頻寬。QoS 控制可套用至 SVM 、磁碟區、 LUN 和檔案。</block>
   <block id="3ea539ed2021ba46a3658039e8af419f" category="paragraph">IOPS QoS 控制顯然是以指定資源的 IOPS 總計為基礎、但 IOPS QoS 的許多層面可能並不符合直覺。剛開始有幾位客戶對於達到 IOPS 臨界值時、延遲明顯增加感到困惑。延遲增加是限制 IOPS 的自然結果。從邏輯上講、它的運作方式與權杖系統類似。例如、如果包含資料檔案的特定磁碟區有 10K IOPS 限制、則每個到達的 I/O 都必須先接收權杖才能繼續處理。只要在指定的秒數內使用的權杖不超過 10K 、就不會有延遲。如果 IO 作業必須等待接收其權杖、則此等待會顯示為額外延遲。工作負載相對於 QoS 限制的推動越大、每個 IO 在佇列中等待處理的時間就越長、使用者認為延遲越高。</block>
   <block id="34a96885dd7f4501920b13026e7f2cab" category="admonition">將 QoS 控制套用至資料庫交易 / 重做記錄資料時、請務必謹慎。雖然重做記錄的效能需求通常比資料檔案低很多、但重做記錄活動卻很繁瑣。IO 會以簡短的脈衝形式發生、而顯示適合平均重做 IO 層級的 QoS 限制、對於實際需求而言可能太低。結果可能會造成嚴重的效能限制、因為每次重做記錄突增時、 QoS 都會啟動。一般而言、重作和歸檔記錄不應受到 QoS 的限制。</block>
   <block id="c79dc76371299e08f4b4ebd609314ca4" category="section-title">頻寬 QoS</block>
@@ -340,10 +334,8 @@
   <block id="e10d46632bc86306cf4c22633ee930ab" category="paragraph">仔細規劃 LVM 組態可提高效率、並將儲存資源配置和 LUN 調整大小的需求降至最低。當使用 Veritas VxVM 或 Oracle ASM 等 LVM 時、基礎 LUN 會分割成僅在需要時才使用的範圍。例如、如果資料集的大小從 2TB 開始、但隨時間而成長至 10TB 、則此資料集可放置在配置在 LVM 磁碟群組中的 10TB 精簡配置 LUN 上。在建立時、它只會佔用 2TB 的空間、而且只會在分配範圍以容納資料成長時、才會要求額外的空間。只要監控空間、此程序就安全無虞。</block>
   <block id="66a41fd6fc38c454973e91d92cf0e291" category="section-title">部分保留</block>
   <block id="e8a206fe65814e0ea465e32487544751" category="paragraph">「部分保留」是指磁碟區中 LUN 在空間效率方面的行為。選項<block ref="c1acac5c4332e37ec1f281fcbaf0765a" prefix=" " category="inline-code"></block> 設為 100% 、磁碟區中的所有資料在任何資料模式下都能達到 100% 的營業額、而不會耗盡磁碟區上的空間。</block>
-  <block id="a3cd28aef7d0becd57b60187fdc4a24e" category="paragraph">例如、假設資料庫位於 1TB 磁碟區中的單一 250GB LUN 上。建立快照將會立即在磁碟區中保留額外的 250GB 空間、以確保磁碟區不會因任何原因而用盡空間。使用分數保留通常是浪費、因為資料庫磁碟區中的每個位元組都不太可能需要覆寫。沒有理由為永遠不會發生的事件預留空間。不過、如果客戶無法監控儲存系統中的空間使用量、而且必須確定空間永遠不會用盡、則使用快照需要 100% 的部分保留。</block>
   <block id="e30fbe8981929fb070a820a213381bab" category="section-title">壓縮與重複資料刪除</block>
   <block id="1b6e4e9a2be031edc6f3da1f559ef884" category="paragraph">壓縮和重複資料刪除都是精簡配置的形式。例如、 50TB 的資料佔用空間可能會壓縮至 30TB 、因此可節省 20TB 。為了讓壓縮產生任何效益、其中某些 20TB 必須用於其他資料、或是儲存系統必須購買的容量低於 50TB 。因此、儲存的資料量比儲存系統技術上的資料量還多。從資料觀點來看、即使磁碟機僅佔用 30TB 、資料仍有 50TB 。</block>
-  <block id="dbca4bb791f36eac2c11c32f73f2b4ec" category="paragraph">資料集的可壓縮性隨時都會變更、這會導致實際空間的使用量增加。這種使用量的增加意味著、在監控和使用方面、必須像其他形式的精簡配置一樣管理壓縮<block ref="f9e1f2ea1a2becbaf82dd54e55a12e6b" prefix=" " category="inline-code"></block> 和<block ref="24d554277b3513bb6cef3f0a336725a9" prefix=" " category="inline-code"></block>。</block>
   <block id="ad241666a88b5414e8c2fe6d1cc1edb0" category="paragraph">有關壓縮和重複資料刪除的詳細資訊、請參閱連結： efficiency.html 一節</block>
   <block id="8ecfcadfebb472a089481e8554ebed87" category="section-title">壓縮與部分保留</block>
   <block id="4f8fcc146d2e8e712dcd8c56b1684fcc" category="paragraph">壓縮是一種精簡配置形式。部分保留會影響壓縮的使用、並附有一個重要附註；在建立快照之前、會保留空間。通常、只有存在快照時、部分保留才會很重要。如果沒有快照、則部分保留並不重要。這不是壓縮的情況。如果在具有壓縮功能的磁碟區上建立 LUN 、 ONTAP 會保留空間以容納快照。在組態期間、這種行為可能會令人困惑、但這是預期的。</block>
@@ -352,7 +344,6 @@
   <block id="1d07b8e7c92488a55301ea201328cf35" category="list-text">部分保留量 =0 會導致使用率為 2.5GB</block>
   <block id="aa410d0e46ec94b6efcf344f0d870c1a" category="paragraph">第一個案例包括目前資料使用 2.5 GB 的空間、以及 5 GB 的空間、可在預期使用快照時、讓來源的營業額達到 100% 。第二個案例不會保留額外空間。</block>
   <block id="e79414ad391b126cc9bd53af1624c8de" category="paragraph">雖然這種情況可能令人困惑、但實際上並不可能發生。壓縮意味著精簡配置、而 LUN 環境中的精簡配置則需要部分保留。壓縮資料永遠可以被無法壓縮的東西覆寫、這表示必須精簡配置磁碟區以進行壓縮、以節省任何成本。</block>
-  <block id="499a10b92cb9ca6b3412d4bf5a91a2b0" category="paragraph">* NetApp 建議 * 下列保留組態：</block>
   <block id="7f26e875cee50c1b3baf71a014043794" category="list-text">設定<block ref="c1acac5c4332e37ec1f281fcbaf0765a" prefix=" " category="inline-code"></block> 與一起進行基本容量監控時為 0<block ref="f9e1f2ea1a2becbaf82dd54e55a12e6b" prefix=" " category="inline-code"></block> 和<block ref="24d554277b3513bb6cef3f0a336725a9" prefix=" " category="inline-code"></block>。</block>
   <block id="675996bd34ec0d8c134215f5be73fb3a" category="list-text">設定<block ref="c1acac5c4332e37ec1f281fcbaf0765a" prefix=" " category="inline-code"></block> 如果沒有監控能力、或在任何情況下都無法排放空間、則達到 100 。</block>
   <block id="8ee38535add58992c14b23a6f7cf8d27" category="doc">LIF 類型</block>
@@ -421,7 +412,6 @@
   <block id="df5855269b493a27a5565dfd9f2584f0" category="list-text">在正常情況下、傳入的寫入資料會同步鏡射至指定的控制器、以供其合作夥伴使用。在 NetApp MetroCluster 環境中、寫入也會鏡射到遠端控制器。除非寫入儲存在所有位置的非揮發性媒體中、否則不會對主機應用程式進行確認。</block>
   <block id="05b60db315aa45e1524b7a6ffa242fa8" category="list-text">儲存寫入資料的媒體稱為非揮發性記憶體或 NVMEM 。它有時也稱為非揮發性隨機存取記憶體（ NVRAM ）、雖然它是日誌、但仍可視為寫入快取。在正常作業中、不會讀取來自 NVMEM 的資料；只有在軟體或硬體故障時、才會用來保護資料。當資料寫入磁碟機時、資料會從系統的 RAM 傳輸、而非從 NVMEM 傳輸。</block>
   <block id="e6dd8b559da6e046f2043043a55faafc" category="list-text">在接管作業期間、高可用度（ HA ）配對中的一個節點會接管其合作夥伴的作業。切換基本上相同、但適用於遠端節點接管本機節點功能的 MetroCluster 組態。</block>
-  <block id="33c0c466972aae7427262e3075a2ed07" category="paragraph">在例行維護作業期間、儲存設備接管或切換作業應該是透明的、但網路路徑變更時、操作可能會短暫暫停。然而、網路連線可能很複雜、而且容易出錯、因此 NetApp 強烈建議您在將儲存系統投入生產之前、先徹底測試接管和轉換作業。這樣做是確保正確設定所有網路路徑的唯一方法。在 SAN 環境中、請仔細檢查命令的輸出<block ref="41dc2c94e82e1c56ba876085acf5a974" prefix=" " category="inline-code"></block> 以確保所有預期的主要和次要路徑都可用。</block>
   <block id="d33ea1ad1493de23aafd480e95fea159" category="paragraph">發出強制接管或關機時、請務必小心。使用這些選項強制變更儲存組態、表示會忽略擁有磁碟機的控制器狀態、而替代節點則強制控制磁碟機。不正確地強制接管可能會導致資料遺失或毀損。這是因為強制接管或變更會捨棄 NVMEM 的內容。在接管或切換完成後、資料遺失表示儲存在磁碟機上的資料可能會從資料庫的角度還原到稍微舊的狀態。</block>
   <block id="c226371d96b605ccff84ad23db0069b8" category="paragraph">很少需要強制接管正常的 HA 配對。在幾乎所有故障情況下、節點都會關機並通知合作夥伴、以便進行自動容錯移轉。有些邊緣情況、例如發生滾動故障、節點之間的互連中斷、然後一個控制器遺失、需要強制接管。在這種情況下、節點之間的鏡像會在控制器故障之前遺失、這表示當機的控制器將不再擁有正在進行的寫入複本。然後需要強制接管、這表示資料可能會遺失。</block>
   <block id="418f81f529a577cb711b44adece1376f" category="paragraph">同樣的邏輯也適用於 MetroCluster 轉換。在正常情況下、可進行的作業幾乎透明化。然而、災難可能會導致仍在運作的站台和災難站台之間的連線中斷。從仍在運作的站台觀點來看、問題可能只是站台之間的連線中斷、而原始站台可能仍在處理資料。如果節點無法驗證主控制器的狀態、則只能強制進行移轉。</block>
@@ -669,7 +659,6 @@
   <block id="6c06455cad171d61eac3593147bd71d6" category="list-text">執行<block ref="3062dc928daa4d85f6e34b6dea110a00" prefix=" " category="inline-code"></block> 更新的公用程式<block ref="d5416d340f5bec1fcb3addb6ae7d059e" prefix=" " category="inline-code"></block> 檔案：這樣做可讓 SCSI 磁碟機正確探索 ONTAP LUN 。</block>
   <block id="7ec6668202fa9a677238143b0445102f" category="list-text">請遵循所提供的指示<block ref="3062dc928daa4d85f6e34b6dea110a00" prefix=" " category="inline-code"></block> 啟用多重路徑輸入 / 輸出（ MPIO ）的公用程式。</block>
   <block id="b53abe6c0013125abea171427b351ccc" category="list-text">重新開機。此步驟是必要步驟、以便在整個系統中辨識任何變更。</block>
-  <block id="b88caedbe9708683eed783eb534ae5f6" category="list-text">分割 LUN 並確認它們已正確對齊。請參閱「附錄 B ： WAFL 校準驗證」、瞭解如何直接測試及確認校準。</block>
   <block id="a0c1c26e783204cf713b2e1f0823aab3" category="section-title">zPools</block>
   <block id="c81b8fe4a368c32102406e65fc41a227" category="inline-link-macro">LUN 組態</block>
   <block id="869dc3a8daf591c7f33e5bb32a4a63c9" category="paragraph">的價值<block ref="81df978a8e3da4bee74b135548f390f3" prefix=" " category="inline-code"></block> 預設為 9 、表示 2^9 或 512 位元組。為了獲得最佳效能<block ref="81df978a8e3da4bee74b135548f390f3" prefix=" " category="inline-code"></block> 值必須為 12 （ 2^12=4K ）。此值是在創建 zpool 時設置的，不能更改，這意味着 zpool 中的數據<block ref="81df978a8e3da4bee74b135548f390f3" prefix=" " category="inline-code"></block> 除 12 個以外、應將資料複製到新建立的 zPool 、以進行移轉。</block>
@@ -757,7 +746,6 @@
   <block id="e1f651debac4f720c13ae930ff3ca14a" category="cell">Oracle_Home</block>
   <block id="27a7ffa293f5a4d2a5bb54354486dece" category="paragraph">使用 AIX 之前<block ref="b7cc91287fc99a8937a55e79376c6f54" prefix=" " category="inline-code"></block> 任何環境中的裝置（包括資料庫）都請檢查參數<block ref="9d51746070ef554ad4e93a16de4aed0f" prefix=" " category="inline-code"></block>。此參數不是 HBA 佇列深度、而是與個別主機的 SCSI 佇列深度相關<block ref="66ad66c6ace8456eae4ca6807552e54b" prefix=" " category="inline-code"></block> 效能可能太低。測試顯示最佳值為 64 。</block>
   <block id="bb79f96acbff544ded541446c9c7c894" category="doc">Microsoft Windows</block>
-  <block id="14ce2582c2080a7f08fe9249f6565f40" category="paragraph">Oracle 支援搭配直接 NFS 用戶端使用 Microsoft Windows 。這項功能提供 NFS 管理效益的途徑、包括跨環境檢視檔案、動態調整磁碟區大小、以及使用較便宜的 IP 傳輸協定。如需在 Microsoft Windows 上使用 DNFS 安裝及設定資料庫的詳細資訊、請參閱正式的 Oracle 文件。不存在任何特殊的最佳實務做法。</block>
   <block id="f854b764258138b512f30be71e1c7908" category="paragraph">為達到最佳壓縮效率、請確保 NTFS 檔案系統使用 8K 或更大的分配單元。使用 4K 分配單元（通常是預設）會對壓縮效率造成負面影響。</block>
   <block id="edc9f0a5a5d57797bf68e37364743831" category="doc">Linux</block>
   <block id="dfc95ed5e895617bbd0d4b1a8bfba8ca" category="paragraph">Linux 作業系統專屬的組態主題。</block>
@@ -775,7 +763,6 @@
   <block id="243de27c01fea05cc58186d2e5ad1ce5" category="section-title">存取與 GetAttr</block>
   <block id="59dcf78e97c197a0f240067da57a248f" category="paragraph">有些客戶指出、存取和 GetAttr 等極高層級的其他 IOPS 、可能會主導他們的工作負載。在極端情況下、讀取和寫入等作業可低於總作業量的 10% 。這是任何包含使用的資料庫的正常行為<block ref="3504e2b0e7c968444314433be465518d" prefix=" " category="inline-code"></block> 和/或<block ref="79fea224ffd9e8111e4e87cab732464b" prefix=" " category="inline-code"></block> 在 Linux 上、因為這些選項會導致 Linux 作業系統持續從儲存系統重新載入檔案中繼資料。存取和 GetAttr 等作業是從資料庫環境中的 ONTAP 快取提供服務的低影響作業。它們不應被視為真正的 IOPS 、例如讀寫、而會對儲存系統產生真正的需求。不過、這些其他 IOPS 確實會產生一些負載、尤其是在 RAC 環境中。若要解決這種情況、請啟用 DNFS 、以略過作業系統緩衝區快取、避免這些不必要的中繼資料作業。</block>
   <block id="041f371e212c70407e145ae9f752a8b4" category="section-title">Linux Direct NFS</block>
-  <block id="dd2f3f344f14ae5daf12cb0a817a72e0" category="paragraph">另一個掛載選項、稱為<block ref="4740c034d97ca90a96b8050082816605" prefix=" " category="inline-code"></block>（ a ） DNFS 啟用時、需要使用、（ b ）來源磁碟區多次裝載於具有巢狀 NFS 裝載的單一伺服器（ c ）上。此組態主要出現在支援 SAP 應用程式的環境中。例如、 NetApp 系統上的單一磁碟區可能會有位於的目錄<block ref="9f9f4ccb1fc3afcbfe0cc3f5eac4332c" prefix=" " category="inline-code"></block> 再來一次<block ref="ac2f9bbcd397d8f6b39e6713658051ea" prefix=" " category="inline-code"></block>。如果<block ref="9f9f4ccb1fc3afcbfe0cc3f5eac4332c" prefix=" " category="inline-code"></block> 安裝於<block ref="9ad16912cc0ba54a259b1a15d233c264" prefix=" " category="inline-code"></block> 和<block ref="ac2f9bbcd397d8f6b39e6713658051ea" prefix=" " category="inline-code"></block> 安裝於<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>，結果是來自相同來源的巢狀 NFS 掛載。</block>
   <block id="14dd7af30f62ec838445a1e167d2aff6" category="section-title">Linux Direct NFS 和 Oracle RAC</block>
   <block id="c6a209e4ad702c6424efb7d63d76feca" category="paragraph">使用 DNFS 對 Linux 作業系統上的 Oracle RAC 有特殊的效能優勢、因為 Linux 沒有強制直接 I/O 的方法、而 RAC 需要此方法才能在節點之間保持一致。因應措施是 Linux 需要使用<block ref="3504e2b0e7c968444314433be465518d" prefix=" " category="inline-code"></block> 掛載選項、會使檔案資料從作業系統快取立即過期。此選項會強制 Linux NFS 用戶端持續重新讀取屬性資料、進而損害延遲並增加儲存控制器的負載。</block>
   <block id="3070cb366c38db327b0cf057d63792c1" category="paragraph">啟用 DNFS 會略過主機 NFS 用戶端、避免此損害。多家客戶在啟用 DNFS 時、報告 RAC 叢集的效能大幅提升、 ONTAP 負載大幅降低（特別是其他 IOPS ）。</block>
@@ -1570,7 +1557,6 @@
   <block id="87d83a0406ac6622efcdf91c42784ecd" category="paragraph">資料庫現在已準備就緒、可進行還原。如果這是 SAN 環境、您就可以啟動 Volume 群組並掛載檔案系統、這是一項輕鬆自動化的程序。不過、本範例使用 NFS 、因此檔案系統已掛載、並變成讀寫、因此在鏡像毀損時無需再掛載或啟動。</block>
   <block id="7a2e97f17454be76b7e522ce612ff961" category="paragraph">現在可以將資料庫還原到所需的時間點、或是針對複寫的重做記錄複本進行完整還原。此範例說明歸檔記錄、控制檔和重做記錄 Volume 的組合值。恢復程序大幅簡化、因為不需要仰賴備份控制檔或重設記錄檔。</block>
   <block id="5eda890cc07e4b7cd409730d8af8ddc3" category="paragraph">一致性群組複寫可以簡單地透過 SnapMirror 排程單一磁碟區的複寫。這包括資料檔案、控制檔、歸檔記錄檔和重做記錄檔。每次 SnapMirror 更新都會在目的地站台上建立新的資料庫複本、並透過中斷鏡射來保持一致並準備好啟動。</block>
-  <block id="89cb1432594ce7c25dadf229401874e7" category="paragraph">如果資料庫必須橫跨多個磁碟區、則需要一致性群組快照（ CG-snapshot ）。</block>
   <block id="f96b125d1bacc785389957041be148e9" category="paragraph">在區塊層級複寫模式中搭配 SnapMirror 使用時、這項策略的另一個優點是完整複寫來源儲存系統上的所有快照。除了災難恢復複本之外、還會複寫完整的備份補充。</block>
   <block id="77fda44088666155052f9d4224878cbc" category="summary">Oracle 歸檔記錄分層</block>
   <block id="8625af69ad0b5f76799d87df777e3c86" category="paragraph">FabricPool 最重要的用途可能是提高已知冷資料的效率、例如資料庫交易記錄。</block>
@@ -1706,24 +1692,13 @@
   <block id="162de6d405c04ce8f152f1d246ed9187" category="paragraph">較不明顯的快取用途是在作業系統檔案系統層。來自掛載 NFS 檔案系統的區塊可能會快取到作業系統中。或者、以位於主要站台上的 LUN 為基礎的叢集式檔案系統、可以掛載到遠端站台的伺服器上、然後再次快取資料。在這些情況下、 NVRAM 故障或強制接管或強制性的作業系統、可能會導致檔案系統毀損。</block>
   <block id="04ca8d9ad570a3bdf1d76e23bc108ae5" category="paragraph">ONTAP 使用 NVFAIL 及其相關設定、保護資料庫和作業系統不受此案例影響。</block>
   <block id="82ef718f4ebe0c276814ee3d51e33361" category="doc">SnapRestore</block>
-  <block id="863696626734d6591db8be57b41c7eec" category="paragraph">NetApp SnapRestore 技術可從快照快速還原 ONTAP 中的資料。</block>
   <block id="9099b669f87419bc03914f11f5779c60" category="paragraph">當關鍵資料集無法使用時、關鍵業務營運就會中斷。磁帶可能會中斷、甚至是從磁碟型備份還原、在網路上傳輸速度可能會很慢。SnapRestore 可提供近乎即時的資料集還原功能、避免這些問題。即使是 PB 規模的資料庫、只要花幾分鐘的時間就能完全還原。</block>
-  <block id="b02fb7dec22d0e276ca01cc60b9efb48" category="paragraph">SnapRestore 有兩種形式：檔案 /LUN 型和磁碟區型。</block>
-  <block id="520e4b70b10aa2755a82b77e438a510f" category="list-text">無論是 2TB LUN 或 4KB 檔案、個別檔案或 LUN 都能在數秒內還原。</block>
-  <block id="45e8a84fe4ac58c8b30a7bdaf17c0b7f" category="list-text">無論是 10GB 或 100TB 的資料、檔案或 LUN 的容器都能在數秒內還原。</block>
-  <block id="4be4677be8cd434956b9b9af515b971a" category="paragraph">「檔案或 LUN 的容器」通常指的是 FlexVol Volume 。例如、您可以在單一磁碟區中擁有 10 個組成 LVM 磁碟群組的 LUN 、或是一個磁碟區可以儲存 1000 位使用者的 NFS 主目錄。您可以將整個磁碟區還原為單一作業、而不需為每個個別檔案或 LUN 執行還原作業。此程序也適用於包含多個磁碟區的橫向擴充容器、例如 FlexGroup 或 ONTAP 一致性群組。</block>
-  <block id="55abea92d64d6738f9e0ed48799696e7" category="paragraph">ONTAP 僅允許唯讀存取快照資料、但可透過 SnapRestore 重新啟動資料。快照會重新啟用為資料的讀寫檢視、並將資料恢復至先前的狀態。SnapRestore 可以在磁碟區或檔案層級運作。這項技術基本上相同、但行為上有一些小差異。</block>
-  <block id="f10f2af75e2770a8ed3c2fde594e986d" category="section-title">Volume SnapRestore</block>
-  <block id="ca9846346bc3b03cdec10f9fff456866" category="paragraph">Volume 型 SnapRestore 會將整個資料量傳回至較早的狀態。這項作業不需要資料移動、也就是說還原程序基本上是即時的、雖然 API 或 CLI 作業可能需要幾秒鐘的時間才能處理。還原 1GB 的資料並不比還原 1PB 的資料複雜或耗時。這項功能是許多企業客戶移轉至 ONTAP 儲存系統的主要原因。即使是最大的資料集、也能以秒為單位提供 RTO 。</block>
   <block id="627436e77bb011a6a312ae87b12f98ea" category="paragraph">Volume 型 SnapRestore 的缺點之一、是因為磁碟區內的變更會隨時間累積。因此、每個快照和作用中檔案資料都取決於到該點之前的變更。將磁碟區還原為較早的狀態、表示捨棄所有後續對資料所做的變更。然而、不太明顯的是、這包括後續建立的快照。這並不總是理想的。</block>
   <block id="5c956f2c1cfc5b9e5bac32ad1acba314" category="paragraph">例如、資料保留 SLA 可能會指定每晚備份 30 天。將資料集還原至五天前以 Volume SnapRestore 建立的快照、將會捨棄前五天建立的所有快照、違反 SLA 。</block>
   <block id="8bf9e697004f47ed6133aef724a8a42c" category="paragraph">有許多選項可解決此限制：</block>
   <block id="ad3b75456e625de5fe347fb918f59a22" category="list-text">資料可從先前的快照複製、而非執行整個 Volume 的 SnapRestore 。此方法最適合較小的資料集。</block>
   <block id="90541eb74c7c56cadc2f90ec6fb6f0c0" category="list-text">您可以複製快照、而非還原快照。此方法的限制在於來源快照是複本的相依性。因此、除非也刪除複本、或將其分割成一個不同的 Volume 、否則無法將其刪除。</block>
   <block id="ab6045d3463c0f68ce2fa405dce9d554" category="list-text">使用檔案型 SnapRestore 。</block>
-  <block id="7f7599a8b92846b691484dc91e090164" category="section-title">File SnapRestore</block>
-  <block id="f03eebe4f07d362dbfe4c1d4e76c724d" category="paragraph">檔案型 SnapRestore 是更精細的快照型還原程序。個別檔案或 LUN 的狀態會還原、而非還原整個磁碟區的狀態。不需要刪除快照、此作業也不需要對先前的快照建立任何相依性。檔案或 LUN 會立即在作用中磁碟區中可用。</block>
-  <block id="e432fdcc277fc74a1b2b94cfeec8a7d2" category="paragraph">SnapRestore 還原檔案或 LUN 時不需要移動資料。不過、需要進行一些內部中繼資料更新、以反映檔案或 LUN 中的基礎區塊現在同時存在於快照和作用中磁碟區中。不應影響效能、但此程序會封鎖快照的建立、直到快照完成為止。根據還原的檔案總大小、處理速度約為 5Gbps （ 18TB/ 小時）。</block>
   <block id="45c46768a1cb073f0d13245a0dc816f2" category="paragraph">正確的企業資料保護架構、取決於資料保留、可恢復性、以及各種事件中斷的容忍度等業務需求。</block>
   <block id="46e1b2893bdb002c0ede448cbfe1cb14" category="paragraph">例如、請考慮範圍內的應用程式、資料庫和重要資料集數量。為單一資料集建立備份策略、以確保符合典型 SLA 的要求相當簡單、因為沒有太多物件需要管理。隨著資料集數量增加、監控作業變得更複雜、系統管理員可能不得不花費更多時間來解決備份故障。當環境達到雲端與服務供應商的規模時、需要完全不同的方法。</block>
   <block id="b70d233428e03d072b1134a97d853ab2" category="paragraph">資料集大小也會影響策略。例如、由於資料集太小、因此有許多選項可用於 100GB 資料庫的備份與還原。只要使用傳統工具從備份媒體複製資料、通常就能提供足夠的恢復 RTO 。100TB 資料庫通常需要完全不同的策略、除非 RTO 允許多天中斷、否則傳統的複製備份與還原程序可能是可以接受的。</block>
@@ -1733,38 +1708,24 @@
   <block id="12d1adb01d24027626b2a47660fb5b81" category="paragraph">這是一項有效的考量。本機快照是用於日常備份與還原需求、在這方面、快照是備份。在 NetApp 環境中、將近 99% 的還原案例都仰賴快照來滿足最嚴苛的 RTO 需求。</block>
   <block id="fc34c9966c8ecb7307468637d9e79933" category="paragraph">然而、本機快照不應是唯一的備份策略、因此 NetApp 提供 SnapMirror 複寫等技術、可快速有效地將快照複寫至一組不同的磁碟機。在架構正確的解決方案中、快照加上快照複寫功能可將磁帶的使用降至最低、甚至是每季歸檔、或完全消除。</block>
   <block id="1ea948130a9dbbc02e3a80648a99ff57" category="section-title">一致性群組備份</block>
-  <block id="9b234a126e57777ab83807827d4e7078" category="paragraph">一致性群組備份包括在單一時間點擷取資料集（或多個資料集）的狀態。例如、這包括所有資料庫元件、例如資料檔案、記錄檔、以及與資料庫直接相關的其他檔案。這幾乎適用於所有關聯式資料庫產品、包括 Oracle RDBMS 、 Microsoft SQL Server 、 SAP HANA 、 PostgreSQL 、 MySQL 和 MariaDB 。使用一致性群組備份來保護 VMware 組態的做法類似、也就是在單一時間點內擷取所有的資料存放區、以及可能的 ESX 開機 LUN 。</block>
-  <block id="5a1f7038c74e54c08669efa6722f1091" category="paragraph">建立這樣的一致性群組快照、基本上就是模擬當機、這就是為什麼這類備份經常稱為損毀一致的備份。有時候、對於支援恢復案例有疑慮、但請務必瞭解、通常不需要任何恢復程序。當應用程式在還原一致性群組備份之後啟動時、會執行一般的記錄還原程序、檔案系統日誌重新播放、以及其他工作、以重播備份點正在執行中的任何 I/O 。然後應用程式會照常啟動。</block>
   <block id="aebdbddec25f7eba6434244a989fb659" category="paragraph">基本上、任何能夠承受停電或伺服器當機而不毀損資料的應用程式、都能以這種方式受到保護。許多不同廠商的同步與非同步鏡射產品、可保護大量應用程式、也能證明這項工作的成效。如果災難突然發生在主要站台、則複本站台會在發生災難時、包含原始環境的一致映像。再一次、不需要特殊的恢復程序。</block>
-  <block id="e085ffefd89f8fb66260a9720e3fb6f8" category="paragraph">此方法的 RPO 通常僅限於備份點。一般而言、單一磁碟區快照的最小 RPO 是一小時。例如、 48 小時快照加上 30 天夜間快照是合理的、不需要保留過多的快照。不到一小時的 RPO 就變得更難達成、建議您先諮詢 NetApp 專業服務部門、瞭解環境、規模及資料保護需求。</block>
-  <block id="1fe119a790b393b7dd7e79b63f15f52b" category="paragraph">RTO 通常可在數秒內測量。應用程式會關閉、磁碟區會還原、應用程式也會重新啟動。</block>
-  <block id="444cd304758b7607c8f7a3f627a5bc1f" category="paragraph">最簡單的方法是將所有檔案或 LUN 放在單一磁碟區一致性群組中、以便直接在 ONTAP 中排程快照建立。如果資料集必須跨越多個磁碟區、則需要一致性群組快照（ CG-snapshot ）。這可以使用系統管理員或 RESTful API 呼叫來設定、而且 SnapCenter 能夠在已定義的磁碟區清單上建立簡單的一致性群組快照。</block>
   <block id="689b0155b42a554594a44cddc736eb67" category="section-title">複寫與災難恢復架構</block>
   <block id="1749d12df3df2319d3eee218a277ff83" category="inline-link-macro">MetroCluster</block>
   <block id="f443592081a2b3ddc55b94abe49ba128" category="paragraph">災難恢復 RPO 受限於可用的網路頻寬和受保護資料的總大小。建立初始基準傳輸之後、更新僅以變更的資料為基礎、這通常是資料佔用空間總量的低百分比、但確實存在例外情況。</block>
   <block id="89e87a831dae60244ba34496d70fd45d" category="paragraph">例如、每週變更率為 10% 的 10TB 資料庫、在總變更中、平均每小時約為 6GB 。10 Gb 的連線能力、此資料庫需要大約六分鐘的時間才能傳輸。變更率會因資料庫變更率的波動而異、但整體而言、 15 分鐘的更新間隔、因此應可達成 15 分鐘的 RPO 。如果有 100 個這樣的資料庫、則需要 600 分鐘才能傳輸資料。因此、一小時的 RPO 是不可能的。同樣地、單一資料庫的複本、每週變更率為 10% 、大小為 100TB 、無法在一小時內可靠地更新。</block>
-  <block id="3c886a803aef21f5ac9f7bcea7408cbb" category="paragraph">其他因素可能會影響複寫作業、例如複寫作業的額外負荷和限制。不過、單一磁碟區複寫策略的整體規劃可根據可用頻寬進行、複寫 RPO 一般可達一小時。不到一小時的 RPO 變得更難達成、只能在諮詢 NetApp 專業服務之後才能執行。在某些情況下、 15 分鐘的時間是可行的、因為站台對站台網路連線能力非常好。不過、整體而言、當需要一小時以下的 RPO 時、多重 Volume 記錄重播架構會產生更好的結果。</block>
   <block id="5e2cbdd214e7a73bca1af8ed5cc04626" category="paragraph">災難恢復案例中的 RTO 與一致性群組複寫功能非常出色、通常從儲存點算起、以秒為單位。最直接的方法是中斷鏡射、資料庫已準備就緒、可以開始運作。資料庫啟動時間通常約為 10 秒、但有大量記錄交易的大型資料庫可能需要幾分鐘的時間。</block>
   <block id="1c18c939e73ddb1ceee34e8a33079d1a" category="paragraph">判斷 RTO 的最重要因素不是儲存系統、而是執行 RTO 的應用程式和主機作業系統。例如、複寫的資料可在一秒或兩秒內提供、但這只代表資料。此外、還必須有正確設定的作業系統、並具備應用程式二進位檔、才能使用資料。</block>
   <block id="6fab898feea25b9d7fd4477911b90b31" category="paragraph">在某些情況下、客戶已預先準備好災難恢復執行個體、並在作業系統上預先探索到儲存設備。在這些情況下、啟動災難恢復案例只需要中斷鏡射並啟動應用程式即可。在其他情況下、作業系統和相關應用程式可能會與資料庫一起鏡射、做為 ESX 虛擬機器磁碟（ VMDK ）。在這些案例中、 RPO 是由客戶投資多少自動化來快速啟動 VMDK 、以便啟動應用程式所決定。</block>
-  <block id="c7d5d755b896edf43189fbb020202913" category="paragraph">保留時間部分由快照限制控制。例如、 ONTAP 中的磁碟區限制為 1024 個快照。在某些情況下、客戶會使用多工複寫來增加限制。例如、如果需要 2000 天的備份、則可以將來源複寫到兩個磁碟區、並在其他日期進行更新。這需要增加所需的初始空間、但與傳統的備份系統相比、它仍然是更有效率的方法、而傳統的備份系統則需要多個完整備份。</block>
-  <block id="7ec0f114b69016879106b5018cdf10b9" category="section-title">單一磁碟區一致性群組</block>
-  <block id="cd70f3e596e275fe80fbbe5d7858ce1a" category="paragraph">最簡單的方法是將所有檔案或 LUN 放在單一磁碟區一致性群組中、以便直接在儲存系統上排程 SnapMirror 和 SnapVault 更新。不需要外部軟體。</block>
   <block id="909e8df57072d0b3c6d7d64b11acb571" category="section-title">多磁碟區一致性群組</block>
-  <block id="c7371eded617935ace6c71a33cfbf3fd" category="paragraph">當資料庫必須跨越磁碟區時、需要一致性群組快照（ CG-snapshot ）。如前所述、這可以使用系統管理員或 RESTful API 呼叫來設定、而且 SnapCenter 能夠在已定義的磁碟區清單上建立簡單的一致性群組快照。</block>
-  <block id="9c991b38c054d7bec0632efd6667540c" category="paragraph">另外還有一項考量、就是使用多個 Volume 一致的快照來進行災難恢復。執行多個磁碟區的更新時、可能會在傳輸仍在進行中時發生災難。結果是一組不一致的磁碟區。如果發生這種情況、某些磁碟區必須還原為較早的快照狀態、才能提供一致當機且可供使用的資料庫映像。</block>
   <block id="fad8a5f46ebd89f74383b461e32dd6b9" category="section-title">災難恢復：啟動</block>
   <block id="5ac319591298468b0af89c2c469201f8" category="paragraph">啟動災難恢復複本的程序取決於儲存類型。有了 NFS 、檔案系統就可以預先掛載到災難恢復伺服器上。它們處於唯讀狀態、當鏡射中斷時會變成讀寫狀態。如此可提供極低的 RPO 、而且整體災難恢復程序更可靠、因為需要管理的零件較少。</block>
   <block id="b829fc11ff11b57af8d4632d38d7d7e8" category="paragraph">在災難恢復變得更複雜時啟動 SAN 組態。最簡單的選項通常是暫時中斷鏡像並掛載 SAN 資源、包括探索 LVM 組態（包括 Oracle 自動儲存管理 [ASM/] 等應用程式特定功能）、以及新增項目至 /etc/fstab 。</block>
   <block id="335a5796fb106a877544d121062534be" category="paragraph">結果是目標伺服器知道 LUN 裝置路徑、磁碟區群組名稱和其他裝置路徑。然後可以關閉這些資源、然後還原鏡像。結果是伺服器處於可快速將應用程式上線的狀態。啟動磁碟區群組、掛載檔案系統、或啟動資料庫和應用程式的步驟都能輕鬆自動化。</block>
   <block id="b1a175c5f42da29f6c27f4ea29684b63" category="paragraph">必須謹慎確保災難恢復環境是最新的。例如、新的 LUN 可能會新增至來源伺服器、這表示必須在目的地預先探索新的 LUN 、以確保災難恢復計畫能如預期般運作。</block>
   <block id="90426ba53f908049843b3ea392578d04" category="doc">Oracle 災難恢復</block>
-  <block id="2a4fa9d9434561574119e3086112023f" category="paragraph">使用單一快照來保護資料檔案、歸檔記錄檔、重做記錄檔和控制檔是一種有效的備份、還原和複寫方法。  不過、 RPO 僅限於備份本身的點。適用於一小時或更長的 RPO 。如果資料庫跨越磁碟區、則需要使用先前討論的工具之一來建立 CG 快照。</block>
-  <block id="93310f4cebc752304c164f00d67e0bca" category="paragraph">例如、整個資料庫可以位於單一磁碟區、其快照排程如下：</block>
   <block id="a33821be4b3522d65daed1ec317299f6" category="list-text">72 小時快照</block>
   <block id="0eea0679ac7bf43c19d603cd78e81de9" category="list-text">30 個夜間快照</block>
   <block id="c4546c401776d279c5577011584577fa" category="list-text">12 個月快照</block>
-  <block id="b63db1b650d128c342617b377baf928a" category="paragraph">這可在前 72 小時的滾動期間提供 1 小時的 RPO 、以及額外的夜間和每月備份。單一磁碟區或一組 CG 快照也可包含多個資料庫或應用程式檔案、以便在大型環境中提供一致的備份。</block>
   <block id="686540783626106489734a1990d4930d" category="paragraph">ONTAP 旨在提供最大的 Oracle 資料庫可用度。ONTAP 高可用度功能的完整說明不在本文件的範圍之內。然而、與資料保護一樣、在設計資料庫基礎架構時、對此功能的基本瞭解非常重要。</block>
   <block id="b049fcbe8198301adc6bf87634a02845" category="section-title">HA 配對</block>
   <block id="1a7c11d1e2d03d3d1b57cff284ebd761" category="paragraph">高可用度的基本單位是 HA 配對。每對都包含備援連結、可支援將資料複寫到 NVRAM 。NVRAM 不是寫入快取。控制器內的 RAM 會做為寫入快取。NVRAM 的用途是暫時記錄資料、以防止發生非預期的系統故障。在這方面、它與資料庫重做記錄類似。</block>
@@ -1832,7 +1793,6 @@
   <block id="307b6d3e63c12ada7fbcf75cdda0b574" category="paragraph">如果本機 NVRAM 回報錯誤、節點會關機。此關機會導致容錯移轉至 HA 合作夥伴控制器。由於發生故障的控制器尚未確認寫入作業、因此不會遺失任何資料。</block>
   <block id="6e0c6c8fe69a50581a4ac18acb2c04dd" category="paragraph">除非強制容錯移轉、否則 ONTAP 不允許在資料不同步時進行容錯移轉。以這種方式強制變更條件、即表示資料可能會留在原始控制器中、而且資料遺失是可以接受的。</block>
   <block id="a3961862ed464a06ef6fa4e23935fef2" category="paragraph">如果強制容錯移轉、則資料庫特別容易受損、因為資料庫會在磁碟上保留大量的內部資料快取。如果發生強制容錯移轉、先前確認的變更將會有效捨棄。儲存陣列的內容會有效地及時向後跳轉、而且資料庫快取的狀態不再反映磁碟上資料的狀態。</block>
-  <block id="b46ce3019d702ee3ece327e5df990be0" category="paragraph">為了保護資料不受這種情況影響、 ONTAP 允許設定磁碟區、以針對 NVRAM 故障提供特殊保護。觸發時、此保護機制會導致磁碟區進入稱為 NVFAIL 的狀態。此狀態會導致 I/O 錯誤、導致應用程式關機、使其不使用過時的資料。資料不應遺失、因為儲存陣列上應該存在任何已確認的寫入資料。</block>
   <block id="322e1f85910dfc206274f8bd58a54a9d" category="list-text">指定站台上的每組磁碟機都會自動設定為一個或多個完全備援的 RAID-DP 或 RAID-TEC 群組、而不受鏡像的使用影響。即使在站台遺失之後、也能提供持續的資料保護。</block>
   <block id="dee2dfce5ab0c47301b3c12970a57aa6" category="paragraph">上圖說明 SyncMirror 組態範例。在控制器上建立了 24 個磁碟機的集合體、其中 12 個磁碟機來自於站台 A 上配置的機櫃、 12 個磁碟機來自於站台 B 上配置的機櫃磁碟機分為兩個鏡射 RAID 群組。RAID 群組 0 包括站台 A 上的 6 磁碟機叢、鏡射到站台 B 上的 6 磁碟機叢同樣地、 RAID Group 1 也包含站台 A 的 6 磁碟叢、鏡射到站台 B 的 6 磁碟叢叢</block>
   <block id="4fbc0abe91c0c1381d0a742f58b4e537" category="paragraph">SyncMirror 通常用於提供 MetroCluster 系統的遠端鏡射、每個站台都有一份資料複本。有時候、它是用來在單一系統中提供額外的備援層級。特別是提供機架層級的備援。磁碟機櫃已包含雙電源供應器和控制器、整體上比金屬板稍多、但在某些情況下、可能需要額外的保護。例如、有一位 NetApp 客戶部署 SyncMirror 、用於汽車測試期間使用的行動即時分析平台。系統由獨立的 UPS 系統提供獨立的電源供應器、分為兩個實體機架。</block>
@@ -1852,21 +1812,14 @@
   <block id="604432b50055c69f34df17a8ed5befb5" category="paragraph">在還原期間、資料庫會從資料檔案讀取中繼資料、以識別所需的最早歸檔記錄。可以執行完整或時間點恢復。執行時間點還原時、必須知道資料檔案快照的時間。指定的恢復點必須在快照建立時間之後。NetApp 建議您在快照時間中加入至少幾分鐘、以因應時鐘變化。</block>
   <block id="08bfe39c49a2dc07b08bd2ccd77d8281" category="paragraph">如需完整的詳細資料、請參閱 Oracle 各版本的 Oracle 12c 說明文件中有關「使用儲存 Snapshot 最佳化進行恢復」主題的 Oracle 文件。此外、請參閱 Oracle 文件 ID 文件 ID 604683.1 、瞭解 Oracle 協力廠商快照支援。</block>
   <block id="d22a890163762fcf7a4cb7605c29b7e6" category="section-title">資料配置</block>
-  <block id="6a7fc1f74262f6973420f4fc849ba7f7" category="paragraph">最簡單的配置是將資料檔案隔離為一個或多個專用磁碟區。它們必須不受任何其他檔案類型的污染。這是為了確保資料檔案磁碟區可以透過 SnapRestore 作業快速還原、而不會破壞重要的重做記錄檔、控制檔或歸檔記錄檔。</block>
-  <block id="ff6fb5d2136ab516e182f4b23f45886d" category="paragraph">SAN 對專用磁碟區內的資料檔案隔離有類似的需求。在 Microsoft Windows 等作業系統中、單一磁碟區可能包含多個資料檔案 LUN 、每個 LUN 都有 NTFS 檔案系統。在其他作業系統中、通常也會有邏輯 Volume Manager 。例如、使用 Oracle ASM 時、最簡單的選項是將磁碟群組限制在單一磁碟區、以便作為一個單元進行備份和還原。如果基於效能或容量管理的理由而需要額外的磁碟區、則在新磁碟區上建立額外的磁碟群組、將可更輕鬆地進行管理。</block>
-  <block id="a06956ba6de69aec2dc2b015074e5821" category="paragraph">如果遵循這些準則、則可直接在 ONTAP 上排程快照、而無需執行一致性群組快照。原因是快照最佳化備份不需要同時備份資料檔案。</block>
-  <block id="9e422c12420f1bd8c73e3c0f63da55e9" category="paragraph">在 ASM 磁碟群組等情況下、會發生複雜的情況、而 ASM 磁碟群組會分散在不同的磁碟區中。在這種情況下、必須執行 CG 快照、以確保 ASM 中繼資料在所有組成磁碟區之間一致。</block>
-  <block id="7a7969d6a47ed242c25f6a38f2da0e36" category="paragraph">[ 注意 ] 確認 ASM spfile 和 passwd 檔案不在主控資料檔案的磁碟群組中。這會影響選擇性還原資料檔案和僅還原資料檔案的能力。</block>
   <block id="12eb3ceede91a01c74368e0fab03dbe4" category="section-title">本機恢復程序— NFS</block>
   <block id="e1a03fcc478ae212f07b5044b11ff369" category="paragraph">此程序可以手動或透過 SnapCenter 等應用程式來驅動。基本程序如下：</block>
-  <block id="abb0083d6ab87bbe9d906632fea121ae" category="list-text">在所需還原點之前、立即將資料檔案磁碟區復原至快照。</block>
   <block id="3450fe1e1eea00fa55cfb5cb835a3d80" category="paragraph">此程序假設所需的歸檔記錄檔仍存在於作用中的檔案系統中。如果沒有、則必須還原歸檔記錄、或<block ref="075b7d3bd3bbe7767f7ef62f430bc22b" prefix=" " category="inline-code"></block> 或<block ref="a84f4f3da79386c29ab6dfa560af786e" prefix=" " category="inline-code"></block> 可導向至中的資料<block ref="a15da8cecb1f1192c4d913b8ba676121" prefix=" " category="inline-code"></block> 目錄。</block>
   <block id="e43e33171833b26f6b024d28cb8b1afd" category="paragraph">此外、對於較小的資料庫、終端使用者可以直接從中復原資料檔案<block ref="a15da8cecb1f1192c4d913b8ba676121" prefix=" " category="inline-code"></block> 無需自動化工具或儲存管理員協助執行 SnapRestore 命令的目錄。</block>
   <block id="097230f6ad5345abbe261eabbf533a68" category="section-title">本機恢復程序— SAN</block>
   <block id="4e3110543ebf2a771c16b3b2101f1f88" category="list-text">將託管資料檔案的磁碟群組置於系統中。此程序會因所選的邏輯磁碟區管理程式而異。使用 ASM 時、此程序需要卸除磁碟群組。在 Linux 中、必須卸除檔案系統、並停用邏輯磁碟區和磁碟區群組。目標是停止要還原之目標 Volume 群組上的所有更新。</block>
   <block id="1d0ecd206531f96737f8e8002be4a047" category="list-text">在所需還原點之前、立即將資料檔案磁碟群組還原至快照。</block>
   <block id="946fe41f610ab658e270a1844c992bcc" category="list-text">重新啟動新還原的磁碟群組。</block>
-  <block id="c21d8f41541fc2a0259e7ea5e51edac3" category="paragraph">此程序假設所需的歸檔記錄檔仍存在於作用中的檔案系統中。如果沒有、則必須將歸檔記錄 LUN 離線並執行還原、以還原歸檔記錄。這也是將歸檔記錄分割成專用磁碟區的範例。如果歸檔記錄與重做記錄共用磁碟區群組、則必須在還原整體 LUN 組之前、將重做記錄複製到其他位置、以免遺失最終記錄的交易。</block>
   <block id="3fd5b2a08b3d7c4db29da8590ef6013f" category="section-title">完整恢復範例</block>
   <block id="31679daa394b7091acfd728d940b7322" category="paragraph">假設資料檔案已毀損或毀損、且需要完整還原。執行程序如下：</block>
   <block id="aa09ca247daac25fc18c2633124ca9b6" category="section-title">時間點恢復範例</block>
@@ -1887,16 +1840,11 @@
   <block id="7c11b244c2549a2cc477c134ec4c5635" category="list-text">一組目前的重做記錄</block>
   <block id="8522faf14bc9d4ab497945bb48adc870" category="paragraph">有許多方法可以推動線上備份的還原。許多客戶使用 ONTAP CLI 還原快照、然後使用 Oracle RMAN 或 sqlplus 來完成還原。這在大型正式作業環境中尤其常見、因為資料庫還原的可能性和頻率極低、而且任何還原程序都是由熟練的 DBA 來處理。為了實現完整的自動化、 NetApp SnapCenter 等解決方案包含 Oracle 外掛程式、其中包含命令列和圖形介面。</block>
   <block id="f88f41d4801183a5d53a4b71f383d144" category="paragraph">有些大型客戶已在主機上設定基本指令碼、以便在特定時間將資料庫置於備份模式、以準備排程的快照、藉此採取更簡單的方法。例如、排程命令<block ref="56f72994c4cc84b13a4c20dab49fea35" prefix=" " category="inline-code"></block> 23 時 58 分、<block ref="84c8391d82cbfe300a9615844e0a167f" prefix=" " category="inline-code"></block> 於 00 ： 02 、然後於午夜直接在儲存系統上排程快照。如此一來、就能實現簡單易用、擴充性極高的備份策略、無需外部軟體或授權。</block>
-  <block id="719fbeb74939b8c065321f175de3d222" category="paragraph">最簡單的配置是將資料檔案隔離到一個或多個專用磁碟區。它們必須不受任何其他檔案類型的污染。這是為了確保資料檔案磁碟區可以透過 SnapRestore 作業快速還原、而不會破壞重要的重做記錄檔、控制檔或歸檔記錄。</block>
-  <block id="19156bdcbf322e8e3189909bbb7a69e8" category="paragraph">SAN 對專用磁碟區內的資料檔案隔離有類似的需求。在 Microsoft Windows 等作業系統中、單一磁碟區可能包含多個資料檔案 LUN 、每個 LUN 都有 NTFS 檔案系統。在其他作業系統中、通常會有邏輯 Volume Manager 。例如、使用 Oracle ASM 時、最簡單的選項是將 ASM 磁碟群組的 LUN 限制在單一磁碟區、以便作為一個單元進行備份和還原。如果基於效能或容量管理的理由而需要額外的磁碟區、則在新磁碟區上建立額外的磁碟群組、將可簡化管理。</block>
-  <block id="993afa8643b7200c5c9e527c24c1d8b2" category="paragraph">如果遵循這些準則、則可直接在儲存系統上排程快照、而無需執行一致性群組快照。原因是 Oracle 備份不需要同時備份資料檔案。線上備份程序旨在讓資料檔案在數小時內緩慢串流至磁帶、因此能夠繼續更新。</block>
-  <block id="a2ea5ea024e4a68e4d7f4abeca3441a1" category="paragraph">在使用分佈於不同磁碟區的 ASM 磁碟群組等情況下、會產生複雜性。在這種情況下、必須執行 CG 快照、以確保 ASM 中繼資料在所有組成磁碟區之間一致。</block>
   <block id="0a3ecb97c1b7c97e5075bae0daaa45aa" category="paragraph">* 注意： * 驗證 ASM<block ref="1737629d60b511cf45957529a8f046e2" prefix=" " category="inline-code"></block> 和<block ref="76a2173be6393254e72ffa4d6df1030a" prefix=" " category="inline-code"></block> 檔案不在主控資料檔案的磁碟群組中。這會影響選擇性還原資料檔案和僅還原資料檔案的能力。</block>
   <block id="2f8a5e254c86a42ebcc8b7d3c84cd22e" category="paragraph">此程序假設所需的歸檔記錄檔仍存在於作用中的檔案系統中。如果沒有、則必須還原歸檔記錄、或將 RMAN/sqlplus 導向快照目錄中的資料。</block>
   <block id="a67a69f712a877950e94edd27310b40e" category="paragraph">此外、對於較小的資料庫、終端使用者可以直接從中復原資料檔案<block ref="a15da8cecb1f1192c4d913b8ba676121" prefix=" " category="inline-code"></block> 目錄、無需自動化工具或儲存管理員協助執行<block ref="a4c0ce4da6fb04943b499690fb3afd6e" prefix=" " category="inline-code"></block> 命令。</block>
   <block id="6da8ebf3245e4fbe4654e7f92f0330d7" category="list-text">將託管資料檔案的磁碟群組置於系統中。此程序會因所選的邏輯磁碟區管理程式而異。使用 ASM 時、此程序需要卸除磁碟群組。在 Linux 中、必須卸除檔案系統、且必須停用邏輯磁碟區和磁碟區群組。目標是停止要還原之目標 Volume 群組上的所有更新。</block>
   <block id="931ab211ac6773d20c03a998f9f921ce" category="list-text">如果需要完整還原、請重新播放所有重做記錄。</block>
-  <block id="b6575c3fca5eaaa56eeb8e9ce8867f05" category="paragraph">此程序假設所需的歸檔記錄檔仍存在於作用中的檔案系統中。如果沒有、則必須將歸檔記錄 LUN 離線並執行還原、以還原歸檔記錄。這也是將歸檔記錄分割成專用磁碟區的範例。如果歸檔記錄與重做記錄共用一個磁碟區群組、則必須先將重做記錄複製到其他位置、才能還原整個 LUN 集。此步驟可防止這些最終記錄的交易遺失。</block>
   <block id="65fd6f7f97414140b4d6060b743dc645" category="paragraph">這些需求包括恢復速度、最大允許資料遺失量、以及備份保留需求等因素。資料保護計畫也必須考量資料保留與還原的各種法規要求。最後、必須考量不同的資料恢復情境、從使用者或應用程式錯誤所造成的典型和可預見的恢復、到包括站點完全遺失的災難恢復情境。</block>
   <block id="2bd1d35ff88de136066c33905c0fd677" category="paragraph">資料保護與還原原則的細微變更、可能會對儲存、備份與還原的整體架構造成重大影響。在開始設計工作之前、務必先定義並記錄標準、以免資料保護架構複雜化。不必要的功能或保護層級會導致不必要的成本和管理成本、而最初忽略的需求可能導致專案方向錯誤、或是需要最後一分鐘的設計變更。</block>
   <block id="a60e6b87ede45aef49d8d095435db22b" category="section-title">恢復時間目標</block>
@@ -1936,12 +1884,9 @@
   <block id="175888ba89c31a851f719bdd271cae9c" category="list-text">* 效率。 * 快照在建立時不需要任何空間。只有在資料變更時才會使用空間。</block>
   <block id="d853e9e275a6e58b3a9a56fa641cbb9f" category="list-text">* 管理能力。 * 由於快照是儲存作業系統的原生部分、因此以快照為基礎的備份策略很容易設定和管理。如果儲存系統已開機、就可以開始建立備份。</block>
   <block id="b564e5fbab71af776ed54a19d09b268c" category="list-text">* 擴充性。 * 最多可保留 1024 個檔案和 LUN 的單一容器備份。對於複雜的資料集、可透過一組一致的快照來保護多個資料容器。</block>
-  <block id="7159872a568b97a971b9ea182fb23b7c" category="list-text">無論磁碟區包含 1024 個快照或無、效能都不會受到影響。</block>
   <block id="1a54f7e14e6e652bb32b12df22faf387" category="paragraph">雖然許多儲存廠商都提供快照技術、但 ONTAP 中的 Snapshot 技術是獨一無二的、可為企業應用程式和資料庫環境帶來顯著效益：</block>
   <block id="d77b23e355dc2f65b90fb52ed9a90f9c" category="list-text">Snapshot 複本是基礎 Write -Anywhere File Layout （ WAFL ）的一部分。它們不是附加技術或外部技術。這簡化了管理、因為儲存系統是備份系統。</block>
   <block id="8b888e6a2d883c0111428c101532294a" category="list-text">快照複本不會影響效能、但某些邊緣情況除外、例如當基礎儲存系統填滿的快照中儲存了大量資料時。</block>
-  <block id="2283ea50a243a5d1ad551f7d21f39895" category="list-text">「一致性群組」一詞通常是指一組儲存物件、這些物件是以一致的資料集合來管理。特定 ONTAP 磁碟區的快照構成一致性群組備份。</block>
-  <block id="ac72c83a8204d600d567261b41c5488c" category="paragraph">ONTAP 快照的擴充能力也優於競爭技術。客戶可以儲存 5 、 50 或 500 個快照、而不會影響效能。磁碟區目前允許的最大快照數為 1024 。如果需要額外的快照保留、則有選項可將快照串聯至其他磁碟區。</block>
   <block id="3b7ff39ba50f1bc3f56d38c41ba51855" category="paragraph">因此、保護託管在 ONTAP 上的資料集非常簡單且具有高度擴充性。備份不需要移動資料、因此備份策略可以根據業務需求量身打造、而非限制網路傳輸率、大量磁帶機或磁碟接移區域。</block>
   <block id="55c5bbb3aad88266600eaa1a526406d4" category="paragraph">將快照當作資料保護策略使用的常見問題之一、就是「真實」資料和快照資料位於同一個磁碟機上。遺失這些磁碟機將會導致主要資料和備份遺失。</block>
   <block id="68870deb35eeb53373325a314030bd11" category="paragraph">然而、本機快照不應是唯一的備份策略、因此 NetApp 提供 SnapMirror 和 SnapVault 複寫等技術、可快速有效地將快照複寫至一組不同的磁碟機。在架構正確的解決方案中、快照加上快照複寫功能可將磁帶的使用降至最低、甚至是每季歸檔、或完全消除。</block>
@@ -1952,41 +1897,20 @@
   <block id="32561979f55bc68c4f028fd26a9975f6" category="paragraph">當備份點還原足夠時、主要會使用損毀一致的備份。當需要更精細的恢復時、通常需要應用程式一致的備份。</block>
   <block id="367735591e5e6e04c17b7930acb29b7d" category="paragraph">「應用程式一致性」一詞通常是錯誤的。例如、將 Oracle 資料庫置於備份模式稱為應用程式一致的備份、但資料並未以任何方式保持一致或停止。資料會在整個備份過程中持續變更。相反地、大部分的 MySQL 和 Microsoft SQL Server 備份確實會在執行備份之前先將資料關閉。VMware 可能會或可能不會使某些檔案一致。</block>
   <block id="ebf90723e7659cb5381545104b618612" category="paragraph">術語「一致性群組」是指儲存陣列將多個儲存資源視為單一映像來管理的能力。例如、資料庫可能包含 10 個 LUN 。陣列必須能夠以一致的方式備份、還原及複寫這 10 個 LUN 。如果 LUN 的映像在備份時不一致、則無法還原。複寫這 10 個 LUN 需要所有複本彼此完全同步。</block>
-  <block id="3f8a43f1defaa984435092f616876545" category="paragraph">討論 ONTAP 時、「一致性群組」一詞並不常使用、因為一致性一向是 ONTAP 內 Volume 和 Aggregate 架構的基本功能。許多其他儲存陣列會將 LUN 或檔案系統視為個別單元進行管理。接著可選擇性地將它們設定為「一致性群組」、以保護資料、但這是組態中的額外步驟。</block>
-  <block id="74e816c3c784f5c30c79dca4590d7f59" category="paragraph">ONTAP 一向能夠擷取一致的本機和複寫資料映像。雖然 ONTAP 系統上的各種磁碟區通常並未正式描述為一致性群組、但這就是它們的名稱。該磁碟區的快照是一致性群組映像、該快照的還原是一致性群組還原、 SnapMirror 和 SnapVault 都提供一致性群組複寫。</block>
   <block id="15cc4389a08c3f4748e98622e630ad3e" category="section-title">一致性群組快照</block>
-  <block id="d286b747757ef3d8d3abac27bfae65f9" category="paragraph">一致性群組快照（ CG 快照）是基本 ONTAP Snapshot 技術的延伸。標準快照作業可在單一磁碟區內建立所有資料的一致映像、但有時必須在多個磁碟區甚至跨多個儲存系統建立一致的快照集。結果是一組快照、其使用方式與只有一個個別磁碟區的快照相同。它們可用於本機資料還原、複寫以進行災難恢復、或複製為單一一致的單元。</block>
-  <block id="7c199465bc6344e648e2f73c88131605" category="paragraph">CG 快照的最大已知用途是資料庫環境、其大小約為 1PB 、跨越 12 個控制器。在此系統上建立的 CG 快照已用於備份、恢復和複製。</block>
-  <block id="e5c199b4a97409f33d5caae984957744" category="paragraph">大多數情況下、當資料集跨越磁碟區且必須保留寫入順序時、所選管理軟體會自動使用 CG 快照。在此情況下、無需瞭解 CG 快照的技術詳細資料。然而、在某些情況下、複雜的資料保護需求需要對資料保護和複寫程序進行詳細控制。自動化工作流程或使用自訂指令碼來呼叫 CG 快照 API 是其中的一些選項。若要瞭解最佳選項和 CG-snapshot 的角色、需要更詳細的技術說明。</block>
-  <block id="cf3c30ea5c240a8aef02d240f42cdff7" category="paragraph">建立一組 CG 快照是兩個步驟：</block>
-  <block id="f30455406a91bd776afbc88e60b9697e" category="list-text">在所有目標磁碟區上建立寫入屏障。</block>
-  <block id="c7afe45d94f2fd172a01e851d7f92a2f" category="list-text">在圍籬狀態下建立這些磁碟區的快照。</block>
-  <block id="c464d4671e489eaad9a8cbf0a8086ea9" category="paragraph">寫入隔離是連續建立的。這表示當隔離程序在多個磁碟區之間設定時、寫入 I/O 會依序凍結在第一個磁碟區上、因為它會繼續提交到稍後出現的磁碟區。這可能一開始就違反了保留寫入順序的要求、但這僅適用於非同步在主機上發出的 I/O 、不需仰賴任何其他寫入。</block>
   <block id="688656b1f8644ee299edf7be87a8fc75" category="paragraph">例如、資料庫可能會發出許多非同步資料檔案更新、並允許作業系統重新排序 I/O 、並根據其本身的排程器組態完成這些更新。這類 I/O 的順序無法保證、因為應用程式和作業系統已釋出保留寫入順序的要求。</block>
-  <block id="599ce07d1bae0fa6169959e2bdb97ada" category="paragraph">以計數器為例、大部分的資料庫記錄活動都是同步的。在確認 I/O 之前、資料庫不會繼續進行記錄寫入、而且必須保留這些寫入的順序。如果記錄 I/O 到達圍籬式磁碟區、則不會予以確認、應用程式會在進一步寫入時加以封鎖。同樣地、檔案系統中繼資料 I/O 通常是同步的。例如、檔案刪除作業不得遺失。如果具有 xfs 檔案系統的作業系統刪除了檔案、而更新 xfs 檔案系統中繼資料的 I/O 則會移除位於圍籬磁碟區上的該檔案參照、則檔案系統活動就會暫停。這可確保 CG 快照作業期間檔案系統的完整性。</block>
-  <block id="0f0c0f05310f9cf257d65bfd936f15c5" category="paragraph">在目標磁碟區之間設定寫入屏障之後、就可以開始建立快照。由於磁碟區的狀態會從相關寫入點凍結、因此不需要同時精確建立快照。為了防範建立 CG 快照的應用程式中的瑕疵、初始寫入屏障包含可設定的逾時時間、 ONTAP 會在定義的秒數後自動釋放隔離功能並繼續寫入處理。如果所有快照都是在逾時期間發生之前建立的、則產生的一組快照是有效的一致性群組。</block>
   <block id="df4925d1c6c3f3258e80ff35ce62b17d" category="section-title">相關寫入順序</block>
   <block id="6c78ee478b93fbb573157b85fb1114db" category="paragraph">從技術觀點來看、一致性群組的關鍵在於保留寫入順序、特別是根據寫入順序。例如、寫入 10 個 LUN 的資料庫會同時寫入所有 LUN 。許多寫入都是以非同步方式發出、這表示完成的順序不重要、實際完成的順序會因作業系統和網路行為而異。</block>
   <block id="69d87c00869001f3f06ad4a1494eac21" category="paragraph">某些寫入作業必須存在於磁碟上、資料庫才能繼續進行其他寫入作業。這些關鍵寫入作業稱為「相關寫入」。後續寫入 I/O 則取決於磁碟上是否有這些寫入資料。這 10 個 LUN 的任何快照、恢復或複寫都必須確保相關寫入順序受到保證。檔案系統更新是寫入順序相關寫入的另一個範例。必須保留檔案系統變更的順序、否則整個檔案系統可能會毀損。</block>
   <block id="74fbae5d0b3c16e1774c5f4dce2c1c36" category="section-title">策略</block>
   <block id="53e858edb9bd9ff3f9ead52cebf5731d" category="paragraph">以快照為基礎的備份主要有兩種方法：</block>
-  <block id="f87f61f625a005bd32c53f808d235eea" category="list-text">快照保護的熱備份</block>
-  <block id="c32eba270db95747b471fd53e203a47b" category="paragraph">當備份點還原足夠時、主要會使用損毀一致的 Snapshot 備份。在某些情況下可以套用歸檔記錄檔、但如果需要更精細的時間點還原、則最好使用線上備份。</block>
   <block id="82cc23cd5dc667cc9fb78ff6e76ac15b" category="paragraph">快照型線上備份的基本程序如下：</block>
   <block id="dbaf4855045e45fbcf678fa4cd1ab2db" category="list-text">將資料庫放入<block ref="402051f4be0cc3aad33bcf3ac3d6532b" prefix=" " category="inline-code"></block> 模式。</block>
-  <block id="c3e07fb8aef84ef3d94e3f9d5376c091" category="list-text">建立所有託管資料檔案的磁碟區快照。</block>
   <block id="2d0e58ff1a25bd9fd8a85ad8ce6f2665" category="list-text">結束<block ref="402051f4be0cc3aad33bcf3ac3d6532b" prefix=" " category="inline-code"></block> 模式。</block>
   <block id="4196c5674aaa9e4317b2b4c54f94a905" category="list-text">執行命令<block ref="9d2840394bc37850da4e360dbf60c0dc" prefix=" " category="inline-code"></block> 強制記錄歸檔。</block>
-  <block id="f2736e795871e2fc2d36addb9436f337" category="list-text">為所有託管歸檔記錄的磁碟區建立快照。</block>
   <block id="f24880a3fe8b242fdd1aba5a2d11196f" category="paragraph">此程序會產生一組快照、其中包含備份模式中的資料檔案、以及在備份模式中產生的重要歸檔記錄。這是恢復資料庫的兩項需求。控制檔等檔案也應受到保護、以方便使用、但唯一的絕對需求是保護資料檔案和歸檔記錄。</block>
   <block id="0c32649da44277db19fcfa3fe4dac28f" category="paragraph">雖然不同的客戶可能有非常不同的策略、但幾乎所有這些策略最終都是以下列相同原則為基礎。</block>
   <block id="88f451afed04f47352987f617f805826" category="section-title">快照型還原</block>
-  <block id="c092a9763068c8382be82f9c77bb9658" category="paragraph">在設計 Oracle 資料庫的 Volume 配置時、第一個決定是是否使用 Volume NetApp SnapRestore （ VBSR ）技術。</block>
-  <block id="15a0b8dc4d1b340d403bf6515f7e61b8" category="paragraph">Volume 型 SnapRestore 可讓磁碟區立即還原至較早的時間點。由於磁碟區上的所有資料都已還原、因此 VBSR 可能不適用於所有使用案例。例如、如果整個資料庫（包括資料檔案、重做記錄和歸檔記錄）儲存在單一磁碟區上、且此磁碟區使用 VBSR 還原、則資料會遺失、因為較新的歸檔記錄和重做資料會被捨棄。</block>
-  <block id="e63c0ca12b07a654ccadd92527a95c47" category="paragraph">還原不需要 VSR 。許多資料庫都可以使用檔案型單一檔案 SnapRestore （ SFSR ）來還原、或只是將檔案從快照複製回作用中的檔案系統。</block>
-  <block id="b38bd603a952c93872eae2ea858cb15f" category="paragraph">以這種方式隔離資料檔案、可讓檔案還原至較早的狀態、而不會損壞其他檔案系統。</block>
-  <block id="5755a6275c3ecd99e8159efc58a8ff6c" category="section-title">Snapshot保留</block>
-  <block id="957abb72f2db3a20e0b570a5fa3a1dcc" category="paragraph">對於 SAN 環境中具有 Oracle 資料的每個 Volume<block ref="9ca25b30dcc119f9115aad6d85fd12ce" prefix=" " category="inline-code"></block> 應設為零、因為在 LUN 環境中保留快照空間並不實用。如果百分比保留設為 100 、則具有 LUN 的磁碟區快照需要在磁碟區中有足夠的可用空間、但不包括快照保留空間、以吸收所有資料 100% 的營業額。如果將百分比保留設為較低的值、則需要相對較小的可用空間、但它一律會排除快照保留。這表示 LUN 環境中的快照保留空間會被浪費。</block>
   <block id="d5a06adf11e69f265f3ee3277212764e" category="paragraph">在 NFS 環境中、有兩個選項：</block>
   <block id="7631336a8e2e03f6ac500c145445b2d7" category="list-text">設定<block ref="9ca25b30dcc119f9115aad6d85fd12ce" prefix=" " category="inline-code"></block> 根據預期的快照空間使用量。</block>
   <block id="acc4c5d06fc4a9ac93880c9c2d0a6e76" category="list-text">設定<block ref="9ca25b30dcc119f9115aad6d85fd12ce" prefix=" " category="inline-code"></block> 以歸零並統整管理作用中和快照空間使用量。</block>
@@ -3334,7 +3258,6 @@
   <block id="422956aac4f76239935ded6a492144f2" category="summary">ONTAP 專為 Oracle 資料庫所設計。瞭解方法！</block>
   <block id="795da6575a33e265d7d9a5774cd10e6f" category="summary">ONTAP 上 Oracle 資料庫的一致性群組備份</block>
   <block id="33c729820ffa60f55745fa3c259e273c" category="doc">Oracle 資料庫一致性群組備份</block>
-  <block id="56abf0735f338713ce53e8cdecd6994e" category="paragraph">若要進行最簡單的備份、只要將整個 Oracle 資料庫放在單一 ONTAP 磁碟區即可</block>
   <block id="190d2bad1c6e231bc18c33e002e663c7" category="summary">Oracle 資料庫與直接連線 ONTAP 連線</block>
   <block id="4a3f422632f7d08bf0e6c05affea24e4" category="summary">SyncMirror 的 Oracle 資料庫</block>
   <block id="5bbdf1e19bb3f7b70de51a3764fc5f19" category="doc">Oracle 資料庫儲存快照最佳化備份</block>
@@ -3343,7 +3266,6 @@
   <block id="d3c8171a7167ce43c547aac8fdd86cfb" category="doc">Oracle 資料檔案移轉</block>
   <block id="9718528cb14225785c79e3afc4152efc" category="doc">Oracle 資料庫 LUN 規模調整和 LUN 數量</block>
   <block id="ea7df930bd6bec6222e23d2b3af02a50" category="paragraph">SnapMirror 主動式同步支援兩種儲存容錯移轉作業：計畫性和非計畫性、運作方式略有不同。系統管理員會手動啟動計畫性容錯移轉、以快速切換至遠端站台、而非計畫性容錯移轉則由第三站台的協調員自動啟動。計畫性容錯移轉的主要目的是執行漸進式修補與升級、執行災難恢復測試、或是採用正式的原則、在一年內在站台之間切換作業、以證明完整的主動式同步功能。</block>
-  <block id="f7c8b0ba16967990d91c2ca78d655eaa" category="paragraph">下圖顯示正常、容錯移轉及容錯回復作業期間的情況。為了便於說明、它們描述了複寫的 LUN 。在實際的 SnapMirror 主動式同步組態中、複寫是以磁碟區為基礎、其中每個磁碟區都包含一個或多個 LUN 、但為了讓圖片更簡單、磁碟區層已經移除。</block>
   <block id="cfa86460b638615878bbee89b1b6d4c7" category="paragraph">綠線是一條活動路徑，但由於該路徑上的 IO 需要通過 SnapMirror 活動同步路徑傳遞，因此會產生更多延遲。額外的延遲時間取決於用於 SnapMirror 主動同步的站台之間互連的速度。</block>
   <block id="22ea45ef5d49a1b807d571799d80613d" category="paragraph">一旦來源系統恢復服務、 SnapMirror 主動式同步就能重新同步複寫、但會執行其他方向。現在的組態基本上與起點相同、只是主動鏡射站台已經翻轉。</block>
   <block id="2702e101c97ce9a58738b1a4089319df" category="summary">MetroCluster 邏輯架構和 Oracle 資料庫</block>
@@ -3362,7 +3284,6 @@
   <block id="ba5a23e78f51c1bcb1b82efbe1797502" category="summary">Oracle 資料庫參數 - db_file_multimblock_read_count</block>
   <block id="ea84db84607112a0d40fca3ff45dfffa" category="summary">ONTAP QoS 的 Oracle 資料庫效能管理</block>
   <block id="0af83eb081b1a831789867d7f0867610" category="summary">Oracle 資料庫管理與自動化工具</block>
-  <block id="7c58d5a62a9c29d2a846b210deea95f2" category="paragraph">ONTAP 在 Oracle 資料庫環境中的主要價值來自核心 ONTAP 技術、例如即時 Snapshot 複本、簡單的 SnapMirror 複寫、以及快速建立 FlexClone Volume 。</block>
   <block id="591b3149d6cb247a04883c411dab3e24" category="summary">Checksum 與 Oracle 資料庫完整性</block>
   <block id="56f014c6fc8fac3e242c9d2e42c654c0" category="paragraph">ONTAP 及其支援的通訊協定包含多項保護 Oracle 資料庫完整性的功能、包括靜態資料和透過網路傳輸的資料。</block>
   <block id="31b3368edcb737b712ee02926409c837" category="doc">Oracle 資料庫、 MetroCluster 和 NVFAIL</block>
@@ -3376,7 +3297,6 @@
   <block id="7aa93b5fc17b83fc9e4816155f8f59ab" category="summary">Oracle 資料庫效能測試</block>
   <block id="0b3a030b64747fb3830c79e1ffbef7ee" category="summary">Oracle 資料庫和物件儲存區存取中斷</block>
   <block id="99a1755be2504777b7e266ed14b33168" category="doc">Oracle 資料庫和 ONTAP 控制器容錯移轉 / 切換</block>
-  <block id="8dbb58cb7fbd4c7db3f14b9674e7d4e6" category="summary">使用 SnapRestore 快速恢復 Oracle 資料庫</block>
   <block id="fd0d4a1100bcbce28e8252537f7c4ef4" category="summary">Oracle 資料庫資料保護 SLA</block>
   <block id="48130805e35d0c7ab5afbcb71abb1ad0" category="doc">Oracle 資料庫 RTO 、 RPO 和 SLA 規劃</block>
   <block id="f359cd007fda575e70269cac76fab4af" category="paragraph">ONTAP 可讓您輕鬆根據業務需求量身打造 Oracle 資料庫資料保護策略。</block>
@@ -3429,7 +3349,6 @@
   <block id="82116b39cd4d0d1920fab1ab4515603b" category="paragraph">節省的程度各不相同。已壓縮或加密的資料通常無法進一步壓縮、因此資料集無法從資料壓縮中獲益。相反地、新初始化的資料檔案僅包含區塊中繼資料和零、最多可壓縮至 80 ： 1 。</block>
   <block id="2608473fa5767385d01f256eccbc1cc4" category="paragraph">許多競爭陣列都宣稱能夠根據資料庫複製多次的假設來刪除重複的資料庫。在這方面，也可以使用 NetApp 重複資料刪除技術，但 ONTAP 提供更好的選擇： NetApp FlexClone 技術。最終結果相同；資料庫的多個複本會建立共用大部分基礎實體區塊。使用 FlexClone 比花時間複製資料庫檔案然後刪除複製檔案更有效率。實際上，它是不重複數據刪除，而不是重複數據刪除，因爲從一開始就不會創建重複數據。</block>
   <block id="7e96c1b651af3f28c27b78807f0310e2" category="paragraph">強烈建議採用精簡配置、因為它可以簡化管理、同時大幅改善可用容量、並節省相關成本。原因很簡單：資料庫環境通常包含大量的空空間、大量的磁碟區和 LUN 、以及可壓縮的資料。如果磁碟區和 LUN 的儲存空間有一天 100% 滿、而且包含 100% 不可壓縮的資料、則大量資源配置會導致保留空間。這種情況不太可能發生。精簡配置可回收空間並在其他地方使用、並可讓容量管理以儲存系統本身為基礎、而非許多較小的磁碟區和 LUN 。</block>
-  <block id="f67b854e2d644480b0ec40d7de2b773d" category="paragraph">在 All Flash AFF 系統上執行的 ONTAP 上建立的磁碟區會自動精簡佈建、並啟用所有的內嵌效率功能。雖然資料庫通常無法從重複資料刪除中獲益、而且可能包含不可壓縮的資料、但預設設定仍適用於幾乎所有的工作負載。ONTAP 旨在有效處理所有類型的資料和 I/O 模式、無論是否能節省成本。只有在充分瞭解理由且有偏離的好處時、才應變更預設值。</block>
   <block id="649141c6b8267ea3df10949a853d22cb" category="list-text">請勿將 32KB 壓縮和重複資料刪除同時用於資料庫備份。請參閱一節 <block ref="57ee2712afc5e59236f86db0537b05dc" category="inline-xref-macro-rx"></block> 以取得詳細資料。</block>
   <block id="5059ada12bae6c7e7fac9338d88301b5" category="doc">Oracle 資料庫歸檔記錄分層</block>
   <block id="4abda684ecc952239d7800547dcf2995" category="sidebar">MetroCluster 上的 Oracle SI</block>
@@ -3468,7 +3387,6 @@
   <block id="8a3aceb6ed4b21af2f2c00ecb032f75f" category="paragraph">在 SQL Server 2022 中、 Microsoft 推出了 T-SQL 快照、可提供建立指令碼和自動化備份作業的路徑。您可以為資料庫準備快照、而非執行完整大小的複本。資料庫準備好備份之後、您就可以利用 ONTAP REST API 來建立快照。</block>
   <block id="eeeb4e610a7896c1b1f2e2ea9b3f52a0" category="list-text">使用 ALTER 命令凍結資料庫。如此一來、資料庫就能在基礎儲存設備上準備一致的快照。凍結之後、您可以使用備份命令來解凍資料庫並記錄快照。</block>
   <block id="fd95362fecccbbb7b017317e8bede3b5" category="admonition">ONTAP 和 MySQL 資料庫上的本文件取代先前發佈的 _TR-4722 ： ONTAP 最佳實務做法的 MySQL 資料庫。 _</block>
-  <block id="887757e2405372a0b9e17cc054ab38f3" category="paragraph">SnapRestore 之所以能如此快速有效地運作、是因為快照的本質、基本上是在特定時間點對磁碟區內容進行平行唯讀檢視。作用中區塊是可以變更的實際區塊、而快照則是建立快照時構成檔案和 LUN 之區塊狀態的唯讀檢視。</block>
   <block id="f9b673452d1da030fef3f976bbbbb103" category="paragraph">在此範例中、來源資料庫位於 ONTAP 系統上。建立資料庫備份最簡單的方法是使用快照。將資料庫置於熱備份模式幾秒鐘<block ref="252ce13e6c150af4d3e7eea5fca266bc" prefix=" " category="inline-code"></block> 在託管資料檔案的磁碟區上執行作業。</block>
   <block id="630a571b99791968d41f9caba4a3e39c" category="paragraph">結果是磁碟上的快照稱為<block ref="a8b3bc9f12cd194b80d404c30e9015ee" prefix=" " category="inline-code"></block> 包含處於熱備份模式時的資料檔案映像。如果結合適當的歸檔記錄以使資料檔案一致、則此快照中的資料可作為還原或複製的基礎。在這種情況下、它會複寫到新的伺服器。</block>
   <block id="96a1129a5a4b32943286cafd5e0ca2e1" category="paragraph">在此範例中、 SnapMirror 用於將快照熱備份複寫到新位置。</block>
@@ -4202,7 +4120,6 @@
   <block id="64e5a77897fe6326f14436eaaaf5432b" category="section-title">可用空間和 LVM 空間分配</block>
   <block id="ceb8ec6ec593174c2c6f33be2ca966eb" category="summary">Oracle 和 ONTAP 磁碟區和 LUN 配置</block>
   <block id="0724b56ced27e0a66fb4692a57fb1436" category="doc">Oracle 資料庫 LUN 放置</block>
-  <block id="f595bf3bf71ab0c91a5503ba4efb8ea4" category="paragraph">資料庫 LUN 在 ONTAP 磁碟區內的最佳放置方式、主要取決於如何使用各種 ONTAP 功能。</block>
   <block id="05a1ffdb277b8c7ac1dca78adae0017e" category="sidebar">LUN 放置</block>
   <block id="9d5c13d45bbf74999764cfe8d4798562" category="summary">適用於 VMware vSphere 的 ONTAP 工具安全強化指南、 HTTPS 憑證管理。</block>
   <block id="d6a1787b51b08315bfcc44f3a9bb4b2f" category="paragraph">根據預設、 ONTAP 工具會使用在安裝期間自動建立的自我簽署憑證、以確保 HTTPS 存取安全無虞。ONTAP 工具提供下列功能：</block>
@@ -4939,8 +4856,6 @@
   <block id="6f80e9146e2184b9ec3c46b6d7dd903f" category="paragraph">當 SQL Server 必須寫入特殊系統頁面以分配新物件時、頁面爭用可能會發生在通用分配對應（ GAM ）、共用全域分配對應（ SGAM ）或頁面可用空間（ PFS ）頁面上。鎖條會將這些頁面鎖定在記憶體中。在忙碌的 SQL Server 執行個體上、在 tempdb 的系統頁面上取得鎖定可能需要很長時間。這會導致查詢執行時間變慢、也稱為鎖定爭用。請參閱下列建立 tempdb 資料檔案的最佳實務做法：</block>
   <block id="255bd5c00b8de4b2f998369f766b2b5e" category="paragraph">本節說明遠端資料保護、將資料複寫到遠端站台、以保護異地儲存和災難恢復的安全。請注意、這些表格並未解決同步鏡射資料保護問題。如需此需求、請參閱 NetApp MetroCluster 文件、包括<block ref="06d0604733fc7f7e3f9befaa1239278d" category="inline-link-macro-rx"></block>和<block ref="87f167af2516b222ddeec7405581e8b8" category="inline-link-macro-rx"></block></block>
   <block id="ad8d77efdce72d372a83929b50a127d1" category="paragraph">資料集的損毀一致備份是指在單一時間點擷取整個資料集結構。如果資料集儲存在單一磁碟區中、則程序很簡單；您可以隨時建立 Snapshot 。如果資料集橫跨多個磁碟區、則必須建立一致性群組（ CG ）快照。建立 CG 快照有多種選項、包括 NetApp SnapCenter 軟體、原生 ONTAP 一致性群組功能、以及使用者維護的指令碼。</block>
-  <block id="3c27a8d13352bda1e272615270d5faba" category="paragraph">資料庫的損毀一致備份是指在單一時間點擷取整個資料庫結構、包括資料檔案、重做記錄和控制檔。如果資料庫儲存在單一磁碟區中、則程序很簡單；您可以隨時建立 Snapshot 。如果資料庫橫跨磁碟區、則必須建立一致性群組（ CG ）快照。建立 CG 快照有多種選項、包括 NetApp SnapCenter 軟體、原生 ONTAP 一致性群組功能、以及使用者維護的指令碼。</block>
-  <block id="7589d3d0b42e170fc0a459aba0b87fd6" category="paragraph">當資料庫非常大或必須盡快恢復時、最好使用 VBSR 、而使用 VSR 需要隔離資料檔案。在 NFS 環境中、指定資料庫的資料檔案必須儲存在專用的磁碟區中、而這些磁碟區不會受到任何其他類型的檔案污染。在 SAN 環境中、資料檔案必須儲存在專用磁碟區上的專用 LUN 中。如果使用 Volume Manager （包括 Oracle 自動儲存管理 [AS] ）、則磁碟群組也必須專用於資料檔案。</block>
   <block id="d8c4de538bee7abe14d3527c343afee7" category="paragraph">如果需要雙主動式擴充 RAC 、則應考慮使用 SnapMirror 主動式同步來取代 MetroCluster 。SM-AS 複寫可讓您偏好資料的特定複本。因此、可以內建擴充 RAC 叢集、讓所有讀取作業都在本機進行。讀取 I/O 永遠不會跨越網站、因此可提供最低的延遲。所有寫入活動仍必須傳輸站台間連線、但任何同步鏡射解決方案都無法避免此類流量。</block>
   <block id="be6001fc2ab5bfaacf123c0267e58a0a" category="admonition">如果開機 LUN （包括虛擬化開機磁碟）與 Oracle RAC 搭配使用、則<block ref="7c13d022c9fda6e792c4349a043a6c74" prefix=" " category="inline-code"></block>可能需要變更參數。如需 RAC 逾時參數的詳細資訊<block ref="1d616ba7dc3776fc2ecabd1cd20f420f" category="inline-link-macro-rx"></block>、請參閱。</block>
   <block id="2bd32004298994cdcbc5a1672f2b8c95" category="summary">Oracle 單一執行個體、含 SnapMirror 作用中同步</block>
@@ -5066,8 +4981,6 @@
   <block id="72f31f711b37dc7ce7b34e00dd56b5ae" category="paragraph">ONTAP Mediator 是從 NetApp 支援下載的軟體應用程式、通常部署在小型虛擬機器上。ONTAP Mediator 與 SnapMirror 主動式同步搭配使用時、並不是一種斷路器。它是參與 SnapMirror 主動同步複寫之兩個叢集的替代通訊通道。自動化作業由 ONTAP 根據合作夥伴透過直接連線和協調員所收到的回應來驅動。</block>
   <block id="b06e5b68abe4f23a716133f1fa1a4472" category="summary">Oracle 和 SM 為慣用站台</block>
   <block id="6d14548094c3b2a5b0a69049f8497fa8" category="doc">Oracle 和 SM-as 統一存取</block>
-  <block id="36ba939f32969ddc6751427944e3569d" category="paragraph">最重要的需求是將資料檔案隔離到一個或多個專用磁碟區。它們必須不受任何其他檔案類型的污染。原因在於確保資料檔案複寫完全不受其他資料類型複寫的影響、例如歸檔記錄。如需檔案配置的其他資訊、以及確保儲存配置適合快照的重要詳細資料<block ref="c87a7212960b8cc2aca49adb1795e291" category="inline-link-macro-rx"></block>、請參閱。</block>
-  <block id="64c93f87be857cf43f66e341a377693a" category="paragraph">作業系統可以偵測並<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>位於同一個磁碟區（即相同的來源檔案系統）上的事實<block ref="9ad16912cc0ba54a259b1a15d233c264" prefix=" " category="inline-code"></block>。作業系統接著會使用相同的裝置控制代碼來存取資料。這樣做可以改善 OS 快取和某些其他作業的使用、但會干擾 DNFS 。如果 DNFS 必須存取上的<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>檔案<block ref="1737629d60b511cf45957529a8f046e2" prefix=" " category="inline-code"></block>，可能會錯誤地嘗試使用錯誤的資料路徑。結果是 I/O 作業失敗。在這些組態中、將裝載選項新增<block ref="4740c034d97ca90a96b8050082816605" prefix=" " category="inline-code"></block>至任何與該主機上其他 NFS 檔案系統共用來源 Volume 的 NFS 檔案系統。這樣做會強制 Linux 作業系統為該檔案系統分配獨立的裝置控制代碼。</block>
   <block id="30d0582d4c5a0b280454304dcff9c28f" category="paragraph">Solaris 11 變更了 IT 處理大型 I/O 作業的方式、可能會在 SAN 儲存陣列上造成嚴重的效能問題。此問題記錄在 NetApp 追蹤錯誤報告 630173 「 Solaris 11 ZFS 效能回歸」中。</block>
   <block id="c041cd46ed4caba0947ab494ac5bb1d9" category="paragraph">這不是 ONTAP 錯誤。這是在 Solaris 瑕疵 7199305 和 7082975 下追蹤的 Solaris 瑕疵。</block>
   <block id="a83650b3549679a1591275f0f9cd38e0" category="paragraph">您可以諮詢 Oracle 支援部門、瞭解您的 Solaris 11 版本是否受到影響、或者您也可以變更為較小的值來測試因應措施<block ref="954f82599f7db0212a28fd448e03bdf3" prefix=" " category="inline-code"></block>。</block>
@@ -5533,7 +5446,6 @@
   <block id="57d3154f4afcd986d4f30b4e06c1c434" category="paragraph">ONTAP Flexible Volume （或更簡單地說，磁碟區）與 LUN 並不等同。Volume 是管理容器、用於儲存檔案或 LUN 等資料。例如、資料庫可能放置在 8-LUN 等量磁碟區集上、而所有 LUN 都包含在單一磁碟區中。</block>
   <block id="05ef9b22209f0e35efc9b6f875ad3c55" category="inline-link-macro">ONTAP 文件。</block>
   <block id="a9f5ed6c3fb24e75b9bbfde2801f43c5" category="paragraph">如需快照的詳細資訊，請參閱<block ref="8f47a9b0ccec19c7f5d940ab138ea0b4" category="inline-link-macro-rx"></block></block>
-  <block id="7509bd2cfd7821f433d962315cc50a57" category="paragraph">從 ONTAP 9.12.1 開始，快照不只是唯讀的，也能防止意外或刻意刪除。此功能稱為防竄改快照。您可以透過快照原則設定及強制執行保留期間。產生的快照必須等到到期日才會刪除。沒有系統管理或支援中心覆寫。</block>
   <block id="287130f9ebd13d6ed68dd04d8d2a295e" category="admonition">防竄改快照無法使用 Fabric Pool 進行階層式管理。</block>
   <block id="c2f55c662895ff4fac4100a2a0852e43" category="paragraph">如需防竄改快照的詳細資訊，請參閱<block ref="fd5bfd16d2f3d4d67a500529a5ee8cad" category="inline-link-macro-rx"></block></block>
   <block id="be7dc70d98bcb6099a5c94c0eb263502" category="paragraph">快照也可以複寫到遠端系統。這包括防竄改快照，在遠端系統上套用及強制執行保留期間。因此資料保護效益與本機快照相同、但資料位於第二個儲存陣列上。如此可確保原始陣列的毀損不會影響備份。</block>
@@ -5670,7 +5582,6 @@
   <block id="120f8cb87e8ceb36804a526419a5803a" category="sidebar">AFF / FAS 系統上的 Microsoft SQL Server</block>
   <block id="fc5b2b3c5350dcd6f3cc1cc3cdf1a13f" category="sidebar">ASA R2 系統上的儲存組態</block>
   <block id="8bdbdec629db36efc1c9bdbf743dd56a" category="sidebar">ASA 系統上的 Microsoft SQL Server</block>
-  <block id="3e2b4674c9afc41f9c3a0311b458ed23" category="list-text">如果磁碟區和（或） LUN 並未精簡配置，您必須停用所有效率設定，因為使用這些功能並不會節省成本，而將複雜資源配置與啟用空間效率的組合，可能會導致非預期的行為，包括空間不足的錯誤。</block>
   <block id="c2dc7d465f4be5df7a663820063fe07c" category="summary">Microsoft SQL Server 可用度群組搭配 SnapCenter</block>
   <block id="b474dc2fb6ce60c11ecdfbe0a373bf34" category="doc">SQL Server 可用度群組搭配 SnapCenter</block>
   <block id="0a1151b962e7b34ea7fa78538961cc63" category="paragraph">SnapCenter 支援備份使用 Windows 容錯移轉叢集設定的 SQL Server 可用性群組資料庫。</block>
@@ -6066,312 +5977,7 @@
   <block id="7fce4a8e4d875aacc44e3d2ed8580a5d" category="paragraph">您可以為 vSphere HA 故障轉移行為指定兩種類型的規則：</block>
   <block id="26cc6fc2decc1bcfa2c0a112114e3acc" category="paragraph">服務的可用性應始終優先於服務的效能。如果整個資料中心發生故障，「必須」規則必須從 VM 主機親緣性群組中選擇主機，且當資料中心無法使用時，虛擬機器將不會重新啟動。</block>
   <block id="81430f9750a817293c793dd7958f44fa" category="list-text">如果您正在使用ONTAP快照，則儲存 vMotion 會在快照中留下 VM 的副本，這可能會增加儲存利用率，並可能影響NetApp SnapCenter等備份應用程序，這些應用程式會追蹤 VM 及其ONTAP快照。</block>
-  <block id="f51e6cb0023f640f3e441b33ea6d90b2" category="summary">使用ASA r2 的 Oracle 資料庫區塊大小</block>
-  <block id="b74e31875db8b4ffb64a32f6af8a00c3" category="paragraph">ONTAP內部使用可變區塊大小，這表示 Oracle 資料庫可以配置為所需的任何區塊大小。然而，檔案系統區塊大小會影響效能，在某些情況下，更大的重做區塊大小可以提高效能。</block>
-  <block id="25efcd88d2bb8d1c51866688d59b6df0" category="paragraph">與AFF/ FAS系統相比， ASA r2 對 Oracle 區塊大小建議沒有任何改變。ONTAP在所有平台上的行為保持一致。</block>
-  <block id="45dfed63ad9cfaef8f16e45163f1ddcb" category="summary">Oracle 資料庫參數 - filesystemio_options（ ASA r2）</block>
-  <block id="29967c867552a538cee57e0fefdb1612" category="paragraph">ASA r2 上的 filesystemio_options 的行為和建議與AFF/ FAS系統相同，因為此參數是 Oracle 特有的，與儲存平台無關。ASA r2 和AFF/ FAS一樣使用ONTAP ，因此相同的最佳實務也適用。</block>
-  <block id="4725bcfd9454b799bd0d8edf9880b9c6" category="admonition">在 ASM 環境中，Oracle 會自動對 ASM 管理的磁碟使用直接 I/O 和非同步 I/O，因此<block ref="f1110589be196c2310808482067fce1b" prefix=" " category="inline-code"></block> 對 ASM 磁碟組沒有影響。對於非 ASM 部署（例如，SAN LUN 上的檔案系統），請設定：<block ref="6a1623be7d673ed665d6446f22dbb37c" prefix=" " category="inline-code"></block>。這樣既可以實現非同步 I/O，也可以實現直接 I/O，從而獲得最佳效能。</block>
-  <block id="11277a7f8d508b5b546ee39af32e9b34" category="paragraph">一些較舊的作業系統在非同步 I/O 方面存在問題，導致一些過時的建議認為應該避免使用非同步 I/O。但是，非同步 I/O 穩定可靠，並且在所有目前的作業系統上都得到全面支援。除非發現特定的作業系統漏洞，否則沒有理由禁用它。</block>
-  <block id="3d1060d19355a79188cebceddfe20cac" category="admonition">NetApp建議設定<block ref="f1110589be196c2310808482067fce1b" prefix=" " category="inline-code"></block> 到<block ref="aef8f91b1e026cc1bb55e8b08c491d35" prefix=" " category="inline-code"></block>但請注意，在某些情況下，主機緩衝區快取的遺失可能需要增加 Oracle SGA。ASA r2 系統針對低延遲的 SAN 工作負載進行了最佳化，因此使用 setall 與 ASA 的高效能 Oracle 部署設計完美契合。</block>
-  <block id="cc9bafe604d9f828f9e50b888b5af83a" category="summary">Oracle 資料庫參數 - db_file_multiblock_read_count（ ASA r2）</block>
-  <block id="77da25139302fac7c4678c7feff95328" category="paragraph">與AFF/ FAS系統相比，建議沒有變化。ONTAP 的行為和 Oracle 最佳實務在ASA r2、 AFF和FAS平台上保持不變。</block>
-  <block id="7a6b7a0812fd796dcb806fd5b0c2b6c7" category="summary">Oracle RAC 逾時與ASA r2</block>
-  <block id="f034ddba34805dbfe68b7f48ca895681" category="searchtitle">Oracle Real Application Clusters 與ASA r2 出現逾時問題</block>
-  <block id="6ee77b798f308781373f865ac29cba09" category="paragraph">ASA r2 系統與AFF/ FAS一樣使用ONTAP ，因此相同的原則也適用於 Oracle RAC 逾時參數。ASA沒有針對磁碟逾時或錯誤計數建議的特定變更。然而， ASA r2 針對 SAN 工作負載和低延遲故障轉移進行了最佳化，這使得這些最佳實務變得更加重要。</block>
-  <block id="9f7a41723dc84c90511cb0c3007557cc" category="admonition">訊息中 <block ref="9cd17d807316d35ef47b12cbecab4ec8" category="inline-link-macro-rx"></block> 本節包含使用網路儲存的 Oracle RAC 環境的關鍵訊息，在許多情況下，需要更改預設的 Oracle RAC 設定，以確保 RAC 叢集在網路路徑更改和儲存故障轉移操作後仍能正常運作。</block>
-  <block id="c03d1b47221ed5a173395512ed362d44" category="list-text"><block ref="ff4a008470319a22d9cf3d14af485977" prefix="" category="inline-code"></block> 二進位檔案位於網路附加磁碟機上，包括 iSCSI、FC 和基於資料儲存的磁碟機。</block>
-  <block id="543df3f730045fd30ce4af77abea11e1" category="list-text">ASA r2 的 SAN 最佳化設計降低了故障轉移延遲，但對於網路啟動或網格二進位文件，逾時時間仍需進行調整。</block>
-  <block id="82106d3b2ed91a254d7c6d4d5342cbc1" category="list-text">對於擴展的 RAC 或主動-主動設定（例如， SnapMirror主動同步），逾時調整對於零 RPO 架構仍然至關重要。</block>
-  <block id="6c7de758773bd93ee212e9116ff23b70" category="summary">資料庫和ASA r2 ONTAP儲存容量以及ASA r2 上的可用空間</block>
-  <block id="0ba26eed20c7a72b7557b1dca31463f8" category="searchtitle">ASA r2 上的 Oracle 資料庫和儲存容量管理</block>
-  <block id="fec46d85c88737d5c6bc3c8fb9d31d07" category="paragraph">ASA r2 使用儲存可用區 (SAZ) 而不是聚合，但原理仍然相同：可用空間包括未被實際資料、快照或系統開銷佔用的任何實體容量。也必須考慮精簡配置－邏輯分配並不能反映真實的實體使用。</block>
-  <block id="fd3c3ddb6afa0f19ccd103893bdfff01" category="paragraph">NetApp對企業應用的ASA r2 儲存系統的建議如下：</block>
-  <block id="b117f27a635613ecfcbec6e1b094b82f" category="section-title">ASA r2 系統中的 SSD 池</block>
-  <block id="286282b47dd388584f0b47bb531e0c18" category="admonition">NetApp建議在ASA r2 環境中保持至少 10% 的可用實體空間。本指南適用於ASA r2 系統所使用的僅限 SSD 的儲存池，包括 SAZ 和儲存單元內的所有未使用空間。邏輯空間並不重要；重點在於可用於資料儲存的實際實體空間。</block>
-  <block id="e44f572dc67206f5fe79649b7a71ea39" category="paragraph">雖然ASA r2 可以維持高利用率而不降低效能，但在接近滿載運轉時，擴充儲存時會增加空間耗盡和管理開銷的風險。驅動器利用率超過 90% 可能不會影響效能，但會使管理複雜化並延遲額外驅動器的配置。</block>
-  <block id="0d0fe41e4cffbd1cbbfd0ff604e5847a" category="paragraph">ASA r2 系統支援高達 128TB 的儲存單元和高達 2PB 的 SAZ 大小（每個 HA 對）， ONTAP會自動在節點之間平衡容量。監控叢集、SAZ 和儲存單元層級的使用率對於確保快照、精簡配置工作負載和未來成長有足夠的可用空間至關重要。如果容量接近臨界閾值（~90% 利用率），則應分組（至少六個驅動器）添加額外的 SSD，以保持效能和彈性。</block>
-  <block id="9c4d6eff4aaa2da2a41a618d4e6308e6" category="summary">使用ASA r2 提升 Oracle 資料庫與儲存效率</block>
-  <block id="eaad7dcfc067b66ed2d62d108f314eaa" category="searchtitle">Oracle 資料庫與ONTAP與ASA r2 的效率特性</block>
-  <block id="97c9a5fb8d9dca6d787d486fae38909e" category="paragraph">ONTAP 的空間效率功能已得到全面支持，並針對ASA r2 系統進行了最佳化。在幾乎所有情況下，最佳做法是保留預設設定並啟用所有效率功能。</block>
-  <block id="29e5740ae1265e0ae9ddc367075a430d" category="paragraph">ASA r2 系統是全快閃 SAN 平台，因此壓縮、精簡和重複資料刪除等效率技術對於最大限度地提高可用容量和降低成本至關重要。</block>
-  <block id="0e607e6969928c8f0be851b17df35b7c" category="paragraph">壓縮透過對資料中的模式進行編碼來減少空間需求。採用基於 SSD 的ASA r2 系統，壓縮可顯著節省成本，因為快閃記憶體消除了為提高效能而過度配置的需要。ONTAP自適應壓縮預設為啟用，並已使用企業工作負載（包括 Oracle 資料庫）進行了全面測試，即使在延遲以微秒為單位測量的環境中，也沒有可衡量的效能影響。在某些情況下，由於壓縮資料佔用較少的快取空間，效能會得到提升。</block>
-  <block id="acf1c3f0880b3b517ae9c08198c3313c" category="admonition">溫度敏感儲存效率 (TSSE) 不適用於ASA r2 系統。在ASA r2 系統中，壓縮不是基於熱資料（經常存取的資料）或冷資料（不經常存取的資料）。壓縮無需等待資料冷卻即可開始。</block>
-  <block id="c9359b028210c16d749a4ad44ceef2fe" category="paragraph">自適應壓縮預設使用 8KB 的區塊大小，與關聯式資料庫常用的區塊大小相符。較大的區塊大小（16KB 或 32KB）可以提高順序資料（如交易日誌或備份）的效率，但對於活動資料庫應謹慎使用，以避免在覆蓋期間產生開銷。</block>
-  <block id="47e17029663cd0a26bc74c23a15916f1" category="admonition">對於日誌或備份等靜止文件，區塊大小可以增加到 32KB。更改預設設定前，請先查閱NetApp指南。</block>
-  <block id="fb88d498aeb61ef7dc46cf0183899e05" category="admonition">不要對串流備份使用 32KB 壓縮和去重功能。使用 8KB 壓縮以維持去重效率。</block>
-  <block id="fce01c72f00048fc766f0b547b80b0c1" category="paragraph">對於隨機覆蓋，壓縮對齊很重要。確保 LUN 類型正確、分割偏移量（8KB 的倍數）以及檔案系統區塊大小與資料庫區塊大小一致。備份或日誌等順序資料不需要考慮對齊問題。</block>
-  <block id="2f096f341d922649f5787ac9dc67736f" category="paragraph">壓縮技術透過允許多個壓縮塊共享同一個實體塊來補充壓縮技術。例如，如果一個 8KB 的資料塊壓縮到 1KB，壓縮可以確保剩餘空間不會被浪費。此功能為內聯功能，不會造成效能損失。</block>
-  <block id="6d6c415da1e0bfc92ede47ea457bacfe" category="paragraph">去重操作會移除資料集中的重複資料區塊。雖然 Oracle 資料庫由於具有獨特的區塊頭和區塊尾，通常只能節省極少的重複數據，但ONTAP重複資料刪除仍然可以從零區塊和重複模式中回收空間。</block>
-  <block id="afe06725d3e8e69f957d42e07a4d2ac6" category="paragraph">ASA r2 系統預設使用精簡配置。效率特性與精簡配置相輔相成，可最大限度地利用可用容量。</block>
-  <block id="3ae7feb5d9cb2335f10922aa1130319d" category="admonition">在ASA r2 儲存系統上，儲存單元始終採用精簡配置。不支援厚配置。</block>
-  <block id="b562c9523a15796f6734824c6906ea4b" category="section-title">快速輔助科技（QAT）</block>
-  <block id="9d501bcd94601848e35a4581445c16ae" category="paragraph">在NetApp ASA r2 平台上，Intel QuickAssist 技術 (QAT) 提供硬體加速的效率，這與沒有 QAT 的軟體為基礎的溫度敏感儲存效率 (TSSE) 有很大不同。</block>
-  <block id="a5b1922762277348e395a0f5bb63a066" category="paragraph">*支援硬體加速的快速存取終端 (QAT)：*</block>
-  <block id="7f061561c79fda3cf285f802ab1df9dd" category="list-text">將壓縮和加密任務從 CPU 核心卸載。</block>
-  <block id="daf76bc97dc262e8534a7d1b39c594b8" category="list-text">能夠立即提高熱數據（頻繁存取的數據）和冷數據（不頻繁存取的數據）的線上處理效率。</block>
-  <block id="e0f81090ab3cc33731ea0afa51ad04be" category="list-text">顯著降低CPU佔用率。</block>
-  <block id="ea763c657dce8d1d285478f80caeaa58" category="list-text">提供更高的吞吐量和更低的延遲。</block>
-  <block id="96458f7ac4191be2139fef330262c1f1" category="list-text">提高了對效能要求較高的操作（例如 TLS 和 VPN 加密）的可擴充性。</block>
-  <block id="1121032714cb05a8acd4182211a3d959" category="paragraph">*不含QAT的TSSE：*</block>
-  <block id="87dd7a76029eb48dc4829ef2fb0998f1" category="list-text">依靠CPU驅動的進程來實現高效運作。</block>
-  <block id="cc16c02975ac3a8fc5a6760ee8b59086" category="list-text">僅對延遲後的冷數據應用效率優化。</block>
-  <block id="dbb9a4d9b6afe5a22a188b05e2c55aca" category="list-text">消耗更多CPU資源。</block>
-  <block id="15c9489f22847ad34cca043b0d3781d9" category="list-text">與 QAT 加速系統相比，整體效能受到限制。</block>
-  <block id="7f0fa9ea3b1bfd8171845c4fd64b045b" category="paragraph">因此，現代ASA r2 系統比舊式的僅支援 TSSE 的平台具有更快的硬體加速效率和更好的系統利用率。</block>
-  <block id="17d46209898416a0271a7a40a040fa62" category="section-title">ASA r2 的效率最佳實踐</block>
-  <block id="52101fec2ca49d6ad57b390b63e72b67" category="section-title">ASA r2 預設值</block>
-  <block id="1dc9bf51a5f61b552c5fb6db7bd754ab" category="paragraph">在ASA r2 系統上執行的ONTAP上建立的儲存單元採用精簡配置，預設啟用所有內聯效率功能，包括壓縮、精簡和重複資料刪除。儘管 Oracle 資料庫通常不會從重複資料刪除中獲益匪淺，並且可能包含不可壓縮的數據，但這些預設設定幾乎適用於所有工作負載。ONTAP旨在有效處理所有類型的資料和 I/O 模式，無論它們是否能帶來節省。只有在完全了解原因並且偏離預設設定有明顯好處的情況下，才應該更改預設設定。</block>
-  <block id="db430188d143b5480822ddee760e1628" category="list-text">停用加密或應用程式壓縮資料的壓縮：如果檔案已經在應用程式層級壓縮或加密，請停用壓縮以優化效能並允許在其他儲存單元上更有效率地運作。</block>
-  <block id="629e6580aba1cbe6cff5a2d11fd73f2b" category="list-text">避免將大壓縮區塊與重複資料刪除結合使用：不要在資料庫備份中同時使用 32KB 壓縮和重複資料刪除。對於串流備份，請使用 8KB 壓縮以保持去重效率。</block>
-  <block id="339bd8b6442c9bc710297e62b92fe61c" category="list-text">監控效率節省：使用ONTAP工具（系統管理員、 Active IQ）追蹤實際的空間節省情況，並在需要時調整策略。</block>
-  <block id="5e9589652c75095a75909065d8a0d93f" category="summary">要確保 Oracle 資料庫操作不會因這些操作而中斷，就需要了解儲存接管功能。此外，收購操作中使用的參數如果使用不當，可能會影響資料完整性。</block>
-  <block id="73561d6c3983a6b603417a787cf17ce9" category="searchtitle">ASA r2 中的 Oracle 資料庫和ONTAP控制器故障轉移</block>
-  <block id="817dbb89ea186ed07c38e66cc3f11ad2" category="doc">ONTAP故障轉移</block>
-  <block id="6217c84a6fec75785f109083aaaa4617" category="paragraph">要確保 Oracle 資料庫操作在這些操作期間不會中斷，就需要了解儲存接管功能。此外，收購操作中使用的論點如果使用不當，可能會影響資料完整性。</block>
-  <block id="0ee72c88d56aef3026c4fb8a22263fb4" category="paragraph">正常情況下，寫入給定控制器的傳入資料會同步鏡像到其高可用性夥伴。在具有SnapMirror Active Sync (SM-as) 的ASA r2 環境中，寫入作業也會鏡像到輔助站台的遠端控制器。只有當寫入操作在所有位置都儲存在非揮發性媒體中時，主機應用程式才能收到確認。</block>
-  <block id="8729e9a956b08f3fe788c6d911ba78fa" category="paragraph">儲存寫入資料的媒體稱為非揮發性記憶體（NVMEM）。它有時被稱為非揮發性隨機存取記憶體（NVRAM），可以將其視為寫入日誌而不是快取。正常運作期間，不會讀取NVMEM中的資料；它僅用於在軟體或硬體發生故障時保護資料。當資料寫入驅動器時，資料是從系統 RAM 傳輸的，而不是從NVMEM傳輸的。</block>
-  <block id="3b95fd9bb9e3f2ccc9cb80f0a533d06e" category="paragraph">在接手操作期間，HA 對中的一個節點從其夥伴節點接手操作。在ASA r2 中，由於不支援MetroCluster ，因此無法進行切換；取而代之的是， SnapMirror Active Sync 提供網站層級冗餘。例行維護期間的儲存接管操作應該是透明的，除了網路路徑改變時操作會短暫暫停之外。網路可能很複雜，而且很容易出錯，因此NetApp強烈建議在將儲存系統投入生產之前徹底測試接管操作。這樣做是確保所有網路路徑都正確配置的唯一方法。在 SAN 環境中，使用下列命令驗證路徑狀態<block ref="41dc2c94e82e1c56ba876085acf5a974" prefix=" " category="inline-code"></block> 或使用作業系統自帶的多路徑工具，以確保所有預期路徑都可用。ASA r2 系統為 LUN 提供所有活動的最佳化路徑，使用 NVMe 命名空間的客戶應依賴作業系統原生工具，因為 sanlun 不涵蓋 NVMe 路徑。</block>
-  <block id="fbd1162054dfcc75279eb74994c81fc2" category="paragraph">強制收購時必須謹慎行事。強制更改儲存配置意味著忽略擁有驅動器的控制器的狀態，備用節點強制接管驅動器的控制權。強制接管操作不當可能導致資料遺失或損壞，因為強制接管操作可能會丟棄NVMEM的內容。接管完成後，資料遺失意味著從資料庫的角度來看，儲存在磁碟機上的資料可能會恢復到稍舊的狀態。</block>
-  <block id="417180065e1db56271a50819dfc8d77a" category="paragraph">使用普通HA對進行強制接管的情況應該很少發生。在幾乎所有故障情況下，節點都會關閉並通知合作夥伴，以便進行自動故障轉移。有些極端情況，例如滾動故障，其中節點之間的互連丟失，然後一個控制器發生故障，在這種情況下需要強制接管。在這種情況下，節點之間的鏡像會在控制器發生故障之前遺失，這意味著倖存的控制器不再擁有正在進行的寫入操作的副本。收購必須強制執行，這意味著資料可能會遺失。</block>
-  <block id="eac9e01dcafe5df31549db862e4b5e12" category="paragraph">NetApp建議採取以下預防措施：</block>
-  <block id="a0033c4526f3231e5c7e8c2c6461cbe2" category="list-text">務必小心，不要意外地促成收購。通常情況下，不應該強制執行更改，強制更改可能會導致資料遺失。</block>
-  <block id="9215c7ac58dee80cff52c5d5fa62a977" category="list-text">如果需要強制接管，請確保應用程式已關閉，所有檔案系統已卸載，並且邏輯磁碟區管理器 (LVM) 磁碟區組已關閉。必須卸載 ASM 磁碟組。</block>
-  <block id="5ebade231442483b3d9dd2848baa6ccc" category="inline-link">ASA r2 系統上的SnapMirror主動同步</block>
-  <block id="fd360c79cec2c6ecdbf2a17c6ad2be7f" category="list-text">在使用 SM-as 時，如果發生站點級故障， ONTAP Mediator 輔助的自動非計劃故障轉移將在倖存叢集上啟動，這將導致短暫的 I/O 暫停，然後資料庫轉換將從倖存叢集繼續進行。更多資訊請參見<block ref="e60237ff925f4fb2924a96cecb00f215" category="inline-link-rx"></block> 詳細配置步驟請見下文。</block>
-  <block id="20b465cc6f734e64de0fc141d799a08b" category="summary">在ASA r2 上使用ONTAP QoS 進行 Oracle 資料庫效能管理</block>
-  <block id="2579c376f51f8f990ad0da35fad7b27f" category="doc">在ASA r2 系統上使用ONTAP QoS 進行效能管理</block>
-  <block id="f35a95ecdbc736cf5efbd3ffed0758e4" category="paragraph">在ASA r2 上安全且有效率地管理多個 Oracle 資料庫需要有效的 QoS 策略。這一點尤其重要，因為ASA r2 系統是全快閃 SAN 平台，專為極高的效能和工作負載整合而設計。</block>
-  <block id="fb0f677afb501d6e6b186ff048005ff0" category="paragraph">即使是最強大的控制器，相對較少的 SSD 也可能使其達到飽和，因此 QoS 控制對於確保跨多個工作負載的可預測效能至關重要。作為參考， ASA r2 系統（例如ASA A1K 或 A90）可以提供數十萬到超過一百萬的 IOPS，延遲低於毫秒級。很少有單一工作負載會消耗如此高的效能，因此要充分利用效能通常需要託管多個資料庫或應用程式。安全地執行此操作需要 QoS 策略來防止資源爭用。</block>
-  <block id="56f97482820208f3d16d39528cfb6570" category="paragraph">ONTAP QoS 在ASA r2 上的工作原理與在AFF/ FAS系統上相同，主要有兩種類型的控制：IOPS 和頻寬。QoS 控制可以套用於 SVM 和 LUN。</block>
-  <block id="2e6032fca80b51e97df45f1a5170bd68" category="paragraph">基於 IOPS 的服務品質限制了給定資源的總 IOPS。在ASA r2 中，QoS 策略可以套用於 SVM 層級和單一儲存物件（例如 LUN）。當工作負載達到其 IOPS 限制時，額外的 I/O 請求會排隊等待令牌，從而引入延遲。這是預期行為，可以防止任何單一工作負載壟斷系統資源。</block>
-  <block id="3edd2c44fe87d2162de06be373a31a13" category="admonition">將 QoS 控制應用於資料庫事務/重做日誌資料時要謹慎。這些工作負載具有突發性，對於平均活動看似合理的 QoS 限制可能對於尖峰突發而言過低，從而導致嚴重的效能問題。一般而言，重做日誌和歸檔日誌不應受服務品質 (QoS) 的限制。</block>
-  <block id="31aa78c338ede606cfe715629f639a6b" category="paragraph">基於頻寬的服務品質限制吞吐量（以Mbps為單位）。當工作負載執行大塊讀取或寫入作業（例如全表掃描或備份作業）時，這非常有用，因為這些操作會消耗大量頻寬，但 IOPS 相對較少。結合 IOPS 和頻寬限制可以提供更精細的控制。</block>
-  <block id="d7800d36c7fddb11c98fb31a8c1d5d50" category="paragraph">最低服務品質策略將效能保留給關鍵工作負載。例如，在生產資料庫和開發資料庫混合的環境中，對開發工作負載應用最大 QoS，對生產工作負載套用最小 QoS，以確保效能可預測。</block>
-  <block id="4602ec11783dd2c5a8ddc1a6a89c04f9" category="paragraph">自適應 QoS 會根據儲存物件的大小調整限制。雖然很少用於資料庫（因為大小與效能需求不相關），但對於效能要求隨容量擴展的虛擬化工作負載來說，它可能很有用。</block>
-  <block id="6edda6968105d6954b5256694e3649bb" category="summary">RAID 與 Oracle 資料庫與ASA r2</block>
-  <block id="fce02cd425679718f604302e0d536227" category="searchtitle">RAID 與 Oracle 資料庫與ASA r2</block>
-  <block id="a939d6e21a6c89c72af6e1899ba41b70" category="paragraph">RAID 指的是利用基於奇偶校驗的冗餘技術來保護資料免受硬碟故障的影響。ASA r2 使用與AFF和FAS系統相同的ONTAP RAID 技術，可有效防止多塊磁碟故障。</block>
-  <block id="a4769c5e44f0e97f11cb16b39f1a1a0a" category="paragraph">ONTAP會自動為ASA r2 系統執行 RAID 設定。這是ASA r2 特性所引入的簡化儲存管理體驗的核心組成部分。</block>
-  <block id="747e44d761ad33b2eb88ebaad70815e6" category="paragraph">ASA r2 自動 RAID 設定的關鍵細節包括：</block>
-  <block id="86b1e9f406f275d55d8bdbd97ba561d9" category="list-text">儲存可用區 (SAZ)： ASA r2 使用儲存可用區 (SAZ) 來取代手動管理傳統的聚合和 RAID 群組。這些是 HA 對共享的、受 RAID 保護的磁碟池，其中兩個節點可以完全存取相同的儲存。</block>
-  <block id="ff90b3e28ca02df77a6681a0efbd5741" category="list-text">自動放置：建立儲存單元（LUN 或 NVMe 命名空間）時， ONTAP會自動在 SAZ 內建立一個磁碟區，並將其放置在最佳效能和容量平衡的位置。</block>
-  <block id="27712ac508d43c6818eadfc8acc10e0e" category="list-text">不支援手動聚合管理： ASA r2 不支援傳統的聚合和 RAID 群組管理指令。這樣就無需管理員手動規劃 RAID 群組大小、奇偶校驗盤或節點分配了。</block>
-  <block id="070b455242b96e245be06bac031a00b6" category="list-text">簡化配置：配置透過系統管理員或簡化的 CLI 命令進行處理，這些命令著重於儲存單元，而不是底層的實體 RAID 佈局。</block>
-  <block id="27c8bb95e41f4dcc96c3db322fd90359" category="list-text">工作負載重新平衡：從 2025 年版本（ONTAP 9.17.1）開始， ONTAP會自動在 HA 對中的節點之間重新平衡工作負載，以確保效能和空間利用率保持平衡，而無需人工幹預。</block>
-  <block id="156a4db35771b9cfbf2f3357b9e08916" category="paragraph">ASA r2 會自動使用 ONTAP 的預設 RAID 技術：大多數設定使用RAID DP ，非常大的 SSD 池使用RAID-TEC 。這樣就省去了手動選擇 RAID 的麻煩。這些基於奇偶校驗的 RAID 等級比鏡像提供更好的儲存效率和可靠性，雖然舊的 Oracle 最佳實務通常建議鏡像，但鏡像與ASA r2 無關。ONTAP透過WAFL整合避免了傳統的 RAID 寫入懲罰，從而確保 Oracle 工作負載（例如重做日誌記錄和隨機資料檔案寫入）的最佳效能。結合自動化 RAID 管理和儲存可用區， ASA r2 為 Oracle 資料庫提供高可用性和企業級保護。</block>
-  <block id="7ba55adf8707a9ea679db22769a025ca" category="summary">使用ASA r2 為 Oracle 資料庫設定 SVM</block>
-  <block id="d4aa9e950ef36e360271594778cbca0b" category="searchtitle">Oracle 資料庫與儲存虛擬機器與ASA r2</block>
-  <block id="2f715c6e6aa91757f50ff512d56b2a12" category="paragraph">ASA r2 系統上的 Oracle 資料庫儲存管理也集中在儲存虛擬機器 (SVM) 上，在ONTAP CLI 中稱為 vserver。</block>
-  <block id="fb6310455e0908df1c6dd824a7609791" category="paragraph">SVM 是ONTAP中儲存配置和安全性的基本單元，類似於 VMware ESX 伺服器上的客戶虛擬機器。當ONTAP首次安裝在ASA r2 上時，在建立 SVM 之前，它不具備資料服務能力。SVM 定義了 SAN 環境的個性和資料服務。</block>
-  <block id="ef7aca175aba92d84bbc0ea32b9f26da" category="paragraph">ASA r2 系統採用僅限 SAN 的ONTAP特性，該特性經過簡化，支援區塊協定（FC、iSCSI、NVMe/FC、NVMe/TCP），並移除了與 NAS 相關的功能。這簡化了管理，並確保所有 SVM 配置都針對 SAN 工作負載進行了最佳化。與AFF/ FAS系統不同， ASA r2 不提供 NAS 服務選項，例如主目錄或 NFS 共用。</block>
-  <block id="146a5691df8cfb757d7eda2981b3b7f3" category="paragraph">建立叢集時， ASA r2 會自動設定一個名為 svm1 的預設資料 SVM，並啟用 SAN 協定。此SVM無需手動配置協定服務即可進行區塊儲存操作。預設情況下，此 SVM 中的 IP 資料 LIF 支援 iSCSI 和 NVMe/TCP 協議，並使用預設資料區塊服務策略，從而簡化了 SAN 工作負載的初始設定。管理員之後可以根據效能、安全性或多租用戶要求建立額外的 SVM 或自訂 LIF 配置。</block>
-  <block id="5e8ecb21f02df615400fabb622919767" category="inline-link">僅支援 iSCSI 的 LIF</block>
-  <block id="fcfc982506d2f40ecc714c466f201d61" category="admonition">SAN 協定的邏輯介面 (LIF) 應根據效能和可用性要求進行設計。ASA r2 支援 iSCSI、FC 和 NVMe LIF，但請注意，預設未啟用自動 iSCSI LIF 故障轉移，因為ASA r2 對 NVMe 和 SCSI 主機使用共用網路。若要啟用自動故障轉移，請建立<block ref="dd448f10ba2739ef2cba9a955f730acc" category="inline-link-rx"></block>。</block>
-  <block id="01991e7e8fe0103fe2e08fb4a06fbb42" category="paragraph">與其他ONTAP平台一樣，對於要創建的 SVM 數量沒有官方的最佳實踐；該決定取決於管理和安全要求。</block>
-  <block id="c9b46b0decb2ff8d931995e958aac2fa" category="paragraph">大多數客戶日常營運只使用一台主SVM，並根據特殊需求建立額外的SVM，例如：</block>
-  <block id="7296e471f26dfae6081a67aab939b8eb" category="list-text">由專業團隊管理的專用支援虛擬機，用於關鍵業務資料庫。</block>
-  <block id="e3c2829fad1bbce26c8d52d257268905" category="list-text">具有委託管理控制權的開發小組的支援向量機</block>
-  <block id="1a8aadbbefcd940de4217d51d39c26b0" category="list-text">用於處理需要受限管理存取權限的敏感資料的 SVM</block>
-  <block id="83993ee11718fbb27918bc9918e00456" category="paragraph">在多租用戶環境中，每個租用戶都可以分配一個專用的 SVM。每個叢集、HA 對和節點的 SVM 和 LIF 數量的限制取決於所使用的協定、節點模型和ONTAP版本。請諮詢 <block ref="41f66f34b3a905f864500c9319fdff8f" category="inline-link-macro-rx"></block> 在這些限制條件下。</block>
-  <block id="9166ee55eb1a0be8fa4f050e48a01084" category="admonition">從ONTAP 9.18.1 開始， ASA r2 每個叢集和每個 HA 對最多支援 256 個 SVM（早期版本中為 32 個）。</block>
-  <block id="d60202b60a3d35c578e974e24bb90e86" category="summary">Oracle 與ONTAP與ASA r2 的精簡配置</block>
-  <block id="0382550e451d7d7be20bbfe79e2675ff" category="searchtitle">在ASA r2 上使用 Oracle 資料庫進行精簡配置</block>
-  <block id="5db8916695aa627be657a119d435e622" category="paragraph">在ASA r2 上對 Oracle 資料庫進行精簡配置需要仔細規劃，因為它涉及配置比實體可用空間更多的邏輯空間。如果實施得當，精簡配置可以顯著節省成本並提高可管理性。</block>
-  <block id="67e76662b290c7bb7ddf8c8a381fc486" category="paragraph">精簡配置是ASA r2 的組成部分，並且與ONTAP效率技術密切相關，因為兩者都允許儲存比系統物理容量更多的邏輯資料。ASA r2 系統僅限 SAN，精簡配置適用於儲存可用區 (SAZ) 內的儲存單元和 LUN。</block>
-  <block id="3d54b31e7b15e5ca1f9174de08508c48" category="admonition">ASA r2 儲存單元預設採用精簡配置。</block>
-  <block id="e95dcb4757cac01a8bf2901588dcfc87" category="paragraph">幾乎所有快照的使用都涉及精簡配置。例如，一個典型的 10 TiB 資料庫，包含 30 天的快照，可能會顯示為 310 TiB 的邏輯數據，但實際上只佔用 12 TiB 到 15 TiB 的實體空間，因為快照只儲存已變更的資料區塊。</block>
-  <block id="70f4fe0bb63801388d4cd14e6d6bbf05" category="paragraph">同樣，克隆也是精簡配置的另一種形式。一個開發環境，如果完全寫入 80 TiB 資料庫的 40 個克隆，則需要 3.2 PiB 的空間，但實際上消耗的空間要少得多，因為只儲存變更。</block>
-  <block id="05472458ee0330f07697b2632e7a917a" category="paragraph">在應用程式環境中採用精簡配置時必須格外小心，因為資料變更率可能會意外增加。例如，如果對資料庫表進行重新索引，或對 VMware 用戶端進行大規模修補，則快照導致的空間消耗可能會迅速成長。備份檔案遺失可能會在很短的時間內寫入大量資料。最後，如果 LUN 意外耗盡可用空間，則某些應用程式可能難以復原。</block>
-  <block id="5db9d3525c3598e18d4bb1ea2db8cc18" category="paragraph">在ASA r2 中，這些風險是透過精簡配置、主動監控和 LUN 調整大小策略來緩解的，而不是透過ONTAP 的捲自動增長或快照自動刪除等功能來緩解的。管理員應該：</block>
-  <block id="9609344ef7cd19a1a5460b6f51e139c4" category="list-text">啟用 LUN 上的精簡配置 <block ref="fa1fdc365b74d5b14cab89cd4c2cc7cc" prefix="(" category="inline-code"></block>這是ASA r2 中的預設值。</block>
-  <block id="ac53c0ea3204288de3a2c2522bb85398" category="list-text">使用系統管理器警報或基於 API 的自動化方式監控容量</block>
-  <block id="d07ab9395151c8b26ab66a9772523f52" category="list-text">使用計劃或腳本化的 LUN 調整大小來適應成長</block>
-  <block id="cd8bb089e11224111755a57f499c8ea5" category="list-text">透過系統管理員（圖形使用者介面）配置快照保留和自動快照刪除</block>
-  <block id="224e45482a3dbc2d7cadd78a8463e91a" category="admonition">由於ASA r2 不支援自動捲增長或 CLI 驅動的快照刪除，因此仔細規劃空間閾值和自動化腳本至關重要。</block>
-  <block id="d53a5e27c9f806298b719e63b60e4d4d" category="paragraph">ASA r2 不使用部分儲備設置，因為它是一個僅支援 SAN 的架構，抽象化了基於WAFL 的磁碟區選項。相反，空間效率和覆蓋保護是在 LUN 層級進行管理的。例如，如果您從儲存單元配置了 250 GiB 的 LUN，快照會根據實際區塊變更消耗空間，而不是預先預留等量的空間。這樣就無需進行大量的靜態預留，而這種預留在傳統的ONTAP環境中使用部分預留時很常見。</block>
-  <block id="141cd2097fb78575737b1bfd31b06f02" category="admonition">如果需要確保覆蓋保護且監控不可行，管理員應在儲存單元中提供足夠的容量並適當設定快照保留。然而， ASA r2 的設計使得大多數工作負載不需要部分備用容量。</block>
-  <block id="351f6ae6656f0bf997a0922ec06a6218" category="paragraph">ASA r2 中的壓縮和去重是空間效率技術，而不是傳統的精簡配置機制。這些特性透過消除冗餘資料和壓縮資料區塊來減少實體儲存佔用空間，從而允許儲存比原始容量所允許的更多的邏輯資料。</block>
-  <block id="5ef42f934d63cddc5a96f971a94b7429" category="paragraph">例如，一個 50 TiB 的資料集可以壓縮到 30 TiB，從而節省 20 TiB 的實體空間。從應用程式的角度來看，雖然磁碟上只佔用 30 TiB，但仍有 50 TiB 的資料。</block>
-  <block id="5ebf328c9cae7faff1019b087db64713" category="admonition">資料集的可壓縮性會隨時間變化，這可能會增加物理空間的消耗。因此，必須透過監控和容量規劃來主動管理壓縮和去重。</block>
-  <block id="8fecfb85db5fdf8ae66c3e9a061aa518" category="paragraph">在ASA r2 環境中，如果刪除的資料區塊沒有被回收，精簡配置的效率會隨著時間的推移而降低。除非使用 TRIM/UNMAP 釋放空間或用零覆蓋（透過 ASMRU - 自動空間管理和回收實用程式），否則已刪除的資料將繼續佔用實體容量。在許多 Oracle 資料庫環境中，精簡配置的優勢有限，因為資料檔案通常在建立時就預先分配到其全部大小。</block>
-  <block id="374b240506a11f9564274703d9a9aaa6" category="paragraph">精心規劃 LVM 配置可以提高效率，並最大限度地減少儲存配置和 LUN 調整大小的需求。當使用 Veritas VxVM 或 Oracle ASM 等 LVM 時，底層 LUN 被劃分為僅在需要時才使用的擴充區。例如，如果資料集最初大小為 2 TiB，但隨著時間的推移可能會成長到 10 TiB，則可以將此資料集放置在 10 TiB 的精簡配置 LUN 上，這些 LUN 組織成 LVM 磁碟組。創建時僅佔用 2 TiB 的空間，並且只有在分配擴展區以適應資料增長時才會佔用額外的空間。只要對空間進行監控，這個過程就是安全的。</block>
-  <block id="aba3acce9bf977db783a1f3a099fd0a2" category="summary">設定 NVFAIL 以保護ASA r2 上的 Oracle 資料庫</block>
-  <block id="5510f46c151cfb15d45e4ba8a9a86738" category="searchtitle">Oracle 資料庫和ASA r2 上的 NVFAIL</block>
-  <block id="5726149f7f17e93d987e963b1a9815aa" category="paragraph">NVFAIL 是ONTAP 的一項功能，可在災難性故障轉移情況下確保資料完整性。</block>
-  <block id="5b44cc6bdb59c7fcd5800e8ca4e8de88" category="paragraph">即使ASA r2 系統採用簡化的 SAN 架構（SAZ 和儲存單元而非磁碟區），此功能仍適用於ASA r2 系統。</block>
-  <block id="b7a2b4c7beb39acbf30964be233d43b6" category="paragraph">由於資料庫維護大量的內部緩存，因此在儲存故障轉移事件期間容易發生資料損壞。如果發生災難性事件需要強制ONTAP故障轉移，無論整體配置的健康狀況如何，結果都是先前已確認的變更可能會被有效地丟棄。儲存陣列的內容向前跳躍，資料庫快取的狀態不再反映磁碟上的資料狀態。這種不一致會導致資料損壞。</block>
-  <block id="d529f1699059fd775d38daec404c9709" category="paragraph">快取可以在應用程式層或伺服器層進行。例如，Oracle Real Application Cluster (RAC) 配置中，伺服器在主站點和遠端站點上都處於活動狀態，並將資料快取在 Oracle SGA 中。強制故障轉移操作導致資料遺失，會使資料庫面臨損壞的風險，因為儲存在 SGA 中的資料區塊可能與磁碟上的資料區塊不符。</block>
-  <block id="ad67299b81080b42995c6a5aa870ca24" category="paragraph">快取還有一個不太明顯的用途，那就是在作業系統檔案系統層。基於位於主站點的 LUN 的叢集檔案系統可以掛載到遠端站點的伺服器上，並且可以再次快取資料。在這些情況下， NVRAM故障或強制接管可能會導致檔案系統損壞。</block>
-  <block id="3ddb6c813a50856a003faa943d94ca24" category="paragraph">ONTAP使用 NVFAIL 及其相關設定來保護資料庫和作業系統免受此情況的影響，這些設定會向主機發出訊號，使快取資料失效，並在故障轉移後重新掛載受影響的檔案系統。此機制適用於ASA r2 LUN 和命名空間，就像適用於AFF/ FAS一樣。</block>
-  <block id="cb43a7910131c4a9b54ee4527f41584a" category="paragraph">ASA r2 的關鍵考量：</block>
-  <block id="760178473b2704cd5e111e8ac1c4ae81" category="list-text">NVFAIL 在 LUN 層級（儲存單元）運行，而不是在 SAZ 層級運行。</block>
-  <block id="c87084320a0d119d921d77b65b487a40" category="list-text">對於 Oracle 資料庫，應在所有託管關鍵元件（資料檔案、重做日誌、控制檔案）的 LUN 上啟用 NVFAIL。</block>
-  <block id="2619eb12ebcaa2f4223907a04c8b3e6a" category="list-text">ASA r2 不支援MetroCluster ，因此 NVFAIL 主要適用於本地 HA 故障轉移場景。</block>
-  <block id="ed28739e6688c1c56caa21d8f4e83fa0" category="list-text">ASA r2 不支援 NFS，因此 NVFAIL 注意事項僅適用於基於 SAN 的工作負載（FC/iSCSI/NVMe）。</block>
-  <block id="e519d6eb34dfc47edf5072f1a0a920e0" category="summary">在ASA r2 上使用 AIX 的 Oracle 資料庫</block>
-  <block id="fcb9fe371de92b4141a475f18125a2e7" category="searchtitle">在ASA r2 上使用 IBM AIX 的 Oracle 資料庫</block>
-  <block id="14590776a7ec5f76f6c0dbaf12aea82d" category="paragraph">IBM AIX 上 Oracle 資料庫與ASA r2 ONTAP的設定主題。</block>
-  <block id="e21c6d7d6ce64b744e1b3dfc9f3dbb12" category="paragraph">AIX 支援使用NetApp ASA r2 託管 Oracle 資料庫，前提是：</block>
-  <block id="61cc31cc32fc76833bf9b697fedcd7b5" category="list-text">您已正確配置 Oracle 以支援並發 I/O。</block>
-  <block id="9dfe407ff2ee9c174cce1d9f12a01c51" category="list-text">您使用受支援的 SAN 協定（FC/iSCSI/NVMe）。</block>
-  <block id="5dbad350303c2f9f6c54a25478f708e6" category="list-text">您在ASA r2 上執行ONTAP 9.16.x 或更高版本。</block>
-  <block id="ef37a2ddad88a2a152b9948feb73bc4b" category="paragraph">在 IBM AIX 上使用ASA r2 實現最佳效能需要使用並發 I/O。如果沒有並發 I/O，性能可能會受到限制，因為 AIX 執行的是串行原子 I/O，這會產生很大的開銷。</block>
-  <block id="6edb8857a5df843ec36fc2b3a863d730" category="paragraph">最初， NetApp建議使用<block ref="4482571a249db31b3abed938e4567a15" prefix=" " category="inline-code"></block> 掛載選項可以強製檔案系統進行並發 I/O，但此過程有缺點，現在已不再需要。自 AIX 5.2 和 Oracle 10gR1 推出以來，AIX 上的 Oracle 可以開啟單一檔案進行並發 I/O，而不是強制對整個檔案系統進行並發 I/O。</block>
-  <block id="eda28eaca3dbfe13d6de344928f25e81" category="paragraph">使用 cio 作為掛載選項會強制使用並發 I/O，這可能會產生負面影響。例如，強制並發 I/O 會停用檔案系統上的預讀功能，這可能會損害 Oracle 資料庫軟體外部發生的 I/O 的效能，例如複製檔案和執行磁帶備份。此外，Oracle GoldenGate 和 SAP BR*Tools 等產品與某些版本的 Oracle 使用 cio mount 選項不相容。</block>
-  <block id="c3fcaa918acdb778a4e2f846c030c0a9" category="list-text">僅使用<block ref="4482571a249db31b3abed938e4567a15" prefix=" " category="inline-code"></block> 如果無法設定掛載選項，則進行設定<block ref="b6a2b868e8bebfc19497b406a12a1071" prefix=" " category="inline-code"></block>。</block>
-  <block id="4ad5c7879e9856926d647b1c4108aa1a" category="admonition">由於ASA r2 不支援 NAS，因此 AIX 上的所有 Oracle 部署都必須使用區塊協定。</block>
-  <block id="8ae7510e454410710230296d25e27ce1" category="cell">控製文件</block>
-  <block id="d41de13d4f13727ba8bcfa0e4b6f43d3" category="cell">資料檔案</block>
-  <block id="823272d72b3248694e3df021ef8cf5d4" category="cell">重做日誌</block>
-  <block id="36287b7fc9193c5febdd31bfd37adb9e" category="paragraph">在使用 AIX 之前<block ref="b7cc91287fc99a8937a55e79376c6f54" prefix=" " category="inline-code"></block> 在任何環境（包括資料庫）中的設備，檢查參數<block ref="9d51746070ef554ad4e93a16de4aed0f" prefix=" " category="inline-code"></block>。此參數並非HBA佇列深度；而是與單一SCSI卡的佇列深度相關。<block ref="b1835b2bc8fe4eebb5093da8087b01e9" prefix=" " category="inline-code"></block>。根據ASA r2 LUN 的設定方式，該值會有所不同。<block ref="9d51746070ef554ad4e93a16de4aed0f" prefix=" " category="inline-code"></block> 可能太低，無法獲得良好的性能。測試表明最佳值為 64。</block>
-  <block id="d79502074cc6e7e5a364f270a466f90a" category="summary">在ASA r2 上使用 Linux 和 ASMlib/ASM 過濾器驅動程式的 Oracle 資料庫</block>
-  <block id="1b8322dc9ddcf0f0884dea2005af98a4" category="searchtitle">在ASA r2 上使用 ASMLib/AFD（ASM 過濾器驅動程式）的 Oracle 資料庫</block>
-  <block id="3488d46993d5a8378c20ef8680693299" category="paragraph">使用 AFD 和 ASMlib 的ASA r2 ONTAP的 Linux 作業系統特有的設定主題。</block>
-  <block id="d096e0a6df0924614163a540b2214971" category="paragraph">ASMlib 是一個可選的 ASM 管理函式庫和相關實用程式。它的主要價值在於能夠將 LUN 標記為 ASM 資源，並帶有人類可讀的標籤。</block>
-  <block id="d19e24337b54fcc70e96e05114ad22a2" category="summary">在ASA r2 上使用 HP-UX 的 Oracle 資料庫</block>
-  <block id="20c8ba6aea292789ef2e6f1b4b89ae77" category="paragraph">HP-UX 上 Oracle 資料庫與ASA r2 ONTAP的設定主題。</block>
-  <block id="e9b7342441652011904ff65fb1193d74" category="paragraph">HP-UX 支援與NetApp ASA r2 搭配使用，用於託管 Oracle 資料庫，前提是：</block>
-  <block id="4f24e0afbf75599b5597e3a2be666094" category="list-text">ONTAP版本為 9.16.x 或更高版本。</block>
-  <block id="3b97f328d0018662389a71edcacbc5a0" category="list-text">使用 SAN 協定（FC/iSCSI/NVMe）。ASA r2 不支援 NAS。</block>
-  <block id="36995f50a8bb9428c17eabad17a9e21e" category="list-text">應用HP-UX特有的掛載和I/O調優最佳實務。</block>
-  <block id="b6c1b0f6914791454ede96b6820e724b" category="summary">在ASA r2 上使用 Linux 的 Oracle 資料庫</block>
-  <block id="735da48e08399aff4389f7645ad63008" category="paragraph">針對 Linux 作業系統和ASA r2 ONTAP 的設定主題。</block>
-  <block id="cc72f8ba70e23d17e4898b2d817c7775" category="paragraph">ASA r2 支援 Oracle 資料庫，並相容於 Linux（Oracle Linux、RHEL、SUSE）。使用 SAN 協議，正確配置多路徑，並應用 Oracle 最佳實務進行 ASM 和 I/O 調優。</block>
-  <block id="1f0e7d8c686c998d847b6b6b0524d0db" category="paragraph">例如，RHEL 9.7 上的多路徑守護程式的預設配置可能如下所示：</block>
-  <block id="17d641ba9ac890f75d4c292b06bb7b94" category="section-title">隊列深度</block>
-  <block id="409778175ac5dff7ebc33d3a237112c3" category="paragraph">為 SAN 設備設定適當的佇列深度，以避免 I/O 瓶頸。Linux 上的預設佇列深度通常設定為 128，這可能會導致 Oracle 資料庫出現效能問題。佇列深度設定過高會導致 I/O 排隊過多，從而導致延遲增加和吞吐量降低。設定得太低會限制未完成的 I/O 請求數量，從而降低整體效能。對於ASA r2 上的 Oracle 資料庫工作負載，佇列深度 64 通常是一個不錯的起點，但可能需要根據特定的工作負載特性和效能測試進行調整。</block>
-  <block id="af911470a92a15ef9be3fd8bf911b56d" category="paragraph">對於支援主動-主動多路徑的ASA r2 系統，應調整這些多路徑設定。由於所有路徑都處於活動狀態並進行了負載平衡，因此不需要無限期排隊。相反，多路徑參數應優先考慮效能和快速故障復原。這種行為對於 ASM 鏡像很重要，因為 ASM 必須收到 I/O 失敗才能在備用 LUN 上重試 I/O。如果 I/O 無限期地排隊，ASM 無法觸發故障轉移。</block>
-  <block id="a202cf3983184d1ce3e7056d7305d01f" category="admonition">NetApp建議使用預設掛載選項。在 LUN 上建立檔案系統時，請確保正確對齊。</block>
-  <block id="0fc668638a672a7d830afec06b27d782" category="summary">在ASA r2 上使用 Solaris 的 Oracle 資料庫</block>
-  <block id="40dff793103aa25077d6225eb96d92b6" category="paragraph">適用於 Solaris 作業系統和ASA r2 ONTAP 的設定主題。</block>
-  <block id="5979a32a9c62ecee74c171ed5cc2d6e7" category="summary">在ASA r2 上使用 Microsoft Windows 的 Oracle 資料庫</block>
-  <block id="59c2890ecd2c8d54b1be7b5075c7d55a" category="paragraph">在 Microsoft Windows 上使用ASA r2 ONTAP 的Oracle 資料庫設定主題。</block>
-  <block id="41dc5a1bfa78463990313337562fc0a9" category="summary">Oracle 資料庫與ONTAP直連與ASA r2 的連接</block>
-  <block id="e7e1bbfbb8e743a965e762dfa3e234f9" category="paragraph">使用 iSCSI 或 NVMe/TCP 的主機可以直接連接到ASA r2 儲存系統並正常運作。原因在於路徑規劃。直接連接到兩個不同的儲存控制器，會產生兩條獨立的資料流路徑。只要多路徑配置正確，路徑、連接埠或控制器的遺失並不會阻止使用其他路徑。</block>
-  <block id="35a14cf200b3e6049eeb29738ad4711e" category="paragraph">使用 FC 協定無法將主機直接連線到ASA r2 儲存系統。原因與AFF/ FAS系統相同，即使用 NPIV。用於識別 FC 網路中ONTAP FC 連接埠的 WWN 使用一種稱為 NPIV 的虛擬化類型。任何連接到ONTAP系統的設備都必須能夠識別 NPIV WWN。目前還沒有任何 HBA 供應商提供可以安裝在能夠支援 IV 目標的宿主機上的 HBA。</block>
-  <block id="4d2361ac0de1401ab0ff03a54ff4a137" category="summary">ASA r2 系統上的 Oracle、TCP/IP 和乙太網路配置</block>
-  <block id="3c80c484426036630d6eb8389c2ac11d" category="searchtitle">使用ASA r2 設定 Oracle 資料庫的 TCP/IP 和乙太網路</block>
-  <block id="5db9438e726eacde259e400997b7ad50" category="paragraph">許多 Oracle on ASA r2 ONTAP客戶使用乙太網路、iSCSI 網路協定和 NVMe/TCP。</block>
-  <block id="b9859abe854650d97cc9443efe8bacae" category="paragraph">對於僅限 SAN 的ASA r2 系統，乙太網路流量控制考量主要適用於 iSCSI 和 NVMe/TCP 流量。</block>
-  <block id="391bb22eb81aa6a08c067e17fdc19f3a" category="admonition">NetApp建議確保NetApp ASA r2 儲存控制器不會接收乙太網路串流控制資料包。這通常可以透過設定控制器所連接的交換器連接埠來實現，但某些交換器硬體有限制，可能需要進行客戶端變更。</block>
-  <block id="208fb28dae4318ca1f947bab31f1c824" category="paragraph">對於僅限 SAN 的ASA r2 系統，巨型幀僅適用於基於乙太網路的 SAN 協定（iSCSI 和 NVMe/TCP）。</block>
-  <block id="d65d3c32ef266ba55e2378bbd9a6b317" category="paragraph">NetApp建議在ASA r2 SAN 環境中設定以下內容：</block>
-  <block id="84519fb5c01a2679ca254670c9be6802" category="list-text">對於 1GbE 來說，巨型幀是可取的，但並非必要。</block>
-  <block id="db7fb2373c0f2187e6de7e956e29cfed" category="list-text">對於 10GbE 而言，巨型幀是實現最佳效能的必要條件；對於 iSCSI 和 NVMe/TCP 流量而言，巨型幀的速度更快。</block>
-  <block id="1ce271de40e24ab8a63800ce42e0a92a" category="summary">使用ASA r2 配置 Oracle 資料庫的 FC 網絡</block>
-  <block id="8a0dcf3ef73899d99ab6e7a82434404d" category="searchtitle">使用ASA r2 設定 Oracle 資料庫的 FC SAN</block>
-  <block id="d2bdcae397f14f23d178639b4a3449f1" category="paragraph">在ASA r2 系統上為 Oracle 資料庫設定 FC SAN 主要在於遵循標準的 SAN 最佳實務。</block>
-  <block id="e731c4d7f31dd741c0d10f0333c324be" category="paragraph">ASA r2 針對僅限 SAN 的工作負載進行了最佳化，因此其原理與AFF/ FAS相同，重點在於效能、彈性和簡單性。這包括典型的規劃措施，例如確保主機和儲存系統之間的 SAN 有足夠的頻寬，檢查所有必需設備之間是否存在所有 SAN 路徑，使用 FC 交換器供應商要求的 FC 連接埠設置，避免 ISL 連接，以及使用適當的 SAN 結構監控。</block>
-  <block id="517d60dbcaa0d6b23a9f47fbd0edaa39" category="list-text">ASA r2 使用儲存可用區而不是聚合，但這並不會改變 FC 分區原則。</block>
-  <block id="c39ca1d0b43d0baae5362c1cde3ee38c" category="list-text">多路徑 (MPIO) 仍然是主要的彈性機制；然而，對於支援對稱主動-主動多路徑的ASA r2 系統，到 LUN 的所有路徑都是活動的，並同時用於 I/O。</block>
-  <block id="2209a1d9b2ca24fe83599efabcbffce1" category="summary">使用ASA r2 的 Oracle 資料庫邏輯介面設計</block>
-  <block id="3af46ba2ee5090e4c4e7846e7b132945" category="paragraph">本節概述了ASA r2 系統的關鍵 LIF 設計原則，該系統針對僅限 SAN 環境進行了最佳化。如需更全面的文檔，請參閱 <block ref="a3e6361e1a52d384f542a2f2d8bc9bb1" category="inline-link-macro-rx"></block>。與資料庫架構的其他方面一樣，儲存虛擬機器 (SVM，在 CLI 中稱為 vserver) 和邏輯介面 (LIF) 設計的最佳選擇很大程度上取決於擴充要求和業務需求。</block>
-  <block id="21799093fc4cfb791dfe32dc663f4f8b" category="list-text">*表現。 *網路頻寬是否足以滿足Oracle工作負載的需求？</block>
-  <block id="111dbd10ee2308ce64978a8e5e7d7304" category="list-text">*數據 LIF。 *僅支援 SAN 協定的介面：FC、iSCSI、NVMe/FC、NVMe/TCP。ASA r2 系統不支援 NAS 協定（NFS、SMB/CIFS）。</block>
-  <block id="eb7b64f9138ff27678062103f7c70882" category="admonition">儘管 iSCSI（或 NVMe/TCP）和管理流量都使用 IP 協議，但無法為兩者配置同一個介面。在 iSCSI 或 NVMe/TCP 環境中，需要單獨的管理 LIF。為了提高彈性和效能，每個節點每個協定配置多個 SAN 資料 LIF，並將它們分佈在不同的實體連接埠和結構上。與AFF/ FAS系統不同， ASA r2 不允許 NFS 或 SMB 流量，因此無法將 NAS 資料 LIF 重新用於管理。</block>
-  <block id="fbd9cbd3f29c4cfd273ea6e2c6e2ea2e" category="paragraph">在 SAN 環境中，影響 LIF 效能的最重要因素是頻寬。例如，一個雙節點ASA r2 集群，每個節點有兩個 32Gb FC 端口，每個節點最多可提供 64Gb 的頻寬。同樣，對於 NVMe/TCP 或 iSCSI，請確保 Oracle 工作負載有足夠的 25GbE 或 100GbE 連線。</block>
-  <block id="df8a61f03f4995a39442d2a271415832" category="paragraph">SAN LIF 的故障轉移方式與ASA LIF 不同。 ASA r2 系統依賴主機多路徑（MPIO/ALUA）來實現彈性復原。如果由於控制器故障轉移導致 SAN LIF 不可用，用戶端的多路徑軟體會偵測到路徑遺失，並將 I/O 重新導向至備用路徑。ASA r2 可能會在短暫延遲後執行 LIF 重定位以恢復完整路徑的可用性，但這不會中斷 I/O，因為夥伴節點上已經存在活動路徑。故障轉移過程是為了恢復所有已定義連接埠上的主機存取權限。</block>
-  <block id="a16d6c41318f3de1eb13c1844f304422" category="paragraph">在 SAN 環境中，當 HA 對內的磁碟區被重新定位時，無需遷移 LIF。這是因為，磁碟區遷移完成後， ONTAP會向 SAN 發送路徑變更通知，SAN 用戶端會自動重新最佳化。使用 SAN 進行 LIF 遷移主要與重大的實體硬體變更相關。例如，如果需要對控制器進行無中斷升級，則 SAN LIF 會遷移到新硬體。如果發現 FC 連接埠發生故障，可以將 LIF 遷移到未使用的連接埠。</block>
-  <block id="9828810f7fcace78de1d1de0e576c84e" category="paragraph">NetApp針對ASA r2 SAN環境提出以下建議：</block>
-  <block id="f83001332c7becf3e61981f64091d862" category="list-text">使用選擇性 LUN 對應 (SLM) 功能，此功能預設為啟用。使用 SLM，任何新的 LUN 都會從擁有底層聚合的節點和該節點的 HA 夥伴自動發布。這種安排避免了建立連接埠集或配置區域來限制連接埠存取權限的需求。每個 LUN 都部署在滿足最佳效能和彈性所需的最少節點上。</block>
-  <block id="9bd683ce8a75eb3cef3454ed97d056e9" category="list-text">如果需要將 LUN 遷移到兩個控制器之外，則可以使用以下方式新增額外的節點：<block ref="02d0bbdc14988c85bbd7994723f4dd7f" prefix=" " category="inline-code"></block> 指令將 LUN 通告到新節點上。這樣做會為 LUN 遷移建立額外的 SAN 路徑。但是，主機必須執行發現操作才能使用新路徑。</block>
-  <block id="90f4c30336e9921dc9f790199b80a26c" category="summary">在ASA r2 上使用ONTAP零塊檢測的 ASM 回收實用程序</block>
-  <block id="68b277e79eb0e18f7699090c7f597833" category="searchtitle">ASM 回收實用程式 (ASRU) 與ASA r2 上的ONTAP</block>
-  <block id="bfbea40daf6eff16b91d4b7d3bd13b21" category="doc">ASM 回收公用程式 (ASRU)</block>
-  <block id="8c18218e2429b3c0e71cfb77a5486907" category="paragraph">當啟用線上壓縮時， ONTAP on ASA r2 可以有效地刪除寫入 LUN（儲存單元）的零區塊。Oracle ASM 回收公用程式 (ASRU) 等公用程式的工作原理是將零寫入未使用的 ASM 區段。</block>
-  <block id="9dc9cfea7e02e83a3b766a99a9b3b25c" category="paragraph">這樣，資料庫管理員就可以在資料刪除後回收儲存陣列上的空間。ONTAP攔截零值並從 LUN 釋放空間。由於儲存系統中沒有實際寫入任何數據，因此回收過程非常快。</block>
-  <block id="96564d0673d8b56c565c6c6ef3de2ca7" category="paragraph">使用ASA r2 ONTAP需要考慮的關鍵 ASRU 因素：</block>
-  <block id="c6455a89096acca814d31fecbec23bf9" category="list-text">由於ASA r2 僅支援區塊存儲，因此其工作方式與AFF/ FAS相同，適用於 SAN 工作負載。</block>
-  <block id="ce11aa3271c53b3bab6765e2d48951ac" category="list-text">適用於在 SAZ 內設定的 LUN 和 NVMe 命名空間。</block>
-  <block id="5c9e99714e3d57e5572281b0e41e2cc6" category="list-text">FlexVol磁碟區不存在，但零塊回收行為是相同的。</block>
-  <block id="203be0c11c79d2c1a42df2c5bab9a460" category="summary">在ASA r2 上與 Oracle 資料庫進行 LUN 對齊</block>
-  <block id="7b349eb0f9d2f474d9ab9cc5118eb5d6" category="searchtitle">使用ASA r2 進行 Oracle 資料庫 I/O 的 LUN 對齊</block>
-  <block id="93f6837f6081de07a7906f5c0941bc8d" category="paragraph">ASA r2 系統使用與AFF/ FAS相同的ONTAP架構，但配置模型更簡化。ASA r2 系統使用儲存可用區 (SAZ) 而不是聚合，但對齊原則保持不變，因為ONTAP跨平台一致地管理區塊佈局。但是，請注意以下ASA特有的幾點：</block>
-  <block id="8a19d2cf9991d8821095e34703361c32" category="list-text">ASA r2 系統為所有 LUN 提供主動-主動對稱路徑，從而消除了對齊期間的路徑不對稱問題。</block>
-  <block id="95c89bde38b17ca0c2652e49f027682e" category="list-text">儲存單元 (LUN) 預設採用精簡配置；對齊方式不會改變此行為。</block>
-  <block id="4c58090f7a610a39283889bddaa74a38" category="list-text">在建立 LUN 期間可以設定快照保留和自動快照刪除（ONTAP 9.18.1 及更高版本）。</block>
-  <block id="1734f57e94713f0a032bc6c907c9bdcb" category="paragraph">使用諸如此類的工具來驗證對齊情況。<block ref="40883add63f1fbabc7fe6158f93c1246" prefix=" " category="inline-code"></block> 或者<block ref="1aabac6d068eef6a7bad3fdf50a05cc8" prefix=" " category="inline-code"></block> 能夠以規定的區塊大小產生 I/O。可以使用以下命令查看儲存系統的 I/O 對齊統計資料：<block ref="446501053769c06c565094b26d26e8ef" prefix=" " category="inline-code"></block> 命令。看 <block ref="ebccec7997af507c87f985ec4ccec634" category="inline-link-macro-rx"></block> 了解更多。</block>
-  <block id="05a449cce434ca63ba5e47373b9d1f49" category="paragraph">其他最佳實踐：</block>
-  <block id="fcfa58ba93830f78edfcf9fa0d9fc8f0" category="list-text">使用NetApp互通矩陣工具 (IMT) 驗證 HBA 韌體和作業系統設定。</block>
-  <block id="a169b081fb2875694e9e5e4fc00c909c" category="list-text">使用 sanlun 工具確認路徑健康狀況和對齊情況。</block>
-  <block id="cc8928f2af9f0fae6ef3d8017126cfc4" category="list-text">對於 Oracle ASM 和 LVM，請確保設定檔（/etc/lvm/lvm.conf、/etc/sysconfig/oracleasm）設定正確，以避免對齊問題。</block>
-  <block id="f12a09107ad4162f57baf9c752a518f2" category="summary">使用ASA r2 進行 Oracle 和ONTAP LUN 部署</block>
-  <block id="aaa76fde2acba4d974e5e81148765b08" category="searchtitle">使用ASA r2 進行 Oracle 資料庫 LUN 部署</block>
-  <block id="92ed1004aa7bc12d2dc43469c67ca8cd" category="paragraph">ASA r2 系統中資料庫 LUN 的最佳放置位置主要取決於ONTAP 的各種功能將如何使用。</block>
-  <block id="e3908755a901bd8b390fca0586e5d01b" category="paragraph">在ASA r2 系統中，儲存單元（LUN 或 NVMe 命名空間）由稱為儲存可用性區域 (SAZ) 的簡化儲存層創建，SAZ 充當 HA 對的公共儲存池。</block>
-  <block id="4882324a7fb3b029e3afbfa4ea1996f7" category="admonition">通常每個 HA 對只有一個儲存可用區 (SAZ)。</block>
-  <block id="90015b4a4947685eab609edee413af64" category="section-title">儲存可用區 (SAZ)</block>
-  <block id="95eeff3469b684d29e14c8c7ed95c6e1" category="paragraph">在ASA r2 系統中，磁碟區仍然存在，但它們會在建立儲存單元時自動建立。儲存單元（LUN 或 NVMe 命名空間）直接在儲存可用區 (SAZ) 中自動建立的磁碟區內進行設定。這種設計消除了手動捲管理的需要，使 Oracle 資料庫等區塊工作負載的配置更加直接和精簡。</block>
-  <block id="20ccc13be8bc94c50c99ae571eabbf3d" category="section-title">安全區域區和儲存單元</block>
-  <block id="c8e0228d7d981590c271f1ebd7928f14" category="paragraph">相關儲存單元（LUN 或 NVMe 命名空間）通常位於同一個儲存可用區 (SAZ) 內。例如，一個需要 10 個儲存單元 (LUN) 的資料庫，通常會將所有 10 個單元放置在同一個 SAZ 中，以簡化操作並提高效能。</block>
-  <block id="0c6b3219675d75f631c2a5c116fc5051" category="list-text">使用 1:1 的儲存單元與磁碟區的比例，即每個磁碟區對應一個儲存單元 (LUN)，是ASA r2 的預設行為。</block>
-  <block id="4e198a8d880a904a00df60812b1e1b01" category="list-text">如果ASA r2 系統中存在多個 HA 對，則給定資料庫的儲存單元 (LUN) 可以分散在多個 SAZ 中，以最佳化控制器利用率和效能。</block>
-  <block id="4cdd51ddfeccf85bb8dd182e9f83f00d" category="admonition">在 FC SAN 的上下文中，儲存單元指的是 LUN。</block>
-  <block id="cd57cb5c212b19d23633017bc53cc4e7" category="section-title">一致性組 (CG)、LUN 和快照</block>
-  <block id="ef7a7d977f1a63e641a7fce414bb7e47" category="paragraph">在ASA r2 中，快照策略和計劃是在一致性群組層級應用的，一致性群組是一個邏輯結構，它將多個 LUN 或 NVMe 命名空間分組，以實現協調的資料保護。由 10 個 LUN 組成的資料集只需要一個快照策略，前提是這些 LUN 屬於同一個一致性組。</block>
-  <block id="7d17b1c72d96ef2be6eb824b79d17c09" category="paragraph">一致性群組確保所有包含的 LUN 上的原子快照操作。例如，如果將底層 LUN 分組到同一個一致性群組中，則可以將駐留在 10 個 LUN 上的資料庫或由 10 個不同作業系統組成的基於 VMware 的應用程式環境作為單一一致的物件進行保護。如果快照被放置在不同的一致性群組中，即使在同一時間安排，快照也可能無法完全同步。</block>
-  <block id="893cac1ea1cce31311a3726c0d553033" category="paragraph">在某些情況下，由於復原要求，可能需要將一組相關的 LUN 分成兩個不同的一致性群組。例如，一個資料庫可能有四個 LUN 用於資料文件，兩個 LUN 用於日誌。在這種情況下，包含 4 個 LUN 的資料檔案一致性群組和包含 2 個 LUN 的日誌一致性群組可能是最佳選擇。原因在於獨立可恢復性：資料檔案一致性群組可以選擇性地恢復到較早的狀態，這意味著所有四個 LUN 都將恢復到快照的狀態，而包含關鍵資料的日誌一致性群組將不受影響。</block>
-  <block id="c630ef12bf3956117cddb1064fc3d361" category="section-title">CG、LUN 和SnapMirror</block>
-  <block id="6a824f9a12117a2a6895290867e086df" category="paragraph">SnapMirror策略和操作與快照操作一樣，是在一致性群組上執行的，而不是在 LUN 上執行的。</block>
-  <block id="13fa8b6e8b3be69f7fe58ff3630ccb35" category="paragraph">將相關的 LUN 放在同一個一致性群組中，可以建立單一SnapMirror關係，並透過一次更新更新所有包含的資料。與快照一樣，此次更新也將是一個原子操作。SnapMirror目標位置將保證擁有來源 LUN 的單一時間點副本。如果 LUN 分佈在多個一致性組中，則副本之間可能一致，也可能不一致。</block>
-  <block id="403e3c031b4cfa6e3fe3dae9c8c5fe13" category="paragraph">在ASA r2 系統上使用SnapMirror複製有以下限制：</block>
-  <block id="387dae8bc04454e56a9780e8507821e5" category="list-text">不支援SnapMirror同步複製。</block>
-  <block id="74618c54a0d6a05f0dbccbfa9f4bc480" category="list-text">SnapMirror主動同步僅支援在兩個ASA r2 系統之間進行。</block>
-  <block id="b24c01ad6773e01500470565f30e6c7e" category="list-text">SnapMirror非同步複製僅支援在兩個ASA r2系統之間進行。</block>
-  <block id="760e533cef4cb07e928f9667b4337a91" category="list-text">SnapMirror非同步複製不支援在ASA r2 系統與ASA、 AFF或FAS系統或雲端之間進行。</block>
-  <block id="91986d95992f1ad825d4163f8cc66a27" category="inline-link">ASA r2 系統支援SnapMirror複製策略</block>
-  <block id="2280c599c5e817601b252f1594e3c4b2" category="paragraph">了解更多<block ref="2475b888e80612096ae52a0122ee018c" category="inline-link-rx"></block>。</block>
-  <block id="8ca2b03f914c6e1c468a2cd13b3c8b3d" category="section-title">CG、LUN 和 QoS</block>
-  <block id="7f2da44f6bd7c9356e63d179a440809d" category="paragraph">雖然 QoS 可以選擇性地應用於單一 LUN，但通常在一致性群組層級設定 QoS 更容易。例如，可以將給定 ESX 伺服器中所有客戶機使用的所有 LUN 放在一個一致性群組中，然後套用ONTAP自適應 QoS 原則。最終結果是，每 TiB 的 IOPS 具有自擴展性，適用於所有 LUN。</block>
-  <block id="9a463c1574f65dcc765615800d99e581" category="paragraph">同樣地，如果一個資料庫需要 100K IOPS 並佔用 10 個 LUN，那麼在單一一致性群組上設定一個 100K IOPS 限制比在每個 LUN 上設定 10 個單獨的 10K IOPS 限制要容易得多。</block>
-  <block id="410329240fb2d429a85eaa5a8949cc3d" category="section-title">多種CG佈局</block>
-  <block id="5d754c13781487993a2059f802f22ba4" category="paragraph">在某些情況下，將 LUN 分佈到多個一致性組中可能是有益的。主要原因是控制器條帶化。例如，HA ASA r2 儲存系統可能託管單一 Oracle 資料庫，此時需要每個控制器的全部處理和快取能力。在這種情況下，典型的設計是將一半的 LUN 放在控制器 1 上的一個一致性群組中，將另一半 LUN 放在控制器 2 上的一個一致性群組中。</block>
-  <block id="7f8f628b8a7fd8f111de2978da131f9d" category="paragraph">同樣地，對於託管多個資料庫的環境，將 LUN 分佈在多個一致性群組中可以確保控制器使用率的均衡。例如，一個 HA 系統託管 100 個資料庫，每個資料庫有 10 個 LUN，則每個資料庫可能將 5 個 LUN 指派給控制器 1 上的一個一致性群組，將 5 個 LUN 指派給控制器 2 上的一個一致性群組。這樣可以保證在配置更多資料庫時實現對稱載入。</block>
-  <block id="ae306759adf36251b055c76a41fa02d8" category="paragraph">不過，這些例子都不涉及 1:1 LUN 與一致性組的比例。目標仍然是透過將相關的 LUN 在邏輯上分組到一致性群組中來優化可管理性。</block>
-  <block id="09ff91a9a7ddab76a6eac2cd43acf9a1" category="paragraph">1:1 LUN 與一致性組比例的一個合理例子是容器化工作負載，其中每個 LUN 實際上可能代表單獨的工作負載，需要單獨的快照和複製策略，因此需要單獨管理。在這種情況下，1:1 的比例可能是最佳選擇。</block>
-  <block id="ef2e36dfa6fb12cf1c8a7a0ae0c88d52" category="summary">在ASA r2 上使用 Oracle 資料庫調整 LUN 和 LVM 大小</block>
-  <block id="aea1f5a276c7b54d6172243c8b548bb2" category="searchtitle">使用ASA r2 調整 Oracle 資料庫 LUN 和 LVM 的大小</block>
-  <block id="70092e467b0294964d44a44d52d770f2" category="paragraph">當基於 SAN 的檔案系統或 Oracle ASM 磁碟組在ASA r2 上達到容量限制時，有兩種方法可以增加可用空間：</block>
-  <block id="8abbd05e0a227c599291f20b646a134d" category="list-text">增加現有 LUN（儲存單元）的容量</block>
-  <block id="735f16a4a3b88e32076ada50e5286ae7" category="list-text">在現有 ASM 磁碟組或 LVM 磁碟區組中新增新的 LUN，並擴充其包含的邏輯磁碟區。</block>
-  <block id="40ad3147cef36b9d1a82d15d59687f65" category="paragraph">雖然ASA r2 支援 LUN 調整大小，但通常最好使用邏輯磁碟區管理器 (LVM)，例如 Oracle ASM。LVM 存在的主要原因之一是避免頻繁調整 LUN 大小。使用 LVM，可以將多個 LUN 組合成一個虛擬儲存池。從此儲存池中劃分出的邏輯磁碟區可以輕鬆調整大小，而不會影響底層儲存配置。</block>
-  <block id="be47566c8372059834f1fc8385d4ac38" category="paragraph">使用 LVM 或 ASM 的其他好處包括：</block>
-  <block id="f04f7fcd9aefa6cc6cfcacbeef712d68" category="list-text">效能最佳化：將 I/O 分佈到多個 LUN 上，減少熱點。</block>
-  <block id="1abd7acfc8d1a1b656234e216fc629f5" category="list-text">靈活性：新增新的 LUN 而不會中斷現有工作負載。</block>
-  <block id="dc417c507b436d9dcf6e3dbb977f40b7" category="list-text">透明遷移：ASM 或 LVM 可以將擴充區域遷移到新的 LUN 以進行均衡或分層，而無需主機停機。</block>
-  <block id="c73b873ea9167a593bee299b16d12b06" category="list-text">LUN 調整大小是在儲存虛擬機器 (SVM) 內的儲存單元層級執行的，使用來自儲存可用區 (SAZ) 的容量。</block>
-  <block id="1b691366b4a3ac901464c48c9d4d8bff" category="list-text">對於 Oracle 而言，最佳實踐是將 LUN 新增至 ASM 磁碟群組，而不是調整現有 LUN 的大小，以保持條帶化和平行性。</block>
-  <block id="58cb14b122b3d785a1a321856cc92c3f" category="summary">Oracle 資料庫 LUN 大小調整和 LUN 數量指南（ ASA r2）</block>
-  <block id="cf15b0ae7bdc6d8834b7e6418ffef6cf" category="searchtitle">使用ASA r2 進行 Oracle 資料庫 LUN 大小調整和 LUN 計數</block>
-  <block id="49521166939155a64490ecd7f6957360" category="paragraph">LUN 是ONTAP上的虛擬化對象，它存在於ASA r2 系統上託管儲存可用區 (SAZ) 的所有磁碟機中。因此，LUN 的效能不受其大小的影響，因為無論選擇什麼大小，LUN 都能充分利用 SAZ 的全部效能潛力。</block>
-  <block id="d25613c7fbbaea4aab9e21e2b21ad490" category="paragraph">* ASA r2 注意事項：*</block>
-  <block id="5f929ae9afccf8d55896b9978ea77cf9" category="list-text">ASA r2 的最大 LUN 大小為 128TB，這允許使用更少但更大的 LUN，而不會影響效能。</block>
-  <block id="717d9e18e5ee8ee018a606f9bdf7aef7" category="list-text">ASA r2 使用儲存可用區 (SAZ) 而不是聚合，但這並不會改變 Oracle 工作負載的 LUN 大小調整邏輯。</block>
-  <block id="8dd6202dd76a4a6b4230a20ff09f6fac" category="list-text">預設啟用精簡配置；調整 LUN 大小不會造成中斷，也不需要將其離線。</block>
-  <block id="cc7c6c6a526f7d2cb13c2fd2a0b9e839" category="paragraph">對於ASA r2，LUN 計數的原則與AFF/ FAS相同，因為ONTAP在跨平台處理並行 I/O 的方式類似。然而， ASA r2 的 SAN 專用架構和主動-主動對稱路徑確保了所有 LUN 的一致性能。</block>
-  <block id="1b3bc440bdc4148abaecc010852b3e48" category="paragraph">一般來說，4 到 16 個 LUN 足以滿足任何給定 Oracle 資料庫工作負載的 I/O 需求。由於主機 SCSI 實作方面的限制，少於四個 LUN 可能會造成效能限制。除了極端情況（例如非常高的隨機 I/O SSD 工作負載）之外，將 LUN 數量增加到 16 個以上很少能提高效能。</block>
-  <block id="32a9cc09d7b28dad1bdac19dfa8defca" category="summary">適用於配備ASA r2 的 Oracle 資料庫的 LVM 條帶化配置</block>
-  <block id="84337c2f0bd3b367c079858b351c1519" category="searchtitle">在ASA r2 上使用 Oracle 資料庫進行 LVM 條帶化</block>
-  <block id="9dc44bcf4c4a65f757ee2d4f417fb802" category="paragraph">使用旋轉硬碟進行條帶化更加困難，因為必須預先知道 I/O 模式。如果條帶化沒有針對真實的 I/O 模式進行正確調整，則條帶化配置可能會損害效能。對於 Oracle 資料庫，尤其是全快閃儲存配置，條帶化配置起來要容易得多，並且已被證明可以顯著提高效能。</block>
-  <block id="3fcb47409d533bbc0f1dedd640536c4e" category="paragraph">Oracle 資料庫 LVM 條帶化的最佳實務：</block>
-  <block id="1ee9d08de424307c5b0c68e2cae8b964" category="list-text">條帶大小≥資料庫塊大小。</block>
-  <block id="fb7356b0e5eebd52996145ea92edb38c" category="list-text">條帶大小 * LUN 數量 ≈ 1MB，以達到最佳並行性。</block>
-  <block id="77ad8db55bb3aef8186b8f78c53a25b3" category="list-text">每個 ASM 磁碟組使用多個 LUN 以最大限度地提高吞吐量並避免熱點。</block>
-  <block id="e9846a743cf48ba63b998c13227ca620" category="sidebar">AFF/ FAS系統上的ONTAP配置</block>
   <block id="a5cbfd8d8aee880e78887fb902e5c440" category="sidebar">Oracle 資料庫的ONTAP配置</block>
-  <block id="19dcc7d0feb41b8b247042f6b5c839cb" category="sidebar">ASA r2 系統上的ONTAP配置</block>
-  <block id="4239635e98cf1c9aade3e99963b47f3e" category="sidebar">適用於配備ASA r2 系統的 Oracle 資料庫的ONTAP配置</block>
-  <block id="83059bc9b08eac1413f80049818a551a" category="sidebar">使用AFF/ FAS系統進行資料庫配置</block>
-  <block id="9cbfcdc7f6207e881eb9efa080cb634a" category="sidebar">使用ASA r2 系統進行資料庫配置</block>
-  <block id="3072f08a47d3ebf5a6bb93d196fc3d0c" category="sidebar">適用於ASA r2 系統的 Oracle 資料庫配置</block>
-  <block id="cf3d30b3a2769e5a42ca691fedc13a7a" category="sidebar">主機配置與AFF/ FAS系統</block>
-  <block id="dc224317c322fd5cc85a7517df62ebbd" category="sidebar">使用ASA r2 系統的主機配置</block>
-  <block id="67e9cfbd67f63687103cc996b36d89a3" category="sidebar">適用於配備ASA r2 系統的 Oracle 資料庫主機配置</block>
-  <block id="7f63d60cb330bfa4e266460c2678e3e5" category="sidebar">AFF/ FAS系統的網路配置</block>
-  <block id="d9c561cf68fdc77bb1da849869a07f1c" category="sidebar">ASA r2 系統上的網路配置</block>
-  <block id="38e7ae928dc580caab650dc5df5d2fc1" category="sidebar">Oracle 資料庫與ASA r2 系統的網路配置</block>
-  <block id="8637dea0297332b772f83909e4341446" category="sidebar">Oracle 資料庫與ASA r2 系統的儲存配置</block>
   <block id="bf9da0db0cba95abeb9d604e28d6fae5" category="paragraph">在檔案系統環境中，隨著資料的刪除，活動 LUN 的精簡配置效率可能會逐漸降低。除非刪除的資料被零覆蓋（另請參閱連結：oracle-storage-san-config-asm ru.html[ASMRU]）或使用 TRIM/UNMAP 空間回收釋放空間，否則「擦除」的資料會在檔案系統中佔用越來越多未分配的空白空間。此外，在許多資料庫環境中，活動 LUN 的精簡配置用途有限，因為資料檔案在建立時會初始化為全部大小。</block>
   <block id="7480d85002c80775529fb882102aa005" category="paragraph">下表列出 vSphere 支援的傳統資料存放區功能與 ONTAP 。此資訊不適用於 vVols 資料存放區，但通常適用於使用受支援 ONTAP 版本的 vSphere 6.x 及更高版本。您也可以查閱 <block ref="ca32979bcc653e1966d3624ee8d76604" category="inline-link-macro-rx"></block> 以取得特定 vSphere 版本的資訊，以確認特定限制。</block>
   <block id="ddb1172bf007ad0f2ed1cacb02d4e514" category="cell">每個 ESXi 主機 1024 個 LUN、每個 LUN 最多 32 個路徑、每個主機最多 4096 個路徑總數、每個資料存放區最多 128 個主機</block>
@@ -6420,4 +6026,111 @@
   <block id="24e63af66b386fd7126b59dd7fe341db" category="admonition">請參閱 <block ref="ca32979bcc653e1966d3624ee8d76604" category="inline-link-macro-rx"></block> 以瞭解 ESXi 中支援的最新限制。</block>
   <block id="a0f1d2336326e29837b7fc7cada7a377" category="list-text">對於 iSCSI 或 NVMe/TCP 網路，當存在多個虛擬交換器時，應在不同的未路由網路子網路上使用多個 VMkernel 網路介面，並啟用 NIC 群組。您還可以使用連接到多個實體交換器的多個實體 NIC 來提供 HA 並提高處理量。在 ONTAP 中，設定單一模式介面群組以進行容錯移轉，其中包含連接到兩個或多個交換器的兩個或多個連結，或使用 LACP 或其他連結彙總技術搭配多模式介面群組，以提供 HA 和連結彙總的優勢。請注意，必須在每個 VMkernel 連接埠和每個實體介面上啟用 NVMe/TCP，而且您必須對齊它們，以便 NVMe/TCP VMkernel 連接埠能夠存取已啟用 NVMe/TCP 的實體 NIC。下圖說明使用 IP 型 SAN 傳輸協定的多重路徑連線。<block ref="4525956d57ef52f4b2a4f341fbeec28e" category="inline-image-macro-rx" type="image"></block></block>
   <block id="58826bba5b6c0010e4915ab23035b67d" category="doc">VMware vSphere 與 ONTAP 最佳實務指南</block>
+  <block id="3ad7975840522feaa220a8d42072104b" category="doc">AFF SSD Aggregate 和 ASA 儲存可用區</block>
+  <block id="1a81993642c7d159cbbb0827eb194462" category="paragraph">可用空間是指未用於實際資料的任何空間，包括 Aggregate 本身的未分配空間以及組成磁碟區中的未使用空間。也必須考慮精簡配置。例如，一個 AFF 磁碟區可能包含一個 1TB 的 LUN，其中只有 50% 用於實際資料。在精簡配置環境中，這看起來會正確佔用 500GB 的空間。然而，在完全配置的環境中，1TB 的全部容量看起來都已被使用。這 500GB 的未分配空間被隱藏了。這部分空間未被實際資料使用，因此應計入總可用空間的計算中。</block>
+  <block id="2640cc37350786b1ad4b529e4df9f777" category="paragraph">使用諸如<block ref="40883add63f1fbabc7fe6158f93c1246" prefix=" " category="inline-code"></block>或<block ref="1aabac6d068eef6a7bad3fdf50a05cc8" prefix=" " category="inline-code"></block>之類的公用程式來驗證對齊情況，這些公用程式可以按指定的區塊大小產生 I/O。可以使用<block ref="446501053769c06c565094b26d26e8ef" prefix=" " category="inline-code"></block>命令查看儲存系統的 I/O 對齊統計資料。如需更多資訊、請參閱<block ref="b7498ea5c206c99f04afee4896f7d5a0" category="inline-link-macro-rx"></block>。</block>
+  <block id="a3139f5fadef36bbb33e728d99383021" category="section-title">AFF 和 ASA 預設值</block>
+  <block id="0d96b0c1c7110fc96c201594d7ba6042" category="paragraph">在 AFF 系統上執行的 ONTAP 上建立的磁碟區以及在 ASA 系統上執行的 LUN/ 命名空間均採用精簡配置，並啟用所有內嵌效率功能。儘管資料庫通常無法從重複資料刪除中獲益，並且可能包含不可壓縮資料，但預設設定仍然適用於幾乎所有工作負載。ONTAP 旨在有效處理所有類型的資料和 I/O 模式，無論它們是否能節省資源。只有在完全了解原因並且更改預設設定確實有益的情況下，才應更改預設設定。</block>
+  <block id="729bdcd7db7dec13470e046c49863fee" category="list-text">如果 AFF 磁碟區、LUN 或命名空間未進行精簡配置，則必須停用所有效率設定，因為使用這些功能不會節省任何空間，且啟用空間效率的厚配置組合可能會導致意外行為，包括空間不足錯誤。</block>
+  <block id="9fe84b29b11ced8200856d396732b0d2" category="paragraph">在例行維護作業期間，儲存設備接管或 MetroCluster 切換作業應該是透明的，除了網路路徑變更時可能會短暫暫停作業之外。然而，網路可能很複雜，而且很容易出錯，因此 NetApp 強烈建議在將儲存系統投入正式作業之前，徹底測試接管和切換作業。這是確保所有網路路徑都已正確設定的唯一方法。在 SAN 環境中，請仔細檢查命令<block ref="41dc2c94e82e1c56ba876085acf5a974" prefix=" " category="inline-code"></block>的輸出，以確保所有預期的主要和次要路徑都可用。</block>
+  <block id="f77d4feab6de8a6645ea266925b8d31f" category="paragraph">舉例來說，一套較老的雙節點高可用性 AFF A800 系統在延遲超過 1 毫秒之前，能夠處理高達 100 萬次的隨機 IOPS。很少有單一工作負載會達到如此高的負載等級。要充分利用這套 AFF A800 系統陣列，需要託管多個工作負載，而要在確保安全性和可預測性的同時實現這一點，就需要 QoS 控制。</block>
+  <block id="83653b71fec0e17474910021da8a70fb" category="paragraph">ONTAP 中有兩種服務品質（QoS）：IOPS 和頻寬。QoS 控制可以應用於 AFF SVM、AFF Volume、AFF 檔案以及 AFF/ASA LUN 和命名空間。</block>
+  <block id="257ac6ab520168ad153ca092586c6b3d" category="paragraph">從 ONTAP 9.12.1 版本開始，快照不僅是唯讀的，還可以防止意外或故意刪除。此功能稱為防篡改快照。可以透過快照原則設定並強制執行保留期限。產生的快照只有在達到其過期日期後才能被刪除。管理員或支援中心均無法變更此設定。</block>
+  <block id="07a1aeac0c6dbe15fcb9d1cc594bbf2f" category="paragraph">這些圖表顯示了正常運作、故障轉移和故障復原操作期間發生的情況。為了方便說明，圖中展示的是複製的 LUN。在實際的 SnapMirror active sync 組態中，複寫是以 AFF 磁碟區為基礎、每個磁碟區包含一個或多個 LUN、但為了簡化圖示、已移除磁碟區層。</block>
+  <block id="7b14f7ca247852bfa8e061903f31b6c9" category="paragraph">例如，假設資料庫位於 AFF 系統 1TB 磁碟區中一個 250GB 的 LUN 上。建立快照會立即在該磁碟區中預留額外的 250GB 空間，以確保該磁碟區不會因任何原因耗盡空間。使用部分預留空間通常是浪費的，因為資料庫磁碟區中的每個位元組幾乎都不需要被覆寫。沒有理由為永遠不會發生的事件預留空間。但是，如果客戶無法監控儲存系統中的空間使用情況，並且必須確保空間永遠不會耗盡，則需要使用 100% 的部分預留空間才能使用快照。</block>
+  <block id="253c4de9a5e38194aa9ea89516ae9dba" category="admonition">ASA 僅支援 SAN，因此不存在磁碟區抽象，此平台不使用部分保留。</block>
+  <block id="e3432d1db6f138b955c9139e6050b843" category="paragraph">資料集的可壓縮性始終存在變化的可能性，這會導致實際空間消耗增加。這種消耗的增加意味著必須像管理其他形式的精簡配置一樣管理壓縮，包括監控，並且在 AFF 系統中使用<block ref="f9e1f2ea1a2becbaf82dd54e55a12e6b" prefix=" " category="inline-code"></block>和<block ref="24d554277b3513bb6cef3f0a336725a9" prefix=" " category="inline-code"></block>。</block>
+  <block id="62cd655270f5859b50226b5a440b8348" category="paragraph">*NetApp 建議*採用以下 AFF 及 FAS 平台備用電源配置：</block>
+  <block id="11d7cca16eff769edbe66712d8df8a95" category="paragraph">ONTAP 在 Oracle 資料庫環境中的主要價值來自於 ONTAP 的核心技術，例如即時 Snapshot 複本、簡單的 SnapMirror 複寫，以及有效率地建立複製的磁碟區、LUN 和命名空間。</block>
+  <block id="a88fd133fd3b47f8999d690986418477" category="paragraph">為了實現最簡單的備份，只需將整個 Oracle 資料庫放在單一 ONTAP 磁碟區、LUN 或 NVMe 命名空間中即可。</block>
+  <block id="c8fe57731776bea23dbe6284837d744b" category="paragraph">使用單一快照保護資料檔案、歸檔日誌、重做日誌和控制檔案是一種有效的備份、還原和複寫方法。但是，RPO 僅限於備份本身的時間點。它適用於 RPO 為一小時或更長的情況。如果資料庫跨越 AFF 磁碟區或 ASA 儲存單元，則需要使用前面討論過的工具之一來建立一致性群組。</block>
+  <block id="75b5aeaff20278660015b9985f58d09c" category="paragraph">例如，整個資料庫可以位於單一 AFF 磁碟區中，並採用以下快照排程：</block>
+  <block id="9bdf5a34cd9dcb05b9c5480472dfbc05" category="paragraph">這可以確保在過去 72 小時的滾動週期內，復原點目標（RPO）為 1 小時，此外還提供額外的夜間和每月備份。多個資料庫或應用程式檔案也可以包含在單一磁碟區或一致性群組快照集中，從而在更大的環境中實現一致的備份。</block>
+  <block id="04c19e5289344d368378d63366e3fb30" category="paragraph">為了防止這種情況下的資料遺失，ONTAP 允許對磁碟區、LUN 或 NVMe 命名空間進行特殊配置，以防範 NVRAM 故障。觸發此保護機制後，儲存資源將進入 NVFAIL 狀態。此狀態會導致 I/O 錯誤，進而導致應用程式關閉，以避免使用過期資料。由於所有已確認的寫入操作都應保留在儲存陣列上，因此資料不會遺失。</block>
+  <block id="36b67bf27e49b0fe8b8a43fcb5e1ba73" category="paragraph">通常情況下，管理員需要先完全關閉主機，然後再手動將 LUN、命名空間或 NFS 磁碟區重新連線。雖然這些步驟可能需要一些操作，但這種方法是確保資料完整性的最安全方式。並非所有資料都需要這種保護，因此可以對 NVFAIL 的行為進行精細化配置。</block>
+  <block id="bbf8a5378a46782a1ae5ae30d13259e2" category="list-text">Oracle 資料庫、NVFAIL 應在所有託管關鍵元件（資料檔案、重做日誌、控制檔案）的 LUN 上啟用。</block>
+  <block id="d03e63241f5bfc42adedfa4ed80927ae" category="list-text">在 AFF 系統中、NVFAIL 在磁碟區層運作、並套用至所有包含的資料。</block>
+  <block id="60b4b02c67a59443d6be7d99017e0cc9" category="list-text">在 ASA 上、NVFAIL 在 LUN 或命名空間層運作。</block>
+  <block id="179cb95eac13084fa36c81508486bd39" category="paragraph">最簡單的佈局是將資料檔案隔離在一個或多個專用磁碟區、LUN 或 NVMe 命名空間中。儲存資源必須不受任何其他檔案類型的污染。這樣做是為了確保可以透過 SnapRestore 操作快速還原資料檔案，而不會破壞重要的重做日誌、控制檔或歸檔日誌。</block>
+  <block id="f340baa09bbe04f25fafe370cbcdd0ba" category="paragraph">SAN 對專用資源內的資料檔案隔離也有類似的要求。對於使用 AFF 儲存設備的作業系統（例如 Microsoft Windows）、單一磁碟區可能包含多個資料檔案 LUN、每個 LUN 都使用 NTFS 檔案系統。而對於其他作業系統、通常會有一個邏輯磁碟區管理程式。例如、對於 Oracle ASM、最簡單的方案是將 ASM 磁碟群組的 LUN 限制在一個可以整體備份和還原的單一磁碟區中。如果出於效能或容量管理的原因需要額外的磁碟區、則在新磁碟區上建立額外的磁碟群組可以簡化管理。</block>
+  <block id="3c43f9cbb671ac6dee099d8ca8c238aa" category="paragraph">ASA 不具備 AFF 系統上可以承載多個 LUN 的磁碟區級抽象化。ASA 則使用一致性群組。在許多情況下，單一 LUN 或 NVMe 命名空間即可滿足資料庫的管理和效能要求。如果需要多個 LUN 或命名空間，可以新增額外的資源並將其綁定到一個一致性群組中，該一致性群組即為資料檔案容器。</block>
+  <block id="736114eaec26280323ae190e33dcc5b5" category="paragraph">如果遵循這些準則，可以直接在儲存系統上排程快照。</block>
+  <block id="01022276c0c64496fe2932facd012da2" category="list-text">將資料檔案 NFS 磁碟區還原到所需還原點之前的快照。</block>
+  <block id="5a86f8dc5e7803c5898055a51a354add" category="list-text">將裝載資料檔案磁碟群組的 LUN 還原至所需還原點之前的 Snapshot。</block>
+  <block id="1c0018f9e90ce27dd1f9d34d7dae24ff" category="paragraph">此程序假設所需的歸檔記錄仍存在於作用中檔案系統中。如果不存在、則必須將歸檔記錄 LUN/ 命名空間完全離線並執行還原、以還原歸檔記錄（或建立先前快照的複本、由於在同一主機上建立重複的 UUID 或 LVM 名稱、因此可能很困難）。這也是將歸檔記錄分隔成專屬儲存資源的實用範例。如果歸檔記錄與重做記錄共用磁碟區群組、則必須先將重做記錄複製到其他位置、才能還原整組 LUN 。此步驟可防止遺失最後記錄的交易。</block>
+  <block id="05eb428160b57ae4bca7fa01d020c602" category="paragraph">當機一致性備份涉及在單一原子時間點擷取資料集（或多個資料集）的狀態。以資料庫為例、這包括所有資料庫元件、例如資料檔案、記錄檔及其他與資料庫直接相關的檔案。這適用於幾乎所有關聯式資料庫產品、包括 Oracle RDBMS、Microsoft SQL Server、SAP HANA、PostgreSQL、MySQL 和 MariaDB。使用一致性群組備份來保護 VMware 組態也類似、在單一原子時間點擷取所有資料存放區、以及可能的 ESX 開機 LUN。</block>
+  <block id="a803e58b59625d4e38ca0f5f28408e12" category="paragraph">建立這類備份本質上是在模擬當機，因此這類備份稱為當機一致性備份。有時會擔心其對還原案例的支援，但重要的是要瞭解，通常不需要任何還原程序。應用程式在還原一致性群組備份後啟動時，會執行一般的記錄還原程序、檔案系統日誌重播以及其他工作，以重播備份時正在進行的任何 I/O 作業。然後，應用程式會照常啟動。</block>
+  <block id="b7d3655d85a4bde01582bbd8bdd266cc" category="paragraph">這種方法的 RPO 通常僅限於備份點。一般來說，當機一致性備份的最低 RPO 為一小時。例如、 48 個每小時快照加上另外 30 天的夜間快照是合理的、而且不需要保留過多的快照。低於一小時的 RPO 更難實現、因此不建議在未諮詢 NetApp 專業服務部門以瞭解環境、規模和資料保護要求之前這樣做。</block>
+  <block id="cf2962ed6af29f3c1cfd5f7bdb2513cc" category="paragraph">RTO 通常以秒為單位進行測量。當應用程式關閉時、NFS 磁碟區、LUN 或 NVMe 命名空間將被還原、然後應用程式將重新啟動。</block>
+  <block id="3b002eba619ff25e36e76b82129420db" category="paragraph">最簡單的方法是將所有檔案或 LUN 放在單一 AFF 磁碟區或 ASA LUN/命名空間。如果資料集必須跨越多個儲存資源，則需要一致性群組。這可以透過 System Manager 或 RESTful API 呼叫進行配置，並且 SnapCenter 能夠建立簡單的一致性群組快照。</block>
+  <block id="3d4e10c59e72ef959591be3013a86b70" category="paragraph">其他因素也會影響複寫，例如複寫開銷和並行複寫作業數量的限制。然而，單一資源複寫策略的整體規劃可以基於可用頻寬，通常可以實現一小時的複寫 RPO。低於一小時的 RPO 更難實現，應僅在諮詢 NetApp Professional Services 後進行。在某些情況下，如果站點間網路連線非常良好，15 分鐘的 RPO 也是可行的。但是，整體而言，當需要低於一小時的 RPO 時，多資源日誌重播架構能帶來更好的結果。</block>
+  <block id="58fbeffe1216add640a1fb6b76fdd41b" category="paragraph">保留時間部分受快照限制控制。例如，ONTAP 中的 AFF 磁碟區和 ASA LUN 的快照數量上限為 1024 個。在某些情況下，客戶會採用多工複寫來提高此限制。例如，如果需要 2000 天的備份，可以將來源複寫到兩個不同的目的地，並在不同日期進行更新。這需要增加所需的初始空間，但與涉及多次完整備份的傳統備份系統相比，這仍然是一種更有效率的方法。</block>
+  <block id="73c86e600f3c0e068822617503714dcc" category="section-title">單一磁碟區一致性群組（AFF）</block>
+  <block id="3f9591fa86bbd9e365635e052e665a63" category="paragraph">最簡單的方法是將所有檔案或 LUN 放在同一個磁碟區中。磁碟區本身就是一個一致性群組，這意味著 SnapMirror 和 SnapVault 更新可以直接在儲存系統上排程。不需要外部軟體。</block>
+  <block id="0abc2a6787b86b479949e99fe026b3f1" category="section-title">單一 LUN / 命名空間一致性群組（ASA）</block>
+  <block id="ce83f56d01ad6f5ff80977791eaadb44" category="paragraph">將整個資料庫放在單一 LUN/ 命名空間上看似奇怪，但這種做法正變得越來越普遍。磁碟區管理器最初創建的目的就是為了克服實體硬碟的效能和容量限制。在現代陣列中，呈現給主機的單一區塊裝置實際上已經跨多個硬碟進行抽象化。其大小可以動態調整，效能也遠超單一硬碟。</block>
+  <block id="82ad57ee9d867d999bef1173228831f0" category="paragraph">結果是，從 ESX 資料儲存區到 Oracle 資料庫等各種工作負載通常都可以託管在單一區塊裝置上。這不僅極大地簡化了資料管理，還帶來了其他有益的附加效果，例如由於需要探索的裝置數量減少，主機重新開機速度也更快。</block>
+  <block id="504cbc529c0b7dd8a9babcaedfaeced6" category="paragraph">當資料庫必須跨越 AFF 磁碟區或 ASA LUN/ 命名空間時，需要一致性群組快照。如上所述，可以使用 System Manager 或 RESTful API 呼叫進行設定，此外 SnapCenter 能夠建立簡單的一致性群組快照。</block>
+  <block id="eb31818b62198057d49ba50f3dad1c4d" category="paragraph">此外，在使用 AFF 多磁碟區或 ASA 多 LUN 一致性快照進行災難復原時，還需考慮以下一點。在更新多個 SnapMirror 關係時，傳輸過程中可能會發生災難。這會導致一組磁碟區、LUN 或命名空間彼此不一致。如果發生這種情況，則必須將部分磁碟區還原到先前的快照狀態，才能提供一個崩潰一致性且可供使用的資料庫映像。</block>
+  <block id="69c9ecffcfa91f6fc4721e45a66149d2" category="summary">利用快照快速復原 Oracle 資料庫</block>
+  <block id="38a72b3b5e25e3dc731c3317ad245d60" category="paragraph">ONTAP 中從快照進行的快速資料還原是由 NetApp SnapRestore 技術提供，該技術可讓您立即還原 AFF 磁碟區或 ASA LUN 的狀態。</block>
+  <block id="00d412b98341f121bf9f6cbf76c48ef3" category="paragraph">雖然 AFF 和 ASA 平台的基本技術相同，但它們的使用方式略有不同。</block>
+  <block id="5fdb42eea17aa97abecbc73a50914a3b" category="section-title">AFF 概述</block>
+  <block id="c49011663fbeb9adc0fec91a890cab4d" category="paragraph">AFF 系統上有兩種形式的 SnapRestore - 基於檔案的和基於磁碟區的：</block>
+  <block id="7e25b57710b3d1e04538511a94d9f12f" category="list-text">無論是 2TB 的 LUN 還是 4KB 的檔案，都可以在幾秒鐘內還原個別 AFF 檔案、LUN 和命名空間以及個別 ASA LUN 和命名空間。</block>
+  <block id="cc3ec32c43208d2aec922109a58ae2f2" category="list-text">無論是 10GB 還是 100TB 的資料，AFF 磁碟區的全部內容都可以在幾秒鐘內恢復。</block>
+  <block id="5667824f68707824d28a406055d7d48e" category="paragraph">SnapRestore 之所以如此快速且高效，是因為快照的特性。快照本質上是磁碟區、LUN 或命名空間在特定時間點的內容的平行唯讀檢視。作用中區塊是實際可以變更的資料區塊，而快照則是建立快照時構成檔案和 LUN 的資料區塊狀態的唯讀檢視。</block>
+  <block id="bc09e121f03c81d70b459cbd4d0f9e60" category="paragraph">ONTAP 僅允許對快照資料進行唯讀存取，但可以使用 SnapRestore 重新啟動資料。重新啟動後，快照將以讀寫資料的形式呈現，使資料恢復到先前的狀態。SnapRestore 可以在磁碟區、檔案、LUN 或命名空間層級進行操作。該技術本質上相同，僅在行為上存在一些細微差別。</block>
+  <block id="0ab73141132c6275cc1496aa810ce1ac" category="section-title">AFF Volume SnapRestore</block>
+  <block id="6f8b7df7d88c354241d2a369b8222c5d" category="paragraph">基於磁碟區的 SnapRestore 會將整個磁碟區的內容還原到先前的狀態。此作業無需移動資料，這意味著還原程序幾乎是瞬間完成的，儘管 API 或 CLI 作業可能需要幾秒鐘的處理時間。還原 1GB 的資料與還原 1PB 的資料一樣簡單又快速。正是這項功能促使許多企業客戶遷移到 ONTAP 儲存系統。即使對於最大的資料集，它也能提供以秒為單位的 RTO。</block>
+  <block id="a8e8c5b944966a24442b2fdf9d203a64" category="section-title">AFF 檔案 SnapRestore</block>
+  <block id="915b89a151af5ba629a43ffa04085968" category="paragraph">以檔案為基礎的 SnapRestore 是搭配 AFF 磁碟區使用的更精細快照型還原程序。它不會還原整個磁碟區的狀態，而是還原個別檔案、LUN 或命名空間的狀態。不需要刪除任何快照，此作業也不會對先前的快照產生任何相依性。檔案或 LUN 會立即在作用中磁碟區中可用。</block>
+  <block id="10ddaefaadec4ed6c1b70f07d064a0e0" category="paragraph">在 SnapRestore 還原檔案或 LUN 期間，不需要移動資料。不過，需要進行一些內部中繼資料更新，以反映還原資料中的基礎區塊現在同時存在於快照和作用中磁碟區中。這應該不會影響效能，但此程序會封鎖快照的建立，直到完成為止。根據還原檔案的總大小，處理速率約為 5GBps（18TB/ 小時）。</block>
+  <block id="b6e8a420db886906ad335458514ed574" category="section-title">ASA LUN / 命名空間還原</block>
+  <block id="57ebbba8069c9611d64d70040f6d1015" category="paragraph">在 ASA 上還原資料與 AFF SnapRestore 類似。資料只是還原到先前的狀態。此程序幾乎是即時的、不需要移動資料。它也有相同的限制、包括還原快照會導致後續刪除的快照也被刪除。如果這造成問題、有兩種選項。第一、可以從較早的快照複製 LUN/ 命名空間、同時保持來源磁碟區不變。這是即時且節省空間的程序。它本質上是對快照中區塊的唯讀指標進行讀寫複本。第二個選項是透過 REST API、它可以使用與 AFF 系統相同的單一檔案 SnapRestore 邏輯。結果是使用快照中的資料即時還原 LUN/ 命名空間、並保留所有快照。</block>
+  <block id="7c658e207e3fd38a1e92c058cbd8f006" category="list-text">無論資料是由 1024 個快照保護或沒有快照保護，效能都不會受到影響。</block>
+  <block id="b7d88fc4df615575cb0fe95b8487a293" category="list-text">「一致性群組」一詞通常用於指一組儲存物件，這些物件作為一個一致的資料集合進行管理。特定 AFF 磁碟區的快照構成一致性群組備份。</block>
+  <block id="955e1959b45d4f3e815e27470c6e9771" category="list-text">此外，多個 AFF 磁碟區或 ASA LUN / 命名空間可以輕鬆綁定在一起，形成一個一致性群組，並將資料保護原則作為單一單元套用。</block>
+  <block id="e9c6d69beceea2b15679b91ce965b0ad" category="paragraph">ONTAP 快照的可擴充性也優於其他同類技術。客戶可以儲存 5 個、50 個或 500 個快照，而不會影響效能。目前，AFF 磁碟區或 ASA LUN/ 命名空間中允許的最大快照數量為 1024 個。如果需要更長的快照保留時間，可以選擇級聯快照。</block>
+  <block id="a8248f13e8b16c9f7d21fc9bc7c2a6b2" category="paragraph">ONTAP 一直能夠擷取一致的本機資料映像和複製資料映像。儘管 ONTAP AFF/FAS 系統上的各個磁碟區通常不會被正式描述為一致性群組,但它們實際上就是一致性群組。此磁碟區的快照就是一致性群組映像,而對此快照的還原就是一致性群組還原,SnapMirror 和 SnapVault 都提供一致性群組複寫功能。</block>
+  <block id="3532af5054dd6652313f1563c860352c" category="paragraph">AFF 系統也包含更廣泛的一致性群組類型。在 ONTAP 中，可以將多個磁碟區定義為一個 CG。然後可以在 CG 層級設定快照、複本和複寫。這簡化了資料保護策略，因為它允許對資料集（而不僅僅是單一磁碟區或 LUN）設定原則。ASA 系統中也存在 CG。可以將多個 LUN 或命名空間綁定到一個 CG，然後可以使用快照保護該 CG，並對其進行複寫、還原或複製。</block>
+  <block id="947cad003aa856c0d05b1c932d885bbe" category="paragraph">一致性群組（CG）快照是基本 ONTAP Snapshot 技術的延伸。標準快照作業會在單一 AFF/FAS 磁碟區或 ASA LUN/命名空間內建立所有資料的一致映像，但有時需要跨多個儲存資源、甚至跨多個儲存系統建立一組一致的快照。結果是一組快照，可以像單一個別磁碟區的快照一樣使用。它們可用於本機資料還原、複寫以用於災難恢復目的，或複製為單一一致單元。</block>
+  <block id="79892138f02025e1b9a51ac9903f1420" category="paragraph">CG 快照具有極佳的可擴充性。目前已知最大的 CG 快照應用案例是在一個規模約 1PB、跨越 12 個控制器的資料庫環境。在該系統上建立的 CG 快照已用於備份、還原和複製。</block>
+  <block id="b943c4c59977436d649176e68b52eaf8" category="paragraph">大多數情況下，當資料集跨越 AFF 磁碟區或 ASA LUN / 命名空間，且必須保持寫入順序時，只需定義一個 ONTAP 一致性群組，即可對該群組磁碟區、LUN 或命名空間進行原生管理，從而建立快照。如果使用管理軟體，則該軟體應能偵測到是否需要 CG 快照，並呼叫所需的 API。</block>
+  <block id="9e3b1c34ec2e0de2f3c2b364d4ae8aa5" category="paragraph">在這種情況下、無需瞭解 CG Snapshot 的技術細節。不過、在某些情況下、複雜的資料保護需求需要對資料保護和複寫程序進行詳細控制。自動化工作流程或使用自訂指令碼來呼叫 CG Snapshot API 是其中一些選項。瞭解最佳選項和 CG Snapshot 的角色、需要更詳細地說明技術。</block>
+  <block id="a9b5f1fbe18831d962accee9d67c476d" category="paragraph">建立一組一致性群組 Snapshot 是一個兩步驟程序：</block>
+  <block id="3efc632582a1ae5b55afcb1be05b4e60" category="list-text">對所有目標 AFF 磁碟區或 ASA LUN/ 命名空間建立寫入隔離。</block>
+  <block id="8c6bdbc130423b419a852fd0f618e558" category="list-text">在隔離狀態下建立這些磁碟區、 LUN 或命名空間的快照。</block>
+  <block id="67c58ec14374d7bdd2a7fd67c96c17bb" category="paragraph">寫入隔離是按順序建立的。這意味著，當在多個儲存目標上建立隔離程序時，序列中第一個物件的寫入 I/O 會被凍結，並持續凍結清單中後續目標上的寫入 I/O。這乍看之下似乎違反了保持寫入順序的要求，但該要求僅適用於在主機上非同步發出且不依賴任何其他寫入操作的 I/O。</block>
+  <block id="e693afb249950dfa2b2c0cd9fe5bd3f3" category="paragraph">舉個反例，大多數資料庫日誌記錄活動都是同步的。資料庫只有在 I/O 操作得到確認後才會繼續寫入日誌，而這些寫入操作的順序必須保持不變。如果日誌 I/O 操作到達了隔離的 LUN，則不會得到確認，應用程式將阻塞後續的寫入操作。同樣，檔案系統元資料 I/O 通常也是同步的。例如，檔案刪除操作不能遺失。如果一個使用 xfs 檔案系統的作業系統刪除了一個檔案，而用於更新 xfs 檔案系統元資料以移除該檔案引用的 I/O 操作到達了隔離的 LUN，則檔案系統活動將會暫停。這保證了在 CG 操作期間檔案系統的完整性。</block>
+  <block id="bd0bf1fa9eb1a661c581d7af39175603" category="paragraph">在目標上設定好寫入隔離後，即可建立快照。由於目標的狀態從依賴寫入的角度來看已被凍結，因此快照無需完全同時建立。為了防止建立 CG 快照的應用程式出現缺陷，初始寫入隔離包含一個可設定的逾時機制，在設定的秒數後，ONTAP 會自動解除隔離並恢復寫入處理。如果在逾時時間結束前建立了所有快照，則產生的快照集構成一個有效的一致性群組。</block>
+  <block id="b4160bb38a1df9fa70bb22375200d936" category="list-text">受 Snapshot 保護的線上備份</block>
+  <block id="22c3a705ca76f2105c8c472240290621" category="paragraph">資料庫的當機一致性備份是指在單一時間點擷取整個資料庫結構，包括資料檔案、重做記錄和控制檔案。如果資料庫儲存在單一磁碟區、LUN 或命名空間中，則該程序很簡單；可以隨時建立快照。如果資料庫跨越 AFF 磁碟區或 ASA LUN / 命名空間，則必須建立一致性群組（CG）快照。建立 CG 快照有多種選擇，包括 NetApp SnapCenter 軟體、ONTAP 原生一致性群組功能和使用者維護的指令碼。</block>
+  <block id="677bd24c6bea784ee8744890cf6c1182" category="paragraph">當機一致性快照備份主要用於備份點還原即已足夠的情況。在某些情況下可以套用歸檔記錄，但當需要更精細的時間點還原時，線上備份較為理想。</block>
+  <block id="e57f0cf358dbf33ac1f1f57c34ccf1d6" category="list-text">建立託管資料檔案的所有儲存資源（NFS 匯出、LUN 或 NVMe 命名空間）的快照。</block>
+  <block id="19468f5025c26aba5b6f174cb2beb6ad" category="list-text">建立託管歸檔記錄的所有儲存資源的快照。</block>
+  <block id="a5109eee3ecada8a9e595c89a9813f0e" category="paragraph">在為 Oracle 資料庫設計儲存佈局時，首先要決定的是是否使用基於磁碟區的 NetApp SnapRestore（VBSR）技術，這是用於還原 AFF 磁碟區和 ASA LUN/命名空間的基礎技術。</block>
+  <block id="1e99502f47ce86be0107e2b782c0eaa6" category="paragraph">VBSR 允許將資料幾乎立即還原到先前的某個時間點。由於還原操作會丟棄所有資料，因此 VBSR 可能並不適用於所有用例。例如，如果整個資料庫（包括資料檔案、重做日誌和歸檔日誌）儲存在單一 AFF 磁碟區上，並且使用 VBSR 還原該磁碟區，則資料會遺失，因為較新的歸檔日誌和重做日誌資料會被丟棄。ASA 資料存在同樣的問題。如果整個資料庫儲存在單一 ASA 一致性群組中，且該一致性群組還原到較早的狀態，則部分較新的歸檔日誌和重做日誌資料將會遺失。</block>
+  <block id="2a9b6ee69dc628753429c11335d26121" category="paragraph">還原不需要 VBSR。許多資料庫可以使用以檔案為基礎的單一檔案 SnapRestore （SFSR）還原，或只要將快照中的檔案複製回作用中檔案系統即可。</block>
+  <block id="befd08230a8b67af23e6cc86ab68311b" category="paragraph">當資料庫非常龐大或需要盡快還原時，VBSR 是首選方案，而使用 VBSR 需要隔離資料檔案。在 NFS 環境中，特定資料庫的資料檔案必須儲存在專用磁碟區中，且這些磁碟區不能被任何其他類型的檔案污染。在 SAN 環境中，資料檔案必須儲存在專用 LUN 或命名空間中。如果使用磁碟區管理器（包括 Oracle Automatic Storage Management [ASM]），磁碟組也必須專用於儲存資料檔案。</block>
+  <block id="6f1b805fc8753a1365710700291e6df1" category="paragraph">透過這種方式隔離資料檔案，可以將其恢復到先前的狀態，而不會損壞其他檔案系統。</block>
+  <block id="f60ff004e852f49b2838c63fb209b633" category="section-title">AFF Snapshot 保留</block>
+  <block id="fe9c8793781de60c81315ec829dc8f84" category="paragraph">對於 AFF SAN 環境中每個包含 Oracle 資料的磁碟區，<block ref="9ca25b30dcc119f9115aad6d85fd12ce" prefix=" " category="inline-code"></block>應設為零，因為在 LUN 環境中為 Snapshot 保留空間並無用處。如果分數保留設為 100，則包含 LUN 的磁碟區的 Snapshot 需要磁碟區中有足夠的可用空間（不包括 Snapshot 保留），以吸收所有資料 100% 的變動。如果分數保留設為較低的值，則所需的可用空間會相應減少，但始終不包括 Snapshot 保留。這表示 LUN 環境中的 Snapshot 保留空間被浪費了。</block>
+  <block id="59aebe92fc551de46ca0794f934e5bc8" category="admonition">Snapshot 保留不適用於 ASA 儲存設備。</block>
+  <block id="1254f51b373ccd41bf685ec87bc5d68e" category="paragraph">最簡單的佈局是將資料檔案隔離在專用磁碟區、LUN 或 NVMe 命名空間。儲存資源必須不受任何其他檔案類型的污染。這樣做是為了確保可以透過 SnapRestore 操作快速恢復資料檔案，而不會破壞重要的重做日誌、控制檔或歸檔日誌。</block>
+  <block id="097daca3ca12238584b696f8c73fa814" category="paragraph">ASA 不具備磁碟區層級抽象。而是使用一致性群組。在許多情況下，單一 LUN 或 NVMe 命名空間即可滿足資料庫的管理和效能要求。如果需要多個 LUN 或命名空間，則可以新增額外的資源並將其繫結到一個一致性群組中，該一致性群組將成為資料檔案容器。</block>
+  <block id="241ce9f30b2db1015f51f67701e797f5" category="list-text">將資料檔案磁碟區、LUN 或命名空間還原至所需還原點之前的快照。</block>
+  <block id="a3cf048feddbd56987ac89a2e785cc40" category="paragraph">此程序假設所需的歸檔記錄仍存在於作用中檔案系統中。如果不存在、則必須透過將歸檔記錄 LUN 離線並執行還原來還原歸檔記錄。這也是將歸檔記錄分離到專用磁碟區、LUN 或命名空間非常實用的範例。如果歸檔記錄與重做記錄共用磁碟區群組、則必須先將重做記錄複製到其他位置、再還原整個 LUN 集、以避免遺失最終記錄的交易。</block>
+  <block id="8d2c1d4edd3fbf01c94b8a7e49de1e9d" category="paragraph">當資料庫必須跨越多個磁碟區時，需要一致性群組 Snapshot （CG Snapshot ）。</block>
+  <block id="df4fb0525f0cefd87855853a356c7676" category="paragraph">最重要的要求是將資料檔案隔離到一個或多個專用容器中。這可以透過多種方式實現，包括將所有資料檔案放置在單一 LUN/命名空間、單一 AFF NFS 磁碟區中，或放置在多磁碟區或多 LUN/命名空間的 ONTAP 一致性群組中。關鍵在於資料檔案必須不受任何其他檔案類型的污染。這樣做的目的是確保資料檔案複寫完全獨立於其他資料類型（例如歸檔日誌）的複寫。有關檔案佈局的更多資訊以及確保儲存佈局支援快照的重要細節，請參閱 <block ref="c87a7212960b8cc2aca49adb1795e291" category="inline-link-macro-rx"></block>。</block>
+  <block id="6080ea352d8f3c275b55f666b09073b5" category="paragraph">當 (a) 啟用 DNFS 且 (b) 來源 NFS 共用在單一伺服器上多次掛載 (c) 存在嵌套 NFS 掛載時，需要一個名為<block ref="4740c034d97ca90a96b8050082816605" prefix=" " category="inline-code"></block>的額外掛載選項。這種配置主要見於支援 SAP 應用程式的環境。例如，NetApp 系統上的單一 NFS 共用可能包含兩個目錄：一個位於<block ref="9f9f4ccb1fc3afcbfe0cc3f5eac4332c" prefix=" " category="inline-code"></block>，另一個位於<block ref="ac2f9bbcd397d8f6b39e6713658051ea" prefix=" " category="inline-code"></block>。如果<block ref="9f9f4ccb1fc3afcbfe0cc3f5eac4332c" prefix=" " category="inline-code"></block>掛載在<block ref="9ad16912cc0ba54a259b1a15d233c264" prefix=" " category="inline-code"></block>，而<block ref="ac2f9bbcd397d8f6b39e6713658051ea" prefix=" " category="inline-code"></block>掛載在<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>，則會產生源自相同來源的巢狀 NFS 掛載。</block>
+  <block id="936d46e56a7c836060ae638ad30b113a" category="paragraph">作業系統可以偵測到<block ref="9ad16912cc0ba54a259b1a15d233c264" prefix=" " category="inline-code"></block>和<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>位於同一個 NFS 共用上，也就是同一個來源檔案系統。然後，作業系統會使用同一個裝置句柄來存取資料。這樣做可以提高作業系統快取和其他一些操作的效率，但會幹擾 DNFS。如果 DNFS 必須存取檔案（例如<block ref="1737629d60b511cf45957529a8f046e2" prefix=" " category="inline-code"></block>）位於<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>上，它可能會錯誤地嘗試使用錯誤的資料路徑。這會導致 I/O 操作失敗。在這些組態中，對於與主機上另一個 NFS 檔案系統共用來源 NFS 共用的任何 NFS 檔案系統，請新增<block ref="4740c034d97ca90a96b8050082816605" prefix=" " category="inline-code"></block>掛載選項。這樣做會強制 Linux 作業系統為該檔案系統指派一個獨立的裝置句柄。</block>
+  <block id="cdcac9f87f34f858fd0a5ffe221c47b8" category="inline-link-macro">WAFL 對齊</block>
+  <block id="f1ced7a4c9fa011dc91755c91062bef7" category="list-text">對 LUN 進行分區並驗證它們是否正確對齊。請參閱 <block ref="bdffc59ffc48026b15735c217f1aa286" category="inline-link-macro-rx"></block> 以取得如何直接測試和確認對齊的說明。</block>
+  <block id="ab4437814bf873ff5cd8f4af9be50c99" category="paragraph">Oracle 支援在 Microsoft Windows 上使用直接 NFS 用戶端。此功能提供了一條途徑，讓您能夠享受 NFS 的管理優勢，包括跨環境檢視檔案、動態調整 NFS 磁碟區大小以及利用成本較低的 IP 協定。有關在 Microsoft Windows 上使用 DNFS 安裝和設定資料庫的資訊，請參閱 Oracle 官方文件。目前沒有特別的最佳實務做法。</block>
+  <block id="885a17cc09ffc32b7e4db7dd62b9647d" category="paragraph">在 AFF 和 FAS 系統上，ONTAP 磁碟區中資料庫 LUN 的最佳放置主要取決於如何使用各種 ONTAP 功能。</block>
+  <block id="c530e06a5e5a18e2409a4fe92ba3dd3a" category="list-text">本節適用於 AFF 和 FAS 系統。</block>
+  <block id="ae397ec197cb58371b1b3989962259cc" category="list-text">ASA 是一個精簡的 SAN 平台，不提供磁碟區抽象層，</block>
+  <block id="0353522b39b87d54d40d3f09ec668851" category="sidebar">ONTAP 組態</block>
+  <block id="92d9160e034a5ffdafcb6f34b87a7fa6" category="sidebar">快照還原</block>
 </blocks>

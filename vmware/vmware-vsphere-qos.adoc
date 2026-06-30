@@ -85,7 +85,7 @@ link:https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-resource-management/G
 為 vVol 容器建立儲存功能設定檔時、請在效能功能下指定最大和 / 或最小 IOPS 值、然後使用 VM 的儲存原則參考此 SCP 。建立VM或將原則套用至現有VM時、請使用此原則。
 
 
-NOTE: VVols 需要 VMware vSphere 的使用 ONTAP 工具、此工具可作為 ONTAP 的 VASA 提供者。請參閱link:/vmware/vmware-vvols-overview.html["VMware vSphere 虛擬磁碟區（ VVols ）搭配 ONTAP"]以瞭解 vVols 最佳實務做法。
+NOTE: vVols 需要使用 ONTAP tools for VMware vSphere，該工具可作為 ONTAP 的 VASA Provider。請參閱 link:vmware-vvols-overview.html["VMware vSphere 虛擬磁碟區（ VVols ）搭配 ONTAP"] 以瞭解 vVols 最佳實務。
 
 
 

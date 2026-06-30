@@ -67,4 +67,4 @@ get-clusternode | ForEach-Object \{Invoke-command -computername $_.name -scriptb
 
 == 複寫
 
-複寫類似於一節中所述的程序 link:win_deploy_hyperv_replica_oce["叢集環境外部的複本"]。
+複製過程與本節中所述的過程類似link:win_deploy_hyperv_replica_oce.html["叢集環境外部的複本"]。

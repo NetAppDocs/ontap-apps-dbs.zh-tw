@@ -13,6 +13,7 @@ summary: EPIC 效能管理
 
 
 
+[[quality-of-service-qos]]
 == 服務品質（QoS）
 
 NetApp 建議使用 QoS 。QoS 的優點是能夠整合所有 Epic 工作負載。所有的傳輸協定和儲存資源池都可以位於較少的硬體上。您不需要將儲存資源池分開。

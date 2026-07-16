@@ -14,6 +14,7 @@ IBM AIX 與 ONTAP 上 Oracle 資料庫的組態主題。
 
 
 
+[[concurrent-io]]
 == 並行 I/O
 
 若要在 IBM AIX 上達到最佳效能、必須同時使用 I/O如果沒有並行 I/O 、效能限制很可能是因為 AIX 執行序列化的原子 I/O 、這會產生重大的負荷。
@@ -35,6 +36,7 @@ NetApp 最初建議使用 `cio` 掛載選項可強制在檔案系統上使用並
 ====
 
 
+[[aix-nfs-mount-options]]
 == AIX NFS 裝載選項
 
 下表列出 Oracle 單一執行個體資料庫的 AIX NFS 掛載選項。
@@ -93,6 +95,7 @@ nointr`
 
 
 
+[[aix-jfsjfs2-mount-options]]
 == AIX jfs/JFS2 掛載選項
 
 下表列出 AIX jfs/JFS2 掛載選項。

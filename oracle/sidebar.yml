@@ -133,8 +133,8 @@ entries:
       url: "/oracle/oracle-dp-snaprestore.html"
     - title: 快照型線上備份
       url: "/oracle/oracle-dp-online-backup.html"
-    - title: 儲存 Snapshot 最佳化備份
-      url: "/oracle/oracle-dp-storage-snapshot-optimized-backups.html"
+    - title: 無需 Snapshot 快照技術的自動恢復
+      url: "/oracle/oracle-dp-automatic-recovery.html"
     - title: SnapCenter 和其他工具
       url: "/oracle/oracle-dp-backup-tools.html"
 - title: Oracle 災難恢復

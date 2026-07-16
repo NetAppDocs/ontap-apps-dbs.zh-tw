@@ -18,12 +18,14 @@ searchtitle: Oracle 與 SnapMirror 主動式同步 - RAC 斷路器
 
 
 
+[[oracle-tiebreakers]]
 == Oracle tiebreaker
 
 管理分離式 Oracle RAC 風險的最佳方法、是使用奇怪數量的 RAC 節點、最好是使用第三站台的斷路器。如果第三個站台無法使用、則可將斷路器執行個體放置在兩個站台的其中一個站台、有效地將其指定為慣用的生存者站台。
 
 
 
+[[oracle-and-csscritical]]
 == Oracle 和 CSS_critical
 
 對於偶數個節點、預設的 Oracle RAC 行為是叢集中的其中一個節點將被視為比其他節點更重要。具有較高優先順序節點的站台會在站台隔離後繼續運作、而另一個站台上的節點則會被移除。優先順序是以多個因素為基礎、但您也可以使用設定來控制此行為 `css_critical`。

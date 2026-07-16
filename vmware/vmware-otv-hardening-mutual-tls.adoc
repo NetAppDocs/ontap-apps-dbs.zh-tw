@@ -18,6 +18,7 @@ ONTAP 9.7 版及更新版本支援相互 TLS 通訊。從適用於 VMware 的 ON
 
 
 
+[[ontap]]
 == ONTAP
 
 對於所有先前新增的儲存系統：在升級期間、所有新增的儲存系統都會自動受到信任、而且會設定憑證型驗證機制。
@@ -28,6 +29,7 @@ image:vmware-otv-hardening-mutual-tls-image2.png["Image2 、 width=468 、 heigh
 
 
 
+[[cluster-add]]
 === * 叢集新增 *
 
 在叢集新增工作流程期間、如果所新增的叢集支援 MTLS 、則預設會設定 MTLS 。使用者不需要為此進行任何組態。下列螢幕擷取畫面會顯示在叢集新增期間顯示給使用者的畫面。
@@ -42,6 +44,7 @@ image:vmware-otv-hardening-mutual-tls-image6.png["新增儲存系統、寬度 = 
 
 
 
+[[cluster-edit]]
 === 叢集編輯
 
 在叢集編輯作業期間、有兩種情況：

@@ -1457,106 +1457,11 @@
   <block id="3dee93bd9bc9b8b50dcdd2066a86009f" category="list-text">啟動資料庫</block>
   <block id="620515885465a26daea6cc6441403e34" category="paragraph">此方法的主要需求是在遠端站台上執行作業系統。它必須預先設定 Oracle 二進位檔、這也表示 Oracle 修補等工作必須在主要站台和待命站台上執行。或者、 Oracle 二進位檔可鏡射至遠端站台、並在宣告災難時掛載。</block>
   <block id="edb5332feef69c0aa60ea10ed5d31a9f" category="list-text">手動啟動資料庫、或將虛擬機器設定為自動啟動資料庫、例如 ESX 叢集可能跨越站台。在發生災難時、虛擬機器可在移至災難恢復站台後上線。只要主控虛擬化資料庫伺服器的資料存放區在災難發生時並未使用、就不需要設定<block ref="3b93661df04b698b1340ff2da3238d16" prefix=" " category="inline-code"></block> 在相關的磁碟區上。</block>
-  <block id="64bba30b717cb45555458da4fed880a1" category="paragraph">幾乎每個應用程式都需要資料複寫。</block>
-  <block id="25fb1fa02f326334533a22c105ad3e69" category="paragraph">在最基本的層級上、複寫可能是指將儲存在異地磁帶上的複本、或是將應用程式層級複寫到待命位置。災難恢復是指在發生災難性服務中斷時、使用這些複本複本將服務上線。</block>
-  <block id="eab6cb3a1168ef2311865e6155b8272c" category="paragraph">ONTAP 提供多種複寫選項、可因應儲存陣列本身的各種需求、滿足各種需求。這些選項包括簡單地將備份複寫到遠端站台、直到在同一個平台上同時提供災難恢復和高可用度的同步全自動化解決方案。</block>
-  <block id="32df0c1cabf839652741a56bdaac7def" category="paragraph">適用於應用程式的主要 ONTAP 複寫技術是 NetApp SnapMirror 和 NetApp SyncMirror 技術。這些不是附加產品、而是完全整合至 ONTAP 、只要簡單新增授權金鑰就能啟動。儲存層級複寫也不是唯一的選項。應用程式層級的複寫、例如搭配 Oracle DataGuard 、也能整合至以 ONTAP 為基礎的資料保護策略。</block>
-  <block id="a2259fa074bae962e46ca7fc7aa31be1" category="paragraph">正確的選擇取決於特定的複寫、恢復和保留需求。</block>
-  <block id="0d3b37ff5855bf299f3c4a154373c1e2" category="section-title">ONTAP SnapMirror</block>
-  <block id="296e89e943f5160d338484b3b705a44e" category="paragraph">SnapMirror 是 NetApp 非同步複寫解決方案、非常適合用來保護大型、複雜且動態的資料集、例如資料庫及其相關應用程式。其主要值如下：</block>
-  <block id="d9f36dae2818ace926c4259271530724" category="list-text">* 管理能力。 * SnapMirror 易於設定及管理、因為它是儲存軟體的原生部分。不需要附加產品。複寫關係可在幾分鐘內建立、並可直接在儲存系統上管理。</block>
-  <block id="8f761eff026903aa0140319f597d1fb0" category="list-text">* 簡易性。 * 複寫是以 FlexVol 磁碟區為基礎、這些磁碟區是 LUN 或檔案的容器、會以單一一致群組的形式複寫。</block>
-  <block id="8b737d6a9db3de6436966db508cb51d4" category="list-text">* 效率。 * 建立初始複寫關係後、只會複寫變更。此外、還會保留重複資料刪除和壓縮等效率功能、進一步減少必須傳輸至遠端站台的資料量。</block>
-  <block id="0783dadb67ff77ed26bbfc5d80fa0cbd" category="list-text">* 靈活度。 * 鏡像可以暫時中斷、以便測試災難恢復程序、然後輕鬆地重新建立鏡像、而不需要進行完整的重新鏡像。只有變更的資料必須套用、才能使鏡射恢復同步。鏡像也可以還原、以便在災難結束後、原始站台恢復運作後、能夠快速重新同步。最後、複寫資料的讀寫複本可供測試與開發。</block>
-  <block id="8a00f09d8937e890f2cfb4d7acf72733" category="paragraph">ONTAP 提供數種不同的複寫技術、但最靈活的是 SnapMirror 、這是一個 Volume 對 Volume 的非同步鏡射選項。</block>
-  <block id="80c8fae3d0b5dd100cc984d9ba3eced7" category="paragraph">如前所述、 FlexVol Volume 是管理 Snapshot 型備份和 SnapRestore 型還原的基本單位。FlexVol Volume 也是 SnapMirror 型複寫的基本單元。第一步是建立來源 Volume 到目的地 Volume 的基準鏡射。初始化此鏡射關係之後、所有後續作業都會以複寫變更的資料為基礎。</block>
-  <block id="c1020b1755f65f23643158ce6a4d22cc" category="paragraph">從恢復的角度來看、 SnapMirror 的主要價值如下：</block>
-  <block id="50bde20b37cd4d57fbff2b95f2f8ec97" category="list-text">SnapMirror 作業很容易理解、而且可以輕鬆自動化。</block>
-  <block id="66162be45733f65fee4abb22e989eb78" category="list-text">SnapMirror 複本的簡單更新只需要複寫差異變更、減少頻寬需求、並允許更頻繁的更新。</block>
-  <block id="a3b4fbe416387a4991ccaa8b325a68be" category="list-text">SnapMirror 非常精細。它是以簡單的磁碟區對磁碟區關係為基礎、可建立數百個分別管理的複本和複寫間隔。複寫不一定是一體適用的。</block>
-  <block id="4e3785883ef3ccad9938d7e35e493057" category="list-text">鏡射方向可以輕鬆反轉、同時保留僅根據變更更新關係的能力。這可在主站台在發生停電等災難後恢復服務後、提供快速的容錯回復功能。只有變更必須同步回來源。</block>
-  <block id="8b8325381cf528eff12c1e678a3112f9" category="list-text">鏡像可以輕鬆中斷並有效地重新同步、以便進行災難恢復程序的排練。</block>
-  <block id="b1f45b7d95bfc815351fb649fa94b671" category="list-text">SnapMirror 以完整區塊層級複寫模式運作、不僅能複寫磁碟區中的資料、也能複寫快照。此功能可在災難恢復站點上提供資料複本和完整的備份集。</block>
-  <block id="ffafd9ae31dee51209961eb2453ac806" category="paragraph">SnapMirror 以版本彈性模式運作、可複寫特定快照、讓主要和次要站台的保留時間不同。</block>
-  <block id="974658d7ac018cb945e78365b0a760fb" category="section-title">SnapMirror同步</block>
-  <block id="ffbf9d0ce29a631b6eae8b22c41ec95e" category="paragraph">SnapMirror Synchronous （ SM-S ）是 SnapMirror 的增強功能、可提供 RPO = 0 同步複寫。它最常用於儲存架構、只有資料的子集需要同步鏡射。</block>
-  <block id="e8a45c4c0391895df78421904703c933" category="paragraph">SM-S 可在兩種稍微不同的模式下運作： Sync 和 StrictSync 。</block>
-  <block id="15a4e16195fb9d30c5df0e11df5c2166" category="paragraph">在「同步」模式中、變更會先複寫、然後才會被確認。只要複寫作業正常、就能保證 RPO 為零。如果無法複寫變更、則 SM-S 可以結束同步模式、並允許作業繼續。這允許在正常情況下使用 RPO=0 、但如果複寫目的地無法使用、資料處理程序不會完全停止。</block>
-  <block id="115455025d4664c0dd6deaaf3c1fc93c" category="paragraph">StrictSync 保證 RPO=0 。複寫變更失敗會導致 I/O 錯誤、這通常會導致應用程式關機。</block>
-  <block id="1b1ea0d1ad6e5cfb06253a14fcdcfe71" category="inline-link">TR-4733</block>
-  <block id="9ccd61d6efc86cc37743fdff385832e8" category="paragraph">如需 SM-S 的完整說明、請參閱<block ref="4459b84726c651a8047a6486e87e48fb" category="inline-link-rx"></block> 以及正式的 ONTAP 文件。新版 ONTAP 會持續新增功能。</block>
   <block id="6165c4352e1504dbaeef34d0cc50c187" category="section-title">一致性群組</block>
-  <block id="0651e813e385dbd62a9bca9baee23c6c" category="paragraph">ONTAP 可建立一致性群組快照、從 9.13.1 開始、 ONTAP 可複寫磁碟區群組（請記住、 ONTAP 術語中的磁碟區不是 LUN 、而是由一或多個檔案或 LUN 組成的管理容器）、作為一致的群組。</block>
-  <block id="455c7758003d6ebd974e8858f5ef1d7d" category="paragraph">因此、您可以複寫多個 Volume 資料集、並確保所有磁碟區都一致。除此之外、這還能「中斷鏡射並移轉」災難恢復作業、而不需要額外的應用程式或資料庫還原步驟。</block>
-  <block id="c44a2da164b7b770fce6338a987670ee" category="section-title">MetroCluster 與 SyncMirror</block>
-  <block id="b1a1cfbf3988d8abdfdedaabc1742ae9" category="paragraph">MetroCluster 也是同步複寫解決方案、適用於大規模的關鍵任務工作負載。複寫是以 SyncMirror 為基礎。在最簡單的層面、 SyncMirror 會在兩個不同位置建立兩組完整的 RAID 保護資料。它們可能位於資料中心內的鄰近房間、也可能位於相距數公里的地方。</block>
-  <block id="89b8adf28db7abb0febecafdca5871ad" category="paragraph">SyncMirror 與 ONTAP 完全整合、運作速度剛剛高於 RAID 層級。因此、所有常見的 ONTAP 功能、例如 Snapshot 複本、 SnapRestore 和 NetApp FlexClone 、都能順暢運作。它仍是 ONTAP 、只是包含額外的同步資料鏡射層。</block>
-  <block id="75c677fa68f5d15c17efbf6fd1fe1765" category="paragraph">管理 SyncMirror 資料的 ONTAP 控制器集合稱為 NetApp MetroCluster 組態。MetroCluster 的主要用途是在各種典型和災難恢復故障情況下、提供對同步鏡射資料的高可用度存取。</block>
-  <block id="af845652f0234e1f71bc37e241ab63dc" category="paragraph">MetroCluster 和 SyncMirror 的資料保護主要價值如下：</block>
-  <block id="9ab80c5e33e343c3415c21be433c4447" category="list-text">在正常作業中、 SyncMirror 可在不同位置提供保證同步鏡射。寫入作業在兩個站台的非揮發性媒體上都存在之前、才會被確認。</block>
-  <block id="680ccf94624c9f922ed236c8cc0c1af2" category="list-text">如果站台之間的連線失敗、 SyncMirror 會自動切換至非同步模式、以保留主要站台提供資料、直到連線恢復為止。還原後、它會有效率地更新主要站台上累積的變更、以提供快速重新同步。不需要完全重新初始化。</block>
-  <block id="c18ec55908c635b68abe8c6edbf6476e" category="paragraph">SnapMirror 也與以 SyncMirror 為基礎的系統完全相容。例如、主要資料庫可能是在分散在兩個地理站台的 MetroCluster 叢集上執行。此資料庫也可以將備份複寫到第三個站台、做為長期歸檔、或是在 DevOps 環境中建立複本。</block>
-  <block id="3a8111f0b903472ec78531619bf984f6" category="paragraph">Oracle 資料庫的複寫程序基本上與備份程序相同。主要需求是、構成可恢復備份的快照必須複寫到遠端儲存系統。</block>
-  <block id="c62b3abab4fdbaf8f0a84e8c3559b5fd" category="paragraph">如先前在本機資料保護文件中所述、可利用熱備份程序或快照最佳化備份來建立可恢復的備份。</block>
-  <block id="3d8f8c6a5c90bcd85a22fbd17390a864" category="inline-link-macro">資料配置</block>
-  <block id="f3f227cc5c07a040d61c36679053a58a" category="paragraph">假設資料檔案封裝在專用磁碟區中、下一個問題是如何管理重做記錄檔、歸檔記錄檔和控制檔。最簡單的方法是將所有這些資料類型放入單一磁碟區。其優點是複寫的重做記錄檔、歸檔記錄檔和控制檔都能完全同步。不需要進行不完整的還原或使用備份控制檔、不過也可以針對其他可能的還原案例、建立備份控制檔指令碼。</block>
-  <block id="927992cbeccc8211e382c97e81514ef9" category="section-title">兩個 Volume 配置</block>
-  <block id="fe1cf96940a710dc95fd30bbb7533b52" category="paragraph">下圖顯示最簡單的配置。</block>
-  <block id="57f1db4bdf2ce49a98f375d8393f02bf" category="paragraph">這是最常見的方法。從 DBA 的觀點來看、在同一個磁碟區上共同找出所有重做記錄和歸檔記錄複本似乎不太常見。但是、當檔案和 LUN 仍位於相同的基礎磁碟機集上時、分離功能並不會提供更多額外的保護。</block>
-  <block id="bc46e4831ef5654d084e456c4c544a42" category="section-title">三個 Volume 配置</block>
-  <block id="f6e969769d9d166122489505d676769b" category="paragraph">有時候、由於資料保護考量或需要在控制器之間散佈重做記錄 I/O 、因此需要分離重做記錄。如果是這樣、則下圖所示的三個磁碟區配置將用於複寫、同時仍可避免執行不完整還原或依賴備份控制檔的任何需求。</block>
-  <block id="4957c2feaa2cb72d80a0ab65228ad43f" category="paragraph">如此一來、重做記錄和控制檔就能在來源上的各組磁碟軸和控制器之間串列。不過、歸檔記錄和一組控制檔和重做記錄檔仍可在與歸檔記錄同步的狀態下複寫。</block>
-  <block id="39128da64bc55500b4b11391aa54a011" category="paragraph">在此模型中、重做記錄 B 磁碟區不會複寫。</block>
-  <block id="c0ce858e99375deac8274c96b7e5d0ee" category="section-title">災難恢復程序—熱備份</block>
-  <block id="6993729228512b7e23e3ff3ec9099f33" category="paragraph">若要使用熱備份來執行災難恢復、請使用下列基本程序：</block>
   <block id="ee68e5b99222bbc29a480fcb0d1d6ee2" category="section-title">先決條件</block>
-  <block id="41bde9c586a860264c425700c48bd375" category="list-text">Oracle 二進位檔安裝在災難恢復伺服器上。</block>
-  <block id="cebf7cec81152da2cadffd580d81937f" category="list-text">中列出資料庫執行個體<block ref="2c0b0433aa1c96a2be6f40d9e71bc6af" prefix=" " category="inline-code"></block>。</block>
-  <block id="17f8e5eda67237f2ca94c7dcce3e4022" category="list-text">。<block ref="76a2173be6393254e72ffa4d6df1030a" prefix=" " category="inline-code"></block> 和<block ref="6b2f852f7f63f2e5d4be597bbca97bb6" prefix=" " category="inline-code"></block> 或<block ref="1737629d60b511cf45957529a8f046e2" prefix=" " category="inline-code"></block> 例如、執行個體必須在中<block ref="45c7302d9c2e8745b3a2bff0f992b6df" prefix=" " category="inline-code"></block> 目錄。。</block>
   <block id="645a84975202e30700b572b49a5ee29d" category="section-title">災難恢復</block>
-  <block id="25d18766964d7515e1f5acd893094f6e" category="list-text">中斷資料檔案和一般記錄磁碟區的鏡射。</block>
-  <block id="8fc655e4752d521563db3bfa138ba62e" category="list-text">將資料檔案磁碟區還原為資料檔案的最新熱備份快照。</block>
-  <block id="68a9c75816a16f6d4f7572fe287961bf" category="list-text">如果使用 SAN 、請啟動 Volume 群組和 / 或掛載檔案系統。</block>
   <block id="312007510a0f0dc7878d4ed6a7a01554" category="list-text">將歸檔記錄重播至所需的點。</block>
   <block id="e54b793d8bfa83bbb1bd965992c3474e" category="list-text">如果需要完整還原、請重新播放目前的重做記錄。</block>
-  <block id="72e5734d53581f86093de5c97d8a3a24" category="paragraph">使用 NFS 可大幅簡化程序、因為可隨時將資料檔案和記錄檔的 NFS 檔案系統掛載到災難恢復伺服器上。當鏡射中斷時、它會變成讀取 / 寫入。</block>
-  <block id="de4735bc5bbfdcae3d690313c739ad67" category="section-title">災難恢復程序：快照最佳化備份</block>
-  <block id="6b2b8ef11e5ded8a083372ba49d488d2" category="paragraph">從快照最佳化備份中還原、幾乎與熱備份還原程序完全相同、變更如下：</block>
-  <block id="af1e49e7bc2b25ce36bd93df09433fb4" category="list-text">將資料檔案磁碟區還原至目前記錄磁碟區複本之前建立的快照。</block>
-  <block id="5e09669c98226c5d3a748f7e0f0333ad" category="paragraph">這些差異可簡化整體還原程序、因為當資料庫處於熱備份模式時、不需要確定已在來源上正確建立快照。災難恢復程序是以災難恢復站台上快照的時間戳記為基礎。建立快照時的資料庫狀態並不重要。</block>
-  <block id="81d6beef7eaf28bbce692d4b59888f3e" category="section-title">使用熱備份快照進行災難恢復</block>
-  <block id="dc711b77f0d6a9c9ccf88b424509440a" category="paragraph">這是以熱備份快照複寫為基礎的災難恢復策略範例。它也可作為簡單且可擴充的本機備份策略範例。</block>
-  <block id="edaef18e1c956b9284405fd664c4ca4a" category="paragraph">範例資料庫位於基本的雙磁碟區架構上。<block ref="f006bf17b06c884c47190c4225d3215a" prefix=" " category="inline-code"></block> 包含資料檔案和<block ref="894db1fc1592356880976f1b92c3e6a2" prefix=" " category="inline-code"></block> 用於組合的重做記錄檔、歸檔記錄檔和控制檔。</block>
-  <block id="fc0e7b6cd7cd15929987b1429d1c3a7e" category="paragraph">需要兩個排程、一個用於夜間資料檔案備份、另一個用於記錄檔備份。這些時間分別稱為午夜和 15 分鐘。</block>
-  <block id="44c0956347a70c78d2124c1041321049" category="paragraph">然後在快照原則中使用這些排程<block ref="44dc83cda2d6b3ce99cc25803e824061" prefix=" " category="inline-code"></block> 和<block ref="9b055600529d69c4ae0d2a9408dc7aa3" prefix=" " category="inline-code"></block>，如下所示：</block>
-  <block id="180e86b8e3c5049779c98c2c1006bb15" category="paragraph">最後、這些快照原則會套用至磁碟區。</block>
-  <block id="2887f2c14c7efbc97d53ac2f914c5657" category="paragraph">這會定義磁碟區的備份排程。資料檔案快照會在午夜建立、並保留 60 天。記錄磁碟區包含以 15 分鐘為間隔建立的 72 個快照、可增加長達 18 小時的涵蓋範圍。</block>
-  <block id="e1e5ef0e7100311d950b4ffebe040670" category="paragraph">然後、確定資料庫在建立資料檔案快照時處於熱備份模式。這是使用一個小型指令碼來完成的、該指令碼會接受一些在指定的 SID 上啟動和停止備份模式的基本引數。</block>
-  <block id="683cdd7abd993faf3ace355cd6870b6f" category="paragraph">此步驟可確保資料庫在午夜快照周圍的四分鐘時間內處於熱備份模式。</block>
-  <block id="ccff7eb3ad0059a184886709c87f4889" category="paragraph">複寫到災難恢復站台的設定如下：</block>
-  <block id="42d3752a745fb0cdae528f6cc425b569" category="paragraph">記錄 Volume 目的地每 15 分鐘更新一次。這可提供約 15 分鐘的 RPO 。確切的更新時間間隔會因更新期間必須傳輸的資料總量而稍有不同。</block>
-  <block id="e272424001d72919ad498e0e9d3c2cc4" category="paragraph">datafile Volume 目的地每六小時更新一次。這不會影響 RPO 或 RTO 。如果需要災難恢復、則第一步是將資料檔案磁碟區還原回熱備份快照。更新時間間隔越頻繁的目的、是要讓此磁碟區的傳輸率更順暢。如果每天排程更新一次、則必須一次傳輸當天累積的所有變更。隨著更新次數增加、變更會在一天內逐步複寫。</block>
-  <block id="ce176ff569d716c1fa73d0754aba684b" category="paragraph">如果發生災難、第一步是中斷兩個磁碟區的鏡射：</block>
-  <block id="4b9cdb6e2096c0828aeccd2ee5eecf42" category="paragraph">複本現在是讀寫的。下一步是驗證記錄磁碟區的時間戳記。</block>
-  <block id="b4d461e48f5be5d08f677045d11e8200" category="paragraph">最新的記錄磁碟區複本是 3 月 14 日 13:30 。</block>
-  <block id="96f75a4b63f4377efdf64d571d71caec" category="paragraph">接著、識別在記錄磁碟區狀態之前立即建立的熱備份快照。這是必要的、因為記錄重新執行程序需要在熱備份模式中建立的所有歸檔記錄。因此、記錄磁碟區複本必須比熱備份映像舊、否則它不會包含所需的記錄。</block>
-  <block id="d358e4eb10a2f4e0b591e16941d7782c" category="paragraph">最近建立的快照是<block ref="c001e27abf0e66d13790bb8a7e00da54" prefix=" " category="inline-code"></block>。這是資料檔案的最新熱備份映像、然後還原如下所示：</block>
-  <block id="d2037035a976c9be71cf6f372300c8c3" category="paragraph">在這個階段、資料庫現在已準備好進行還原。如果這是 SAN 環境、下一步將包括啟動 Volume 群組和掛載檔案系統、這是一項輕鬆自動化的程序。由於此範例使用 NFS 、檔案系統已掛載並變成讀寫、因此在鏡射中斷時無需再掛載或啟動。</block>
-  <block id="2edce22eade45b42bc6b2665057fa082" category="paragraph">現在可以將資料庫還原到所需的時間點、或是針對複寫的重做記錄複本進行完整還原。此範例說明歸檔記錄、控制檔和重做記錄 Volume 的組合值。由於不需要仰賴備份控制檔或重設記錄檔、因此恢復程序會大幅簡化。</block>
-  <block id="51f74a82c7125b3b288755b6668091b1" category="section-title">利用快照最佳化備份進行災難恢復</block>
-  <block id="3680a4757ddad43934237ab6a0ca955c" category="paragraph">使用快照最佳化備份的災難恢復程序與熱備份災難恢復程序幾乎相同。與熱備份快照程序一樣、它基本上也是本機備份架構的延伸、其中的備份會複寫以用於災難恢復。以下範例顯示詳細的組態和還原程序。此範例也指出熱備份與快照最佳化備份之間的主要差異。</block>
-  <block id="330dadae5e2585726f41ed1f90e88f9f" category="paragraph">範例資料庫位於基本的雙磁碟區架構上。<block ref="f006bf17b06c884c47190c4225d3215a" prefix=" " category="inline-code"></block> 包含資料檔案、和<block ref="894db1fc1592356880976f1b92c3e6a2" prefix=" " category="inline-code"></block> 用於組合的重做記錄檔、歸檔記錄檔和控制檔。</block>
-  <block id="1669f47e046ce7e069e9d143f42e025d" category="paragraph">需要兩個排程：一個用於夜間資料檔案備份、另一個用於記錄檔備份。這些時間分別稱為午夜和 15 分鐘。</block>
-  <block id="ef4adcab3e9bd572d0670f9f2073c311" category="paragraph">這可控制磁碟區的最終備份排程。快照會在午夜建立並保留 60 天。記錄磁碟區包含以 15 分鐘為間隔建立的 72 個快照、最多可增加 18 小時的涵蓋範圍。</block>
-  <block id="f9d5149b630a43ff5996adc26c6e1f08" category="paragraph">記錄 Volume 目的地每 15 分鐘更新一次。這會提供約 15 分鐘的 RPO 、而精確的更新間隔會因更新期間必須傳輸的資料總量而稍有不同。</block>
-  <block id="992398ebd9e9f825f0aa4415519abdba" category="paragraph">datafile Volume 目的地每 6 小時更新一次。這不會影響 RPO 或 RTO 。如果需要災難恢復、您必須先將資料檔案磁碟區還原回熱備份快照。更新時間間隔越頻繁的目的、是要讓此磁碟區的傳輸率更順暢。如果每天排程一次更新、則必須一次傳輸當天累積的所有變更。隨著更新次數增加、變更會在一天內逐步複寫。</block>
-  <block id="9e85b8590ac2f9ff5ebc8d1def51ae82" category="paragraph">如果發生災難、第一步是中斷所有磁碟區的鏡射：</block>
-  <block id="fd2834dcadb39f00eb897fdcdc07a03d" category="paragraph">最新的記錄磁碟區複本是 3 月 14 日 13 ： 30 。接著、識別在記錄磁碟區狀態之前立即建立的資料檔案快照。這是必要的、因為記錄重新執行程序需要從快照之前的所有歸檔記錄檔到所需的還原點。</block>
-  <block id="810e47566b9cd5aa3b28e6514ec95735" category="paragraph">最近建立的快照是<block ref="c001e27abf0e66d13790bb8a7e00da54" prefix=" " category="inline-code"></block>。還原此快照。</block>
-  <block id="87d83a0406ac6622efcdf91c42784ecd" category="paragraph">資料庫現在已準備就緒、可進行還原。如果這是 SAN 環境、您就可以啟動 Volume 群組並掛載檔案系統、這是一項輕鬆自動化的程序。不過、本範例使用 NFS 、因此檔案系統已掛載、並變成讀寫、因此在鏡像毀損時無需再掛載或啟動。</block>
-  <block id="7a2e97f17454be76b7e522ce612ff961" category="paragraph">現在可以將資料庫還原到所需的時間點、或是針對複寫的重做記錄複本進行完整還原。此範例說明歸檔記錄、控制檔和重做記錄 Volume 的組合值。恢復程序大幅簡化、因為不需要仰賴備份控制檔或重設記錄檔。</block>
-  <block id="5eda890cc07e4b7cd409730d8af8ddc3" category="paragraph">一致性群組複寫可以簡單地透過 SnapMirror 排程單一磁碟區的複寫。這包括資料檔案、控制檔、歸檔記錄檔和重做記錄檔。每次 SnapMirror 更新都會在目的地站台上建立新的資料庫複本、並透過中斷鏡射來保持一致並準備好啟動。</block>
-  <block id="f96b125d1bacc785389957041be148e9" category="paragraph">在區塊層級複寫模式中搭配 SnapMirror 使用時、這項策略的另一個優點是完整複寫來源儲存系統上的所有快照。除了災難恢復複本之外、還會複寫完整的備份補充。</block>
   <block id="77fda44088666155052f9d4224878cbc" category="summary">Oracle 歸檔記錄分層</block>
   <block id="8625af69ad0b5f76799d87df777e3c86" category="paragraph">FabricPool 最重要的用途可能是提高已知冷資料的效率、例如資料庫交易記錄。</block>
   <block id="a98d546484d238b37b7e2584ae8d399d" category="summary">Oracle 備份分層</block>
@@ -1805,11 +1710,6 @@
   <block id="50a7086972cada154c8164dc1c6b3539" category="list-text">在備份模式下建立的資料檔案快照</block>
   <block id="c72d009669a638aab75c21a28a2101de" category="list-text">資料檔案處於熱備份模式時所產生的歸檔記錄</block>
   <block id="b8de4b1201e5595bc3de878f2bf59d9b" category="paragraph">在還原期間、資料庫會從資料檔案讀取中繼資料、以選取所需的歸檔記錄進行還原。</block>
-  <block id="66ee0a6fd90f3cfab8320e1de1341cbd" category="paragraph">儲存快照最佳化的還原需要稍微不同的資料集、才能達到相同的結果：</block>
-  <block id="6030a1d9761fca3806ef0a0329438071" category="list-text">資料檔案的快照、加上一種識別快照建立時間的方法</block>
-  <block id="4e822d4c19600b654f176d335c158829" category="list-text">從最新資料檔案檢查點的時間到快照的確切時間、都會歸檔記錄檔</block>
-  <block id="604432b50055c69f34df17a8ed5befb5" category="paragraph">在還原期間、資料庫會從資料檔案讀取中繼資料、以識別所需的最早歸檔記錄。可以執行完整或時間點恢復。執行時間點還原時、必須知道資料檔案快照的時間。指定的恢復點必須在快照建立時間之後。NetApp 建議您在快照時間中加入至少幾分鐘、以因應時鐘變化。</block>
-  <block id="08bfe39c49a2dc07b08bd2ccd77d8281" category="paragraph">如需完整的詳細資料、請參閱 Oracle 各版本的 Oracle 12c 說明文件中有關「使用儲存 Snapshot 最佳化進行恢復」主題的 Oracle 文件。此外、請參閱 Oracle 文件 ID 文件 ID 604683.1 、瞭解 Oracle 協力廠商快照支援。</block>
   <block id="d22a890163762fcf7a4cb7605c29b7e6" category="section-title">資料配置</block>
   <block id="12eb3ceede91a01c74368e0fab03dbe4" category="section-title">本機恢復程序— NFS</block>
   <block id="e1a03fcc478ae212f07b5044b11ff369" category="paragraph">此程序可以手動或透過 SnapCenter 等應用程式來驅動。基本程序如下：</block>
@@ -1819,14 +1719,6 @@
   <block id="4e3110543ebf2a771c16b3b2101f1f88" category="list-text">將託管資料檔案的磁碟群組置於系統中。此程序會因所選的邏輯磁碟區管理程式而異。使用 ASM 時、此程序需要卸除磁碟群組。在 Linux 中、必須卸除檔案系統、並停用邏輯磁碟區和磁碟區群組。目標是停止要還原之目標 Volume 群組上的所有更新。</block>
   <block id="1d0ecd206531f96737f8e8002be4a047" category="list-text">在所需還原點之前、立即將資料檔案磁碟群組還原至快照。</block>
   <block id="946fe41f610ab658e270a1844c992bcc" category="list-text">重新啟動新還原的磁碟群組。</block>
-  <block id="3fd5b2a08b3d7c4db29da8590ef6013f" category="section-title">完整恢復範例</block>
-  <block id="31679daa394b7091acfd728d940b7322" category="paragraph">假設資料檔案已毀損或毀損、且需要完整還原。執行程序如下：</block>
-  <block id="aa09ca247daac25fc18c2633124ca9b6" category="section-title">時間點恢復範例</block>
-  <block id="935ff627038d1f5001220c8df7f0e1b9" category="paragraph">整個恢復過程只需一個命令：<block ref="3df448f0a5ec82cac76d91ba14c0fa1d" prefix=" " category="inline-code"></block>。</block>
-  <block id="dcd27cf8b8ceae2cd84c898d3c1b9fdb" category="paragraph">如果需要時間點恢復、則必須知道快照的時間戳記、並可識別如下：</block>
-  <block id="17108ef3ad2e1e613b844beb5f2c6d29" category="paragraph">快照建立時間列於 3 月 9 日和 10 ： 10 ： 06 。為了安全起見、快照時間會增加一分鐘：</block>
-  <block id="904b0a17b003c70e398ea85996f0f9ba" category="paragraph">恢復作業現在已啟動。它指定的快照時間為 10 ： 11 ： 00 、記錄時間後一分鐘、以計算可能的時鐘差異、目標恢復時間為 10 ： 44 。接下來、 sqlplus 會要求所需的歸檔記錄檔、以達到所需的 10 ： 44 恢復時間。</block>
-  <block id="91f99c5ad04365fb4d00e509963e2a0c" category="admonition">使用來完成資料庫的快照還原<block ref="3df448f0a5ec82cac76d91ba14c0fa1d" prefix=" " category="inline-code"></block> 命令不需要特定授權、而是使用時間點還原<block ref="72104026d9850e8c478c23b2e2e4e8e9" prefix=" " category="inline-code"></block> 需要 Oracle 進階壓縮授權。</block>
   <block id="9173402b63dc5f55506a692258f185e8" category="doc">SnapCenter 和其他工具</block>
   <block id="5459c1727c923baa303ff472498dbe97" category="paragraph">在某些情況下、直接在 ONTAP 上簡單設定這些核心功能即可滿足需求、但更複雜的需求則需要協調層。</block>
   <block id="aeeb3212c35c26d321183e81d4926e57" category="paragraph">SnapCenter 是 NetApp 資料保護的旗艦產品。在極低的層級上、它與 SnapManager 產品在執行資料庫備份的方式上類似、但它是從頭開始打造、提供單一窗口來管理 NetApp 儲存系統上的資料保護。</block>
@@ -2897,8 +2789,6 @@
   <block id="87f823f4f3b4258445d5af029afe5ad9" category="paragraph"><block ref="87f823f4f3b4258445d5af029afe5ad9" category="inline-image-macro-rx" type="image"></block></block>
   <block id="9213fe9d391179276ff6c03552486255" category="paragraph"><block ref="9213fe9d391179276ff6c03552486255" category="inline-image-macro-rx" type="image"></block></block>
   <block id="3105b4c0642b9710179c18edcf8e8718" category="paragraph"><block ref="3105b4c0642b9710179c18edcf8e8718" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="1a43000eb9893bff7ab7b1ce1d3fd6a8" category="paragraph"><block ref="1a43000eb9893bff7ab7b1ce1d3fd6a8" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="4b7a8562c98b8c652bdfb6aa79788222" category="paragraph"><block ref="4b7a8562c98b8c652bdfb6aa79788222" category="inline-image-macro-rx" type="image"></block></block>
   <block id="acce752526553bfa73c92799accd9cb8" category="summary">Oracle 資料保護總覽</block>
   <block id="deb8cb7644231cae002f5f37c725b86f" category="paragraph">遠距離移轉通常需要更具創意的方法、例如中所說明的記錄傳送程序 <block ref="86efe12ea0d3a769a4b7cfc2b6362f49" category="inline-link-macro-rx"></block>。遠距 IP 網路在任何接近 LAN 或 SAN 速度的地方、都很少會有頻寬。在某種情況下、 NetApp 協助 220 TB 資料庫進行遠距移轉、而且產生的歸檔記錄率非常高。所選的資料傳輸方法是每天運送磁帶、因為這種方法提供最大可能的頻寬。</block>
   <block id="911e63244fc82405263306a64e535c69" category="paragraph">只有在中的步驟之後才應建立 zpool <block ref="e8673fdb712a2edcdf56742c7eec0045" category="inline-link-macro-rx"></block> 執行。如果程序未正確執行、可能會因為 I/O 對齊而導致嚴重的效能降低。ONTAP 的最佳效能要求 I/O 必須與磁碟機上的 4K 邊界對齊。在 zpool 上建立的檔案系統使用有效的區塊大小、並透過稱為的參數加以控制<block ref="81df978a8e3da4bee74b135548f390f3" prefix=" " category="inline-code"></block>，您可以執行命令來檢視<block ref="1615297782a0dff59b20451e2ca97ea7" prefix=" " category="inline-code"></block>。</block>
@@ -3254,7 +3144,6 @@
   <block id="190d2bad1c6e231bc18c33e002e663c7" category="summary">Oracle 資料庫與直接連線 ONTAP 連線</block>
   <block id="4a3f422632f7d08bf0e6c05affea24e4" category="summary">SyncMirror 的 Oracle 資料庫</block>
   <block id="5bbdf1e19bb3f7b70de51a3764fc5f19" category="doc">Oracle 資料庫儲存快照最佳化備份</block>
-  <block id="a962af081661ee46d4ef879de33c841e" category="paragraph">當 Oracle 12c 發行時、快照型備份與還原變得更簡單、因為不需要將資料庫置於熱備份模式。結果是能夠直接在儲存系統上排程快照式備份、同時仍保留執行完整或時間點還原的能力。</block>
   <block id="fdf9dde4dc297fff7ac7b3c1458b0dad" category="doc">使用 Oracle 資料庫的 LVM 分拆</block>
   <block id="d3c8171a7167ce43c547aac8fdd86cfb" category="doc">Oracle 資料檔案移轉</block>
   <block id="9718528cb14225785c79e3afc4152efc" category="doc">Oracle 資料庫 LUN 規模調整和 LUN 數量</block>
@@ -3283,7 +3172,6 @@
   <block id="490e2f530e53cf85f8ce9b052a8336ec" category="paragraph">NVFAIL 是 ONTAP 中的一般資料完整性功能、其設計可讓資料庫發揮最大的資料完整性保護。</block>
   <block id="f2cf6b943d224a732c92223538580ee9" category="doc">MetroCluster 上的 Oracle 單一執行個體</block>
   <block id="ea1d91c32fcf0f4a1090fd0da341c014" category="paragraph">與其他儲存災難恢復解決方案不同、 SnapMirror 主動式同步提供非對稱式平台靈活度。每個站台的硬體不一定相同。此功能可讓您調整支援 SnapMirror 主動同步所用硬體的大小。如果遠端儲存系統需要支援完整的正式作業工作負載、則它可以與主要站台相同、但如果災難導致 I/O 減少、遠端站台上較小的系統可能會更具成本效益。</block>
-  <block id="3873b13983c66ae61dd877b0443a3828" category="summary">Oracle 資料庫與一致性群組災難恢復</block>
   <block id="ede2d3fcaec1bb9dcda5a75c90f37368" category="summary">在 ONTAP 上使用 Oracle 資料庫、將可用度最大化</block>
   <block id="9688c9c1c1d15e2f91a3a5b8e5f14bd4" category="doc">ONTAP 提供 Oracle 資料庫可用度</block>
   <block id="44e95a6c3878f189a550b4c0314d3b33" category="paragraph">NetApp 知道資料庫中有最重要的關鍵任務資料。</block>
@@ -3319,15 +3207,12 @@
   <block id="45df37151f6a0fd8a3b55d0423459f82" category="doc">Oracle 資料庫 I/O 的 LUN 對齊</block>
   <block id="857a8adc9eda2d9e197a52323daca558" category="doc">Oracle 資料庫 FabricPool 分層概述</block>
   <block id="fd73b1ca3b942a1514078a7e59c7433b" category="summary">Oracle 資料庫和過時的 NFSv3 鎖定</block>
-  <block id="102aeb54bf1a69403672f53090c52878" category="summary">透過記錄傳送的 Oracle 資料庫 DR</block>
   <block id="d470f5db851ef84aaa776600805af48b" category="summary">Oracle 資料庫虛擬化簡介</block>
   <block id="b8fc1174bb3f1c65475334182829f75e" category="doc">Oracle 資料庫虛擬化</block>
   <block id="b1b3f70e4333a9dbda75a98ceb78db39" category="summary">MetroCluster 實體架構和 Oracle 資料庫</block>
   <block id="250bce9fbefc7872908d9c2708fc753b" category="doc">Oracle 資料庫備份分層</block>
   <block id="4fbe2d000cdf5390ca980149d98eec4d" category="summary">Oracle 資料庫移轉規劃</block>
   <block id="d11e22f56fe0c9dd85597038a25cd80d" category="doc">Oracle 資料庫與儲存容量管理</block>
-  <block id="1234e92308935cf0a5a22541f312c541" category="summary">採用 SnapMirror 和 SyncMirror 的 Oracle 資料庫</block>
-  <block id="a4cdac841b6453db2f51ce52a1303209" category="paragraph">SnapMirror 複寫和中斷 CG SnapMirror 關係可維持各磁碟區之間的一致性、 SnapMirror 同步和 SnapMirror 主動同步則可維持各組成磁碟區之間的一致性。</block>
   <block id="454ff7e5f4a8d37cf6b16b804deca2b6" category="summary">Oracle 資料庫區塊大小</block>
   <block id="eed7df980a6ae17f8e0fecdecf0e25f4" category="doc">Oracle 移轉程序範例指令碼</block>
   <block id="fac6d6b61dd6bd3ee73d5b425bc5a3b7" category="doc">使用 Oracle 資料庫進行精簡配置</block>
@@ -6034,12 +5919,9 @@
   <block id="f60ff004e852f49b2838c63fb209b633" category="section-title">AFF Snapshot 保留</block>
   <block id="fe9c8793781de60c81315ec829dc8f84" category="paragraph">對於 AFF SAN 環境中每個包含 Oracle 資料的磁碟區，<block ref="9ca25b30dcc119f9115aad6d85fd12ce" prefix=" " category="inline-code"></block>應設為零，因為在 LUN 環境中為 Snapshot 保留空間並無用處。如果分數保留設為 100，則包含 LUN 的磁碟區的 Snapshot 需要磁碟區中有足夠的可用空間（不包括 Snapshot 保留），以吸收所有資料 100% 的變動。如果分數保留設為較低的值，則所需的可用空間會相應減少，但始終不包括 Snapshot 保留。這表示 LUN 環境中的 Snapshot 保留空間被浪費了。</block>
   <block id="59aebe92fc551de46ca0794f934e5bc8" category="admonition">Snapshot 保留不適用於 ASA 儲存設備。</block>
-  <block id="1254f51b373ccd41bf685ec87bc5d68e" category="paragraph">最簡單的佈局是將資料檔案隔離在專用磁碟區、LUN 或 NVMe 命名空間。儲存資源必須不受任何其他檔案類型的污染。這樣做是為了確保可以透過 SnapRestore 操作快速恢復資料檔案，而不會破壞重要的重做日誌、控制檔或歸檔日誌。</block>
   <block id="097daca3ca12238584b696f8c73fa814" category="paragraph">ASA 不具備磁碟區層級抽象。而是使用一致性群組。在許多情況下，單一 LUN 或 NVMe 命名空間即可滿足資料庫的管理和效能要求。如果需要多個 LUN 或命名空間，則可以新增額外的資源並將其繫結到一個一致性群組中，該一致性群組將成為資料檔案容器。</block>
   <block id="241ce9f30b2db1015f51f67701e797f5" category="list-text">將資料檔案磁碟區、LUN 或命名空間還原至所需還原點之前的快照。</block>
   <block id="a3cf048feddbd56987ac89a2e785cc40" category="paragraph">此程序假設所需的歸檔記錄仍存在於作用中檔案系統中。如果不存在、則必須透過將歸檔記錄 LUN 離線並執行還原來還原歸檔記錄。這也是將歸檔記錄分離到專用磁碟區、LUN 或命名空間非常實用的範例。如果歸檔記錄與重做記錄共用磁碟區群組、則必須先將重做記錄複製到其他位置、再還原整個 LUN 集、以避免遺失最終記錄的交易。</block>
-  <block id="8d2c1d4edd3fbf01c94b8a7e49de1e9d" category="paragraph">當資料庫必須跨越多個磁碟區時，需要一致性群組 Snapshot （CG Snapshot ）。</block>
-  <block id="df4fb0525f0cefd87855853a356c7676" category="paragraph">最重要的要求是將資料檔案隔離到一個或多個專用容器中。這可以透過多種方式實現，包括將所有資料檔案放置在單一 LUN/命名空間、單一 AFF NFS 磁碟區中，或放置在多磁碟區或多 LUN/命名空間的 ONTAP 一致性群組中。關鍵在於資料檔案必須不受任何其他檔案類型的污染。這樣做的目的是確保資料檔案複寫完全獨立於其他資料類型（例如歸檔日誌）的複寫。有關檔案佈局的更多資訊以及確保儲存佈局支援快照的重要細節，請參閱 <block ref="c87a7212960b8cc2aca49adb1795e291" category="inline-link-macro-rx"></block>。</block>
   <block id="6080ea352d8f3c275b55f666b09073b5" category="paragraph">當 (a) 啟用 DNFS 且 (b) 來源 NFS 共用在單一伺服器上多次掛載 (c) 存在嵌套 NFS 掛載時，需要一個名為<block ref="4740c034d97ca90a96b8050082816605" prefix=" " category="inline-code"></block>的額外掛載選項。這種配置主要見於支援 SAP 應用程式的環境。例如，NetApp 系統上的單一 NFS 共用可能包含兩個目錄：一個位於<block ref="9f9f4ccb1fc3afcbfe0cc3f5eac4332c" prefix=" " category="inline-code"></block>，另一個位於<block ref="ac2f9bbcd397d8f6b39e6713658051ea" prefix=" " category="inline-code"></block>。如果<block ref="9f9f4ccb1fc3afcbfe0cc3f5eac4332c" prefix=" " category="inline-code"></block>掛載在<block ref="9ad16912cc0ba54a259b1a15d233c264" prefix=" " category="inline-code"></block>，而<block ref="ac2f9bbcd397d8f6b39e6713658051ea" prefix=" " category="inline-code"></block>掛載在<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>，則會產生源自相同來源的巢狀 NFS 掛載。</block>
   <block id="936d46e56a7c836060ae638ad30b113a" category="paragraph">作業系統可以偵測到<block ref="9ad16912cc0ba54a259b1a15d233c264" prefix=" " category="inline-code"></block>和<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>位於同一個 NFS 共用上，也就是同一個來源檔案系統。然後，作業系統會使用同一個裝置句柄來存取資料。這樣做可以提高作業系統快取和其他一些操作的效率，但會幹擾 DNFS。如果 DNFS 必須存取檔案（例如<block ref="1737629d60b511cf45957529a8f046e2" prefix=" " category="inline-code"></block>）位於<block ref="1da707b60c3b55bd01cb7df7c171a368" prefix=" " category="inline-code"></block>上，它可能會錯誤地嘗試使用錯誤的資料路徑。這會導致 I/O 操作失敗。在這些組態中，對於與主機上另一個 NFS 檔案系統共用來源 NFS 共用的任何 NFS 檔案系統，請新增<block ref="4740c034d97ca90a96b8050082816605" prefix=" " category="inline-code"></block>掛載選項。這樣做會強制 Linux 作業系統為該檔案系統指派一個獨立的裝置句柄。</block>
   <block id="cdcac9f87f34f858fd0a5ffe221c47b8" category="inline-link-macro">WAFL 對齊</block>
@@ -6051,8 +5933,6 @@
   <block id="0353522b39b87d54d40d3f09ec668851" category="sidebar">ONTAP 組態</block>
   <block id="92d9160e034a5ffdafcb6f34b87a7fa6" category="sidebar">快照還原</block>
   <block id="9ca158578d233f36b039facfcb88d879" category="doc">光纖通道</block>
-  <block id="eebca0389103d44f2d15d0b6a33ec5a9" category="paragraph">從 ONTAP 9.19.1 開始，透過特定儲存系統 FC 轉接器，直連 FC 同時支援傳統 FC-SAN (SCSI) 和 NVMe/FC。HBA 將建立標準的點對點 FC 連線。</block>
-  <block id="87c40288a73474a81b2b8b85307fd7d0" category="paragraph">在 ONTAP 9.19.1 之前，ONTAP 儲存系統需要 NPIV，這表示儲存系統必須連接到也支援 NPIV 的 FC 交換器。</block>
   <block id="117d9103535316f62b4aba303e9d113e" category="paragraph">第二個作業系統網路卡可以設定為 192.168.1.2，並且能夠與故障轉移的 192.168.1.50 位址通訊，但本機路由表預設使用一個（且僅一個）位址與 192.168.1.0/24 子網路通訊。系統管理員可以建立一個指令碼框架，用於偵測網路連線故障並修改本機路由表或啟用/停用介面。具體步驟取決於所使用的作業系統。</block>
   <block id="884376946142a1edfd44782ed2b90052" category="paragraph">複製過程與本節中所述的過程類似<block ref="af0a7d0728225b25f051458c13edf1a0" category="inline-link-macro-rx"></block>。</block>
   <block id="b2a583397e41667a32b128529c22c7c3" category="section-title">AFF 聚合組</block>
@@ -6066,4 +5946,23 @@
   <block id="6e97cf67ec5979ab5828852639efa208" category="sidebar">Microsoft SQL Server 的儲存配置</block>
   <block id="d567144e8d8c4fac6bbff40a38b68b9f" category="sidebar">統一網路存取</block>
   <block id="18e1907532a0fa2fdaa4b2028bf6cf88" category="sidebar">非統一網路存取</block>
+  <block id="b084c614417a42c3fb95ffb418dc1305" category="paragraph">從 ONTAP 9.19.1 開始，透過特定儲存系統 FC 轉接器，直連 FC 同時支援傳統 FC-SAN (SCSI) 和 NVMe/FC。HBA 將建立標準的點對點 FC 連線。在 ONTAP 9.19.1 之前，ONTAP 儲存系統需要 NPIV，這表示儲存系統必須連接到也支援 NPIV 的 FC 交換器。</block>
+  <block id="f65ae703492f992975993544f5dd4e64" category="summary">Oracle 自動恢復，無需備份模式。</block>
+  <block id="fc292db0114790e7f34fe78fc7d8c5d8" category="doc">Oracle 自動恢復（無需備份模式）</block>
+  <block id="c7bc1ef8c337d6a3c8bb4a05d089b769" category="paragraph">Oracle 12c 發布後，基於 Snapshot 快照技術的備份與還原變得更加簡單，因為無需將資料庫置於熱備份模式。因此，可以直接在儲存系統上排程基於 Snapshot 快照技術的備份。</block>
+  <block id="5e04d2d9eb904b2617e3247f083921b5" category="paragraph">不使用備份模式的自動恢復需要略有不同的資料集才能達到相同的效果：</block>
+  <block id="58a5b096427af9d4d58dbaf800c39353" category="list-text">資料檔案的 Snapshot 快照技術。</block>
+  <block id="0f33dd0e540e8f93f690cad587ba035c" category="list-text">一組同步的歸檔日誌、控制檔和重做日誌。歸檔日誌必須包含自資料檔案 Snapshot 快照技術建立以來的所有記錄，因此請謹慎進行積極的日誌修剪。</block>
+  <block id="594b019cc44eb4c884388b833d7510dc" category="paragraph">在恢復期間，資料庫會從資料檔案讀取中繼資料，以識別所需的日誌記錄，並重播所有已記錄的交易。</block>
+  <block id="9b9935ad5969c28de13381a2e512b47c" category="section-title">注意：</block>
+  <block id="64effece8f8fdc7ec22053944731466d" category="paragraph">這種方法可以近似實現時間點恢復，但精細度有限。例如，如果從備份模式的資料檔案開始，則可以將資料庫向前滾動至任意交易。</block>
+  <block id="613d39aee0d806ff00a0db510dd469d1" category="paragraph">如果使用自動恢復方式，而不使用備份模式，則必須將資料庫恢復到日誌 Snapshot 快照技術的時間點。正常情況下，復原點目標 （RPO） 仍為零，因為原始歸檔日誌、重做日誌和控制檔仍保留在作用中檔案系統中。如果由於作用中檔案系統中的所有資料遺失而需要完全從 Snapshot 快照技術進行恢復，則 RPO 將為一小時。</block>
+  <block id="0601499a184b8a1e3fa9ca7282b4eeb4" category="paragraph">== 資料佈局 最簡單的佈局是將資料檔案隔離在專用磁碟區、LUN 或 NVMe 命名空間。儲存資源不得受任何其他檔案類型污染。這是為了確保可以透過 SnapRestore 操作快速恢復資料檔案，而不會破壞重要的重做日誌、控制檔案或歸檔日誌。</block>
+  <block id="b57416fe4f383261f33cb82b40542798" category="paragraph">== 本地恢復程序—NFS 基本程序如下：</block>
+  <block id="3eccd40648788f9b4313a1311d74bef5" category="list-text">執行<block ref="9a2e8b0856a3edcc37ed4d7d88a28a9b" prefix=" " category="inline-code"></block></block>
+  <block id="e99d63c556c7ca94f984300ca82dd3e4" category="paragraph">== 本機恢復流程—SAN 基本流程如下：</block>
+  <block id="ddfa498c53583ed2d2af38e4925ed34b" category="paragraph">== 完全恢復範例 假設資料檔案已損壞或遺失，需要進行完全恢復。具體步驟如下：</block>
+  <block id="e3471495b791c74dadc31bb77a66a74c" category="paragraph">Oracle Snapshot 快照技術最佳化備份是一種時間點恢復方法，可讓使用者使用快照執行恢復，而無需將資料庫置於熱備份模式。</block>
+  <block id="85ab689d474b14164558afa9923be42b" category="paragraph">使用者無需使用備份模式即可從 Snapshot 快照技術恢復，但僅支援使用 RECOVERY AUTOMATIC 進行完整恢復。使用 SNAPSHOT TIME 方法指示 Snapshot 快照技術建立時間的不完整恢復。</block>
+  <block id="17e12dfc833834d5b2e478641ef811d3" category="sidebar">無需 Snapshot 快照技術的自動恢復</block>
 </blocks>

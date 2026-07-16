@@ -30,6 +30,7 @@ searchtitle: 使用 FLI 進行 Oracle 移轉：轉換
 
 
 
+[[shut-down-database]]
 == 關閉資料庫
 
 在本範例中、停止環境的第一步是關閉資料庫。
@@ -53,6 +54,7 @@ SQL>
 ....
 
 
+[[shut-down-grid-services]]
 == 關閉網格服務
 
 其中一個要移轉的 SAN 型檔案系統也包含 Oracle ASM 服務。若要停止基礎 LUN 、則需要卸除檔案系統、這也意味著在此檔案系統上停止任何開啟檔案的處理程序。
@@ -76,6 +78,7 @@ CRS-4133: Oracle High Availability Services has been stopped.
 ....
 
 
+[[dismount-file-systems]]
 == 卸除檔案系統
 
 如果所有程序都關閉、 umount 作業就會成功。如果權限遭拒、檔案系統上必須有鎖定的程序。。 `fuser` 命令可協助識別這些程序。
@@ -86,6 +89,7 @@ CRS-4133: Oracle High Availability Services has been stopped.
 ....
 
 
+[[deactivate-volume-groups]]
 == 停用 Volume 群組
 
 卸除指定 Volume 群組中的所有檔案系統後、即可停用該 Volume 群組。
@@ -97,12 +101,14 @@ CRS-4133: Oracle High Availability Services has been stopped.
 ....
 
 
+[[fc-network-changes]]
 == FC 網路變更
 
 現在可以更新 FC 區域、以移除主機對外部陣列的所有存取權、並建立對 ONTAP 的存取權。
 
 
 
+[[start-import-process]]
 == 開始匯入程序
 
 若要啟動 LUN 匯入程序、請執行 `lun import start` 命令。
@@ -117,6 +123,7 @@ Cluster01::lun import*>
 ....
 
 
+[[monitor-import-progress]]
 == 監控匯入進度
 
 您可以使用監控匯入作業 `lun import show` 命令。如下所示、目前正在匯入所有 20 個 LUN 、這表示即使資料複製作業仍在進行中、仍可透過 ONTAP 存取資料。
@@ -153,6 +160,7 @@ vserver1  800DT$HuVWBo /vol/new_lvm/LUN9 2
 
 
 
+[[scan-for-scsi-device-changes]]
 == 掃描 SCSI 裝置變更
 
 在大多數情況下、重新探索新 LUN 最簡單的選項是重新啟動主機。這樣做會自動移除舊的過時裝置、正確探索所有新的 LUN 、並建置相關的裝置、例如多重路徑裝置。以下範例顯示出完全線上的示範程序。
@@ -203,6 +211,7 @@ OLD: Host: scsi9 Channel: 00 Id: 01 Lun: 19
 ....
 
 
+[[check-for-multipath-devices]]
 == 檢查多重路徑裝置
 
 LUN 探索程序也會觸發多重路徑裝置的重新開發、但已知 Linux 多重路徑驅動程式偶爾會發生問題。的輸出 `multipath - ll` 應檢查以驗證輸出是否如預期。例如、下列輸出顯示與相關的多重路徑裝置 `NETAPP` 廠商字串。每個裝置有四條路徑、其中兩條優先順序為 50 、兩條優先順序為 10 。雖然確切的輸出可能會因 Linux 的不同版本而有所不同、但此輸出的外觀與預期相同。
@@ -248,6 +257,7 @@ size=10G features='4 queue_if_no_path pg_init_retries 50 retain_attached_hw_hand
 ....
 
 
+[[reactivate-lvm-volume-group]]
 == 重新啟動 LVM Volume 群組
 
 如果正確探索到 LVM LUN 、則會發現 `vgchange --activate y` 命令應該成功。這是邏輯 Volume Manager 的價值範例。由於磁碟區群組中繼資料是寫入 LUN 本身、因此 LUN 的 WWN 變更甚至是序列號都不重要。
@@ -262,6 +272,7 @@ size=10G features='4 queue_if_no_path pg_init_retries 50 retain_attached_hw_hand
 ....
 
 
+[[remount-file-systems]]
 == 重新掛載檔案系統
 
 磁碟區群組重新啟動後、檔案系統可以裝入、所有原始資料均完整無缺。如前所述、即使資料複寫仍在後端群組中作用中、檔案系統仍可完全運作。
@@ -286,6 +297,7 @@ tmpfs                             13179736         0  13179736   0% /run/user/0
 ....
 
 
+[[rescan-for-asm-devices]]
 == 重新掃描 ASM 設備
 
 重新掃描 SCSI 裝置時、應已重新探索 ASMLib 裝置。重新探索可透過重新啟動 ASMLib 、然後掃描磁碟來線上驗證。
@@ -322,6 +334,7 @@ Instantiating disk "ASM9"
 ....
 
 
+[[restart-grid-services]]
 == 重新啟動網格服務
 
 現在、 LVM 和 ASM 裝置已上線且可供使用、可以重新啟動網格服務。
@@ -332,6 +345,7 @@ Instantiating disk "ASM9"
 ....
 
 
+[[restart-database]]
 == 重新啟動資料庫
 
 網格服務重新啟動後、即可啟動資料庫。在嘗試啟動資料庫之前、可能需要等待幾分鐘、 ASM 服務才能完全可用。

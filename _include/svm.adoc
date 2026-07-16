@@ -10,6 +10,7 @@ SVM 在 ONTAP CLI 中稱為 vserver 、是基本的儲存功能單元、比較 S
 
 
 
+[[svms]]
 == SVM
 
 我們並未正式提供 ONTAP 的 SVM 資源配置最佳實務做法。正確的方法取決於管理和安全要求。

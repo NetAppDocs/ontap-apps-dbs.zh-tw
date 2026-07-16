@@ -18,6 +18,7 @@ searchtitle: 使用 SnapCenter 和 T-SQL 命令保護 ONTAP 上的 Microsoft SQL
 
 
 
+[[snapcenter]]
 == SnapCenter
 
 SnapCenter 是適用於企業應用程式的 NetApp 資料保護軟體。使用適用於 SQL Server 的 SnapCenter 外掛程式、以及由 SnapCenter Plug-in for Microsoft Windows 管理的作業系統作業、即可快速輕鬆地保護 SQL Server 資料庫。
@@ -30,6 +31,7 @@ SQL Server 也需要作業系統與儲存設備之間的協調、以確保建立
 
 
 
+[[protecting-database-using-t-sql-snapshots]]
 == 使用 T-SQL 快照保護資料庫
 
 在 SQL Server 2022 中、 Microsoft 推出了 T-SQL 快照、可提供建立指令碼和自動化備份作業的路徑。您可以為資料庫準備快照、而非執行完整大小的複本。資料庫準備好備份之後、您就可以利用 ONTAP REST API 來建立快照。

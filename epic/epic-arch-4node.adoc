@@ -17,12 +17,14 @@ NetApp 通過接受 SLM 建議的 AQO 策略來保證最低的樓層性能。Epi
 
 
 
+[[four-node-architecture]]
 == 四節點架構
 
 image:epic-4node.png["EPIC 4 節點架構"]
 
 
 
+[[four-node-workload-placement]]
 == 四節點工作負載配置
 
 image:epic-4node-design.png["EPIC 4 節點放置"]

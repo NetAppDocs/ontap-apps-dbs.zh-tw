@@ -18,6 +18,7 @@ searchtitle: Microsoft SQL Server 記憶體組態
 
 
 
+[[max-server-memory]]
 == 最大伺服器記憶體
 
 最大伺服器記憶體選項可設定 SQL Server 執行個體可使用的最大記憶體容量。如果在執行 SQL Server 的同一部伺服器上執行多個應用程式、而且您想要保證這些應用程式有足夠的記憶體可以正常運作、通常會使用此功能。
@@ -33,6 +34,7 @@ image:mssql-max-server-memory.png["錯誤：缺少圖形影像"]
 
 
 
+[[adjusting-minimum-and-maximum-server-memory-using-sql-server-management-studio]]
 === 使用 SQL Server Management Studio 調整最小和最大伺服器記憶體。
 
 若要使用 SQL Server Management Studio 調整最小或最大伺服器記憶體、必須重新啟動 SQL Server 服務。您也可以使用以下代碼、使用 TransAct SQL （ T-SQL ）來調整伺服器記憶體：
@@ -48,6 +50,7 @@ RECONFIGURE WITH OVERRIDE
 ....
 
 
+[[nonuniform-memory-access]]
 == 不一致的記憶體存取
 
 非一致性記憶體存取（ NUMA ）是一項記憶體存取最佳化技術、可協助避免處理器匯流排上的額外負載。
@@ -56,6 +59,7 @@ RECONFIGURE WITH OVERRIDE
 
 
 
+[[index-create-memory]]
 == 索引會建立記憶體
 
 索引建立記憶體選項是另一個進階選項、通常不需要變更為預設值。
@@ -64,6 +68,7 @@ RECONFIGURE WITH OVERRIDE
 
 
 
+[[min-memory-per-query]]
 == 每個查詢的最小記憶體
 
 執行查詢時、 SQL Server 會嘗試分配最適當的記憶體量、以有效執行。

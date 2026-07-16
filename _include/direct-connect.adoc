@@ -4,20 +4,21 @@
 
 
 
+[[fiber-channel]]
 === 光纖通道
 
-從 ONTAP 9.19.1 開始，透過特定儲存系統 FC 轉接器，直連 FC 同時支援傳統 FC-SAN (SCSI) 和 NVMe/FC。HBA 將建立標準的點對點 FC 連線。
-
-在 ONTAP 9.19.1 之前，ONTAP 儲存系統需要 NPIV，這表示儲存系統必須連接到也支援 NPIV 的 FC 交換器。
+從 ONTAP 9.19.1 開始，透過特定儲存系統 FC 轉接器，直連 FC 同時支援傳統 FC-SAN (SCSI) 和 NVMe/FC。HBA 將建立標準的點對點 FC 連線。在 ONTAP 9.19.1 之前，ONTAP 儲存系統需要 NPIV，這表示儲存系統必須連接到也支援 NPIV 的 FC 交換器。
 
 
 
+[[iscsi-and-nvmetcp]]
 === iSCSI 和 NVMe / TCP
 
 使用 iSCSI 或 NVMe / TCP 的主機可以直接連線至儲存系統、並正常運作。原因是路徑。直接連線至兩個不同的儲存控制器、會產生兩個不同的資料流路徑。遺失路徑、連接埠或控制器並不會妨礙其他路徑的使用。
 
 
 
+[[nfs]]
 === NFS
 
 可以使用直接連線的 NFS 儲存設備、但有很大的限制：如果沒有大量的指令碼工作、容錯移轉將無法運作、這是客戶的責任。

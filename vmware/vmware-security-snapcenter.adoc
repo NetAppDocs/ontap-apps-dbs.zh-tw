@@ -26,6 +26,7 @@ summary: 本文件說明適用於 VMware 的 SnapCenter 外掛程式的安全性
 
 
 
+[[product-security-features]]
 == 產品安全功能
 
 適用於VMware vSphere的NetApp SnapCenter VMware vCenter外掛程式在每個版本中都包含下列安全功能：

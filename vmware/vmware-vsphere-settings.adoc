@@ -150,6 +150,7 @@ NOTE: 使用 VMware vSphere ESXi 7.0.1 和 VMware vSphere ESXi 7.0.2 時， NFS 
 |===
 
 
+[[multipath-settings-for-performance]]
 == 效能的多重路徑設定
 
 雖然目前未由可用的 ONTAP 工具進行設定、 NetApp 仍會建議下列組態選項：
@@ -160,6 +161,7 @@ NOTE: 使用 VMware vSphere ESXi 7.0.1 和 VMware vSphere ESXi 7.0.2 時， NFS 
 
 
 
+[[additional-documentation]]
 == 其他文件
 
 對於帶有 vSphere 7 的 FCP 和 iSCSI ，如需更多詳細資料link:https://docs.netapp.com/us-en/ontap-sanhost/hu_vsphere_7.html["搭配 ONTAP 使用 VMware vSphere 7.x"^]，請參閱適用於帶有 vSphere 8 的 FCP 和 iSCSI ，如需更多詳細資料link:https://docs.netapp.com/us-en/ontap-sanhost/hu_vsphere_8.html["搭配 ONTAP 使用 VMware vSphere 8.x"^]，請參閱適用於帶有 vSphere 7 的 NVMe 的詳細資料，如需更多詳細資料link:https://docs.netapp.com/us-en/ontap-sanhost/nvme_esxi_7.html["如需更多詳細資料、請參閱適用於 ESXi 7.x with ONTAP 的 NVMe 主機組態"^]，請參閱link:https://docs.netapp.com/us-en/ontap-sanhost/nvme_esxi_8.html["如需更多詳細資料、請參閱適用於 ESXi 8.x 與 ONTAP 的 NVMe 主機組態"^]

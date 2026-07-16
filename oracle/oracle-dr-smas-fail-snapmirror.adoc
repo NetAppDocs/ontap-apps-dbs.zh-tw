@@ -15,12 +15,14 @@ searchtitle: SnapMirror 主動式同步 - SnapMirror 通訊失敗
 
 
 
+[[site-a]]
 == 站台A
 
 複寫連結失敗的站台 A 在寫入 IO 處理中會暫停約 15 秒、因為 ONTAP 會在判斷複寫連結確實無法運作之前、嘗試複寫寫入內容。經過 15 秒後、站台 A 上的 ONTAP 叢集會恢復讀寫 IO 處理。SAN 路徑不會變更、 LUN 也會保持連線。
 
 
 
+[[site-b]]
 == 站台B
 
 由於站台 B 不是 SnapMirror 作用中同步偏好的站台、因此其 LUN 路徑將在大約 15 秒後變成無法使用。

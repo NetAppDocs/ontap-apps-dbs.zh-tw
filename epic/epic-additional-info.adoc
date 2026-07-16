@@ -20,6 +20,7 @@ summary: ONTAP 上 Epic 的其他資訊
 
 
 
+[[epic-customer-guidance-documents]]
 == EPIC 客戶指引文件
 
 Epic 提供客戶下列文件、以取得伺服器、儲存設備和網路的指引。本技術報告會參考這些文件。

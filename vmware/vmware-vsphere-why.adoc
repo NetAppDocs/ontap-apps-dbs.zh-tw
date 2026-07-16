@@ -18,6 +18,7 @@ summary: 客戶可以放心選擇 ONTAP for vSphere ，因為其統一化的 SAN
 
 
 
+[[the-advantages-of-using-ontap-for-vsphere]]
 == 使用 ONTAP for vSphere 的優點
 
 有許多理由讓成千上萬的客戶選擇 ONTAP 作為 vSphere 的儲存解決方案、例如支援 SAN 和 NAS 傳輸協定的統一儲存系統、使用節省空間的快照功能提供強大的資料保護功能、以及豐富的工具來協助您管理應用程式資料。使用與Hypervisor分開的儲存系統、您可以卸載許多功能、並將vSphere主機系統的投資效益最大化。這種方法不僅能確保主機資源專注於應用程式工作負載、也能避免儲存作業對應用程式造成隨機效能影響。

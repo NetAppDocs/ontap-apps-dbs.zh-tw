@@ -24,6 +24,7 @@ ONTAP 於 2009 年推出 Flash 技術、並自 2010 年起支援 SSD 。這項 F
 
 
 
+[[nvme]]
 == NVMe
 
 當效能至關重要時、 NetApp 也支援下一代 FC SAN 傳輸協定 NVMe / FC 。

@@ -14,6 +14,7 @@ searchtitle: Oracle 移轉程序範例指令碼
 
 
 
+[[database-shutdown]]
 == 資料庫關機
 
 下列 Perl 指令碼會採用 Oracle SID 的單一引數、並關閉資料庫。它可以以 Oracle 使用者或 root 身分執行。
@@ -57,6 +58,7 @@ exit 1;}
 ....
 
 
+[[database-startup]]
 == 資料庫啟動
 
 下列 Perl 指令碼會採用 Oracle SID 的單一引數、並關閉資料庫。它可以以 Oracle 使用者或 root 身分執行。
@@ -100,6 +102,7 @@ exit 1;}
 ....
 
 
+[[convert-file-system-to-read-only]]
 == 將檔案系統轉換為唯讀
 
 下列指令碼會採用檔案系統引數、並嘗試將其卸除並重新掛載為唯讀。在移轉過程中、這樣做非常有用、因為必須將檔案系統保留在可複寫資料的位置、但必須保護其免於意外損壞。
@@ -123,6 +126,7 @@ print @out;
 ....
 
 
+[[replace-file-system]]
 == 取代檔案系統
 
 下列指令碼範例用於將一個檔案系統取代為另一個檔案系統。因爲它編輯了 /etc/fstab 文件，所以它必須以 root 身份運行。它接受新舊檔案系統的單一逗號分隔引數。
@@ -227,6 +231,7 @@ cluster01:/vol_newlogs /logs nfs rw,bg,vers=3,rsize=65536,wsize=65536 0 0
 
 
 
+[[automated-database-migration]]
 == 自動化資料庫移轉
 
 此範例示範如何使用關機、啟動及檔案系統置換指令碼來完全自動化移轉。
@@ -280,6 +285,7 @@ print @out;
 ....
 
 
+[[display-file-locations]]
 == 顯示檔案位置
 
 此指令碼會收集許多重要的資料庫參數、並以易讀的格式列印。此指令碼在檢閱資料配置時非常實用。此外、指令碼也可以修改以供其他用途使用。
@@ -354,6 +360,7 @@ print "\n";
 ....
 
 
+[[asm-migration-cleanup]]
 == ASM 移轉清理
 
 ....
@@ -416,6 +423,7 @@ print "\n";
 ....
 
 
+[[asm-to-file-system-name-conversion]]
 == ASM 至檔案系統名稱轉換
 
 ....
@@ -462,6 +470,7 @@ end;
 ....
 
 
+[[replay-logs-on-database]]
 == 在資料庫上重新播放記錄
 
 此指令碼接受 Oracle SID 的單一引數、用於處於掛載模式的資料庫、並嘗試重新播放所有目前可用的歸檔記錄。
@@ -498,6 +507,7 @@ print @out;
 ....
 
 
+[[replay-logs-on-standby-database]]
 == 在待命資料庫上重新播放記錄
 
 此指令碼與前述指令碼相同、但其設計用於待命資料庫。

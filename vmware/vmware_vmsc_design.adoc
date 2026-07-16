@@ -18,6 +18,7 @@ summary: VMSC 設計與實作準則。
 
 
 
+[[netapp-storage-configuration]]
 == NetApp 儲存組態
 
 NetApp MetroCluster 的設定說明請參閱 https://docs.netapp.com/us-en/ontap-metrocluster/["資訊文件MetroCluster"]。SnapMirror Active Sync （ SMas ）的說明也可在以下網址取得： https://docs.netapp.com/us-en/ontap/smbc/index.html["SnapMirror營運不中斷總覽"]。
@@ -30,16 +31,19 @@ NetApp MetroCluster 的設定說明請參閱 https://docs.netapp.com/us-en/ontap
 
 
 
+[[using-the-ontap-tools-vcenter-plugin-for-snapmirror-active-sync]]
 == 使用 ONTAP Tools vCenter Plugin for SnapMirror Active Sync
 
 ONTAP 工具 vCenter 外掛程式提供簡單且直覺的方式，可為 VMSC 設定 SnapMirror 主動式同步。您可以使用 ONTAP 工具 vCenter 外掛程式來建立和管理兩個 ONTAP 叢集之間的 SnapMirror 主動式同步關係。此外掛程式提供易於使用的介面，可有效建立及管理這些關係。您可以在上深入瞭解 ONTAP 工具 vCenter 外掛程式 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["VMware vSphere適用的工具ONTAP"]，或直接跳至 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/protect-cluster.html["使用主機叢集保護來保護"]。
 
 
 
+[[vmware-vsphere-configuration]]
 == VMware vSphere 組態
 
 
 
+[[create-a-vsphere-ha-cluster]]
 === 建立 vSphere HA 叢集
 
 建立 vSphere HA 叢集是一個多步驟程序、完整記錄於 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vcenter-esxi-management/GUID-F7818000-26E3-4E2A-93D2-FCDCE7114508.html["如何在 docs.vmware.com 上的 vSphere Client 中建立和設定叢集"]。簡言之、您必須先建立空叢集、然後使用 vCenter 新增主機、並指定叢集的 vSphere HA 和其他設定。
@@ -125,6 +129,7 @@ image::../media/vmsc_3_5.png[VMSC 3 5.,624,336]
 |===
 
 
+[[configure-datastores-for-heartbeating]]
 === 設定資料存放區以進行心跳
 
 當管理網路故障時、 vSphere HA 會使用資料存放區來監控主機和虛擬機器。您可以設定 vCenter 如何選取心跳資料存放區。若要設定資料存放區以進行心跳、請完成下列步驟：
@@ -137,6 +142,7 @@ image::../media/vmsc_3_6.png[自動產生電腦說明的螢幕擷取畫面,624,5
 
 
 
+[[configure-advanced-options]]
 === 設定進階選項
 
 當 HA 叢集內的主機無法連線至網路或叢集中的其他主機時、就會發生隔離事件。根據預設、 vSphere HA 會使用其管理網路的預設閘道做為預設隔離位址。不過、您可以為主機指定其他隔離位址來執行 ping 、以判斷是否應該觸發隔離回應。新增兩個可 ping 的隔離 IP 、每個站台一個。請勿使用閘道 IP 。使用的 vSphere HA 進階設定為 das.isolationaddress 。您可以將 ONTAP 或 Mediator IP 位址用於此用途。
@@ -162,6 +168,7 @@ image::../media/vmsc_3_7.png[自動產生電腦說明的螢幕擷取畫面,624,5
 ====
 
 
+[[create-drs-host-groups]]
 === 建立 DRS 主機群組
 
 若要建立站台 A 和站台 B 專屬的 DRS 主機群組、請完成下列步驟：
@@ -178,6 +185,7 @@ image::../media/vmsc_3_7.png[自動產生電腦說明的螢幕擷取畫面,624,5
 
 
 
+[[create-drs-vm-groups]]
 === 建立 DRS VM 群組
 
 若要建立站台 A 和站台 B 專屬的 DRS VM 群組、請完成下列步驟：
@@ -196,6 +204,7 @@ image::../media/vmsc_3_7.png[自動產生電腦說明的螢幕擷取畫面,624,5
 
 
 
+[[create-vm-host-rules]]
 === 建立 VM Host 規則
 
 若要建立站台 A 和站台 B 特有的 DRS 關聯性規則、請完成下列步驟：
@@ -218,6 +227,7 @@ image::../media/vmsc_3_8.png[自動產生電腦說明的螢幕擷取畫面,474,3
 
 
 
+[[create-datastore-clusters-if-needed]]
 == 視需要建立資料存放區叢集
 
 若要為每個站台設定資料存放區叢集、請完成下列步驟：
@@ -254,6 +264,7 @@ image::../media/vmsc_3_12.png[資料存放區,624,134]
 
 
 
+[[vcenter-server-availability]]
 === vCenter Server 可用度
 
 您的 vCenter Server 應用裝置（ VCSA ）應使用 vCenter HA 加以保護。vCenter HA 可讓您在主動式被動式 HA 配對中部署兩個 VCSA 。每個故障網域各有一個。您可以在上閱讀更多有關 vCenter HA 的資訊 https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-availability/GUID-4A626993-A829-495C-9659-F64BA8B560BD.html["docs.vmware.com"]。

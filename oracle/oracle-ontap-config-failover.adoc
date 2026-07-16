@@ -42,6 +42,7 @@ searchtitle: Oracle 資料庫和 ONTAP 控制器容錯移轉 / 切換
 ====
 
 
+[[metrocluster-and-multiple-aggregates]]
 == MetroCluster 和多個集合體
 
 MetroCluster 是一種同步複寫技術、可在連線中斷時切換至非同步模式。這是客戶最常提出的要求、因為保證同步複寫意味著站台連線中斷會導致資料庫 I/O 完全停止、使資料庫停止運作。

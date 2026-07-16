@@ -15,12 +15,14 @@ summary: EPIC 六節點架構
 
 
 
+[[six-node-architecture]]
 == 六節點架構
 
 image:epic-6node.png["EPIC 6 節點架構"]
 
 
 
+[[six-node-workload-placement]]
 == 六節點工作負載配置
 
 image:epic-6node-design.png["EPIC 6 節點配置"]

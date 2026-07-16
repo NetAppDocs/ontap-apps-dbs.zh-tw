@@ -4,6 +4,7 @@
 
 
 
+[[temperature-sensitive-storage-efficiency]]
 === 對溫度敏感的儲存效率
 
 ONTAP 9 8 及更新版本均提供溫度敏感儲存效率（ TSSE ）。它仰賴區塊存取熱圖來識別不常存取的區塊、並以更高效率加以壓縮。

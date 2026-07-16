@@ -8,6 +8,7 @@ SnapMirror 主動式同步支援兩種儲存容錯移轉作業：計畫性和非
 
 
 
+[[normal-operation]]
 == 正常運作
 
 在正常作業中、可以從本機或遠端複本存取 LUN 。紅色線表示 ALUA 所通告的最佳化路徑、結果應該是 IO 優先傳送至此路徑。
@@ -18,6 +19,7 @@ image:../media/smas-failover-1.png["SnapMirror 作用中同步正常作業"]
 
 
 
+[[failure]]
 == 故障
 
 如果主動鏡像複本因為計畫性或非計畫性容錯移轉而無法使用、則顯然無法再使用。然而、遠端系統已擁有通往遠端站台的同步複本和 SAN 路徑。遠端系統能夠為該 LUN 提供 IO 服務。
@@ -26,6 +28,7 @@ image:../media/smas-failover-2.png["SnapMirror 作用中同步失敗"]
 
 
 
+[[failover]]
 == 容錯移轉
 
 容錯移轉會導致遠端複本變成使用中複本。路徑會從「 Active 」變更為「 Active/Optimized 」、 IO 也會持續提供服務、不會遺失資料。
@@ -34,6 +37,7 @@ image:../media/smas-failover-3.png["SnapMirror 主動式同步容錯移轉"]
 
 
 
+[[repair]]
 == 修復
 
 一旦來源系統恢復服務、 SnapMirror 主動式同步就能重新同步複寫、但會執行其他方向。現在的組態基本上與起點相同、只是主動鏡射站台已經翻轉。
@@ -42,6 +46,7 @@ image:../media/smas-failover-4.png["SnapMirror 主動式同步修復"]
 
 
 
+[[failback]]
 == 容錯回復
 
 如果需要、管理員可以執行容錯回復、並將 LUN 的作用中複本移回原始控制器。

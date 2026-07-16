@@ -20,6 +20,7 @@ ONTAP ONE 授權隨附下列工具，無需額外付費。請參閱圖1、瞭解
 
 
 
+[[ontap-tools-for-vmware-vsphere]]
 == VMware vSphere適用的工具ONTAP
 
 https://mysupport.netapp.com/site/products/all/details/otv10/docs-tab["VMware vSphere適用的工具ONTAP"]是一組工具，可搭配 vSphere 使用 ONTAP 儲存設備。vCenter外掛程式先前稱為虛擬儲存主控台（VSC）、可簡化儲存管理與效率功能、增強可用度、並降低儲存成本與營運成本、無論您使用SAN或NAS。它採用最佳實務做法來配置資料存放區、並針對NFS和區塊儲存環境最佳化ESXi主機設定。針對所有這些優點、 NetApp 建議在搭配執行 ONTAP 的系統使用 vSphere 時、使用這些 ONTAP 工具作為最佳實務做法。其中包括伺服器應用裝置， vCenter 的 UI 擴充， VASA Provider 和 Storage Replication Adapter 。幾乎所有的功能都可以透過簡單的REST API來自動化、而大多數的現代化自動化工具都能耗用這些API ONTAP 。
@@ -35,18 +36,21 @@ image:vsphere_ontap_image1.png["適用於 vSphere 的 ONTAP 工具"]
 
 
 
+[[snapcenter-plug-in-for-vmware-vsphere]]
 == 適用於 VMware vSphere 的 SnapCenter 外掛程式
 
 這 https://mysupport.netapp.com/site/products/all/details/scv/docs-tab["適用於 VMware vSphere 的 SnapCenter 外掛程式"] 是 vCenter Server 的插件，可讓您管理虛擬機器 (VM) 和資料儲存區的備份和還原。它提供了一個單一介面來管理跨多個ONTAP系統的虛擬機器和資料儲存庫的備份、復原和複製。SnapCenter支援使用SnapMirror複製到輔助站點以及從輔助站點恢復。最新版本也支援SnapMirror到雲端（S3）、防篡改快照、 SnapLock和SnapMirror主動同步。適用於 VMware vSphere 的SnapCenter插件可以與SnapCenter應用程式插件集成，以提供應用程式一致的備份。
 
 
 
+[[nfs-plug-in-for-vmware-vaai]]
 == 適用於VMware VAAI的NFS外掛程式
 
  https://mysupport.netapp.com/site/products/all/details/nfsplugin-vmware-vaai/about-tab["適用於 VMware VAAI 的 NetApp NFS 外掛程式"]是 ESXi 主機的外掛程式，可讓主機使用 VAAI 功能搭配 ONTAP 上的 NFS 資料存放區。它支援複製卸載、以進行複製作業、保留大型虛擬磁碟檔案的空間、以及快照卸載。將複本作業卸載到儲存設備並不一定能更快完成、但它確實能降低網路頻寬需求、並卸載CPU週期、緩衝區和佇列等主機資源。您可以使用ONTAP VMware vSphere的支援功能、在ESXi主機上安裝外掛程式、或是在支援的情況下安裝vSphere Lifecycle Manager（vLCM）。
 
 
 
+[[premium-software-options]]
 == 優質軟體選項
 
 NetApp提供以下優質軟體產品。它們不包含在ONTAP One 許可證中，必須單獨購買。

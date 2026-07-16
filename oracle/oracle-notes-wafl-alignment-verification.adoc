@@ -29,6 +29,7 @@ searchtitle: Oracle 資料庫的 WAFL 對齊驗證
 
 
 
+[[aligned]]
 == 一致
 
 以下範例顯示單一磁碟分割的單一 LUN 對齊檢查。
@@ -135,6 +136,7 @@ lun:ed95d953-1560-4f74-9006-85b352f58fcd:read_align_histo.7:0%
 
 
 
+[[misaligned]]
 == 未對齊
 
 以下範例顯示 I/O 未對齊：
@@ -183,6 +185,7 @@ lun:ed95d953-1560-4f74-9006-85b352f58fcd:read_partial_blocks:31%
 
 
 
+[[redo-logging]]
 == 重作記錄
 
 此處說明的程序適用於資料檔案。Oracle 重做記錄和歸檔記錄檔有不同的 I/O 模式。例如、重做記錄是單一檔案的循環覆寫。如果使用預設的 512 位元組區塊大小、寫入統計資料看起來會像這樣：

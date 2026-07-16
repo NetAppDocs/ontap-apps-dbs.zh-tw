@@ -37,6 +37,7 @@ NetApp 假設讀者具備下列工作知識：
 
 
 
+[[microsoft-sql-server-workloads]]
 == Microsoft SQL Server 工作負載
 
 部署 SQL Server 之前、您必須先瞭解 SQL Server 資料庫執行個體所支援之應用程式的工作負載需求。每個應用程式對於容量、效能和可用度的需求各不相同、因此每個資料庫都應該設計成能以最佳方式支援這些需求。許多組織會使用應用程式需求來定義 SLA 、將資料庫分類為多個管理層。SQL Server 工作負載通常分類如下：

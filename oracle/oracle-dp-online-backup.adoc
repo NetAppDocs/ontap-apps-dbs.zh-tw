@@ -27,6 +27,7 @@ searchtitle: Oracle 資料庫線上備份
 
 
 
+[[data-layout]]
 == 資料配置
 
 最簡單的佈局是將資料檔案隔離在一個或多個專用磁碟區、LUN 或 NVMe 命名空間中。儲存資源必須不受任何其他檔案類型的污染。這樣做是為了確保可以透過 SnapRestore 操作快速還原資料檔案，而不會破壞重要的重做日誌、控制檔或歸檔日誌。
@@ -41,6 +42,7 @@ ASA 不具備 AFF 系統上可以承載多個 LUN 的磁碟區級抽象化。ASA
 
 
 
+[[local-recovery-procedurenfs]]
 == 本機恢復程序— NFS
 
 此程序可以手動或透過 SnapCenter 等應用程式來驅動。基本程序如下：
@@ -57,6 +59,7 @@ ASA 不具備 AFF 系統上可以承載多個 LUN 的磁碟區級抽象化。ASA
 
 
 
+[[local-recovery-proceduresan]]
 == 本機恢復程序— SAN
 
 此程序可以手動或透過 SnapCenter 等應用程式來驅動。基本程序如下：

@@ -18,6 +18,7 @@ MySQL 文件建議您將 NFSv4 用於 NAS 部署。
 
 
 
+[[ontap-nfs-transfer-sizes]]
 == ONTAP NFS 傳輸大小
 
 根據預設、 ONTAP 將 NFS IO 大小限制為 64K 。使用 MySQL 資料庫的隨機 IO 使用的區塊大小要小得多、遠低於 64K 上限。大型區塊 IO 通常是平行處理的、因此 64K 最大值也不是限制。

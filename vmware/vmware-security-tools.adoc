@@ -25,6 +25,7 @@ summary: 本文件討論ONTAP VMware vSphere的產品安全性功能。
 
 
 
+[[product-security-features]]
 == 產品安全功能
 
 適用於 VMware vSphere 的 ONTAP 工具在每個版本中都包含下列安全功能。

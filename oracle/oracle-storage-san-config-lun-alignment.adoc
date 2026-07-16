@@ -27,6 +27,7 @@ LUN 對齊是指針對基礎檔案系統配置最佳化 I/O 。
 
 
 
+[[misalignment-warnings]]
 == 錯誤對齊警告
 
 資料庫重做 / 交易記錄通常會產生未對齊的 I/O 、導致 ONTAP 上未對齊 LUN 的錯誤警告。

@@ -15,6 +15,7 @@ LUN 是 ONTAP 上的虛擬化物件、存在於託管集合體中的所有磁碟
 
 
 
+[[lun-count]]
 == LUN 計數
 
 與 LUN 大小不同、 LUN 數量確實會影響效能。應用程式效能通常取決於透過 SCSI 層執行平行 I/O 的能力。因此、兩個 LUN 的效能優於單一 LUN 。使用 LVM （例如 Veritas VxVM 、 Linux LVM2 或 Oracle ASM ）是提高平行度的最簡單方法。

@@ -26,6 +26,7 @@ searchtitle: Oracle 資料庫 LUN 放置
 ====
 
 
+[[volumes]]
 == 磁碟區
 
 與剛接觸 ONTAP 的客戶混淆的一個常見點是使用 FlexVols 、通常稱為「 Volume 」。
@@ -34,6 +35,7 @@ searchtitle: Oracle 資料庫 LUN 放置
 
 
 
+[[volumes-and-luns]]
 == 磁碟區和 LUN
 
 相關 LUN 通常位於單一磁碟區中。例如、需要 10 個 LUN 的資料庫通常會將所有 10 個 LUN 放在同一個磁碟區上。
@@ -48,6 +50,7 @@ searchtitle: Oracle 資料庫 LUN 放置
 ====
 
 
+[[volumes-luns-and-snapshots]]
 == 磁碟區、 LUN 和快照
 
 Snapshot 原則和排程會放置在磁碟區上、而非 LUN 上。如果資料集由 10 個 LUN 組成、則當這些 LUN 位於同一個磁碟區中時、只需要單一快照原則。
@@ -58,6 +61,7 @@ Snapshot 原則和排程會放置在磁碟區上、而非 LUN 上。如果資料
 
 
 
+[[volumes-luns-and-snapmirror]]
 == Volume 、 LUN 和 SnapMirror
 
 SnapMirror 原則和作業就像快照作業一樣、是在磁碟區上執行、而不是在 LUN 上執行。
@@ -66,6 +70,7 @@ SnapMirror 原則和作業就像快照作業一樣、是在磁碟區上執行、
 
 
 
+[[volumes-luns-and-qos]]
 == 磁碟區、 LUN 和 QoS
 
 雖然 QoS 可以選擇性地套用至個別 LUN 、但通常在磁碟區層級設定 QoS 會比較容易。例如、指定 ESX 伺服器中的來賓所使用的所有 LUN 都可以放置在單一磁碟區上、然後就可以套用 ONTAP 調適性 QoS 原則。結果是將每 TB IOPS 的自我擴充限制套用至所有 LUN 。
@@ -74,6 +79,7 @@ SnapMirror 原則和作業就像快照作業一樣、是在磁碟區上執行、
 
 
 
+[[multi-volume-layouts]]
 == 多重 Volume 配置
 
 在某些情況下、跨多個磁碟區散佈 LUN 可能會有幫助。主要原因是控制器分段。例如、 HA 儲存系統可能會裝載單一資料庫、其中需要每個控制器的完整處理與快取潛力。在這種情況下、典型的設計是將一半的 LUN 放在控制器 1 的單一磁碟區、而另一半的 LUN 則放在控制器 2 的單一磁碟區中。

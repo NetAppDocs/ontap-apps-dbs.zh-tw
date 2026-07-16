@@ -14,6 +14,7 @@ searchtitle: 使用 HP-UX 的 Oracle 資料庫
 
 
 
+[[hp-ux-nfs-mount-options]]
 == HP-UX NFS 掛載選項
 
 下表列出單一執行個體的 HP-UX NFS 掛載選項。
@@ -76,6 +77,7 @@ nointr,noac,suid`
 
 
 
+[[hp-ux-vxfs-mount-options]]
 == HP-UX VxFS 掛載選項
 
 對於託管 Oracle 二進位檔的檔案系統、請使用下列掛載選項：

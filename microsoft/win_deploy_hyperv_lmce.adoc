@@ -18,12 +18,14 @@ summary: 本附錄說明如何在叢集式環境中部署即時移轉。
 
 
 
+[[prerequisites]]
 == 先決條件
 
 若要部署即時移轉、您必須在具有共用儲存設備的容錯移轉叢集中設定 Hyper-V 伺服器。檢閱 link:win_deploy_hyperv.html["部署 Hyper-V 叢集"] 以取得更多詳細資料。
 
 
 
+[[deployment]]
 == 部署
 
 若要在叢集環境中使用即時移轉、請完成下列步驟：

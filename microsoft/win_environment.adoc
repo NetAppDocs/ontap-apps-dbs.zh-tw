@@ -29,6 +29,7 @@ summary: 瞭解 NetApp 儲存設備和 Windows Server 環境
 
 
 
+[[ontap-data-management]]
 == ONTAP 資料管理
 
 ONTAP 是在 NetApp 儲存控制器上執行的管理軟體。NetApp 儲存控制器稱為節點、是一種硬體裝置、內含處理器、 RAM 和 NVRAM 。節點可以連接至 SATA 、 SAS 或 SSD 磁碟機、或是這些磁碟機的組合。
@@ -41,6 +42,7 @@ image:win_image1.png["Windows Server 環境中的 NetApp 儲存部署、寬度 =
 
 
 
+[[storage-virtual-machines]]
 == 儲存虛擬機器
 
 ONTAP SVM 是一種邏輯儲存伺服器、可從一或多個邏輯介面（生命體）提供 LUN 和 / 或 NAS 命名空間的資料存取。因此 SVM 是儲存區段的基本單元、可在 ONTAP 中實現安全的多租戶共享。每個 SVM 都設定為擁有儲存磁碟區、這些磁碟區是從指派給實體乙太網路或 FC 目標連接埠的實體集合和邏輯介面（生命體）來配置。
@@ -51,6 +53,7 @@ image:win_image2.png["ONTAP 儲存虛擬機器、寬度 = 572 、高度 = 443"]
 
 
 
+[[provisioning-netapp-storage-for-windows-server]]
 == 為 Windows Server 佈建 NetApp 儲存設備
 
 儲存設備可同時在 SAN 和 NAS 環境中佈建至 Windows Server 。在 SAN 環境中、儲存設備是以 NetApp 磁碟區上 LUN 的磁碟形式提供、作為區塊儲存設備。在 NAS 環境中、儲存設備會在 NetApp 磁碟區上以 CIFS/SMB 共用的形式提供、做為檔案儲存設備。這些磁碟和共用可以在 Windows Server 中套用、如下所示：
@@ -64,6 +67,7 @@ image:win_image2.png["ONTAP 儲存虛擬機器、寬度 = 572 、高度 = 443"]
 
 
 
+[[managing-netapp-storage]]
 == 管理 NetApp 儲存設備
 
 若要從 Windows Server 2016 連線、設定及管理 NetApp 儲存設備、請使用下列其中一種方法：
@@ -75,12 +79,14 @@ image:win_image2.png["ONTAP 儲存虛擬機器、寬度 = 572 、高度 = 443"]
 
 
 
+[[netapp-powershell-toolkit]]
 == NetApp PowerShell 工具套件
 
 NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端點對端自動化、並可讓您管理 ONTAP 的儲存設備。ONTAP 模組包含超過 2 ， 000 個 Cmdlet ，可協助管理 NetApp AFF ， FAS ，市售硬體和雲端資源。
 
 
 
+[[things-to-remember]]
 === 值得記住的事項
 
 * NetApp 不支援 Windows Server 儲存空間。儲存空間僅用於 JBOD （只有一堆磁碟）、不適用於任何類型的 RAID （直接附加儲存 [DAS] 或 SAN ）。
@@ -91,6 +97,7 @@ NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端
 
 
 
+[[further-reading]]
 === 進一步閱讀
 
 * 如需 NetApp PowerShell 工具組的詳細資訊、請參閱 https://mysupport.netapp.com/site/tools/tool-eula/ontap-powershell-toolkit["NetApp 支援網站"]。
@@ -99,6 +106,7 @@ NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端
 
 
 
+[[networking-best-practices]]
 == 網路最佳實務做法
 
 乙太網路可廣泛分為下列群組：
@@ -113,6 +121,7 @@ NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端
 
 
 
+[[best-practices]]
 === 最佳實務做法
 
 * NetApp 建議您針對上述各項功能、使用專用的實體連接埠來隔離網路並提高效能。

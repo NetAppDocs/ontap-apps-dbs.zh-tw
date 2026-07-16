@@ -18,6 +18,7 @@ summary: 本附錄說明如何在 NetApp 儲存設備上部署高可用度 Hyper
 
 
 
+[[prerequisites]]
 == 先決條件
 
 * 至少有兩部 Hyper-V 伺服器彼此連線。
@@ -30,6 +31,7 @@ summary: 本附錄說明如何在 NetApp 儲存設備上部署高可用度 Hyper
 
 
 
+[[deployment]]
 == 部署
 
 . 以系統管理員群組成員的身分登入其中一個 Windows Hyper-V 伺服器。

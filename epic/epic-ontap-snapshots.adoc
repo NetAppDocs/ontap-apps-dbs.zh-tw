@@ -17,6 +17,7 @@ summary: EPIC 快照與複製
 
 
 
+[[flexclone]]
 == FlexClone
 
 NetApp ONTAP FlexClone Volume 是現有磁碟區的複本或現有磁碟區的快照。否則、它 ONTAP 就像其他任何磁碟區一樣、可以自行複製、使用快照保護、並使用 QoS 原則進行設定。

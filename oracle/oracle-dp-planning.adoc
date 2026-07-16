@@ -25,6 +25,7 @@ searchtitle: Oracle 資料庫的資料保護規劃
 
 
 
+[[is-a-snapshot-a-backup]]
 == 快照是否為備份？
 
 人們普遍反對使用快照做為資料保護策略、因為「真實」資料和快照資料位於同一個磁碟機上。遺失這些磁碟機將會導致主要資料和備份遺失。
@@ -35,6 +36,7 @@ searchtitle: Oracle 資料庫的資料保護規劃
 
 
 
+[[crash-consistent-backups]]
 == 損毀一致的備份
 
 當機一致性備份涉及在單一原子時間點擷取資料集（或多個資料集）的狀態。以資料庫為例、這包括所有資料庫元件、例如資料檔案、記錄檔及其他與資料庫直接相關的檔案。這適用於幾乎所有關聯式資料庫產品、包括 Oracle RDBMS、Microsoft SQL Server、SAP HANA、PostgreSQL、MySQL 和 MariaDB。使用一致性群組備份來保護 VMware 組態也類似、在單一原子時間點擷取所有資料存放區、以及可能的 ESX 開機 LUN。
@@ -51,6 +53,7 @@ RTO 通常以秒為單位進行測量。當應用程式關閉時、NFS 磁碟區
 
 
 
+[[replication-and-disaster-recovery-architecture]]
 == 複寫與災難恢復架構
 
 本節說明遠端資料保護、將資料複寫到遠端站台、以保護異地儲存和災難恢復的安全。請注意、這些表格並未解決同步鏡射資料保護問題。如需此需求、請參閱 NetApp MetroCluster 文件、包括link:oracle-dr-mcc-failover.html["MetroCluster"]和link:oracle-dr-smas-overview.html["SnapMirror 主動同步"]
@@ -71,12 +74,14 @@ RTO 通常以秒為單位進行測量。當應用程式關閉時、NFS 磁碟區
 
 
 
+[[single-volume-consistency-group-aff]]
 === 單一磁碟區一致性群組（AFF）
 
 最簡單的方法是將所有檔案或 LUN 放在同一個磁碟區中。磁碟區本身就是一個一致性群組，這意味著 SnapMirror 和 SnapVault 更新可以直接在儲存系統上排程。不需要外部軟體。
 
 
 
+[[single-lunnamespace-consistency-group-asa]]
 === 單一 LUN / 命名空間一致性群組（ASA）
 
 將整個資料庫放在單一 LUN/ 命名空間上看似奇怪，但這種做法正變得越來越普遍。磁碟區管理器最初創建的目的就是為了克服實體硬碟的效能和容量限制。在現代陣列中，呈現給主機的單一區塊裝置實際上已經跨多個硬碟進行抽象化。其大小可以動態調整，效能也遠超單一硬碟。
@@ -85,6 +90,7 @@ RTO 通常以秒為單位進行測量。當應用程式關閉時、NFS 磁碟區
 
 
 
+[[multi-volume-consistency-group]]
 === 多磁碟區一致性群組
 
 當資料庫必須跨越 AFF 磁碟區或 ASA LUN/ 命名空間時，需要一致性群組快照。如上所述，可以使用 System Manager 或 RESTful API 呼叫進行設定，此外 SnapCenter 能夠建立簡單的一致性群組快照。
@@ -93,16 +99,19 @@ RTO 通常以秒為單位進行測量。當應用程式關閉時、NFS 磁碟區
 
 
 
+[[disaster-recovery-activation]]
 == 災難恢復：啟動
 
 
 
+[[nfs]]
 === NFS
 
 啟動災難恢復複本的程序取決於儲存類型。有了 NFS 、檔案系統就可以預先掛載到災難恢復伺服器上。它們處於唯讀狀態、當鏡射中斷時會變成讀寫狀態。如此可提供極低的 RPO 、而且整體災難恢復程序更可靠、因為需要管理的零件較少。
 
 
 
+[[san]]
 === SAN
 
 在災難恢復變得更複雜時啟動 SAN 組態。最簡單的選項通常是暫時中斷鏡像並掛載 SAN 資源、包括探索 LVM 組態（包括 Oracle 自動儲存管理 [ASM/] 等應用程式特定功能）、以及新增項目至 /etc/fstab 。

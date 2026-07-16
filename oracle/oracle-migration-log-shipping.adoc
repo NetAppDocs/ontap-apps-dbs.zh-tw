@@ -23,18 +23,21 @@ searchtitle: 透過記錄傳送進行 Oracle 資料庫移轉
 
 
 
+[[log-shipping-file-system-to-file-system]]
 == 記錄傳送 - 檔案系統至檔案系統
 
 本範例示範如何將名為華夫餅的資料庫從一般檔案系統移轉至位於不同伺服器上的其他一般檔案系統。它也說明 SnapMirror 可用來快速複製資料檔案、但這並不是整體程序不可或缺的一部分。
 
 
 
+[[create-database-backup]]
 === 建立資料庫備份
 
 第一步是建立資料庫備份。具體而言、此程序需要一組資料檔案、可用於歸檔記錄重新執行。
 
 
 
+[[environment]]
 === 環境
 
 在此範例中、來源資料庫位於 ONTAP 系統上。建立資料庫備份最簡單的方法是使用快照。將資料庫置於熱備份模式幾秒鐘 `snapshot create` 在託管資料檔案的磁碟區上執行作業。
@@ -55,6 +58,7 @@ Database altered.
 
 
 
+[[restore-to-new-environment]]
 === 還原至新環境
 
 現在必須在新環境中還原備份。這可以透過多種方式完成、包括 Oracle RMAN 、從備份應用程式（如 NetBackup ）還原、或是簡單複製置於熱備份模式的資料檔案。
@@ -115,6 +119,7 @@ fas8060-nfs1:/vol_logs            9961472       128    9961344   1% /logs
 
 
 
+[[create-controlfile-creation-template]]
 === 建立控制檔建立範本
 
 接下來必須建立控制檔範本。。 `backup controlfile to trace` 命令會建立文字命令以重新建立控制檔。在某些情況下、此功能可用於從備份還原資料庫、而且通常用於執行資料庫複製等工作的指令碼。
@@ -136,6 +141,7 @@ waffle.ctrl                                              100% 5199     5.1KB/s  
 
 
 
+[[backup-parameter-file]]
 === 備份參數檔案
 
 在新環境中也需要一個參數檔。最簡單的方法是從目前的 spfile 或 pfile 建立 pfile 。在此範例中、來源資料庫使用的是 spfile 。
@@ -146,6 +152,7 @@ File created.
 ....
 
 
+[[create-oratab-entry]]
 === 建立 oratab 項目
 
 需要建立 oratab 項目、才能正常運作如 oraenv 等公用程式。若要建立 oratab 項目、請完成下列步驟。
@@ -155,6 +162,7 @@ WAFFLE:/orabin/product/12.1.0/dbhome_1:N
 ....
 
 
+[[prepare-directory-structure]]
 === 準備目錄結構
 
 如果所需目錄尚未存在、您必須建立它們、否則資料庫啟動程序會失敗。若要準備目錄結構、請完成下列最低需求。
@@ -171,6 +179,7 @@ The Oracle base has been set to /orabin
 ....
 
 
+[[parameter-file-updates]]
 === 參數檔案更新
 
 . 若要將參數檔複製到新伺服器、請執行下列命令。預設位置為 `$ORACLE_HOME/dbs` 目錄。在這種情況下、 pfile 可以放在任何地方。它只是移轉程序中的中間步驟。
@@ -224,6 +233,7 @@ File created.
 
 
 
+[[recreate-controlfiles]]
 === 重新建立控制檔
 
 在前一個步驟中、的輸出 `backup controlfile to trace` 已複製到新伺服器。所需輸出的特定部分是 `controlfile recreation` 命令。此資訊可在檔案中標記的區段下找到 `Set #1. NORESETLOGS`。從這條線開始 `create controlfile reuse database` 並應包含這個字 `noresetlogs`。結尾是分號（；）字元。
@@ -309,6 +319,7 @@ SQL>
 
 
 
+[[initial-log-replication]]
 === 初始記錄複寫
 
 為了使資料檔案一致、至少需要執行一項記錄回覆作業。有許多選項可供重播記錄。在某些情況下、原始伺服器上的原始歸檔記錄檔位置可以透過 NFS 共用、而且記錄回覆可以直接完成。在其他情況下、必須複製歸檔記錄。
@@ -330,6 +341,7 @@ oracle@jfsc1's password:
 ....
 
 
+[[initial-log-replay]]
 === 初始記錄重新播放
 
 檔案在歸檔記錄位置後、可以發出命令來重新播放 `recover database until cancel` 接著是回應 `AUTO` 自動重播所有可用的記錄。
@@ -363,6 +375,7 @@ Additional information: 3
 
 
 
+[[incremental-log-replication-and-replay]]
 === 遞增記錄複寫及重新播放
 
 在大多數情況下、移轉作業不會立即執行。移轉程序可能在幾天甚至幾週前完成、這表示記錄必須持續運送至複本資料庫並重新執行。因此、當轉換程式到達時、必須傳輸和重播最少的資料。
@@ -453,6 +466,7 @@ With the Partitioning, OLAP, Advanced Analytics and Real Application Testing opt
 ....
 
 
+[[cutover]]
 === 轉換
 
 當您準備好切換至新環境時、必須執行最後一次同步、其中包括歸檔記錄和重做記錄。如果尚未知道原始的重做記錄位置、可以如下所示識別：
@@ -506,6 +520,7 @@ Database altered.
 
 
 
+[[log-shipping-asm-to-file-system]]
 == 記錄傳送 - ASM 至檔案系統
 
 本範例說明如何使用 Oracle RMAN 移轉資料庫。這與先前的檔案系統傳送檔案系統記錄檔範例非常類似、但主機看不到 ASM 上的檔案。唯一用於移轉位於 ASM 裝置上的資料的選項是重新放置 ASM LUN 、或使用 Oracle RMAN 來執行複製作業。
@@ -516,6 +531,7 @@ Database altered.
 
 
 
+[[create-database-backup]]
 === 建立資料庫備份
 
 第一步是建立要移轉到替代伺服器的資料庫備份。由於來源使用 Oracle ASM 、因此必須使用 RMAN 。簡單的 RMAN 備份可執行如下。此方法會建立標記備份、可在稍後的程序中由 RMAN 輕鬆識別。
@@ -556,6 +572,7 @@ Finished backup at 24-MAY-16
 ....
 
 
+[[backup-controlfile]]
 === 備份控制檔
 
 稍後的程序中需要備份控制檔 `duplicate database` 營運。
@@ -575,6 +592,7 @@ Finished backup at 24-MAY-16
 ....
 
 
+[[backup-parameter-file]]
 === 備份參數檔案
 
 在新環境中也需要一個參數檔。最簡單的方法是從目前的 spfile 或 pfile 建立 pfile 。在此範例中、來源資料庫使用 spfile 。
@@ -585,6 +603,7 @@ Statement processed
 ....
 
 
+[[asm-file-rename-script]]
 === ASM 檔案重新命名指令碼
 
 移動資料庫時、控制檔中目前定義的數個檔案位置會變更。下列指令碼會建立 RMAN 指令碼、以簡化程序。此範例顯示的資料庫資料檔案數量極少、但資料庫通常包含數百個甚至數千個資料檔案。
@@ -628,6 +647,7 @@ duplicate target database for standby backup location '/rman/pancake';
 ....
 
 
+[[prepare-directory-structure]]
 === 準備目錄結構
 
 指令碼幾乎可以執行、但首先必須有目錄結構。如果所需目錄尚未存在、則必須建立這些目錄、否則資料庫啟動程序會失敗。以下範例反映最低需求。
@@ -642,6 +662,7 @@ duplicate target database for standby backup location '/rman/pancake';
 ....
 
 
+[[create-oratab-entry]]
 === 建立 oratab 項目
 
 下列命令是 oraenv 等公用程式正常運作所需的命令。
@@ -651,6 +672,7 @@ PANCAKE:/orabin/product/12.1.0/dbhome_1:N
 ....
 
 
+[[parameter-updates]]
 === 參數更新
 
 必須更新儲存的 pfile 、以反映新伺服器上的任何路徑變更。資料檔案路徑變更是由 RMAN 複製指令碼所變更、幾乎所有資料庫都需要變更 `control_files` 和 `log_archive_dest` 參數。也可能有必須變更的稽核檔案位置和參數、例如 `db_create_file_dest` 在 ASM 之外可能無關緊要。經驗豐富的 DBA 應仔細審查建議的變更、然後再繼續。
@@ -702,6 +724,7 @@ File created.
 ....
 
 
+[[startup-nomount]]
 === 啟動 nomount
 
 複寫資料庫之前的最後一個步驟是啟動資料庫程序、但不要掛載檔案。在此步驟中、 spfile 可能會出現問題。如果是 `startup nomount` 命令因參數錯誤而失敗、關機很簡單、請修正 pfile 範本、將其重新載入為 spfile 、然後再試一次。
@@ -717,6 +740,7 @@ Redo Buffers                5455872 bytes
 ....
 
 
+[[duplicate-the-database]]
 === 複製資料庫
 
 將先前的 RMAN 備份還原至新位置、比此程序中的其他步驟花費更多時間。必須複製資料庫、而不需變更資料庫 ID （ DBID ）或重新設定記錄。這可防止套用記錄、這是完全同步複本的必要步驟。
@@ -819,6 +843,7 @@ Finished Duplicate Db at 24-MAY-16
 ....
 
 
+[[initial-log-replication]]
 === 初始記錄複寫
 
 您現在必須將變更從來源資料庫傳送至新位置。這樣做可能需要多個步驟的組合。最簡單的方法是讓來源資料庫上的 RMAN 將歸檔記錄寫入共用網路連線。如果無法使用共用位置、則另一種方法是使用 RMAN 寫入本機檔案系統、然後使用 rcp 或 rsync 複製檔案。
@@ -861,6 +886,7 @@ Finished backup at 24-MAY-16
 ....
 
 
+[[initial-log-replay]]
 === 初始記錄重新播放
 
 檔案在歸檔記錄位置後、可以發出命令來重新播放 `recover database until cancel` 接著是回應 `AUTO` 自動重播所有可用的記錄。參數檔目前正在將歸檔記錄導向 `/logs/archive`但這與 RMAN 用於保存日誌的位置不匹配。在恢復資料庫之前、可依下列方式暫時重新導向位置。
@@ -896,6 +922,7 @@ Additional information: 3
 
 
 
+[[incremental-log-replication-and-replay]]
 === 遞增記錄複寫及重新播放
 
 在大多數情況下、移轉作業不會立即執行。移轉程序可能在幾天甚至幾週前完成、這表示記錄必須持續運送至複本資料庫並重新執行。這樣做可確保轉換程序到達時、必須傳輸和重播最少的資料。
@@ -987,6 +1014,7 @@ With the Partitioning, OLAP, Advanced Analytics and Real Application Testing opt
 ....
 
 
+[[cutover]]
 === 轉換
 
 準備好切換至新環境時、您必須執行最後一次同步。使用一般檔案系統時、由於原始的重作記錄會複製並重新播放、因此很容易確保移轉的資料庫與原始資料庫 100% 同步。使用 ASM 執行此作業的方法並不理想。只有歸檔日誌可以輕鬆地重新記錄。為了確保不會遺失任何資料、必須謹慎執行原始資料庫的最終關機。
@@ -1118,6 +1146,7 @@ Table dropped.
 
 
 
+[[nondisruptive-redo-log-migration]]
 == 不中斷的重作記錄移轉
 
 有時資料庫會在整體上正確組織、但重做記錄除外。這可能是因為許多原因、其中最常見的原因與快照有關。SnapManager for Oracle 、 SnapCenter 和 NetApp Snap Creator 儲存管理架構等產品可讓您近乎即時地恢復資料庫、但前提是您必須還原資料檔案磁碟區的狀態。如果重做記錄檔與資料檔案共用空間、則無法安全執行還原、因為還原會導致重做記錄檔毀損、這可能表示資料遺失。因此、重做記錄必須重新定位。
@@ -1126,6 +1155,7 @@ Table dropped.
 
 
 
+[[current-redo-log-configuration]]
 === 目前的重做記錄組態
 
 . 識別重做記錄群組的數目及其各自的群組編號。
@@ -1156,6 +1186,7 @@ GROUP#||''||BYTES
 
 
 
+[[create-new-logs]]
 === 建立新記錄
 
 . 針對每個重做記錄、建立一個大小和成員數目相符的新群組。
@@ -1193,6 +1224,7 @@ GROUP#||''||MEMBER
 
 
 
+[[drop-old-logs]]
 === 刪除舊記錄
 
 . 刪除舊記錄（群組 1 、 2 和 3 ）。

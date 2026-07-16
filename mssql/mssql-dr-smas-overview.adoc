@@ -22,6 +22,7 @@ SQL Server 主機使用光纖通道（ FC ）或 iSCSI LUN 存取儲存設備。
 
 
 
+[[architecture-of-snapmirror-active-sync-with-symmetric-activeactive]]
 == SnapMirror 主動式與對稱式主動 / 主動式同步的架構
 
 image:../media/mssql-smas-architecture.png["SnapMirror 主動同步架構"]

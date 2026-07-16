@@ -47,6 +47,7 @@ vserver1 800DT$HuVWBo /vol/new_lvm/LUN9 completed
 ....
 
 
+[[delete-import-relationships]]
 == 刪除匯入關係
 
 移轉程序完成後、請刪除移轉關係。完成後、 I/O 將由 ONTAP 上的磁碟機獨家提供。
@@ -60,6 +61,7 @@ Cluster01::*> lun import delete -vserver vserver1 -path /vol/new_lvm/LUN9
 ....
 
 
+[[deregister-foreign-luns]]
 == 取消註冊外部 LUN
 
 最後、修改磁碟以移除 `is-foreign` 指定。

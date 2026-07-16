@@ -18,6 +18,7 @@ summary: 瞭解如何使用 Windows Server 容錯移轉叢集來部署及設定 
 
 
 
+[[prerequisites]]
 == 先決條件
 
 * 您必須將 Hyper-V 叢集放在相同或不同地理位置的同一位置、做為主要叢集和複本叢集。檢閱 link:win_deploy_hyperv.html["部署 Hyper-V 叢集"] 以取得更多詳細資料。
@@ -27,6 +28,7 @@ summary: 瞭解如何使用 Windows Server 容錯移轉叢集來部署及設定 
 
 
 
+[[deployment]]
 == 部署
 
 . 在叢集的所有節點上啟用防火牆規則。在主要叢集和複本叢集中的所有節點上、以管理員權限執行下列 PowerShell Cmdlet 。
@@ -65,6 +67,7 @@ get-clusternode | ForEach-Object \{Invoke-command -computername $_.name -scriptb
 
 
 
+[[replication]]
 == 複寫
 
 複製過程與本節中所述的過程類似link:win_deploy_hyperv_replica_oce.html["叢集環境外部的複本"]。

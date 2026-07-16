@@ -17,6 +17,7 @@ summary:
 
 
 
+[[vasa-provider-high-availability]]
 == Vasa Provider 高可用度
 
 NetApp VASA Provider 與 vCenter 外掛程式和 REST API 伺服器（先前稱為虛擬儲存主控台 [VSC] ）及儲存複寫介面卡一起執行、是虛擬應用裝置的一部分。如果 VASA Provider 不可用、則使用 vVols 的 VM 將繼續執行。但是、無法建立新的 vVols 資料存放區、而且 VVols 無法由 vSphere 建立或繫結。這表示無法開啟使用 vVols 的虛擬機器、因為 vCenter 將無法要求建立交換 vVol 。而且執行中的 VM 無法使用 VMotion 移轉至其他主機、因為 VVols 無法繫結至新主機。
@@ -33,6 +34,7 @@ https://kb.netapp.com/mgmt/OTV/Virtual_Storage_Console/How_to_perform_a_VASA_Pro
 
 
 
+[[vvols-replication]]
 == VVols 複寫
 
 許多 ONTAP 客戶使用 NetApp SnapMirror 將傳統的資料存放區複寫到次要儲存系統、然後在發生災難時使用次要系統來恢復個別 VM 或整個站台。在大多數情況下、客戶都會使用軟體工具來管理這項作業、例如 NetApp SnapCenter 外掛程式 for VMware vSphere 等備份軟體產品、或是 VMware 的 Site Recovery Manager （搭配 ONTAP 工具中的儲存複寫介面卡）等災難恢復解決方案。
@@ -47,12 +49,14 @@ ONTAP 工具 9.7.1 搭配 VMware Site Recovery Manager （ SRM ） 8.3 版本、
 
 
 
+[[vvols-replication-with-srm]]
 === 使用 SRM 複寫 VVols
 
 image:vvols-image17.png["使用 SRM 複寫 VVols"]
 
 
 
+[[metrocluster-support]]
 == MetroCluster 支援
 
 雖然 ONTAP 工具無法觸發 MetroCluster 切轉、但它確實支援採用統一 vSphere 都會儲存叢集（ VMSC ）組態的 NetApp MetroCluster 系統來支援 VVols 備份磁碟區。MetroCluster 系統的移轉是以正常方式處理。
@@ -69,6 +73,7 @@ https://kb.vmware.com/s/article/2031038["VMware KB 2031038 VMware vSphere 支援
 
 
 
+[[vvols-backup-overview]]
 == VVols 備份總覽
 
 有幾種方法可以保護 VM 、例如使用客體內備份代理程式、將 VM 資料檔案附加至備份 Proxy 、或使用定義的 API （例如 VMware VADP ）。VVols 可以使用相同的機制來保護、許多 NetApp 合作夥伴也支援 VM 備份、包括 vVols 。
@@ -81,6 +86,7 @@ vSphere 8.0 支援是採用分離式本機外掛程式架構的 4.7 號選擇控
 
 
 
+[[vvols-backup-with-snapcenter-plugin-for-vmware-vsphere]]
 == 適用於 VMware vSphere 的 VVols Backup 搭配 SnapCenter 外掛程式
 
 有了 NetApp SnapCenter 、您現在可以根據標籤和 / 或資料夾、為 vVols 建立資源群組、以自動利用 ONTAP 的 FlexVol 快照來執行 vVols 型 VM 。這可讓您定義備份與還原服務、以便在虛擬機器在環境中動態佈建時、自動保護這些虛擬機器。
@@ -89,6 +95,7 @@ vSphere 8.0 支援是採用分離式本機外掛程式架構的 4.7 號選擇控
 
 
 
+[[snapcenter-architecture]]
 === 架構SnapCenter
 
 image:snapcenter_arch.png["架構SnapCenter"]
@@ -103,6 +110,7 @@ image:snapcenter_arch.png["架構SnapCenter"]
 
 
 
+[[best-practices]]
 === 最佳實務做法
 
 下列最佳實務做法可協助您充分發揮 SnapCenter 部署的效益。
@@ -153,12 +161,14 @@ image:snapcenter_arch.png["架構SnapCenter"]
 |===
 
 
+[[resource-group-notification-options]]
 === 資源群組通知選項
 
 image:vvols-image19.png["資源群組通知選項"]
 
 
 
+[[get-started-with-scv-using-these-documents]]
 === 使用這些文件開始使用選擇控制閥
 
 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/index.html["深入瞭SnapCenter 解VMware vSphere的功能"]

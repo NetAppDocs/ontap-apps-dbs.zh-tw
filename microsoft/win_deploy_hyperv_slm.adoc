@@ -18,6 +18,7 @@ summary: 如何設定 Hyper-V 儲存即時移轉
 
 
 
+[[prerequisites]]
 == 先決條件
 
 * 您必須擁有獨立式 Hyper-V 伺服器、並具備獨立儲存設備（ DAS 或 LUN ）或 SMB 儲存設備（本機或其他 Hyper-V 伺服器共用）。
@@ -26,6 +27,7 @@ summary: 如何設定 Hyper-V 儲存即時移轉
 
 
 
+[[deployment]]
 == 部署
 
 . 開啟 Hyper-V Manager 。

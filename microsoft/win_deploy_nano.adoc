@@ -18,6 +18,7 @@ summary: 瞭解如何部署 Microsoft Windows Nano Server
 
 
 
+[[deployment]]
 == 部署
 
 若要將奈米伺服器部署為 Hyper-V 主機、請完成下列步驟：
@@ -91,6 +92,7 @@ Invoke-Command -VMName $nanoserver -Credential $nanosecurecred -ArgumentList @($
 
 
 
+[[connect-to-nano-server]]
 == 連線至奈米伺服器
 
 若要使用 PowerShell 遠端連線至奈米伺服器、請完成下列步驟：

@@ -97,15 +97,6 @@ NetApp PowerShell Toolkit （ PSTK ）是一個 PowerShell 模組、可提供端
 
 
 
-[[further-reading]]
-=== 進一步閱讀
-
-* 如需 NetApp PowerShell 工具組的詳細資訊、請參閱 https://mysupport.netapp.com/site/tools/tool-eula/ontap-powershell-toolkit["NetApp 支援網站"]。
-* 如需 NetApp PowerShell 工具組最佳實務做法的相關資訊、請參閱 https://www.netapp.com/media/16861-tr-4475.pdf?v=93202073432AM["TR-4475 ： NetApp PowerShell 工具套件最佳實務指南"]。
-
-
-
-
 [[networking-best-practices]]
 == 網路最佳實務做法
 

@@ -22,5 +22,3 @@ searchtitle: 使用 ONTAP 進行 Microsoft SQL Server 災難恢復
 * 將包含 SQL Server 資料的磁碟區分散到叢集中的不同節點、以允許所有叢集節點共用 SnapMirror 複寫活動。此套裝作業系統可最佳化節點資源的使用。
 * 在需要快速資料恢復的情況下使用同步複寫、而非同步解決方案則可在 RPO 中靈活運用。
 
-
-如需 SnapMirror 的詳細資訊、請參閱 link:https://www.netapp.com/us/media/tr-4015.pdf["TR-4015 ： ONTAP 9 的 SnapMirror 組態與最佳實務做法指南"^]。

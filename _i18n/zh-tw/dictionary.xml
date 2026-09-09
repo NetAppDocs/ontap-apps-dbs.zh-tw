@@ -517,8 +517,6 @@
   <block id="beb3ca55ed0a53a38a2b97540b05d6e4" category="summary">ONTAP 上的 Microsoft SQL Server</block>
   <block id="7636ae91f443b605f05bed59d7d57a02" category="doc">Microsoft SQL Server 災難恢復</block>
   <block id="18c6a681ea46e1ed394e092461bb53ef" category="list-text">將包含 SQL Server 資料的磁碟區分散到叢集中的不同節點、以允許所有叢集節點共用 SnapMirror 複寫活動。此套裝作業系統可最佳化節點資源的使用。</block>
-  <block id="0a01e6837f5c691536f0b6cbdd0232ec" category="inline-link-macro">TR-4015 ： ONTAP 9 的 SnapMirror 組態與最佳實務做法指南</block>
-  <block id="1cca1a3fad8c6dd7e2dadbd2aa08bf07" category="paragraph">如需 SnapMirror 的詳細資訊、請參閱 <block ref="64b916f792bad525a069a243c092b62e" category="inline-link-macro-rx"></block>。</block>
   <block id="77641f4a3e4406855e878235cbd89b87" category="doc">CPU 組態</block>
   <block id="cf0e2551e639758cc3c4d82df655eccd" category="inline-link-macro">SQL Server 2022 ：現代化的資料平台</block>
   <block id="809c9e1f6ce0bc82bf42fae361c6f43e" category="paragraph">因此、若要使用所有 CPU 、您應該使用每個處理器核心授權。如需 SQL Server 授權的詳細資訊、請參閱 <block ref="457abfaf1083b1cbfc49f2783069c6cd" category="inline-link-macro-rx"></block>。</block>
@@ -1572,8 +1570,6 @@
   <block id="3e00e4d28b17eedd6f6c2c38233e06a8" category="paragraph">LUN 對齊是指針對基礎檔案系統配置最佳化 I/O 。</block>
   <block id="a6c7e85d51ae3b98197ceb3eafa3686a" category="inline-link-macro">效率</block>
   <block id="6e2524d5663b2bdc0c7985fa3e57cc55" category="section-title">錯誤對齊警告</block>
-  <block id="79e721357e358d77c4700c25c863fc37" category="inline-link">SAN主機組態ONTAP</block>
-  <block id="268b1da3f1ff11d32e385d0223101718" category="paragraph">在 Solaris 環境中進行對齊更為複雜。請參閱<block ref="2d33e0364c07dc165b4079892340d4fe" category="inline-link-rx"></block> 以取得更多資訊。</block>
   <block id="6d017248f1e4f0ec7e2cd19d967b6bee" category="cell">在 Solaris x86 環境中、由於大多數組態都有多層分割區、因此請格外注意正確的對齊方式。Solaris x86 分割區磁碟片通常位於標準主開機記錄分割區表格的上方。</block>
   <block id="b1230060a0220caf9d68d64b9dd85e6f" category="summary">使用 Oracle 的 NFS 傳輸大小</block>
   <block id="fabe34ed4a5e432f4d1c4f6584956d8d" category="doc">Oracle 資料庫的 NFS 傳輸大小</block>
@@ -2413,7 +2409,6 @@
   <block id="883e69a285ae2d5fd23c80cd29285804" category="paragraph">為了執行效能提升8.2、從一開始就重建了這個系統。SnapVault ONTAP儘管以前Data ONTAP 的使用者應該會發現相似點、SnapVault 但本版的VMware已經做出重大的改善。其中一項重大進展是SnapVault 、能夠在傳輸過程中維持主要資料的儲存效率。</block>
   <block id="9bc21373e0e299579a7ac86dcd4f513d" category="paragraph">架構上的一項重要變更是SnapVault 、在ONTAP Volume層級進行的不只是qtree層級的不完整複寫、7-Mode SnapVault 的情況就是如此。這項設定表示SnapVault 、來源的不景點必須是一個Volume、而且該Volume必須複寫到SnapVault 自己的Volume上的不二系統。</block>
   <block id="d447048519c85a2fb3bea0790cd109fb" category="paragraph">在使用 SnapVault 的環境中、會在主要儲存系統上建立特別命名的快照。根據實作的組態而定、命名快照可由 SnapVault 排程或 NetApp Active IQ Unified Manager 等應用程式在主要系統上建立。然後，在主系統上創建的命名快照將被複制到 SnapMirror 目標，並從該目的地將其保存到 SnapVault 目的地。</block>
-  <block id="5bc66b9c84b3f7cc0b375e729376b68d" category="inline-link">TR-4015《SnapMirror組態最佳實務指南ONTAP 》（英文）。</block>
   <block id="657a41cce55646ab17754ac1427970af" category="paragraph">下圖說明SnapMirror至SnapVault SnapMirror串聯組態。如果該站台位於DR站台或第三站台、但不受主站台中斷影響、則可重新設定環境、以便在容錯移轉後繼續備份。SnapVault</block>
   <block id="63fd1f18d5d53fa97fd05a7fd96090b4" category="section-title">在Site Recovery Manager環境中使用qtree</block>
   <block id="345cb3f040f9f7f3f1a4261ed260aa79" category="section-title">混合式FC與iSCSI環境</block>
@@ -3445,9 +3440,6 @@
   <block id="b37ae3efea13417cff3fdb198db41274" category="list-text">ONTAP 不支援 Windows Server 中的叢集式儲存集區。</block>
   <block id="436593f3429fec64588705fe44025823" category="list-text">NetApp 支援共享虛擬硬碟格式（ VHDX ）、用於 Windows SAN 環境中的來賓叢集。</block>
   <block id="a3a862b96d666cb7005617313f703378" category="list-text">Windows Server 不支援使用 iSCSI 或 FC LUN 建立儲存池。</block>
-  <block id="570d38aae09bbf84ba37f9219909a7cb" category="list-text">如需 NetApp PowerShell 工具組的詳細資訊、請參閱<block ref="12f72d9ce1eab5b7cd58718fecdd145c" category="inline-link-rx"></block>。</block>
-  <block id="699f0a44719fb3de5404046fc6caa8af" category="inline-link">TR-4475 ： NetApp PowerShell 工具套件最佳實務指南</block>
-  <block id="532d077f114744273b1a7cd2a4794077" category="list-text">如需 NetApp PowerShell 工具組最佳實務做法的相關資訊、請參閱<block ref="87b47631a9123c9d2a382039a9ba503e" category="inline-link-rx"></block>。</block>
   <block id="64f3248fbae79dd41841377bf7dd37c6" category="paragraph">乙太網路可廣泛分為下列群組：</block>
   <block id="0047d4a23ffec6d4afe912d0a2598e58" category="list-text">虛擬機器的用戶端網路</block>
   <block id="d6cf6da705ce58c7b649fea1cd43c470" category="list-text">多個儲存網路（連接至儲存系統的 iSCSI 或 SMB ）</block>
@@ -5726,9 +5718,6 @@
   <block id="fea612aa54d66a179c5538c5cd1b8525" category="paragraph">將 VLSR 部署與ONTAP高級資料管理功能相集成，與本地儲存選項相比，可大幅提高規模和效能。但更重要的是，它帶來了混合雲的靈活性。混合雲可讓您透過使用FabricPool將高效能陣列中未使用的資料塊分層到您首選的超大規模器（可以是本地 S3 存儲，例如NetApp StorageGRID ）來節省資金。您也可以將SnapMirror用於基於邊緣的系統，並使用軟體定義的ONTAP Select或基於雲端的 DR<block ref="48f4ab00daadfbd5f3a95d2ba27ed047" category="inline-link-rx"></block>或其他託管ONTAP服務。</block>
   <block id="0fc9a0e7b30259b88ee28dc36905dc46" category="paragraph">災難復原 (DR) 是一種基於雲端的服務，可在災難發生時提供保護您的資料和應用程式的全面解決方案。它提供了一系列功能，包括自動故障轉移和故障復原、多個時間點復原點、應用程式一致的災難復原以及對本地和基於雲端的ONTAP系統的支援。NetApp Disaster Recovery旨在與ONTAP和您的 VMware vSphere 環境無縫協作，提供統一的災難復原解決方案。</block>
   <block id="b49008ff3ed6386e7b79c895a99dfda0" category="paragraph">調解員實際上並不是決勝者，儘管它實際上發揮了這樣的作用。中介器有助於確定叢集節點的狀態，並在站點發生故障時協助自動切換流程。中介在任何情況下都不會傳輸資料。</block>
-  <block id="389aace802a4b9cc02f057be6b44af1e" category="inline-link-macro"><block ref="389aace802a4b9cc02f057be6b44af1e" category="inline-link-rx"></block></block>
-  <block id="3f5aed07b92e68d50c76da775ecd27e7" category="list-text">TR-4015 ONTAP 9 SnapMirror設定最佳實務指南 <block ref="2b18a9579e6e53dd966359ed48786df3" category="inline-link-macro-rx"></block></block>
-  <block id="af5901ed678cf3616d5e1dd4457d3301" category="paragraph">有關ONTAP 9 的SnapMirror和SnapVault的最新信息，請參閱<block ref="f0cb7261aff0b0ca14230d45000a9acc" category="inline-link-rx"></block></block>
   <block id="0aa1117bb089f8873e3b481abb0fc667" category="inline-link">ONTAP SnapMirror複製工作流程</block>
   <block id="c7d6bfcc1002f9443cf062da6e677452" category="paragraph">有關快照的更多信息，請參閱ONTAP文件。以下連結提供了更多詳細資訊： <block ref="8952dffd5c4f20d5268260325aabe39c" category="inline-link-rx"></block> <block ref="929e1122e30b57f1156728cb315c1ee3" category="inline-link-rx"></block></block>
   <block id="fa3baa666422f615ee0c858e2af05bb1" category="list-text">配置本地備份<block ref="0322cca7da8e1c0c74e3021d8f78b104" category="inline-link-rx"></block>。</block>
@@ -5965,4 +5954,6 @@
   <block id="e3471495b791c74dadc31bb77a66a74c" category="paragraph">Oracle Snapshot 快照技術最佳化備份是一種時間點恢復方法，可讓使用者使用快照執行恢復，而無需將資料庫置於熱備份模式。</block>
   <block id="85ab689d474b14164558afa9923be42b" category="paragraph">使用者無需使用備份模式即可從 Snapshot 快照技術恢復，但僅支援使用 RECOVERY AUTOMATIC 進行完整恢復。使用 SNAPSHOT TIME 方法指示 Snapshot 快照技術建立時間的不完整恢復。</block>
   <block id="17e12dfc833834d5b2e478641ef811d3" category="sidebar">無需 Snapshot 快照技術的自動恢復</block>
+  <block id="74aeb32ca03a9503e64e32a2c6c54887" category="inline-link">如何識別 LUNs 上的未對齊 IO</block>
+  <block id="0e399161325f240b090c8d3dbfd792b1" category="paragraph">Solaris 環境中的對齊更為複雜。請參閱<block ref="55cb74ec239a32e3acdc528f25f2de7c" category="inline-link-rx"></block>以了解更多資訊。</block>
 </blocks>

@@ -36,7 +36,7 @@ LUN 對齊是指針對基礎檔案系統配置最佳化 I/O 。
 
 使用諸如 `sio`或 `dd`之類的公用程式來驗證對齊情況，這些公用程式可以按指定的區塊大小產生 I/O。可以使用 `stats`命令查看儲存系統的 I/O 對齊統計資料。如需更多資訊、請參閱link:../oracle/oracle-notes-wafl-alignment-verification.html["WAFL 對齊驗證"]。
 
-在 Solaris 環境中進行對齊更為複雜。請參閱 http://support.netapp.com/documentation/productlibrary/index.html?productID=61343["SAN主機組態ONTAP"^] 以取得更多資訊。
+Solaris 環境中的對齊更為複雜。請參閱 https://kb.netapp.com/on-prem/ontap/da/SAN/SAN-KBs/How_to_identify_unaligned_IO_on_LUNs["如何識別 LUNs 上的未對齊 IO"]以了解更多資訊。
 
 |===
 | 注意 

@@ -46,7 +46,7 @@ ONTAP 是一種企業級橫向擴充 NAS 陣列、其中包括許多其他功能
 ** 如需支援所需的特定 ESXi 修補程式層級，請參閱中的 NFS v4.1 互通性表附註link:https://mysupport.netapp.com/matrix/["NetApp 互通性對照表工具"^]。
 
 
-* 如 link:vmware-vsphere-settings.html["設定"] 所述，如果您未使用 vSphere CSI for Kubernetes，則應依照  https://knowledge.broadcom.com/external/article/386364/reducing-excessive-vsan-cnssync-warnings.html["VMware知識庫386364"^] 設定 newSyncInterval
+* 如 link:vmware-vsphere-settings.html["設定"] 所述，如果您未使用 vSphere CSI for Kubernetes，則應依照  https://knowledge.broadcom.com/external/article/415074/reducing-or-disabling-excessive-vsan-cns.html["VMware 知識庫文章 415074"^] 設定 newSyncInterval
 * NFS 匯出原則規則用於控制 vSphere 主機的存取。您可以將一個原則與多個磁碟區（資料存放區）搭配使用。使用 NFS 時， ESXi 會使用 sys （ UNIX ）安全樣式，並需要根掛載選項來執行 VM 。在現階段、此選項稱為超級使用者、使用超級使用者選項時、不需要指定匿名使用者ID。ONTAP請注意，匯出具有不同值的原則規則 `-anon`， `-allow-suid`可能會導致 ONTAP 工具發生 SVM 探索問題。IP 位址應該是以逗號分隔的清單，不含安裝資料存放區的 vmkernel 連接埠位址空間。以下是原則規則範例：
 +
 ** 存取傳輸協定：NFS（包括nfs3和nfs4）

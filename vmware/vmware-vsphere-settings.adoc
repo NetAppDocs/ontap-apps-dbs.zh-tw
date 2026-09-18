@@ -39,7 +39,7 @@ NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定�
 3+| * NFS 設定 * 
 
 
-| newSyncInterval.NewSyncs | 如果您不使用 vSphere CSI for Kubernetes ，請依設定 https://knowledge.broadcom.com/external/article/386364/reducing-excessive-vsan-cnssync-warnings.html["VMware知識庫386364"^] | 否 
+| newSyncInterval.NewSyncs | 如果您未將 vSphere CSI 用於 Kubernetes，請設定 per https://knowledge.broadcom.com/external/article/415074/reducing-or-disabling-excessive-vsan-cns.html["VMware 知識庫文章 415074"^] | 否 
 
 
 | net.TcpipHeapSize. | vSphere 6.0或更新版本、設定為32。

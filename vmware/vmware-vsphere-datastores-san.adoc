@@ -57,5 +57,5 @@ SCSI 型區塊傳輸協定（ iSCSI ， FC 和 FCoE ）會使用 LUN ID 和序�
 * 如果 ESXi 中使用挑戰握手驗證傳輸協定（ CHAP ）進行目標驗證、則也必須使用 CLI 在 ONTAP 中進行設定 (`vserver iscsi security create`）或使用 System Manager （在 Storage （儲存） > SVM （ SVM ） > SVM Settings （ SVM 設定） > Protocols （傳輸協定） > iSCSI （ iSCSI ）下編輯啟動器安全性）。
 * 使用VMware vSphere的VMware vCenter工具來建立及管理LUN和群組。ONTAP外掛程式會自動決定伺服器的WWPN、並建立適當的igroup。它也會根據最佳實務做法來設定LUN、並將其對應至正確的igroup。
 * 請謹慎使用 RDM 、因為它們可能較難管理、而且也會使用路徑、而路徑的限制如前所述。支援這兩種LUN ONTAP https://kb.vmware.com/s/article/2009226["實體與虛擬相容模式"^] RDM。
-* 如需更多關於將NVMe/FC搭配vSphere 7.0使用的資訊、請參閱此 https://docs.netapp.com/us-en/ontap-sanhost/nvme_esxi_7.html["NVMe / FC主機組態指南ONTAP"^] 和 http://www.netapp.com/us/media/tr-4684.pdf["TR-4684"^]下圖說明從vSphere主機到ONTAP VMware LUN的多重路徑連線能力。
+* 如需在 vSphere 7.0 中使用 NVMe/FC 的詳細資訊，請參閱此 https://docs.netapp.com/us-en/ontap-sanhost/nvme_esxi_7.html["NVMe / FC主機組態指南ONTAP"^]與 https://www.netapp.com/pdf.html?item=/media/10681-tr4684.pdf["TR-4684"^]。下圖描繪從 vSphere 主機到 ONTAP LUN 的多重路徑連線。
 

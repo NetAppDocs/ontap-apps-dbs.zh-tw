@@ -69,7 +69,9 @@ https://www.netapp.com/media/13481-tr4689.pdf["_TR-4689 MetroCluster IP 解決�
 
 https://www.netapp.com/pdf.html?item=/media/13480-tr4705.pdf["_TR-4705 NetApp MetroCluster 解決方案架構與設計 _"]
 
-https://kb.vmware.com/s/article/2031038["VMware KB 2031038 VMware vSphere 支援 NetApp MetroCluster _"]
+https://docs.netapp.com/us-en/netapp-solutions-virtualization/vmware/vmw-vcf-vmsc-mgmt-mcc.html["使用 MetroCluster 設定 VCF 管理網域的延伸叢集"]
+
+https://docs.netapp.com/us-en/netapp-solutions-virtualization/vmware/vmw-vcf-vmsc-viwld-mcc.html["使用 MetroCluster 為 VCF 工作負載網域設定延伸叢集"]
 
 
 

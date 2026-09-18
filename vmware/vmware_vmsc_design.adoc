@@ -34,7 +34,7 @@ NetApp MetroCluster 的設定說明請參閱 https://docs.netapp.com/us-en/ontap
 [[using-the-ontap-tools-vcenter-plugin-for-snapmirror-active-sync]]
 == 使用 ONTAP Tools vCenter Plugin for SnapMirror Active Sync
 
-ONTAP 工具 vCenter 外掛程式提供簡單且直覺的方式，可為 VMSC 設定 SnapMirror 主動式同步。您可以使用 ONTAP 工具 vCenter 外掛程式來建立和管理兩個 ONTAP 叢集之間的 SnapMirror 主動式同步關係。此外掛程式提供易於使用的介面，可有效建立及管理這些關係。您可以在上深入瞭解 ONTAP 工具 vCenter 外掛程式 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["VMware vSphere適用的工具ONTAP"]，或直接跳至 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/configure/protect-cluster.html["使用主機叢集保護來保護"]。
+ONTAP 工具 vCenter 外掛程式提供了一種簡單直覺式的方式來設定 vMSC 的 SnapMirror 作用中同步。您可以使用 ONTAP 工具 vCenter 外掛程式在兩個 ONTAP 叢集之間建立和管理 SnapMirror 作用中同步關係。此外掛程式提供了一個易於使用的介面，可以有效地建立和管理這些關係。您可以在 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/index.html["VMware vSphere適用的工具ONTAP"]深入瞭解 ONTAP 工具 vCenter 外掛程式，或直接跳至 https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere-10/protect/granular-datastore-protection-concept.html["ONTAP tools 中精細資料存放區保護資格標準"]。
 
 
 

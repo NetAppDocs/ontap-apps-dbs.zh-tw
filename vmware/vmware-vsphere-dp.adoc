@@ -25,7 +25,7 @@ summary: 利用此功能、您可以建立可套用至多個工作的備份原�
 
 使用快照快速複製 VM 或資料存放區、而不會影響效能、然後使用 SnapMirror 將其傳送至次要系統、以提供長期的異地資料保護。這種方法只儲存變更的資訊、可將儲存空間和網路頻寬減至最低。
 
-快照是 ONTAP 的重要功能，可讓您建立資料的時間點複本。它們不僅節省空間，而且可以快速建立，因此非常適合用來保護 VM 和資料存放區。快照可用於多種用途，包括備份，恢復和測試。這些快照與 VMware （一致性）快照不同，適合長期保護。由於效能和其他影響，僅建議短期使用 VMware vCenter 管理的快照。如link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/snapshot-limitations.html["Snapshot 限制"^]需詳細資訊、請參閱。
+Snapshot 快照技術是 ONTAP 的關鍵功能，可讓您建立資料的時間點複本。它們極具空間效率且能快速建立，非常適合用於保護虛擬機器和資料存放區。Snapshot 快照技術可用於各種用途，包括備份、恢復和測試。這些快照與 VMware （一致性）快照不同，適合用於長期保護。由於效能和其他影響，僅建議將 VMware 的 vCenter 管理快照用於短期使用。如需詳細資訊，請參閱  https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-1/vsphere-virtual-machine-administration/managing-virtual-machines/using-snapshots-to-manage-virtual-machines/snapshot-file-names-and-description.html["Snapshot 快照技術檔案和限制"^]。
 
 快照是在磁碟區層級建立，可用於保護該磁碟區內的所有 VM 和資料存放區。這表示您可以建立整個資料存放區的快照，其中包括該資料存放區內的所有 VM 。
 

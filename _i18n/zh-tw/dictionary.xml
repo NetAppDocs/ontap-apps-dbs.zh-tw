@@ -761,8 +761,6 @@
   <block id="59dcf78e97c197a0f240067da57a248f" category="paragraph">有些客戶指出、存取和 GetAttr 等極高層級的其他 IOPS 、可能會主導他們的工作負載。在極端情況下、讀取和寫入等作業可低於總作業量的 10% 。這是任何包含使用的資料庫的正常行為<block ref="3504e2b0e7c968444314433be465518d" prefix=" " category="inline-code"></block> 和/或<block ref="79fea224ffd9e8111e4e87cab732464b" prefix=" " category="inline-code"></block> 在 Linux 上、因為這些選項會導致 Linux 作業系統持續從儲存系統重新載入檔案中繼資料。存取和 GetAttr 等作業是從資料庫環境中的 ONTAP 快取提供服務的低影響作業。它們不應被視為真正的 IOPS 、例如讀寫、而會對儲存系統產生真正的需求。不過、這些其他 IOPS 確實會產生一些負載、尤其是在 RAC 環境中。若要解決這種情況、請啟用 DNFS 、以略過作業系統緩衝區快取、避免這些不必要的中繼資料作業。</block>
   <block id="041f371e212c70407e145ae9f752a8b4" category="section-title">Linux Direct NFS</block>
   <block id="14dd7af30f62ec838445a1e167d2aff6" category="section-title">Linux Direct NFS 和 Oracle RAC</block>
-  <block id="c6a209e4ad702c6424efb7d63d76feca" category="paragraph">使用 DNFS 對 Linux 作業系統上的 Oracle RAC 有特殊的效能優勢、因為 Linux 沒有強制直接 I/O 的方法、而 RAC 需要此方法才能在節點之間保持一致。因應措施是 Linux 需要使用<block ref="3504e2b0e7c968444314433be465518d" prefix=" " category="inline-code"></block> 掛載選項、會使檔案資料從作業系統快取立即過期。此選項會強制 Linux NFS 用戶端持續重新讀取屬性資料、進而損害延遲並增加儲存控制器的負載。</block>
-  <block id="3070cb366c38db327b0cf057d63792c1" category="paragraph">啟用 DNFS 會略過主機 NFS 用戶端、避免此損害。多家客戶在啟用 DNFS 時、報告 RAC 叢集的效能大幅提升、 ONTAP 負載大幅降低（特別是其他 IOPS ）。</block>
   <block id="e97ab7f94d503bbec4b013b5b77118c6" category="section-title">Linux Direct NFS 和 oranfstab 檔案</block>
   <block id="f63255b70940d25581e0cf5f81dd6cd6" category="paragraph">在 Linux 上搭配多重路徑選項使用 DNFS 時、必須使用多個子網路。在其他作業系統上、可使用建立多個 DNFS 通道<block ref="54b4c4075463b2e02cd69f5cd139b5b2" prefix=" " category="inline-code"></block> 和<block ref="bbf52a1a57a4eaa83512cab68fd52b70" prefix=" " category="inline-code"></block> 可在單一子網路上設定多個 DNFS 通道的選項。不過、這在 Linux 上無法正常運作、因此可能會產生非預期的效能問題。在 Linux 中、用於 DNFS 流量的每個 NIC 都必須位於不同的子網路上。</block>
   <block id="6c5cf31ca1af553b1f4a9b99e3cb054c" category="section-title">I/O 排程器</block>
@@ -2387,7 +2385,6 @@
   <block id="116d20fc387d73c8e4a86e7998913947" category="section-title">vSphere和Site Recovery Manager的最新版本</block>
   <block id="7cb1700928c008eb817bc79250cc9002" category="section-title">支援IPv6</block>
   <block id="ea9aacd1495949730de8eeab11e66459" category="paragraph">現在支援IPv6、但有下列限制：</block>
-  <block id="918d32b75f0ab883abba3a8dc0c3ae8d" category="inline-link">互通性對照表工具</block>
   <block id="4a4842d7448ef71eb69b013e560b18bb" category="section-title">擴充性更高</block>
   <block id="96cb4d41ca97bd9d3d446984d3170a57" category="paragraph">SnapMirror Synchronous（SM-S）搭配ONTAP 了一套功能、可提供大量精細零RPO資料複寫解決方案、適合任務關鍵型應用程式、這項功能值得期待且期待已久。SM - S需要ONTAP 使用VMware工具9.8或更新版本。</block>
   <block id="b9832b10a87d0c3793ed3b413ee1d839" category="section-title">REST API支援</block>
@@ -4250,367 +4247,6 @@
   <block id="498a9faf271a73dcf026b1041b66ef2a" category="paragraph">如果兩個站台相距 100 公尺、且具備光纖連線能力、則不應偵測到透過 WAN 的額外延遲、但如果站台相距很遠、則兩個站台的讀取效能都會受到影響。與此相反、 AFF 只有在沒有可用的本機路徑時、才會使用這些 WAN 路徑、而且因為所有 IO 都是本機 IO 、所以日常效能會更好。使用非統一存取網路的 ASA 可讓您選擇取得 ASA 的成本和功能效益、而不會造成跨站台延遲存取的損失。</block>
   <block id="15ab92b8042738f6acc912e2d98ae17a" category="paragraph">採用低延遲組態的 ASA 具有兩項有趣的優點。首先、它基本上是 * 任何單一主機的效能加倍 * 、因為 IO 可以由兩倍多的控制器使用兩倍的路徑來提供服務。其次、在單一站台環境中、它提供極高的可用度、因為整個儲存系統可能會遺失、而不會中斷主機存取。</block>
   <block id="41c719032afe187deaf4b4b2af41aa36" category="paragraph">ONTAP 9 8 及更新版本均提供溫度敏感儲存效率（ TSSE ）。它仰賴區塊存取熱圖來識別不常存取的區塊、並以更高效率加以壓縮。</block>
-  <block id="8284eb5a9d9bef8f0f1ece257656d0fe" category="summary">ONTAP 上 Epic 的其他資訊</block>
-  <block id="345245c83d2b2c4c2a5eb9f2887da627" category="paragraph">若要深入瞭解本文件所述資訊、請參閱下列文件和/或網站：</block>
-  <block id="bc4fe2352063642d68529f2aa0ca7ca3" category="inline-link-macro">NetApp 產品文件</block>
-  <block id="0897605072547ea93ef25a4b355ac5f6" category="list-text"><block ref="0897605072547ea93ef25a4b355ac5f6" category="inline-link-macro-rx"></block></block>
-  <block id="5358757de9216cc29d688612a3d72fe1" category="inline-link-macro">ONTAP 9 文件</block>
-  <block id="3973235e869d719328cf4b37e59562e5" category="list-text"><block ref="3973235e869d719328cf4b37e59562e5" category="inline-link-macro-rx"></block></block>
-  <block id="c9cefb6ed873a418f8c8232dca6879d2" category="inline-link-macro">一致性群組</block>
-  <block id="10d6aff3e86ebe3712a2616b45008fb3" category="list-text"><block ref="10d6aff3e86ebe3712a2616b45008fb3" category="inline-link-macro-rx"></block></block>
-  <block id="0d3cc094235677831b5697c5bab76394" category="inline-link-macro">ONTAP 和 ONTAP 系統管理員文件資源</block>
-  <block id="3b2c8ae1d985c88d539bf7851e067922" category="list-text"><block ref="3b2c8ae1d985c88d539bf7851e067922" category="inline-link-macro-rx"></block></block>
-  <block id="e9bf68ed54b6d1ff63e8bda8c0b6a70f" category="inline-link-macro">TR-3930i：《NetApp Epic規模調整準則》（NetApp Sizing Guidelines for Epic）</block>
-  <block id="920aa6d447930899ad56517c79fd12fc" category="list-text"><block ref="b6ff45309a811037a92ca1e6262c74a8" category="inline-link-macro-rx"></block>（需要 NetApp 登入）</block>
-  <block id="840f4016fe968750d45ea4545f2f1893" category="section-title">EPIC 客戶指引文件</block>
-  <block id="a839c9787ec80291f4b34dc5451786a5" category="paragraph">Epic 提供客戶下列文件、以取得伺服器、儲存設備和網路的指引。本技術報告會參考這些文件。</block>
-  <block id="67bab37630accce3ea259fb1601fca2e" category="list-text">儲存區域網路考量</block>
-  <block id="0fe2c5f32f45114c27e3b7a7ca0ba0ad" category="list-text">營運不中斷技術解決方案指南</block>
-  <block id="2163e1881d92ff554d8969998a7d618f" category="list-text">All Flash 參考架構策略手冊</block>
-  <block id="b332ca8d59cd86adb52c28aef982cc69" category="list-text">儲存產品與技術狀態</block>
-  <block id="a0107bedc201b2df3694df573f65ae32" category="list-text">EPIC Cloud 考量事項</block>
-  <block id="0cf7d14c360e7f8755d749057b348718" category="list-text">硬體組態指南（客戶專屬）</block>
-  <block id="50923dab9020d1e069418763d0bd15a3" category="list-text">資料庫儲存配置建議（客戶專屬）</block>
-  <block id="4e1249f2da2104e56555dec5d4d51e6a" category="summary">EPIC 四節點架構</block>
-  <block id="7baf69c8e83ff08e0583426d011bc650" category="paragraph">下圖顯示四節點架構的儲存配置：正式作業中的 HA 配對、災難恢復中的 HA 配對。控制器的大小和磁碟數量是以後一個大小調整映像為基礎。</block>
-  <block id="70ccc987c3596ca363e7b8d980858220" category="paragraph">NetApp 通過接受 SLM 建議的 AQO 策略來保證最低的樓層性能。Epic 支援將 ONTAP 上的儲存資源池整合到大幅減少的硬體上。如需更多資訊、請參閱 Epic 季度 Spats 文件。基本上、 Pool1 、 Pool2 和 NAS1 （列於 Epic 硬體組態指南中）都可以在單一 HA 配對上執行、工作負載平均分散在兩個控制器上。在災難恢復中、 Epic Pool 3 和 NAS 3 也會在 HA 配對中的兩個控制器之間分割。</block>
-  <block id="34557edb2bf88cd4f837f2384ead1830" category="paragraph">測試完整複本環境（例如 SUP 、 REL 和 PJX ）是從 Epic Production 、 Epic Report 或 Epic Disaster Recovery 複製而成。如需 Epic 備份與重新整理的相關資訊、請參閱標題為「資料管理」一節。</block>
-  <block id="5c8423bf649a8a50f33626549581cce9" category="section-title">四節點架構</block>
-  <block id="f42ac2802f367c372897f3fb06218d2d" category="inline-image-macro">EPIC 4 節點架構</block>
-  <block id="848f13dbd455e0190684bb8052ef94d6" category="paragraph"><block ref="848f13dbd455e0190684bb8052ef94d6" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="14b8013c3961c3eb9f2d01aff2c9d430" category="section-title">四節點工作負載配置</block>
-  <block id="8e576f920186d1c7001b6f1da66f2359" category="inline-image-macro">EPIC 4 節點放置</block>
-  <block id="34594b0fc43be2425a0a68f14928bc8d" category="paragraph"><block ref="34594b0fc43be2425a0a68f14928bc8d" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="145a177f694025424b761a3b22ca2f6b" category="summary">EPIC 六節點架構</block>
-  <block id="7682e26e53b5af35c13c22f5034f788a" category="paragraph">客戶可能想從六節點設計開始、或是在需求不斷增加的情況下、從四個節點無縫橫向擴充至六個節點。透過橫向擴充、您可以不中斷地在節點之間移動工作負載、並在叢集之間重新平衡。</block>
-  <block id="121ec45abd57b78d2c63e13a01970fbf" category="paragraph">此架構可在叢集上提供最佳效能與容量平衡。Epic Production 、 Epic Report 及 Epic Test 均在第一對 HA 上執行。第二個 HA 配對用於 Clarity 、 Hyperspace 、 VMware 、 NAS1 及其餘 Epic 工作負載。災難恢復與上一節中的四節點架構相同。</block>
-  <block id="628e6fdb5831f5144730fdfb620a1a2a" category="section-title">六節點架構</block>
-  <block id="5d28884b83f218379ec90c789e2e382b" category="inline-image-macro">EPIC 6 節點架構</block>
-  <block id="a5cf77b4851a534d4e7f8cbfc10e7734" category="paragraph"><block ref="a5cf77b4851a534d4e7f8cbfc10e7734" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="214d949b6d12c893a63f49d862292640" category="section-title">六節點工作負載配置</block>
-  <block id="65ea1ebb7d9c2d858f8701fcbecd438d" category="inline-image-macro">EPIC 6 節點配置</block>
-  <block id="77e8933cdf526d7670fcd797f57f81a7" category="paragraph"><block ref="77e8933cdf526d7670fcd797f57f81a7" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="a3ab98b5217808d71238c069623fa0ff" category="summary">EPIC 八節點架構</block>
-  <block id="ab4e8eb50674d5d1bee79a6682b49325" category="paragraph">下圖顯示橫向擴充的八節點架構。同樣地、您可以從四個節點開始、擴充至六個節點、並繼續擴充至八個節點以上。此架構可在生產環境中的六個節點之間、提供最佳的效能與容量平衡。</block>
-  <block id="0ef10ffde0c0ebd21feabe96ec890f72" category="paragraph">在本設計中、測試環境是從 Report 複製而非 Production 。這會減輕測試環境的負荷、並從正式作業環境中進行完整性檢查。</block>
-  <block id="211891edb616b1a6e25c469a73cd07c9" category="section-title">八節點架構</block>
-  <block id="3b31cb391c5fb328f6bcf768909f68a2" category="paragraph"><block ref="3b31cb391c5fb328f6bcf768909f68a2" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="c344a01a287e43ab2ef2793cf550435a" category="section-title">八節點工作負載配置</block>
-  <block id="80a544c0b0187e121e581e019d0902a9" category="inline-image-macro">EPIC 8 節點配置</block>
-  <block id="e374fdf5079d6709ca8206b4c77be000" category="paragraph"><block ref="e374fdf5079d6709ca8206b4c77be000" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="17e9ce8e967d60724d7f53d467470a10" category="summary">EPIC 架構</block>
-  <block id="b1830ae1e99adb346ce1da353cd6c089" category="paragraph">本節說明 Epic 軟體環境及需要儲存的關鍵元件。它提供重要考量、協助引導儲存設計。</block>
-  <block id="4db273f137d059bd4ffd23818c367214" category="paragraph">Epic 總部位於威斯康星州維羅納、為大中型醫療集團、醫院及整合式醫療組織製作軟體。客戶還包括社區醫院、學術機構、兒童組織、安全網供應商和多醫院系統。EPIC 整合式軟體涵蓋臨床、存取和營收功能、並延伸至家庭。</block>
-  <block id="27cd823999704d6e14cdee1e83bef7f0" category="paragraph">本文件不涵蓋Epic軟體所支援的廣泛功能範圍。然而、從儲存系統的角度來看、所有 Epic 軟體都會針對每個部署共用一個以病患為中心的資料庫。EPIC 正在從 InterSystems Cache 資料庫移轉至全新的 InterSystems Iris 資料庫。由於 Cache 和 Iris 的儲存需求相同、因此在本文的其餘部分、我們會將資料庫稱為 Iris 。Iris 適用於 AIX 和 Linux 作業系統。</block>
-  <block id="4e25ab2bd75f003927aabf72608c3610" category="section-title">跨系統虹膜</block>
-  <block id="0af82ac784148ef3818d2fe5b04763fa" category="paragraph">InterSystems Iris 是 Epic 應用程式所使用的資料庫。在此資料庫中、資料伺服器是持續儲存資料的存取點。應用程式伺服器可管理資料庫查詢、並向資料伺服器提出資料要求。對於大多數 Epic 軟體環境、在單一資料庫伺服器中使用對稱式多處理器（ SMP ）架構、就足以滿足 Epic 應用程式的資料庫要求。在大型部署中、可使用 InterSystems 的 Enterprise Cache Protocol （ ECP ）來支援分散式模型。</block>
-  <block id="8dfea4e602a85bafff792b879b2d056b" category="paragraph">使用啟用容錯移轉的叢集硬體、可讓待命資料伺服器存取與主要資料伺服器相同的儲存設備。它也能讓待命資料伺服器在硬體故障期間接管處理責任。</block>
-  <block id="c77ab217583518f1b67702b591baf929" category="paragraph">InterSystems 也提供技術來滿足資料複寫、災難恢復和高可用度（ HA ）需求。InterSystems 的複寫技術可用於同步或非同步地從主要資料伺服器複寫 IRIS 資料庫至一或多個次要資料伺服器。NetApp SnapMirror 用於複寫 WebBLOB 儲存設備、或用於備份與災難恢復。</block>
-  <block id="df2e58f9c6f746010ccdd5cf07673500" category="paragraph">更新的虹膜光圈資料庫有許多優點：</block>
-  <block id="f8ffd660138274e3b7b31f900153e4b6" category="list-text">擴充規模並讓擁有多個 Epic 執行個體的大型組織能夠整合為一個較大的執行個體。</block>
-  <block id="242ef58734fef1421d6cc1e1154bd041" category="list-text">客戶現在可以在 AIX 和 Red Hat Enterprise Linux （ RHEL ）之間移動、而無需支付新的平台授權。</block>
-  <block id="08a78b85487809e2116574e4ff97dec5" category="section-title">Cache 資料庫伺服器與儲存使用量</block>
-  <block id="4cc33a0396ddd5a29816a3a40d01a6b5" category="list-text">* Production * 在 Epic 軟體環境中、部署單一以病患為中心的資料庫。在 Epic 的硬體需求中、主控讀取 / 寫入虹膜光圈資料伺服器的實體伺服器稱為正式作業資料庫伺服器。此伺服器需要高效能的 All Flash 儲存設備來儲存屬於主要資料庫執行個體的檔案。為了達到高可用度、 Epic 支援使用容錯移轉資料庫伺服器、該伺服器可存取相同的檔案。Iris 使用 Epic Mirror 複寫至唯讀報告、災難恢復及支援唯讀複本。由於業務持續運作的原因、每種類型的資料庫伺服器都可以切換為讀取 / 寫入模式。</block>
-  <block id="cdbcd4cba3ac1d1b15d302df69df1198" category="list-text">* 報告 * 報告鏡像資料庫伺服器提供正式作業資料的唯讀存取權。它主控設定為正式作業的 Iris 資料伺服器備份鏡射的虹膜光圈資料伺服器。報告資料庫伺服器的儲存容量需求與正式作業資料庫伺服器相同。報告寫入效能與正式作業相同、但讀取工作負載特性不同、大小不同。</block>
-  <block id="10938a446d1d37c3afcad8aac850f514" category="list-text">* 支援唯讀 * 此資料庫伺服器為選用功能、並未顯示下圖。也可以部署鏡射資料庫伺服器來支援 Epic 的唯讀功能、其中提供唯讀模式的正式作業複本存取權。基於營運不中斷的理由、此類型的資料庫伺服器可切換至讀取 / 寫入模式。</block>
-  <block id="32042e6794444e49e092cad346b66b28" category="list-text">* 災難恢復 * 為了達到業務持續性和災難恢復目標、災難恢復鏡像資料庫伺服器通常部署在與正式作業和 / 或報告鏡像資料庫伺服器位於不同地理位置的站台上。災難恢復鏡射資料庫伺服器也會主控設定為正式作業的 Iris 資料伺服器備份鏡像的虹膜資料伺服器。如果正式作業站台長時間無法使用、則可將此備份鏡射資料庫伺服器設定為作為鏡射讀寫執行個體（ SRW ）。備份鏡射資料庫伺服器的檔案儲存需求與正式作業資料庫伺服器相同。相反地、備份鏡射資料庫儲存設備的大小與正式作業儲存設備的大小相同、從效能的角度來看、可確保業務持續運作。</block>
-  <block id="d05c7e253f48b314f8488aba0e85b3b4" category="inline-image-macro">EPIC IRIS ODB</block>
-  <block id="90cb7e5b029ac3a1b754d9f0d75bfbb9" category="paragraph"><block ref="90cb7e5b029ac3a1b754d9f0d75bfbb9" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="b101ffd23847579c0cf3cb028fc314ee" category="list-text">* 測試 * 醫療組織通常會部署開發、測試及接移環境。這些環境的其他虹膜光圈資料伺服器也需要儲存設備、可由同一個儲存系統容納。EPIC 對於從共享儲存系統提供額外儲存設備有特定要求和限制。本文件中的最佳實務做法一般會解決這些特定需求。</block>
-  <block id="5c52f2993ead7ce33b4600c9955d9657" category="paragraph">除了虹膜晶片（ Iris odb ）資料伺服器之外、 Epic 軟體環境通常還包括其他元件、例如下列元件、如下圖所示：</block>
-  <block id="c352fde153a95627d87a161b60e9e211" category="list-text">Oracle 或 Microsoft SQL Server 資料庫伺服器、作為 Epic Clarity 商業報告工具的後端</block>
-  <block id="72e364f0316ce75144d3bcbc76627977" category="admonition">Clarity 用於報告每日從報告的虹膜光圈資料庫擷取的資料。</block>
-  <block id="9c7d7e54119a875f7f730fac34d86939" category="list-text">WebBLOB 伺服器（ SMB ）</block>
-  <block id="7f140c68d528349ef23a9adde829618a" category="list-text">多用途資料庫伺服器</block>
-  <block id="db670b036ce103ccc68fe4a2f746bcbb" category="list-text">多用途虛擬機器（ VM ）</block>
-  <block id="46f49acf82ce78d08668061bb78e679a" category="list-text">用於用戶端存取的 Hyperspace</block>
-  <block id="847ce339c80d3a544fdd1e3ea23f89ed" category="inline-image-macro">EPIC 資料庫</block>
-  <block id="ddc0ff60fb0cba83974547cb2fd7a40e" category="paragraph"><block ref="ddc0ff60fb0cba83974547cb2fd7a40e" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="300c335aaf3a97bb6020a19be0b8ca96" category="paragraph">所有這些多重工作負載、集區、 NAS 和 SAN 通訊協定的儲存需求、都可以由單一 ONTAP 叢集加以整合和代管。這項整合可讓醫療組織針對所有 Epic 及非 Epic 工作負載、制定單一資料管理策略。</block>
-  <block id="4a7de8a55a290fb3a0a4efd490ec781b" category="section-title">營運資料庫工作負載</block>
-  <block id="a627911d38337b81dddab9711a61842c" category="paragraph">每部 Epic 資料庫伺服器都會對下列檔案類型執行 I/O ：</block>
-  <block id="458648f675593beefe031e7b7ba9fcdd" category="list-text">資料庫檔案</block>
-  <block id="07599d3aee2c26c36cae1cb305a0d120" category="list-text">日誌檔案</block>
-  <block id="b9c807a9cbbe80f3b710d64a47334ecf" category="list-text">應用程式檔案</block>
-  <block id="4b11d0da3422be079767b9c81ea967cb" category="paragraph">個別資料庫伺服器的工作負載取決於其在 Epic 軟體環境中的角色。例如、正式作業資料庫檔案通常會產生最嚴苛的工作負載、包括 100% 隨機 I/O 要求。任何鏡射資料庫的工作負載通常較不嚴苛、讀取要求也較少。日誌檔案工作負載主要是連續的。</block>
-  <block id="6908d08a516bc86d102ccafa6c2ece9d" category="paragraph">Epic 維護的工作負載模式適用於儲存效能基準測試和客戶工作負載。如需 Epic 工作負載模型、基準測試結果、以及使用 NetApp 規模調整工具來正確調整 Epic 環境儲存容量的詳細資訊、請參閱<block ref="81c36a9e6d224e9d42c9630dffaa9434" category="inline-link-rx"></block>（需要 NetApp 登入）。</block>
-  <block id="f71d6b15e61746171efc106f495b60cd" category="paragraph">EPIC 也為每位客戶提供自訂的硬體組態指南、其中包含 I/O 預測和儲存容量需求。最終的儲存需求可能包括開發、測試和 / 或移接環境、以及任何其他可能整合的輔助工作負載。客戶可以使用硬體組態指南、將總儲存需求傳達給 NetApp 。本指南包含設定 Epic 部署規模所需的所有資料。</block>
-  <block id="c7a0b1a5f7a146b9b72947b2bba045ed" category="paragraph">在部署階段、 Epic 提供資料庫儲存配置指南、提供更精細的 LUN 層級詳細資料、可用於進階儲存設計。請注意、《資料庫儲存配置指南》是一般儲存建議、並非 NetApp 專屬的建議。使用本指南來判斷 NetApp 的最佳儲存配置。</block>
-  <block id="ab3b24e1e2a3f9784a9c6cad8db20a76" category="summary">大尺寸</block>
-  <block id="706a0ec5dbae849750639964dc6b852f" category="paragraph">在評估 Epic 儲存環境時、其中一項重要架構考量事項是 ODB 資料庫大小。</block>
-  <block id="abe227b9b306ed7c0527800b44a2f1d0" category="paragraph">您可以使用下圖選取中小型大型 Epic 儲存架構。這些設計包括執行《硬體組態指南》中列出的所有工作負載。規模調整樹狀結構是根據 100 多份硬體組態指南中的資料而定、而且應該是最準確的預估值。</block>
-  <block id="be0322041cc582d91f5f470df1ef2ba4" category="paragraph">請務必注意、這只是起點。您應該與 Epic 聯盟團隊合作、確認任何 Epic 設計。您可以在 EPIC @ NetApp .com 聯絡團隊。每個部署作業都需要滿足客戶要求、同時遵循 Epic 和 NetApp 建議的最佳實務做法。</block>
-  <block id="20e8e833e31ffb5776ac701658144bd3" category="list-text">Epic 小型架構、 Epic 資料庫低於 10TB</block>
-  <block id="5d8ee21ec144a04a8287c0171b9a8527" category="list-text">中型 Epic 架構、採用 Epic 資料庫、介於 10TB 至 50TB 之間</block>
-  <block id="79ac7005a81d3ad4f64a1a5f5db00c7e" category="list-text">大型 Epic 架構、 Epic 資料庫容量大於 50TB</block>
-  <block id="650c96055e8747d8b8a4c503b32aea8d" category="inline-image-macro">史詩般的尺寸指南</block>
-  <block id="1c2004236bc67ea5f8fcc53a967ce698" category="paragraph"><block ref="1c2004236bc67ea5f8fcc53a967ce698" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="431d999c23fb9c149586aa971425928e" category="summary">EPIC 儲存需求</block>
-  <block id="8afb3f2b206e0239313a484fe51999d7" category="paragraph">專屬的儲存資源通常會提供給正式作業資料庫、而鏡射資料庫執行個體則會與其他 Epic 軟體相關元件（例如 Clarity 報告工具）共用次要儲存資源。</block>
-  <block id="d31081e8762bd0903adf5d3f0b769e73" category="paragraph">其他軟體儲存環境（例如用於應用程式和系統檔案的環境）也由次要儲存資源提供。</block>
-  <block id="ed879cdc9a77683dfbe5be59441dec43" category="paragraph">除了規模調整考量之外、 Epic 還有下列額外的儲存配置規則和重要考量：</block>
-  <block id="ba76cf08b10101b5fee8e2e6d0da268e" category="list-text">自 2020 年起、所有營運資料庫（ odb ）工作負載都必須位於 All Flash Array 上。</block>
-  <block id="542f0f7c69fde2bd55b5a36854a84fa3" category="list-text">EPIC 建議每個儲存池位於不同的實體硬體上、包括 Pool1 、 Pool2 、 Pool3 、 NAS1 和 NAS2 。</block>
-  <block id="919d67cad73121e6af0b2b20169d947b" category="admonition">叢集中的節點可視為儲存資源池。使用 ONTAP 9 的 4 或更新版本和 AQO 、您可以使用原則建立受保護的集區。</block>
-  <block id="4449a7b5d2b5dfb4b1bad2ed2f86b5fd" category="list-text">全新 Epic 3-2-1 備份建議。</block>
-  <block id="b560499317ab0447790f01d7acd5401b" category="list-text">位於遠端站台的複本（災難恢復）</block>
-  <block id="09d6c5f51239ea513e80e433549993f4" category="list-text">其中一個複本必須位於與主要複本不同的儲存平台上</block>
-  <block id="df5be706f042b26557014aa77c608eb6" category="list-text">資料複本</block>
-  <block id="47311b53e9ae798223e097c4249a0668" category="admonition">使用 NetApp SnapMirror 備份 NetApp 的客戶不符合 3-2-1 建議。原因是 ONTAP to ONTAP 不符合上述第二項要求。您可以直接從 ONTAP 使用 SnapMirror 來在內部部署（例如透過 StorageGRID ）或雲端上物件儲存、以滿足 Epic 的需求。</block>
-  <block id="fef74abf89ce7520dbdabb6ae983ee4b" category="paragraph">如需更多關於儲存設備要求的資訊、請參閱下列適用於 Galaxy 的 Epic 指南：</block>
-  <block id="bed1a6db332388739ca169835c6c3425" category="list-text">SAN考量</block>
-  <block id="9080906c2106e0567c91717cc003d027" category="list-text">儲存產品與技術狀態（ Spats ）</block>
-  <block id="81b560a1124b6edc7fe2858e332661b6" category="list-text">硬體組態指南</block>
-  <block id="db11e37a9250a9db4d48618851771913" category="summary">EPIC 儲存快照組態</block>
-  <block id="4cbb03cae0c07fb5c8e5d5e6df97064e" category="doc">EPIC 儲存效率組態</block>
-  <block id="bc9c71d0bf41f8b2c8bde032eb1d97d0" category="paragraph">儲存設備分散於多個磁碟區、且擁有一個或多個適當數量的 LUN 以滿足工作負載需求的應用程式、需要將內容一起備份、以確保資料保護一致。</block>
-  <block id="d43039551f875a24f15f154306be2586" category="paragraph">一致性群組（簡稱 CGS ）提供這項功能及更多功能。您可以在夜間使用這些快照、使用原則來建立隨需或排程一致的快照。您可以使用此選項來還原、複製甚至複寫資料。</block>
-  <block id="cbe00f2bdd9a3c8aaaf5f8159a8750c1" category="paragraph">如需 CGS 的其他資訊、請參閱<block ref="acc09d7e0c59ae3310cafae5d547383a" category="inline-link-macro-rx"></block></block>
-  <block id="e62f16b222adc7aecc70ff7b56e652dc" category="paragraph">一旦按照本文前幾節的詳細說明配置了這些卷和 LUN ，就可以將它們配置成一組 CGS 。建議的最佳實務做法是如下圖所示設定：</block>
-  <block id="7dd784e39903a42471f96a6d0d6ae420" category="inline-image-macro">EPIC 一致性群組配置</block>
-  <block id="909e3795441b963b86fcad387196919f" category="paragraph"><block ref="909e3795441b963b86fcad387196919f" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="45dbe5c870e6de731da235aab8c51046" category="paragraph">每晚的 CG 快照排程應設定在每個與提供正式作業資料庫儲存設備之磁碟區相關的子 CGS 上。這將使這些 CGS 每天晚上都有一組全新的一致備份。然後、這些資料可用於複製正式作業資料庫、以用於開發和測試等非正式作業環境。NetApp 針對 Epic 開發專屬的 CG 型自動化 Ansible 工作流程、以自動化生產資料庫的備份、更新及測試環境。</block>
-  <block id="a93362f9de0aff40adccba50a939a6fa" category="paragraph">CG 快照可用於支援 Epic 正式作業資料庫的還原作業。</block>
-  <block id="4bf6f09e67952b918985533c270b0668" category="paragraph">對於 SAN 磁碟區、請停用用於 CGS 的每個磁碟區上的預設快照原則。這些快照通常由使用中的備份應用程式或 NetApp 的 Epic Ansible 自動化服務來管理。</block>
-  <block id="7082753514151e011ff039e6fe23eba2" category="paragraph">對於 SAN 磁碟區、請停用每個磁碟區上的預設快照原則。這些快照通常由備份應用程式或 Epic Ansible 自動化管理。 [NS2]</block>
-  <block id="669d2da75a76d767cc8259b5f37cacc3" category="paragraph">WebBLOB 和 VMware 資料集應設定為僅限 Volume 、而非與 CGS 相關聯。您可以使用 SnapMirror 在不同於正式作業的儲存系統上維護快照。</block>
-  <block id="5a6fb6753e1c4f748d223c8e329133fb" category="paragraph">完成後、組態將如下所示：</block>
-  <block id="926ce6c3b85cb26b415b6fc7e43f2879" category="inline-image-macro">Epic with CG 快照</block>
-  <block id="a578d209aa95904cf62330de918a003d" category="paragraph"><block ref="a578d209aa95904cf62330de918a003d" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="193e03aa51a18f1e5d72b6a9dd240ed7" category="paragraph">ONTAP 內嵌效率預設為開啟、無論儲存傳輸協定、應用程式或儲存層為何、都能正常運作。</block>
-  <block id="f900dc6292f9bf9dcf98291ad5846d4b" category="paragraph">效率可減少寫入昂貴 Flash 儲存設備的資料量、並減少所需的磁碟機數量。ONTAP 可透過複寫來維持效率。即使是 Epic 等對延遲敏感的應用程式、每種效率對效能幾乎沒有影響。</block>
-  <block id="936d07f32ce5afcd55e98c4a8cbce642" category="paragraph">* NetApp 建議 * 開啟所有效率設定、以最大化磁碟使用率。這些設定在 AFF 和 ASA 型系統上預設為開啟。</block>
-  <block id="d4a551eeebb2992a4ffff1ad1083479a" category="paragraph">下列功能可提高儲存效率：</block>
-  <block id="cc0df1dcdfa0541f9c5dde8e0b570a36" category="list-text">重複資料刪除功能可移除主 LUN 所在磁碟區中區塊的備援複本、進而節省主儲存區的空間。此建議選項預設為開啟。</block>
-  <block id="db37fd6533f852997b6ae076ae5e86e0" category="list-text">內嵌壓縮可減少寫入磁碟的資料量、並透過 Epic 工作負載大幅節省空間。此建議選項預設為開啟。</block>
-  <block id="c8afff3d362092825c7eda5b0b6b39af" category="list-text">即時資料實作需要的 4K 區塊不足一半、並將其整合為單一區塊。此建議選項預設為開啟。</block>
-  <block id="b158d6ac5a43e19d1be67d7ba849494d" category="list-text">精簡複寫是 NetApp 資料保護軟體產品組合的核心、其中包括 NetApp SnapMirror 軟體。SnapMirror 精簡複寫可保護業務關鍵資料、同時將儲存容量需求降至最低。* NetApp 建議 * 開啟此選項。</block>
-  <block id="13fb0a52e16b7b3839f151b0847cd0d1" category="list-text">集合式重複資料刪除技術重複資料刪除功能一律處於磁碟區層級。有了 ONTAP 9 2 、就能使用 Aggregate 重複資料刪除技術、節省更多磁碟資源。後處理序 Aggregate 重複資料刪除已新增至 ONTAP 9 。 3* NetApp 建議 * 開啟此選項。</block>
-  <block id="46269eefafcbb08ab4667022c6491767" category="summary">EPIC 與檔案傳輸協定</block>
-  <block id="73a17ad0a24141989f242b5b099eec4f" category="paragraph">支援在同一個 All Flash 陣列上結合 NAS 和 SAN 。</block>
-  <block id="688ffca27fb85bfb71c8a7632a871ec1" category="paragraph">* NetApp 建議 * 將 FlexGroup Volume 用於 NAS 共用區、例如 WebBLOB （若有）。</block>
-  <block id="55449fd175613962d882ab450cfc5f3c" category="inline-link-macro">FabricPool</block>
-  <block id="1cd6516d7f54730b868069e2db63b528" category="paragraph">WebBLOB 的冷資料高達 95% 。您可以選擇使用 ONTAP 的功能、將所有 Flash 陣列和階層備份及冷資料的空間、釋放到內部部署或雲端的物件儲存空間<block ref="e722be9b80fb0aa9c356c4300710e630" category="inline-link-macro-rx"></block>。所有這些都可以在沒有任何明顯效能影響的情況下完成。FabricPool 是 ONTAP 的一項隨附功能。客戶可以產生冷（或非作用中）資料報告、以檢視啟用 FabricPool 可實現多少效益。您可以透過原則將資料的存留期設定為階層。EPIC 客戶利用這項功能大幅節省成本。</block>
-  <block id="fc3145f7fe85a0cdfffb31f4034ada3b" category="summary">Epic on ONTAP - 主機公用程式</block>
-  <block id="f2f8d65f0baeae6d15c1016784ddadbf" category="paragraph">NetApp 主機公用程式是適用於各種作業系統的軟體套件、其中包含管理公用程式、例如<block ref="3a8e4afa851609127d534b04e7d29c08" prefix=" " category="inline-code"></block> CLI 二進位、多重路徑驅動程式、以及正常 SAN 作業所需的其他重要檔案。</block>
-  <block id="23cfb87b0ff3960aab8099cbbb63b50b" category="inline-link-macro">SAN 主機</block>
-  <block id="b0a8af1d81527bdd65ec0e8fb2a4b4e0" category="paragraph">* NetApp 建議 * 在連接至儲存系統的主機上安裝 NetApp 主機公用程式、並存取 NetApp 儲存系統。如需詳細資訊、請參閱<block ref="b2445b429f9784426e3dc1158e67c70d" category="inline-link-macro-rx"></block>與<block ref="7d7a0f71ed9bf2fe94a10fa9e1aeb381" category="inline-link-macro-rx"></block>文件。</block>
-  <block id="54ed29e411552372c5b6b9e2e1617e6d" category="admonition">在 AIX 中、在探索 LUN 之前安裝主機公用程式尤其重要。如此可確保 LUN 多重路徑行為已正確設定。如果在未使用主機公用程式的情況下執行探索、則需要使用命令從系統取消設定 LUN 、然後透過或重新開機重新探索<block ref="fe54d1c30028417038a4ffe0fc5eb503" prefix=" " category="inline-code"></block> LUN<block ref="9442434081221d63eaaa2c4799062866" prefix=" " category="inline-code"></block> 。</block>
-  <block id="e7a8be60cff2fec7b8ed793c4d2dddfe" category="summary">EPIC LUN 和 Volume 組態</block>
-  <block id="acdbb325faec5e3e2d86b3dbbaf90c54" category="paragraph">Epic 資料庫儲存配置建議文件提供每個資料庫 LUN 大小和數量的指引。</block>
-  <block id="a620ecf0a73eb209a145eb913a29bc5a" category="paragraph">請務必與 Epic DBA 和 Epic 支援人員一起檢閱本文件、並確定 LUN 和 LUN 大小的數量、因為它們可能需要調整。這些儲存建議對於 HBA 佇列深度、儲存效能、操作簡易性和擴充簡易性都很重要。</block>
-  <block id="21ebeea1f14a138dfebb1b9599a4c3dd" category="paragraph">為了最大化工作負載的效能、例如 Epic odb 或 Clarity 、每種配置也最適合 NetApp 儲存設備。使用八個磁碟區時、寫入 IO 會平均分散在各個控制器上、以最大化 CPU 使用率。對於複寫和備份、最好將磁碟區數量限制在八個、以簡化作業。</block>
-  <block id="90adf331b7868c7af46ad6e035e93844" category="section-title">擴充選項</block>
-  <block id="b323bb297a66afc2eea7b89dd4019798" category="section-title">Volume 和 8-LUN 配置</block>
-  <block id="66d125e77a6185ef5cf43b2a6bffea80" category="inline-image-macro">EPIC 8-LUN 配置</block>
-  <block id="99a54ac1eaa5bd57b4c4c29d6a63f1ac" category="paragraph"><block ref="99a54ac1eaa5bd57b4c4c29d6a63f1ac" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="bad4d79343f04d8b64999875ad328086" category="list-text">平衡 HA 配對中的工作負載、以最大化效能與效率。</block>
-  <block id="26b591a32a8a235db7f742995589a455" category="list-text">使用精簡配置的磁碟區和 LUN 。</block>
-  <block id="9fb0aaeb125238e83485971ae6b7e2fc" category="list-text">使用至少八個 DB LUN 、兩個日誌 LUN 和兩個應用程式 LUN 。此組態可將儲存效能和作業系統佇列深度最大化。如果需要容量或其他原因、可以使用更多資源。</block>
-  <block id="ba5e00554d1ba1b8ca0fc2eaeda44672" category="list-text">如果您確實需要將 LUN 新增至磁碟區群組、請一次新增八個 LUN 。</block>
-  <block id="08c8ec6a9fefcf9c5c7dff1258aacf67" category="list-text">若要將磁碟區和 LUN 群組備份在一起、則需要一致性群組（ CGS ）。</block>
-  <block id="f513b81222a1b44f552ae172aeb697c9" category="list-text">請勿在 Genio 或任何 I/O 效能期間使用 QoS 。</block>
-  <block id="b77a34499937c829a2c5c5a1cdc17f05" category="list-text">在 Genio 或 Clarity 測試之後、 NetApp 建議您在載入正式作業資料之前、先刪除儲存設備並重新配置資源。</block>
-  <block id="186bc47646aec5e2abf40b2605a16461" category="list-text">在 LUN 上設定啟用是很重要的<block ref="54645d7349dcc4fe9d7d19985a40c2c9" prefix=" " category="inline-code"></block>。否則、 ONTAP 將不會看到 LUN 上任何刪除的資料、並可能導致容量問題。如需詳細資訊、請參閱 Epic Storage Configuration 快速參考指南。</block>
-  <block id="153c47e1653d87804319da1fe347f29b" category="summary">EPIC 效能管理</block>
-  <block id="912975539030067a6f1874223cda9b75" category="paragraph">大多數的 All Flash 陣列都能提供 Epic 工作負載所需的效能。NetApp 與眾不同之處在於能夠設定樓層等級的效能原則、並確保每個應用程式的效能一致。</block>
-  <block id="edfc4c86589e31546a8fb2d8b085b8c9" category="section-title">服務品質（QoS）</block>
-  <block id="8080e6f80ff76b571829265ee2917e87" category="paragraph">NetApp 建議使用 QoS 。QoS 的優點是能夠整合所有 Epic 工作負載。所有的傳輸協定和儲存資源池都可以位於較少的硬體上。您不需要將儲存資源池分開。</block>
-  <block id="44c2f7cd7c41efaae67916780bf96079" category="list-text">NetApp 建議將叢集中的所有工作負載指派給 QoS 原則、以更有效地管理叢集上的保留空間。</block>
-  <block id="d90d7fd828646173964451dadbe758c1" category="list-text">NetApp 建議在 HA 配對之間平均平衡所有工作負載。</block>
-  <block id="a77412a540f86bfc443abfcef22db414" category="list-text">執行任何 I/O 測試時、請勿使用 QoS 原則、否則 Genio 測試將會失敗。在指派任何 QoS 原則之前、請先分析不同的正式作業工作負載 2-4 週。</block>
-  <block id="c36c006dced61f1e460ff43516fa7294" category="summary">Epic on ONTAP - 傳輸協定</block>
-  <block id="0f079f7da3a6e5c8a52a3aca113fd3e6" category="paragraph">FCP 是呈現 LUN 的慣用傳輸協定。</block>
-  <block id="97ec588f063ba0f25df2b93eda2639c8" category="paragraph">* NetApp 建議 * 單一啟動器分區：每個區域有一個啟動器、並使用全球連接埠名稱（ WWPN ）在儲存設備上提供所有必要的目標連接埠。在單一區域中存在多個啟動器、可能會導致間歇性 HBA 串擾、進而造成重大中斷。</block>
-  <block id="880bc24c60e1d6eb559f57440c27f955" category="paragraph">建立 LUN 之後、將 LUN 對應至包含主機 WWPN 的啟動器群組（ igroup ）、以啟用存取。</block>
-  <block id="d8609b6e37acaad082fff919da3c6691" category="paragraph">NetApp 也支援使用 NVMe / FC （如果您有支援的 AIX 和 RHEL 作業系統版本）、並增強效能。FCP和NVMe / FC可共存於同一個架構上。</block>
-  <block id="2586e87005565fe66fa19a3af50f632c" category="summary">專為 Epic 打造的儲存規模</block>
-  <block id="5e3e8694114d62a133f86c691b0d1d68" category="paragraph">您應該與 Epic 聯盟團隊合作、確認任何 Epic 設計。您可以在 EPIC @ NetApp .com 聯絡團隊。每個部署作業都需要滿足客戶要求、同時遵循 Epic 和 NetApp 建議的最佳實務做法。</block>
-  <block id="c77c62342c6d144df81571fee8e8a4e8" category="paragraph">如需如何使用 NetApp 規模調整工具來判斷 Epic 軟體環境儲存需求的正確 RAID 群組大小和 RAID 群組數量的相關資訊、請參閱<block ref="b6ff45309a811037a92ca1e6262c74a8" category="inline-link-macro-rx"></block>（需要 NetApp 登入）。</block>
-  <block id="6fff8a4d9dc5db1aefc3e3a86c26dbd7" category="admonition">必須存取 NetApp Field Portal 。</block>
-  <block id="1484157a851d4053990c9bf55fb59e58" category="summary">EPIC on ONTAP 範例部署 - 集合體</block>
-  <block id="e8f3d574ecc3fdf160285a0c9a5a7046" category="paragraph">如需資源配置集合體的最新文件<block ref="a20b867e80db6cfd4fb8336d84c1fcc5" category="inline-link-macro-rx"></block>、請按一下。</block>
-  <block id="f2871c08962452bb98a23ee83880a7dd" category="admonition">預設設定可最佳化效能和容量。每個節點會建立一個大型 Aggregate 。</block>
-  <block id="46b67d0e3c5baea52f318c392862983a" category="summary">EPIC on ONTAP 範例部署 - 檔案系統</block>
-  <block id="ff902a0a262960f8bf9189923c1ff7d9" category="paragraph">如需有關裝載 LUN 、建立磁碟區群組和邏輯磁碟區、以及設定檔案系統的資訊、請參閱 Epic Storage Configuration 快速參考指南。使用下列命令範例、為 RHEL 設定 Epic Production 伺服器。</block>
-  <block id="f54e4ad7066826fa3c18dcb8a62ddd03" category="section-title">檔案系統和掛載選項</block>
-  <block id="ca487f2e3d336dbbead8ef7ce6f1dc6c" category="paragraph">在建立並對應 LUN 並完成分區之後、請使用下列程序將儲存設備附加至伺服器。</block>
-  <block id="232aac42537fa2491071068a6dacfe10" category="admonition">在此範例中、我們使用 8 個 1024GB LUN 做為 DB 、 2 個 1024GB LUN 做為日誌、 2 個 1024GB LUN 做為應用程式安裝。</block>
-  <block id="cdf658da371089bb06d8dc79b4ae2e2e" category="section-title">非同步 I/O</block>
-  <block id="86c5811d8dc490e1467aed33484d89f2" category="paragraph">Epic SAN 考量白皮書與儲存組態快速參考文件複本、提供如何設定主機及連線至儲存設備的詳細資料。本節將說明如何設定 Red Hat Enterprise Linux 主機。AIX 詳細資料可在參考文件中找到。</block>
-  <block id="81cba0a3715b5297330ade2beaa9dc7d" category="summary">EPIC on ONTAP 範例部署 - LUN</block>
-  <block id="30baf86157b500051493cda4ff1be0c3" category="paragraph">&gt;&gt;&gt; 敘述性的前置詞句或段落預留位置</block>
-  <block id="6aa18085c59b7b34360d5dff15bf6e84" category="paragraph">建立LUN</block>
-  <block id="6a761ce5c1cf1122b1aaea2aec3cfc85" category="paragraph">若要建立 LUN ：<block ref="18244093c882fe4e65acdec6d61f9f95" category="inline-link-rx"></block></block>
-  <block id="8ede5bcd129cb7b52add8d233c5e5867" category="paragraph">將 Volume 新增至 CG</block>
-  <block id="4bd3faeb169131a1ecbf00026f146a6f" category="paragraph">若要建立或修改一致性群組：<block ref="52ad8c1ba289849e0c6ebe85b916c91a" category="inline-link-rx"></block></block>
-  <block id="1093fcc785c9f0e59ff32142b73ff3a5" category="paragraph">對應 LUN</block>
-  <block id="9e5dabcfb97ff08290166a6dd001c95e" category="paragraph">若要對應 LUN ：<block ref="8b5a6c46b302a4299b28e891d262657f" category="inline-link-rx"></block></block>
-  <block id="73a228bbb9b14b5f966f329a201b115d" category="paragraph">視 ONTAP 版本而定、 Volume 上的「部分保留」預設設定可以是 100% 。此組態應設為 0 。</block>
-  <block id="b13aace07f0445cf1ff16be054bcc01e" category="summary">EPIC on ONTAP 範例部署</block>
-  <block id="cca1d6e8ff542fcd4d1315f7f9033467" category="paragraph">本節將引導您完成 ONTAP 叢集的完整進階組態、配置儲存設備、並將其呈現給 Epic 伺服器。</block>
-  <block id="df8f0aad2b90e887efba35ecbc7e6546" category="paragraph">為了擷取詳細資料並簡化文件、我們使用命令列。如果偏好 GUI 、您可以在 System Manager 中配置所有設定。</block>
-  <block id="d706ffe8745cb55ce7b7d1c7dfa458dd" category="paragraph">過去、大型專案的初始大量設定通常會使用表 1 所列的命令來加快、尤其是當您串連工作表中的命令時。此命令清單也可做為絕佳的建置文件。</block>
-  <block id="12c8172fde8f9b3f81c3ed0d2805f3d4" category="paragraph">另一個資源配置選項是使用 Ansible 的第 0 天和第 1 天自動化指令碼。NetApp 現有數百本 Ansible 教戰手冊可供下載、包括透過 Ansible 銀河集合 install NetApp ． ONTAP 命令下載 Ansible Galaxy 集合。</block>
-  <block id="80455b40cdd7b477184d76f23f747af1" category="paragraph">此外、 GUI 也能與簡單的單頁 LUN 及共享資源配置搭配運作、GUI 最適合用於新增、修改或刪除儲存設備時的作業。如果您套用表 1 中的最佳實務儲存設定、則任一選項都沒問題。</block>
-  <block id="d7441f24bee2c1922760ce27f5e978ec" category="paragraph">完整的叢集設定和儲存 / 主機資源配置、在分段時不應超過一小時。</block>
-  <block id="3924c8a2656c72cc0c7d6a27f9ad08ea" category="paragraph">* 最佳儲存設定實務 *</block>
-  <block id="51ac4bf63a0c6a9cefa7ba69b4154ef1" category="cell">設定</block>
-  <block id="689202409e48743b914713f96d93947c" category="cell">價值</block>
-  <block id="2ee34178bb8415b7d7234cd27b83aed6" category="cell">Aggregate</block>
-  <block id="ae6bd8a277455ba774ffc217a2f8a539" category="cell">預設自動資源配置、每個節點使用 RAID DEP 、一個 ADP 集合體</block>
-  <block id="63555da25f96be027cd722d9f281cffa" category="cell">使用多個處理器時有兩個 SVM （區塊 SVM 和 SMB/NFS SVM ）。使用 Epic 和傳輸協定命名慣例。使用適當的安全風格</block>
-  <block id="aec0819ab194aee8aab8a5e40aad8343" category="cell">磁碟區空間保證</block>
-  <block id="334c4a4c42fdb79d7ebc3e73b517e6f8" category="cell">無</block>
-  <block id="d374cbba7f603e6be8e6450a6b3feb45" category="cell">Volume Snapshot 原則</block>
-  <block id="8285885018fdba6d87edc774237f0e24" category="cell">Volume 自動調整大小</block>
-  <block id="4d200fce73a8e1cc965cfc2c43343824" category="cell">成長</block>
-  <block id="948111f101cd4e13c4a1e21775e9742d" category="cell">Volume 最大自動調整大小</block>
-  <block id="fde7826aacd46b7610beed2b0ef8d81e" category="cell">2T 或 2 X LUN 大小</block>
-  <block id="ca714a7089246aff7f85bbda97ba660b" category="cell">Volume Snapshot 自動刪除</block>
-  <block id="a10311459433adf322f2590a4987c423" category="cell">已啟用</block>
-  <block id="6bb41960470a19d97556b9240ac0b3ff" category="cell">Volume大小</block>
-  <block id="9bba382221ce257d09f3f50492803815" category="cell">1.5 X LUN 大小</block>
-  <block id="dc85eb20ed6dd71700df76a7f9acd32b" category="cell">Volume 配置</block>
-  <block id="370e47099244ee43c575d91449bb7e36" category="cell">甚至跨控制器散佈</block>
-  <block id="ca301c828c76b7b6b1a9b621ba37f603" category="cell">igroup類型</block>
-  <block id="d6c56de514a4a8fe23f54d6b42dd23af" category="cell">作業系統與實體伺服器搭配使用時、 VMware 類型與 ESX 搭配使用。</block>
-  <block id="bbd68bf55ab562da30e73449f1b87424" category="summary">EPIC on ONTAP 範例部署 - 通訊協定</block>
-  <block id="589b83bd3c7696acc0086c7f233e64e3" category="doc">EPIC on ONTAP 範例部署 - 平台</block>
-  <block id="05f72896244a448167caa4a410eb4ecf" category="paragraph">對於 Epic odb 資料庫、日誌和應用程式工作負載、 Epic 建議將儲存設備以 FCP LUN 的形式呈現給伺服器。</block>
-  <block id="a3a5d01a736b2f5bc994d2ff7b0da8c5" category="summary">EPIC on ONTAP 範例部署 - FCP 傳輸協定</block>
-  <block id="dc0e595680f18844673c0930ecf1ca6b" category="paragraph">建立 SVM 之後、您需要在其中新增通訊協定。</block>
-  <block id="263a628397d3f78e3b61f40863b0868f" category="paragraph">若要建立 FCP 資料生命、請按一下<block ref="8f46d074b2d46f416cb36dce6f8bd76d" category="inline-link-macro-rx"></block>。</block>
-  <block id="663c2decd75c93fbad53179b6016c0d1" category="paragraph">啟動器群組用於允許伺服器存取 LUN 。若要建立 iGroup 、請按一下<block ref="c6345eebd77187b1723cf47095ffbd0f" category="inline-link-macro-rx"></block>。</block>
-  <block id="93f7209bec244568b95ac2f8f50896d7" category="summary">EPIC on ONTAP 範例部署 - SVM</block>
-  <block id="39ce7fcbb7e39843ad7e81e460901359" category="paragraph">NetApp 會虛擬化儲存設備、並由 SVM 提供使用者存取。</block>
-  <block id="8c22ab38f47a2a116e19714defb5f005" category="paragraph">對於 Epic 、有 FCP SVM 和 SMB SVM 。根據您想要管理儲存設備的方式、以及可能的多租戶、您可以使用更多 SVM 。</block>
-  <block id="99889a411324e95bb7313521d10d972b" category="paragraph">若要設定 SVM 、請按一下<block ref="cb8e547e3f29ee63864aeed75c724bf1" category="inline-link-macro-rx"></block></block>
-  <block id="abf025601df70d9ba931fe67b1cc4a79" category="summary">EPIC on ONTAP 範例部署 - Volume</block>
-  <block id="02594c71ca915876e2512e474d8b462d" category="paragraph">若要建立 Volume 、請參閱<block ref="b6546da834bc505016791ad9e7ec9d1e" category="inline-link-rx"></block></block>
-  <block id="36e2bc00e48fbcfe5ae35a8a6056788c" category="admonition">從 ONTAP 9 7 開始、當您擁有 NVE 授權、以及內建或外部金鑰管理時、預設會啟用 Aggregate 和 Volume 加密。若要啟用磁碟區層級的重複資料刪除功能、請將 ADD -CRY加密 錯誤設為 Volume cree/modify 命令（如果您擁有 NVE 授權）。</block>
-  <block id="7a112f92e38a30129ab13d18331e21ce" category="section-title">自動刪除快照</block>
-  <block id="f118801694edca90b5e446d3fe39cda0" category="paragraph">若要自動刪除快照：<block ref="ecea59d033fb2dad1d38e75fbdc1c820" category="inline-link-rx"></block></block>
-  <block id="e324e68086bb9c9e930b9d1168f1de5d" category="summary">ONTAP 可用度的 EPIC</block>
-  <block id="8339b88fddad3cfe433f684a83da04eb" category="paragraph">ONTAP 的核心是不中斷營運的營運、可避免業務營運中斷所造成的成本高昂。</block>
-  <block id="ca7972f1caf7a478b4f931e986112b62" category="paragraph">NetApp 根據正式作業資料提供超過 99.99999999% 的可用度、這是透過 NetApp Active IQ 稱為家中的資料。叢集中的每個 HA 配對都沒有單點故障。ONTAP 可追溯至 1992 年、是全球部署最廣泛的資料管理軟體、擁有提供可靠儲存設備的卓越歷史。現在、有了 Active IQ 主動監控並自動解決 97% 的問題、可用度就會更高、支援案例也會大幅減少。</block>
-  <block id="43a21754b069ee170b1858e00c4072df" category="paragraph">EPIC建議使用HA儲存系統來減輕硬體元件故障。本建議從基本硬體（例如備援電源供應器）延伸至網路（例如多重路徑網路）。</block>
-  <block id="58992d12f27d940ad0ced78080987a44" category="paragraph">當您需要升級儲存設備、向上擴充、橫向擴充或重新平衡叢集上的工作負載時、病患照護將不會有任何影響。您可能會移動資料、但絕不會再因資料移轉或堆高機升級而中斷病患照護。改用新一代技術、防範未來、避免硬體束縛。 NetApp 甚至提供 100% 的書面可用度保證。</block>
-  <block id="071a41c2bfc6123073746c5459501089" category="inline-link-macro">NetApp ONTAP 可靠性、可用度、可維修性和安全性</block>
-  <block id="c38a90bcf1a9aa5905c0c4e6fbac331b" category="paragraph">如需 NetApp 可靠性、可用度、可維修性和安全功能的詳細資訊、請參閱<block ref="c4f5dec030b0bd57318efbed2e25e7a7" category="inline-link-macro-rx"></block>白皮書。</block>
-  <block id="12a3215a6e17b2d4e547b8c9ddb4db59" category="summary">EPIC 資料保護</block>
-  <block id="e2f4ffd17d85ea8c667a8fa10eaa81bd" category="doc">EPIC 複製</block>
-  <block id="d777ff146845d0c5a59b451dcdd63eff" category="paragraph">Epic 認為儲存節點型 NetApp Snapshot 技術與傳統檔案型備份相比、對正式作業工作負載沒有效能影響。當 Snapshot 備份用作正式作業資料庫的還原來源時、必須以資料庫一致性為考量來實作備份方法。</block>
-  <block id="7952c7481879c42a618f85cfab77dc0b" category="paragraph">快照是磁碟區的時間點唯讀備份複本。NetApp FlexClone ® 會擷取快照、使其立即讀取並可寫入。FlexClone Volume 提供絕佳價值、可擷取唯讀、應用程式一致的快照、並從正式作業資料建立可寫入的 FlexClone Volume 。這項原生功能對儲存節省、作業時間和自動化功能有重大影響。</block>
-  <block id="dd12a5170cc960b0ed4afe4f23fd727b" category="paragraph">在重新整理程序中、會使用 FlexClone 磁碟區。</block>
-  <block id="198010d8bf8a3ff0f084ffd059a9a1da" category="section-title">資料管理</block>
-  <block id="31949f92a027681e10fa0ae809d62bcd" category="paragraph">作為解決方案的一部分、 NetApp 使用原生 ONTAP 工具、提供全自動的備份與測試更新解決方案。此解決方案旨在簡化 Epic 資料管理、特別是針對 Epic 資料庫管理員（ DBA ）的大型社群：</block>
-  <block id="bde282ad1e62a3d8d64bcbebfd99918c" category="list-text">Epic Mirror 用於將資料複寫至災難恢復和報告（以綠色表示）。</block>
-  <block id="89c4ed523f61f9d3446182d80a53c8b6" category="list-text">從 Report 傾印至 Clarity 的每日資料傾印。</block>
-  <block id="c3d37da5ec71148ab4d2292c5fc62181" category="list-text">NetApp 自動備份（以黃色表示）。</block>
-  <block id="f417d841f910f45d16ac64fccd850be8" category="list-text">NetApp 自動更新 SUP 、 REP 及其他（以藍色表示）的測試。</block>
-  <block id="2a7a6372892435f5d284e730df618c35" category="list-text">測試環境適用於完整複本環境、而非較小的壁球複本。</block>
-  <block id="88b2dcefc205727508d4017aacafaafd" category="paragraph">如需詳細資訊、請聯絡適用於 Epic 應用程式的 NetApp 服務。</block>
-  <block id="4e3e281c19bf41f436de9fe363daa25c" category="paragraph">一致性群組（簡稱 CGS ）提供這項功能及更多功能。您可以在夜間使用這些快照、使用原則來建立隨需或排程一致的快照。您可以使用此選項來還原、複製甚至複寫資料。</block>
-  <block id="f5de57234e68f27cbd82acfc80f2d5cb" category="inline-link-macro">一致性群組的 NetApp 文件</block>
-  <block id="f7e43fe614bf53ff9721f7494c0caf16" category="paragraph">如需 CGS 的其他資訊、請參閱<block ref="0efc681e89d66f1c589ad00a8ae67afa" category="inline-link-macro-rx"></block></block>
-  <block id="9f42082fda47a6a26e6c6e6bcc14526e" category="section-title">設定 Epic 的一致性群組</block>
-  <block id="7d381e222258ec55bcf215684ae70097" category="inline-image-macro">EPIC 與一致性群組</block>
-  <block id="4eb8f91ee432a8e69615314961db4f88" category="paragraph"><block ref="4eb8f91ee432a8e69615314961db4f88" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="4294e0bf4b67190ddcb91a01b3c4356c" category="section-title">一致性群組快照</block>
-  <block id="86cfb45aaa741215d8d8d58223948dcc" category="paragraph">WebBLOB 和 VMare 資料集應僅設定為 Volume 、而非與 CGS 相關聯。您可以使用 SnapMirror 或 SnapVault 技術、在不同於正式作業的儲存系統上維護其 Snapshot 複本。</block>
-  <block id="f5445123331a1b74a34fd1f392e9e946" category="inline-image-macro">Epic CG 快照</block>
-  <block id="92aabd14a16803d9fa65ca4f94488322" category="paragraph"><block ref="92aabd14a16803d9fa65ca4f94488322" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="9c71026f6349a81cd2a3cfcfa8ea9ceb" category="summary">ONTAP 整合的 EPIC</block>
-  <block id="569a30a99d3744f0871a7c36162f469c" category="paragraph">醫療業的主要挑戰之一、就是封閉環境的效率不彰。</block>
-  <block id="87b522a84cee7651eb3ea5c59d4c9a35" category="paragraph">多點解決方案是由阻礙進展的不同群組所建立。統一化的資料管理策略可提高效率、加速轉型。將病患記錄、勒索軟體和泛用 AI 等顛覆性技術、都是整合的必備工具。</block>
-  <block id="882f36b3d76e4e5b9ac08850c1e7a15a" category="paragraph">有了 ONTAP 、您就能在內部部署和雲端上整合檔案 / 區塊 / 物件、以及每個第 0/1/2/3 層工作負載、全部都在 ONTAP 上執行。</block>
-  <block id="0b153e0d191221abe8c325950ab9a03b" category="summary">EPIC on ONTAP 效率</block>
-  <block id="12ca553efec3e73a9120d8c050d405a9" category="paragraph">EPIC 可在所有 Flash 陣列上執行、其中大部分的成本都是磁碟。因此、儲存效率對於節省成本至關重要。</block>
-  <block id="aac466a460fe672b45d2e43b476f772e" category="paragraph">NetApp 內嵌式儲存效率可在儲存設備上實現領先業界的節約效益、而不會影響效能、我們甚至還提供 All Flash Array 的書面效率保證。</block>
-  <block id="436525ee58a117eefbde96bb2f0cae02" category="paragraph">在計算儲存效率時、請務必測量原始到可用的有效容量。</block>
-  <block id="bbf547b93564824fe00f04646269a56e" category="list-text">* 原始容量 * 在套用任何 RAID 之前、磁碟大小依磁碟數而定。</block>
-  <block id="29cabda6c17d251ab3bba7feb41646fc" category="list-text">* 可用容量 * 套用 RAID 後、可用儲存空間有多少。</block>
-  <block id="9edb4e889ca40d3881217c9433ecb376" category="list-text">* 有效容量 * 配置及呈現給主機或用戶端的儲存容量。</block>
-  <block id="21e10a177fbffc69f63f5dcdb44175f5" category="paragraph">下圖是典型 Epic 部署的效率計算範例、包括所有需要 852TB 有效儲存空間的工作負載、效率高達 5.2:1 、可提供 1.32PB 的總有效資料。</block>
-  <block id="c8c2fd097c28062ec912ad0d2f9bbe11" category="admonition">根據磁碟數量、原始至可用容量會稍有不同。</block>
-  <block id="f0a0c9b18011b122c315d8970dbcce49" category="inline-image-macro">卓越的儲存效率</block>
-  <block id="d145883b21ccbccb471abc3a5dac40f3" category="paragraph"><block ref="d145883b21ccbccb471abc3a5dac40f3" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="bf8acecf163b9e71e2e9331bc87c5e90" category="admonition">NetApp 不使用 NetApp Snapshot 技術或精簡配置來計算保證方案的效率。這樣做會顯示 30-100:1 的不切實際效率、這並不代表實際儲存容量的規模。</block>
-  <block id="f4f81a0ab85224d234bc465988b5b871" category="summary">EPIC on ONTAP 概覽</block>
-  <block id="35b4c598dd74c59e91d978c12210cc03" category="doc">ONTAP 上的 EPIC</block>
-  <block id="52aaae321a4b3f69eaf3448c22d2d55c" category="paragraph">ONTAP 讓 EPIC 變得更簡單。</block>
-  <block id="76d68daeac9b3e7a8cfb0c3d904ac7de" category="paragraph">ONTAP 是一個資料管理平台、可讓您整合 Epic 工作負載、同時滿足所有效能、資料保護及資料管理需求。</block>
-  <block id="85e6f9f2e3539043a3a60b16af5a654f" category="paragraph">只有在 NetApp 上、您才能在單一高可用度資料管理平台上、將 SAN 、 NAS 和物件的所有醫療工作負載標準化。ONTAP 是全球部署最廣泛的儲存軟體平台、擁有將近 30 年的持續創新經驗。您可以使用原生 ONTAP 資料管理工具和應用程式整合、來因應 Epic 的所有挑戰。不需要購買多種協力廠商工具來填補解決方案的缺口。</block>
-  <block id="54fed3d17b1233bcc7ab7b0d3f6eddca" category="paragraph">許多儲存廠商都提供傳統、可靠且快速的區塊儲存。它們運作良好、但通常部署在封閉環境中、以執行單一工作負載、例如正式作業、報告、清晰度、 VDI 、 VMware 和 NAS 。每個封閉環境都有不同的硬體和不同的管理工具、通常由不同的 IT 群組管理。這種傳統方法增加了當今醫療業最大的問題、也就是複雜度。</block>
-  <block id="58ad32957aed88a3c14ef81e5f254bd3" category="paragraph">NetApp 讓資料管理變得更簡單、更有效率。ONTAP 使用創新與技術、透過任何具有整合式資料保護功能的傳輸協定、在單一平台上為每個工作負載提供一致且保證的 SLA 、而非讓大型封閉環境的問題大受影響。這些功能和工具也延伸到您選擇的雲端、如下圖所示。</block>
-  <block id="0d9c98d3832defc892b59655abcfacfc" category="inline-image-macro">ONTAP 為醫療產業提供擴充性與簡易性</block>
-  <block id="4277ed476100dc05b0a4e0e837c3d9b9" category="paragraph"><block ref="4277ed476100dc05b0a4e0e837c3d9b9" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="63cc4e5664cd9022b0fc1580682f9995" category="summary">ONTAP 的卓越效能</block>
-  <block id="6762c0b102338c245945f7d09da83fa4" category="paragraph">ONTAP 於 2009 年推出 Flash 技術、並自 2010 年起支援 SSD 。這項 Flash 儲存設備的長期使用經驗可讓 NetApp 調整 ONTAP 功能、以最佳化 SSD 效能、並增強 Flash 媒體的耐受度、同時保留 ONTAP 的豐富功能。</block>
-  <block id="8e0c14b7c96a8748c07c3916510ebd8b" category="paragraph">自 2020 年起、所有 Epic odb 工作負載都必須位於 All Flash 儲存設備上。EPIC 工作負載通常以每 TB 儲存容量約 1 、 000 至 2 、 000 IOPs （ 8k 區塊、 75% / 25% 讀寫比率、 100% 隨機）運作。EPIC 對延遲非常敏感、而高延遲對終端使用者體驗以及執行報告、備份、完整性檢查和環境更新時間等作業工作都有明顯影響。</block>
-  <block id="4a9928f04affb2a4fe321fb9e2b003fd" category="list-text">All Flash Array 的限制因素不是磁碟機、而是控制器的使用率。</block>
-  <block id="11a9dfbe9a015ca567ecd5f77959dc1f" category="list-text">ONTAP 使用雙主動式架構。為了達到效能、 HA 配對中的兩個節點都會寫入磁碟機。</block>
-  <block id="3a5c5db6ac361794af4c29a626c584f5" category="list-text">如此一來、 CPU 使用率便達到最大化、這是 NetApp 能夠發佈業界最佳 Epic 效能的最重要因素。</block>
-  <block id="2f6b137b593d6a732992bc619827ee36" category="list-text">NetApp RAID DP 、進階磁碟分割（ ADP ）和 WAFL 技術可滿足所有 Epic 需求。所有工作負載都會在所有磁碟之間散佈 IO 。無瓶頸。</block>
-  <block id="0ce3d3de991180e05a5a0818efc312ef" category="list-text">ONTAP 已經過寫入最佳化；寫入一次會被確認寫入鏡射 NVRAM 、然後再以內嵌記憶體速度寫入磁碟。</block>
-  <block id="ca65639a4e206f319202179e1d9a4ff4" category="list-text">WAFL 、 NVRAM 和模組化架構可讓 NetApp 使用軟體、以即時效率、加密和效能進行創新。此外、 NetApp 也能在不影響效能的情況下、引進新的功能和功能。</block>
-  <block id="f13349f1404495d87711104e964b1cef" category="list-text">過去、每個新版 ONTAP 的效能與效率都有 30% 至 50% 的提升。當您與 ONTAP 保持最新狀態時、效能是最佳選擇。</block>
-  <block id="70d9e3c68d42d6ec42ab792e06c44357" category="section-title">NVMe</block>
-  <block id="42fa4afed0f941a60ea00e82671c421d" category="paragraph">當效能至關重要時、 NetApp 也支援下一代 FC SAN 傳輸協定 NVMe / FC 。</block>
-  <block id="1e4d4890d3f90b04841095b53183f782" category="paragraph">如下圖所示、我們的 Genio 測試使用 NVMe / FC 傳輸協定、與 FC 傳輸協定相比、實現了更多 IOPS 。NVMe / FC 連線解決方案在超過 45 秒寫入週期臨界值之前、達到超過 700k IOPS 。以 NVMe 取代 SCSI 命令、也能大幅降低主機的使用率。</block>
-  <block id="0b336e7e203efd55d17ecfaa03c134f5" category="inline-image-macro">EPIC Genio 圖形</block>
-  <block id="293e47073bb00e514b986ef28fbbb2e1" category="paragraph"><block ref="293e47073bb00e514b986ef28fbbb2e1" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="9ff8735576a58daba5ba20974f92a584" category="summary">ONTAP 擴充性的 EPIC</block>
-  <block id="1027782bab261904e6adf43f2b137951" category="paragraph">Epic 硬體組態指南的成長率約為每年 20% 、為期 3 年。不過、環境也可能意外成長。</block>
-  <block id="39e52e339ff39b5620d48036812e09ec" category="paragraph">NetApp 可無縫擴充 NAS 、 SAN 和物件叢集的效能和容量、最多可擴充至 12 個節點。因此、您可以隨業務成長而不中斷營運地向上或向外擴充。</block>
-  <block id="49c5cdfe08202e574deefaa3d26c332a" category="inline-link-macro">現代 SAN 上通過 NetApp 驗證的架構 Epic</block>
-  <block id="12cb4beeba752f647712c749e3076fbf" category="paragraph">Epic Iris 提供更多擴充功能。它可讓擁有多個 Epic 執行個體的大型客戶整合至單一執行個體。<block ref="5d13d58e489e8fe43bb727515c1d9ff2" category="inline-link-macro-rx"></block>本文說明 Epic 可在單一 HA 上無縫地將整合的工作負載擴充至 720K IOPS 、並在叢集中橫向擴充至超過 4M IOPS 。您可以升級控制器或將磁碟新增至現有叢集、以不中斷營運的方式擴充。</block>
-  <block id="196097993185ddccf60443ac3f86e89f" category="paragraph">NAS 、 SAN 和物件資料也能在叢集中的節點之間不中斷地移動。叢集中的每個 HA 配對都可以是 ONTAP FAS 和 AFF 系統類型和大小的任意組合。您可以在單一叢集之間平衡工作負載、以最大化您的儲存投資。</block>
-  <block id="6abd4957b4615c500bd2a32425316211" category="paragraph">ONTAP 也提供選項、可將 StorageGRID 或雲端上的物件儲存設備作為備份目標及 / 或自動冷儲存分層目標。此功能可讓您自動將昂貴的 All Flash 磁碟、階層快照和冷資料釋出給 Object 。</block>
-  <block id="8d3f76f475a5e81f188f700429c71a9e" category="paragraph">結果是、 Epic 只要運用 ONTAP 、多重通訊協定、 StorageGRID 及您選擇的雲端、就能更好地運用 NetApp 產品組合。這些產品提供災難恢復、歸檔、分析、分層等選項。</block>
-  <block id="1e3ccee88df9552e4751ba4ad173de96" category="summary">ONTAP 安全性的 EPIC</block>
-  <block id="32e1bf49ff775c9283c882fe7f3ec873" category="paragraph">安全性是當今組織和醫療主管的首要考量。管理工作從未如此困難、組織也面臨法規遵循、資料治理、防毒保護和勒索軟體等挑戰。</block>
-  <block id="0d6ce08690a300cb8ce00d77e1c31a5e" category="inline-link-macro">ONTAP 安全強化指南</block>
-  <block id="40e97866feb53c48881b34e5f97ca61f" category="paragraph">完整的 Epic 與儲存安全性指南不在本文件的涵蓋範圍之內、但<block ref="471b0f2cfbad0f2ec4e54df06500d580" category="inline-link-macro-rx"></block>詳細說明 ONTAP 提供的所有廣泛與進階安全功能。</block>
-  <block id="1408f921f799efe0e585aeba5fa9ed58" category="inline-link-macro">TR-4569</block>
-  <block id="f87d3f3c7c3e6e9ab1153c53d78b40b1" category="paragraph">NetApp Active IQ Unified Manager 會根據所包含的資訊來監控安全違規事件、並在儀表板中報告這些違規事件<block ref="1b2ca6a48e0bf52cc6351680c5ee6170" category="inline-link-macro-rx"></block>、以簡化安全管理。這些工具可協助貴組織達成安全目標、以保護、偵測及補救攻擊。</block>
-  <block id="a1fbc1f9fe3c77416c96f491ba933c4a" category="inline-link-macro">NetApp FPolicy</block>
-  <block id="96f76ddccc0adcaf0fc9a2fc6c834374" category="inline-link-macro">多因素（ MFA ）驗證</block>
-  <block id="a754af2f708573321f76c2d36bea9f02" category="paragraph">NetApp 也與安全性廠商合作、透過軟體提供整合<block ref="48fae993b7aeb9944f39dadc4618e2b6" category="inline-link-macro-rx"></block>功能、以強化您的安全性產品。此外、<block ref="b5ae90d3a2df9b77f2db834fe0dc7b7d" category="inline-link-macro-rx"></block>您也可以新增以保護 Epic 環境免於遭洩漏認證的未經授權存取。</block>
-  <block id="91d998bab304adb0fd27858a4295dcac" category="inline-link-macro">ONTAP 網路保存庫</block>
-  <block id="e9c1c7d4ca860adb553d87c2c1d9ef35" category="inline-link-macro">NetApp勒索軟體解決方案</block>
-  <block id="63ab8aaa1f35361bdf5c84b3d1dd4765" category="inline-link-macro">NetApp 與 Zero Trust</block>
-  <block id="a67fe844bc4d3e5cf5ebac11dea00b01" category="paragraph">最後、 ONTAP 原生 Snapshot 複本與不可變<block ref="79305a8b61b53acc892506e6bcd6f49f" category="inline-link-macro-rx"></block>的 SnapLock 技術搭配、提供獨特的氣隙功能、可保護病患記錄免於勒索軟體的侵害。請參閱上的 NetApp 文件<block ref="910d0617bba4ff1a9d41b4b330096d85" category="inline-link-macro-rx"></block>。如需更具策略性的安全性方法，請參閱<block ref="aaf21a490837c9b392e59c6c9110165d" category="inline-link-macro-rx"></block>。</block>
-  <block id="28caba838e7a7ff7ff218bae8235208a" category="summary">EPIC 快照與複製</block>
-  <block id="8ad0c394ef79d2b18983fabe84f658fc" category="paragraph">快照是磁碟區的時間點複本、該磁碟區是唯讀的。</block>
-  <block id="568043eed0b44992a4b4a1cc21f8b633" category="paragraph">快照會對作用中檔案系統中的所有區塊進行邏輯鎖定。NetApp ONTAP Snapshot 複本近乎即時、而且不會使用任何額外的儲存設備。</block>
-  <block id="04a00b93a2db41946dc3d263cf6c294c" category="paragraph">寫入其中檔案配置（即 WAFL ）是唯寫入的檔案系統、不會執行其他 IO 、例如在覆寫前複製受快照保護區塊中的資料。不會移動任何資料、因此快照不會影響儲存容量或效能。快照可大幅節省儲存成本、同時擴充備份解決方案。</block>
-  <block id="a701f5d044348085ee4f97fef6636845" category="section-title">FlexClone</block>
-  <block id="16f57611d3d44b74ce1c1b134cb8e798" category="paragraph">NetApp ONTAP FlexClone Volume 是現有磁碟區的複本或現有磁碟區的快照。否則、它 ONTAP 就像其他任何磁碟區一樣、可以自行複製、使用快照保護、並使用 QoS 原則進行設定。</block>
-  <block id="e0c3236990160654182a79c89baab29f" category="paragraph">與快照一樣、 FlexClone 磁碟區在建立時不需要任何額外空間。只有複本變更才需要額外容量。</block>
-  <block id="9a9ff90c24c36543bf54b1f2136fd9e0" category="paragraph">Epic 需要 10 至 30 份正式作業資料庫複本、以滿足各種作業需求、例如串流備份、完整性檢查和整備升級環境。隨着升級頻率的增加，構建在 FlexClone 捲上的解決方案的需求也隨之增加。</block>
-  <block id="dad816f366caa0b8cae67daaeb85deb0" category="admonition">NetApp 提供全自動 Epic 備份解決方案和 Epic Refresh 解決方案、作為解決方案的一部分、使用 Ansible 和原生 NetApp 工具。</block>
-  <block id="53f102b306ab1aba43e9e20701dc32f2" category="doc">ONTAP 上的 EPIC</block>
-  <block id="3bfc8ddd725eed5b674d1a480bc650d2" category="paragraph">數位化轉型的關鍵在於讓資料發揮更大效益。</block>
-  <block id="2b82426bc0bfa4ea3efb779d165629a4" category="admonition">本文件取代先前發表的技術報告 _TR-3923 ：適用於 Epic 的 NetApp 最佳實務做法。</block>
-  <block id="fdf0f3f3a2bae0d66ca5ecb45e1f3d85" category="paragraph">醫院需要大量資料才能開始數位轉型。治療病患、管理工作人員排程和醫療資源的程序、是收集和處理資訊的過程之一。不過、許多行動仍是手動執行、或是透過過時的系統執行。一種常態是資料量持續呈指數成長、因此越來越難以管理。</block>
-  <block id="74090662bfdb94e49dfc286a6946cc5c" category="paragraph">造成此問題的主要原因是醫院資料通常儲存在資料封閉環境中。手動輸入和更新花費太多時間、導致工作時間耗盡和錯誤。本文件是醫療資料的一部分、即 Epic 電子健康記錄（ EHR ）。不過、此處涵蓋的資料管理策略可以也應該套用至所有醫療資料。NetApp 擁有現代化及簡化數位基礎架構的經驗證明。我們的智慧型資料基礎架構是數位轉型的基礎。</block>
-  <block id="b68a1112138fe0c0c1beafc2aea18949" category="paragraph">NetApp 提供單一的資料管理解決方案、可滿足所有醫療需求、我們能夠引導醫院完成數位化轉型的過程。醫療業以結構和智慧解決方案為基礎、可充分發揮這項寶貴資訊的全部價值。此架構可協助醫療供應商更快診斷疾病、並制定個人化治療計畫、以更有效地支援緊急情況下的決策程序。您也可以建置自己的智慧型資料基礎架構、讓醫院能夠解除資料封閉環境的鎖定、促進資料互通性、並保護敏感的病患資訊。</block>
-  <block id="6b5a360f7d15046cfd935db963e3da66" category="paragraph">請參考本文件、成功建構及實作 Epic EHR 。與其建置多個 Epic 封閉環境、不如建置單一 Epic 資料基礎架構、並改造醫院。</block>
-  <block id="261addf78c7b2c961032b3dd08ba0b1f" category="section-title">目的</block>
-  <block id="b8954f46b76dae4370058c7bd9ae0c97" category="paragraph">本文件說明將 NetApp 儲存設備整合至 Epic 軟體環境的最佳實務做法。其中包含下列各節：</block>
-  <block id="6c5022fa1197168f37c42e56f80d36aa" category="list-text">對 Epic 軟體環境及其儲存需求的技術瞭解、涵蓋各種組態。</block>
-  <block id="a9da176a5abe5a618e8ed6a88bdbf21b" category="list-text">Epic 儲存設備考量事項、說明 Epic 解決方案的重要決策因素。</block>
-  <block id="8b3f0902644adbb7e0435ae9c9a284e2" category="list-text">NetApp 儲存建議、說明符合 Epic 儲存需求的 NetApp 儲存組態最佳實務做法。</block>
-  <block id="5d113f2038d289f391614c39043629e8" category="section-title">範圍</block>
-  <block id="217eb7cf1ad7503a42f61ad3cffb47fb" category="paragraph">本文件不涵蓋下列主題：</block>
-  <block id="f900b8ede5ddf3a0471176dab052001d" category="list-text">量化效能需求與規模調整指南、請見<block ref="81c36a9e6d224e9d42c9630dffaa9434" category="inline-link-rx"></block>（需要 NetApp 登入）</block>
-  <block id="ef1e6887c579ba81dcedc3f4e3793cd2" category="section-title">對象</block>
-  <block id="2f215f5ba67ae7978ce4846a4a1cdc08" category="paragraph">NetApp假設讀者具備下列背景知識：</block>
-  <block id="6cfde17644914efa6d0a4d0c21a8f9db" category="list-text">深入瞭解SAN和NAS概念</block>
-  <block id="c86456e4299d4b0ad43e030d0fdd0af5" category="list-text">熟悉 ONTAP 儲存系統的技術知識</block>
-  <block id="59eba43c04b655e21f087af920398a2a" category="list-text">熟悉 ONTAP 的組態與管理</block>
   <block id="b7c45da218d2e29ec939a31cdd81f2be" category="paragraph">執行 ONTAP 的 NetApp 儲存控制器可在 Windows Server 環境中支援下列工作負載：</block>
   <block id="f43e8d35e63b48bc73d5dc074df829ae" category="paragraph">Microsoft ODX 也稱為複製卸載、可在儲存裝置內或相容儲存裝置之間直接傳輸資料、而無需透過主機電腦傳輸資料。ONTAP 支援 CIFS 與 SAN 傳輸協定的 ODX 功能。如果複本位於同一個磁碟區內、 ODX 可能會改善效能、降低用戶端 CPU 和記憶體的使用率、並降低網路 I/O 頻寬使用率。</block>
   <block id="72960f8df48c0debc035454921c1b5d3" category="list-text">在共享的即時移轉中、虛擬機器會儲存在 SMB 共用區中。因此、當您即時移轉虛擬機器時、虛擬機器的儲存設備會保留在中央 SMB 共用區上、以便其他節點立即存取、如下所示。</block>
@@ -4863,20 +4499,6 @@
   <block id="14d627875de76f84985b8a3b27c96633" category="list-text">在此期間、虛擬機器 I/O 作業不會受到影響、但效能會降低、因為資料是透過 ISL 連結從遠端磁碟機櫃存取。</block>
   <block id="290cbdcb6abb203d45786213f3c43662" category="admonition">在此期間、虛擬機器仍在執行中、在此案例中 MetroCluster 行為並無變更。所有的資料存放區都會繼續保持不變、不受其個別站台影響。</block>
   <block id="9a18dc3c2c9a217a632ca45b5b93a004" category="admonition">在放置管理程式找到適當的儲存設備之前、 HA 主機不會開始重新啟動嘗試、因此在站台完全故障的情況下、執行切入後即會發生重新啟動嘗試。</block>
-  <block id="e3f530e977d74053c6d70eb84886e756" category="sidebar">致勝</block>
-  <block id="faeaec9eda6bc4c8cb6e1a9156a858be" category="sidebar">可用度</block>
-  <block id="4289ad5c614f8037a8810e869b56facd" category="sidebar">整合</block>
-  <block id="bc967dc2d57e6eff184a821bf7577a80" category="sidebar">擴充</block>
-  <block id="86a69bd2f501f95ed83bb7014fac7e30" category="sidebar">快照與複製</block>
-  <block id="58bc025e75c4b3fd1adf3ea672dd4424" category="sidebar">史詩般的架構與設計</block>
-  <block id="92672a7a2b909945fbfa9f44f057c7a1" category="sidebar">規模調整</block>
-  <block id="41b36522e1e1020bad35b072e2f4caeb" category="sidebar">儲存需求</block>
-  <block id="ddb04c3c1835c48b34dced1c453450e9" category="sidebar">組態與最佳實務做法</block>
-  <block id="3e23b54348b2b8424e24a426570dc9f2" category="sidebar">主機公用程式</block>
-  <block id="6e19e43ad6dccde81e8d288a0c9ce380" category="sidebar">LUN 和磁碟區組態</block>
-  <block id="a2ddb4431dcf2a898d386c1f3b82c926" category="sidebar">檔案服務</block>
-  <block id="9985b4390c40137573e6da05caf85874" category="sidebar">通訊協定</block>
-  <block id="894445e8ea6df545bfbc4247797a2162" category="sidebar">儲存規模調整</block>
   <block id="051c025eb3cc7303bf3116bffdb7e95d" category="sidebar">MetroCluster 架構</block>
   <block id="a1930436e8ea74adaf54ff76d868829b" category="sidebar">SQL Server 搭配 MetroCluster</block>
   <block id="33673f825b847c6610f7c7115da0bbde" category="sidebar">偏好的網站</block>
@@ -4988,16 +4610,6 @@
   <block id="acf5662e9defb6f8df644e0d8b4caa28" category="doc">初始化參數</block>
   <block id="03095e209912bbf8e40f883c88befe49" category="searchtitle">PostgreSQL 原生資料保護</block>
   <block id="1c3ee6977dcad0709502549dd7b111f3" category="sidebar">Oracle DR 搭配 MetroCluster</block>
-  <block id="662637dadb14be675de52ed993629bcd" category="paragraph">針對伺服器作業系統佇列深度考量、資料庫至少要使用八個 LUN （每個磁碟區一個 LUN ）。根據 ONTAP 叢集中的節點數量來增加 LUN 數量。例如，使用 4 節點（ 2 HA 配對）叢集時，請新增 4 個 LUN 。對於較大型的環境，可能需要更多 LUN ；使用相同數量的磁碟區（總共八個，分散於儲存節點），並在叢集節點和磁碟區之間以兩個的倍數新增 LUN 。此方法可讓您輕鬆擴充 Epic 環境。</block>
-  <block id="f73f987e4ea887ccfd1bf297bad46e22" category="paragraph">* 範例 1 ： 2 節點 ONTAP 叢集 *</block>
-  <block id="f08ea6531fe21723a28ec9f89ea3e451" category="paragraph">2 個節點， 1 個 HA 配對 8 個磁碟區，每個節點 4 個磁碟區 8 個 LUN ，每個磁碟區 1 個 LUN ，新增 2 個 LUN ，一個位於 volume01 的 node1 ，一個位於 volume02 的 node02 。</block>
-  <block id="fd52d4fb0b6e3cfb46cae3e012d26c20" category="paragraph">* 範例 2 ： 4 節點 ONTAP 叢集 *</block>
-  <block id="489d5412107ca7c901de568b7c7dcce3" category="paragraph">4 個節點， 2 個 HA 配對 8 個磁碟區，每個節點 2 個磁碟區 8 個 LUN ，每個磁碟區 1 個 LUN 新增 4 個 LUN ，一個位於 vole01 的 node1 ，一個位於 vole02 的 node02 ，一個位於 volume03 的 node03 ，一個位於 volume04 的 node04 。</block>
-  <block id="2feec0f4e37d9566d4cf292116430adb" category="paragraph">如果伺服器需要更多儲存設備、最簡單的選項就是擴充包含磁碟區的 LUN 。第二個選項是一次以兩個的倍數（每個節點一個磁碟區）將 LUN 新增至磁碟區群組。</block>
-  <block id="c338b7a4eb0c6f0bb88b444f6c195b01" category="admonition">如果在需要 4 個以上節點或 8 個 LUN 的大型環境中，請諮詢 Epic 聯盟團隊以確認 LUN 設計。您可以在 EPIC @ NetApp .com 聯絡團隊。</block>
-  <block id="e9afc81d3b8e2990f966bb247fa75a6b" category="list-text">在 8 個磁碟區中使用 8 個 LUN 來啟動，一次在叢集的所有節點上新增 2 個 LUN 。</block>
-  <block id="eb75aeb3b4b2b9734ba3e52f5483f0b2" category="inline-link-macro">ONTAP 文件</block>
-  <block id="c5432110ad66f4e2e624118b88a48126" category="list-text">以預期的 3 年成長規模建立 LUN 。（如需最大 LUN 大小，請參閱<block ref="2a57767dbf71d600f009b2fefab6360d" category="inline-link-macro-rx"></block>。）</block>
   <block id="4631d10aa7c8cd31e9dcf52425c327ee" category="paragraph">六種通訊協定用於將 VMware vSphere 連接至執行 ONTAP 的系統上的資料存放區：</block>
   <block id="4dc791031dce7528180b933655b6f73e" category="paragraph">FCP ， NVMe / FC ， NVMe / TCP 和 iSCSI 是區塊傳輸協定，使用 vSphere 虛擬機器檔案系統（ VMFS ）將 VM 儲存在 ONTAP FlexVol volume 中的 ONTAP LUN 或 NVMe 命名空間內。NFS是一種檔案傳輸協定、可將VM放入資料存放區（只是ONTAP 指不需要VMFS的功能）。SMB（CIFS）、iSCSI、NVMe / TCP或NFS也可直接從客體作業系統使用到ONTAP 不支援。</block>
   <block id="6b8f0029ce30f9b4d5fe0def33875511" category="cell">FC</block>
@@ -5687,7 +5299,6 @@
   <block id="617275a68b9e63b5c1bdbaedd18295fb" category="list-text">如果*不*在 vCenter 中使用多租用戶 SVM：</block>
   <block id="618f681cdba2c4c2fc4bbcbf50528810" category="paragraph">ONTAP架構是一個靈活且可擴充的儲存平台，為資料儲存提供 SAN（FCP、iSCSI 和 NVMe-oF）和 NAS（NFS v3 和 v4.1）服務。NetApp AFF、 ASA和FAS儲存系統使用ONTAP作業系統為客戶儲存存取提供附加協議，如 S3 和 SMB/CIFS。</block>
   <block id="dece980ac7b814fce6a3ac5ab9c2c18d" category="paragraph">vSphere Metro Storage Cluster (vMSC) 是一種經過認證的配置，可保護虛擬機器 (VM) 和容器免受故障影響。這是透過使用延伸儲存概念以及 ESXi 主機叢集來實現的，這些叢集分佈在不同的故障域中，例如機架、建築物、校園甚至城市。NetApp MetroCluster和SnapMirror主動同步儲存技術用於為主機叢集提供零恢復點目標 (RPO=0) 保護。vMSC 配置旨在確保即使整個實體或邏輯「站點」發生故障，資料也始終可用。作為 vMSC 設定一部分的儲存設備必須在成功完成 vMSC 認證流程後進行認證。所有支援的儲存設備都可以在<block ref="34bc39e238eb497134ec6f46ab689fb0" category="inline-link-rx"></block>。</block>
-  <block id="fd480a9146da7f38fc6111c24d64620e" category="paragraph">NetApp客戶已成功在 Azure 雲端執行所有 Epic 工作負載。  AWS 和 Google Cloud 也能夠運行 Epic 工作負載。  NetApp提供企業級功能和在雲端中有效運作 Epic 所需的效能。  NetApp雲端選項透過 iSCSI 提供區塊並透過 NFS 或 SMB 提供檔案。</block>
   <block id="c4a18a844b0430569f6e8b2d7bfc02b5" category="list-text">*第一方產品。 *Amazon FSx for NetApp ONTAP、 Google Cloud NetApp Volumes和Azure NetApp Files在領先的公有雲環境中提供高效能、多協定託管儲存服務。VMware Cloud on AWS（VMC on AWS）、Azure VMware Solution（AVS）和 Google Cloud VMware Engine（GCVE）可以直接將它們用作客戶作業系統（GOS）和運算執行個體的資料儲存或儲存。</block>
   <block id="e465d3a307ef6903982ceaea5de22f9a" category="list-text">*雲端服務。 *使用NetApp Backup and Recovery或SnapMirror Cloud 透過公有雲儲存保護來自本機系統的資料。NetApp Copy and Sync有助於在 NAS 和物件儲存之間遷移資料並保持資料同步。NetApp Disaster Recovery提供了一種經濟高效的解決方案，利用NetApp技術作為強大且功能強大的災難復原解決方案的基礎，適用於 DR 到雲端、DR 到本地以及本地到本地。</block>
   <block id="1e8675e287bf96049d13eb5bf5b6fac6" category="inline-link-macro">什麼是Azure NetApp Files？</block>
@@ -5954,4 +5565,16 @@
   <block id="8f459734c1d38bc944055a15326ea68d" category="paragraph">如需有關 vSphere Metro Storage Cluster 設計指南的更多資訊，您可以參考下列解決方案指南：</block>
   <block id="34fd97d0487efaacb8dc98024d287c11" category="inline-link">VMware vSphere Metro 儲存叢集搭配 SnapMirror 作用中同步</block>
   <block id="f9cfc4ca20b8bdb426e6898a32e2f8f3" category="list-text"><block ref="f9cfc4ca20b8bdb426e6898a32e2f8f3" category="inline-link-rx"></block></block>
+  <block id="32fc3dba9c13d916e5e08037690feef2" category="paragraph">NFS 工作階段插槽是 NFSv4.X 中與 NFSv3 插槽表等效的結構。預設值通常為 64。最佳值是 180，因為它與 ONTAP 中的工作階段限制相符。</block>
+  <block id="ca5774a0ab925e8386ad63e7f2d14e8c" category="paragraph">設定 max_session_slots 參數的範例：</block>
+  <block id="3a52063b895cc7bd97e97721973eb6ea" category="paragraph">此參數由啟動時載入的核心模組使用。與 NFSv3 插槽表參數不同，它不是動態的。需要重新開機才能生效。</block>
+  <block id="0344ac3ce065f42f1eeb3421a671297e" category="admonition">如果未設定這些參數，可能會對效能產生顯著影響。由於 Linux 作業系統無法發出足夠的 I/O，效能可能會受到顯著限制。</block>
+  <block id="f385813d3c4360ade78e8e1f498f53bd" category="section-title">Linux NFSv4.X 工作階段插槽</block>
+  <block id="a571215740ee91cedae28406e2e41ed5" category="cell"><block ref="6bd60c24e7a90af2af0c60e128122e06" prefix="" category="inline-code"></block></block>
+  <block id="5eca0b76ab405f3330bc5dc4cd4ddcfc" category="cell"><block ref="8b5839160b655356a0c8e097c2edd349" prefix="" category="inline-code"></block></block>
+  <block id="bb0fc0de24da5f7976510a315e4b7120" category="section-title">nconnect</block>
+  <block id="5cc0b02a2901e6e33efb077352cdb494" category="paragraph">nconnect 是一種相對較新的裝載選項。它允許 NFS 用戶端為給定的裝載點開啟多個獨立的 TCP/IP 連線，然後多路復用 IO。結果是增加進行中的作業，進而提升效能，尤其是在大頻寬網路上。在 Linux 上支援的最大值為 16，但 NetApp 建議值為 4-8。結果是單一執行個體效能可媲美設定為單一路徑時的 dNFS 用戶端。與 dNFS 不同，nconnect 無法設定為跨多個 IP 位址和 TCP/IP 連結進行多路復用。</block>
+  <block id="47abdab1773df8a393141d0e86b7caa8" category="paragraph">由於額外的中繼資料流量，使用 RAC 時，nconnect 的效能負荷比 dNFS 更大。如需詳細資訊，請參閱 link:#Linux%20Direct%20NFS%20and Oracle %20AC[Linux Direct NFS and Oracle RAC]。</block>
+  <block id="b55a97328a5e6525f7af0bd91795aba2" category="paragraph">在 Linux 作業系統上使用 DNFS 對 Oracle RAC 具有特殊的效能優勢，因為 Linux 本身沒有強制執行直接 I/O 的方法，而 RAC 需要透過直接 I/O 來保證節點間的一致性。作為一種變通方案，Linux 要求使用 <block ref="3504e2b0e7c968444314433be465518d" prefix=" " category="inline-code"></block> 裝載選項，該選項會導致檔案資料立即從作業系統快取中過期。反過來，此選項會強制 Linux NFS 用戶端不斷重新讀取屬性資料，從而增加延遲和儲存控制器的負載。</block>
+  <block id="97481f9423f2fb70412672eaf2f5cc58" category="paragraph">啟用 DNFS 可繞過主機 NFS 用戶端，以避免此問題。多位客戶報告指出，啟用 DNFS 後，RAC 叢集的效能顯著提升，且 ONTAP 負載顯著降低（尤其是在與其他 IOPS 相比時）。</block>
 </blocks>

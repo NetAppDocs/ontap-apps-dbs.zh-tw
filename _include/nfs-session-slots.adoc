@@ -1,0 +1,16 @@
+= 
+:allow-uri-read: 
+
+
+NFS 工作階段插槽是 NFSv4.X 中與 NFSv3 插槽表等效的結構。預設值通常為 64。最佳值是 180，因為它與 ONTAP 中的工作階段限制相符。
+
+設定 max_session_slots 參數的範例：
+
+....
+# cat /etc/modprobe.d/nfsclient.conf
+ options nfs max_session_slots=180
+....
+此參數由啟動時載入的核心模組使用。與 NFSv3 插槽表參數不同，它不是動態的。需要重新開機才能生效。
+
+
+CAUTION: 如果未設定這些參數，可能會對效能產生顯著影響。由於 Linux 作業系統無法發出足夠的 I/O，效能可能會受到顯著限制。

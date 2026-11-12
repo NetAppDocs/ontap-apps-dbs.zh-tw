@@ -2135,7 +2135,6 @@
   <block id="0340eb1bcbfc6cd3c62b8a878d8d643b" category="cell">所有組態皆設為32。
 設定此值有助於避免I/O錯誤</block>
   <block id="891c10448731ad57490b9a932dabfff8" category="inline-link-macro">VMware KB 86331</block>
-  <block id="fb55ee99c04280ac638757869929785d" category="paragraph">建立完等量磁碟區和LUN時、也會指定特定的預設設定：ONTAP ONTAP FlexVol</block>
   <block id="3f7502a5f109d7a73706aba1c0741a4b" category="cell">*《*》工具* ONTAP</block>
   <block id="485577e97e8efcd504fc8e8b13e613f1" category="cell">*預設設定*</block>
   <block id="5938fe448c8661febcef3f4e779e3adb" category="cell">Snapshot保留（-%快照空間）</block>
@@ -5577,4 +5576,10 @@
   <block id="47abdab1773df8a393141d0e86b7caa8" category="paragraph">由於額外的中繼資料流量，使用 RAC 時，nconnect 的效能負荷比 dNFS 更大。如需詳細資訊，請參閱 link:#Linux%20Direct%20NFS%20and Oracle %20AC[Linux Direct NFS and Oracle RAC]。</block>
   <block id="b55a97328a5e6525f7af0bd91795aba2" category="paragraph">在 Linux 作業系統上使用 DNFS 對 Oracle RAC 具有特殊的效能優勢，因為 Linux 本身沒有強制執行直接 I/O 的方法，而 RAC 需要透過直接 I/O 來保證節點間的一致性。作為一種變通方案，Linux 要求使用 <block ref="3504e2b0e7c968444314433be465518d" prefix=" " category="inline-code"></block> 裝載選項，該選項會導致檔案資料立即從作業系統快取中過期。反過來，此選項會強制 Linux NFS 用戶端不斷重新讀取屬性資料，從而增加延遲和儲存控制器的負載。</block>
   <block id="97481f9423f2fb70412672eaf2f5cc58" category="paragraph">啟用 DNFS 可繞過主機 NFS 用戶端，以避免此問題。多位客戶報告指出，啟用 DNFS 後，RAC 叢集的效能顯著提升，且 ONTAP 負載顯著降低（尤其是在與其他 IOPS 相比時）。</block>
+  <block id="4ca739a4c375dae166ab9e971808c0fa" category="admonition">本文件中的 vSphere Metro Storage Cluster（vMSC）指南同樣適用於 VMware Cloud Foundation（VCF）和 VMware vSphere Foundation（VVF）。VCF 和 VVF 是不同的 Broadcom 授權模式，但 vMSC 底層的 vSphere 和 ONTAP 儲存架構是相同的。</block>
+  <block id="db56c9ea1501256141d4d4f48a3557b2" category="paragraph">ONTAP 工具在建立 ONTAP FlexVol 磁碟區和 LUN 時也會指定某些預設設定：</block>
+  <block id="6c1653637160162dea70a6bfe153c882" category="cell">已啟用*</block>
+  <block id="197160e6102f81c8fa379f1887dec52c" category="inline-link-macro">ONTAP 工具會建立停用空間分配的 LUN</block>
+  <block id="ca7ad928898c825ced38288874ffee7e" category="inline-link-macro">全新 ONTAP MCP：協助儲存運作現代化的 AI</block>
+  <block id="012f4b756ce2d281dd4d8beca347c674" category="paragraph">*請注意，由於缺陷 COTV-9223，ONTAP 工具版本 10.0-10.6P1 無法正確設定 LUN 空間分配。您可以在 <block ref="15a14ce716f951c4665e5bd02682f153" category="inline-link-macro-rx"></block> 讀取更多資訊。您需要使用 System Manager、CLI 或您選擇的自動化平台，透過 ONTAP 的 REST API 啟用空間分配。您也可以選擇將 NetApp ONTAP MCP 伺服器與您選擇的 AI 框架搭配使用。<block ref="bcc7aa5ee6218a595efbb6cb9554a7e8" category="inline-link-macro-rx"></block></block>
 </blocks>

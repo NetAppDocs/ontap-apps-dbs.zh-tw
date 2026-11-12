@@ -111,7 +111,7 @@ NetApp 針對 NFS 和區塊傳輸協定開發了一組最佳 ESXi 主機設定�
 
 NOTE: 使用 VMware vSphere ESXi 7.0.1 和 VMware vSphere ESXi 7.0.2 時， NFS 進階組態選項 MaxQueueDepth 可能無法正常運作。如需詳細資訊，請參閱link:https://kb.vmware.com/s/article/86331?lang=en_US["VMware KB 86331"]。
 
-建立完等量磁碟區和LUN時、也會指定特定的預設設定：ONTAP ONTAP FlexVol
+ONTAP 工具在建立 ONTAP FlexVol 磁碟區和 LUN 時也會指定某些預設設定：
 
 |===
 
@@ -146,8 +146,10 @@ NOTE: 使用 VMware vSphere ESXi 7.0.1 和 VMware vSphere ESXi 7.0.2 時， NFS 
 | LUN空間保留 | 已停用 
 
 
-| LUN空間配置 | 已啟用 
+| LUN空間配置 | 已啟用* 
 |===
+*請注意，由於缺陷 COTV-9223，ONTAP 工具版本 10.0-10.6P1 無法正確設定 LUN 空間分配。您可以在 link:https://kb.netapp.com/data-mgmt/OTV/VSC_Kbs/OTV_10.x_creates_iSCSI_LUNs_with_space-allocation_disabled["ONTAP 工具會建立停用空間分配的 LUN"] 讀取更多資訊。您需要使用 System Manager、CLI 或您選擇的自動化平台，透過 ONTAP 的 REST API 啟用空間分配。您也可以選擇將 NetApp ONTAP MCP 伺服器與您選擇的 AI 框架搭配使用。link:https://community.netapp.com/community/discussion/465968/new-ontap-mcp-ai-that-modernizes-your-storage-operations["全新 ONTAP MCP：協助儲存運作現代化的 AI"]
+
 
 
 [[multipath-settings-for-performance]]

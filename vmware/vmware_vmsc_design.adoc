@@ -240,10 +240,7 @@ image::../media/vmsc_3_8.png[自動產生電腦說明的螢幕擷取畫面,474,3
 ====
 * 使用 ONTAP 儲存設備時，建議停用 Storage DRS 。
 
-* 儲存 DRS 通常不需要或建議用於 ONTAP 儲存系統。
-* ONTAP 提供本身的儲存效率功能，例如重複資料刪除，壓縮和壓縮，這些功能可能會受到儲存 DRS 的影響。
-* 如果您使用的是 ONTAP 快照，則 Storage VMotion 會在快照中保留 VM 的複本，可能會增加儲存使用率，並可能影響備份應用程式，例如追蹤 VM 及其 ONTAP 快照的 NetApp SnapCenter 。
-
++ * Storage DRS 通常不需要也不建議與 ONTAP 儲存設備系統搭配使用。* ONTAP 提供自身的儲存效率功能，例如重複資料刪除、壓縮和資料精簡，這些功能可能會受到 Storage DRS 的影響。* 如果您使用 ONTAP 快照，則儲存設備 vMotion 會在快照中保留虛擬機器的複本，這可能會增加儲存使用率，並可能影響追蹤虛擬機器及其 ONTAP 快照的備份應用程式（例如 NetApp SnapCenter）。
 
 ====
 image::../media/vmsc_3_9.png[儲存DRS,528,94]

@@ -4855,7 +4855,6 @@
   <block id="5888812a5e670c1dc41279a5d93cc502" category="paragraph">* 使用 ONTAP 儲存設備時，建議停用 Storage DRS 。</block>
   <block id="f58d6a99824e61e497bca94714a3efef" category="list-text">儲存 DRS 通常不需要或建議用於 ONTAP 儲存系統。</block>
   <block id="8525b77695e58a3254731f53ce2b2162" category="list-text">ONTAP 提供本身的儲存效率功能，例如重複資料刪除，壓縮和壓縮，這些功能可能會受到儲存 DRS 的影響。</block>
-  <block id="c9a841ce409cdc722c7bdd080f0f88de" category="list-text">如果您使用的是 ONTAP 快照，則 Storage VMotion 會在快照中保留 VM 的複本，可能會增加儲存使用率，並可能影響備份應用程式，例如追蹤 VM 及其 ONTAP 快照的 NetApp SnapCenter 。</block>
   <block id="e5239709587bb3ebb34629be6c41ac7b" category="paragraph">NetApp ® MetroCluster ™和 SnapMirror 主動同步（以前稱爲 SnapMirror 業務連續性或 SMBC ）均支持 VMSC 解決方案，如果一個或多個故障域發生整體中斷，則可提供高級業務連續性。不同故障模式的恢復能力取決於您選擇的組態選項。</block>
   <block id="1e1566860cb6afbc338f9fba32c4e5e5" category="list-text">對稱 Active Sync （ ONTAP 9.15.1 ）</block>
   <block id="b9ca5ba97cf75d3dafb51f78e073770a" category="inline-link">NetApp文件</block>
@@ -5535,7 +5534,6 @@
   <block id="594b019cc44eb4c884388b833d7510dc" category="paragraph">在恢復期間，資料庫會從資料檔案讀取中繼資料，以識別所需的日誌記錄，並重播所有已記錄的交易。</block>
   <block id="9b9935ad5969c28de13381a2e512b47c" category="section-title">注意：</block>
   <block id="64effece8f8fdc7ec22053944731466d" category="paragraph">這種方法可以近似實現時間點恢復，但精細度有限。例如，如果從備份模式的資料檔案開始，則可以將資料庫向前滾動至任意交易。</block>
-  <block id="613d39aee0d806ff00a0db510dd469d1" category="paragraph">如果使用自動恢復方式，而不使用備份模式，則必須將資料庫恢復到日誌 Snapshot 快照技術的時間點。正常情況下，復原點目標 （RPO） 仍為零，因為原始歸檔日誌、重做日誌和控制檔仍保留在作用中檔案系統中。如果由於作用中檔案系統中的所有資料遺失而需要完全從 Snapshot 快照技術進行恢復，則 RPO 將為一小時。</block>
   <block id="0601499a184b8a1e3fa9ca7282b4eeb4" category="paragraph">== 資料佈局 最簡單的佈局是將資料檔案隔離在專用磁碟區、LUN 或 NVMe 命名空間。儲存資源不得受任何其他檔案類型污染。這是為了確保可以透過 SnapRestore 操作快速恢復資料檔案，而不會破壞重要的重做日誌、控制檔案或歸檔日誌。</block>
   <block id="b57416fe4f383261f33cb82b40542798" category="paragraph">== 本地恢復程序—NFS 基本程序如下：</block>
   <block id="3eccd40648788f9b4313a1311d74bef5" category="list-text">執行<block ref="9a2e8b0856a3edcc37ed4d7d88a28a9b" prefix=" " category="inline-code"></block></block>
@@ -5582,4 +5580,6 @@
   <block id="197160e6102f81c8fa379f1887dec52c" category="inline-link-macro">ONTAP 工具會建立停用空間分配的 LUN</block>
   <block id="ca7ad928898c825ced38288874ffee7e" category="inline-link-macro">全新 ONTAP MCP：協助儲存運作現代化的 AI</block>
   <block id="012f4b756ce2d281dd4d8beca347c674" category="paragraph">*請注意，由於缺陷 COTV-9223，ONTAP 工具版本 10.0-10.6P1 無法正確設定 LUN 空間分配。您可以在 <block ref="15a14ce716f951c4665e5bd02682f153" category="inline-link-macro-rx"></block> 讀取更多資訊。您需要使用 System Manager、CLI 或您選擇的自動化平台，透過 ONTAP 的 REST API 啟用空間分配。您也可以選擇將 NetApp ONTAP MCP 伺服器與您選擇的 AI 框架搭配使用。<block ref="bcc7aa5ee6218a595efbb6cb9554a7e8" category="inline-link-macro-rx"></block></block>
+  <block id="5c4ab885d5265a3ad786d29eef5b83e5" category="paragraph">+ 如果使用自動恢復方式（不使用備份模式），則必須將資料庫恢復到日誌快照的時間點。正常情況下，RPO 仍為零，因為原始歸檔日誌、重做日誌和控制檔仍保留在作用中檔案系統中。如果由於作用中檔案系統中的所有資料遺失而需要完全從快照進行恢復，則 RPO 將為一小時。</block>
+  <block id="a8e9713fd19b156ffb6a608fcd52dace" category="paragraph">+ * Storage DRS 通常不需要也不建議與 ONTAP 儲存設備系統搭配使用。* ONTAP 提供自身的儲存效率功能，例如重複資料刪除、壓縮和資料精簡，這些功能可能會受到 Storage DRS 的影響。* 如果您使用 ONTAP 快照，則儲存設備 vMotion 會在快照中保留虛擬機器的複本，這可能會增加儲存使用率，並可能影響追蹤虛擬機器及其 ONTAP 快照的備份應用程式（例如 NetApp SnapCenter）。</block>
 </blocks>
